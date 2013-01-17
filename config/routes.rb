@@ -3,7 +3,6 @@ CurateNd::Application.routes.draw do
   HydraHead.add_routes(self)
   Hydra::BatchEdit.add_routes(self)
 
-
   devise_for :users
   mount Sufia::Engine => '/'
 

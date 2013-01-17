@@ -100,6 +100,9 @@ GEM
       warden (~> 1.2.1)
     devise-guests (0.3.1)
       devise
+    devise_cas_authenticatable (1.1.3)
+      devise (>= 1.0.6)
+      rubycas-client (>= 2.2.1)
     diff-lcs (1.1.3)
     equivalent-xml (0.3.0)
       nokogiri (>= 1.4.3)
@@ -264,6 +267,8 @@ GEM
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
       rspec-mocks (~> 2.12.0)
+    rubycas-client (2.3.9)
+      activesupport
     rubydora (1.2.1)
       activemodel
       activesupport
@@ -363,6 +368,7 @@ DEPENDENCIES
   decent_exposure
   devise
   devise-guests (~> 0.3)
+  devise_cas_authenticatable
   factory_girl_rails
   font-awesome-sass-rails
   hydra-head

@@ -25,8 +25,8 @@ Sufia.config do |config|
   }
 
   # TODO move these to an HttpAuth initializer
-  config.logout_url = "https://webaccess.psu.edu/cgi-bin/logout?#{Sufia::HttpHeaderAuth.get_vhost_by_host(config)[1]}"
-  config.login_url = "https://webaccess.psu.edu?cosign-#{Sufia::HttpHeaderAuth.get_vhost_by_host(config)[0]}&#{Sufia::HttpHeaderAuth.get_vhost_by_host(config)[1]}"
+  config.logout_url = "https://login.nd.edu/cas/logout?service=http%3a%2f%2flocalhost:3000%2f"
+  config.login_url = "https://login.nd.edu/cas/login?service=http%3a%2f%2flocalhost:3000%2f"
 
       config.cc_licenses = {
       'Attribution 3.0 United States' => 'http://creativecommons.org/licenses/by/3.0/us/',

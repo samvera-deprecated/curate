@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130117154835) do
+ActiveRecord::Schema.define(:version => 20130117161208) do
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -174,10 +174,12 @@ ActiveRecord::Schema.define(:version => 20130117154835) do
     t.datetime "avatar_updated_at"
     t.text     "group_list"
     t.datetime "groups_last_update"
+    t.string   "username",                                  :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["username"], :name => "index_users_on_username"
 
   create_table "version_committers", :force => true do |t|
     t.string   "obj_id"
