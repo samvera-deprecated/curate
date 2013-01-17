@@ -5,7 +5,7 @@
 #    if there is a value for the OM term  :my_term  in an object.
 id: id
 default: searchable
-searchable: 
+searchable:
   default: _t
   date: _dt
   string: _t
