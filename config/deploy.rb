@@ -47,7 +47,7 @@ end
 #  Environment
 #############################################################
 
-set :rake_path, 'vendor/bundle/ruby/1.8/bin/rake'
+set :rake_path, 'vendor/bundle/ruby/1.9.1/bin/rake'
 
 namespace :env do
   desc "Set command paths"
