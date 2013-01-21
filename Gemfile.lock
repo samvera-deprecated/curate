@@ -141,6 +141,7 @@ DEPENDENCIES
   jquery-rails
   mysql2
   rails (= 3.2.11)
+  rake
   rspec-rails
   sass-rails (~> 3.2.3)
   uglifier (>= 1.0.3)
