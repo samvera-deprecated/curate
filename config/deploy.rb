@@ -162,6 +162,7 @@ set :symlink_targets, [
   { '/bundle/config' => '/.bundle/config' },
   '/log',
   '/vendor/bundle',
+  '/config/database.yml'
 ]
 
 #############################################################
