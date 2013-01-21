@@ -156,7 +156,7 @@ after 'deploy', 'deploy:kickstart'
 #############################################################
 
 set :application, 'curate_nd'
-set :repository,  'git@git.library.nd.edu:curate'
+set :repository,  'git@git.library.nd.edu:curate_nd'
 
 set :symlink_targets, [
   { '/bundle/config' => '/.bundle/config' },
