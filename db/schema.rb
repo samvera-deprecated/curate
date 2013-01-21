@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130117161208) do
+ActiveRecord::Schema.define(:version => 20130121142161) do
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -141,6 +141,13 @@ ActiveRecord::Schema.define(:version => 20130117161208) do
 
   add_index "subject_local_authority_entries", ["lowerLabel"], :name => "entries_by_lower_label"
 
+  create_table "trophies", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "generic_file_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",    :null => false
     t.string   "encrypted_password",     :default => "",    :null => false
@@ -155,6 +162,7 @@ ActiveRecord::Schema.define(:version => 20130117161208) do
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
     t.boolean  "guest",                  :default => false
+    t.string   "username",                                  :null => false
     t.string   "facebook_handle"
     t.string   "twitter_handle"
     t.string   "googleplus_handle"
@@ -174,7 +182,6 @@ ActiveRecord::Schema.define(:version => 20130117161208) do
     t.datetime "avatar_updated_at"
     t.text     "group_list"
     t.datetime "groups_last_update"
-    t.string   "username",                                  :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
