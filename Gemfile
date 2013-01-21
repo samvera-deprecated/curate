@@ -12,6 +12,7 @@ gem 'font-awesome-sass-rails'
 gem 'jquery-rails'
 gem 'decent_exposure'
 gem 'devise_cas_authenticatable'
+gem 'rake'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -45,6 +46,7 @@ end
 # gem 'capistrano'
 
 # To use debugger
+# gem 'debugger'
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
 gem "devise"
