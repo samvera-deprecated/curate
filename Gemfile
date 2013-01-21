@@ -43,3 +43,7 @@ end
 
 # To use debugger
 # gem 'debugger'
+
+group :deploy do
+  gem 'capistrano'
+end
