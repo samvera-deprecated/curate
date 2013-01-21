@@ -13,7 +13,7 @@ GIT
 
 GIT
   remote: https://github.com/ndlib/sufia.git
-  revision: 74c3f3188f71be3be2fe7a47873d43f0aa8b89e9
+  revision: 0c79e6cbaa3ca76738622005c596035b9906cffa
   specs:
     sufia (0.0.7)
       active-fedora (~> 5.5.0)
@@ -26,7 +26,7 @@ GIT
       execjs (= 1.4.0)
       font-awesome-sass-rails (~> 2.0)
       hydra-batch-edit (~> 0.1.0)
-      hydra-head (~> 5.2)
+      hydra-head (~> 5.3)
       mail_form
       mailboxer (= 0.8.0)
       nest (= 1.1.1)
@@ -203,7 +203,7 @@ GEM
       logger
       mediashelf-loggable
     journey (1.0.4)
-    jquery-rails (2.1.4)
+    jquery-rails (2.2.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.7.6)
@@ -280,12 +280,14 @@ GEM
       thor (>= 0.14.6, < 2.0)
     rainbow (1.1.4)
     rake (10.0.3)
-    rdf (0.3.11.1)
-      addressable (>= 2.2.6)
+    rdf (1.0.0)
+      addressable (>= 2.2)
     rdf-rdfxml (0.3.9)
       rdf (>= 0.3.11)
       rdf-xsd (>= 0.3.8)
-    rdf-xsd (0.3.8)
+    rdf-xsd (1.0.0)
+      backports
+      nokogiri (>= 1.5.0)
       rdf (>= 0.3.4)
     rdoc (3.12)
       json (~> 1.4)
