@@ -1,0 +1,9 @@
+/* Fonts
+----------------------------------------------------*/
+@font-face {font-family:GalaxiePolarisCondensedBook;
+  src:url('//www.nd.edu/assets/fonts/GalaxiePolarisCondensed-Book.eot');
+  src:url('//www.nd.edu/assets/fonts/GalaxiePolarisCondensed-Book.eot?iefix') format('embedded-opentype'),
+  url('//www.nd.edu/assets/fonts/GalaxiePolarisCondensed-Book.woff') format('woff'),
+  url('//www.nd.edu/assets/fonts/GalaxiePolarisCondensed-Book.ttf') format('truetype'),
+  url('//www.nd.edu/assets/fonts/GalaxiePolarisCondensed-Book.svg#svgGalaxiePolarisCondensedBook') format('svg');
+}

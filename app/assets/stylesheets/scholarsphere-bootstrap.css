@@ -1,0 +1,181 @@
+body {
+	font: 13px/1.4em Arial, sans-serif;
+  padding-top:0;
+}
+/* Headings */
+h1, h2, h3, h4, h5 {
+}
+ul.help-list {
+}
+ul.help-list li {
+}
+
+ul.slide-list {
+}
+ul.slide-list li {
+}
+.grey, .grey:hover{
+  color:  #999;
+}
+li.expandable {
+  cursor:pointer;
+}
+li.expandable_new {
+  cursor:pointer;
+}
+#facets {
+}
+/* submit your work link */
+#contribute_link {
+}
+/* Layout */
+#wrapper {
+}
+/* #container { */
+#page-positioner {
+}
+#masthead {
+}
+#content-wrapper {
+}
+#content {
+}
+
+#search-form-header {
+}
+a.advanced_search {
+}
+a.advanced_search:hover {
+}
+/* Pages */
+#shield {
+}
+#logo {
+}
+.nav li a.top_nav{
+}
+
+#advanced_search_tips {
+}
+
+/* Footer */
+#footer-wrapper {
+  padding:3em 0;
+}
+#footer {
+  color:#999;
+  text-align:center;
+}
+#footer p {
+  margin:0;
+}
+
+/* icons shouldn't change color */
+a i, a:hover i {
+}
+
+/* used for the more details on dashboard */
+table.expanded-details {
+}
+
+/* used for public/penn state/private radio buttons for permissions */
+div.btn-group[data-toggle=buttons-radio] input[type=radio] {
+}
+
+.btn-warning.active,
+.btn-danger.active,
+.btn-success.active,
+.btn-primary.active {
+}
+
+/* used to over ride some defaults set in bootstrap.css */
+.center, th.center, td.center {
+}
+
+/* use if a label should be hidden from view but available to screen readers */
+.accessible-hidden {
+}
+
+/* used on facets */
+a small{
+}
+
+/* used for the table to display the activity log */
+#activity {
+}
+/* user information list on user show page */
+dl#user_info dt{
+}
+/* icon colors for links in blue buttons */
+a.btn-primary i, a.btn-primary:hover i {
+}
+.error {
+}
+/* override the padding left on nav-list from bootstrap */
+.nav-list {
+}
+
+ul.faq li       { list-style-type: none }
+ol.faq        { list-style-type: decimal }
+ol.faq li     { list-style-type: decimal }
+ol.faq ol     { list-style-type: lower-alpha }
+ol.faq ol li    { list-style-type: lower-alpha }
+ol.faq ol ol  { list-style-type: lower-roman }
+ol.faq ol ol li { list-style-type: lower-roman }
+
+.pager .current {
+    border: 1px solid #DDDDDD;
+    border-radius: 15px 15px 15px 15px;
+    display: inline-block;
+    padding: 5px 14px;
+}
+.pager a.disabled, .pager .current {
+  pointer-events: none;
+  cursor: default;
+  font-style: bold;
+  background-color: #ffff00;
+}
+
+.pager span.disabled {
+    background-color: #bebebe;
+    border: 1px solid #DDDDDD;
+    border-radius: 15px 15px 15px 15px;
+    display: inline-block;
+    padding: 5px 14px;
+}
+
+.pager a[rel="next"].disabled, .pager a[rel="prev"].disabled {
+  font-style: italic;
+  background-color: #bebebe;
+}
+
+.overlay {
+    position:absolute;
+    top:0px; /* in conjunction with left property, decides the text position */
+    right:0px;
+    border-radius: 10px 10px 10px 10px;
+    font-size:9px;
+    font-style: bold;
+    background-color: #ffff00;
+    padding: 1px 3px;
+    opacity:0.7; /* transparency */
+    filter:alpha(opacity=70); /* IE transparency */
+
+}
+
+.fleft {
+    float: left;
+}
+
+.fright {
+    float: right;
+}
+
+.navbar .icon-btn {
+    padding: 4px 20px 4px 2px;
+}
+
+.extra_tag {
+    position: relative;
+    top: -60px;
+}

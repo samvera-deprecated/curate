@@ -11,7 +11,7 @@ en:
       form:
         q:
           label:        "Search CurateND"
-          placeholder:  "Type keywords in here"
+          placeholder:  "Search CurateND"
 
     field_label:
       based_near:       "Location"
