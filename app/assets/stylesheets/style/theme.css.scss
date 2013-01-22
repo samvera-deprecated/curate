@@ -32,6 +32,10 @@ a, a:visited, a:hover {
     color:$official-blue;
     @include text-shadow(#FFF 0 0 1px)
   }
+
+  .site-search {
+    float:right;
+  }
 }
 
 #main {

@@ -1,0 +1,12 @@
+<%# only display the q parameter if the controller is not the dashboard.  If they are in the dashboard controller, then the search is of the dashboard. %>
+<% q = params[:controller] == 'dashboard' ? nil : params[:q] %>
+
+<%= form_tag catalog_index_path, :method => :get, :id => "search-form-header" do %>
+  <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
+  <div class="controls">
+    <div class="input-append">
+      <label class="accessible-hidden"><%= t('sufia.search.form.q.label') %></label>
+      <%= text_field_tag :q, q, :class => "q span40", :id => "search-field-header", :placeholder => t('sufia.search.form.q.placeholder'), :type => "search" %><button type="submit" class="btn btn-info" id="search-submit-header">Go</button>
+    </div>
+  </div>
+<% end %>

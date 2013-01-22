@@ -17,20 +17,21 @@ limitations under the License.
 <div id="masthead">
   <div class="navbar">
     <div class="nav-inner">
-      <div class="container">
-        <ul class="nav pull-right">
+      <nav class="container">
+        <ul class="nav">
           <li <%= 'class=active' if params[:controller] == "catalog" and action_name == "index" %>><a href="/" class="top_nav">Home</a></li>
           <li <%= 'class=active' if action_name == "about" %>><a href="/about/" class="top_nav">About</a></li>
           <li <%= 'class=active' if action_name == "help" %>><a href="/help/" class="top_nav">Help</a></li>
           <li <%= 'class=active' if params[:controller] == "contact_form" %>><a href="<%= sufia.contact_form_index_path %>" class="top_nav">Contact</a></li>
+        </ul><!-- /.nav -->
+        <ul class="nav pull-right">
           <li>
             <div class="btn-group">
               <%= render partial: '/user_util_links' %>
             </div><!-- /.btn-group -->
           </li>
         </ul><!-- /.nav /.pull-right -->
-      </div><!-- /.container -->
+      </nav><!-- /.container -->
     </div><!-- /.nav-inner -->
   </div><!-- /.navbar -->
-  <%= render :partial => 'catalog/search_form' %>
 </div> <!-- /masthead -->
