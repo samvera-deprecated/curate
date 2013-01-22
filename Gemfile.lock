@@ -125,6 +125,7 @@ GEM
       activesupport (>= 3.2.0)
     childprocess (0.3.6)
       ffi (~> 1.0, >= 1.0.6)
+    chunky_png (1.2.7)
     cocaine (0.4.2)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -134,6 +135,12 @@ GEM
       execjs
     coffee-script-source (1.4.0)
     columnize (0.3.6)
+    compass (0.12.2)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
+    compass-rails (1.0.3)
+      compass (>= 0.12.2, < 0.14)
     daemons (1.1.9)
     debugger (1.2.4)
       columnize (>= 0.3.1)
@@ -173,6 +180,7 @@ GEM
       sass-rails (>= 3.1.1)
     foreigner (1.3.0)
       activerecord (>= 3.0.0)
+    fssm (0.2.9)
     highline (1.6.15)
     hike (1.2.1)
     hooks (0.2.2)
@@ -396,6 +404,7 @@ DEPENDENCIES
   bootstrap-sass
   capistrano
   coffee-rails (~> 3.2.1)
+  compass-rails
   debugger
   decent_exposure
   devise

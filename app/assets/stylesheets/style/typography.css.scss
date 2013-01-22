@@ -1,0 +1,61 @@
+@import "compass";
+
+$header-font-stack     : GalaxiePolarisCondensedBook, 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+$serif-font-stack      : 'Adobe Garamond', Georgia, serif;
+$sans-serif-font-stack : 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+
+html {
+  font-family: $sans-serif-font-stack;
+}
+
+#banner {
+  font-family:$serif-font-stack;
+
+  h1,h2,h3 {
+    font-weight:normal;
+  }
+
+  h1 {
+    font-size:243.75%; /* 39px */
+    margin:.6em 0;
+  }
+
+  a {
+    text-decoration:none;
+  }
+}
+
+#brand-bar-wrapper {
+  letter-spacing:.2em;
+  padding:.85em 0;
+  text-transform:uppercase;
+
+  h2, h3 {
+    font-size:.95em;
+    margin:0;
+  }
+
+  .division {
+    text-align:right;
+  }
+
+  i {
+    letter-spacing:0;
+    padding:0 .2em;
+    text-transform:none;
+  }
+}
+
+#content {
+  h1,h2,h3,h4,h5,h6 {
+    font-family:$header-font-stack;
+    font-weight:normal;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+#footer {
+  p {
+    font-size:75%; /* 12px */
+  }
+}
