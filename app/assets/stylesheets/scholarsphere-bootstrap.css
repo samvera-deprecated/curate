@@ -60,23 +60,16 @@ a.advanced_search:hover {
 
 /* Footer */
 #footer-wrapper {
+  padding:3em 0;
 }
 #footer {
-}
-.footer-logo {
-}
-.footer-text {
-}
-.footer-text ul {
-}
-.footer-text li {
+  color:#999;
+  text-align:center;
 }
 #footer p {
+  margin:0;
 }
-#footer .footer-logo p {
-}
-#footer a {
-}
+
 /* icons shouldn't change color */
 a i, a:hover i {
 }
