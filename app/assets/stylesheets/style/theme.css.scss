@@ -12,17 +12,21 @@ a, a:visited, a:hover {
   background-color:$dark-blue;
   @include background-image(linear-gradient($dark-blue, #07366C 85%, #001834));
   border-bottom:1px solid #001834;
-  padding:.85em 0;
 
   h2 a, h3 a {
     color:#FFF;
+  }
+
+  .division {
+    float:right;
   }
 }
 
 #title-bar-wrapper {
   background-color:$official-gold;
   @include background-image(linear-gradient(#F5E59E, $official-gold 98%, #9C7012));
-  border-top: 1px solid #FFF;
+  border-top:1px solid #FFF;
+  margin-bottom:.3em;
 
   h1 {
     color:$official-blue;
