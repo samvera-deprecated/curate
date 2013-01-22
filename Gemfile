@@ -2,12 +2,17 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 gem 'mysql2'
+gem 'blacklight'
+gem 'hydra-head'
+gem 'sufia', git: 'https://github.com/ndlib/sufia.git'
+gem 'solrizer', git: 'https://github.com/ndlib/solrizer.git'
+gem 'jettywrapper'
+gem 'font-awesome-sass-rails'
+gem 'jquery-rails'
+gem 'decent_exposure'
+gem 'devise_cas_authenticatable'
 gem 'rake'
-
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -21,13 +26,11 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
-# gem 'decent_exposure'
-
 group :test, :development do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
-  # gem 'simplecov'
+  gem 'simplecov'
+  gem 'debugger'
 end
 
 # To use ActiveModel has_secure_password
@@ -44,6 +47,11 @@ end
 
 # To use debugger
 # gem 'debugger'
+
+gem "unicode", :platforms => [:mri_18, :mri_19]
+gem "devise"
+gem "devise-guests", "~> 0.3"
+gem "bootstrap-sass"
 
 group :deploy do
   gem 'capistrano'
