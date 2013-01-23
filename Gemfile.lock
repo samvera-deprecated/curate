@@ -13,7 +13,8 @@ GIT
 
 GIT
   remote: https://github.com/ndlib/sufia.git
-  revision: 3b10c20664b6fb1aa2835b3b7cbf0d2f9c738a32
+  revision: f4151feba12f5101c890cfa97b05c63bcacf1140
+  branch: sufia-for-curate-nd
   specs:
     sufia (0.0.7)
       active-fedora (~> 5.5.0)
