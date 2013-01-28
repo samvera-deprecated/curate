@@ -165,6 +165,7 @@ set :symlink_targets, [
   '/vendor/bundle',
   '/config/database.yml',
   '/config/solr.yml',
+  '/config/redis.yml',
   '/config/fedora.yml'
 ]
 
