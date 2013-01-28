@@ -159,16 +159,18 @@ after 'deploy', 'deploy:kickstart'
 set :application, 'curate_nd'
 set :repository,  "git@git.library.nd.edu:#{application}"
 
-set :symlink_targets, [
-  { '/bundle/config' => '/.bundle/config' },
-  '/log',
-  '/vendor/bundle',
-  '/config/database.yml',
-  '/config/solr.yml',
-  '/config/redis.yml',
-  '/config/fedora.yml',
-  "/config/role_map_#{rails_env}.yml",
-]
+set :symlink_targets do
+  [
+    { '/bundle/config' => '/.bundle/config' },
+    '/log',
+    '/vendor/bundle',
+    '/config/database.yml',
+    '/config/solr.yml',
+    '/config/redis.yml',
+    '/config/fedora.yml',
+    "/config/role_map_#{rails_env}.yml",
+  ]
+end
 
 #############################################################
 #  Environments
