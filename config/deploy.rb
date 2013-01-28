@@ -163,7 +163,9 @@ set :symlink_targets, [
   { '/bundle/config' => '/.bundle/config' },
   '/log',
   '/vendor/bundle',
-  '/config/database.yml'
+  '/config/database.yml',
+  '/config/solr.yml',
+  '/config/fedora.yml'
 ]
 
 #############################################################
