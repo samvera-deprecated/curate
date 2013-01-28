@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/ndlib/sufia.git
-  revision: f4151feba12f5101c890cfa97b05c63bcacf1140
+  revision: d971538bfb967b9ae23c30564a417ede35eac88c
   branch: sufia-for-curate-nd
   specs:
     sufia (0.0.7)
@@ -25,7 +25,6 @@ GIT
       rainbow (= 1.1.4)
       resque (~> 1.23.0)
       resque-pool (= 0.3.0)
-      rmagick (= 2.13.1)
       sitemap (= 0.3.2)
       therubyracer (= 0.10.2)
       yaml_db (= 0.2.3)
@@ -315,7 +314,6 @@ GEM
       trollop (~> 1.16)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rmagick (2.13.1)
     rsolr (1.0.8)
       builder (>= 2.1.2)
     rspec-core (2.12.2)
