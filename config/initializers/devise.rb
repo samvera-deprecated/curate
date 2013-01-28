@@ -1,7 +1,7 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
-  if Rails.development?
+  if Rails.env.development?
     config.cas_base_url = "https://cas.library.nd.edu/cas"
   else
     config.cas_base_url = "https://login.nd.edu/cas"
