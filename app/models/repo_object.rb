@@ -1,14 +1,20 @@
 class RepoObject < ActiveRecord::Base
-	self.establish_connection("#{Rails.env}_remote".to_sym)
+	self.establish_connection("#{Rails.env}_remote_purl_database".to_sym)
 	set_table_name "repo_object"
+
+  alias_attribute :pid, :filename
 	
-	def create_repo_object(fedora_object)
-		url= fedora_object.url
-		filename= fedora_object.filename
-		date_added= fedora_object.date_created
-		date_modified= fedora_object.date_modified
-		information= fedora_object.info
-		save
+	def self.create_repo_object(fedora_object)
+		if fedora_object.nil?
+			return
+		end
+		create do |repo_object|
+			repo_object.url= fedora_object.url
+			repo_object.pid= fedora_object.pid
+			repo_object.date_added= fedora_object.create_date
+			repo_object.date_modified= fedora_object.modified_date
+			repo_object.information= fedora_object.info
+		end
 	end
 end
 
