@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/ndlib/sufia.git
+  remote: git://github.com/ndlib/sufia.git
   revision: f4151feba12f5101c890cfa97b05c63bcacf1140
   branch: sufia-for-curate-nd
   specs:
@@ -70,6 +70,7 @@ GEM
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
     activerecord-import (0.3.0)
+      activerecord (~> 3.0)
       activerecord (~> 3.0)
     activeresource (3.2.11)
       activemodel (= 3.2.11)
