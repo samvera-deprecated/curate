@@ -166,7 +166,8 @@ set :symlink_targets, [
   '/config/database.yml',
   '/config/solr.yml',
   '/config/redis.yml',
-  '/config/fedora.yml'
+  '/config/fedora.yml',
+  "/config/role_map_#{rails_env}.yml",
 ]
 
 #############################################################
