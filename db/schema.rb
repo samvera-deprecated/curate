@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130121142161) do
+ActiveRecord::Schema.define(:version => 20130130142162) do
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -100,6 +100,25 @@ ActiveRecord::Schema.define(:version => 20130121142161) do
 
   add_index "notifications", ["conversation_id"], :name => "index_notifications_on_conversation_id"
 
+  create_table "object_access", :primary_key => "access_id", :force => true do |t|
+    t.datetime "date_accessed"
+    t.string   "ip_address"
+    t.string   "host_name"
+    t.string   "user_agent"
+    t.string   "request_method"
+    t.string   "path_info"
+    t.integer  "repo_object_id"
+    t.integer  "purl_id"
+  end
+
+  create_table "purl", :primary_key => "purl_id", :force => true do |t|
+    t.integer  "repo_object_id"
+    t.string   "access_count"
+    t.datetime "last_accessed"
+    t.string   "source_app"
+    t.datetime "date_created"
+  end
+
   create_table "receipts", :force => true do |t|
     t.integer  "receiver_id"
     t.string   "receiver_type"
@@ -113,6 +132,15 @@ ActiveRecord::Schema.define(:version => 20130121142161) do
   end
 
   add_index "receipts", ["notification_id"], :name => "index_receipts_on_notification_id"
+
+  create_table "repo_object", :primary_key => "repo_object_id", :force => true do |t|
+    t.string   "filename"
+    t.string   "url"
+    t.datetime "date_added"
+    t.string   "add_source_ip"
+    t.datetime "date_modified"
+    t.string   "information"
+  end
 
   create_table "searches", :force => true do |t|
     t.text     "query_params"

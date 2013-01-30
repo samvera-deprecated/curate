@@ -1,6 +1,8 @@
 class Purl < ActiveRecord::Base
 	self.establish_connection("#{Rails.env}_remote_purl_database".to_sym)
-	set_table_name "purl"
+	self.table_name = "purl"
+
+	attr_accessible :purl_id, :repo_object_id, :access_count, :last_accessed, :source_app, :date_created
 
 	def self.create_from_repo_object(repo_object)
 		if repo_object.nil?
@@ -12,5 +14,6 @@ class Purl < ActiveRecord::Base
 			purl.date_created= repo_object.date_added
 		end
 	end
+
 end
 
