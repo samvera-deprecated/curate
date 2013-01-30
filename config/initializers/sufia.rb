@@ -1,6 +1,6 @@
 # Returns an array containing the vhost 'CoSign service' value and URL
 Sufia.config do |config|
-  config.id_namespace = "sufia"
+  config.id_namespace = "und"
   config.fits_path = "fits.sh"
   config.fits_to_desc_mapping= {
       :file_title => :title,
