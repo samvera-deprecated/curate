@@ -28,6 +28,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
+  config.use_transactional_fixtures = false
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
