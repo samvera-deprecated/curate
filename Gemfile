@@ -34,6 +34,7 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'simplecov'
   gem 'debugger'
+  gem 'database_cleaner'
 end
 
 # To use ActiveModel has_secure_password
