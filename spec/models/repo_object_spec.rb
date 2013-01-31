@@ -16,12 +16,6 @@ describe RepoObject do
   let(:pid) { "TEST:1234" }
 
   describe ".create_repo_object" do
-    it 'should_not_contain_the_data_in_purl_database' do
-    	require 'debugger'; debugger; true
-      results = RepoObject.where(:filename => pid)
-      results.should == []
-    end
-
     it 'should_create_data_in_purl_database' do
       RepoObject.create_repo_object(object)
       results = RepoObject.where(:filename => pid)
