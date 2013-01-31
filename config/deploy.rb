@@ -48,14 +48,12 @@ end
 #  Environment
 #############################################################
 
-set :rake_path, 'vendor/bundle/ruby/1.9.1/bin/rake'
-
 namespace :env do
   desc "Set command paths"
   task :set_paths do
     set :ruby,      File.join(ruby_bin, 'ruby')
     set :bundler,   File.join(ruby_bin, 'bundle')
-    set :rake,      File.join(shared_path, rake_path)
+    set :rake,      "#{bundler} exec #{File.join(shared_path, 'vendor/bundle/bin/rake')}"
   end
 end
 
@@ -75,7 +73,7 @@ end
 namespace :db do
   desc "Run the seed rake task."
   task :seed, :roles => :app do
-    run "cd #{current_path}; #{bundler} exec #{rake} RAILS_ENV=#{rails_env} db:seed"
+    run "cd #{current_path}; #{rake} RAILS_ENV=#{rails_env} db:seed"
   end
 end
 
@@ -92,6 +90,10 @@ namespace :deploy do
     run "echo $PATH"
     run "which ruby"
     run "ruby --version"
+    run "which rake"
+    run "rake --version"
+    run "which bundle"
+    run "bundle --version"
   end
 
   desc "Start application in Passenger"
@@ -110,7 +112,7 @@ namespace :deploy do
 
   desc "Run the migrate rake task."
   task :migrate, :roles => :app do
-    run "cd #{release_path}; #{bundler} exec #{rake} RAILS_ENV=#{rails_env} db:migrate"
+    run "cd #{release_path}; #{rake} RAILS_ENV=#{rails_env} db:migrate"
   end
 
   desc "Symlink shared configs and folders on each release."
@@ -131,12 +133,17 @@ namespace :deploy do
   task :kickstart do
     run "curl -I http://#{domain}"
   end
+
+  desc "Precompile assets"
+  task :precompile do
+    run "cd #{release_path}; #{rake} RAILS_ENV=#{rails_env} RAILS_GROUPS=assets assets:precompile"
+  end
 end
 
 namespace :bundle do
   desc "Install gems in Gemfile"
   task :install, :roles => :app do
-    run "#{bundler} install --gemfile='#{release_path}/Gemfile'"
+    run "#{bundler} install --binstubs='#{release_path}/vendor/bundle/bin' --shebang '#{ruby}' --gemfile='#{release_path}/Gemfile' --without development test --deployment"
   end
 end
 
@@ -146,7 +153,7 @@ end
 
 before 'deploy', 'env:set_paths'
 before 'deploy:update_code', 'deploy:set_scm_branch'
-after 'deploy:update_code', 'deploy:symlink_shared', 'bundle:install', 'deploy:migrate'
+after 'deploy:update_code', 'deploy:symlink_shared', 'bundle:install', 'deploy:migrate', 'deploy:precompile'
 
 after 'deploy', 'deploy:cleanup'
 after 'deploy', 'deploy:restart'
