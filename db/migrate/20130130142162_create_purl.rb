@@ -14,7 +14,7 @@
 
 class CreatePurl < ActiveRecord::Migration
   def self.up
-    create_table	:repo_object, {:primary_key => :repo_object_id, :force => true} do |t|
+    create_table	:repo_object, {:primary_key => :repo_object_id} do |t|
       t.integer 	:repo_object_id
       t.string 		:filename
       t.string 		:url
@@ -24,7 +24,7 @@ class CreatePurl < ActiveRecord::Migration
       t.string 		:information
     end
 
-    create_table	:purl, {:primary_key => :purl_id, :force => true} do |t|
+    create_table	:purl, {:primary_key => :purl_id} do |t|
       t.integer 	:purl_id
       t.integer 	:repo_object_id
       t.string 		:access_count
@@ -33,7 +33,7 @@ class CreatePurl < ActiveRecord::Migration
       t.datetime 	:date_created
     end
 
-    create_table	:object_access, {:primary_key => :access_id, :force => true} do |t|
+    create_table	:object_access, {:primary_key => :access_id} do |t|
       t.integer 	:access_id
       t.datetime 	:date_accessed
       t.string 		:ip_address
