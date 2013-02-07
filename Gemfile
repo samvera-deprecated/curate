@@ -3,8 +3,6 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.11'
 
 gem 'mysql2'
-gem 'blacklight'
-gem 'hydra-head'
 gem 'common_repository_model'
 gem 'sufia', git: 'git://github.com/ndlib/sufia.git', branch: 'sufia-for-curate-nd'
 gem 'solrizer'#, git: 'git://github.com/ndlib/solrizer.git'
