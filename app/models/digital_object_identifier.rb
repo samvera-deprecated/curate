@@ -18,9 +18,6 @@ class DigitalObjectIdentifier
   def create_doi
     response = RestClient.post DoiConfig.url, data, :content_type => 'text/plain'
     return response
-  rescue => e
-    puts e.inspect
-    puts e.backtrace
   end
 end
 

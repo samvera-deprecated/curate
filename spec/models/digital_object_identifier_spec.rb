@@ -8,8 +8,7 @@ describe DigitalObjectIdentifier do
 
   describe 'create_doi' do
     it 'should_not_create_digital_object_identifier' do
-      response = @doi.create_doi
-      response.should == nil
+      expect { @doi.create_doi }.to raise_error(RestClient::BadRequest)
     end
 
     it 'should_create_digital_object_identifier' do
