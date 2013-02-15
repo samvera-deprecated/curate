@@ -3,8 +3,7 @@ class DoiConfig
   def self.configure
     @@config_info ||= YAML.load(File.open(File.join(Rails.root, "config/doi.yml")))
   rescue => e
-    puts "Configuration Error: #{e.message}"
-    puts e.backtrace
+    raise e
   end
 
   def self.username
@@ -19,11 +18,11 @@ class DoiConfig
     configure[Rails.env]['shoulder']
   end
 
-#	 username = 'apitest'
-#	 password = 'apitest'
-#	 shoulder = "doi:10.5072/FK2"; #Test Prefix
-#  @mintURL = "https://#{username}:#{password}@n2t.net/ezid/shoulder/#{shoulder}";
-  def self.url
-    @@url ||= configure[Rails.env]['url'].sub("://", "://#{username}:#{password}@") + shoulder
+  def self.url_for_creating_doi
+    @@url_for_creating_doi ||= "#{configure[Rails.env]['url'].sub("://", "://#{username}:#{password}@")}shoulder/#{shoulder}"
+  end
+
+  def self.url_for_updating_doi
+    @@url_for_updating_doi ||= "#{configure[Rails.env]['url'].sub("://", "://#{username}:#{password}@")}id/"
   end
 end
