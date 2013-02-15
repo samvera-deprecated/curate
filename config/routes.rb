@@ -5,7 +5,4 @@ CurateNd::Application.routes.draw do
 
   devise_for :users
   mount Sufia::Engine => '/'
-
-
-  root to: 'welcome#index'
 end
