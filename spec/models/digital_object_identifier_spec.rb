@@ -21,4 +21,17 @@ describe DigitalObjectIdentifier do
       response.should include("success: doi:10.5072/FK2")
     end
   end
+
+  describe 'update_doi' do
+    it 'should_add_more_metadata' do
+      @doi.target          = "https://fedorapprd.library.nd.edu:8443/fedora/get/RBSC-CURRENCY:671/"
+      @doi.title           = "Notre Dame Test"
+      @doi.creator         = "Comstock, Adam"
+      @doi.publisher       = "University of Notre Dame - Libraries"
+      @doi.publicationyear = "2011"
+      response = @doi.update_doi
+      response.should include("success: doi:10.5072/FK2")
+    end
+  end
+
 end

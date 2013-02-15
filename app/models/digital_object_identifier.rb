@@ -1,6 +1,7 @@
 class DigitalObjectIdentifier
 
 =begin
+  # mandatory fields for creating DOI
   def initialize(target, creator, title, publisher, publicationyear)
     @target = target
     @creator = creator
