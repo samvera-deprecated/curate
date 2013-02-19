@@ -9,7 +9,7 @@ export PATH=/shared/git/bin:$PATH
 /shared/ruby_prod/ruby/1.9.3/bin/bundle install --path="$WORKSPACE/vendor/bundle" --binstubs="$WORKSPACE/vendor/bundle/bin" --shebang '/shared/ruby_prod/ruby/1.9.3/bin/ruby' --deployment --gemfile="$WORKSPACE/Gemfile"
 cd $WORKSPACE
 
-if [ -d secret_ci ];
+if [ -d secret_ci ]; then
     rm -rf secret_ci
 fi
 git clone git@git.library.nd.edu:secret_ci
