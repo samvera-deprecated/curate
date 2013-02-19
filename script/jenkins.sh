@@ -18,4 +18,6 @@ for f in database.yml solr.yml fedora.yml; do
     cp secret_ci/curate_nd/$f config/$f
 done
 
+export RAILS_ENV=test
+
 $WORKSPACE/vendor/bundle/bin/rake db:migrate db:test:prepare
