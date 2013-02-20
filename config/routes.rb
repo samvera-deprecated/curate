@@ -5,8 +5,6 @@ CurateNd::Application.routes.draw do
 
   devise_for :users
 
-  root to: "catalog#index"
-
   resources 'dashboard', :only=>:index do
     collection do
       get 'page/:page', :action => :index
