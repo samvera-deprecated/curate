@@ -1,22 +1,17 @@
 @import "compass";
 
-$header-font-stack     : GalaxiePolarisCondensedBook, 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
-$serif-font-stack      : 'Adobe Garamond', Georgia, serif;
-$sans-serif-font-stack : 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
-
-html {
-  font-family: $sans-serif-font-stack;
-}
+$headerFontStack : GalaxiePolarisCondensedBook, 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+$serifFontStack  : 'Adobe Garamond', Georgia, serif;
 
 #banner {
-  font-family:$serif-font-stack;
+  font-family:$serifFontStack;
 
   h1,h2,h3 {
     font-weight:normal;
   }
 
   h1 {
-    margin:.6em 0;
+    margin:.65em 0;
   }
 
   a {
@@ -45,11 +40,29 @@ html {
   }
 }
 
-#content {
+#main {
   h1,h2,h3,h4,h5,h6 {
-    font-family:$header-font-stack;
+    font-family:$headerFontStack;
     font-weight:normal;
     text-rendering: optimizeLegibility;
+  }
+}
+
+.getting-started a {
+  font-family:$serifFontStack;
+  font-size:2em;
+  padding:.5em;
+}
+
+legend {
+  font-family:$headerFontStack;
+}
+
+#footer {
+  text-align:center;
+
+  p {
+    margin-bottom:.3em;
   }
 }
 
