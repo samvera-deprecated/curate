@@ -46,21 +46,20 @@ limitations under the License.
   </head>
 
 <%# need a better way to determine if we are on the home page and using three col layout %>
-<% if params[:controller].eql?("catalog") and !has_search_parameters? %>
+<% if params[:controller].eql?("catalog") and !has_search_parameters? %> 
   <% column_class = "three" %>
 <% elsif not ['generic_files', 'batch', 'advanced', 'users', 'batch_edits'].include?(params[:controller]) %>
   <% column_class = "two" %>
 <% else %>
   <% column_class = "one" %>
 <% end %>
-<body>
-<div  id="wrapper">
-  <%= render partial: '/logo', :formats => [:html] %>
+<body> 
+<div  id="wrapper"> 
   <div class="container">
     <div id="page-positioner">
       <%= render :partial => '/masthead', :formats => [:html] %>
       <%= render :partial => '/flash_msg' %>
-      <div id="content-wrapper">
+      <div id="content-wrapper"> 
         <div id="content" class="row">
           <!-- 110 rows -->
           <% if column_class == "one" %>
@@ -69,7 +68,7 @@ limitations under the License.
             </div>
           <% else %>
             <div class="span17">
-              <%= sidebar_items.join('').html_safe %>
+              <%= yield :sidebar %>
             </div><!-- /.span17 -->
             <% if column_class == "three" %>
               <div class="span63">
@@ -77,11 +76,11 @@ limitations under the License.
               </div><!-- /.span63 -->
 
               <div class="span30 offset2">
-                <h2 class="heading1">Contribute</h2>
+                <h2 class="heading1">Contribute</h2> 
                 <%= link_to '<i class="icon-file"></i> Share Your Work'.html_safe, sufia.new_generic_file_path, :class => "btn btn-primary btn-large", :id => "contribute_link" %>
-                <div class="row center"> <a href="/terms/">Terms of Use</a></div><br />
+                <div class="row center"> <a href="/terms/">Terms of Use</a></div><br />                
                 <div class="row">&nbsp;</div>
-                <h2 class="heading1">My Latest</h2>
+                <h2 class="heading1">My Latest</h2> 
                 <%= render :partial=>'/catalog/recents', :locals => {:recent_documents=>@recent_user_documents, :display_thumbs=>false, :display_access=>true} %>
               </div> <!-- /.span30 -->
             <% else %>
@@ -93,10 +92,10 @@ limitations under the License.
 
         </div><!-- /#content -->
       </div><!-- /#content-wrapper -->
-      <%= render partial: '/footer' %>
     </div><!-- /#page-positioner -->
   </div><!-- /.container -->
 </div><!-- /#wrapper -->
+<%= render partial: '/footer' %>
 <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
 </body>
 </html>
