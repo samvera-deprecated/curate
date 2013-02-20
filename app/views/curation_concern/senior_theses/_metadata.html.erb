@@ -1,0 +1,65 @@
+<div class="row page-title">
+
+  <div class="span12">
+
+    <h1>Describe Your Thesis</h1>
+    <p>The more information we have about your data the better we can serve you.</p>
+
+  </div>
+
+</div>
+<%= form_for([:curation_concern, @senior_thesis], :html => {:multipart => true, :class => 'form-horizontal'}) do |f| %>
+  <%= hidden_field_tag(:id, @senior_thesis) %>
+  <div class="row">
+    <div class="span6">
+      <fieldset>
+        <legend>
+          Authorship
+        </legend>
+        <%= f.label :title, "<span class='error'>*</span> Title".html_safe %>
+        <%= f.text_field :title, :name=>"senior_thesis[title][]", :class=>"input-xlarge", :placeholder=>"The title of your thesis",:required=> true %>
+        <%= help_icon(:title) %>
+        <%= f.label :degree, "<span class='error'>*</span> Degree".html_safe %>
+        <%# f.text_field :degree, :name=>"senior_thesis[degree][]", :class=>"input-xlarge", :placeholder=>"The degree you are seeking",:required=> true %>
+        <%= f.label :department, "<span class='error'>*</span> Department".html_safe %>
+        <%# f.text_field :department, :name=>"senior_thesis[department][]", :class=>"input-xlarge", :placeholder=>"Your area of study",:required=> true %>
+      </fieldset>
+    </div>
+
+    <div class="span6">
+      <fieldset class="form-inline">
+        <legend>
+          Advisory Committee
+        </legend>
+        <%= f.label :advisor_name, "Name".html_safe %>
+        <%= f.text_field :contributor, :name=>"senior_thesis[contributor][]", :class=>"input-large" %>
+        <%= f.label :title, "Title".html_safe %>
+        <%# f.select "role", options_for_select(advisor_title, 'role'), :required => true %>
+        <div class="row">
+          <div class="secondary-actions span6">
+            <button class="adder btn" name="additional_advisors" id="additional_advisor_submit">+<span class="accessible-hidden">add another Advisor</span></button>
+            <%= help_icon(:advisor) %>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span6">
+      <fieldset>
+        <legend>Abstract</legend>
+        <%= f.label :abstract, "Abstract".html_safe , :class=>"accessible-hidden"%>
+        <%= f.text_area :description, :name=>"senior_thesis[description][]", :cols => 20, :rows => 15, :class=>"input-xxlarge", :required => true  %>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-actions span12">
+      <div class="control">
+        <%= button_tag '<i class="icon-save"></i> Save Metadata'.html_safe, :type => 'submit', :class => 'btn-primary btn-large', :onclick => "confirmation_needed = false;", :id => "upload_submit", :name => "update_permission" %>
+      </div>
+    </div>
+  </div>
+<% end %>

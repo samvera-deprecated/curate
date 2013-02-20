@@ -12,7 +12,7 @@ class CurationConcern::SeniorThesesController < ApplicationController
   # Catch permission errors
   rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
     if (exception.action == :edit)
-      redirect_to(sufia.url_for({:action=>'show'}), :alert => "You do not have sufficient privileges to edit this document")
+      redirect_to(url_for({:action=>'show'}), :alert => "You do not have sufficient privileges to edit this document")
     elsif current_user and current_user.persisted?
       redirect_to root_url, :alert => exception.message
     else

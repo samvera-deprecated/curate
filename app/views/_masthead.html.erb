@@ -22,16 +22,13 @@ limitations under the License.
           <li <%= 'class=active' if params[:controller] == "catalog" and action_name == "index" %>><a href="/" class="top_nav">Home</a></li>
           <li <%= 'class=active' if action_name == "about" %>><a href="/about/" class="top_nav">About</a></li>
           <li <%= 'class=active' if action_name == "help" %>><a href="/help/" class="top_nav">Help</a></li>
-          <li <%= 'class=active' if params[:controller] == "contact_form" %>><a href="<%= sufia.contact_form_index_path %>" class="top_nav">Contact</a></li>
-        </ul><!-- /.nav -->
+        </ul>
         <ul class="nav pull-right">
           <li>
-            <div class="btn-group">
-              <%= render partial: '/user_util_links' %>
-            </div><!-- /.btn-group -->
+            <div class="btn-group">&nbsp;</div>
           </li>
-        </ul><!-- /.nav /.pull-right -->
-      </nav><!-- /.container -->
-    </div><!-- /.nav-inner -->
-  </div><!-- /.navbar -->
-</div> <!-- /masthead -->
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
