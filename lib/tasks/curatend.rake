@@ -12,7 +12,7 @@ namespace :curatend do
     Rake::Task["db:migrate"].invoke
 
     Rake::Task['spec'].invoke
-    Rake::Task['cucumber:ok'].invoke
-    #raise "test failures: #{error}" if error
+    # I don't think we have any cucumber tests ATM
+    #Rake::Task['cucumber'].invoke
   end
 end
