@@ -1,6 +1,5 @@
 class CurationConcern::SeniorThesesController < ApplicationController
   respond_to(:html)
-  layout 'curation_concerns'
   expose(:senior_thesis, model: SeniorThesis)
   include Sufia::Noid
 
