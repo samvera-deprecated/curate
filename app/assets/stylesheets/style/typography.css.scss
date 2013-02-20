@@ -1,10 +1,5 @@
-@import "compass";
-
-$headerFontStack : GalaxiePolarisCondensedBook, 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
-$serifFontStack  : 'Adobe Garamond', Georgia, serif;
-
 #banner {
-  font-family:$serifFontStack;
+  font-family:$serifFontFamily;
 
   h1,h2,h3 {
     font-weight:normal;
@@ -42,20 +37,20 @@ $serifFontStack  : 'Adobe Garamond', Georgia, serif;
 
 #main {
   h1,h2,h3,h4,h5,h6 {
-    font-family:$headerFontStack;
+    font-family:$headerFontFamily;
     font-weight:normal;
     text-rendering: optimizeLegibility;
   }
 }
 
 .getting-started a {
-  font-family:$serifFontStack;
+  font-family:$serifFontFamily;
   font-size:2em;
   padding:.5em;
 }
 
 legend {
-  font-family:$headerFontStack;
+  font-family:$headerFontFamily;
 }
 
 #footer {
