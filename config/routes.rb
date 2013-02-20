@@ -14,4 +14,8 @@ CurateNd::Application.routes.draw do
     end
   end
 
+  namespace :curation_concern, path: :concern do
+    resources :senior_theses, except: :index
+  end
+  root to: 'welcome#index'
 end
