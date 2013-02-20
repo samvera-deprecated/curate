@@ -1,9 +1,3 @@
-@import "compass";
-
-$dark-blue     : #0D407B;
-$official-blue : #002B5B;
-$official-gold : #DCB439;
-
 #brand-bar-wrapper {
   background-color:$dark-blue;
   @include background-image(linear-gradient($dark-blue, #07366C 85%, #001834));
