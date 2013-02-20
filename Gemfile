@@ -35,6 +35,7 @@ group :test, :development do
   gem 'simplecov'
   gem 'debugger'
   gem 'database_cleaner'
+  gem 'sextant'
 end
 
 # To use ActiveModel has_secure_password
