@@ -44,9 +44,10 @@ $linkColorHover:        darken($linkColor, 15%) !default;
 
 // Typography
 // -------------------------
-$sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$serifFontFamily:       Georgia, "Times New Roman", Times, serif !default;
-$monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace !default;
+$sansFontFamily   : "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$serifFontFamily  : 'Adobe Garamond', Georgia, serif;
+$monoFontFamily   : Monaco, Menlo, Consolas, "Courier New", monospace !default;
+$headerFontFamily : GalaxiePolarisCondensedBook, 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
 
 $baseFontSize:          14px !default;
 $baseFontFamily:        $sansFontFamily !default;
@@ -88,7 +89,7 @@ $btnBackground:                     $white !default;
 $btnBackgroundHighlight:            darken($white, 10%) !default;
 $btnBorder:                         #bbb !default;
 
-$btnPrimaryBackground:              $linkColor !default;
+$btnPrimaryBackground:              #093A72;;
 $btnPrimaryBackgroundHighlight:     adjust-hue($btnPrimaryBackground, 20%) !default;
 
 $btnInfoBackground:                 #5bc0de !default;
