@@ -419,7 +419,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-sass
+  bootstrap-sass (~> 2.2.0)
   capistrano
   coffee-rails (~> 3.2.1)
   common_repository_model!
@@ -431,7 +431,6 @@ DEPENDENCIES
   devise-guests (~> 0.3)
   devise_cas_authenticatable
   factory_girl_rails
-  font-awesome-sass-rails
   jettywrapper
   jquery-rails
   mysql2

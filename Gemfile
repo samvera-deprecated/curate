@@ -8,7 +8,6 @@ gem 'sufia', git: 'git://github.com/ndlib/sufia.git', branch: 'sufia-for-curate-
 gem 'solrizer'#, git: 'git://github.com/ndlib/solrizer.git'
 gem 'rsolr', git: 'git://github.com/jeremyf/rsolr.git', branch: 'adding-connection-information-to-error-handling'
 gem 'jettywrapper'
-gem 'font-awesome-sass-rails'
 gem 'jquery-rails'
 gem 'decent_exposure'
 gem 'devise_cas_authenticatable'
@@ -18,10 +17,10 @@ gem 'resque-pool'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'compass-rails'
+  gem 'bootstrap-sass', '~> 2.2.0'
   gem 'coffee-rails', '~> 3.2.1'
-
+  gem 'compass-rails'
+  gem 'sass-rails',   '~> 3.2.3'
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -56,7 +55,6 @@ end
 gem "unicode", :platforms => [:mri_18, :mri_19]
 gem "devise"
 gem "devise-guests", "~> 0.3"
-gem "bootstrap-sass"
 gem 'simple_form'
 
 group :deploy do
