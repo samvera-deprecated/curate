@@ -6,11 +6,6 @@ class SeniorThesis < ActiveFedora::Base
   include Sufia::Noid
   include Sufia::GenericFile::Permissions
 
-  # Write the logic for assigning the area
-  def name_of_area_to_assign
-    'UND'
-  end
-
   has_metadata :name => "properties", :type => PropertiesDatastream
   has_metadata :name => "descMetadata", :type => SeniorThesisMetadataDatastream
 

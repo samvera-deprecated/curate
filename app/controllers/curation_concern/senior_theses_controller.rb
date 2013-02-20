@@ -26,15 +26,15 @@ class CurationConcern::SeniorThesesController < ApplicationController
   end
 
   def create
-    begin
-      @senior_thesis = SeniorThesis.find_or_create(Sufia::Noid.namespaceize(params[:id]))
-      CurationConcern::Actions.create_metadata(@senior_thesis, current_user, params)
-      flash[:notice] = 'Your files are being processed by ' + t('sufia.product_name') + ' in the background. The metadata and access controls you specified are being applied. Files will be marked <span class="label label-important" title="Private">Private</span> until this process is complete (shouldn\'t take too long, hang in there!). You may need to refresh your dashboard to see these updates.'
-      redirect_to sufia.dashboard_index_path
-    rescue => error
-      logger.error "SeniorThesesController::create rescued #{error.class}\n\t#{error.to_s}\n #{error.backtrace.join("\n")}\n\n"
-      retval = render :json => [{:error => "Error occurred while creating Senior Thesis."}].to_json
+    @senior_thesis = SeniorThesis.find_or_create(Sufia::Noid.namespaceize(params[:id]))
+    file = params[:senior_these].delete(:thesis_file)
+    CurationConcern::Actions.create_metadata(@senior_thesis, current_user, params[:senior_thesis])
+    if file
+      @generic_file = GenericFile.new
+      @generic_file.batch = @senior_thesis
+      Sufia::GenericFile::Actions.create_content(@generic_file, file, file.original_filename, 'content', current_user)
     end
+    respond_with(@senior_thesis)
   end
 
   def show
