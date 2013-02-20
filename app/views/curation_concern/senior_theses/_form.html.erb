@@ -1,0 +1,6 @@
+<%= simple_form_for [:curation_concern, senior_thesis] do |f| %>
+  <%= f.label :title %>
+  <%= f.input_field :title %>
+  <%= f.label :description %>
+  <%= f.input_field :description, as: :text %>
+<% end %>
