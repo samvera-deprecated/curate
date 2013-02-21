@@ -16,6 +16,7 @@ class SeniorThesis < ActiveFedora::Base
   delegate_to :descMetadata, [:contributor]
 
   validates :title, presence: true
+  attr_accessor :thesis_file
 
   def to_solr(solr_doc={}, opts={})
     super(solr_doc, opts)
