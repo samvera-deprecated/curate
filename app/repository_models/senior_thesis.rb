@@ -15,7 +15,9 @@ class SeniorThesis < ActiveFedora::Base
   delegate_to :properties, [:relative_path, :depositor], :unique => true
   delegate_to :descMetadata, [:contributor, :creator]
 
-  def self.find_or_create(pid)
+  validates :title, presence: true
+
+  def self.find_or_create_by_pid(pid)
     begin
       @senior_thesis = SeniorThesis.find(pid)
     rescue ActiveFedora::ObjectNotFoundError

@@ -1,6 +1,5 @@
 class CurationConcern::SeniorThesesController < ApplicationController
   respond_to(:html)
-  expose(:senior_thesis, model: SeniorThesis)
   include Sufia::Noid
 
   before_filter :authenticate_user!, :except => [:show, :citation]
@@ -20,21 +19,29 @@ class CurationConcern::SeniorThesesController < ApplicationController
     end
   end
 
+  attr_reader :senior_thesis
+  helper_method :senior_thesis
+
   def new
-    @noid = Sufia::Noid.noidify(Sufia::IdService.mint)
-    @senior_thesis = SeniorThesis.new
+    @senior_thesis = SeniorThesis.new(params[:senior_thesis])
   end
 
   def create
-    @senior_thesis = SeniorThesis.find_or_create(Sufia::Noid.namespaceize(params[:id]))
-    file = params[:senior_these].delete(:thesis_file)
+    noid = Sufia::Noid.noidify(Sufia::IdService.mint)
+    pid = Sufia::Noid.namespaceize(noid)
+    @senior_thesis = SeniorThesis.new(pid: pid)
+    file = params[:senior_thesis].delete(:thesis_file)
     CurationConcern::Actions.create_metadata(@senior_thesis, current_user, params[:senior_thesis])
     if file
-      @generic_file = GenericFile.new
-      @generic_file.batch = @senior_thesis
-      Sufia::GenericFile::Actions.create_content(@generic_file, file, file.original_filename, 'content', current_user)
+      generic_file = GenericFile.new
+      generic_file.batch = @senior_thesis
+      Sufia::GenericFile::Actions.create_content(generic_file, file, file.original_filename, 'content', current_user)
     end
-    respond_with(@senior_thesis)
+    respond_with([:curation_concern,@senior_thesis])
+  rescue ActiveFedora::RecordInvalid
+    respond_with([:curation_concern, @senior_thesis]) do |wants|
+      wants.html { render 'new', status: :unprocessable_entity }
+    end
   end
 
   def show
