@@ -21,6 +21,11 @@
   h1 {
     color:$official-blue;
     @include text-shadow(#FFF 0 0 1px)
+
+  }
+
+  a:visited {
+    color:$official-blue;
   }
 
   .site-search {
