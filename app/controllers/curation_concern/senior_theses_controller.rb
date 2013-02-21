@@ -1,6 +1,7 @@
 class CurationConcern::SeniorThesesController < ApplicationController
   respond_to(:html)
   layout 'curate_nd'
+  include Sufia::Noid # for normalize_identifier method
 
   before_filter :authenticate_user!, :except => [:show, :citation]
   before_filter :has_access?, :except => [:show]
