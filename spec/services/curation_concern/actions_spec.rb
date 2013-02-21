@@ -18,6 +18,12 @@ describe CurationConcern::Actions do
       it 'should persist' do
         expect(curation_concern).to be_persisted
       end
+      it 'should have a date_uploaded' do
+        curation_concern.date_uploaded.should == Date.today
+      end
+      it 'should have a date_modified' do
+        curation_concern.date_modified.should == Date.today
+      end
       it 'applies depositor metadata' do
         curation_concern.depositor.should == user.user_key
       end
