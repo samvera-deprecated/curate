@@ -1,9 +1,6 @@
 # Actions are decoupled from controller logic so that they may be called from a controller or a background job.
 
 module CurationConcern
-  def self.mint_a_pid
-    Sufia::Noid.namespaceize(Sufia::Noid.noidify(Sufia::IdService.mint))
-  end
   module Actions
 
     def self.create_metadata(curation_concern, user, attributes)
