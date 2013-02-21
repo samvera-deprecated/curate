@@ -2,14 +2,23 @@
 module CurationConcern::Actions
 
   def self.create_metadata(curation_concern, user, attributes)
+    file = attributes.delete(:thesis_file)
     curation_concern.apply_depositor_metadata(user.user_key)
     curation_concern.creator = user.name
     curation_concern.attributes = attributes
-    #TODO setting permission in UI and passing the params to repo
-    #curation_concern.set_visibility(params[:visibility])
     curation_concern.save!
-    yield(curation_concern) if block_given?
-    return curation_concern
+
+    if file
+      generic_file = GenericFile.new
+      generic_file.batch = curation_concern
+      Sufia::GenericFile::Actions.create_content(
+        generic_file,
+        file,
+        file.original_filename,
+        'content',
+        current_user
+      )
+    end
   end
 
   def self.update_metadata(curation_concern, user, attributes)
@@ -17,7 +26,5 @@ module CurationConcern::Actions
     curation_concern.creator = user.name
     curation_concern.update_attributes(attributes)
     curation_concern.save!
-    yield(curation_concern) if block_given?
-    return curation_concern
   end
 end

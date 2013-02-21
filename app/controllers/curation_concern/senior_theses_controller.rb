@@ -30,13 +30,7 @@ class CurationConcern::SeniorThesesController < ApplicationController
     noid = Sufia::Noid.noidify(Sufia::IdService.mint)
     pid = Sufia::Noid.namespaceize(noid)
     @senior_thesis = SeniorThesis.new(pid: pid)
-    file = params[:senior_thesis].delete(:thesis_file)
     CurationConcern::Actions.create_metadata(@senior_thesis, current_user, params[:senior_thesis])
-    if file
-      generic_file = GenericFile.new
-      generic_file.batch = @senior_thesis
-      Sufia::GenericFile::Actions.create_content(generic_file, file, file.original_filename, 'content', current_user)
-    end
     respond_with([:curation_concern,@senior_thesis])
   rescue ActiveFedora::RecordInvalid
     respond_with([:curation_concern, @senior_thesis]) do |wants|
