@@ -1,0 +1,14 @@
+<h2>What are you uploading?</h2>
+<p>Before we can begin we need to know a little about what you're uploading.</p>
+<fieldset>
+  <legend>Describe Your Files</legend>
+  <form >
+    <label>Select File Type</label>
+    <select>
+      <option value="senior_thesis">Senior Thesis</option>
+    </select>
+    <div class="input-action">
+      <%= link_to 'Continue', new_curation_concern_senior_thesis_path, :class => "btn btn-primary" %>
+    </div>
+  </form>
+</fieldset>
