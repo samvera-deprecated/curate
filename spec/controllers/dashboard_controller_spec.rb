@@ -32,7 +32,7 @@ describe DashboardController do
     # after(:each) do
     #   @user.delete
     # end
-    it "should populate LDAP attrs if user is new" do
+    xit "should populate LDAP attrs if user is new" do
       pending "This should only be in scholarsphere"
       User.stub(:find_by_login).with(@user.login).and_return(nil)
       User.should_receive(:create).with(login: @user.login).and_return(@user).once
@@ -42,7 +42,7 @@ describe DashboardController do
       sign_in @user
       get :index
     end
-    it "should not populate LDAP attrs if user is not new" do
+    xit "should not populate LDAP attrs if user is not new" do
       pending "This should only be in scholarsphere"
       User.stub(:find_by_login).with(@user.login).and_return(@user)
       User.should_receive(:create).with(login: @user.login).never
@@ -64,11 +64,11 @@ describe DashboardController do
       before (:each) do
         xhr :get, :index
       end
-      it "should be a success" do
+      xit "should be a success" do
         response.should be_success
         response.should render_template('dashboard/index')
       end
-      it "should return an array of documents I can edit" do
+      xit "should return an array of documents I can edit" do
         @user_results = Blacklight.solr.get "select", :params=>{:fq=>["edit_access_group_t:public OR edit_access_person_t:#{@user.user_key}"]}
         assigns(:document_list).count.should eql(@user_results["response"]["numFound"])
       end
@@ -76,7 +76,7 @@ describe DashboardController do
   end
   describe "not logged in as a user" do
     describe "#index" do
-      it "should return an error" do
+      xit "should return an error" do
         xhr :post, :index
         response.should_not be_success
       end
