@@ -1,23 +1,56 @@
 <%= simple_form_for [:curation_concern, senior_thesis] do |f| %>
+  <div class="row">
+    <div class="span6">
+      <fieldset>
+        <legend>Describe Your Thesis</legend>
 
-  <%= f.label :title %>
-  <%= f.input_field :title %>
-  <%= f.label :description %>
-  <%= f.input_field :description, as: :text %>
-  <% if senior_thesis.persisted? && senior_thesis.current_thesis_file %>
-    <dl>
-      <dt>Current thesis file:</dt>
-      <dd><%= senior_thesis.current_thesis_file %></dd>
-    </dl>
-    <%= f.label :thesis_file, 'Replace Thesis File' %>
-    <%= f.input_field :thesis_file, as: :file %>
-  <% else %>
-    <%= f.label :thesis_file %>
-    <%= f.input_field :thesis_file, as: :file %>
-    <%= f.label "thesis_file" %>
-    <%= f.input_field :thesis_file, as: :file %>
-    <%= render :partial => "permission", :locals => { :gf => @generic_file, :f=> f , :curation_concern=> senior_thesis} %>
-  <% end %>
-  <%= f.submit %>
+        <%= f.input :title,
+                    input_html: { class: 'input-xlarge' }
+        %>
+
+        <%= f.input :description,
+                    as: :text,
+                    label: 'Abstract',
+                    input_html: { class: 'input-xxlarge' }
+        %>
+      </fieldset>
+
+      <fieldset>
+        <legend>
+          Attach Your Thesis
+          <small>A PDF copy is preferred.</small>
+        </legend>
+
+      <% if senior_thesis.persisted? && senior_thesis.current_thesis_file %>
+        <dl>
+          <dt>Current thesis file:</dt>
+          <dd><%= senior_thesis.current_thesis_file %></dd>
+        </dl>
+
+        <%= f.input :thesis_file,
+                    as: :file,
+                    label: 'Upload a new copy of your thesis'
+        %>
+      </fieldset>
+    </div>
+      <% else %>
+        <%= f.input :thesis_file,
+                    as: :file,
+                    label: 'Upload a your thesis'
+        %>
+      </fieldset>
+    </div>
+
+    <div class="span6">
+      <%= render :partial => "permission", :locals => { :gf => @generic_file, :f=> f , :curation_concern=> senior_thesis} %>
+    </div>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <div class="span12 form-actions">
+      <%= f.submit class: 'btn btn-primary' %>
+    </div>
+  </div>
 
 <% end %>
