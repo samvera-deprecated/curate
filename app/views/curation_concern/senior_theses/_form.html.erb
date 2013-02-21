@@ -4,7 +4,6 @@
       <fieldset>
         <legend>Describe Your Thesis</legend>
 
-<<<<<<< Updated upstream
         <%= f.input :title,
                     input_html: { class: 'input-xlarge' }
         %>
@@ -42,11 +41,10 @@
         %>
       </fieldset>
     </div>
-
-    <div class="span6">
-      <%= render :partial => "permission", :locals => { :gf => @generic_file, :f=> f , :curation_concern=> senior_thesis} %>
-    </div>
     <% end %>
+    <div class="span6">
+      <%= render :partial => "permission", :locals => { :curation_concern=> senior_thesis} %>
+    </div>
   </div>
 
   <div class="row">
@@ -56,24 +54,3 @@
   </div>
 
 <% end %>
-=======
-  <%= f.label :title %>
-  <%= f.input_field :title %>
-  <%= f.label :description %>
-  <%= f.input_field :description, as: :text %>
-  <% if senior_thesis.persisted? && senior_thesis.current_thesis_file %>
-    <dl>
-      <dt>Current thesis file:</dt>
-      <dd><%= senior_thesis.current_thesis_file %></dd>
-    </dl>
-    <%= f.label :thesis_file, 'Replace Thesis File' %>
-    <%= f.input_field :thesis_file, as: :file %>
-  <% else %>
-    <%= f.label :thesis_file %>
-    <%= f.input_field :thesis_file, as: :file %>
-  <% end %>
-  <%= render :partial => "permission", :locals => { :f=> f , :curation_concern=> senior_thesis} %>
-  <%= f.submit %>
-
-<% end %>
->>>>>>> Stashed changes
