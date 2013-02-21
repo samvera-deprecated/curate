@@ -1,0 +1,27 @@
+<% content_for :main do %>
+
+  <% if content_for?(:page_header) %>
+    <div class="row">
+      <%= yield(:page_header) %>
+    </div>
+  <% end %>
+
+  <div class="row">
+
+  <% if content_for?(:sidebar) %>
+    <div class="span3">
+      <%= yield(:sidebar) %>
+    </div>
+
+    <div class="span9">
+  <% else %>
+    <div class="span12">
+  <% end %>
+      <%= yield %>
+    </div>
+
+  </div>
+
+<% end %>
+
+<%= render :template => 'layouts/curate_nd' %>
