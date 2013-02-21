@@ -3,7 +3,16 @@
   <%= f.input_field :title %>
   <%= f.label :description %>
   <%= f.input_field :description, as: :text %>
-  <%= f.label :thesis_file %>
-  <%= f.input_field :thesis_file, as: :file %>
+  <% if senior_thesis.persisted? && senior_thesis.current_thesis_file %>
+    <dl>
+      <dt>Current thesis file:</dt>
+      <dd><%= senior_thesis.current_thesis_file %></dd>
+    </dl>
+    <%= f.label :thesis_file, 'Replace Thesis File' %>
+    <%= f.input_field :thesis_file, as: :file %>
+  <% else %>
+    <%= f.label :thesis_file %>
+    <%= f.input_field :thesis_file, as: :file %>
+  <% end %>
   <%= f.submit %>
 <% end %>

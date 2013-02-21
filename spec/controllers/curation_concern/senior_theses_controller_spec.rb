@@ -31,6 +31,7 @@ describe CurationConcern::SeniorThesesController do
       response.response_code.should == 422
     end
   end
+
   describe '#show' do
     before(:all) do
       CurationConcern::Actions.create_metadata(subject, user, valid_attributes)
@@ -44,8 +45,24 @@ describe CurationConcern::SeniorThesesController do
     end
   end
   describe '#edit' do
+    before(:all) do
+      CurationConcern::Actions.create_metadata(subject, user, valid_attributes)
+    end
+    subject { SeniorThesis.new(pid: pid) }
+    let(:pid) { CurationConcern.mint_a_pid }
+    it 'should render' do
+      get :edit, id: subject.pid
+      response.should be_successful
+      controller.senior_thesis.should == subject
+      expect(response).to render_template('edit')
+    end
   end
   describe '#update' do
+    before(:all) do
+      CurationConcern::Actions.create_metadata(subject, user, valid_attributes)
+    end
+    subject { SeniorThesis.new(pid: pid) }
+    let(:pid) { CurationConcern.mint_a_pid }
   end
   describe '#destroy' do
   end

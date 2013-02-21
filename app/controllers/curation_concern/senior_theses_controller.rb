@@ -43,7 +43,8 @@ class CurationConcern::SeniorThesesController < ApplicationController
   end
 
   def edit
-
+    @senior_thesis = SeniorThesis.find(params[:id])
+    respond_with(@senior_thesis)
   end
 
   def update
