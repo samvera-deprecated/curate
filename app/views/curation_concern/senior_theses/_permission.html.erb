@@ -15,7 +15,7 @@ limitations under the License.
 %>
 <fieldset id="permissions_display">
 <% if curation_concern.persisted? %>
-  <% depositor = curation_concern.current_thesis_file.depositor || GenericFile.find(:is_part_of_s => "info:fedora/#{curation_concern.pid}").first.depositor %>
+  <% depositor = curation_concern.depositor %>
   <% public_perm = curation_concern.permissions.map { |perm| perm[:access] if perm[:name] == "public"}.compact.first %>
   <% ndu_perm = curation_concern.permissions.map { |perm| perm[:access] if perm[:name] == "registered"}.compact.first %>
 <%else %>

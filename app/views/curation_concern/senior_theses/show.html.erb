@@ -5,4 +5,6 @@
   <dt>Description</dt>
   <dd><%= senior_thesis.description %></dd>
 </dl>
-<%= render :partial => "show_file_details", :locals => {:generic_file=> senior_thesis.current_thesis_file} %>
+<% if current_thesis_file = senior_thesis.current_thesis_file %>
+  <%= render partial: "show_file_details", locals: {generic_file: current_thesis_file} %>
+<% end %>
