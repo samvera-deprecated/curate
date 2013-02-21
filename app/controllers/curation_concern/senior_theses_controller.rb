@@ -48,9 +48,13 @@ class CurationConcern::SeniorThesesController < ApplicationController
   end
 
   def update
-    CurationConcern::Actions.update_metadata(@senior_thesis, current_user, params)
-    flash[:notice] = 'Your files are being processed by ' + t('sufia.product_name') + ' in the background. The metadata and access controls you specified are being applied. Files will be marked <span class="label label-important" title="Private">Private</span> until this process is complete (shouldn\'t take too long, hang in there!). You may need to refresh your dashboard to see these updates.'
-    redirect_to sufia.dashboard_index_path
+    @senior_thesis = SeniorThesis.find(params[:id])
+    CurationConcern::Actions.update_metadata(@senior_thesis, current_user, params[:senior_thesis])
+    respond_with([:curation_concern, @senior_thesis])
+  rescue ActiveFedora::RecordInvalid
+    respond_with([:curation_concern, @senior_thesis]) do |wants|
+      wants.html { render 'edit', status: :unprocessable_entity }
+    end
   end
 
   def destroy

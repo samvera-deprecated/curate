@@ -2,12 +2,24 @@
 
 module CurationConcern
   module Actions
+    module_function
+    def create_metadata(curation_concern, user, attributes)
+      save_metadata(curation_concern, user, attributes) do
+        curation_concern.apply_depositor_metadata(user.user_key)
+        curation_concern.creator = user.name
+      end
+    end
 
-    def self.create_metadata(curation_concern, user, attributes)
+    def update_metadata(curation_concern, user, attributes)
+      save_metadata(curation_concern, user, attributes)
+    end
+
+    def save_metadata(curation_concern, user, attributes)
       file = attributes.delete(:thesis_file)
       visibility = attributes.delete(:visibility)
-      curation_concern.apply_depositor_metadata(user.user_key)
-      curation_concern.creator = user.name
+
+      yield if block_given?
+
       curation_concern.attributes = attributes
       curation_concern.set_visibility(visibility)
       curation_concern.save!
@@ -24,13 +36,6 @@ module CurationConcern
           user
         )
       end
-    end
-
-    def self.update_metadata(curation_concern, user, attributes)
-      curation_concern.apply_depositor_metadata(user.user_key)
-      curation_concern.creator = user.name
-      curation_concern.update_attributes(attributes)
-      curation_concern.save!
     end
   end
 end
