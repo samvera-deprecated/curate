@@ -1,4 +1,4 @@
-<% content_for :main do %>
+<% content_for :body do %>
 
   <header id="banner" role="banner">
     <hgroup>
@@ -29,7 +29,7 @@
   </header>
 
   <div id="main" role="main" class="container">
-    <%= yield %>
+    <%= content_for?(:main) ? yield(:main) : yield %>
   </div>
 
   <%= render '/footer' %>

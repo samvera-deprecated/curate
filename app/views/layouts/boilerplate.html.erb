@@ -15,7 +15,7 @@
   </head>
   <body>
 
-    <%= content_for?(:main) ? yield(:main) : yield %>
+    <%= content_for?(:body) ? yield(:body) : yield %>
 
     <%= javascript_include_tag 'application' %>
     <%= render :partial => '/ga', :formats => [:html] %>
