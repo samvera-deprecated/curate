@@ -5,7 +5,6 @@ class SeniorThesis < ActiveFedora::Base
   include Hydra::ModelMixins::RightsMetadata
   include Sufia::ModelMethods
   include Sufia::Noid
-  include Sufia::GenericFile::Permissions
 
   has_metadata :name => "properties", :type => PropertiesDatastream
   has_metadata :name => "descMetadata", :type => SeniorThesisMetadataDatastream
@@ -15,7 +14,6 @@ class SeniorThesis < ActiveFedora::Base
   delegate_to :descMetadata, [:title, :created, :description, :creator], :unique => true
   delegate_to :properties, [:relative_path, :depositor], :unique => true
   delegate_to :descMetadata, [:contributor]
-
   validates :title, presence: true
 
   def to_solr(solr_doc={}, opts={})
@@ -24,9 +22,26 @@ class SeniorThesis < ActiveFedora::Base
     return solr_doc
   end
 
+  attr_accessor :thesis_file, :visibility
 
-  attr_accessor :thesis_file
   def current_thesis_file
     generic_files.first
   end
+
+  def set_visibility(visibility)
+    logger.error("Visibility:#{visibility.inspect}")
+    #require debugger; debug ; true
+    # only set explicit permissions
+    case visibility
+      when "open"
+        self.datastreams["rightsMetadata"].permissions({:group=>"public"}, "read")
+      when "ndu"
+        self.datastreams["rightsMetadata"].permissions({:group=>"registered"}, "read")
+        self.datastreams["rightsMetadata"].permissions({:group=>"public"}, "none")
+      when "restricted"
+        self.datastreams["rightsMetadata"].permissions({:group=>"registered"}, "none")
+        self.datastreams["rightsMetadata"].permissions({:group=>"public"}, "none")
+    end
+  end
+
 end
