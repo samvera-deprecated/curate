@@ -7,6 +7,7 @@ module CurationConcern
       save_metadata(curation_concern, user, attributes) do
         curation_concern.apply_depositor_metadata(user.user_key)
         curation_concern.creator = user.name
+        curation_concern.date_uploaded = Date.today
       end
     end
 
@@ -21,6 +22,7 @@ module CurationConcern
       yield if block_given?
 
       curation_concern.attributes = attributes
+      curation_concern.date_modified = Date.today
       curation_concern.set_visibility(visibility)
       curation_concern.save!
 
