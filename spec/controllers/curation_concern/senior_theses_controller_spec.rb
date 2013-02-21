@@ -3,9 +3,9 @@ require 'spec_helper'
 describe CurationConcern::SeniorThesesController do
   render_views
   before(:each) do
-    @user = FactoryGirl.create(:user)
-    sign_in @user
+    sign_in user
   end
+  let(:user) { FactoryGirl.create(:user) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:senior_thesis) }
   let(:invalid_attributes) { FactoryGirl.attributes_for(:senior_thesis_invalid) }
 
@@ -32,6 +32,16 @@ describe CurationConcern::SeniorThesesController do
     end
   end
   describe '#show' do
+    before(:all) do
+      CurationConcern::Actions.create_metadata(subject, user, valid_attributes)
+    end
+    subject { SeniorThesis.new(pid: pid) }
+    let(:pid) { CurationConcern.mint_a_pid }
+    it 'should render' do
+      get :show, id: subject.pid
+      response.should be_successful
+      controller.senior_thesis.should == subject
+    end
   end
   describe '#edit' do
   end
