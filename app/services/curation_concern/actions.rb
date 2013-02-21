@@ -36,6 +36,9 @@ module CurationConcern
           user
         )
       end
+      curation_concern.generic_files.each do |generic_file|
+          generic_file.set_visibility(visibility)
+      end
     end
   end
 end

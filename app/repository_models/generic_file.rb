@@ -4,4 +4,11 @@ class GenericFile
   def to_s
     label
   end
+
+  def display_title
+    title =  title.join(' | ')  if !title.blank?
+    title = label if title.blank?
+    title = 'No Title' if title.blank?
+    title.to_s
+  end
 end

@@ -1,6 +1,8 @@
+<h2 class="non lower">Thesis Details</h2>
 <dl>
   <dt>Title</dt>
   <dd><%= senior_thesis.title %></dd>
   <dt>Description</dt>
   <dd><%= senior_thesis.description %></dd>
 </dl>
+<%= render :partial => "show_file_details", :locals => {:generic_file=> senior_thesis.current_thesis_file} %>
