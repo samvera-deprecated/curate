@@ -27,9 +27,7 @@ class CurationConcern::SeniorThesesController < ApplicationController
   end
 
   def create
-    noid = Sufia::Noid.noidify(Sufia::IdService.mint)
-    pid = Sufia::Noid.namespaceize(noid)
-    @senior_thesis = SeniorThesis.new(pid: pid)
+    @senior_thesis = SeniorThesis.new(pid: CurationConcern.mint_a_pid)
     CurationConcern::Actions.create_metadata(@senior_thesis, current_user, params[:senior_thesis])
     respond_with([:curation_concern,@senior_thesis])
   rescue ActiveFedora::RecordInvalid

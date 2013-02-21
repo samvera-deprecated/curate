@@ -11,9 +11,9 @@ class SeniorThesis < ActiveFedora::Base
 
   has_many :generic_files, :property => :is_part_of
 
-  delegate_to :descMetadata, [:title, :created, :description], :unique => true
+  delegate_to :descMetadata, [:title, :created, :description, :creator], :unique => true
   delegate_to :properties, [:relative_path, :depositor], :unique => true
-  delegate_to :descMetadata, [:contributor, :creator]
+  delegate_to :descMetadata, [:contributor]
 
   validates :title, presence: true
 
