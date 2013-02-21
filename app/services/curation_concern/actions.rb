@@ -1,4 +1,5 @@
 # Actions are decoupled from controller logic so that they may be called from a controller or a background job.
+
 module CurationConcern
   def self.mint_a_pid
     Sufia::Noid.namespaceize(Sufia::Noid.noidify(Sufia::IdService.mint))
@@ -14,13 +15,13 @@ module CurationConcern
 
       if file
         generic_file = GenericFile.new
-        generic_file.batch = curation_concern
+        Sufia::GenericFile::Actions.create_metadata(generic_file, user, curation_concern.pid)
         Sufia::GenericFile::Actions.create_content(
           generic_file,
           file,
           file.original_filename,
           'content',
-          current_user
+          user
         )
       end
     end

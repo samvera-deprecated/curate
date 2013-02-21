@@ -4,10 +4,11 @@ describe CurationConcern::Actions do
   let(:pid) { CurationConcern.mint_a_pid }
   let(:curation_concern) { SeniorThesis.new(pid: pid)}
   let(:user) { FactoryGirl.create(:user) }
+  let(:thesis_file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false)}
   describe '.create_metadata' do
     let(:attributes) {
       FactoryGirl.attributes_for(:senior_thesis).tap {|a|
-        # a[:thesis_file] = fixture_file_upload
+        a[:thesis_file] = thesis_file
       }
     }
     describe 'valid attributes' do
@@ -29,7 +30,10 @@ describe CurationConcern::Actions do
         end
       end
       it 'creates a generic file' do
-
+        new_curation_concern = curation_concern.class.find(curation_concern.pid)
+        new_curation_concern.generic_files.count.should == 1
+        # Sanity test to make sure the file we uploaded is stored.
+        new_curation_concern.generic_files.first.content.content.should == thesis_file.read
       end
     end
   end
