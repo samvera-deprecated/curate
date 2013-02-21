@@ -1,4 +1,5 @@
 require 'datastreams/properties_datastream'
+require_relative './generic_file'
 class SeniorThesis < ActiveFedora::Base
   include Hydra::ModelMixins::CommonMetadata
   include Hydra::ModelMixins::RightsMetadata
@@ -16,7 +17,6 @@ class SeniorThesis < ActiveFedora::Base
   delegate_to :descMetadata, [:contributor]
 
   validates :title, presence: true
-  attr_accessor :thesis_file
 
   def to_solr(solr_doc={}, opts={})
     super(solr_doc, opts)
@@ -24,4 +24,9 @@ class SeniorThesis < ActiveFedora::Base
     return solr_doc
   end
 
+
+  attr_writer :thesis_file
+  def current_thesis_file
+    generic_files.first
+  end
 end
