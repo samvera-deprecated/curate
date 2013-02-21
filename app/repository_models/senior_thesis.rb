@@ -17,14 +17,6 @@ class SeniorThesis < ActiveFedora::Base
 
   validates :title, presence: true
 
-  def self.find_or_create_by_pid(pid)
-    begin
-      @senior_thesis = SeniorThesis.find(pid)
-    rescue ActiveFedora::ObjectNotFoundError
-      @senior_thesis = SeniorThesis.create({pid: pid})
-    end
-  end
-
   def to_solr(solr_doc={}, opts={})
     super(solr_doc, opts)
     solr_doc["noid_s"] = noid
