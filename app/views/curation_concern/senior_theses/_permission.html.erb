@@ -13,15 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 %>
-<div id="permissions_display">
+<fieldset id="permissions_display">
   <div class="alert hide" id="save_perm_note">Permissions are <strong>not</strong> saved until the &quot;Create Senior Thesis&quot; button is pressed at the bottom of the page.</div>
   <div class="alert alert-error hide" id="permissions_error"><a class="close" data-dismiss="alert" href="#">×</a><span id="permissions_error_text"></span></div>
-  <h2>Permissions<small>(applied to file attached)</small></h2>
-    <div class="row">
-      <p class="pull-right">
-      <!-- Button to trigger modal -->
-      <a href="#myModal" role="button" class="btn btn-warning" data-toggle="modal">What's this <i class="icon-question-sign icon-large"></i></a>
+  <legend>
+    Permissions
+    <small>Applied to the attached file</small>
+    <a href="#myModal" role="button" class="btn btn-warning pull-right" data-toggle="modal">What's this <i class="icon-question-sign icon-large icon-white"></i></a>
+  </legend>
+
   <!-- Modal -->
+
   <div class="modal hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -59,24 +61,31 @@ limitations under the License.
       <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
     </div>
   </div>
+
+    <fieldset class="control-group">
+      <legend class="nested-field-heading">
+        Visibility
+      </legend>
+      <p class="help-block">
+        Who should be able to read and download your files
       </p>
-    </div>
-    <div class="control-group">
-      <h3>Visibility - <small>who should have the ability to read and download</small></h3>
-        <div class="controls">
-          <label class="radio">
-            <input type="radio" id="visibility_open" name="senior_thesis[visibility]" value="open" checked="true"/>
-            <span class="label label-success">Open Access</span> Visible to the world.
-          </label>
-          <label class="radio">
-            <input type="radio" id="visibility_ndu" name="senior_thesis[visibility]" value="ndu" />
-            <span class="label label-info"><%=t('sufia.institution_name') %></span> Visible to all <%=t('sufia.institution_name') %> users.
-          </label>
-          <label class="radio">
-            <input type="radio" id="visibility_restricted" name="senior_thesis[visibility]" value="restricted"/>
-            <span class="label label-important">Private</span> Visible to users/groups specified below, if any.
-          </label>
+
+      <div class="controls">
+        <label class="radio">
+          <input type="radio" id="visibility_open" name="senior_thesis[visibility]" value="open" checked="true"/>
+          <span class="label label-success">Open Access</span> Visible to the world.
+        </label>
+        <label class="radio">
+          <input type="radio" id="visibility_ndu" name="senior_thesis[visibility]" value="ndu" />
+          <span class="label label-info"><%=t('sufia.institution_name') %></span> Visible to all <%=t('sufia.institution_name') %> users.
+        </label>
+        <label class="radio">
+          <input type="radio" id="visibility_restricted" name="senior_thesis[visibility]" value="restricted"/>
+          <span class="label label-important">Private</span> Visible to users/groups specified below, if any.
+        </label>
       </div><!-- /.controls -->
-    </div><!-- /.control-group -->
-</div><!-- /#permissions_display -->
+
+    </fieldset>
+
+</fieldset>
 
