@@ -25,7 +25,7 @@ class SeniorThesis < ActiveFedora::Base
   end
 
 
-  attr_writer :thesis_file
+  attr_accessor :thesis_file
   def current_thesis_file
     generic_files.first
   end
