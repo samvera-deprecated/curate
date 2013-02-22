@@ -22,6 +22,7 @@ describe DigitalObjectIdentifier do
     end
   end
 
+#:description, :rights, :version, :format, :data_size, :contributor, :subject, :name_id, :subtitle, :created_date, :accepted_date, :resource_type, :lang
   describe 'update_doi' do
     it 'should_add_more_metadata' do
       @doi.target          = "https://fedorapprd.library.nd.edu:8443/fedora/get/RBSC-CURRENCY:671/"
@@ -29,6 +30,19 @@ describe DigitalObjectIdentifier do
       @doi.creator         = "Comstock, Adam"
       @doi.publisher       = "University of Notre Dame - Libraries"
       @doi.publicationyear = "2011"
+      @doi.description     = "Description of content"
+      @doi.rights          = ""
+      @doi.version         = "1.1"
+      @doi.format          = "text/plain"
+      @doi.data_size       = "128kb"
+      @doi.contributor     = "RNB"
+      @doi.subject         = "TEST"
+      @doi.name_id         = "87fs89ds"
+      @doi.subtitle        = "Currency"
+      @doi.created_date    = "2011-12-1"
+      @doi.accepted_date   = "2012-01-31"
+      @doi.resource_type   = "Test"
+      @doi.lang            = "eng"
       response = @doi.update_doi
       response.should include("success: doi:10.5072/FK2")
     end
