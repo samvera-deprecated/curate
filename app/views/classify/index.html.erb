@@ -11,12 +11,15 @@
 
     <label>Select File Type</label>
     <select>
+      <option />
       <option value="senior_thesis">Senior Thesis</option>
       <option value="law_journal">Law Journal</option>
     </select>
 
     <div class="form-actions">
-      <%= link_to 'Continue', new_curation_concern_senior_thesis_path, :class => "btn btn-primary" %>
+      <%= link_to 'Continue', new_curation_concern_senior_thesis_path, class: "btn btn-primary" %>
+      or
+      <%= link_to 'Cancel', dashboard_index_path, class: "btn" %>
     </div>
 
   </fieldset>
