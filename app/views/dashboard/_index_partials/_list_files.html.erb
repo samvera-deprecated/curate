@@ -21,9 +21,7 @@ on element ids -->
 <% noid = document[:noid_s].first %>
 <tr id="document_<%= noid.gsub(":", "_") %>" class="<%= cycle("","zebra") %>">
   <% gf = ActiveFedora::Base.find(document.id, cast: true) %>
-  <td width="6%"><%# batch_edit_select(document) %>&nbsp;</td> 
-  <td width="1%">&nbsp;</td>
-  <td width="37%">
+  <td width="44%">
     <a href="" title="Click for more details"><i id="expand_<%= noid.gsub(":", "_") %>" class="icon-plus icon-large fleft"></i></a>&nbsp;
     <%= render :partial => 'dashboard/_index_partials/thumbnail_display', :locals => {:document=>document} %>
     <span class=center><%= link_to render_document_show_field_value(:document=>document, :field=>document.title_or_label), polymorphic_path([:curation_concern, gf]), :id => "src_copy_link#{noid}" %> <br /></span>
