@@ -1,4 +1,4 @@
-<%= simple_form_for [:curation_concern, senior_thesis] do |f| %>
+<%= simple_form_for [:curation_concern, curation_concern] do |f| %>
   <div class="row">
     <div class="span6">
       <fieldset>
@@ -22,10 +22,10 @@
           <small>A PDF copy is preferred.</small>
         </legend>
 
-      <% if senior_thesis.persisted? && senior_thesis.current_thesis_file %>
+      <% if curation_concern.persisted? && curation_concern.current_thesis_file %>
         <dl>
           <dt>Current thesis file:</dt>
-          <dd><%= senior_thesis.current_thesis_file %></dd>
+          <dd><%= curation_concern.current_thesis_file %></dd>
         </dl>
 
         <%= f.input :thesis_file,
@@ -43,7 +43,7 @@
     </div>
     <% end %>
     <div class="span6">
-      <%= render :partial => "permission", :locals => { :curation_concern=> senior_thesis} %>
+      <%= render :partial => "permission", :locals => { :curation_concern=> curation_concern} %>
     </div>
   </div>
 

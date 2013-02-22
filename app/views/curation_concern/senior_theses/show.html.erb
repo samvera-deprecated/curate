@@ -1,14 +1,14 @@
 <p>
   <%= link_to 'Back to Dashboard', dashboard_index_path %> |
-  <%= link_to "Edit Senior Thesis", edit_polymorphic_path([:curation_concern, senior_thesis]) %>
+  <%= link_to "Edit Senior Thesis", edit_polymorphic_path([:curation_concern, curation_concern]) %>
 </p>
 <h2 class="non lower">Thesis Details</h2>
 <dl>
   <dt>Title</dt>
-  <dd><%= senior_thesis.title %></dd>
+  <dd><%= curation_concern.title %></dd>
   <dt>Description</dt>
-  <dd><%= senior_thesis.description %></dd>
+  <dd><%= curation_concern.description %></dd>
 </dl>
-<% if current_thesis_file = senior_thesis.current_thesis_file %>
+<% if current_thesis_file = curation_concern.current_thesis_file %>
   <%= render partial: "show_file_details", locals: {generic_file: current_thesis_file} %>
 <% end %>

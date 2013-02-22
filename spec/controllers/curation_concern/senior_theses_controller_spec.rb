@@ -12,7 +12,7 @@ describe CurationConcern::SeniorThesesController do
   describe '#new' do
     it 'should be successful' do
       get :new
-      controller.senior_thesis.should be_kind_of(SeniorThesis)
+      controller.curation_concern.should be_kind_of(SeniorThesis)
       response.should be_successful
     end
   end
@@ -22,7 +22,7 @@ describe CurationConcern::SeniorThesesController do
       expect {
         post :create, senior_thesis: valid_attributes
       }.to change { SeniorThesis.count }.by(1)
-      expected_path = controller.polymorphic_path([:curation_concern, controller.senior_thesis])
+      expected_path = controller.polymorphic_path([:curation_concern, controller.curation_concern])
       expect(response).to redirect_to(expected_path)
     end
     it 'does not create a Senior Thesis when invalid' do
@@ -41,7 +41,7 @@ describe CurationConcern::SeniorThesesController do
     it 'should render' do
       get :show, id: subject.pid
       response.should be_successful
-      controller.senior_thesis.should == subject
+      controller.curation_concern.should == subject
     end
   end
   describe '#edit' do
@@ -53,7 +53,7 @@ describe CurationConcern::SeniorThesesController do
     it 'should render' do
       get :edit, id: subject.pid
       response.should be_successful
-      controller.senior_thesis.should == subject
+      controller.curation_concern.should == subject
       expect(response).to render_template('edit')
     end
   end

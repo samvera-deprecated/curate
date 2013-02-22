@@ -8,8 +8,8 @@
   </div>
 
 </div>
-<%= form_for([:curation_concern, @senior_thesis], :html => {:multipart => true, :class => 'form-horizontal'}) do |f| %>
-  <%= hidden_field_tag(:id, @senior_thesis) %>
+<%= form_for([:curation_concern, curation_concern], :html => {:multipart => true, :class => 'form-horizontal'}) do |f| %>
+  <%= hidden_field_tag(:id, curation_concern) %>
   <div class="row">
     <div class="span6">
       <fieldset>

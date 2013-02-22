@@ -18,4 +18,8 @@ class CurationConcern::BaseController < ApplicationController
       redirect_to new_user_session_url, :alert => exception.message
     end
   end
+
+  attr_reader :curation_concern
+  helper_method :curation_concern
+
 end
