@@ -24,7 +24,7 @@ limitations under the License.
     <% if facet_in_params?( solr_field, item.value ) %>
         <%= render_selected_facet_value(solr_field, item).split("(").join('(<small>').split(")").join("</small>)").html_safe %>
       <% else %>
-        <%= render_facet_value_from_sufia(solr_field, item).split("(").join('(<small>').split(")").join("</small>)").html_safe %>
+        <%= render_facet_value(solr_field, item).split("(").join('(<small>').split(")").join("</small>)").html_safe %>
     <% end -%>
     </li>
   <% end %>
