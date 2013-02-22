@@ -1,7 +1,7 @@
 class DigitalObjectIdentifier
 
   attr_accessor :target, :creator, :title, :publisher, :publicationyear
-  attr_accessor :description, :rights, :version, :format, :data_size, :contributor, :subject, :name_id, :subtitle, :created_date, :accepted_date, :resource_type
+  attr_accessor :description, :rights, :version, :format, :data_size, :contributor, :subject, :name_id, :subtitle, :created_date, :accepted_date, :resource_type, :lang
 
   # Mandatory fields for creating DOI.
   def data
@@ -56,7 +56,7 @@ class DigitalObjectIdentifier
         }
         xml.contributors{
           xml.contributor(:contributorType => "DataManager"){
-            xml.contributorName contibutor
+            xml.contributorName contributor
           }
         }
         xml.dates{

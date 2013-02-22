@@ -17,7 +17,7 @@ describe RepoObject do
 
   describe ".create_repo_object" do
     it 'should_create_data_in_purl_database' do
-      RepoObject.create_repo_object(object)
+      RepoObject.create_from_fedora_object(object)
       results = RepoObject.where(:filename => pid)
       results.first.pid.should == pid
     end
