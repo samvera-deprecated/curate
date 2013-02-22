@@ -14,7 +14,7 @@ CurateNd::Application.routes.draw do
 
   namespace :curation_concern, path: :concern do
     resources :senior_theses, except: :index
-    resources :generic_file, except: :index
+    resources :generic_files, only: [:show, :edit]
   end
 
 #  resource 'classify', :only => :index
