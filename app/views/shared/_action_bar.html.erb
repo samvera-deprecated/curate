@@ -3,8 +3,8 @@
     <div class="span12 action-bar">
       <ul class="nav nav-pills" role="menu">
       <% if current_user %>
-        <li><%= link_to 'Dashboard',     dashboard_index_path %></li>
-        <li><%= link_to 'Upload A File', classify_path        %></li>
+        <%= bootstrap_navigation_element 'Dashboard',     dashboard_index_path %>
+        <%= bootstrap_navigation_element 'Upload A file', classify_path        %>
         <li class="pull-right">
           <%= link_to 'Log Out', destroy_user_session_path %>
         </li>
