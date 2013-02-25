@@ -17,6 +17,8 @@ CurateNd::Application.routes.draw do
     resources :generic_files, only: [:show, :edit]
   end
 
+  resources :terms_of_service_agreements, only: [:new, :create]
+
 #  resource 'classify', :only => :index
   match "classify" => "classify#index"
   root to: 'welcome#index'

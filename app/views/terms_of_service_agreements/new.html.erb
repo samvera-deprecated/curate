@@ -1,1 +1,3 @@
-<p>I agree to the above terms of service</p>
+<%= form_tag terms_of_service_agreements_path, method: :post, id: "terms_of_service" do %>
+  <%= submit_tag TermsOfServiceAgreementsController::I_AGREE_TEXT %>
+<% end %>
