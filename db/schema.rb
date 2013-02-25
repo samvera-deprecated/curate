@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(:version => 20130225202726) do
     t.datetime "avatar_updated_at"
     t.text     "group_list"
     t.datetime "groups_last_update"
-    t.boolean  "agreed_to_terms_of_service"
+    t.boolean  "agreed_to_terms_of_service", :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
