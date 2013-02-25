@@ -1,7 +1,7 @@
 <%= simple_form_for [:curation_concern, curation_concern] do |f| %>
   <div class="row">
     <div class="span6">
-      <fieldset>
+      <fieldset class="required">
         <legend>Describe Your Thesis</legend>
 
         <%= f.input :title,
@@ -16,7 +16,7 @@
         %>
       </fieldset>
 
-      <fieldset>
+      <fieldset class="required">
         <legend>
           Attach Your Thesis
           <small>A PDF copy is preferred.</small>
@@ -32,16 +32,18 @@
                     as: :file,
                     label: 'Upload a new copy of your thesis'
         %>
-      </fieldset>
-    </div>
       <% else %>
         <%= f.input :thesis_file,
                     as: :file,
                     label: 'Upload a your thesis'
         %>
+      <% end %>
+      </fieldset>
+      <fieldset class="optional prompt">
+        <legend>Additional Information</legend>
+        <%= f.input :contributor, as: :multi_value %>
       </fieldset>
     </div>
-    <% end %>
     <div class="span6">
       <%= render :partial => "permission", :locals => { :curation_concern=> curation_concern} %>
     </div>
