@@ -10,15 +10,11 @@ module ApplicationHelper
 
     if current_page? path
       markup = <<HTML
-      <li class="disabled">
-        #{link_to name, '#', tabindex: :'-1'}
-      </li>
+<li class="disabled">#{link_to name, '#', tabindex: :'-1'}</li>
 HTML
     else
       markup = <<HTML
-      <li>
-        #{link_to name, path}
-      </li>
+<li>#{link_to name, path}</li>
 HTML
     end
 
