@@ -1,11 +1,14 @@
+<% content_for :layout_name, 'two_column, ' %>
 <% content_for :main do %>
 
   <% if content_for?(:page_header) %>
+
     <div class="row">
       <div class="span12">
         <%= yield(:page_header) %>
       </div>
     </div>
+
   <% end %>
 
   <div class="row">
@@ -17,6 +20,16 @@
       <%= yield(:right_column) if content_for?(:right_column) %>
     </div>
   </div>
+
+  <% if content_for?(:second_row) %>
+
+    <div class="row">
+      <div class="span12">
+        <%= yield(:second_row) %>
+      </div>
+    </div>
+
+  <% end %>
 
 <% end %>
 
