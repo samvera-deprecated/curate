@@ -29,7 +29,6 @@ module CurationConcern
       if file
         generic_file = GenericFile.new
         Sufia::GenericFile::Actions.create_metadata(generic_file, user, curation_concern.pid)
-        generic_file.set_visibility(visibility)
         Sufia::GenericFile::Actions.create_content(
           generic_file,
           file,
@@ -38,8 +37,8 @@ module CurationConcern
           user
         )
       end
-      curation_concern.generic_files.each do |generic_file|
-          generic_file.set_visibility(visibility)
+      curation_concern.generic_files.each do |f|
+        f.set_visibility(visibility)
       end
     end
   end
