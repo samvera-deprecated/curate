@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe User do
+  it 'should have #agreed_to_terms_of_service?' do
+    User.new.should respond_to(:agreed_to_terms_of_service?)
+  end
   describe '.batchuser' do
     it 'persists an instance the first time, then returns the persisted object' do
       expect {
