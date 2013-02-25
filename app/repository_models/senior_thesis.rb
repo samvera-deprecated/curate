@@ -22,6 +22,7 @@ class SeniorThesis < ActiveFedora::Base
       :date_modified,
       :available,
       :archived_object_type,
+      :creator,
       :content_format,
     ],
     unique: true
@@ -30,7 +31,6 @@ class SeniorThesis < ActiveFedora::Base
     :descMetadata,
     [
       :contributor,
-      :creator,
       :contributor,
       :publisher,
       :bibliographic_citation,

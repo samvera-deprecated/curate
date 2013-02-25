@@ -28,7 +28,7 @@ describe CurationConcern::Actions do
         curation_concern.depositor.should == user.user_key
       end
       it 'assigns a creator' do
-        curation_concern.creator.should == [user.name]
+        curation_concern.creator.should == user.name
       end
       it 'assigns attributes' do
         attributes.each do |key, value|
