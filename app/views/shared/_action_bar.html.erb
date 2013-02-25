@@ -2,12 +2,17 @@
   <div class="row">
     <div class="span12 action-bar">
       <ul class="nav nav-pills" role="menu">
-        <li><a href="#">One</a></li>
-        <li><a href="#">Two</a></li>
-        <li><a href="#">Three</a></li>
+      <% if current_user %>
+        <li><%= link_to 'Dashboard',     dashboard_index_path %></li>
+        <li><%= link_to 'Upload A File', classify_path        %></li>
         <li class="pull-right">
           <%= link_to 'Log Out', destroy_user_session_path %>
         </li>
+      <% else %>
+        <li class="pull-right">
+          <%= link_to 'Log In', new_user_session_path %>
+        </li>
+      <% end %>
       </ul>
     </div>
   </div>
