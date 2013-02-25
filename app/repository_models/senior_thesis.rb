@@ -18,27 +18,27 @@ class SeniorThesis < ActiveFedora::Base
       :title,
       :created,
       :description,
-      :contributor,
-      :creator,
       :date_uploaded,
       :date_modified,
       :available,
-      :publisher,
-      :bibliographic_citation,
-      :source,
-      :language,
       :archived_object_type,
       :content_format,
-      :extent,
-      :requires,
-      :subject
     ],
     unique: true
   )
   delegate_to(
     :descMetadata,
     [
-      :contributor
+      :contributor,
+      :creator,
+      :contributor,
+      :publisher,
+      :bibliographic_citation,
+      :source,
+      :language,
+      :extent,
+      :requires,
+      :subject
     ]
   )
   delegate_to :properties, [:relative_path, :depositor], :unique => true
