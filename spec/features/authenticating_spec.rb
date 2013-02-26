@@ -32,6 +32,11 @@ describe 'welcome page authentication', type: :feature do
         click_on("I Agree")
       end
       page.should have_content("What are you uploading?")
+      within('#new_classify') do
+        select('Senior Thesis', from: 'classify_curation_concern')
+        click_on("Continue")
+      end
+      page.should have_content('Describe Your Thesis')
     end
   end
 end
