@@ -67,6 +67,7 @@ describe 'end to end behavior', type: :feature do
       within('#new_senior_thesis') do
         fill_in("Title", with: initial_title)
         attach_file("Upload your thesis", initial_file_path)
+        check("Accept contributor agreement")
         click_on("Create Senior thesis")
       end
     end
