@@ -37,6 +37,9 @@ class User < ActiveRecord::Base
     'curate_nd_batchuser'
   end
 
+  def agree_to_terms_of_service!
+    update_column(:agreed_to_terms_of_service, true)
+  end
 
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
