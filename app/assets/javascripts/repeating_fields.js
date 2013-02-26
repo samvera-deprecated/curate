@@ -1,3 +1,7 @@
+// This widget manages the adding and removing of repeating fields.
+// There are a lot of assumptions about the structure of the classes and elements.
+// These assumptions are reflected in the MultiValueInput class.
+
 $(function() {
   $.widget( "curate.manage_fields", {
     options: {
@@ -8,16 +12,16 @@ $(function() {
 
     _create: function() {
       this.element.addClass("managed");
+      $('.field-wrapper', this.element).addClass("input-append");
 
-      this.actions = $("<span class=\"field-actions\">");
-      this.remover = $("<button class=\"btn btn-danger remove\"><i class=\"icon-white icon-minus\"></i>Remove</button>");
-      this.adder   = $("<button class=\"btn btn-success add\"><i class=\"icon-white icon-plus\"></i>Add</button>");
+      this.controls = $("<span class=\"field-controls\">");
+      this.remover  = $("<button class=\"btn btn-danger remove\"><i class=\"icon-white icon-minus\"></i><span>Remove</span></button>");
+      this.adder    = $("<button class=\"btn btn-success add\"><i class=\"icon-white icon-plus\"></i><span>Add</span></button>");
 
-      $('.field-wrapper', this.element).append(this.actions);
-      $('.field-actions', this.element).append(this.remover);
-      $('.field-actions:last', this.element).append(this.adder);
+      $('.field-wrapper', this.element).append(this.controls);
+      $('.field-controls', this.element).append(this.remover);
+      $('.field-controls:last', this.element).append(this.adder);
 
-      console.log('** Create **');
       this._on( this.element, {
         "click .remove": "remove_from_list",
         "click .add": "add_to_list"
@@ -30,7 +34,7 @@ $(function() {
       $(event.target)
         .parents('.field-wrapper')
         .clone()
-        .appendTo(this.element);
+        .appendTo($('.listing', this.element));
       this._trigger("remove");
     },
 
@@ -45,6 +49,7 @@ $(function() {
 
     _destroy: function() {
       this.actions.remove();
+      $('.field-wrapper', this.element).removeClass("input-append");
       this.element.removeClass( "managed" );
     },
   });
