@@ -30,11 +30,13 @@ $(function() {
 
     add_to_list: function( event ) {
       event.preventDefault();
-      var $lastField = $(event.target).parents('.field-wrapper'),
-          $newField = $lastField.clone(),
+
+      var $activeField = $(event.target).parents('.field-wrapper'),
+          $newField = $activeField.clone(),
           $listing = $('.listing', this.element);
 
-      $('.add', $lastField).remove();
+      $('.add', $activeField).remove();
+      $newField.children('input').val('');
       $listing.append($newField);
 
       this._trigger("remove");
@@ -42,10 +44,18 @@ $(function() {
 
     remove_from_list: function( event ) {
       event.preventDefault();
-      console.log('** Remove **');
-      $(event.target)
-        .parents('.field-wrapper')
-        .remove();
+
+      var $activeField = $(event.target).parents('.field-wrapper'),
+          activeField = $activeField.element,
+          $lastField = $('.field-wrapper:last', this.element),
+          lastField = $lastField.element;
+
+      $activeField.remove();
+
+      if (activeField === lastField){
+        $('.field-wrapper:last .field-controls', this.element).append(this.adder);
+      }
+
       this._trigger("add");
     },
 
