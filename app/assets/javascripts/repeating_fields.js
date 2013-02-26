@@ -19,7 +19,7 @@ $(function() {
       this.adder    = $("<button class=\"btn btn-success add\"><i class=\"icon-white icon-plus\"></i><span>Add</span></button>");
 
       $('.field-wrapper', this.element).append(this.controls);
-      $('.field-controls', this.element).append(this.remover);
+      $('.field-wrapper:not(:last-child) .field-controls', this.element).append(this.remover);
       $('.field-controls:last', this.element).append(this.adder);
 
       this._on( this.element, {
@@ -32,31 +32,28 @@ $(function() {
       event.preventDefault();
 
       var $activeField = $(event.target).parents('.field-wrapper'),
+          $activeFieldControls = $activeField.children('.field-controls'),
+          $removeControl = this.remover.clone(),
           $newField = $activeField.clone(),
           $listing = $('.listing', this.element);
 
-      $('.add', $activeField).remove();
+      $('.add', $activeFieldControls).remove();
+      $activeFieldControls.prepend($removeControl);
+
       $newField.children('input').val('');
       $listing.append($newField);
 
-      this._trigger("remove");
+      this._trigger("add");
     },
 
     remove_from_list: function( event ) {
       event.preventDefault();
 
-      var $activeField = $(event.target).parents('.field-wrapper'),
-          activeField = $activeField.element,
-          $lastField = $('.field-wrapper:last', this.element),
-          lastField = $lastField.element;
+      $(event.target)
+        .parents('.field-wrapper')
+        .remove();
 
-      $activeField.remove();
-
-      if (activeField === lastField){
-        $('.field-wrapper:last .field-controls', this.element).append(this.adder);
-      }
-
-      this._trigger("add");
+      this._trigger("remove");
     },
 
     _destroy: function() {
