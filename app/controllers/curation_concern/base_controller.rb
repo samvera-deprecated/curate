@@ -3,6 +3,7 @@ class CurationConcern::BaseController < ApplicationController
   include Sufia::Noid # for normalize_identifier method
 
   before_filter :authenticate_user!, :except => [:show, :citation]
+  before_filter :agreed_to_terms_of_service!
   before_filter :has_access?, :except => [:show]
   prepend_before_filter :normalize_identifier, :except => [:index, :create, :new]
   load_and_authorize_resource :except=>[:index, :audit]

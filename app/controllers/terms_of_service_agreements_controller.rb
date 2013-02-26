@@ -1,4 +1,5 @@
 class TermsOfServiceAgreementsController < ApplicationController
+  before_filter :authenticate_user!
   respond_to(:html)
   layout 'curate_nd'
   def new
