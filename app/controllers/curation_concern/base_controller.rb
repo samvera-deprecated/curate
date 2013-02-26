@@ -28,4 +28,9 @@ class CurationConcern::BaseController < ApplicationController
   end
   helper_method :accept_contributor_agreement_accepting_value
 
+
+  def contributor_agreement
+    @contributor_agreement ||= ContributorAgreement.new(curation_concern, current_user)
+  end
+  helper_method :contributor_agreement
 end

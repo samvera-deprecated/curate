@@ -63,6 +63,8 @@
 
   <div class="row">
     <div class="span12 form-actions">
+      <%= contributor_agreement.legally_binding_text.html_safe %>
+      <%= contributor_agreement.human_readable_text.html_safe %>
       <%= label_tag :accept_contributor_agreement %>
       <%= check_box_tag(
           :accept_contributor_agreement,
