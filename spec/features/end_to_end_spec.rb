@@ -6,9 +6,12 @@ require 'casclient/frameworks/rails/filter'
 describe 'end to end behavior', type: :feature do
   before(:each) do
     Warden.test_mode!
+    @old_resque_inline_value = Resque.inline
+    Resque.inline = true
   end
   after(:each) do
     Warden.test_reset!
+    Resque.inline = @old_resque_inline_value
   end
   let(:user) { FactoryGirl.create(:user, agreed_to_terms_of_service: agreed_to_terms_of_service) }
   let(:prefix) { Time.now.strftime("%Y-%m-%d-%H-%M-%S-%L") }
@@ -74,8 +77,10 @@ describe 'end to end behavior', type: :feature do
         page.should have_content("Title")
         page.should have_content(initial_title)
       end
-      page.should have_content("File Details")
-      page.should have_content(File.basename(initial_file_path))
+      within(".generic_file.attributes") do
+        page.should have_content(File.basename(initial_file_path))
+        page.should have_content("Mime type: text/plain")
+      end
     end
 
     def edit_your_thesis
