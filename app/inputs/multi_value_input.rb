@@ -3,21 +3,37 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
     input_html_classes.unshift("string")
     input_html_options[:type] ||= 'text'
     input_html_options[:name] ||= "#{object_name}[#{attribute_name}][]"
-    counter = 1
-    text = "<ul class=\"listing\">\n"
+    markup = <<-HTML
+
+
+        <ul class="listing">
+    HTML
 
     collection.each do |value|
       unless value.to_s.strip.blank?
-        input_html_options[:value] = value
-        input_html_options[:id] = "#{object_name}_#{attribute_name}_#{counter}"
-        text << "<li class=\"field-wrapper\" data-attribute-name=\"#{object_name}_#{attribute_name}\" data-counter=\"#{counter}\">#{@builder.text_field(attribute_name, input_html_options)}</li>\n"
-        counter += 1
+        markup << <<-HTML
+          <li class="field-wrapper">
+            #{build_text_field(value)}
+          </li>
+        HTML
       end
     end
-    input_html_options[:value] = ''
-    input_html_options[:id] = "#{object_name}_#{attribute_name}_#{counter}"
-    text << "<li class=\"field-wrapper\" data-attribute-name=\"#{object_name}_#{attribute_name}\"data-counter=\"#{counter}\">#{@builder.text_field(attribute_name, input_html_options)}</li>\n"
-    text << "</ul>\n"
+
+    markup << <<-HTML
+          <li class="field-wrapper">
+            #{build_text_field('')}
+          </li>
+        </ul>
+
+    HTML
+  end
+
+  def build_text_field(value)
+    input_html_options[:value] = value
+    input_html_options[:id] = nil
+    input_html_options[:class] = "#{object_name}_#{attribute_name}"
+    input_html_options[:'aria-labelledby'] = "#{attribute_name}_label"
+    @builder.text_field(attribute_name, input_html_options)
   end
 
   protected
