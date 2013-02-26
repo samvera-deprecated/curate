@@ -20,7 +20,7 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   end
 
   def verify_acceptance_of_user_agreement!
-    if current_user_is_accepting_contributor_agreement?
+    if contributor_agreement.is_being_accepted?
       return true
     else
       # Calling the new action to make sure we are doing our best to preserve
@@ -36,11 +36,6 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
     end
   end
   protected :verify_acceptance_of_user_agreement!
-
-  def current_user_is_accepting_contributor_agreement?
-    params[:accept_contributor_agreement] == accept_contributor_agreement_accepting_value
-  end
-  protected :current_user_is_accepting_contributor_agreement?
 
   def show
     @curation_concern = SeniorThesis.find(params[:id])

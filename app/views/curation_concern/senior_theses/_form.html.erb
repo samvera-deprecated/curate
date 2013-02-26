@@ -62,14 +62,14 @@
   </div>
 
   <div class="row">
-    <div class="span12 form-actions">
+    <div class="span12 form-actions contributor_agreement">
       <%= contributor_agreement.legally_binding_text.html_safe %>
       <%= contributor_agreement.human_readable_text.html_safe %>
-      <%= label_tag :accept_contributor_agreement %>
+      <%= label_tag(contributor_agreement.param_key) %>
       <%= check_box_tag(
-          :accept_contributor_agreement,
-          controller.accept_contributor_agreement_accepting_value,
-          params[:accept_contributor_agreement]
+          contributor_agreement.param_key,
+          contributor_agreement.acceptance_value,
+          contributor_agreement.param_value
         )
       %>
     </div>

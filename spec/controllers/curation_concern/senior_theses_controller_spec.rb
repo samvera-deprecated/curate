@@ -8,6 +8,10 @@ describe CurationConcern::SeniorThesesController do
   let(:user) { FactoryGirl.create(:user) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:senior_thesis) }
   let(:invalid_attributes) { FactoryGirl.attributes_for(:senior_thesis_invalid) }
+  let(:contributor_agreement) {
+    # I need a contributor agreement object for param values
+    ContributorAgreement.new(SeniorThesis.new, user, {})
+  }
 
   describe '#new' do
     it 'should be successful' do
@@ -20,7 +24,7 @@ describe CurationConcern::SeniorThesesController do
   describe '#create' do
     it 'does not allow a thesis to be created when agreement is not set' do
       expect{
-        post :create, senior_thesis: valid_attributes, accept_contributor_agreement: nil
+        post :create, senior_thesis: valid_attributes
       }.to_not change { SeniorThesis.count }
       expect(response).to render_template('new')
       response.response_code.should == 409
@@ -30,8 +34,8 @@ describe CurationConcern::SeniorThesesController do
       expect {
         post(
           :create,
-          senior_thesis: valid_attributes,
-          accept_contributor_agreement: controller.accept_contributor_agreement_accepting_value
+          :senior_thesis => valid_attributes,
+          contributor_agreement.param_key => contributor_agreement.acceptance_value
         )
       }.to change { SeniorThesis.count }.by(1)
       expected_path = controller.polymorphic_path([:curation_concern, controller.curation_concern])
@@ -42,7 +46,7 @@ describe CurationConcern::SeniorThesesController do
       post(
         :create,
         senior_thesis: invalid_attributes,
-        accept_contributor_agreement: controller.accept_contributor_agreement_accepting_value
+        contributor_agreement.param_key => contributor_agreement.acceptance_value
       )
       expect(response).to render_template('new')
       response.response_code.should == 422
