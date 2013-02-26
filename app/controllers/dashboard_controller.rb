@@ -66,9 +66,24 @@ class DashboardController < ApplicationController
     @batch_part_on_other_page = (@batch_size_on_other_page) > 0
   end
 
+  def get_related_file
+    @user = current_user
+    #Need to make sure if params get in ways of searching (like page,per_page,q,f). If that happens then have to remove from params and put back in
+    extra_controller_params = {}
+    extra_controller_params.merge!(:fq=>"")
+    @response, @document_list = get_solr_response_for_field_values("is_part_of_s",["info:fedora/#{params[:id]}"],extra_controller_params)
+  end
+
   protected
   # show only files with edit permissions in lib/hydra/access_controls_enforcement.rb apply_gated_discovery
   def discovery_permissions
     ["edit"]
+  end
+
+  def exclude_unwanted_models(solr_parameters, user_parameters)
+    super
+    solr_parameters[:fq] ||= []
+    solr_parameters[:fq] << "-has_model_s:\"info:fedora/afmodel:GenericFile\""
+    return solr_parameters
   end
 end

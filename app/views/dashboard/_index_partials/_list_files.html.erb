@@ -22,7 +22,7 @@ on element ids -->
 <tr id="document_<%= noid.gsub(":", "_") %>" class="<%= cycle("","zebra") %>">
   <% gf = ActiveFedora::Base.find(document.id, cast: true) %>
   <td width="44%">
-    <a href="" title="Click for more details"><i id="expand_<%= noid.gsub(":", "_") %>" class="icon-plus icon-large fleft"></i></a>&nbsp;
+    <a href="" title="Click for more details"><i id="expand_<%= noid.gsub(":", "_") %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
     <%= render :partial => 'dashboard/_index_partials/thumbnail_display', :locals => {:document=>document} %>
     <span class=center><%= link_to render_document_show_field_value(:document=>document, :field=>document.title_or_label), polymorphic_path([:curation_concern, gf]), :id => "src_copy_link#{noid}" %> <br /></span>
   </td>
@@ -42,31 +42,21 @@ on element ids -->
     </span>&nbsp;&nbsp;&nbsp;
     <%= link_to raw('<i class="icon-pencil icon-large"></i>'), edit_polymorphic_path([:curation_concern, gf]), :class=> 'itemicon itemedit', :title => 'Edit File'  %>&nbsp;&nbsp;&nbsp;
     <%= link_to raw('<i class="icon-trash icon-large"></i>'), polymorphic_path([:curation_concern, gf]), :class=> 'itemicon itemtrash', :title => 'Delete File', :method => :delete, :data => { :confirm => "Deleting a file from #{t('sufia.product_name')} is permanent. Click OK to delete this file from #{t('sufia.product_name')}, or Cancel to cancel this operation"} %>&nbsp;&nbsp;&nbsp;
-
-  <%= display_trophy_link(@user, noid) %>&nbsp;&nbsp;&nbsp;
+    <%= link_to raw('<i class="icon-plus icon-large"></i>'), related_file_dashboard_index_path(gf.id), :class=> 'itemicon iconplus', :title => 'Show related File'%>&nbsp;&nbsp;&nbsp;
+    <%= display_trophy_link(@user, noid) %>&nbsp;&nbsp;&nbsp;
   </td>
 </tr>
 <tr class="hide" id="detail_<%= noid.gsub(":", "_") %>"> <!--  document detail"> -->
   <td colspan="6">
-    <table class="expanded-details">
-      <tr>
-        <td><strong>File Name: </strong> <%= link_to render_document_show_field_value(:document=>document, :field=>"label_t"), polymorphic_path([:curation_concern, gf]) %> </td>
-        <td><strong>File Format: </strong> <%= render_document_show_field_value(:document=>document, :field=>"file_format_t") %> </td>
-      </tr>
-      <tr>
-        <td><strong>Creator: </strong> <%= render_document_show_field_value(:document=>document, :field=>"desc_metadata__creator_display") %> </td>
-        <td><strong>Depositor: </strong> <%= link_to_profile render_document_show_field_value(:document=>document, :field=>"depositor_t") %> </td>
-      </tr>
-      <tr>
-        <td colspan="2"><strong>Edit Access: </strong>
-          <% if !document[:edit_access_group_t].nil?%>
-            Groups: <%= render_document_show_field_value(:document=>document, :field=>"edit_access_group_t") %>
-            <br />
-          <% end %>
-          Users: <%= render_document_show_field_value(:document=>document, :field=>"edit_access_person_t") %>
-        </td>
-      </tr>
-    </table>
+    <dl class="expanded-details">
+      <% index_fields.each do |solr_fname, field| -%>
+        <% if should_render_index_field? document, field %>
+          <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
+          <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document, :field => solr_fname %></dd>
+        <% end -%>
+      <% end -%>
+
+    </dl>
   </td>
 </tr>
 <% end %>

@@ -8,7 +8,8 @@ CurateNd::Application.routes.draw do
   resources 'dashboard', :only=>:index do
     collection do
       get 'page/:page', :action => :index
-      get 'facet/:id', :action => :facet, :as => :dashboard_facet
+      get 'facet/:id',  :action => :facet, :as => :dashboard_facet
+      get 'related/:id',:action => :get_related_file, :as => :related_file
     end
   end
 

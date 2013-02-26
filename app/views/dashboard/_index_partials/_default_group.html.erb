@@ -26,7 +26,7 @@ limitations under the License.
   </tr>
   </thead> 
   <% end %>
-  <tbody> 
+  <tbody>
   <% docs.each_with_index do |document,counter| %>
     <%= render :partial => 'dashboard/_index_partials/list_files', :locals => {:document => document, :counter => counter} %>
   <% end %>
