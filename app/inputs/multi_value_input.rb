@@ -32,7 +32,7 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
     input_html_options[:value] = value
     input_html_options[:id] = nil
     input_html_options[:class] = "#{object_name}_#{attribute_name}"
-    input_html_options[:'aria-labelledby'] = "#{attribute_name}_label"
+    input_html_options[:'aria-labelledby'] = "#{object_name}_#{attribute_name}_label"
     @builder.text_field(attribute_name, input_html_options)
   end
 
