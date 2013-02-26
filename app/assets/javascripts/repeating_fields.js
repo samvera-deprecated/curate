@@ -30,11 +30,13 @@ $(function() {
 
     add_to_list: function( event ) {
       event.preventDefault();
-      console.log('** Add **');
-      $(event.target)
-        .parents('.field-wrapper')
-        .clone()
-        .appendTo($('.listing', this.element));
+      var $lastField = $(event.target).parents('.field-wrapper'),
+          $newField = $lastField.clone(),
+          $listing = $('.listing', this.element);
+
+      $('.add', $lastField).remove();
+      $listing.append($newField);
+
       this._trigger("remove");
     },
 
