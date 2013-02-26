@@ -7,7 +7,7 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
     text = "<ul>\n"
 
     collection.each do |value|
-      if value.to_s.strip.any?
+      unless value.to_s.strip.blank?
         input_html_options[:value] = value
         input_html_options[:id] = "#{object_name}_#{attribute_name}_#{counter}"
         counter += 1
