@@ -4,7 +4,7 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
     input_html_options[:type] ||= 'text'
     input_html_options[:name] ||= "#{object_name}[#{attribute_name}][]"
     counter = 1
-    text = "<ul class=\"multi-value listing\">\n"
+    text = "<ul class=\"listing\">\n"
 
     collection.each do |value|
       unless value.to_s.strip.blank?
