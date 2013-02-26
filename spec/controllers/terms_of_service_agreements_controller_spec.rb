@@ -16,12 +16,12 @@ describe TermsOfServiceAgreementsController do
     end
     describe '#create' do
       it 'redirects to remember location if agreed' do
-        post :create, commit: TermsOfServiceAgreementsController::I_AGREE_TEXT
+        post :create, commit: controller.i_agree_text
         response.status.should == 302
         expect(response).to redirect_to(classify_path)
       end
       it 'flashes a notice if you disagree and renders new' do
-        post :create, commit: "NO #{TermsOfServiceAgreementsController::I_AGREE_TEXT}"
+        post :create, commit: controller.i_do_not_agree_text
         expect(response).to render_template('new')
         response.response_code.should == 200
       end
