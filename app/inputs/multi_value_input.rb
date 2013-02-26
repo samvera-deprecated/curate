@@ -1,7 +1,7 @@
 class MultiValueInput < SimpleForm::Inputs::CollectionInput
   def input
     input_html_classes.unshift("string")
-    input_html_options[:type] ||= 'string' if html5?
+    input_html_options[:type] ||= 'text'
     input_html_options[:name] ||= "#{object_name}[#{attribute_name}][]"
     counter = 1
     text = "<ul class=\"multi-value listing\">\n"
