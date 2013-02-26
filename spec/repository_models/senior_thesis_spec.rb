@@ -23,7 +23,6 @@ describe SeniorThesis do
   it('has a subject') { subject.should respond_to(:subject) }
 
   it 'uses #noid for #to_param' do
-    puts subject.noid
     subject.to_param.should == subject.noid
   end
 end
