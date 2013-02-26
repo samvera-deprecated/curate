@@ -18,15 +18,32 @@ describe CurationConcern::SeniorThesesController do
   end
 
   describe '#create' do
+    it 'does not allow a thesis to be created when agreement is not set' do
+      expect{
+        post :create, senior_thesis: valid_attributes, accept_contributor_agreement: nil
+      }.to_not change { SeniorThesis.count }
+      expect(response).to render_template('new')
+      response.response_code.should == 409
+    end
+
     it 'creates a Senior Thesis when valid' do
       expect {
-        post :create, senior_thesis: valid_attributes
+        post(
+          :create,
+          senior_thesis: valid_attributes,
+          accept_contributor_agreement: controller.accept_contributor_agreement_accepting_value
+        )
       }.to change { SeniorThesis.count }.by(1)
       expected_path = controller.polymorphic_path([:curation_concern, controller.curation_concern])
       expect(response).to redirect_to(expected_path)
     end
+
     it 'does not create a Senior Thesis when invalid' do
-      post :create, senior_thesis: invalid_attributes
+      post(
+        :create,
+        senior_thesis: invalid_attributes,
+        accept_contributor_agreement: controller.accept_contributor_agreement_accepting_value
+      )
       expect(response).to render_template('new')
       response.response_code.should == 422
     end

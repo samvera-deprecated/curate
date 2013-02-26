@@ -6,14 +6,41 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   end
 
   def create
-    @curation_concern = SeniorThesis.new(pid: CurationConcern.mint_a_pid)
-    CurationConcern::Actions.create_metadata(@curation_concern, current_user, params[:senior_thesis])
-    respond_with([:curation_concern,@curation_concern])
-  rescue ActiveFedora::RecordInvalid
-    respond_with([:curation_concern, @curation_concern]) do |wants|
-      wants.html { render 'new', status: :unprocessable_entity }
+    if verify_acceptance_of_user_agreement!
+      begin
+        @curation_concern = SeniorThesis.new(pid: CurationConcern.mint_a_pid)
+        CurationConcern::Actions.create_metadata(@curation_concern, current_user, params[:senior_thesis])
+        respond_with([:curation_concern, @curation_concern])
+      rescue ActiveFedora::RecordInvalid
+        respond_with([:curation_concern, @curation_concern]) do |wants|
+          wants.html { render 'new', status: :unprocessable_entity }
+        end
+      end
     end
   end
+
+  def verify_acceptance_of_user_agreement!
+    if current_user_is_accepting_contributor_agreement?
+      return true
+    else
+      # Calling the new action to make sure we are doing our best to preserve
+      # the input values; Its a stretch but hopefully it'll work
+      self.new
+      respond_with([:curation_concern, curation_concern]) do |wants|
+        wants.html {
+          flash.now[:error] = "You must accept the contributor agreement"
+          render 'new', status: :conflict
+        }
+      end
+      return false
+    end
+  end
+  protected :verify_acceptance_of_user_agreement!
+
+  def current_user_is_accepting_contributor_agreement?
+    params[:accept_contributor_agreement] == accept_contributor_agreement_accepting_value
+  end
+  protected :current_user_is_accepting_contributor_agreement?
 
   def show
     @curation_concern = SeniorThesis.find(params[:id])

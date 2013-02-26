@@ -64,8 +64,22 @@ describe 'end to end behavior', type: :feature do
     end
     def describe_your_thesis
       page.should have_content('Describe Your Thesis')
+      # Without accepting agreement
       within('#new_senior_thesis') do
         fill_in("Title", with: initial_title)
+        attach_file("Upload your thesis", initial_file_path)
+        click_on("Create Senior thesis")
+      end
+
+      within('.alert.error') do
+        page.should have_content('You must accept the contributor agreement')
+      end
+      page.should have_content("Describe Your Thesis")
+
+      # With accepting agreement
+      within('#new_senior_thesis') do
+        # The system remembers the initial title
+        find("#senior_thesis_title").value.should == initial_title
         attach_file("Upload your thesis", initial_file_path)
         check("Accept contributor agreement")
         click_on("Create Senior thesis")
