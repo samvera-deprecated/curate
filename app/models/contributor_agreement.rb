@@ -12,4 +12,8 @@ class ContributorAgreement
   def legally_binding_text
     %(<p class="lawyer_readable">place holder for legally binding text</p>)
   end
+
+  def acceptance_value
+    'accept'
+  end
 end

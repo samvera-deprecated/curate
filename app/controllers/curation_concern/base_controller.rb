@@ -24,7 +24,7 @@ class CurationConcern::BaseController < ApplicationController
   helper_method :curation_concern
 
   def accept_contributor_agreement_accepting_value
-    'accept'
+    contributor_agreement.acceptance_value
   end
   helper_method :accept_contributor_agreement_accepting_value
 
