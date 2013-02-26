@@ -57,4 +57,8 @@ class SeniorThesis < ActiveFedora::Base
   def current_thesis_file
     generic_files.first
   end
+
+  def to_param
+    noid
+  end
 end
