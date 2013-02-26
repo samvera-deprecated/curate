@@ -12,11 +12,39 @@ class SeniorThesis < ActiveFedora::Base
 
   has_many :generic_files, :property => :is_part_of
 
-  delegate_to :descMetadata, [:title, :created, :description, :contributor, :creator], :unique => true
-  delegate_to :descMetadata, [:date_uploaded, :date_modified], :unique => true
+  delegate_to(
+    :descMetadata,
+    [
+      :title,
+      :created,
+      :description,
+      :date_uploaded,
+      :date_modified,
+      :available,
+      :archived_object_type,
+      :creator,
+      :content_format,
+    ],
+    unique: true
+  )
+  delegate_to(
+    :descMetadata,
+    [
+      :contributor,
+      :contributor,
+      :publisher,
+      :bibliographic_citation,
+      :source,
+      :language,
+      :extent,
+      :requires,
+      :subject
+    ]
+  )
   delegate_to :properties, [:relative_path, :depositor], :unique => true
-  delegate_to :descMetadata, [:contributor]
   validates :title, presence: true
+
+  before_save {|obj| obj.archived_object_type = self.class.to_s }
 
   def to_solr(solr_doc={}, opts={})
     super(solr_doc, opts)

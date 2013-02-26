@@ -1,3 +1,4 @@
+<% content_for :layout_name, 'curate_nd, ' %>
 <% content_for :body do %>
 
   <header id="banner" role="banner">
@@ -6,10 +7,10 @@
         <div class="container">
           <div id="brand-bar" class="row">
             <div class="university span6">
-              <h3><a href="http://nd.edu">University <i>of</i> Notre Dame</a></h3>
+              <h3><a href="http://nd.edu" tabindex="-1">University <i>of</i> Notre Dame</a></h3>
             </div>
             <div class="division span6">
-              <h2><a href="http://www.library.nd.edu">Hesburgh Libraries</a></h2>
+              <h2><a href="http://www.library.nd.edu" tabindex="-1">Hesburgh Libraries</a></h2>
             </div>
           </div>
         </div>
@@ -18,7 +19,7 @@
         <div class="container">
           <div id="title-bar" class="row">
             <div id="site-title" class="span8">
-              <h1><%= link_to 'CurateND', root_path %></h1>
+              <h1><%= link_to 'CurateND', root_path, tabindex: :'-1' %></h1>
             </div>
             <div id="site-search" class="span4">
             </div>
@@ -27,6 +28,8 @@
       </div>
     </hgroup>
   </header>
+
+  <%= render 'shared/action_bar' unless yield(:hide_page_navigation) == 'yes' %>
 
   <div id="main" role="main" class="container">
     <%= content_for?(:main) ? yield(:main) : yield %>

@@ -1,9 +1,9 @@
 class ApplicationController < ActionController::Base
   # Adds a few additional behaviors into the application controller
-   include Blacklight::Controller
-# Adds Hydra behaviors into the application controller
-  include Hydra::Controller::ControllerBehavior  
-# Adds Sufia behaviors into the application controller 
+  include Blacklight::Controller
+  # Adds Hydra behaviors into the application controller
+  include Hydra::Controller::ControllerBehavior
+  # Adds Sufia behaviors into the application controller
   include Sufia::Controller
 
 
@@ -13,4 +13,16 @@ class ApplicationController < ActionController::Base
   layout 'hydra-head'
 
   protect_from_forgery
+
+  protected
+  def agreed_to_terms_of_service!
+    return false unless current_user
+    if current_user.agreed_to_terms_of_service?
+      return current_user
+    else
+      redirect_to new_terms_of_service_agreement_path
+      return false
+    end
+  end
+
 end

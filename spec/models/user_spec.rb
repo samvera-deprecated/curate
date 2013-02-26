@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe User do
+
+  it 'should set agree to terms of service' do
+    user = FactoryGirl.create(:user, agreed_to_terms_of_service: false)
+    user.agreed_to_terms_of_service?.should == false
+    user.agree_to_terms_of_service!
+    user.agreed_to_terms_of_service?.should == true
+  end
+
   describe '.batchuser' do
     it 'persists an instance the first time, then returns the persisted object' do
       expect {

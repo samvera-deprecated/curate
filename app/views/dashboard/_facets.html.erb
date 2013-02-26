@@ -14,10 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 %>
 
-<% # main container for facets/limits menu -%>
 <div>
-  <%= link_to '<i class="icon-upload icon-white"></i> Upload A File'.html_safe, classify_path, {:class => "btn btn-primary"}  %><br />
-  <div class="row">&nbsp;</div>
   <h2>Browse By</h2>
   <ul class="nav nav-list" id="facets">
     <%= render_facet_partials %>

@@ -3,7 +3,7 @@
   <%= link_to "Edit Senior Thesis", edit_polymorphic_path([:curation_concern, curation_concern]) %>
 </p>
 <h2 class="non lower">Thesis Details</h2>
-<dl>
+<dl class="<%= dom_class(curation_concern) %> attributes">
   <dt>Title</dt>
   <dd><%= curation_concern.title %></dd>
   <dt>Description</dt>

@@ -4,6 +4,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'database_cleaner'
+require 'capybara/rspec'
 
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -30,7 +31,8 @@ RSpec.configure do |config|
 
   config.use_transactional_fixtures = false
 
-  config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::TestHelpers, type: :controller
+  config.include Warden::Test::Helpers, type: :feature
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
