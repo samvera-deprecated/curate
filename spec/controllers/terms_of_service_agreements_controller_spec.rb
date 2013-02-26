@@ -1,11 +1,30 @@
 require 'spec_helper'
 
 describe TermsOfServiceAgreementsController do
-  describe '#new' do
-    it 'renders a form'
+  before(:each) do
+    sign_in(user)
   end
-  describe '#create' do
-    it 'redirects to remember location if agreed'
-    it 'flashes a notice if you disagree and renders new'
+  describe 'without already agreeing' do
+    let(:user) { FactoryGirl.create(:user, agreed_to_terms_of_service: false) }
+
+    describe '#new' do
+      it 'renders a form for agreement if not already agreed' do
+        get :new
+        response.status.should == 200
+        expect(response).to render_template('new')
+      end
+    end
+    describe '#create' do
+      it 'redirects to remember location if agreed' do
+        post :create, commit: TermsOfServiceAgreementsController::I_AGREE_TEXT
+        response.status.should == 302
+        expect(response).to redirect_to(classify_path)
+      end
+      it 'flashes a notice if you disagree and renders new' do
+        post :create, commit: "NO #{TermsOfServiceAgreementsController::I_AGREE_TEXT}"
+        expect(response).to render_template('new')
+        response.response_code.should == 200
+      end
+    end
   end
 end
