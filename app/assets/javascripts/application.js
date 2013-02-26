@@ -17,3 +17,5 @@
 //= require blacklight/blacklight
 //= require sufia
 //= require_tree .
+
+$('.multi_value.control-group').manage_fields();

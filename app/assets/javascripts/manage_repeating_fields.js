@@ -2,7 +2,7 @@
 // There are a lot of assumptions about the structure of the classes and elements.
 // These assumptions are reflected in the MultiValueInput class.
 
-$(function() {
+(function($){
   $.widget( "curate.manage_fields", {
     options: {
       change: null,
@@ -62,7 +62,4 @@ $(function() {
       this.element.removeClass( "managed" );
     },
   });
-
-  $('.multi_value.control-group').manage_fields();
-
-});
+})(jQuery);
