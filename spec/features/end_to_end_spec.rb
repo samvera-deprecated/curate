@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'casclient'
 require 'casclient/frameworks/rails/filter'
 
-describe 'welcome page authentication', type: :feature do
+describe 'end to end behavior', type: :feature do
   before(:each) do
     Warden.test_mode!
   end
@@ -11,6 +11,11 @@ describe 'welcome page authentication', type: :feature do
     Warden.test_reset!
   end
   let(:user) { FactoryGirl.create(:user, agreed_to_terms_of_service: agreed_to_terms_of_service) }
+  let(:prefix) { Time.now.strftime("%Y-%m-%d-%H-%M-%S-%L") }
+  let(:initial_title) { "#{prefix} Something Special" }
+  let(:initial_file_path) { __FILE__ }
+  let(:updated_title) { "#{prefix} Another Not Quite" }
+  let(:updated_file_path) { Rails.root.join('app/controllers/application_controller.rb').to_s }
 
   describe 'with user who has already agreed to the terms of service' do
     let(:agreed_to_terms_of_service) { true }
@@ -21,13 +26,8 @@ describe 'welcome page authentication', type: :feature do
       page.should have_content("What are you uploading?")
     end
   end
-  describe 'with user who has _not_ agreed to the terms of service' do
+  describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
-    let(:prefix) { Time.now.strftime("%Y-%m-%d-%H-%M-%S-%L") }
-    let(:initial_title) { "#{prefix} Something Special" }
-    let(:initial_file_path) { __FILE__ }
-    let(:updated_title) { "#{prefix} Another Not Quite" }
-    let(:updated_file_path) { Rails.root.join('app/controllers/application_controller.rb').to_s }
     it "displays the terms of service page after authentication" do
       login_as(user, scope: :user, run_callbacks: false)
 
