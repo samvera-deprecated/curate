@@ -2,13 +2,14 @@ require 'spec_helper'
 
 describe CurationConcern::Actions do
   let(:pid) { CurationConcern.mint_a_pid }
-  let(:curation_concern) { SeniorThesis.new(pid: pid)}
   let(:user) { FactoryGirl.create(:user) }
+  let(:curation_concern) { SeniorThesis.new(pid: pid)}
   let(:thesis_file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false)}
   describe '.create_metadata' do
     let(:attributes) {
       FactoryGirl.attributes_for(:senior_thesis).tap {|a|
         a[:thesis_file] = thesis_file
+        a[:visibility] = 'psu'
       }
     }
     describe 'valid attributes' do
@@ -35,12 +36,37 @@ describe CurationConcern::Actions do
           curation_concern.send(key).should == value
         end
       end
+      it 'should have restricted permission' do
+        curation_concern.permissions.select{|r| r[:type] == 'group' && r[:name]=='registered'}.count == 1
+      end
       it 'creates a generic file' do
         new_curation_concern = curation_concern.class.find(curation_concern.pid)
         new_curation_concern.generic_files.count.should == 1
         # Sanity test to make sure the file we uploaded is stored.
         new_curation_concern.generic_files.first.content.content.should == thesis_file.read
       end
+    end
+  end
+
+  describe '.update_metadata' do
+    let(:attributes) {
+      FactoryGirl.attributes_for(:senior_thesis).tap {|a|
+        a[:visibility] = 'open'
+      }
+    }
+    describe 'valid attributes' do
+      before(:all) do
+        curation_concern.apply_depositor_metadata(user.user_key)
+        CurationConcern::Actions.update_metadata(curation_concern, user, attributes)
+      end
+      it 'should persist' do
+        expect(curation_concern).to be_persisted
+      end
+
+      it 'should have full permission' do
+        curation_concern.permissions.select{|r| r[:type] == 'group' && r[:name]=='public'}.count == 1
+      end
+
     end
   end
 end
