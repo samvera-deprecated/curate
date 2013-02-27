@@ -12,6 +12,8 @@ LC_ALL=en_US.UTF-8
 
 export PATH=/shared/git/bin:$PATH
 export PATH=/global/soft/fits/current:/shared/fedora_prod36/java/bin:$PATH
+export RAILS_ENV=ci
+export HEADLESS=true
 
 echo "=-=-=-=-=-=-=-= bundle install"
 /shared/ruby_prod/ruby/1.9.3/bin/bundle install --path="$WORKSPACE/vendor/bundle" --binstubs="$WORKSPACE/vendor/bundle/bin" --shebang '/shared/ruby_prod/ruby/1.9.3/bin/ruby' --deployment --gemfile="$WORKSPACE/Gemfile"
@@ -30,9 +32,6 @@ for f in database.yml solr.yml fedora.yml; do
     echo "=-=-=-=-=-=-=-= copy $f"
     cp secret_ci/curate_nd/$f config/$f
 done
-
-export RAILS_ENV=test
-export HEADLESS=true
 
 echo "=-=-=-=-=-=-=-= rake curatend:ci"
 $WORKSPACE/vendor/bundle/bin/rake --trace curatend:ci
