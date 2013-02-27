@@ -14,8 +14,13 @@ namespace :curatend do
     #Rake::Task["db:create"].invoke
     Rake::Task["db:migrate"].invoke
 
-    Rake::Task['spec'].invoke
+    Rake::Task['curatend:ci_spec'].invoke
     # I don't think we have any cucumber tests ATM
     #Rake::Task['cucumber'].invoke
+  end
+
+  RSpec::Core::RakeTask.new(:ci_spec) do |t|
+    t.pattern = "./spec/**/*_spec.rb"
+    t.rspec_opts = ['--tag ~js:true']
   end
 end
