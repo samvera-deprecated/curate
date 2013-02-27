@@ -4,7 +4,10 @@
 
 namespace :curatend do
   desc "Execute Continuous Integration build (docs, tests with coverage)"
-  task :ci => :environment do
+  task :ci do
+    ENV['RAILS_ENV'] = 'ci'
+    Rails.env = 'ci'
+    Rake::Task['environment'].invoke
     #Rake::Task["hyhead:doc"].invoke
     #Rake::Task["jetty:config"].invoke
     #Rake::Task["db:drop"].invoke

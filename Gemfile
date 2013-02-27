@@ -28,7 +28,7 @@ end
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', :platforms => :ruby
 
-group :test, :development do
+group :test, :development, :ci do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'simplecov'

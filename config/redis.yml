@@ -1,6 +1,8 @@
 development:
   host: localhost
   port: 6379
-test:
+test: &TEST
   host: localhost
   port: 6379
+ci:
+  <<: *TEST
