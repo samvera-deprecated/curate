@@ -2,12 +2,11 @@ class CurationConcern::BaseController < ApplicationController
   layout 'curate_nd'
   include Sufia::Noid # for normalize_identifier method
 
-  before_filter :authenticate_user!, :except => [:show, :citation]
+  before_filter :authenticate_user!, :except => [:show]
   before_filter :agreed_to_terms_of_service!
-  before_filter :has_access?, :except => [:show]
   prepend_before_filter :normalize_identifier, except: [:index, :new, :create]
   before_filter :curation_concern, except: [:index]
-  load_and_authorize_resource :curation_concern, except: [:index, :new, :create]
+  load_and_authorize_resource :curation_concern, except: [:index, :new, :create], class: "ActiveFedora::Base"
 
   # Catch permission errors
   rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
