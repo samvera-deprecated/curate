@@ -28,7 +28,7 @@ fi
 echo "=-=-=-=-=-=-=-= git clone secret_ci"
 git clone git@git.library.nd.edu:secret_ci
 
-for f in database.yml solr.yml fedora.yml; do
+for f in database.yml solr.yml fedora.yml redis.yml; do
     echo "=-=-=-=-=-=-=-= copy $f"
     cp secret_ci/curate_nd/$f config/$f
 done
