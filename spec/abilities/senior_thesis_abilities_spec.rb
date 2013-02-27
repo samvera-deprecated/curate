@@ -13,28 +13,34 @@ describe "User" do
     describe 'creator of object' do
       let(:creating_user) { user }
       let(:current_user) { user }
-      it { should be_able_to(:create, SeniorThesis.new) }
-      it { should be_able_to(:read, senior_thesis) }
-      it { should be_able_to(:update, senior_thesis) }
-      it { should_not be_able_to(:delete, senior_thesis) }
+      it {
+        should be_able_to(:create, SeniorThesis.new)
+        should be_able_to(:read, senior_thesis)
+        should be_able_to(:update, senior_thesis)
+        should_not be_able_to(:delete, senior_thesis)
+      }
     end
 
     describe 'another authenticated user' do
       let(:creating_user) { FactoryGirl.create(:user) }
       let(:current_user) { user }
-      it { should be_able_to(:create, SeniorThesis.new) }
-      it { should_not be_able_to(:read, senior_thesis) }
-      it { should_not be_able_to(:update, senior_thesis) }
-      it { should_not be_able_to(:delete, senior_thesis) }
+      it {
+        should be_able_to(:create, SeniorThesis.new)
+        should_not be_able_to(:read, senior_thesis)
+        should_not be_able_to(:update, senior_thesis)
+        should_not be_able_to(:delete, senior_thesis)
+      }
     end
 
     describe 'a nil user' do
       let(:creating_user) { FactoryGirl.create(:user) }
       let(:current_user) { nil }
-      it { should_not be_able_to(:create, SeniorThesis.new) }
-      it { should_not be_able_to(:read, senior_thesis) }
-      it { should_not be_able_to(:update, senior_thesis) }
-      it { should_not be_able_to(:delete, senior_thesis) }
+      it {
+        should_not be_able_to(:create, SeniorThesis.new)
+        should_not be_able_to(:read, senior_thesis)
+        should_not be_able_to(:update, senior_thesis)
+        should_not be_able_to(:delete, senior_thesis)
+      }
     end
   end
 end
