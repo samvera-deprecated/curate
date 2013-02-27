@@ -1,6 +1,16 @@
 require Sufia::Engine.root.join('app/models/generic_file')
 class GenericFile
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
+
+  delegate_to(
+      :descMetadata,
+      [
+          :title,
+      ],
+      unique: true
+  )
+
+  attr_accessor :revised_thesis_file, :version
   def to_s
     label
   end
@@ -9,6 +19,6 @@ class GenericFile
     title =  title.join(' | ')  if !title.blank?
     title = label if title.blank?
     title = 'No Title' if title.blank?
-    title.to_s
+    title
   end
 end

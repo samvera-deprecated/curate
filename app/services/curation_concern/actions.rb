@@ -37,8 +37,36 @@ module CurationConcern
           user
         )
       end
-      curation_concern.generic_files.each do |f|
-        f.set_visibility(visibility)
+      if curation_concern.respond_to?(:generic_file)
+        curation_concern.generic_files.each do |f|
+          f.set_visibility(visibility)
+        end
+      end
+    end
+
+    def update_file(curation_concern, user, attributes)
+      file = attributes.delete(:revised_thesis_file)
+      title= attributes.delete(:title) || file.original_filename
+      if file
+        Sufia::GenericFile::Actions.create_content(
+          curation_concern,
+          file,
+          title,
+          'content',
+          user
+        )
+      end
+    end
+
+    def update_version(curation_concern, user, attributes)
+      version_to_revert = attributes.delete(:version)
+      if !version_to_revert.blank? and version_to_revert !=  curation_concern.content.latest_version.versionID
+        revision = curation_concern.content.get_version(version_to_revert)
+        mime_type = revision.mimeType.empty? ? "application/octet-stream" : revision.mimeType
+        options = {:label=>revision.label, :mimeType=>mime_type, :dsid=>'content'}
+        curation_concern.add_file_datastream(revision.content, options)
+        curation_concern.record_version_committer(user)
+        curation_concern.save!
       end
     end
   end
