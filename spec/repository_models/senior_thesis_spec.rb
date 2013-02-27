@@ -21,4 +21,8 @@ describe SeniorThesis do
   it('has a extent') { subject.should respond_to(:extent) }
   it('has a requires') { subject.should respond_to(:requires) }
   it('has a subject') { subject.should respond_to(:subject) }
+
+  it 'uses #noid for #to_param' do
+    subject.to_param.should == subject.noid
+  end
 end

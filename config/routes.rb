@@ -16,11 +16,11 @@ CurateNd::Application.routes.draw do
   namespace :curation_concern, path: :concern do
     resources :senior_theses, except: :index
     resources :generic_files, except: :index
+    resources :related_files, path: ":parent_curation_concern_id/related_files"
   end
 
   resources :terms_of_service_agreements, only: [:new, :create]
 
-#  resource 'classify', :only => :index
   match "classify" => "classify#index"
   root to: 'welcome#index'
 end

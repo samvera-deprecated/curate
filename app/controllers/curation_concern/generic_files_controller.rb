@@ -1,9 +1,11 @@
 class CurationConcern::GenericFilesController < CurationConcern::BaseController
   respond_to(:html)
+  def curation_concern
+    @curation_concern ||= GenericFile.find(params[:id])
+  end
 
   def show
-    @curation_concern = GenericFile.find(params[:id])
-    respond_with(@curation_concern)
+    respond_with(curation_concern)
   end
 
   def edit

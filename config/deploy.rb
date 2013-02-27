@@ -143,7 +143,7 @@ end
 namespace :bundle do
   desc "Install gems in Gemfile"
   task :install, :roles => :app do
-    run "#{bundler} install --binstubs='#{release_path}/vendor/bundle/bin' --shebang '#{ruby}' --gemfile='#{release_path}/Gemfile' --without development test --deployment"
+    run "#{bundler} install --binstubs='#{release_path}/vendor/bundle/bin' --shebang '#{ruby}' --gemfile='#{release_path}/Gemfile' --without development test ci --deployment"
   end
 end
 

@@ -1,6 +1,8 @@
 default:
   jetty_port: 8983
-test:
+test: &TEST
   jetty_port: <%= ENV['TEST_JETTY_PORT'] || 8888 %>
   jetty_home: <%= ENV['TEST_JETTY_PATH'] || File.join(Rails.root, 'test_jetty') %>
   startup_wait: 15
+ci:
+  <<: *TEST
