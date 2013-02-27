@@ -32,7 +32,7 @@ describe 'end to end behavior', type: :feature do
   end
   describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
-    it "displays the terms of service page after authentication", js: true do
+    it "displays the terms of service page after authentication" do
       login_as(user, scope: :user, run_callbacks: false)
 
       get_started
