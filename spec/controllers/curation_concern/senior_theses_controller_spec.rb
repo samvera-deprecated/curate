@@ -54,24 +54,23 @@ describe CurationConcern::SeniorThesesController do
   end
 
   describe '#show' do
-    before(:all) do
-      CurationConcern::Actions.create_metadata(subject, user, valid_attributes)
-    end
-    subject { SeniorThesis.new(pid: pid) }
+    subject {
+      FactoryGirl.create_curation_concern(:senior_thesis, user, valid_attributes)
+    }
     let(:pid) { CurationConcern.mint_a_pid }
     it 'should render' do
+      subject
       get :show, id: subject.pid
       response.should be_successful
       controller.curation_concern.should == subject
     end
   end
   describe '#edit' do
-    before(:all) do
-      CurationConcern::Actions.create_metadata(subject, user, valid_attributes)
-    end
-    subject { SeniorThesis.new(pid: pid) }
-    let(:pid) { CurationConcern.mint_a_pid }
+    subject {
+      FactoryGirl.create_curation_concern(:senior_thesis, user, valid_attributes)
+    }
     it 'should render' do
+      subject
       get :edit, id: subject.pid
       response.should be_successful
       controller.curation_concern.should == subject
@@ -79,21 +78,20 @@ describe CurationConcern::SeniorThesesController do
     end
   end
   describe '#update' do
-    before(:each) do
-      sign_in user
-      CurationConcern::Actions.create_metadata(subject, user, valid_attributes)
-    end
-    subject { SeniorThesis.new(pid: pid) }
-    let(:pid) { CurationConcern.mint_a_pid }
+    subject {
+      FactoryGirl.create_curation_concern(:senior_thesis, user, valid_attributes)
+    }
     it 'updates a Senior Thesis when valid' do
+      subject
       expect {
-        put :update, id: pid, senior_thesis: valid_attributes
+        put :update, id: subject.pid, senior_thesis: valid_attributes
       }.to_not change { SeniorThesis.count }.by(1)
       expected_path = controller.polymorphic_path([:curation_concern, subject])
       expect(response).to redirect_to(expected_path)
     end
     it 'does not create a Senior Thesis when invalid' do
-      put :update, id: pid, senior_thesis: invalid_attributes
+      subject
+      put :update, id: subject.pid, senior_thesis: invalid_attributes
       expect(response).to render_template('edit')
       response.response_code.should == 422
     end
