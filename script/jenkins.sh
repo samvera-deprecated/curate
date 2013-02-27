@@ -11,6 +11,7 @@ LANG=en_US.UTF-8
 LC_ALL=en_US.UTF-8
 
 export PATH=/shared/git/bin:$PATH
+export PATH=/global/soft/fits:/shared/fedora_prod36/java/bin:$PATH
 
 echo "=-=-=-=-=-=-=-= bundle install"
 /shared/ruby_prod/ruby/1.9.3/bin/bundle install --path="$WORKSPACE/vendor/bundle" --binstubs="$WORKSPACE/vendor/bundle/bin" --shebang '/shared/ruby_prod/ruby/1.9.3/bin/ruby' --deployment --gemfile="$WORKSPACE/Gemfile"
