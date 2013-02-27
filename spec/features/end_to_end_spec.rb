@@ -39,7 +39,7 @@ describe 'end to end behavior', type: :feature do
       agree_to_terms_of_service
       classify_what_you_are_uploading
       describe_your_thesis
-      view_your_new_thesis
+      path_to_view_thesis = view_your_new_thesis
       path_to_edit_thesis = edit_your_thesis
       view_your_updated_thesis
       view_your_dashboard
@@ -47,6 +47,7 @@ describe 'end to end behavior', type: :feature do
       logout
       login_as(another_user, scope: :user, run_callbacks: false)
       other_persons_thesis_is_not_in_my_dashboard
+      i_can_see_another_users_open_resource(path_to_view_thesis)
       i_cannot_edit_to_another_users_resource(path_to_edit_thesis)
     end
     protected
@@ -94,6 +95,7 @@ describe 'end to end behavior', type: :feature do
     end
 
     def view_your_new_thesis
+      path_to_view_thesis  = page.current_path
       page.should have_content("Thesis Details")
       within(".senior_thesis.attributes") do
         page.should have_content("Title")
@@ -104,7 +106,7 @@ describe 'end to end behavior', type: :feature do
         page.should have_content("Mime type: text/plain")
       end
 
-      return page.current_path
+      return path_to_view_thesis
     end
 
     def edit_your_thesis
@@ -169,6 +171,11 @@ describe 'end to end behavior', type: :feature do
       within('#documents') do
         page.should_not have_content(updated_title)
       end
+    end
+
+    def i_can_see_another_users_open_resource(path_to_other_persons_resource)
+      visit path_to_other_persons_resource
+      page.should have_content(updated_title)
     end
 
     def i_cannot_edit_to_another_users_resource(path_to_other_persons_resource)
