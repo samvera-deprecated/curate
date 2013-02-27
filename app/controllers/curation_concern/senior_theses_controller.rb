@@ -1,8 +1,14 @@
 class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   respond_to(:html)
-
+  def curation_concern
+    @curation_concern ||=
+    if params[:id]
+      SeniorThesis.find(params[:id])
+    else
+      SeniorThesis.new(params[:senior_thesis])
+    end
+  end
   def new
-    @curation_concern = SeniorThesis.new(params[:senior_thesis])
   end
 
   def create
@@ -38,21 +44,18 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   protected :verify_acceptance_of_user_agreement!
 
   def show
-    @curation_concern = SeniorThesis.find(params[:id])
-    respond_with(@curation_concern)
+    respond_with(curation_concern)
   end
 
   def edit
-    @curation_concern = SeniorThesis.find(params[:id])
-    respond_with(@curation_concern)
+    respond_with(curation_concern)
   end
 
   def update
-    @curation_concern = SeniorThesis.find(params[:id])
-    CurationConcern::Actions.update_metadata(@curation_concern, current_user, params[:senior_thesis])
-    respond_with([:curation_concern, @curation_concern])
+    CurationConcern::Actions.update_metadata(curation_concern, current_user, params[:senior_thesis])
+    respond_with([:curation_concern, curation_concern])
   rescue ActiveFedora::RecordInvalid
-    respond_with([:curation_concern, @curation_concern]) do |wants|
+    respond_with([:curation_concern, curation_concern]) do |wants|
       wants.html { render 'edit', status: :unprocessable_entity }
     end
   end

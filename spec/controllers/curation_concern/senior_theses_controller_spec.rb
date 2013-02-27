@@ -2,10 +2,8 @@ require 'spec_helper'
 
 describe CurationConcern::SeniorThesesController do
   render_views
-  before(:each) do
-    sign_in user
-  end
   let(:user) { FactoryGirl.create(:user) }
+  let(:another_user) { FactoryGirl.create(:user) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:senior_thesis) }
   let(:invalid_attributes) { FactoryGirl.attributes_for(:senior_thesis_invalid) }
   let(:contributor_agreement) {
@@ -15,6 +13,7 @@ describe CurationConcern::SeniorThesesController do
 
   describe '#new' do
     it 'should be successful' do
+      sign_in user
       get :new
       controller.curation_concern.should be_kind_of(SeniorThesis)
       response.should be_successful
@@ -23,6 +22,7 @@ describe CurationConcern::SeniorThesesController do
 
   describe '#create' do
     it 'does not allow a thesis to be created when agreement is not set' do
+      sign_in user
       expect{
         post :create, senior_thesis: valid_attributes
       }.to_not change { SeniorThesis.count }
@@ -31,6 +31,7 @@ describe CurationConcern::SeniorThesesController do
     end
 
     it 'creates a Senior Thesis when valid' do
+      sign_in user
       expect {
         post(
           :create,
@@ -43,6 +44,7 @@ describe CurationConcern::SeniorThesesController do
     end
 
     it 'does not create a Senior Thesis when invalid' do
+      sign_in user
       post(
         :create,
         senior_thesis: invalid_attributes,
@@ -59,6 +61,7 @@ describe CurationConcern::SeniorThesesController do
     }
     let(:pid) { CurationConcern.mint_a_pid }
     it 'should render' do
+      sign_in user
       subject
       get :show, id: subject.pid
       response.should be_successful
@@ -70,11 +73,19 @@ describe CurationConcern::SeniorThesesController do
       FactoryGirl.create_curation_concern(:senior_thesis, user, valid_attributes)
     }
     it 'should render' do
+      sign_in user
       subject
       get :edit, id: subject.pid
       response.should be_successful
       controller.curation_concern.should == subject
       expect(response).to render_template('edit')
+    end
+
+    it 'should not be accessible by another user' do
+      sign_in another_user
+      get :edit, id: subject.pid
+      response.status.should == 302
+      expect(response).to redirect_to(root_url)
     end
   end
   describe '#update' do
@@ -82,6 +93,7 @@ describe CurationConcern::SeniorThesesController do
       FactoryGirl.create_curation_concern(:senior_thesis, user, valid_attributes)
     }
     it 'updates a Senior Thesis when valid' do
+      sign_in user
       subject
       expect {
         put :update, id: subject.pid, senior_thesis: valid_attributes
@@ -90,6 +102,7 @@ describe CurationConcern::SeniorThesesController do
       expect(response).to redirect_to(expected_path)
     end
     it 'does not create a Senior Thesis when invalid' do
+      sign_in user
       subject
       put :update, id: subject.pid, senior_thesis: invalid_attributes
       expect(response).to render_template('edit')
