@@ -2,4 +2,4 @@
   <%= link_to 'Back to Dashboard', dashboard_index_path %> |
   <%= link_to "Edit General File", edit_polymorphic_path([:curation_concern, curation_concern]) %>
 </p>
-<%= render partial: "/curation_concern/senior_theses/show_file_details", locals: {generic_file: curation_concern} %>
+<%= render "/curation_concern/senior_theses/show_file_details", generic_file: curation_concern %>
