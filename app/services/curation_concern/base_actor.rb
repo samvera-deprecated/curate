@@ -1,4 +1,8 @@
 module CurationConcern
+  # The CurationConcern base actor should respond to three primary actions:
+  # * #create
+  # * #update
+  # * #delete
   class BaseActor
     attr_reader :curation_concern, :user, :attributes
     def initialize(curation_concern, user, attributes)
@@ -7,17 +11,19 @@ module CurationConcern
       @attributes = attributes
     end
 
-    def create_metadata
+    def create
       save_metadata do
         curation_concern.apply_depositor_metadata(user.user_key)
         curation_concern.creator = user.name
         curation_concern.date_uploaded = Date.today
       end
     end
+    alias_method :create_metadata, :create
 
-    def update_metadata
+    def update
       save_metadata
     end
+    alias_method :update_metadata, :update
 
     def save_metadata
       file = attributes.delete(:thesis_file)
@@ -47,6 +53,7 @@ module CurationConcern
         end
       end
     end
+    protected :save_metadata
 
     def update_file
       file = attributes.delete(:revised_file)
