@@ -12,47 +12,33 @@ module CurationConcern
     end
 
     def create
-      save_metadata do
-        curation_concern.apply_depositor_metadata(user.user_key)
-        curation_concern.creator = user.name
-        curation_concern.date_uploaded = Date.today
-      end
+      curation_concern.apply_depositor_metadata(user.user_key)
+      curation_concern.creator = user.name
+      curation_concern.date_uploaded = Date.today
+      save
     end
-    alias_method :create_metadata, :create
 
     def update
-      save_metadata
+      save
     end
-    alias_method :update_metadata, :update
 
-    def save_metadata
-      file = attributes.delete(:thesis_file)
-      visibility = attributes.delete(:visibility)
-
-      yield if block_given?
-
+    def save
       curation_concern.attributes = attributes
       curation_concern.date_modified = Date.today
       curation_concern.set_visibility(visibility)
       curation_concern.save!
-
-      if file
-        generic_file = GenericFile.new
-        Sufia::GenericFile::Actions.create_metadata(generic_file, user, curation_concern.pid)
-        Sufia::GenericFile::Actions.create_content(
-          generic_file,
-          file,
-          file.original_filename,
-          'content',
-          user
-        )
-      end
-      if curation_concern.respond_to?(:generic_file)
-        curation_concern.generic_files.each do |f|
-          f.set_visibility(visibility)
-        end
-      end
     end
-    protected :save_metadata
+    protected :save
+
+    def visibility
+      return @visibility if defined?(@visibility)
+      @visibility = attributes.delete(:visibility)
+    end
+    protected :visibility
+
+    def visibility_may_have_changed?
+      defined?(@visibility)
+    end
+    protected :visibility_may_have_changed?
   end
 end

@@ -17,7 +17,7 @@ describe CurationConcern::SeniorThesisActor do
     }
     describe 'valid attributes' do
       before(:all) do
-        subject.create_metadata
+        subject.create
       end
       it do
         expect(curation_concern).to be_persisted
@@ -47,7 +47,7 @@ describe CurationConcern::SeniorThesisActor do
     describe 'valid attributes' do
       before(:all) do
         curation_concern.apply_depositor_metadata(user.user_key)
-        subject.update_metadata
+        subject.update
       end
       it do
         expect(curation_concern).to be_persisted

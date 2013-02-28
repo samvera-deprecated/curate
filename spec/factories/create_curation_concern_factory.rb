@@ -3,6 +3,6 @@ def FactoryGirl.create_curation_concern(factory_name, user, attributes = nil)
   curation_concern = factory_name.to_s.classify.constantize.new(pid: pid)
   attributes ||= FactoryGirl.attributes_for(factory_name)
   actor = CurationConcern::BaseActor.new(curation_concern, user, attributes)
-  actor.create_metadata
+  actor.create
   curation_concern
 end
