@@ -22,7 +22,7 @@
         <legend> Versioning</legend>
         <%= "Current version uploaded on #{curation_concern.content.latest_version.dsCreateDate.localtime.to_formatted_s(:long_ordinal)} [by #{curation_concern.content.version_committer(curation_concern.content.latest_version)}]"%>
         <%= f.input :version , label: "Restore Previous Version from" do %>
-          <%= f.select :version, curation_concern.content.versions.map { |version| ["Restore from #{version.dsCreateDate.localtime.to_formatted_s(:long_ordinal)} [ by #{curation_concern.content.version_committer(version)}]", version.versionID, { class: curation_concern.content.version_committer(version) }] }, include_blank: true %>
+          <%= f.select :version, curation_concern.versions.map { |version| ["Restore from #{version.dsCreateDate.localtime.to_formatted_s(:long_ordinal)} [ by #{curation_concern.content.version_committer(version)}]", version.versionID, { class: curation_concern.content.version_committer(version) }] }, include_blank: true %>
         <% end %>
       </fieldset>
     </div>
