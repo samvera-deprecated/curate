@@ -1,13 +1,13 @@
 module CurationConcern
   class SeniorThesisActor < CurationConcern::BaseActor
 
-    def create
+    def create!
       super
       create_thesis_file
       update_contained_generic_file_visibility
     end
 
-    def update
+    def update!
       super
       update_thesis_file
       update_contained_generic_file_visibility
