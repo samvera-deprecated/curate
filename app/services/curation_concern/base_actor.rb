@@ -9,6 +9,7 @@ module CurationConcern
       @curation_concern = curation_concern
       @user = user
       @attributes = attributes
+      @visibility = attributes.delete(:visibility)
     end
 
     def create
@@ -30,14 +31,11 @@ module CurationConcern
     end
     protected :save
 
-    def visibility
-      return @visibility if defined?(@visibility)
-      @visibility = attributes.delete(:visibility)
-    end
+    attr_reader :visibility
     protected :visibility
 
     def visibility_may_have_changed?
-      defined?(@visibility)
+      !!@visibility
     end
     protected :visibility_may_have_changed?
   end
