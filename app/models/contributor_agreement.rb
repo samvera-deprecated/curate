@@ -7,7 +7,7 @@ class ContributorAgreement
   end
 
   def human_readable_text
-    human_readable_text <<-HTML
+    <<-HTML
     <p class="human_readable contributor_agreement">
       place holder for human readable text
     </p>
@@ -15,7 +15,7 @@ class ContributorAgreement
   end
 
   def legally_binding_text
-    legally_binding_text <<-HTML
+    <<-HTML
     <p class="lawyer_readable contributor_agreement">
       place holder for legally binding text
     </p>
