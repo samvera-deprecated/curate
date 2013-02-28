@@ -4,7 +4,6 @@ module CurationConcern
     def create!
       super
       create_thesis_file
-      update_contained_generic_file_visibility
     end
 
     def update!
@@ -25,6 +24,7 @@ module CurationConcern
         Sufia::GenericFile::Actions.create_metadata(
           generic_file, user, curation_concern.pid
         )
+        generic_file.set_visibility(visibility)
         attach_file(generic_file, thesis_file)
       end
     end
@@ -40,6 +40,7 @@ module CurationConcern
       if visibility_may_have_changed?
         curation_concern.generic_files.each do |f|
           f.set_visibility(visibility)
+          f.save!
         end
       end
     end
