@@ -125,12 +125,11 @@ end
 
 namespace :worker do
   task :start, :roles => :work do
-    run <<EOS
-cat > /opt/resque-pool-info <<EOF
-RESQUE_POOL_ROOT=/path/to/app/¬
-RESQUE_POOL_ENV=production¬
-EOF
-EOS
+    target_file = "/opt/resque-pool-info"
+    run [
+      "echo \"RESQUE_POOL_ROOT=$(pwd)\" > #{target_file}",
+      "echo \"RESQUE_POOL_ENV=$(pwd)\" >> #{target_file}"
+    ].join(" && ")
   end
 end
 
