@@ -15,9 +15,6 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
     if verify_acceptance_of_user_agreement!
       begin
         @curation_concern = SeniorThesis.new(pid: CurationConcern.mint_a_pid)
-        actor = CurationConcern::SeniorThesisActor.new(
-          curation_concern, current_user, params[:senior_thesis]
-        )
         actor.create!
         respond_with([:curation_concern, @curation_concern])
       rescue ActiveFedora::RecordInvalid
@@ -66,8 +63,9 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   def destroy
   end
 
-  def actor
-    @actor ||= CurationConcern::SeniorThesisActor.new(
+  include Morphine
+  register :actor do
+    CurationConcern::SeniorThesisActor.new(
       curation_concern,
       current_user,
       params[:senior_thesis]

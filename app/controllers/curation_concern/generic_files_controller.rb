@@ -13,7 +13,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   def update
-    actor.update
+    actor.update!
     respond_with([:curation_concern, curation_concern])
   rescue ActiveFedora::RecordInvalid
     respond_with([:curation_concern, curation_concern]) do |wants|
@@ -21,8 +21,9 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
     end
   end
 
-  def actor
-    @actor ||= CurationConcern::GenericFileActor.new(
+  include Morphine
+  register :actor do
+    CurationConcern::GenericFileActor.new(
       curation_concern,
       current_user,
       params[:generic_file]
