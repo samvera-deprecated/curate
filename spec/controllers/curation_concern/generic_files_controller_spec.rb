@@ -15,6 +15,21 @@ describe CurationConcern::GenericFilesController do
     end
   end
 
+  describe '#update' do
+    it 'updates' do
+      updated_title = Time.now.to_s
+      generic_file
+      sign_in(user)
+      put :update, id: generic_file.to_param, generic_file: {title: updated_title}
+      response.status.should == 302
+      expect(response).to(
+        redirect_to(
+          controller.polymorphic_path([:curation_concern, generic_file])
+        )
+      )
+    end
+  end
+
   describe '#show' do
     it 'should be successful' do
       generic_file
