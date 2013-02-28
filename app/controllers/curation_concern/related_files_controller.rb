@@ -30,5 +30,16 @@ class CurationConcern::RelatedFilesController < CurationConcern::BaseController
   end
 
   def create
+    actor.create!
+    respond_with([:curation_concern, parent_curation_concern])
+  rescue ActiveFedora::RecordInvalid
+    respond_with([:curation_concern, curation_concern]) do |wants|
+      wants.html { render 'new', status: :unprocessable_entity }
+    end
   end
+
+  include Morphine
+  register :actor do
+  end
+
 end

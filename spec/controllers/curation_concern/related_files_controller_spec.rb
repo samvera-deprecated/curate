@@ -13,8 +13,8 @@ describe CurationConcern::RelatedFilesController do
     controller.parent_curation_concern.should == parent_curation_concern
   end
 
-  it 'has a #curation_concern' do
-    controller.curation_concern.should be_an_instance_of(GenericFile)
+  it 'uses an actor for processing actions' do
+    controller.actor.should be_an_kind_of(CurationConcern::BaseActor)
   end
 
   describe '#new' do
@@ -34,22 +34,54 @@ describe CurationConcern::RelatedFilesController do
     end
   end
 
+  let(:actor) { double('actor') }
+  let(:actors_action) { nil }
+  let(:failing_actor) {
+    actor.
+    should_receive(actors_action).
+    and_raise(ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new))
+    actor
+  }
+  let(:successful_actor) {
+    actor.should_receive(actors_action).and_return(true)
+    actor
+  }
   describe '#create' do
-    xit 'attaches a singular file' do
+    let(:actors_action) { :create! }
+
+    it 'redirects to parent when successful' do
       sign_in(user)
       parent_curation_concern
-      expect {
-        post(
-          :create,
-          parent_curation_concern_id: parent_curation_concern.to_param,
-          related_file: { title: "Title", file: file }
-        )
-      }.to change { GenericFile.count }.by(1)
+      controller.actor = successful_actor
+
+      post(
+        :create,
+        parent_curation_concern_id: parent_curation_concern.to_param,
+        related_file: { title: "Title", file: file }
+      )
+
       expect(response).to(
         redirect_to(
-          polymorphic_path([:curation_concern, parent_curation_concern])
+          controller.polymorphic_path(
+            [:curation_concern, parent_curation_concern]
+          )
         )
       )
+    end
+
+    it 'renders form when unsuccessful' do
+      sign_in(user)
+      parent_curation_concern
+      controller.actor = failing_actor
+
+      post(
+        :create,
+        parent_curation_concern_id: parent_curation_concern.to_param,
+        related_file: { title: "Title", file: file }
+      )
+
+      expect(response).to render_template('new')
+      response.status.should == 422
     end
   end
 
