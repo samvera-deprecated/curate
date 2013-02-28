@@ -1,4 +1,4 @@
-/* Fonts
+/* Official University Fonts
 ----------------------------------------------------*/
 @font-face {font-family:GalaxiePolarisCondensedBook;
   src:url('//www.nd.edu/assets/fonts/GalaxiePolarisCondensed-Book.eot');
@@ -6,4 +6,15 @@
   url('//www.nd.edu/assets/fonts/GalaxiePolarisCondensed-Book.woff') format('woff'),
   url('//www.nd.edu/assets/fonts/GalaxiePolarisCondensed-Book.ttf') format('truetype'),
   url('//www.nd.edu/assets/fonts/GalaxiePolarisCondensed-Book.svg#svgGalaxiePolarisCondensedBook') format('svg');
+}
+
+/* BLOKK font for mokups see: http://blokkfont.com
+----------------------------------------------------*/
+@font-face {font-family: 'BLOKKNeue-Regular';
+  src: url('BLOKKNeue-Regular.eot');
+  src: url('BLOKKNeue-Regular.eot?#iefix') format('embedded-opentype'),
+       url('BLOKKNeue-Regular.woff') format('woff'),
+       url('BLOKKNeue-Regular.svg#BLOKKNeue-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
