@@ -16,8 +16,28 @@ describe CurationConcern::GenericFilesController do
   end
 
   describe '#update' do
+    let(:updated_title) { Time.now.to_s }
+    let(:failing_actor) {
+      actor.
+        should_receive(:update!).
+        and_raise(ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new))
+      actor
+    }
+    let(:successful_actor) {
+      actor.should_receive(:update!).and_return(true)
+      actor
+    }
+    let(:actor) { double('actor') }
+    it 're-renders when update fails' do
+      generic_file
+      controller.actor = failing_actor
+      sign_in(user)
+      put :update, id: generic_file.to_param, generic_file: {title: updated_title}
+      expect(response).to render_template('edit')
+      response.status.should == 422
+    end
+
     it 'updates' do
-      updated_title = Time.now.to_s
       generic_file
       sign_in(user)
       put :update, id: generic_file.to_param, generic_file: {title: updated_title}
