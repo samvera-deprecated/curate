@@ -8,8 +8,7 @@ class GenericFile
   end
 
   def display_title
-    title =  title.join(' | ')  if !title.blank?
-    title = label if title.blank?
+    title =  self.title.blank? ? label : self.title
     title = 'No Title' if title.blank?
     title
   end
