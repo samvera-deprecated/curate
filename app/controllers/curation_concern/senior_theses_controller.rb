@@ -16,14 +16,27 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
       begin
         @curation_concern = SeniorThesis.new(pid: CurationConcern.mint_a_pid)
         actor.create!
-        respond_with([:curation_concern, @curation_concern])
+        respond_for_create
       rescue ActiveFedora::RecordInvalid
-        respond_with([:curation_concern, @curation_concern]) do |wants|
+        respond_with([:curation_concern, curation_concern]) do |wants|
           wants.html { render 'new', status: :unprocessable_entity }
         end
       end
     end
   end
+
+  def respond_for_create
+    if params[:submit] == create_and_add_related_files_submit_value
+      respond_to do |wants|
+        wants.html {
+          redirect_to new_curation_concern_related_file_path(curation_concern)
+        }
+      end
+    else
+      respond_with([:curation_concern, curation_concern])
+    end
+  end
+  protected :respond_for_create
 
   def verify_acceptance_of_user_agreement!
     if contributor_agreement.is_being_accepted?
