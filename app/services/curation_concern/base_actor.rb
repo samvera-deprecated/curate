@@ -12,16 +12,18 @@ module CurationConcern
       @visibility = attributes.delete(:visibility)
     end
 
-    def create
+    def create!
       curation_concern.apply_depositor_metadata(user.user_key)
       curation_concern.creator = user.name
       curation_concern.date_uploaded = Date.today
       save
     end
+    alias_method :create, :create!
 
-    def update
+    def update!
       save
     end
+    alias_method :update, :update!
 
     def save
       curation_concern.attributes = attributes

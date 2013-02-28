@@ -18,7 +18,7 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
         actor = CurationConcern::SeniorThesisActor.new(
           curation_concern, current_user, params[:senior_thesis]
         )
-        actor.create
+        actor.create!
         respond_with([:curation_concern, @curation_concern])
       rescue ActiveFedora::RecordInvalid
         respond_with([:curation_concern, @curation_concern]) do |wants|
@@ -55,7 +55,7 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   end
 
   def update
-    actor.update
+    actor.update!
     respond_with([:curation_concern, curation_concern])
   rescue ActiveFedora::RecordInvalid
     respond_with([:curation_concern, curation_concern]) do |wants|
