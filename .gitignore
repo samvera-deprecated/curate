@@ -16,5 +16,9 @@
 .sass-cache
 .idea/*
 
+# Ignore Vagrant files for now
+.vagrant
+Vagrantfile
+
 *~
 coverage/
