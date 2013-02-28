@@ -469,6 +469,7 @@ DEPENDENCIES
   factory_girl_rails
   jettywrapper
   jquery-rails
+  morphine
   mysql2
   rails (= 3.2.11)
   rails_best_practices
