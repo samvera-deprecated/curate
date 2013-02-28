@@ -9,6 +9,10 @@ describe User do
     user.agreed_to_terms_of_service?.should == true
   end
 
+  it 'has a #to_s that is #username' do
+    User.new(username: 'hello').to_s.should == 'hello'
+  end
+
   describe '.batchuser' do
     it 'persists an instance the first time, then returns the persisted object' do
       expect {

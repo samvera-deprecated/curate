@@ -1,10 +1,11 @@
 module CurationConcern
   class GenericFileActor < CurationConcern::BaseActor
-    def update
+    def update!
       super
       update_file
       update_version
     end
+    alias_method :update, :update!
     protected
     def update_file
       file = attributes.delete(:revised_file)
@@ -17,7 +18,7 @@ module CurationConcern
     def update_version
       version_to_revert = attributes.delete(:version)
       return true if version_to_revert.blank?
-      return true if version_to_revert.to_s ==  curation_concern.current_version
+      return true if version_to_revert.to_s ==  curation_concern.current_version_id
 
       revision = curation_concern.content.get_version(version_to_revert)
       mime_type = revision.mimeType.empty? ? "application/octet-stream" : revision.mimeType

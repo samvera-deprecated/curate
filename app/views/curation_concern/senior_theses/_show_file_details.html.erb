@@ -54,7 +54,7 @@
                 <% values[0..length].each_with_index do |value, idx| %>
                   <% next if value.empty? %>
                   <%= "#{label}: #{value.truncate(250)}" %>
-                  <%= "<br />".html_safe unless idx == length %> 
+                  <%= "<br />".html_safe unless idx == length %>
                 <% end %>
                 <% if length != values.length %>
                    <%= render :partial => "generic_files/extra_fields_modal", :locals=>{:name=>term, :values=> values, :start=>Sufia::Engine.config.fits_message_length}%>

@@ -12,7 +12,7 @@ class MintPurl
   end
 
   private
-  # Retreive Fedora Object for the give obj_id (PID). 
+  # Retreive Fedora Object for the give obj_id (PID).
   def retreive_fedora_object(obj_id)
     return ActiveFedora::Base.new(obj_id, cast: true)
   end
