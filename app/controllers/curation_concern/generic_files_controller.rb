@@ -13,7 +13,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   def update
-    actor = CurationConcern::BaseActions.new(curation_concern, current_user, params[:generic_file])
+    actor = CurationConcern::BaseActor.new(curation_concern, current_user, params[:generic_file])
     actor.update_metadata
     actor.update_file
     actor.update_version

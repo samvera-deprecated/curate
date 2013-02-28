@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe CurationConcern::BaseActions do
+describe CurationConcern::BaseActor do
   let(:pid) { CurationConcern.mint_a_pid }
   let(:user) { FactoryGirl.create(:user) }
   let(:curation_concern) { SeniorThesis.new(pid: pid)}
   let(:thesis_file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false)}
   subject {
-    CurationConcern::BaseActions.new(curation_concern, user, attributes)
+    CurationConcern::BaseActor.new(curation_concern, user, attributes)
   }
   describe '#create_metadata' do
     let(:attributes) {

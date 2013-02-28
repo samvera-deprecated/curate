@@ -1,5 +1,5 @@
 module CurationConcern
-  class BaseActions
+  class BaseActor
     attr_reader :curation_concern, :user, :attributes
     def initialize(curation_concern, user, attributes)
       @curation_concern = curation_concern

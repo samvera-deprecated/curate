@@ -15,7 +15,7 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
     if verify_acceptance_of_user_agreement!
       begin
         @curation_concern = SeniorThesis.new(pid: CurationConcern.mint_a_pid)
-        actor = CurationConcern::BaseActions.new(@curation_concern, current_user, params[:senior_thesis])
+        actor = CurationConcern::BaseActor.new(@curation_concern, current_user, params[:senior_thesis])
         actor.create_metadata
         respond_with([:curation_concern, @curation_concern])
       rescue ActiveFedora::RecordInvalid
@@ -53,7 +53,7 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   end
 
   def update
-    actor = CurationConcern::BaseActions.new(@curation_concern, current_user, params[:senior_thesis])
+    actor = CurationConcern::BaseActor.new(@curation_concern, current_user, params[:senior_thesis])
     actor.update_metadata
     respond_with([:curation_concern, curation_concern])
   rescue ActiveFedora::RecordInvalid

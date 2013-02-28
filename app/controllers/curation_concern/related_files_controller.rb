@@ -30,6 +30,5 @@ class CurationConcern::RelatedFilesController < CurationConcern::BaseController
   end
 
   def create
-    
   end
 end
