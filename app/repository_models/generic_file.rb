@@ -14,7 +14,10 @@ class GenericFile
     title
   end
 
-  delegate :versions, to: :content
+  def versions
+    content.versions
+  end
+
   def current_version
     content.latest_version.versionID
   end
