@@ -5,7 +5,7 @@ module CurationConcern
       update_file
       update_version
     end
-    alias_method :update, :update!
+
     protected
     def update_file
       file = attributes.delete(:revised_file)
