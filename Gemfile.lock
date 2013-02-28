@@ -102,6 +102,7 @@ GEM
     acts_as_follower (0.1.1)
     addressable (2.3.3)
     arel (3.0.2)
+    awesome_print (1.1.0)
     backports (3.0.3)
     bcrypt-ruby (3.0.1)
     blacklight (4.0.1)
@@ -143,6 +144,8 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     chunky_png (1.2.7)
     cocaine (0.4.2)
+    code_analyzer (0.3.1)
+      sexp_processor
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -150,6 +153,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.5.0)
+    colored (1.2)
     columnize (0.3.6)
     compass (0.12.2)
       chunky_png (~> 1.2)
@@ -311,6 +315,14 @@ GEM
       railties (= 3.2.11)
     rails_autolink (1.0.9)
       rails (~> 3.1)
+    rails_best_practices (1.13.4)
+      activesupport
+      awesome_print
+      code_analyzer
+      colored
+      erubis
+      i18n
+      ruby-progressbar
     railties (3.2.11)
       actionpack (= 3.2.11)
       activesupport (= 3.2.11)
@@ -357,6 +369,7 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    ruby-progressbar (1.0.2)
     rubycas-client (2.3.9)
       activesupport
     rubydora (1.4.0)
@@ -382,6 +395,7 @@ GEM
       multi_json (~> 1.0)
       rubyzip
       websocket (~> 1.0.4)
+    sexp_processor (4.1.5)
     sextant (0.2.3)
       activesupport (>= 3.2)
       rails (>= 3.2)
@@ -457,6 +471,7 @@ DEPENDENCIES
   jquery-rails
   mysql2
   rails (= 3.2.11)
+  rails_best_practices
   rake
   resque-pool
   rsolr!

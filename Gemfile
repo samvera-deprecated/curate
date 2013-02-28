@@ -36,6 +36,8 @@ group :test, :development, :ci do
   gem 'database_cleaner'
   gem 'sextant'
   gem 'capybara'
+  gem 'simplecov'
+  gem 'rails_best_practices'
 end
 
 # To use ActiveModel has_secure_password
