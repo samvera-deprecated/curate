@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe GenericFile do
-  subject { FactoryGirl.new(generic_file) }
+  subject { GenericFile.new }
 
   it { should respond_to(:versions) }
   it { should respond_to(:current_version) }
