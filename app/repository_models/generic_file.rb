@@ -13,4 +13,9 @@ class GenericFile
     title = 'No Title' if title.blank?
     title
   end
+
+  delegate :versions, to: :content
+  def current_version
+    content.latest_version.versionID
+  end
 end
