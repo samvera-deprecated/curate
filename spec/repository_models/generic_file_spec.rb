@@ -5,14 +5,14 @@ describe GenericFile do
   it { should respond_to(:versions) }
   it { should respond_to(:current_version_id) }
   it { should respond_to(:revised_file=) }
-  it { should respond_to(:display_title) }
+  it { should respond_to(:filename) }
 
   it 'uses #noid for #to_param' do
     subject.to_param.should == subject.noid
   end
 
   it 'has no title to display' do
-    subject.display_title.should == "No Title"
+    subject.to_s.should == "No Title"
   end
 
   let(:user) { FactoryGirl.create(:user) }
@@ -25,7 +25,7 @@ describe GenericFile do
   end
 
   it 'has file_name as its title to display' do
-    persisted_generic_file.display_title.should_not == "No Title"
+    persisted_generic_file.to_s.should_not == "No Title"
   end
 
 

@@ -22,7 +22,7 @@ describe CurationConcern::GenericFileActor do
         subject.update!
       }.to change {generic_file.versions.count}.by(1)
       generic_file.title.should == updated_title
-      generic_file.display_title.should == updated_title
+      generic_file.to_s.should == updated_title
       generic_file.content.content.should == revised_file_content
     end
   end

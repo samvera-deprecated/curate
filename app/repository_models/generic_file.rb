@@ -3,11 +3,12 @@ class GenericFile
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
 
   attr_accessor :revised_file, :version
-  def to_s
-    label
+
+  def filename
+    content.label
   end
 
-  def display_title
+  def to_s
     title =  self.title.blank? ? label : self.title
     title = 'No Title' if title.blank?
     title
