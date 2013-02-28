@@ -18,7 +18,7 @@ class GenericFile
     content.versions
   end
 
-  def current_version
+  def current_version_id
     content.latest_version.versionID
   end
 end

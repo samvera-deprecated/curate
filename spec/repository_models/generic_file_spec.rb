@@ -3,7 +3,7 @@ describe GenericFile do
   subject { GenericFile.new }
 
   it { should respond_to(:versions) }
-  it { should respond_to(:current_version) }
+  it { should respond_to(:current_version_id) }
   it { should respond_to(:revised_file=) }
   it { should respond_to(:display_title) }
 
