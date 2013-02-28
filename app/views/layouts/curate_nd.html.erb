@@ -34,6 +34,14 @@
   <%= render 'shared/flash_message' %>
 
   <div id="main" role="main" class="container">
+  <% if content_for?(:page_header) %>
+    <div class="row page-header">
+      <div class="span12">
+        <%= yield(:page_header) %>
+      </div>
+    </div>
+  <% end %>
+
     <%= content_for?(:main) ? yield(:main) : yield %>
   </div>
 

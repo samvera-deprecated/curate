@@ -1,16 +1,6 @@
 <% content_for :layout_name, 'two_column, ' %>
 <% content_for :main do %>
 
-  <% if content_for?(:page_header) %>
-
-    <div class="row">
-      <div class="span12">
-        <%= yield(:page_header) %>
-      </div>
-    </div>
-
-  <% end %>
-
   <div class="row">
     <div class="<%= content_for?(:left_column_class) ? yield(:left_column_class) : "span6" %>">
       <%= content_for?(:left_column) ? yield(:left_column) : yield %>
