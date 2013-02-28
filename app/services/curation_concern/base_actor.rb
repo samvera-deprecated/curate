@@ -49,7 +49,7 @@ module CurationConcern
     end
 
     def update_file
-      file = attributes.delete(:revised_thesis_file)
+      file = attributes.delete(:revised_file)
       title= attributes.delete(:title) || file.original_filename
       if file
         Sufia::GenericFile::Actions.create_content(

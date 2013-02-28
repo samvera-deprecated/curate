@@ -2,7 +2,7 @@
   <div class="row">
     <div class="span6">
       <fieldset class="required">
-        <legend>Modify Thesis Title</legend>
+        <legend>Modify Your File's Title</legend>
 
         <%= f.input :title,
                     input_html: { class: 'input-xlarge' }
@@ -10,10 +10,10 @@
       </fieldset>
       <fieldset class="required">
         <legend>
-          Modify Your Thesis
+          Modify Your File
           <small>A PDF copy is preferred.</small>
         </legend>
-          <%= f.input :revised_thesis_file,
+          <%= f.input :revised_file,
                       as: :file,
                       label: 'Upload a new copy of your thesis'
           %>
