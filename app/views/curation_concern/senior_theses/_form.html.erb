@@ -64,19 +64,38 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="span12 form-actions contributor_agreement">
+	<%# TODO: When the contributor agreement for the senior thesis is ratified remove the 'unratified' class. %>
+  <fieldset class="row unratified contributor_agreement">
+    <div class="span12">
+      <legend>
+      	Contributor Agreement
+      </legend>
+    </div>
+
+    <div class="span6">
+			<h3>Official Legally Binding Contributor Agreement</h3>
       <%= contributor_agreement.legally_binding_text.html_safe %>
+    </div>
+
+    <div class="span6">
+		  <h3>What We Mean</h3>
       <%= contributor_agreement.human_readable_text.html_safe %>
-      <%= label_tag(contributor_agreement.param_key) %>
+    </div>
+
+    <div class="span12">
+      <%= label_tag contributor_agreement.param_key, class: 'checkbox' do %>
       <%= check_box_tag(
           contributor_agreement.param_key,
           contributor_agreement.acceptance_value,
           contributor_agreement.param_value
         )
       %>
+			<%= contributor_agreement.param_key.to_s.humanize %>
+			<% end %>
     </div>
+  </fieldset>
 
+  <div class="row">
     <div class="span12 form-actions">
       <%= f.submit class: 'btn btn-primary' %>
       <%= f.submit value: create_and_add_related_files_submit_value.html_safe, class: 'btn btn-primary' %>
