@@ -8,7 +8,7 @@ class ContributorAgreement
 
   def human_readable_text
     <<-HTML
-		<article class="human_readable contributor_agreement redacted">
+		<article class="human_readable contributor_agreement">
     <p>
       Sed mattis, nulla id pulvinar porttitor, nisi erat fermentum sem, ac tempus
       neque sem ut eros. Aliquam malesuada eros turpis, ut volutpat dolor. Nam vel
@@ -23,7 +23,7 @@ class ContributorAgreement
 
   def legally_binding_text
     <<-HTML
-    <article class="lawyer_readable contributor_agreement redacted">
+    <article class="lawyer_readable contributor_agreement">
 			<p>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus volutpat
 				nisl ut tincidunt. Cras quis nisl dui, in pharetra odio. Aenean turpis mauris,
