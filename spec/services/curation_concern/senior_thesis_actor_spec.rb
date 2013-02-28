@@ -32,8 +32,9 @@ describe CurationConcern::SeniorThesisActor do
 
         new_curation_concern = curation_concern.class.find(curation_concern.pid)
         new_curation_concern.generic_files.count.should == 1
-        # Sanity test to make sure the file we uploaded is stored.
+        # Sanity test to make sure the file we uploaded is stored and has same permission as parent.
         new_curation_concern.generic_files.first.content.content.should == thesis_file.read
+        new_curation_concern.current_thesis_file.permissions.select{|r| r[:type] == 'group' && r[:name]=='registered'}.count == 1
       end
     end
   end
