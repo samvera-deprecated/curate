@@ -13,10 +13,6 @@ describe CurationConcern::RelatedFilesController do
     controller.parent_curation_concern.should == parent_curation_concern
   end
 
-  it 'uses an actor for processing actions' do
-    controller.actor.should be_an_kind_of(CurationConcern::BaseActor)
-  end
-
   describe '#new' do
     it 'renders a form if you can edit the parent' do
       sign_in(user)
