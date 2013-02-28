@@ -13,9 +13,11 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   def update
-    CurationConcern::Actions.update_metadata(curation_concern, current_user, params[:generic_file])
-    CurationConcern::Actions.update_file(curation_concern, current_user, params[:generic_file])
-    CurationConcern::Actions.update_version(curation_concern, current_user, params[:generic_file])
+    actor = CurationConcern::BaseActions.new(curation_concern, current_user, params[:generic_file])
+    actor.update_metadata
+    actor.update_file
+    actor.update_version
+
     respond_with([:curation_concern, curation_concern])
   rescue ActiveFedora::RecordInvalid
     respond_with([:curation_concern, curation_concern]) do |wants|

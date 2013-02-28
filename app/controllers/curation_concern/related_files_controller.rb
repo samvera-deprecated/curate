@@ -26,5 +26,10 @@ class CurationConcern::RelatedFilesController < CurationConcern::BaseController
   protected :namespaced_parent_curation_concern_id
 
   def new
+    respond_with(curation_concern)
+  end
+
+  def create
+    
   end
 end

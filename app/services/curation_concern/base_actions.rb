@@ -1,21 +1,25 @@
-# Actions are decoupled from controller logic so that they may be called from a controller or a background job.
-
 module CurationConcern
-  module Actions
-    module_function
-    def create_metadata(curation_concern, user, attributes)
-      save_metadata(curation_concern, user, attributes) do
+  class BaseActions
+    attr_reader :curation_concern, :user, :attributes
+    def initialize(curation_concern, user, attributes)
+      @curation_concern = curation_concern
+      @user = user
+      @attributes = attributes
+    end
+
+    def create_metadata
+      save_metadata do
         curation_concern.apply_depositor_metadata(user.user_key)
         curation_concern.creator = user.name
         curation_concern.date_uploaded = Date.today
       end
     end
 
-    def update_metadata(curation_concern, user, attributes)
-      save_metadata(curation_concern, user, attributes)
+    def update_metadata
+      save_metadata
     end
 
-    def save_metadata(curation_concern, user, attributes)
+    def save_metadata
       file = attributes.delete(:thesis_file)
       visibility = attributes.delete(:visibility)
 
@@ -44,7 +48,7 @@ module CurationConcern
       end
     end
 
-    def update_file(curation_concern, user, attributes)
+    def update_file
       file = attributes.delete(:revised_thesis_file)
       title= attributes.delete(:title) || file.original_filename
       if file
@@ -58,7 +62,7 @@ module CurationConcern
       end
     end
 
-    def update_version(curation_concern, user, attributes)
+    def update_version
       version_to_revert = attributes.delete(:version)
       if !version_to_revert.blank? and version_to_revert !=  curation_concern.content.latest_version.versionID
         revision = curation_concern.content.get_version(version_to_revert)
@@ -69,5 +73,6 @@ module CurationConcern
         curation_concern.save!
       end
     end
+
   end
 end

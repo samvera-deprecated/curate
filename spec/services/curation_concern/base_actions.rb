@@ -1,11 +1,14 @@
 require 'spec_helper'
 
-describe CurationConcern::Actions do
+describe CurationConcern::BaseActions do
   let(:pid) { CurationConcern.mint_a_pid }
   let(:user) { FactoryGirl.create(:user) }
   let(:curation_concern) { SeniorThesis.new(pid: pid)}
   let(:thesis_file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false)}
-  describe '.create_metadata' do
+  subject {
+    CurationConcern::BaseActions.new(curation_concern, user, attributes)
+  }
+  describe '#create_metadata' do
     let(:attributes) {
       FactoryGirl.attributes_for(:senior_thesis).tap {|a|
         a[:thesis_file] = thesis_file
@@ -14,7 +17,7 @@ describe CurationConcern::Actions do
     }
     describe 'valid attributes' do
       before(:all) do
-        CurationConcern::Actions.create_metadata(curation_concern, user, attributes)
+        subject.create_metadata
       end
       it 'should persist' do
         expect(curation_concern).to be_persisted
@@ -48,7 +51,7 @@ describe CurationConcern::Actions do
     end
   end
 
-  describe '.update_metadata' do
+  describe '#update_metadata' do
     let(:attributes) {
       FactoryGirl.attributes_for(:senior_thesis).tap {|a|
         a[:visibility] = 'open'
@@ -57,7 +60,7 @@ describe CurationConcern::Actions do
     describe 'valid attributes' do
       before(:all) do
         curation_concern.apply_depositor_metadata(user.user_key)
-        CurationConcern::Actions.update_metadata(curation_concern, user, attributes)
+        subject.update_metadata
       end
       it 'should persist' do
         expect(curation_concern).to be_persisted
