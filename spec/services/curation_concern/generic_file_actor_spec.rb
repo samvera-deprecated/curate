@@ -18,7 +18,9 @@ describe CurationConcern::GenericFileActor do
     it do
       generic_file.title.should_not == updated_title
       generic_file.content.content.should_not == revised_file_content
-      subject.update
+      expect {
+        subject.update
+      }.to change {generic_file.versions.count}.by(1)
       generic_file.title.should == updated_title
       generic_file.content.content.should == revised_file_content
     end
