@@ -11,7 +11,7 @@ class TermsOfServiceAgreementsController < ApplicationController
       redirect_to classify_path
     else
       flash.now[:notice] = "To proceed, you must agree to the Terms of Service."
-      render action: 'new'
+      render 'new'
     end
   end
   def user_just_agreed_to_tos?

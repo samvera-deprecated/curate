@@ -10,5 +10,5 @@
   <dd><%= curation_concern.description %></dd>
 </dl>
 <% if current_thesis_file = curation_concern.current_thesis_file %>
-  <%= render partial: "show_file_details", locals: {generic_file: current_thesis_file} %>
+  <%= render "show_file_details", locals: {generic_file: current_thesis_file} %>
 <% end %>
