@@ -18,31 +18,7 @@ ssh_options[:paranoid] = false
 set :scm, :git
 set :deploy_via, :remote_cache
 set :scm_command, '/shared/git/bin/git'
-
-def prompt_with_default(var, default, message = nil)
-  set(var) do
-    Capistrano::CLI.ui.ask "#{"\n" + message if message}#{var} [#{default}] : "
-  end
-  set var, default if eval("#{var.to_s}.empty?")
-end
-
-def current_git_branch
-  result = `git branch | grep '^\*'`.gsub(/^\*\ */, '').strip.chomp rescue 'master'
-  result.to_s.empty? ? 'master' : result
-end
-
-namespace :deploy do
-  desc "Set SCM branch"
-  task :set_scm_branch do
-    if ENV["SCM_BRANCH"] && !(ENV["SCM_BRANCH"] == "")
-      set :branch, ENV["SCM_BRANCH"]
-    elsif rails_env == 'production'
-      prompt_with_default(:branch, 'master')
-    else
-      prompt_with_default(:branch, current_git_branch)
-    end
-  end
-end
+set :branch, "master"
 
 #############################################################
 #  Environment
@@ -152,7 +128,6 @@ end
 #############################################################
 
 before 'deploy', 'env:set_paths'
-before 'deploy:update_code', 'deploy:set_scm_branch'
 after 'deploy:update_code', 'deploy:symlink_shared', 'bundle:install', 'deploy:migrate', 'deploy:precompile'
 
 after 'deploy', 'deploy:cleanup'

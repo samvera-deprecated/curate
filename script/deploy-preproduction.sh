@@ -34,8 +34,8 @@ cd $WORKSPACE
 #     cp secret_pprd/curate_nd/$f config/$f
 # done
 #
-echo "=-=-=-=-=-=-=-= cap pre_production deploy"
-$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" pre_production deploy
+echo "=-=-=-=-=-=-=-= cap pre_production deploy:debug"
+$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" pre_production deploy:debug
 retval=$?
 
 echo "=-=-=-=-=-=-=-= $0 finished $retval"
