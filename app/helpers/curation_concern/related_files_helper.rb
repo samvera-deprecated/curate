@@ -1,2 +1,0 @@
-module CurationConcern::RelatedFilesHelper
-end
