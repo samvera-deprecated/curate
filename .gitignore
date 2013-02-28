@@ -19,6 +19,7 @@
 # Ignore Vagrant files for now
 .vagrant
 Vagrantfile
+<<<<<<< HEAD
 
 *~
 coverage/
