@@ -55,9 +55,6 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   end
 
   def update
-    actor = CurationConcern::SeniorThesisActor.new(
-      curation_concern, current_user, params[:senior_thesis]
-    )
     actor.update
     respond_with([:curation_concern, curation_concern])
   rescue ActiveFedora::RecordInvalid
@@ -69,4 +66,11 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   def destroy
   end
 
+  def actor
+    @actor ||= CurationConcern::SeniorThesisActor.new(
+      curation_concern,
+      current_user,
+      params[:senior_thesis]
+    )
+  end
 end
