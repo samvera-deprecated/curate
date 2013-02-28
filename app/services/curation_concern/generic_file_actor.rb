@@ -10,13 +10,7 @@ module CurationConcern
       file = attributes.delete(:revised_file)
       title= attributes.delete(:title) || file.original_filename
       if file
-        Sufia::GenericFile::Actions.create_content(
-          curation_concern,
-          file,
-          title,
-          'content',
-          user
-        )
+        attach_file(curation_concern, file)
       end
     end
 
