@@ -28,7 +28,7 @@ describe CurationConcern::GenericFilesController do
       actor
     }
     let(:actor) { double('actor') }
-    it 're-renders when update fails' do
+    it 'renders form when unsuccessful' do
       generic_file
       controller.actor = failing_actor
       sign_in(user)
@@ -37,7 +37,7 @@ describe CurationConcern::GenericFilesController do
       response.status.should == 422
     end
 
-    it 'updates' do
+    it 'redirects to parent when successful' do
       generic_file
       sign_in(user)
       put :update, id: generic_file.to_param, generic_file: {title: updated_title}
