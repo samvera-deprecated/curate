@@ -7,11 +7,19 @@ class ContributorAgreement
   end
 
   def human_readable_text
-    %(<p class="human_readable">place holder for human readable text</p>)
+    human_readable_text <<-HTML
+    <p class="human_readable contributor_agreement">
+      place holder for human readable text
+    </p>
+    HTML
   end
 
   def legally_binding_text
-    %(<p class="lawyer_readable">place holder for legally binding text</p>)
+    legally_binding_text <<-HTML
+    <p class="lawyer_readable contributor_agreement">
+      place holder for legally binding text
+    </p>
+    HTML
   end
 
   def acceptance_value
