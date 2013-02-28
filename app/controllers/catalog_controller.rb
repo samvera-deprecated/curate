@@ -18,7 +18,7 @@ require 'blacklight/catalog'
 require 'blacklight_advanced_search'
 
 # bl_advanced_search 1.2.4 is doing unitialized constant on these because we're calling ParseBasicQ directly
-require 'parslet'  
+require 'parslet'
 require 'parsing_nesting/tree'
 
 class CatalogController < ApplicationController
@@ -40,14 +40,14 @@ class CatalogController < ApplicationController
     super
     recent
     #also grab my recent docs too
-    recent_me    
+    recent_me
   end
 
   def recent
     if user_signed_in?
       # grab other people's documents
-      (resp, doc_list) = get_search_results(:q =>'{!lucene q.op=AND df=depositor_t}-'+current_user.user_key, :sort=>"system_create_dt desc", :rows=>3)      
-    else 
+      (resp, doc_list) = get_search_results(:q =>'{!lucene q.op=AND df=depositor_t}-'+current_user.user_key, :sort=>"system_create_dt desc", :rows=>3)
+    else
       # grab any documents we do not know who you are
       (resp, doc_list) = get_search_results(:q =>'', :sort=>"system_create_dt desc", :rows=>3)
     end
@@ -58,7 +58,7 @@ class CatalogController < ApplicationController
     if user_signed_in?
       (resp, doc_list) = get_search_results(:q =>'{!lucene q.op=AND df=depositor_t}'+current_user.user_key, :sort=>"system_create_dt desc", :rows=>3)
       @recent_user_documents = doc_list[0..3]
-    else 
+    else
        @recent_user_documents = nil
     end
   end
@@ -184,7 +184,7 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise.
     config.add_search_field 'all_fields', :label => 'All Fields', :include_in_advanced_search => false
-    
+
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate

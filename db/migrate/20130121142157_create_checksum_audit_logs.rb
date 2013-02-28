@@ -24,7 +24,7 @@ class CreateChecksumAuditLogs < ActiveRecord::Migration
       t.timestamps
     end
     add_index :checksum_audit_logs, [:pid, :dsid], :name=>'by_pid_and_dsid', :order => {:created_at => "DESC" }
-    
+
   end
 
   def self.down
