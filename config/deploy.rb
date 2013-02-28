@@ -123,6 +123,17 @@ namespace :bundle do
   end
 end
 
+namespace :worker do
+  task :start, :roles => :work do
+    run <<EOS
+cat > /opt/resque-pool-info <<EOF
+RESQUE_POOL_ROOT=/path/to/app/¬
+RESQUE_POOL_ENV=production¬
+EOF
+EOS
+  end
+end
+
 #############################################################
 #  Callbacks
 #############################################################
@@ -133,6 +144,7 @@ after 'deploy:update_code', 'deploy:symlink_shared', 'bundle:install', 'deploy:m
 after 'deploy', 'deploy:cleanup'
 after 'deploy', 'deploy:restart'
 after 'deploy', 'deploy:kickstart'
+after 'deploy', 'worker:start'
 
 #############################################################
 #  Configuration
@@ -169,4 +181,5 @@ task :pre_production do
 
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :app, :web, :db, :primary => true
+  server "curatend@curatestagingw1.library.nd.edu", :work
 end
