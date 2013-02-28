@@ -31,6 +31,8 @@
 
   <%= render 'shared/action_bar' unless yield(:hide_page_navigation) == 'yes' %>
 
+  <%= render 'shared/flash_message' %>
+
   <div id="main" role="main" class="container">
     <%= content_for?(:main) ? yield(:main) : yield %>
   </div>
