@@ -63,7 +63,7 @@ describe CurationConcern::SeniorThesesController do
     it 'should render' do
       sign_in user
       subject
-      get :show, id: subject.pid
+      get :show, id: subject.to_param
       response.should be_successful
       controller.curation_concern.should == subject
     end
@@ -75,7 +75,7 @@ describe CurationConcern::SeniorThesesController do
     it 'should render' do
       sign_in user
       subject
-      get :edit, id: subject.pid
+      get :edit, id: subject.to_param
       response.should be_successful
       controller.curation_concern.should == subject
       expect(response).to render_template('edit')
@@ -83,7 +83,7 @@ describe CurationConcern::SeniorThesesController do
 
     it 'should not be accessible by another user' do
       sign_in another_user
-      get :edit, id: subject.pid
+      get :edit, id: subject.to_param
       response.status.should == 302
       expect(response).to redirect_to(root_url)
     end
@@ -96,7 +96,7 @@ describe CurationConcern::SeniorThesesController do
       sign_in user
       subject
       expect {
-        put :update, id: subject.pid, senior_thesis: valid_attributes
+        put :update, id: subject.to_param, senior_thesis: valid_attributes
       }.to_not change { SeniorThesis.count }.by(1)
       expected_path = controller.polymorphic_path([:curation_concern, subject])
       expect(response).to redirect_to(expected_path)
@@ -104,7 +104,7 @@ describe CurationConcern::SeniorThesesController do
     it 'does not create a Senior Thesis when invalid' do
       sign_in user
       subject
-      put :update, id: subject.pid, senior_thesis: invalid_attributes
+      put :update, id: subject.to_param, senior_thesis: invalid_attributes
       expect(response).to render_template('edit')
       response.response_code.should == 422
     end

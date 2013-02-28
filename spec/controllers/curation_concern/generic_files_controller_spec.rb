@@ -9,7 +9,7 @@ describe CurationConcern::GenericFilesController do
     it 'should be successful' do
       generic_file
       sign_in user
-      get :edit, id: generic_file.pid
+      get :edit, id: generic_file.to_param
       controller.curation_concern.should be_kind_of(GenericFile)
       response.should be_successful
     end
@@ -19,7 +19,7 @@ describe CurationConcern::GenericFilesController do
     it 'should be successful' do
       generic_file
       sign_in user
-      get :show, id: generic_file.pid
+      get :show, id: generic_file.to_param
       controller.curation_concern.should be_kind_of(GenericFile)
       response.should be_successful
     end
@@ -27,7 +27,7 @@ describe CurationConcern::GenericFilesController do
     it 'does not allow another user to view it' do
       generic_file
       sign_in another_user
-      get :show, id: generic_file.pid
+      get :show, id: generic_file.to_param
       response.status.should == 302
       expect(response).to redirect_to(root_url)
     end
