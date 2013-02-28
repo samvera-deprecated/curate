@@ -11,11 +11,22 @@ describe GenericFile do
     subject.to_param.should == subject.noid
   end
 
+  it 'has no title to display' do
+    subject.display_title.should == "No Title"
+  end
+
   let(:user) { FactoryGirl.create(:user) }
   let(:persisted_generic_file) {
     FactoryGirl.create_generic_file(:senior_thesis, user)
   }
+
   it 'has a current version id' do
     persisted_generic_file.current_version_id.should == "content.0"
   end
+
+  it 'has file_name as its title to display' do
+    persisted_generic_file.display_title.should_not == "No Title"
+  end
+
+
 end
