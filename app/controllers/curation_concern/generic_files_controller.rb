@@ -13,10 +13,8 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   def update
-    actor = CurationConcern::BaseActor.new(curation_concern, current_user, params[:generic_file])
-    actor.update_metadata
-    actor.update_file
-    actor.update_version
+    actor = CurationConcern::GenericFileActor.new(curation_concern, current_user, params[:generic_file])
+    actor.update
 
     respond_with([:curation_concern, curation_concern])
   rescue ActiveFedora::RecordInvalid

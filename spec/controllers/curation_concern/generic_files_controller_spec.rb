@@ -24,6 +24,4 @@ describe CurationConcern::GenericFilesController do
     end
   end
 
-  def create_generic_file
-  end
 end
