@@ -35,32 +35,20 @@
   </div>
 
   <div class="row">
-    <div class="span6">
-      <fieldset class="required">
-        <legend>
-          Attach Your Thesis
-          <small>A PDF copy is preferred.</small>
-        </legend>
-
-      <% if curation_concern.persisted? && curation_concern.current_thesis_file %>
-        <dl>
-          <dt>Current thesis file:</dt>
-          <dd><%= curation_concern.current_thesis_file %></dd>
-        </dl>
-
-        <%= f.input :thesis_file,
-                    as: :file,
-                    label: 'Upload a new copy of your thesis'
-        %>
-      <% else %>
-        <%= f.input :thesis_file,
-                    as: :file,
-                    label: 'Upload your thesis'
-        %>
-      <% end %>
-      </fieldset>
-    </div>
-
+    <% if !curation_concern.persisted? %>
+      <div class="span6">
+        <fieldset class="required">
+          <legend>
+            Attach Your Thesis
+            <small>A PDF copy is preferred.</small>
+          </legend>
+          <%= f.input :thesis_file,
+                      as: :file,
+                      label: 'Upload your thesis'
+          %>
+        </fieldset>
+      </div>
+    <% end %>
     <div class="span6">
       <%= render "permission", curation_concern: curation_concern %>
     </div>

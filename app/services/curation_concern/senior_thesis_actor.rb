@@ -8,7 +8,6 @@ module CurationConcern
 
     def update!
       super
-      update_thesis_file
       update_contained_generic_file_visibility
     end
 
@@ -26,13 +25,6 @@ module CurationConcern
           generic_file, user, curation_concern.pid
         )
         generic_file.set_visibility(visibility)
-        attach_file(generic_file, thesis_file)
-      end
-    end
-
-    def update_thesis_file
-      if thesis_file
-        generic_file = curation_concern.current_thesis_file
         attach_file(generic_file, thesis_file)
       end
     end

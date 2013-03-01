@@ -1,4 +1,9 @@
 <h2 class="non lower">File Details</h2>
+<% if can? :edit, curation_concern %>
+  <div class="form-actions">
+    <%= link_to "Edit This File", edit_polymorphic_path([:curation_concern, generic_file]), class: 'btn btn-primary'  %>
+  </div>
+<% end %>
 <table class="table table-striped <%= dom_class(generic_file) %> attributes">
   <tbody>
     <tr>
