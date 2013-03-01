@@ -62,10 +62,6 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
 
   include Morphine
   register :actor do
-    CurationConcern::GenericFileActor.new(
-      curation_concern,
-      current_user,
-      params[:generic_file]
-    )
+    CurationConcern.actor(curation_concern, current_user, params[:generic_file])
   end
 end

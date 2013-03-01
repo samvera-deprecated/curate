@@ -81,10 +81,6 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
 
   include Morphine
   register :actor do
-    CurationConcern::SeniorThesisActor.new(
-      curation_concern,
-      current_user,
-      params[:senior_thesis]
-    )
+    CurationConcern.actor(curation_concern, current_user,params[:senior_thesis])
   end
 end

@@ -6,7 +6,7 @@ describe CurationConcern::SeniorThesisActor do
   let(:curation_concern) { SeniorThesis.new(pid: pid)}
   let(:thesis_file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false)}
   subject {
-    CurationConcern::SeniorThesisActor.new(curation_concern, user, attributes)
+    CurationConcern.actor(curation_concern, user, attributes)
   }
   describe '#create' do
     let(:attributes) {
