@@ -39,8 +39,15 @@ $WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" pre_production deplo
 retval=$?
 
 echo "=-=-=-=-=-=-=-= $0 finished $retval"
-echo "=-=-=-=-=-=-=-= cap staging_worker deploy"
-$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" staging_worker deploy
+if [ $retval > 0 ]; then
+    echo "=-=-=-=-=-=-=-= Quitting because of error"
+    return $retval
+fi
+
+# always run deploy:setup, so if a new vm is added to the list, it will
+# be prepared for a deploy automatically
+echo "=-=-=-=-=-=-=-= cap staging_worker setup deploy"
+$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" staging_worker deploy:setup deploy
 retval=$?
 
 echo "=-=-=-=-=-=-=-= $0 finished $retval"
