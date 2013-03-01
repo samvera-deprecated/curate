@@ -5,7 +5,7 @@ describe CurationConcern::BaseActor do
   let(:curation_concern) { SeniorThesis.new }
   let(:attributes) { {visibility: visibility} }
   let(:visibility) { nil }
-  subject { CurationConcern.actor(user, curation_concern, attributes)}
+  subject { CurationConcern.actor(curation_concern, user, attributes)}
   describe 'with visibility "1"' do
     let(:visibility) { "1" }
     it 'should have visibility' do
