@@ -4,12 +4,7 @@ class CurationConcern::RelatedFilesController < CurationConcern::BaseController
   load_and_authorize_resource :parent_curation_concern, class: "ActiveFedora::Base"
 
   def curation_concern
-    @curation_concern ||=
-    if params[:id]
-      GenericFile.find(params[:id])
-    else
-      GenericFile.new(params[:generic_file])
-    end
+    @curation_concern ||= RelatedFile.new(params[:related_file])
   end
 
   def parent_curation_concern
