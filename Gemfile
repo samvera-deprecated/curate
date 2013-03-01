@@ -14,7 +14,6 @@ gem 'devise_cas_authenticatable'
 gem 'rake'
 gem 'resque-pool'
 gem 'morphine'
-gem 'active_attr'
 
 # Gems used only for assets and not required
 # in production environments by default.
