@@ -39,4 +39,9 @@ $WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" pre_production deplo
 retval=$?
 
 echo "=-=-=-=-=-=-=-= $0 finished $retval"
+echo "=-=-=-=-=-=-=-= cap staging_worker deploy"
+$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" staging_worker deploy
+retval=$?
+
+echo "=-=-=-=-=-=-=-= $0 finished $retval"
 exit $retval
