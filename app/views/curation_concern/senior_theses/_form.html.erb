@@ -60,7 +60,7 @@
       <% end %>
       </fieldset>
     </div>
-		
+
     <div class="span6">
       <%= render "permission", curation_concern: curation_concern %>
     </div>
@@ -82,6 +82,10 @@
     <div class="span6">
       <h4>What This Means</h4>
       <%= contributor_agreement.human_readable_text.html_safe %>
+      <small>
+        This summary is provided for your convenience but it is not legal council.
+        Please refer your lawyer to the Official Legally Binding Contributor Agreement if you have any questions.
+      </small>
     </div>
 
     <div class="span12">
