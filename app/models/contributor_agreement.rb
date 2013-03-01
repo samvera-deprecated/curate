@@ -54,10 +54,6 @@ class ContributorAgreement
     'accept'
   end
 
-  def acceptance_phrase
-    "Accept contributor agreement"
-  end
-
   def param_key
     :accept_contributor_agreement
   end

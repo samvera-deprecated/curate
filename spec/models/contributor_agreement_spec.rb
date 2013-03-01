@@ -19,10 +19,6 @@ describe ContributorAgreement do
     subject.acceptance_value.should == 'accept'
   end
 
-  it 'has an acceptance phrase' do
-    subject.acceptance_phrase.should == 'Accept contributor agreement'
-  end
-
   it 'has param key' do
     subject.param_key.should == :accept_contributor_agreement
   end
