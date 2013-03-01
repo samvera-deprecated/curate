@@ -18,13 +18,22 @@ describe CurationConcern::GenericFileActor do
     let(:generic_file) {
       GenericFile.new.tap {|gf| gf.batch = parent }
     }
-    it do
+    it 'succeeds if attributes are given' do
       expect {
         subject.create!
       }.to change {
         parent.class.find(parent.pid).generic_files.count
       }.by(1)
       generic_file.class.find(generic_file.pid).batch.should == parent
+    end
+
+    it 'fails if no batch is provided' do
+      generic_file.batch = nil
+      expect {
+        expect {
+          subject.create!
+        }.to raise_error(ActiveFedora::RecordInvalid)
+      }.to_not change { GenericFile.count }
     end
   end
 

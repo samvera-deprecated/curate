@@ -33,6 +33,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   def create
+    curation_concern.batch = parent
     actor.create!
     respond_with([:curation_concern, parent])
   rescue ActiveFedora::RecordInvalid

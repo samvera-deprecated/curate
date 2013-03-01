@@ -7,21 +7,14 @@ def FactoryGirl.create_generic_file(container_factory_name_or_object, user, file
   end
 
   generic_file = GenericFile.new
+  generic_file.batch = curation_concern
   file ||= Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false)
 
-  Sufia::GenericFile::Actions.create_metadata(
+  actor = CurationConcern::GenericFileActor.new(
     generic_file,
     user,
-    curation_concern.id
+    {file: file}
   )
-
-  Sufia::GenericFile::Actions.create_content(
-    generic_file,
-    file,
-    file.original_filename,
-    'content',
-    user
-  )
-
+  actor.create!
   return generic_file
 end

@@ -21,6 +21,7 @@ module CurationConcern
     def create_thesis_file
       if thesis_file
         generic_file = GenericFile.new
+        generic_file.batch = curation_concern
         Sufia::GenericFile::Actions.create_metadata(
           generic_file, user, curation_concern.pid
         )

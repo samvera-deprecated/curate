@@ -2,6 +2,8 @@ require Sufia::Engine.root.join('app/models/generic_file')
 class GenericFile
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
 
+  validates :batch, presence: true
+
   attr_accessor :revised_file, :version
 
   # Either :revised_file or :file should be the canonical accessor
