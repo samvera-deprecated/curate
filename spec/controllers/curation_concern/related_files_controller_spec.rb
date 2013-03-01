@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe CurationConcern::RelatedFilesController do
+  render_views
   let(:parent_curation_concern) {
     FactoryGirl.create_curation_concern(:senior_thesis, user)
   }
@@ -53,7 +54,7 @@ describe CurationConcern::RelatedFilesController do
       post(
         :create,
         parent_curation_concern_id: parent_curation_concern.to_param,
-        related_file: { title: "Title", file: file }
+        generic_file: { title: "Title", file: file }
       )
 
       expect(response).to(
@@ -73,7 +74,7 @@ describe CurationConcern::RelatedFilesController do
       post(
         :create,
         parent_curation_concern_id: parent_curation_concern.to_param,
-        related_file: { title: "Title", file: file }
+        generic_file: { title: "Title", file: file }
       )
 
       expect(response).to render_template('new')

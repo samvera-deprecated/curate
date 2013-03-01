@@ -1,4 +1,9 @@
-<%= simple_form_for [:curation_concern, curation_concern] do |f| %>
+<%# This works for the create case but not yet for the update. %>
+<%= simple_form_for(
+  [:curation_concern, curation_concern],
+  url: curation_concern_related_files_path(parent_curation_concern),
+  method: :post
+) do |f| %>
   <div class="row">
     <div class="span6">
       <fieldset class="required">
@@ -11,7 +16,7 @@
           Attach Your File
           <small>A PDF copy is preferred.</small>
         </legend>
-        <%= f.input :__revised_file,
+        <%= f.input :revised_file,
                     as: :file,
                     label: 'Upload your file'
         %>
