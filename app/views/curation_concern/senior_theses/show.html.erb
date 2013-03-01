@@ -1,7 +1,5 @@
 <% content_for :page_header do %>
-
-<h1><%= curation_concern.title %></h1>
-
+  <h1><%= curation_concern.title %></h1>
 <% end %>
 
 <dl class="<%= dom_class(curation_concern) %> attributes">
@@ -9,16 +7,14 @@
   <dd><%= curation_concern.description %></dd>
 </dl>
 
-<% if current_thesis_file = curation_concern.current_thesis_file %>
-  <%= render "show_file_details", generic_file: current_thesis_file %>
+<% curation_concern.generic_files.each do |generic_file| %>
+  <%= render "show_file_details", generic_file: generic_file %>
 <% end %>
 
 <% content_for :second_row do %>
-
-<% if can? :edit, curation_concern %>
-<div class="form-actions">
-  <%= link_to "Edit This Senior Thesis", edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary'  %>
-</div>
-<% end %>
-
+  <% if can? :edit, curation_concern %>
+    <div class="form-actions">
+      <%= link_to "Edit This Senior Thesis", edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary'  %>
+    </div>
+  <% end %>
 <% end %>
