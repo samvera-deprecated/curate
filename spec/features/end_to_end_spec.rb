@@ -89,7 +89,7 @@ describe 'end to end behavior', type: :feature do
         # The system remembers the initial title
         find("#senior_thesis_title").value.should == initial_title
         attach_file("Upload your thesis", initial_file_path)
-        check("Accept contributor agreement")
+        check("I have read and accept the contributor licence agreement")
         click_on("Create Senior thesis")
       end
     end
