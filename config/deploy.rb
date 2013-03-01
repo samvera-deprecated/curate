@@ -179,6 +179,18 @@ task :pre_production do
   set :domain,      'curatepprd.library.nd.edu'
 
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
-  #server "#{user}@#{domain}", :app, :web, :db, :primary => true
-  server "curatend@curatestagingw1.library.nd.edu", :work
+  server "#{user}@#{domain}", :app, :web, :db, :primary => true
+end
+
+desc "Setup for the Staging Worker environment"
+task :staging_worker do
+  set :rails_env,   'pre_production'
+  set :deploy_to,   '/home/curatend'
+  set :ruby_bin,    '/usr/local/ruby/bin'
+
+  set :user,        'curatend'
+  set :domain,      'curatestagingw1.library.nd.edu'
+
+  default_environment['PATH'] = "#{ruby_bin}:$PATH"
+  server "#{user}@#{domain}", :work
 end
