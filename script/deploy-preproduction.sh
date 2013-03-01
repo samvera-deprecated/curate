@@ -39,7 +39,7 @@ $WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" pre_production deplo
 retval=$?
 
 echo "=-=-=-=-=-=-=-= $0 finished $retval"
-if [ $retval > 0 ]; then
+if [ $retval -ne 0 ]; then
     echo "=-=-=-=-=-=-=-= Quitting because of error"
     exit $retval
 fi
