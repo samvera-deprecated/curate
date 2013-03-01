@@ -3,8 +3,22 @@ require 'spec_helper'
 describe CurationConcern::GenericFilesController do
   render_views
   let(:user) { FactoryGirl.create(:user) }
-  let(:generic_file) { FactoryGirl.create_generic_file(:senior_thesis, user) }
+  let(:senior_thesis) {
+    FactoryGirl.create_curation_concern(:senior_thesis, user)
+  }
+
+  let(:generic_file) {
+    FactoryGirl.create_generic_file(senior_thesis, user)
+  }
+
   let(:another_user) { FactoryGirl.create(:user) }
+
+  describe '#new' do
+    senior_thesis
+    sign_in user
+    get(:new, senior_thesis_id: senior_thesis.to_param)
+    response.should be_successful
+  end
   describe '#edit' do
     it 'should be successful' do
       generic_file
