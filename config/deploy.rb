@@ -179,6 +179,6 @@ task :pre_production do
   set :domain,      'curatepprd.library.nd.edu'
 
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
-  server "#{user}@#{domain}", :app, :web, :db, :primary => true
+  #server "#{user}@#{domain}", :app, :web, :db, :primary => true
   server "curatend@curatestagingw1.library.nd.edu", :work
 end
