@@ -52,7 +52,7 @@ describe CurationConcern::SeniorThesesController do
         contributor_agreement.param_key => contributor_agreement.acceptance_value
       )
 
-      expected_path = controller.new_curation_concern_related_file_path(controller.curation_concern)
+      expected_path = controller.new_curation_concern_generic_file_path(controller.curation_concern)
       expect(response).to redirect_to(expected_path)
     end
 

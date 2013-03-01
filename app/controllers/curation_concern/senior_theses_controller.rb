@@ -32,7 +32,7 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
     if params[:commit] == create_and_add_related_files_submit_value
       respond_to do |wants|
         wants.html {
-          redirect_to new_curation_concern_senior_thesis_generic_file_path(curation_concern)
+          redirect_to new_curation_concern_generic_file_path(curation_concern)
         }
       end
     else

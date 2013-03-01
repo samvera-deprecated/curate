@@ -3,22 +3,78 @@ require 'spec_helper'
 describe CurationConcern::GenericFilesController do
   render_views
   let(:user) { FactoryGirl.create(:user) }
-  let(:senior_thesis) {
-    FactoryGirl.create_curation_concern(:senior_thesis, user)
-  }
-
-  let(:generic_file) {
-    FactoryGirl.create_generic_file(senior_thesis, user)
-  }
-
+  let(:another_user) { FactoryGirl.create(:user) }
+  let(:parent) { FactoryGirl.create_curation_concern(:senior_thesis, user) }
+  let(:file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false) }
+  let(:generic_file) { FactoryGirl.create_generic_file(parent, user) }
   let(:another_user) { FactoryGirl.create(:user) }
 
   describe '#new' do
-    senior_thesis
-    sign_in user
-    get(:new, senior_thesis_id: senior_thesis.to_param)
-    response.should be_successful
+    it 'renders a form if you can edit the parent' do
+      parent
+      sign_in user
+      get(:new, parent_id: parent.to_param)
+      response.should be_successful
+      expect(response).to render_template('new')
+    end
+
+    it 'redirects if you cannot edit the parent' do
+      sign_in(another_user)
+      parent
+      get :new, parent_id: parent.to_param
+      response.status.should == 302
+      expect(response).to redirect_to(root_url)
+    end
   end
+
+  describe '#create' do
+    let(:actor) { double('actor') }
+    let(:actors_action) { :create! }
+    let(:invalid_exception) {
+      ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new)
+    }
+    let(:failing_actor) {
+      actor.should_receive(actors_action).and_raise(invalid_exception)
+      actor
+    }
+    let(:successful_actor) {
+      actor.should_receive(actors_action).and_return(true)
+      actor
+    }
+
+    it 'redirects to parent when successful' do
+      sign_in(user)
+      parent
+      controller.actor = successful_actor
+
+      post(
+        :create,
+        parent_id: parent.to_param,
+        generic_file: { title: "Title", file: file }
+      )
+
+      expect(response).to(
+        redirect_to(controller.polymorphic_path([:curation_concern, parent]))
+      )
+    end
+
+    it 'renders form when unsuccessful' do
+      sign_in(user)
+      parent
+      controller.actor = failing_actor
+
+      post(
+        :create,
+        parent_id: parent.to_param,
+        generic_file: { title: "Title", file: file }
+      )
+
+      expect(response).to render_template('new')
+      response.status.should == 422
+    end
+
+  end
+
   describe '#edit' do
     it 'should be successful' do
       generic_file
@@ -33,8 +89,8 @@ describe CurationConcern::GenericFilesController do
     let(:updated_title) { Time.now.to_s }
     let(:failing_actor) {
       actor.
-        should_receive(:update!).
-        and_raise(ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new))
+      should_receive(:update!).
+      and_raise(ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new))
       actor
     }
     let(:successful_actor) {

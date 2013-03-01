@@ -1,26 +1,23 @@
 class CurationConcern::GenericFilesController < CurationConcern::BaseController
   respond_to(:html)
 
-  before_filter :parent_curation_concern
-  load_and_authorize_resource :parent_curation_concern, class: "ActiveFedora::Base"
+  before_filter :parent
+  load_and_authorize_resource :parent, class: "ActiveFedora::Base"
 
-  def parent_curation_concern
-    @parent_curation_concern ||=
+  def parent
+    @parent ||=
     if params[:id]
-      GenericFile.find(params[:id]).batch
+      curation_concern.batch
     else
-      ActiveFedora::Base.find(
-        namespaced_parent_curation_concern_id,
-        cast: true
-      )
+      ActiveFedora::Base.find(namespaced_parent_id,cast: true)
     end
   end
-  helper_method :parent_curation_concern
+  helper_method :parent
 
-  def namespaced_parent_curation_concern_id
-    Sufia::Noid.namespaceize(params[:parent_curation_concern_id])
+  def namespaced_parent_id
+    Sufia::Noid.namespaceize(params[:parent_id])
   end
-  protected :namespaced_parent_curation_concern_id
+  protected :namespaced_parent_id
 
   def curation_concern
     @curation_concern ||=
@@ -30,6 +27,20 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
       GenericFile.new(params[:generic_file])
     end
   end
+
+  def new
+    respond_with(curation_concern)
+  end
+
+  def create
+    actor.create!
+    respond_with([:curation_concern, parent])
+  rescue ActiveFedora::RecordInvalid
+    respond_with([:curation_concern, curation_concern]) do |wants|
+      wants.html { render 'new', status: :unprocessable_entity }
+    end
+  end
+
 
   def show
     respond_with(curation_concern)
