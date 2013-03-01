@@ -25,9 +25,7 @@ describe CurationConcern::SeniorThesisActor do
         curation_concern.date_modified.should == Date.today
         curation_concern.depositor.should == user.user_key
         curation_concern.creator.should == user.name
-        attributes.each do |key, value|
-          curation_concern.send(key).should == value
-        end
+
         curation_concern.permissions.select{|r| r[:type] == 'group' && r[:name]=='registered'}.count == 1
 
         new_curation_concern = curation_concern.class.find(curation_concern.pid)

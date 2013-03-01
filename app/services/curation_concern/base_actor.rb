@@ -5,10 +5,10 @@ module CurationConcern
   # * #delete
   class BaseActor
     attr_reader :curation_concern, :user, :attributes
-    def initialize(curation_concern, user, attributes)
+    def initialize(curation_concern, user, input_attributes)
       @curation_concern = curation_concern
       @user = user
-      @attributes = attributes
+      @attributes = input_attributes.clone
       @visibility = attributes.delete(:visibility)
     end
 
