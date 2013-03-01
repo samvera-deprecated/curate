@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'generic files routing' do
-  let(:parent_type) { 'senior_thesis' }
   let(:parent_id) { '1a2b3c' }
   let(:child_id) { '1a2b3c4d5e' }
 
@@ -41,28 +40,26 @@ describe 'generic files routing' do
     )
   end
 
-  it "routes GET /concern/:parent_type/:parent_id/related_files/new" do
+  it "routes GET /concern/container/:parent_id/related_files/new" do
     expect(
-      get: "/concern/#{parent_type}/#{parent_id}/generic_files/new"
+      get: "/concern/container/#{parent_id}/generic_files/new"
     ).to(
       route_to(
         controller: "curation_concern/generic_files",
         action: "new",
-        parent_id: parent_id,
-        parent_type: parent_type,
+        parent_id: parent_id
       )
     )
   end
 
-  it "routes POST /concern/:parent_type/:parent_id/related_files" do
+  it "routes POST /concern/container/:parent_id/related_files" do
     expect(
-      post: "/concern/#{parent_type}/#{parent_id}/generic_files"
+      post: "/concern/container/#{parent_id}/generic_files"
     ).to(
       route_to(
         controller: "curation_concern/generic_files",
         action: "create",
-        parent_id: parent_id,
-        parent_type: parent_type,
+        parent_id: parent_id
       )
     )
   end

@@ -18,7 +18,7 @@ CurateNd::Application.routes.draw do
     resources(
       :generic_files,
       only: [:new, :create],
-      path: ':parent_type/:parent_id/generic_files'
+      path: 'container/:parent_id/generic_files'
     )
     resources(
       :generic_files,
