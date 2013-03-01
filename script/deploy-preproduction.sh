@@ -41,12 +41,12 @@ retval=$?
 echo "=-=-=-=-=-=-=-= $0 finished $retval"
 if [ $retval > 0 ]; then
     echo "=-=-=-=-=-=-=-= Quitting because of error"
-    return $retval
+    exit $retval
 fi
 
 # always run deploy:setup, so if a new vm is added to the list, it will
 # be prepared for a deploy automatically
-echo "=-=-=-=-=-=-=-= cap staging_worker setup deploy"
+echo "=-=-=-=-=-=-=-= cap staging_worker deploy:setup deploy"
 $WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" staging_worker deploy:setup deploy
 retval=$?
 

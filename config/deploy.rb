@@ -118,7 +118,7 @@ end
 
 namespace :bundle do
   desc "Install gems in Gemfile"
-  task :install, :roles => :app do
+  task :install, :roles => [:app, :work] do
     run "#{bundler} install --binstubs='#{release_path}/vendor/bundle/bin' --shebang '#{ruby}' --gemfile='#{release_path}/Gemfile' --without development test ci --deployment"
   end
 end
@@ -128,8 +128,12 @@ namespace :worker do
     target_file = "/opt/resque-pool-info"
     run [
       "echo \"RESQUE_POOL_ROOT=$(pwd)\" > #{target_file}",
-      "echo \"RESQUE_POOL_ENV=$(pwd)\" >> #{target_file}"
+      "echo \"RESQUE_POOL_ENV=#{fetch(:rails_env)}\" >> #{target_file}"
     ].join(" && ")
+  end
+
+  task :update_secrets, :roles => :work do
+    run "scripts/update_secrets.sh"
   end
 end
 
@@ -138,12 +142,6 @@ end
 #############################################################
 
 before 'deploy', 'env:set_paths'
-after 'deploy:update_code', 'deploy:symlink_shared', 'bundle:install', 'deploy:migrate', 'deploy:precompile'
-
-after 'deploy', 'deploy:cleanup'
-after 'deploy', 'deploy:restart'
-after 'deploy', 'deploy:kickstart'
-after 'deploy', 'worker:start'
 
 #############################################################
 #  Configuration
@@ -180,6 +178,11 @@ task :pre_production do
 
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :app, :web, :db, :primary => true
+
+  after 'deploy:update_code', 'deploy:symlink_shared', 'bundle:install', 'deploy:migrate', 'deploy:precompile'
+  after 'deploy', 'deploy:cleanup'
+  after 'deploy', 'deploy:restart'
+  after 'deploy', 'deploy:kickstart'
 end
 
 desc "Setup for the Staging Worker environment"
@@ -193,4 +196,6 @@ task :staging_worker do
 
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :work
+  after 'deploy', 'worker:start'
+  after 'deploy:update_code', 'bundle:install'
 end
