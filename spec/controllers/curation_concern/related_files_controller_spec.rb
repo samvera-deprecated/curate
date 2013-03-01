@@ -5,7 +5,6 @@ describe CurationConcern::RelatedFilesController do
   let(:parent_curation_concern) {
     FactoryGirl.create_curation_concern(:senior_thesis, user)
   }
-  subject { FactoryGirl.create_generic_file(parent_curation_concern, user)}
   let(:user) { FactoryGirl.create(:user) }
   let(:another_user)  { FactoryGirl.create(:user) }
   let(:file) {Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false)}
@@ -54,7 +53,7 @@ describe CurationConcern::RelatedFilesController do
       post(
         :create,
         parent_curation_concern_id: parent_curation_concern.to_param,
-        generic_file: { title: "Title", file: file }
+        related_file: { title: "Title", file: file }
       )
 
       expect(response).to(
@@ -74,7 +73,7 @@ describe CurationConcern::RelatedFilesController do
       post(
         :create,
         parent_curation_concern_id: parent_curation_concern.to_param,
-        generic_file: { title: "Title", file: file }
+        related_file: { title: "Title", file: file }
       )
 
       expect(response).to render_template('new')

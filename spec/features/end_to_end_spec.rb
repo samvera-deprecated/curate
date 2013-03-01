@@ -96,11 +96,8 @@ describe 'end to end behavior', type: :feature do
 
     def view_your_new_thesis
       path_to_view_thesis  = page.current_path
-      page.should have_content("Thesis Details")
-      within(".senior_thesis.attributes") do
-        page.should have_content("Title")
-        page.should have_content(initial_title)
-      end
+      page.should have_content("File Details")
+      page.should have_content(initial_title)
       within(".generic_file.attributes") do
         page.should have_content(File.basename(initial_file_path))
         page.should have_content("Mime type: text/plain")
@@ -110,7 +107,7 @@ describe 'end to end behavior', type: :feature do
     end
 
     def edit_your_thesis
-      click_on("Edit Senior Thesis")
+      click_on("Edit This Senior Thesis")
       edit_page_path = page.current_path
       within('.edit_senior_thesis') do
         fill_in("Title", with: updated_title)
@@ -122,14 +119,10 @@ describe 'end to end behavior', type: :feature do
       return edit_page_path
     end
     def view_your_updated_thesis
-      page.should have_content("Thesis Details")
-      within(".senior_thesis.attributes") do
-        page.should have_content("Title")
-        page.should have_content(updated_title)
-      end
       page.should have_content("File Details")
+      page.should have_content(updated_title)
       page.should have_content(File.basename(updated_file_path))
-      click_on("Back to Dashboard")
+      click_on("Dashboard")
     end
 
     def view_your_dashboard

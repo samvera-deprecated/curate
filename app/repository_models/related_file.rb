@@ -1,5 +1,5 @@
 # This is not a Fedora object but is present to help negotiate
-# the Fedora object relation
+# the Fedora object relation.
 class RelatedFile
   include ActiveAttr::Model
 
