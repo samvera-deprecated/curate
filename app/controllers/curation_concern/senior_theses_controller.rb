@@ -1,5 +1,7 @@
 class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   respond_to(:html)
+  layout 'curate_nd/1_column'
+
   def curation_concern
     @curation_concern ||=
     if params[:id]
@@ -8,6 +10,7 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
       SeniorThesis.new(params[:senior_thesis])
     end
   end
+
   def new
   end
 

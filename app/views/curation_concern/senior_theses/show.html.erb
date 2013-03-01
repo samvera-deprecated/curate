@@ -1,14 +1,24 @@
-<p>
-  <%= link_to 'Back to Dashboard', dashboard_index_path %> |
-  <%= link_to "Edit Senior Thesis", edit_polymorphic_path([:curation_concern, curation_concern]) %>
-</p>
-<h2 class="non lower">Thesis Details</h2>
+<% content_for :page_header do %>
+
+<h1><%= curation_concern.title %></h1>
+
+<% end %>
+
 <dl class="<%= dom_class(curation_concern) %> attributes">
-  <dt>Title</dt>
-  <dd><%= curation_concern.title %></dd>
-  <dt>Description</dt>
+  <dt>Abstract</dt>
   <dd><%= curation_concern.description %></dd>
 </dl>
+
 <% if current_thesis_file = curation_concern.current_thesis_file %>
   <%= render "show_file_details", generic_file: current_thesis_file %>
+<% end %>
+
+<% content_for :second_row do %>
+
+<% if can? :edit, curation_concern %>
+<div class="form-actions">
+  <%= link_to "Edit This Senior Thesis", edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary'  %>
+</div>
+<% end %>
+
 <% end %>
