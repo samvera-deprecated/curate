@@ -5,7 +5,9 @@ describe "User" do
   describe "Abilities" do
     subject { ability }
     let(:ability) { Ability.new(current_user) }
-    let(:senior_thesis) { FactoryGirl.create_curation_concern(:senior_thesis, creating_user) }
+    let(:senior_thesis) {
+      FactoryGirl.create_curation_concern(:senior_thesis, creating_user)
+    }
     let(:creating_user) { nil }
     let(:current_user) { nil }
     let(:user) { FactoryGirl.create(:user) }
