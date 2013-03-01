@@ -66,40 +66,7 @@
     </div>
   </div>
 
-  <%# TODO: When the contributor agreement for the senior thesis is ratified remove the 'unratified' class. %>
-  <fieldset class="row unratified contributor_agreement">
-    <div class="span12">
-      <legend>
-        Contributor Agreement
-      </legend>
-    </div>
-
-    <div class="span6">
-      <h4>Official Legally Binding Contributor Agreement</h4>
-      <%= contributor_agreement.legally_binding_text.html_safe %>
-    </div>
-
-    <div class="span6">
-      <h4>What This Means</h4>
-      <%= contributor_agreement.human_readable_text.html_safe %>
-      <small>
-        This summary is provided for your convenience but it is not legal council.
-        Please refer your lawyer to the Official Legally Binding Contributor Agreement if you have any questions.
-      </small>
-    </div>
-
-    <div class="span12">
-      <%= label_tag contributor_agreement.param_key, class: 'checkbox' do %>
-        <%= check_box_tag(
-            contributor_agreement.param_key,
-            contributor_agreement.acceptance_value,
-            contributor_agreement.param_value
-          )
-        %>
-        I have read and accept the contributor licence agreement
-      <% end %>
-    </div>
-  </fieldset>
+  <%= render '/curation_concern/contributor_agreement', contributor_agreement: contributor_agreement %>
 
   <div class="row">
     <div class="span12 form-actions">
