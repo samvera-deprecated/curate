@@ -193,6 +193,7 @@ task :staging_worker do
 
   set :user,        'curatend'
   set :domain,      'curatestagingw1.library.nd.edu'
+  set :group_writable, false
 
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :work
