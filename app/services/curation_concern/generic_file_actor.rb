@@ -1,5 +1,10 @@
 module CurationConcern
   class GenericFileActor < CurationConcern::BaseActor
+    def create!
+      super
+      update_file
+    end
+
     def update!
       super
       update_file
@@ -8,7 +13,7 @@ module CurationConcern
 
     protected
     def update_file
-      file = attributes.delete(:revised_file)
+      file = attributes.delete(:file)
       title= attributes.delete(:title) || file.original_filename
       if file
         attach_file(curation_concern, file)
