@@ -10,16 +10,16 @@
 # Ignore the default SQLite database.
 /db/*.sqlite3
 
-# Ignore all logfiles and tempfiles.
-/log/*.log
-/tmp
-.sass-cache
-.idea/*
-
 # Ignore Vagrant files for now
 .vagrant
 Vagrantfile
-<<<<<<< HEAD
 
+# Ignore all logfiles and tempfiles.
+*.swp
 *~
+.idea/*
+.local/*
+.sass-cache
+/log/*.log
+/tmp
 coverage/
