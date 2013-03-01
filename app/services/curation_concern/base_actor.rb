@@ -18,12 +18,10 @@ module CurationConcern
       curation_concern.date_uploaded = Date.today
       save
     end
-    alias_method :create, :create!
 
     def update!
       save
     end
-    alias_method :update, :update!
 
     def save
       curation_concern.attributes = attributes
