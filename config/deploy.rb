@@ -125,7 +125,7 @@ end
 
 namespace :worker do
   task :start, :roles => :work do
-    target_file = "/opt/resque-pool-info"
+    target_file = "/home/curatend/resque-pool-info"
     run [
       "echo \"RESQUE_POOL_ROOT=$(pwd)\" > #{target_file}",
       "echo \"RESQUE_POOL_ENV=#{fetch(:rails_env)}\" >> #{target_file}"
