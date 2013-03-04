@@ -111,9 +111,7 @@ describe 'end to end behavior', type: :feature do
       edit_page_path = page.current_path
       within('.edit_senior_thesis') do
         fill_in("Title", with: updated_title)
-        page.should have_content("Current thesis file:")
         page.should have_content(File.basename(initial_file_path))
-        attach_file("Upload a new copy of your thesis", updated_file_path)
         click_on("Update Senior thesis")
       end
       return edit_page_path
@@ -121,7 +119,6 @@ describe 'end to end behavior', type: :feature do
     def view_your_updated_thesis
       page.should have_content("File Details")
       page.should have_content(updated_title)
-      page.should have_content(File.basename(updated_file_path))
       click_on("Dashboard")
     end
 
