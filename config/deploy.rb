@@ -157,18 +157,6 @@ before 'deploy', 'env:set_paths'
 set :application, 'curate_nd'
 set :repository,  "git@git.library.nd.edu:#{application}"
 
-set :symlink_targets do
-  [
-    { '/bundle/config' => '/.bundle/config' },
-    '/log',
-    '/vendor/bundle',
-    '/config/database.yml',
-    '/config/solr.yml',
-    '/config/redis.yml',
-    '/config/fedora.yml',
-    "/config/role_map_#{rails_env}.yml",
-  ]
-end
 
 #############################################################
 #  Environments
@@ -176,6 +164,18 @@ end
 
 desc "Setup for the Pre-Production environment"
 task :pre_production do
+  set :symlink_targets do
+    [
+      { '/bundle/config' => '/.bundle/config' },
+      '/log',
+      '/vendor/bundle',
+      '/config/database.yml',
+      '/config/solr.yml',
+      '/config/redis.yml',
+      '/config/fedora.yml',
+      "/config/role_map_#{rails_env}.yml",
+    ]
+  end
   set :rails_env,   'pre_production'
   set :deploy_to,   '/shared/ruby_pprd/data/app_home/curate'
   set :ruby_bin,    '/shared/ruby_pprd/ruby/1.9.3/bin'
@@ -195,6 +195,13 @@ end
 
 desc "Setup for the Staging Worker environment"
 task :staging_worker do
+  set :symlink_targets do
+    [
+      { '/bundle/config' => '/.bundle/config' },
+      '/log',
+      '/vendor/bundle',
+    ]
+  end
   set :rails_env,   'pre_production'
   set :deploy_to,   '/home/curatend'
   set :ruby_bin,    '/usr/local/ruby/bin'
@@ -207,5 +214,5 @@ task :staging_worker do
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :work
   after 'deploy', 'worker:start'
-  after 'deploy:update_code', 'worker:update_secrets', 'bundle:install'
+  after 'deploy:update_code', 'worker:update_secrets', 'deploy:symlink_shared', 'bundle:install'
 end
