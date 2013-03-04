@@ -6,8 +6,8 @@ if defined?(Bundler)
   bundle_environment_aliases = Rails.groups(
     ci: %w(development test headless),
     assets: %w(development test),
-    production: %w(preproduction staging not_deploy),
-    preproduction: %w(production staging not_deploy)
+    production: %w(pre_production staging not_deploy),
+    pre_production: %w(production staging not_deploy)
   )
   Bundler.require(bundle_environment_aliases)
 end
