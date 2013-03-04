@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # This should be everything except :deploy
-group :production, :pre_production, :development, :test, :ci, :assets do
+group :not_deploy do
   gem 'rails', '3.2.11'
   gem 'mysql2'
   gem 'common_repository_model', git: 'git://github.com/ndlib/common_repository_model'
@@ -19,10 +19,13 @@ group :production, :pre_production, :development, :test, :ci, :assets do
   gem "devise"
   gem "devise-guests", "~> 0.3"
   gem 'simple_form'
-  gem 'clamav'
   # Need rubyracer to run integration tests.....really?!?
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
+end
+
+group :headless do
+  gem 'clamav'
 end
 
 # Gems used only for assets and not required
@@ -35,7 +38,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-group :test, :development, :ci do
+group :test, :development do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'simplecov'
