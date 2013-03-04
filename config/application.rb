@@ -3,11 +3,14 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 
 if defined?(Bundler)
+  # For each of the values of a hash entry, load the hash key's bundle group
   bundle_environment_aliases = Rails.groups(
-    ci: %w(development test headless),
-    assets: %w(development test),
-    production: %w(pre_production staging not_deploy),
-    pre_production: %w(production staging not_deploy)
+      not_deploy: %w(production pre_production staging development test ci),
+      headless: %w(development test ci),
+      ci: %w(development test),
+      test: %w(ci),
+      development: %w(ci),
+      assets: %w(development test)
   )
   Bundler.require(*bundle_environment_aliases)
 end
