@@ -119,7 +119,14 @@ end
 namespace :bundle do
   desc "Install gems in Gemfile"
   task :install, :roles => [:app, :work] do
-    run "#{bundler} install --binstubs='#{release_path}/vendor/bundle/bin' --shebang '#{ruby}' --gemfile='#{release_path}/Gemfile' --without headless development test --deployment"
+    switches = ""
+    switches << " --binstubs='#{release_path}/vendor/bundle/bin'"
+    switches << " --shebang '#{ruby}'"
+    switches << " --path=#{release_path}/vendor/bundle"
+    switches << " --gemfile='#{release_path}/Gemfile'"
+    switches << " --deployment"
+    switches << " --without headless development test"
+    run "#{bundler} install #{switches}"
   end
 end
 
