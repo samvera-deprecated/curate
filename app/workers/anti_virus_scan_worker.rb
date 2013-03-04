@@ -8,8 +8,9 @@ class AntiVirusScanWorker
     :anti_virus
   end
 
-  attr_reader :pid, :file_path
-  def initialize(pid, file_path)
+  attr_reader :pid, :user, :file_path
+  def initialize(pid, user_id, file_path)
+    @user = User.find(user_id)
     @pid = pid
     @file_path = file_path
   end
@@ -36,7 +37,7 @@ class AntiVirusScanWorker
   end
 
   def anti_virus_passed!
-    file_attacher.call(pid, file_path)
+    file_attacher.call(pid, user, file_path)
   end
 
 end

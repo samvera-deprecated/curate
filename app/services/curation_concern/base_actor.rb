@@ -40,13 +40,8 @@ module CurationConcern
     protected :visibility_may_have_changed?
 
     def attach_file(generic_file, file_to_attach)
-      Sufia::GenericFile::Actions.create_content(
-        generic_file,
-        file_to_attach,
-        file_to_attach.original_filename,
-        'content',
-        user
-      )
+      ActiveSupport::Deprecation.warn("removing #{self.class}#attach_file, use CurationConcern.attach_file instead")
+      CurationConcern.attach_file(generic_file, user, file_to_attach)
     end
     protected :attach_file
   end

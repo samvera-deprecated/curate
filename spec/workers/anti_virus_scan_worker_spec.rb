@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe AntiVirusScanWorker do
-  subject { AntiVirusScanWorker.new(pid, file.path) }
+  subject { AntiVirusScanWorker.new(pid, user[:id], file.path) }
+  let(:user) { FactoryGirl.create(:user) }
   let(:file) { File.new(__FILE__) }
   let(:pid) { 'a1b2c3' }
   let(:mock_anti_virus_instance) { lambda {|path| anti_virus_scan_status } }
@@ -17,7 +18,7 @@ describe AntiVirusScanWorker do
     it 'runs the file upload' do
       mock_file_attacher.
         should_receive(:call).
-        with(pid, file.path).
+        with(pid, user, file.path).
         and_return(:return_value)
       subject.file_attacher = mock_file_attacher
       subject.run.should == :return_value
