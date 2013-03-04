@@ -19,6 +19,7 @@ group :production, :pre_production, :development, :test, :ci, :assets do
   gem "devise"
   gem "devise-guests", "~> 0.3"
   gem 'simple_form'
+  gem 'clamav'
   # Need rubyracer to run integration tests.....really?!?
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
