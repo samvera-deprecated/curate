@@ -93,14 +93,8 @@ namespace :deploy do
 
   desc "Symlink shared configs and folders on each release."
   task :symlink_shared do
-    symlink_targets.each do | target |
-      source, destination = target, target
-
-      if target.respond_to?(:keys)
-        source      = target.keys.first
-        destination = target.values.first
-      end
-
+    symlink_targets.each do | source, destination, shared_directory_to_create |
+      run "mkdir -p #{File.join( shared_path, shared_directory_to_create)}"
       run "ln -nfs #{File.join( shared_path, source)} #{File.join( release_path, destination)}"
     end
   end
@@ -166,14 +160,14 @@ desc "Setup for the Pre-Production environment"
 task :pre_production do
   set :symlink_targets do
     [
-      { '/bundle/config' => '/.bundle/config' },
-      '/log',
-      '/vendor/bundle',
-      '/config/database.yml',
-      '/config/solr.yml',
-      '/config/redis.yml',
-      '/config/fedora.yml',
-      "/config/role_map_#{rails_env}.yml",
+      ['/bundle/config','/.bundle/config', '/.bundle'],
+      ['/log','/log','/log'],
+      ['/vendor/bundle','/vendor/bundle','/vendor'],
+      ['/config/database.yml','/config/database.yml','/config'],
+      ['/config/solr.yml','/config/solr.yml','/config'],
+      ['/config/redis.yml','/config/redis.yml','/config'],
+      ['/config/fedora.yml','/config/fedora.yml','/config'],
+      ["/config/role_map_#{rails_env}.yml","/config/role_map_#{rails_env}.yml",'/config'],
     ]
   end
   set :rails_env,   'pre_production'
@@ -197,9 +191,9 @@ desc "Setup for the Staging Worker environment"
 task :staging_worker do
   set :symlink_targets do
     [
-      { '/bundle/config' => '/.bundle/config' },
-      '/log',
-      '/vendor/bundle',
+      [ '/bundle/config', '/.bundle/config', '/bundle'],
+      [ '/log', '/log', '/log'],
+      [ '/vendor/bundle', '/vendor/bundle', '/vendor/bundle'],
     ]
   end
   set :rails_env,   'pre_production'
