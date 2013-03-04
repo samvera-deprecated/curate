@@ -143,7 +143,6 @@ GEM
     childprocess (0.3.8)
       ffi (~> 1.0, >= 1.0.11)
     chunky_png (1.2.7)
-    clamav (0.4.1)
     cocaine (0.4.2)
     code_analyzer (0.3.1)
       sexp_processor
@@ -458,7 +457,6 @@ DEPENDENCIES
   bootstrap-sass (~> 2.2.0)
   capistrano
   capybara
-  clamav
   coffee-rails (~> 3.2.1)
   common_repository_model!
   compass-rails
