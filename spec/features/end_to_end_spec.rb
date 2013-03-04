@@ -32,7 +32,7 @@ describe 'end to end behavior', type: :feature do
   end
   describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
-    it "displays the terms of service page after authentication" do
+    it "displays the terms of service page after authentication", js: true do
       login_as(user, scope: :user, run_callbacks: false)
 
       get_started
@@ -111,7 +111,7 @@ describe 'end to end behavior', type: :feature do
       edit_page_path = page.current_path
       within('.edit_senior_thesis') do
         fill_in("Title", with: updated_title)
-        page.should have_content(File.basename(initial_file_path))
+        fill_in("Abstract", with: "Lorem Ipsum")
         click_on("Update Senior thesis")
       end
       return edit_page_path
