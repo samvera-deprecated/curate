@@ -140,7 +140,7 @@ namespace :worker do
   end
 
   task :update_secrets, :roles => :work do
-    run "./script/update_secrets.sh"
+    run "cd #{release_path} && ./script/update_secrets.sh"
   end
 end
 
