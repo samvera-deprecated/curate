@@ -133,7 +133,7 @@ namespace :worker do
   end
 
   task :update_secrets, :roles => :work do
-    run "cd /home/curatend/current && ./scripts/update_secrets.sh"
+    run "cd /home/curatend/current && ./script/update_secrets.sh"
   end
 end
 
