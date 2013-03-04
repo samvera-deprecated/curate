@@ -125,7 +125,7 @@ end
 
 namespace :worker do
   task :start, :roles => :work do
-    target_file = "$(pwd)/resque-pool-info"
+    target_file = "/home/curatend/resque-pool-info"
     run [
       "echo \"RESQUE_POOL_ROOT=$(pwd)/current\" > #{target_file}",
       "echo \"RESQUE_POOL_ENV=#{fetch(:rails_env)}\" >> #{target_file}"
@@ -133,7 +133,7 @@ namespace :worker do
   end
 
   task :update_secrets, :roles => :work do
-    run "scripts/update_secrets.sh"
+    run "cd /home/curatend/current && ./scripts/update_secrets.sh"
   end
 end
 
@@ -198,5 +198,5 @@ task :staging_worker do
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :work
   after 'deploy', 'worker:start'
-  after 'deploy:update_code', 'bundle:install'
+  after 'deploy:update_code', 'worker:update_secrets', 'bundle:install'
 end
