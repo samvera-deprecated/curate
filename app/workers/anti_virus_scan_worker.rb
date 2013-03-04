@@ -17,6 +17,7 @@ class AntiVirusScanWorker
   # You don't really want to run CLAM everytime...in tests
   include Morphine
   register :anti_virus_instance do
+    require 'clam'
     ClamAV.instance.method(:scanfile)
   end
   register :file_attacher do

@@ -25,7 +25,7 @@ group :not_deploy do
 end
 
 group :headless do
-  gem 'clamav'
+  gem 'clamav', require: false
 end
 
 # Gems used only for assets and not required
