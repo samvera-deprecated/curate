@@ -9,7 +9,7 @@ if defined?(Bundler)
     production: %w(pre_production staging not_deploy),
     pre_production: %w(production staging not_deploy)
   )
-  Bundler.require(bundle_environment_aliases)
+  Bundler.require(*bundle_environment_aliases)
 end
 
 module CurateNd
