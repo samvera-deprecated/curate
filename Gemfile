@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # This should be everything except :deploy
-# group :production, :pre_production, :development, :test, :ci, :assets do
+group :production, :pre_production, :development, :test, :ci, :assets do
   gem 'rails', '3.2.11'
   gem 'mysql2'
   gem 'common_repository_model', git: 'git://github.com/ndlib/common_repository_model'
@@ -23,7 +23,7 @@ source 'https://rubygems.org'
   # Need rubyracer to run integration tests.....really?!?
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
-# end
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
