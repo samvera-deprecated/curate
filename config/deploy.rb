@@ -125,7 +125,7 @@ namespace :bundle do
     switches << " --path=#{release_path}/vendor/bundle"
     switches << " --gemfile='#{release_path}/Gemfile'"
     switches << " --deployment"
-    switches << " --without headless development test"
+    switches << " --without #{without_bundle_environments}"
     run "#{bundler} install #{switches}"
   end
 end
@@ -182,6 +182,7 @@ task :pre_production do
 
   set :user,        'rbpprd'
   set :domain,      'curatepprd.library.nd.edu'
+  set :without_bundle_environments, 'headless development test'
 
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :app, :web, :db, :primary => true
@@ -197,6 +198,7 @@ task :staging_worker do
   set :rails_env,   'pre_production'
   set :deploy_to,   '/home/curatend'
   set :ruby_bin,    '/usr/local/ruby/bin'
+  set :without_bundle_environments, 'development test'
 
   set :user,        'curatend'
   set :domain,      'curatestagingw1.library.nd.edu'
