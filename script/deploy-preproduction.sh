@@ -16,8 +16,10 @@ export PATH=/shared/git/bin:$PATH
 export PATH=/global/soft/fits/current:/shared/fedora_prod36/java/bin:$PATH
 export RAILS_ENV=pre_production
 
+export RAILS_GROUP=deploy
 echo "=-=-=-=-=-=-=-= bundle install"
-/shared/ruby_prod/ruby/1.9.3/bin/bundle install --path="$WORKSPACE/vendor/bundle" --binstubs="$WORKSPACE/vendor/bundle/bin" --shebang '/shared/ruby_prod/ruby/1.9.3/bin/ruby' --deployment --without production pre_production development test ci assets --gemfile="$WORKSPACE/Gemfile"
+#/shared/ruby_prod/ruby/1.9.3/bin/bundle install --path="$WORKSPACE/vendor/bundle" --binstubs="$WORKSPACE/vendor/bundle/bin" --shebang '/shared/ruby_prod/ruby/1.9.3/bin/ruby' --deployment --without production pre_production development test ci assets --gemfile="$WORKSPACE/Gemfile"
+/shared/ruby_prod/ruby/1.9.3/bin/bundle install --path="$WORKSPACE/vendor/bundle" --binstubs="$WORKSPACE/vendor/bundle/bin" --shebang '/shared/ruby_prod/ruby/1.9.3/bin/ruby' --deployment --gemfile="$WORKSPACE/Gemfile"
 
 echo "=-=-=-=-=-=-=-= cd $WORKSPACE"
 cd $WORKSPACE
