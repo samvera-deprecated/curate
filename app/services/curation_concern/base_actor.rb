@@ -41,11 +41,11 @@ module CurationConcern
 
     def attach_file(generic_file, file_to_attach)
       Sufia::GenericFile::Actions.create_content(
-          generic_file,
-          file_to_attach,
-          file_to_attach.original_filename,
-          'content',
-          user
+        generic_file,
+        file_to_attach,
+        file_to_attach.original_filename,
+        'content',
+        user
       )
     end
     protected :attach_file
