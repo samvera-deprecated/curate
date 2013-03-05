@@ -22,8 +22,7 @@ describe CurationConcern::GenericFilesController do
       sign_in(another_user)
       parent
       get :new, parent_id: parent.to_param
-      response.status.should == 302
-      expect(response).to redirect_to(root_url)
+      response.status.should == 401
     end
   end
 
@@ -133,8 +132,7 @@ describe CurationConcern::GenericFilesController do
       generic_file
       sign_in another_user
       get :show, id: generic_file.to_param
-      response.status.should == 302
-      expect(response).to redirect_to(root_url)
+      response.status.should == 401
     end
   end
 

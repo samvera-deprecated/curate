@@ -97,8 +97,7 @@ describe CurationConcern::SeniorThesesController do
     it 'should not be accessible by another user' do
       sign_in another_user
       get :edit, id: subject.to_param
-      response.status.should == 302
-      expect(response).to redirect_to(root_url)
+      response.status.should == 401
     end
   end
   describe '#update' do

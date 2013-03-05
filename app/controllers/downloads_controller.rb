@@ -8,10 +8,6 @@ class DownloadsController < ApplicationController
   prepend_before_filter :normalize_identifier, except: [:index, :new, :create]
   load_and_authorize_resource :generic_file, class: "GenericFile"
 
-  rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
-    render "/errors/unauthorized", status: :unauthorized
-  end
-
   def show
     send_data(
       generic_file.content.content,
