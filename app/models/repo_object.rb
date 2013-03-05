@@ -14,7 +14,7 @@ class RepoObject < ActiveRecord::Base
       repo_object.pid= fedora_object.pid
       repo_object.date_added= fedora_object.create_date
       repo_object.date_modified= fedora_object.modified_date
-      repo_object.information= "CurateND - #{pid}"
+      repo_object.information= "CurateND - #{fedora_object.pid}"
     end
   end
 

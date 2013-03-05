@@ -17,21 +17,23 @@ class MintDoi
   private
 
   def create(fed_obj)
-    digital_object_identifier = DigitalObjectIdentifier.new
-    digital_object_identifier.target = create_or_retreive_purl(fed_obj.pid)
-    digital_object_identifier.title = fed_obj.title
-    digital_object_identifier.creator = fed_obj.creator
-    digital_object_identifier.publisher = "Hesburgh Library - University of Notre Dame"
-    digital_object_identifier.publicationyear = Time.now.year
-    return digital_object_identifier.doi
+    digital_object_identifier.doi
+  end
+
+  def digital_object_identifier
+    @digital_object_identifier = DigitalObjectIdentifier.new
+    @digital_object_identifier.target = create_or_retreive_purl(fed_obj.pid)
+    @digital_object_identifier.title = fed_obj.title
+    @digital_object_identifier.creator = fed_obj.creator
+    @digital_object_identifier.publisher = "Hesburgh Library - University of Notre Dame"
+    @digital_object_identifier.publicationyear = Time.now.year
+
+    @digital_object_identifier
   end
 
   # Two-step process to obtain the actual content-model type.
   def retreive_fedora_object(obj_id)
-    fed_obj = ActiveFedora::Base.find(obj_id)
-    cmodel_arr = ActiveFedora::ContentModel.known_models_for(fed_obj)
-    cmodel = cmodel_arr.first
-    return cmodel.find(obj_id)
+    ActiveFedora::Base.find(obj_id, cast: true)
   end
 
   # Return purl link for the given fedora ID.

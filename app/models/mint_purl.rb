@@ -20,10 +20,7 @@ class MintPurl
 
   # Two-step process to obtain the actual content-model type.
   def retreive_fedora_object(obj_id)
-    fed_obj = ActiveFedora::Base.find(obj_id)
-    cmodel_arr = ActiveFedora::ContentModel.known_models_for(fed_obj)
-    cmodel = cmodel_arr.first
-    return cmodel.find(obj_id)
+    ActiveFedora::Base.find(obj_id, cast: true)
   end
 
   def purl_url(purl_id, obj_id)
