@@ -29,6 +29,7 @@ CurateNd::Application.routes.draw do
 
   resources :terms_of_service_agreements, only: [:new, :create]
 
-  match "classify" => "classify#index"
+  match "classify" => "classify#new", via: :get
+  match "classify" => "classify#create", via: :post
   root to: 'welcome#index'
 end
