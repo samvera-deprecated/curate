@@ -14,7 +14,8 @@
 <% content_for :second_row do %>
   <% if can? :edit, curation_concern %>
     <div class="form-actions">
-      <%= link_to "Edit This Senior Thesis", edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary'  %>
+      <%= link_to "Edit This Senior Thesis", edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary' %>
+      <%= link_to "Add a Related File", new_curation_concern_generic_file_path(curation_concern), class: 'btn btn-primary' %>
     </div>
   <% end %>
 <% end %>
