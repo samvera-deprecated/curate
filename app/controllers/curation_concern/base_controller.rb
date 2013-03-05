@@ -8,21 +8,6 @@ class CurationConcern::BaseController < ApplicationController
   before_filter :curation_concern, except: [:index]
   load_and_authorize_resource :curation_concern, except: [:index, :new, :create], class: "ActiveFedora::Base"
 
-  # Catch permission errors
-  rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
-    if (exception.action == :edit)
-      redirect_to(
-        url_for(action: 'show'),
-        alert: "You do not have sufficient privileges to edit this document"
-      )
-    elsif current_user and current_user.persisted?
-      redirect_to root_url, alert: exception.message
-    else
-      session["user_return_to"] = request.url
-      redirect_to new_user_session_url, alert: exception.message
-    end
-  end
-
   attr_reader :curation_concern
   helper_method :curation_concern
 

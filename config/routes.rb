@@ -12,6 +12,7 @@ CurateNd::Application.routes.draw do
       get 'related/:id',:action => :get_related_file, :as => :related_file
     end
   end
+  resources :downloads, only: [:show]
 
   namespace :curation_concern, path: :concern do
     resources :senior_theses, except: :index
