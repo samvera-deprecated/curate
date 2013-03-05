@@ -1,3 +1,4 @@
+Resque.inline = true
 CurateNd::Application.configure do
   # config.fits_path = 'fits.sh'
   # Settings specified here will take precedence over those in config/application.rb
