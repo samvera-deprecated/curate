@@ -45,6 +45,7 @@ class SeniorThesisMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     map.content_format({in: RDF::DC, to: 'format'})
     map.extent({in: RDF::DC})
     map.requires({in: RDF::DC})
+    map.identifier({in: RDF::DC})
 
     map.part(:to => "hasPart", in: RDF::DC)
 

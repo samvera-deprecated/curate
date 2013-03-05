@@ -24,6 +24,7 @@ class SeniorThesis < ActiveFedora::Base
       :archived_object_type,
       :creator,
       :content_format,
+      :identifier
     ],
     unique: true
   )
@@ -61,4 +62,5 @@ class SeniorThesis < ActiveFedora::Base
   def to_param
     noid
   end
+
 end
