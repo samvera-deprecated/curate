@@ -96,11 +96,10 @@ describe 'end to end behavior', type: :feature do
 
     def view_your_new_thesis
       path_to_view_thesis  = page.current_path
-      page.should have_content("File Details")
+      page.should have_content("Related Files")
       page.should have_content(initial_title)
       within(".generic_file.attributes") do
         page.should have_content(File.basename(initial_file_path))
-        page.should have_content("Mime type: text/plain")
       end
 
       return path_to_view_thesis
@@ -117,7 +116,7 @@ describe 'end to end behavior', type: :feature do
       return edit_page_path
     end
     def view_your_updated_thesis
-      page.should have_content("File Details")
+      page.should have_content("Related Files")
       page.should have_content(updated_title)
       click_on("Dashboard")
     end
