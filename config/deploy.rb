@@ -130,7 +130,7 @@ namespace :worker do
     run [
       "echo \"RESQUE_POOL_ROOT=$(pwd)/current\" > #{target_file}",
       "echo \"RESQUE_POOL_ENV=#{fetch(:rails_env)}\" >> #{target_file}",
-      "/sbin/service resque-poold restart"
+      "sudo /sbin/service resque-poold restart"
     ].join(" && ")
   end
 
