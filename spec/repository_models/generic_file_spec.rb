@@ -4,7 +4,7 @@ describe GenericFile do
 
   it { should respond_to(:versions) }
   it { should respond_to(:current_version_id) }
-  it { should respond_to(:revised_file=) }
+  it { should respond_to(:file=) }
   it { should respond_to(:filename) }
 
   it 'uses #noid for #to_param' do

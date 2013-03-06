@@ -4,11 +4,7 @@ class GenericFile
 
   validates :batch, presence: true
 
-  attr_accessor :revised_file, :version
-
-  # Either :revised_file or :file should be the canonical accessor
-  # but for now we have both.
-  alias_attribute :file, :revised_file
+  attr_accessor :file, :version
 
   def filename
     content.label

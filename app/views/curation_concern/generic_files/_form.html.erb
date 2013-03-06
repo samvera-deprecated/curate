@@ -12,9 +12,9 @@
           Attach Your File
           <small>A PDF copy is preferred.</small>
         </legend>
-          <%= f.input :revised_file,
+          <%= f.input :file,
                       as: :file,
-                      label: 'Upload a new copy of your thesis'
+                      label: 'Upload a file'
           %>
       </fieldset>
       <% if curation_concern.persisted? %>
