@@ -1,4 +1,6 @@
 CurateNd::Application.routes.draw do
+  mount_roboto
+
   Blacklight.add_routes(self)
   HydraHead.add_routes(self)
   Hydra::BatchEdit.add_routes(self)

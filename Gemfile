@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-# This should be everything except :deploy
+# This should be everything except :deploy; And by not_deploy, we mean any of
+# the environments that are not used to execute the deploy scripts
 group :not_deploy do
   gem 'rails', '3.2.11'
   gem 'mysql2'
@@ -19,6 +20,7 @@ group :not_deploy do
   gem "devise"
   gem "devise-guests", "~> 0.3"
   gem 'simple_form'
+  gem 'roboto'
   # Need rubyracer to run integration tests.....really?!?
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
