@@ -21,11 +21,12 @@ module CurationConcern
       if thesis_file
         generic_file = GenericFile.new
         generic_file.batch = curation_concern
+        generic_file.label = 'Senior Thesis'
         Sufia::GenericFile::Actions.create_metadata(
           generic_file, user, curation_concern.pid
         )
         generic_file.set_visibility(visibility)
-        attach_file(generic_file, thesis_file)
+        CurationConcern.attach_file(generic_file, user, thesis_file)
       end
     end
 
