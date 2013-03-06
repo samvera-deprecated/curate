@@ -1,44 +1,45 @@
 class MintDoi
 
-  # Return DOI if already stored in fedora object. If not create a new DOI and store it in the fedora object.
-  def create_or_retreive_doi(obj_id)
+  def mint_doi(obj_id)
     fed_obj = retreive_fedora_object(obj_id)
-    if !(doi = fed_obj.identifier).nil?
+  end
+
+  # Return DOI if already stored in fedora object. If not create a new DOI and store it in the fedora object.
+  def create_or_retreive_doi(fed_obj)
+    @fedora_object = fed_obj
+    if !(doi = @fedora_object.identifier).nil?
       return doi
     end
-    if((!fed_obj.url.nil?) && (!fed_obj.title.nil?) && (!fed_obj.creator.nil?) && (!fed_obj.publisher.nil?) && (!fed_obj.publicationyear.nil?))
-      fed_obj.identifier = create(fed_obj)
-      fed_obj.save
-      return fedora_obj.identifier
-    end
-    return
+
+    return nil if @fedora_object.url.nil? && @fedora_object.title.nil? && @fedora_object.creator.nil?
+
+    @fedora_object.identifier = digital_object_identifier.doi
+    @fedora_object.save
+    return @fedora_object.identifier
   end
 
   private
 
-  def create(fed_obj)
-    digital_object_identifier.doi
-  end
-
   def digital_object_identifier
     @digital_object_identifier = DigitalObjectIdentifier.new
-    @digital_object_identifier.target = create_or_retreive_purl(fed_obj.pid)
-    @digital_object_identifier.title = fed_obj.title
-    @digital_object_identifier.creator = fed_obj.creator
+
+    @digital_object_identifier.target = create_or_retreive_purl
+    @digital_object_identifier.title = @fedora_object.title
+    @digital_object_identifier.creator = @fedora_object.creator
     @digital_object_identifier.publisher = "Hesburgh Library - University of Notre Dame"
-    @digital_object_identifier.publicationyear = Time.now.year
+    @digital_object_identifier.publicationyear = Time.now.year.to_s
 
     @digital_object_identifier
   end
 
-  # Two-step process to obtain the actual content-model type.
+  # Obtain the actual content-model type and load the object.
   def retreive_fedora_object(obj_id)
     ActiveFedora::Base.find(obj_id, cast: true)
   end
 
-  # Return purl link for the given fedora ID.
-  def create_or_retreive_purl(obj_id)
+  # Create or retrieve purl link for the given fedora ID.
+  def create_or_retreive_purl
     mint_purl = MintPurl.new
-    mint_purl.create_or_retreive_purl(obj_id)
+    mint_purl.create_or_retreive_purl(@fedora_object)
   end
 end
