@@ -1,4 +1,4 @@
-class GenerateDoiJob
+class DoiWorker
   def queue_name
     :doi
   end
