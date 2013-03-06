@@ -30,14 +30,46 @@ describe 'end to end behavior', type: :feature do
       page.should have_content("What are you uploading?")
     end
   end
+
+  describe 'file uploaded via different paths' do
+    let(:agreed_to_terms_of_service) { true }
+    it "related file via senior_thesis#new and generic_file#new should be similar" do
+      login_as(user, scope: :user, run_callbacks: false)
+      get_started
+      classify_what_you_are_uploading('Senior Thesis')
+      describe_your_thesis(
+        "Title" => 'Senior Thesis',
+        "Upload your thesis" => initial_file_path,
+        "Button to click" => 'Create and Add Related Files...'
+      )
+
+      # While the title is different, the filenames should be the same
+      add_a_related_file(
+        "Title" => 'Related File',
+        "Upload a related file" => initial_file_path
+      )
+
+      page.assert_selector(
+        '.generic_file.attributes .title.attribute',
+        text: "Related File",count: 1
+      )
+      page.assert_selector(
+        '.generic_file.attributes .title.attribute',
+        text: "Senior Thesis",count: 1
+      )
+      page.assert_selector(
+        '.generic_file.attributes .filename.attribute',
+        text: File.basename(initial_file_path),count: 2
+      )
+    end
+  end
   describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
     it "displays the terms of service page after authentication" do
       login_as(user, scope: :user, run_callbacks: false)
-
       get_started
       agree_to_terms_of_service
-      classify_what_you_are_uploading
+      classify_what_you_are_uploading('Senior Thesis')
       describe_your_thesis
       path_to_view_thesis = view_your_new_thesis
       path_to_edit_thesis = edit_your_thesis
@@ -50,126 +82,141 @@ describe 'end to end behavior', type: :feature do
       i_can_see_another_users_open_resource(path_to_view_thesis)
       i_cannot_edit_to_another_users_resource(path_to_edit_thesis)
     end
-    protected
-    def get_started
-      visit '/'
-      click_link "Get Started"
+  end
+  protected
+  def get_started
+    visit '/'
+    click_link "Get Started"
+  end
+
+  def agree_to_terms_of_service
+    within('#terms_of_service') do
+      click_on("I Agree")
+    end
+  end
+
+  def classify_what_you_are_uploading(concern)
+    page.should have_content("What are you uploading?")
+    within('#new_classify') do
+      select(concern, from: 'classify_curation_concern')
+      click_on("Continue")
+    end
+  end
+
+  def describe_your_thesis(options = {})
+    options['Title'] ||= initial_title
+    options['Upload your thesis'] ||= initial_file_path
+    options['Visibility'] ||= 'Private'
+    options["Button to click"] ||= "Create Senior thesis"
+    page.should have_content('Describe Your Thesis')
+    # Without accepting agreement
+    within('#new_senior_thesis') do
+      fill_in("Title", with: options['Title'])
+      attach_file("Upload your thesis", options['Upload your thesis'])
+      choose(options['Visibility'])
+      click_on(options["Button to click"])
     end
 
-    def agree_to_terms_of_service
-      within('#terms_of_service') do
-        click_on("I Agree")
-      end
+    within('.alert.error') do
+      page.should have_content('You must accept the contributor agreement')
+    end
+    page.should have_content("Describe Your Thesis")
+
+    # With accepting agreement
+    within('#new_senior_thesis') do
+      # The system remembers the initial title
+      find("#senior_thesis_title").value.should == options["Title"]
+      attach_file("Upload your thesis", options['Upload your thesis'])
+      check("I have read and accept the contributor licence agreement")
+      click_on(options["Button to click"])
+    end
+  end
+
+  def add_a_related_file(options = {})
+    options['Title'] ||= initial_title
+    options['Upload a file'] ||= initial_file_path
+    within("form.new_generic_file") do
+      fill_in("Title", with: options['Title'])
+      attach_file("Upload a file", options['Upload a file'])
+      click_on("Create Generic file")
+    end
+  end
+
+  def view_your_new_thesis
+    path_to_view_thesis  = page.current_path
+    page.should have_content("Related Files")
+    page.should have_content(initial_title)
+    within(".generic_file.attributes") do
+      page.should have_content(File.basename(initial_file_path))
     end
 
-    def classify_what_you_are_uploading
-      page.should have_content("What are you uploading?")
-      within('#new_classify') do
-        select('Senior Thesis', from: 'classify_curation_concern')
-        click_on("Continue")
-      end
+    return path_to_view_thesis
+  end
+
+  def edit_your_thesis
+    click_on("Edit This Senior Thesis")
+    edit_page_path = page.current_path
+    within('.edit_senior_thesis') do
+      fill_in("Title", with: updated_title)
+      fill_in("Abstract", with: "Lorem Ipsum")
+      click_on("Update Senior thesis")
     end
-    def describe_your_thesis
-      page.should have_content('Describe Your Thesis')
-      # Without accepting agreement
-      within('#new_senior_thesis') do
-        fill_in("Title", with: initial_title)
-        attach_file("Upload your thesis", initial_file_path)
-        choose("Private")
-        click_on("Create Senior thesis")
-      end
+    return edit_page_path
+  end
+  def view_your_updated_thesis
+    page.should have_content("Related Files")
+    page.should have_content(updated_title)
+    click_on("Dashboard")
+  end
 
-      within('.alert.error') do
-        page.should have_content('You must accept the contributor agreement')
-      end
-      page.should have_content("Describe Your Thesis")
-
-      # With accepting agreement
-      within('#new_senior_thesis') do
-        # The system remembers the initial title
-        find("#senior_thesis_title").value.should == initial_title
-        attach_file("Upload your thesis", initial_file_path)
-        check("I have read and accept the contributor licence agreement")
-        click_on("Create Senior thesis")
-      end
+  def view_your_dashboard
+    search_term = "\"#{updated_title}\""
+    within(".form-search") do
+      fill_in("q", with: search_term)
+      click_on("Go")
     end
-
-    def view_your_new_thesis
-      path_to_view_thesis  = page.current_path
-      page.should have_content("Related Files")
-      page.should have_content(initial_title)
-      within(".generic_file.attributes") do
-        page.should have_content(File.basename(initial_file_path))
-      end
-
-      return path_to_view_thesis
-    end
-
-    def edit_your_thesis
-      click_on("Edit This Senior Thesis")
-      edit_page_path = page.current_path
-      within('.edit_senior_thesis') do
-        fill_in("Title", with: updated_title)
-        fill_in("Abstract", with: "Lorem Ipsum")
-        click_on("Update Senior thesis")
-      end
-      return edit_page_path
-    end
-    def view_your_updated_thesis
-      page.should have_content("Related Files")
-      page.should have_content(updated_title)
-      click_on("Dashboard")
-    end
-
-    def view_your_dashboard
-      search_term = "\"#{updated_title}\""
-      within(".form-search") do
-        fill_in("q", with: search_term)
-        click_on("Go")
-      end
-      within('#documents') do
-        page.should have_content(updated_title)
-      end
-      within('.alert.alert-info') do
-        page.should have_content("You searched for: #{search_term}")
-      end
-
-      within('#facets') do
-        # I call CSS/Dom shenannigans; I can't access 'Creator' link
-        # directly and instead must find by CSS selector, validate it
-        creator_facet = find('a.accordion-toggle')
-        creator_facet.text.should == 'Creator'
-        creator_facet.click
-        click_on(user.username)
-      end
-      within('.alert.alert-info') do
-        page.should have_content("You searched for: #{search_term}")
-      end
-      within('.alert.alert-warning') do
-        page.should have_content(user.username)
-      end
-    end
-
-    def other_persons_thesis_is_not_in_my_dashboard
-      visit "/dashboard"
-      search_term = "\"#{updated_title}\""
-      within(".form-search") do
-        fill_in("q", with: search_term)
-        click_on("Go")
-      end
-      within('#documents') do
-        page.should_not have_content(updated_title)
-      end
-    end
-
-    def i_can_see_another_users_open_resource(path_to_other_persons_resource)
-      visit path_to_other_persons_resource
+    within('#documents') do
       page.should have_content(updated_title)
     end
+    within('.alert.alert-info') do
+      page.should have_content("You searched for: #{search_term}")
+    end
 
-    def i_cannot_edit_to_another_users_resource(path_to_other_persons_resource)
-      visit path_to_other_persons_resource
+    within('#facets') do
+      # I call CSS/Dom shenannigans; I can't access 'Creator' link
+      # directly and instead must find by CSS selector, validate it
+      creator_facet = find('a.accordion-toggle')
+      creator_facet.text.should == 'Creator'
+      creator_facet.click
+      click_on(user.username)
+    end
+    within('.alert.alert-info') do
+      page.should have_content("You searched for: #{search_term}")
+    end
+    within('.alert.alert-warning') do
+      page.should have_content(user.username)
+    end
+  end
+
+  def other_persons_thesis_is_not_in_my_dashboard
+    visit "/dashboard"
+    search_term = "\"#{updated_title}\""
+    within(".form-search") do
+      fill_in("q", with: search_term)
+      click_on("Go")
+    end
+    within('#documents') do
       page.should_not have_content(updated_title)
     end
+  end
+
+  def i_can_see_another_users_open_resource(path_to_other_persons_resource)
+    visit path_to_other_persons_resource
+    page.should have_content(updated_title)
+  end
+
+  def i_cannot_edit_to_another_users_resource(path_to_other_persons_resource)
+    visit path_to_other_persons_resource
+    page.should_not have_content(updated_title)
   end
 end

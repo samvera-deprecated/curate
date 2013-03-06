@@ -5,7 +5,8 @@ describe CurationConcern::GenericFileActor do
   let(:parent) {
     FactoryGirl.create_curation_concern(:senior_thesis, user)
   }
-  let(:file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false)}
+  let(:file_path) { __FILE__ }
+  let(:file) { Rack::Test::UploadedFile.new(file_path, 'text/plain', false)}
   let(:file_content) { File.read(file)}
   let(:title) { Time.now.to_s }
   let(:attributes) { { file: file, title: title } }
@@ -18,13 +19,20 @@ describe CurationConcern::GenericFileActor do
     let(:generic_file) {
       GenericFile.new.tap {|gf| gf.batch = parent }
     }
+    let(:reloaded_generic_file) {
+      generic_file.class.find(generic_file.pid)
+    }
     it 'succeeds if attributes are given' do
       expect {
         subject.create!
       }.to change {
         parent.class.find(parent.pid).generic_files.count
       }.by(1)
-      generic_file.class.find(generic_file.pid).batch.should == parent
+
+      reloaded_generic_file.batch.should == parent
+
+      reloaded_generic_file.to_s.should == title
+      reloaded_generic_file.filename.should == File.basename(__FILE__)
     end
 
     it 'fails if no batch is provided' do

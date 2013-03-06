@@ -22,9 +22,9 @@
   <tbody>
     <% curation_concern.generic_files.each do |generic_file| %>
       <tr class="<%= dom_class(generic_file) %> attributes">
-        <td><%= generic_file %></td>
-        <td><%= generic_file.filename %></td>
-        <td><%= generic_file.date_uploaded %></td>
+        <td class="attribute title"><%= generic_file %></td>
+        <td class="attribute filename"><%= generic_file.filename %></td>
+        <td class="attribute date_uploaded"><%= generic_file.date_uploaded %></td>
         <td>
           <%= link_to 'Edit', edit_polymorphic_path([:curation_concern, generic_file]), class: 'btn' %>
         </td>

@@ -14,9 +14,11 @@ module CurationConcern
     protected
     def update_file
       file = attributes.delete(:file)
-      title= attributes.delete(:title) || file.original_filename
+      title = attributes[:title]
+      title ||= file.original_filename if file
+      curation_concern.label = title
       if file
-        attach_file(curation_concern, file)
+        CurationConcern.attach_file(curation_concern, user, file)
       end
     end
 
