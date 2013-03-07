@@ -25,7 +25,6 @@ limitations under the License.
 <% end %>
 
 <div id="permissions_display">
-  <div class="alert hide" id="save_perm_note">Permissions are <strong>not</strong> saved until the &quot;Create Senior Thesis&quot; button is pressed at the bottom of the page.</div>
   <div class="alert alert-error hide" id="permissions_error"><a class="close" data-dismiss="alert" href="#">×</a><span id="permissions_error_text"></span></div>
   <legend>
     Permissions
@@ -83,15 +82,15 @@ limitations under the License.
 
       <div class="controls">
         <label class="radio">
-          <input type="radio" id="visibility_open" name="senior_thesis[visibility]" value="open" <% if !public_perm.blank? %> checked="true"<% end %>/>
+          <input type="radio" id="visibility_open" name="<%= f.object_name %>[visibility]" value="open" <% if !public_perm.blank? %> checked="true"<% end %>/>
           <span class="label label-success">Open Access</span> Visible to the world.
         </label>
         <label class="radio">
-          <input type="radio" id="visibility_ndu" name="senior_thesis[visibility]" value="psu" <% if !ndu_perm.blank? %> checked="true"<% end %> />
+          <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="psu" <% if !ndu_perm.blank? %> checked="true"<% end %> />
           <span class="label label-info"><%=t('sufia.institution_name') %></span> Visible to all <%=t('sufia.institution_name') %> users.
         </label>
         <label class="radio">
-          <input type="radio" id="visibility_restricted" name="senior_thesis[visibility]" value="restricted" <% if ndu_perm.blank? and public_perm.blank?%> checked="true"<% end %>/>
+          <input type="radio" id="visibility_restricted" name="<%= f.object_name %>[visibility]" value="restricted" <% if ndu_perm.blank? and public_perm.blank?%> checked="true"<% end %>/>
           <span class="label label-important">Private</span> Visible to users/groups specified below, if any.
         </label>
      </div><!-- /.controls -->

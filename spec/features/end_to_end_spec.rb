@@ -33,12 +33,13 @@ describe 'end to end behavior', type: :feature do
 
   describe 'file uploaded via different paths' do
     let(:agreed_to_terms_of_service) { true }
-    it "related file via senior_thesis#new and generic_file#new should be similar" do
+    it "related file via senior_thesis#new and generic_file#new should be similar", js: true do
       login_as(user, scope: :user, run_callbacks: false)
       get_started
       classify_what_you_are_uploading('Senior Thesis')
       describe_your_thesis(
         "Title" => 'Senior Thesis',
+        'Visibility' => 'Open Access',
         "Upload your thesis" => initial_file_path,
         "Button to click" => 'Create and Add Related Files...'
       )
@@ -46,6 +47,7 @@ describe 'end to end behavior', type: :feature do
       # While the title is different, the filenames should be the same
       add_a_related_file(
         "Title" => 'Related File',
+        'Visibility' => 'University of Notre Dame',
         "Upload a related file" => initial_file_path
       )
 
@@ -54,8 +56,16 @@ describe 'end to end behavior', type: :feature do
         text: "Related File",count: 1
       )
       page.assert_selector(
+        '.generic_file.attributes .permission.attribute',
+        text: "University of Notre Dame",count: 1
+      )
+      page.assert_selector(
         '.generic_file.attributes .title.attribute',
         text: "Senior Thesis",count: 1
+      )
+      page.assert_selector(
+        '.generic_file.attributes .permission.attribute',
+        text: "Open Access",count: 1
       )
       page.assert_selector(
         '.generic_file.attributes .filename.attribute',
@@ -135,9 +145,11 @@ describe 'end to end behavior', type: :feature do
   def add_a_related_file(options = {})
     options['Title'] ||= initial_title
     options['Upload a file'] ||= initial_file_path
+    options['Visibility'] ||= 'Private'
     within("form.new_generic_file") do
       fill_in("Title", with: options['Title'])
       attach_file("Upload a file", options['Upload a file'])
+      choose(options['Visibility'])
       click_on("Create Generic file")
     end
   end

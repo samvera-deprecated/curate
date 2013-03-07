@@ -5,6 +5,8 @@
 <dl class="<%= dom_class(curation_concern) %> attributes">
   <dt>Abstract</dt>
   <dd><%= curation_concern.description %></dd>
+  <dt>Permission</dt>
+  <dd><%= link_to_edit_permissions(curation_concern) %></dd>
 </dl>
 
 <h2>Related Files</h2>

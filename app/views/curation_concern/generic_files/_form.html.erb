@@ -35,6 +35,13 @@
       <%- end -%>
     </div>
   </div>
+
+  <div class="row">
+    <div class="span6">
+      <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
+    </div>
+  </div>
+
   <div class="row">
     <div class="span12 form-actions">
       <%= f.submit class: 'btn btn-primary' %>
