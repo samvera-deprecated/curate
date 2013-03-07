@@ -4,7 +4,7 @@ class GenericFile
 
   validates :batch, presence: true
 
-  attr_accessor :file, :version
+  attr_accessor :file, :version, :visibility
 
   def filename
     content.label

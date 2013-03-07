@@ -6,6 +6,8 @@ describe GenericFile do
   it { should respond_to(:current_version_id) }
   it { should respond_to(:file=) }
   it { should respond_to(:filename) }
+  it { should respond_to(:visibility) }
+  it { should respond_to(:visibility=) }
 
   it 'uses #noid for #to_param' do
     subject.to_param.should == subject.noid
