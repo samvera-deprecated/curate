@@ -37,11 +37,12 @@ HTML
   end
 
   def extract_dom_label_class_and_link_title(document)
+    hash = document.stringify_keys
     dom_label_class, link_title = "label-important", "Private"
-    if document[:read_access_group_t].present?
-      if document[:read_access_group_t].include?('public')
+    if hash['read_access_group_t'].present?
+      if hash['read_access_group_t'].include?('public')
         dom_label_class, link_title = 'label-success', 'Open Access'
-      elsif document[:read_access_group_t].include?('registered')
+      elsif has['read_access_group_t'].include?('registered')
         dom_label_class, link_title = "label-info", t('sufia.institution_name')
       end
     end
