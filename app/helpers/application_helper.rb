@@ -20,4 +20,27 @@ HTML
 
     markup.html_safe()
   end
+
+  def dashboard_link_to_edit_permissions(solr_document, curation_concern)
+    dom_label_class, link_title = extract_dom_label_class_and_link_title(solr_document)
+    markup = <<-HTML
+      <a href="#{edit_polymorphic_path([:curation_concern, curation_concern])}" id="permission_#{curation_concern.to_param}">
+        <span class="label #{dom_label_class}" title="#{link_title}">#{link_title}</span>
+      </a>
+    HTML
+    markup.html_safe
+  end
+
+  def extract_dom_label_class_and_link_title(document)
+    dom_label_class, link_title = "label-important", "Private"
+    if document[:read_access_group_t].present?
+      if document[:read_access_group_t].include?('public')
+        dom_label_class, link_title = 'label-success', 'Open Access'
+      elsif document[:read_access_group_t].include?('registered')
+        dom_label_class, link_title = "label-info", t('sufia.institution_name')
+      end
+    end
+    return dom_label_class, link_title
+  end
+  private :extract_dom_label_class_and_link_title
 end

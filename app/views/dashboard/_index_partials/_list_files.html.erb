@@ -24,17 +24,11 @@ on element ids -->
   <td width="44%">
     <a href="" title="Click for more details"><i id="expand_<%= noid.gsub(":", "_") %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
     <%= render :partial => 'dashboard/_index_partials/thumbnail_display', :locals => {:document=>document} %>
-    <span class=center><%= link_to render_document_show_field_value(:document=>document, :field=>document.title_or_label), polymorphic_path([:curation_concern, gf]), :id => "src_copy_link#{noid}" %> <br /></span>
+    <span class="center"><%= link_to render_document_show_field_value(:document=>document, :field=>document.title_or_label), polymorphic_path([:curation_concern, gf]), :id => "src_copy_link#{noid}" %> <br /></span>
   </td>
   <td width="17%"><%= document.fetch(:desc_metadata__date_uploaded_dt,'').to_time.strftime("%m/%d/%Y") unless document.fetch(:desc_metadata__date_uploaded_dt,'').blank? %> </td>
-  <td width="5%" align="center">
-    <% if !document[:read_access_group_t].blank? and document[:read_access_group_t].include?('registered') %>
-      <a href="<%= polymorphic_path([:curation_concern, gf]) %>/edit/?tab=permissions" id="permission_<%= noid %>"><span class="label label-info" title="<%=t('sufia.institution_name') %>"><%=t('sufia.institution_name') %></span></a>
-    <% elsif !document[:read_access_group_t].blank? and document[:read_access_group_t].include?('public') %>
-      <a href="<%= polymorphic_path([:curation_concern, gf]) %>/edit/?tab=permissions" id="permission_<%= noid %>"><span class="label label-success" title="Open Access">Open Access</span></a>
-    <% else %>
-      <a href="<%= polymorphic_path([:curation_concern, gf]) %>/edit/?tab=permissions" id="permission_<%= noid %>"><span class="label label-important" title="Private">Private</span></a>
-    <% end %>
+  <td width="5%" class="center">
+    <%= dashboard_link_to_edit_permissions(document, gf) %>
   </td>
   <td width="23%" class="center">
     <%= link_to raw('<i class="icon-pencil icon-large"></i>'), edit_polymorphic_path([:curation_concern, gf]), :class=> 'itemicon itemedit', :title => 'Edit File'  %>&nbsp;&nbsp;&nbsp;
