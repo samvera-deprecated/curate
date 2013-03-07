@@ -20,7 +20,7 @@ describe ApplicationHelper do
     end
   end
 
-  describe '#dashboard_link_to_edit_permissions' do
+  describe '#link_to_edit_permissions' do
     let(:solr_document) { {read_access_group_t: access_policy } }
     let(:user) { FactoryGirl.create(:user) }
     let(:curation_concern) {
@@ -35,7 +35,7 @@ describe ApplicationHelper do
       let(:visibility) { 'psu' } # Can we change this?
       let(:access_policy) { 'registered' }
       it 'renders a Notre Dame only label' do
-        rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
+        rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
           have_tag("a#permission_#{curation_concern.to_param}") {
             with_tag("span.label.label-info", with: {title: expected_label }, text: expected_label)
@@ -48,7 +48,7 @@ describe ApplicationHelper do
       let(:access_policy) { 'public' }
       let(:visibility) { 'open'}
       it 'renders an "Open Access" label' do
-        rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
+        rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
           have_tag("a#permission_#{curation_concern.to_param}") {
             with_tag("span.label.label-success", with: {title: expected_label }, text: expected_label)
@@ -63,7 +63,7 @@ describe ApplicationHelper do
       let(:expected_label) { "Open Access" }
       let(:access_policy) { 'public registered' }
       it 'renders an "Open Access" label' do
-        rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
+        rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
           have_tag("a#permission_#{curation_concern.to_param}") {
             with_tag("span.label.label-success", with: {title: expected_label }, text: expected_label)
@@ -76,7 +76,7 @@ describe ApplicationHelper do
       let(:access_policy) { nil }
       let(:visibility) { 'restricted' }
       it 'renders an "Private" label' do
-        rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
+        rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
           have_tag("a#permission_#{curation_concern.to_param}") {
             with_tag("span.label.label-important", with: {title: expected_label }, text: expected_label)
