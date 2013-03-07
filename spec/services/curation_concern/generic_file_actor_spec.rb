@@ -9,16 +9,16 @@ describe CurationConcern::GenericFileActor do
   let(:file) { Rack::Test::UploadedFile.new(file_path, 'text/plain', false)}
   let(:file_content) { File.read(file)}
   let(:title) { Time.now.to_s }
-  let(:attributes) { { file: file, title: title } }
+  let(:attributes) {
+    { file: file, title: title, visibility: 'psu' }
+  }
 
   subject {
     CurationConcern::GenericFileActor.new(generic_file, user, attributes)
   }
 
   describe '#create!' do
-    let(:generic_file) {
-      GenericFile.new.tap {|gf| gf.batch = parent }
-    }
+    let(:generic_file) { GenericFile.new.tap {|gf| gf.batch = parent } }
     let(:reloaded_generic_file) {
       generic_file.class.find(generic_file.pid)
     }
@@ -30,9 +30,10 @@ describe CurationConcern::GenericFileActor do
       }.by(1)
 
       reloaded_generic_file.batch.should == parent
-
       reloaded_generic_file.to_s.should == title
       reloaded_generic_file.filename.should == File.basename(__FILE__)
+
+      expect(reloaded_generic_file.to_solr['read_access_group_t']).to eq(['registered'])
     end
 
     it 'fails if no batch is provided' do
