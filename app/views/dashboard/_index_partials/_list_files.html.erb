@@ -28,7 +28,7 @@ on element ids -->
   </td>
   <td width="17%"><%= document.fetch(:desc_metadata__date_uploaded_dt,'').to_time.strftime("%m/%d/%Y") unless document.fetch(:desc_metadata__date_uploaded_dt,'').blank? %> </td>
   <td width="5%" class="center">
-    <%= dashboard_link_to_edit_permissions(document, gf) %>
+    <%= dashboard_link_to_edit_permissions(gf, document) %>
   </td>
   <td width="23%" class="center">
     <%= link_to raw('<i class="icon-pencil icon-large"></i>'), edit_polymorphic_path([:curation_concern, gf]), :class=> 'itemicon itemedit', :title => 'Edit File'  %>&nbsp;&nbsp;&nbsp;

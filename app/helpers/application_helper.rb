@@ -21,7 +21,7 @@ HTML
     markup.html_safe()
   end
 
-  def dashboard_link_to_edit_permissions(solr_document, curation_concern)
+  def dashboard_link_to_edit_permissions(curation_concern, solr_document = nil)
     dom_label_class, link_title = extract_dom_label_class_and_link_title(solr_document)
     markup = <<-HTML
       <a href="#{edit_polymorphic_path([:curation_concern, curation_concern])}" id="permission_#{curation_concern.to_param}">

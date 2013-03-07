@@ -29,7 +29,7 @@ describe ApplicationHelper do
       let(:expected_label) { "University of Notre Dame" }
       let(:access_policy) { 'registered' }
       it 'renders a Notre Dame only label' do
-        rendered = helper.dashboard_link_to_edit_permissions(solr_document, curation_concern)
+        rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
           have_tag("a#permission_#{curation_concern.to_param}") {
             with_tag("span.label.label-info", with: {title: expected_label }, text: expected_label)
@@ -41,7 +41,7 @@ describe ApplicationHelper do
       let(:expected_label) { "Open Access" }
       let(:access_policy) { 'public' }
       it 'renders an "Open Access" label' do
-        rendered = helper.dashboard_link_to_edit_permissions(solr_document, curation_concern)
+        rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
           have_tag("a#permission_#{curation_concern.to_param}") {
             with_tag("span.label.label-success", with: {title: expected_label }, text: expected_label)
@@ -56,7 +56,7 @@ describe ApplicationHelper do
       let(:expected_label) { "Open Access" }
       let(:access_policy) { 'public registered' }
       it 'renders an "Open Access" label' do
-        rendered = helper.dashboard_link_to_edit_permissions(solr_document, curation_concern)
+        rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
           have_tag("a#permission_#{curation_concern.to_param}") {
             with_tag("span.label.label-success", with: {title: expected_label }, text: expected_label)
@@ -68,7 +68,7 @@ describe ApplicationHelper do
       let(:expected_label) { "Private" }
       let(:access_policy) { nil }
       it 'renders an "Private" label' do
-        rendered = helper.dashboard_link_to_edit_permissions(solr_document, curation_concern)
+        rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
           have_tag("a#permission_#{curation_concern.to_param}") {
             with_tag("span.label.label-important", with: {title: expected_label }, text: expected_label)
