@@ -23,10 +23,16 @@ describe ApplicationHelper do
   describe '#dashboard_link_to_edit_permissions' do
     let(:solr_document) { {read_access_group_t: access_policy } }
     let(:user) { FactoryGirl.create(:user) }
-    let(:curation_concern) { FactoryGirl.create_curation_concern(:senior_thesis, user) }
+    let(:curation_concern) {
+      FactoryGirl.create_curation_concern(
+        :senior_thesis, user, visibility: visibility
+      )
+    }
+    let(:visibility) { nil }
     let(:access_policy) { nil }
     describe 'with a "registered" access group' do
       let(:expected_label) { "University of Notre Dame" }
+      let(:visibility) { 'psu' } # Can we change this?
       let(:access_policy) { 'registered' }
       it 'renders a Notre Dame only label' do
         rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
@@ -40,6 +46,7 @@ describe ApplicationHelper do
     describe 'with a "public" access group' do
       let(:expected_label) { "Open Access" }
       let(:access_policy) { 'public' }
+      let(:visibility) { 'open'}
       it 'renders an "Open Access" label' do
         rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
@@ -67,6 +74,7 @@ describe ApplicationHelper do
     describe 'without an access group' do
       let(:expected_label) { "Private" }
       let(:access_policy) { nil }
+      let(:visibility) { 'restricted' }
       it 'renders an "Private" label' do
         rendered = helper.dashboard_link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
