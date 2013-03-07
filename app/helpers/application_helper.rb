@@ -42,7 +42,7 @@ HTML
     if hash['read_access_group_t'].present?
       if hash['read_access_group_t'].include?('public')
         dom_label_class, link_title = 'label-success', 'Open Access'
-      elsif has['read_access_group_t'].include?('registered')
+      elsif hash['read_access_group_t'].include?('registered')
         dom_label_class, link_title = "label-info", t('sufia.institution_name')
       end
     end
