@@ -39,7 +39,6 @@ on element ids -->
   <td width="23%" class="center">
     <%= link_to raw('<i class="icon-pencil icon-large"></i>'), edit_polymorphic_path([:curation_concern, gf]), :class=> 'itemicon itemedit', :title => 'Edit File'  %>&nbsp;&nbsp;&nbsp;
     <%= link_to raw('<i class="icon-trash icon-large"></i>'), polymorphic_path([:curation_concern, gf]), :class=> 'itemicon itemtrash', :title => 'Delete File', :method => :delete, :data => { :confirm => "Deleting a file from #{t('sufia.product_name')} is permanent. Click OK to delete this file from #{t('sufia.product_name')}, or Cancel to cancel this operation"} %>&nbsp;&nbsp;&nbsp;
-    <%= link_to raw('<i class="icon-plus icon-large"></i>'), related_file_dashboard_index_path(gf.id), :class=> 'itemicon iconplus', :title => 'Show related File'%>&nbsp;&nbsp;&nbsp;
   </td>
 </tr>
 <tr class="hide" id="detail_<%= noid.gsub(":", "_") %>"> <!--  document detail"> -->
