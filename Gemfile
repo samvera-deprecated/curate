@@ -42,6 +42,7 @@ end
 
 group :test, :development do
   gem 'factory_girl_rails'
+  gem 'rspec-html-matchers'
   gem 'rspec-rails'
   gem 'simplecov'
   gem 'debugger'
