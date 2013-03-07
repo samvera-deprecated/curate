@@ -24,6 +24,7 @@ group :not_deploy do
   # Need rubyracer to run integration tests.....really?!?
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
+  gem 'webmock'
 end
 
 group :headless do
@@ -51,6 +52,7 @@ group :test, :development do
   gem 'capybara'
   gem 'simplecov'
   gem 'rails_best_practices'
+  gem 'webmock'
 end
 
 group :deploy do
