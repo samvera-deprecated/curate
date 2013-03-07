@@ -22,14 +22,18 @@ HTML
   end
 
   def dashboard_link_to_edit_permissions(curation_concern, solr_document = nil)
-    solr_document ||= curation_concern.to_solr
-    dom_label_class, link_title = extract_dom_label_class_and_link_title(solr_document)
     markup = <<-HTML
       <a href="#{edit_polymorphic_path([:curation_concern, curation_concern])}" id="permission_#{curation_concern.to_param}">
-        <span class="label #{dom_label_class}" title="#{link_title}">#{link_title}</span>
+        #{permission_badge_for(curation_concern, solr_document)}
       </a>
     HTML
     markup.html_safe
+  end
+
+  def permission_badge_for(curation_concern, solr_document = nil)
+    solr_document ||= curation_concern.to_solr
+    dom_label_class, link_title = extract_dom_label_class_and_link_title(solr_document)
+    %(<span class="label #{dom_label_class}" title="#{link_title}">#{link_title}</span>).html_safe
   end
 
   def extract_dom_label_class_and_link_title(document)
