@@ -17,9 +17,6 @@ describe CurationConcern::SeniorThesisActor do
       }
     }
     describe 'valid attributes' do
-      let(:perm_matcher) {
-        lambda {|perm| perm[:type] == 'group' && perm[:name]=='registered' }
-      }
       before(:all) do
         subject.create!
       end
@@ -30,10 +27,6 @@ describe CurationConcern::SeniorThesisActor do
         curation_concern.depositor.should == user.user_key
         curation_concern.creator.should == user.name
 
-        # TODO - Not exactly certain what this is about; Need reference
-        # Also, can we make a permissions object that is not hash driven?
-        curation_concern.permissions.select(&perm_matcher).count == 1
-
         new_curation_concern = curation_concern.class.find(curation_concern.pid)
 
         new_curation_concern.generic_files.count.should == 1
@@ -42,7 +35,9 @@ describe CurationConcern::SeniorThesisActor do
         senior_thesis_file.content.content.should == thesis_file.read
         senior_thesis_file.filename.should == File.basename(thesis_file_path)
         senior_thesis_file.to_s.should == 'Senior Thesis'
-        senior_thesis_file.permissions.select(&perm_matcher).count == 1
+
+        expect(new_curation_concern.to_solr['read_access_group_t']).to eq(['registered'])
+        expect(senior_thesis_file.to_solr['read_access_group_t']).to eq(['registered'])
       end
     end
   end
