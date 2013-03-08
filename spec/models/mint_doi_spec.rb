@@ -1,15 +1,12 @@
 require 'spec_helper'
 
-# https://github.com/bblimke/webmock
-require 'webmock/rspec'
-
 describe MintDoi do
 
-  before :all do
+  before :each do
     WebMock.disable_net_connect!
   end
 
-  after(:all) do
+  after :each do
     WebMock.allow_net_connect!
   end
 

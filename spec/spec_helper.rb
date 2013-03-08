@@ -10,6 +10,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'database_cleaner'
 require 'capybara/rspec'
+require 'webmock/rspec'
 
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -41,6 +42,10 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:all) do
+    WebMock.allow_net_connect!
   end
 
   config.before(:each) do
