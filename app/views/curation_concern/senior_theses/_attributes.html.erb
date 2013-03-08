@@ -1,4 +1,8 @@
 <dl class="<%= dom_class(curation_concern) %> attributes">
+  <% if curation_concern.identifier.present? %>
+    <dt>Digital Object Identifier (DOI)</dt>
+    <dd class="attribute identifier"><%= curation_concern.identifier %></dd>
+  <%- end -%>
   <dt>Abstract</dt>
   <dd><%= curation_concern.description %></dd>
   <dt>Permission</dt>
