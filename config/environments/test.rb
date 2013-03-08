@@ -36,4 +36,13 @@ CurateNd::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  config.default_antivirus_instance = lambda {|file_path|
+    if ENV['FULL_STACK']
+      require 'clamav'
+      ClamAV.instance.scanfile(file_path)
+    else
+      return 0
+    end
+  }
 end

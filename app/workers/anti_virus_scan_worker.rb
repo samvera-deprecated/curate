@@ -18,8 +18,12 @@ class AntiVirusScanWorker
   # You don't really want to run CLAM everytime...in tests
   include Morphine
   register :anti_virus_instance do
-    require 'clam'
-    ClamAV.instance.method(:scanfile)
+    if Rails.configuration.respond_to?(:default_antivirus_instance)
+      Rails.configuration.default_antivirus_instance
+    else
+      require 'clam'
+      ClamAV.instance.method(:scanfile)
+    end
   end
   register :file_attacher do
     CurationConcern.method(:attach_file)

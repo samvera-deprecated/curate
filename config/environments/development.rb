@@ -35,4 +35,14 @@ CurateNd::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.default_antivirus_instance = lambda {|file_path|
+    if ENV['FULL_STACK']
+      require 'clamav'
+      ClamAV.instance.scanfile(file_path)
+    else
+      return 0
+    end
+  }
+
 end
