@@ -28,10 +28,12 @@ fi
 echo "=-=-=-=-=-=-=-= git clone secret_ci"
 git clone git@git.library.nd.edu:secret_ci
 
-for f in database.yml solr.yml fedora.yml redis.yml; do
+for f in database.yml doi.yml solr.yml fedora.yml redis.yml; do
     echo "=-=-=-=-=-=-=-= copy $f"
     cp secret_ci/curate_nd/$f config/$f
 done
+echo "=-=-=-=-=-=-=-= copy secret_token.rb"
+cp secret_ci/curate_nd/secret_token.rb config/initializers/secret_token.rb
 
 echo "=-=-=-=-=-=-=-= rake curatend:ci"
 $WORKSPACE/vendor/bundle/bin/rake --trace curatend:ci
