@@ -2,8 +2,8 @@ CurateNd::Application.routes.draw do
   mount_roboto
 
   Blacklight.add_routes(self)
-  HydraHead.add_routes(self)
-  Hydra::BatchEdit.add_routes(self)
+  # HydraHead.add_routes(self)
+  # Hydra::BatchEdit.add_routes(self)
 
   devise_for :users
 
@@ -33,5 +33,6 @@ CurateNd::Application.routes.draw do
 
   match "classify" => "classify#new", via: :get
   match "classify" => "classify#create", via: :post
+  match "show/:id" => "common_objects#show", via: :get, as: "common_object"
   root to: 'welcome#index'
 end
