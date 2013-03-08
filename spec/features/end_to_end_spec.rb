@@ -33,7 +33,7 @@ describe 'end to end behavior', type: :feature do
 
   describe 'file uploaded via different paths' do
     let(:agreed_to_terms_of_service) { true }
-    it "related file via senior_thesis#new and generic_file#new should be similar" do
+    it "related file via senior_thesis#new and generic_file#new should be similar", js: true do
       login_as(user, scope: :user, run_callbacks: false)
       get_started
       classify_what_you_are_uploading('Senior Thesis')
@@ -41,14 +41,20 @@ describe 'end to end behavior', type: :feature do
         "Title" => 'Senior Thesis',
         'Visibility' => 'Open Access',
         "Upload your thesis" => initial_file_path,
+        "DOI" => true,
         "Button to click" => 'Create and Add Related Files...'
       )
-
       # While the title is different, the filenames should be the same
       add_a_related_file(
         "Title" => 'Related File',
         'Visibility' => 'University of Notre Dame',
         "Upload a related file" => initial_file_path
+      )
+
+      page.assert_selector('h1', text: 'Senior Thesis')
+      page.assert_selector(
+        '.senior_thesis.attributes .doi.attribute',
+        count: 1
       )
 
       page.assert_selector(
@@ -124,6 +130,9 @@ describe 'end to end behavior', type: :feature do
       fill_in("Title", with: options['Title'])
       attach_file("Upload your thesis", options['Upload your thesis'])
       choose(options['Visibility'])
+      if options['Assign DOI']
+        check('senior_thesis_assign_doi')
+      end
       click_on(options["Button to click"])
     end
 
