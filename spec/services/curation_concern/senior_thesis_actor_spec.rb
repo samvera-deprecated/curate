@@ -6,18 +6,33 @@ describe CurationConcern::SeniorThesisActor do
   let(:curation_concern) { SeniorThesis.new(pid: pid)}
   let(:thesis_file_path) { __FILE__ }
   let(:thesis_file) { Rack::Test::UploadedFile.new(thesis_file_path, 'text/plain', false)}
+  let(:assigned_doi) { 'abc-123' }
+  let(:mock_doi_minter) { lambda {|pid|
+      object = ActiveFedora::Base.find(pid, cast: true)
+      object.identifier = assigned_doi
+      object.save
+      true
+    }
+  }
+
   subject {
     CurationConcern.actor(curation_concern, user, attributes)
   }
+
+  before(:each) {
+    subject.doi_minter = mock_doi_minter
+  }
+
   describe '#create' do
     let(:attributes) {
       FactoryGirl.attributes_for(:senior_thesis).tap {|a|
         a[:thesis_file] = thesis_file
         a[:visibility] = 'psu'
+        a[:assign_doi] = '1'
       }
     }
     describe 'valid attributes' do
-      before(:all) do
+      before(:each) do
         subject.create!
       end
       it do
@@ -38,24 +53,33 @@ describe CurationConcern::SeniorThesisActor do
 
         expect(new_curation_concern.to_solr['read_access_group_t']).to eq(['registered'])
         expect(senior_thesis_file.to_solr['read_access_group_t']).to eq(['registered'])
+        expect(new_curation_concern.identifier).to eq(assigned_doi)
       end
     end
   end
 
   describe '#update' do
+    before(:each) {
+      subject.doi_minter = mock_doi_minter
+    }
+
     let(:attributes) {
       FactoryGirl.attributes_for(:senior_thesis).tap {|a|
         a[:visibility] = 'open'
+        a[:assign_doi] = '1'
       }
     }
     describe 'valid attributes' do
       before(:all) do
         curation_concern.apply_depositor_metadata(user.user_key)
-        subject.update!
       end
       it do
+        subject.update!
+        expect(curation_concern.identifier).to be_blank
         expect(curation_concern).to be_persisted
         curation_concern.permissions.select{|r| r[:type] == 'group' && r[:name]=='public'}.count == 1
+        new_curation_concern = curation_concern.class.find(curation_concern.pid)
+        expect(new_curation_concern.identifier).to eq(assigned_doi)
       end
 
     end
