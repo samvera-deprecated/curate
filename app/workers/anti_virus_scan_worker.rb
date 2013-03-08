@@ -31,17 +31,17 @@ class AntiVirusScanWorker
 
   def run
     response_value = anti_virus_instance.call(file_path)
-    response_value == 0 ? anti_virus_passed! : anti_virus_failed!(response_value)
+    if response_value == 0
+      true
+    else
+      anti_virus_failed!(response_value)
+    end
   end
 
   protected
 
   def anti_virus_failed!(response_value)
     raise AntiVirusScanFailure.new(pid, file_path, response_value)
-  end
-
-  def anti_virus_passed!
-    file_attacher.call(pid, user, file_path)
   end
 
 end
