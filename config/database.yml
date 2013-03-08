@@ -1,0 +1,36 @@
+#
+# FYI: This file is replaced by a copy for deploys
+# to ci, pre_production, and production.
+#
+mysql_settings: &mysql_settings
+  adapter:   mysql2
+  encoding:  utf8
+  reconnect: false
+  pool:      5
+
+local_user: &local_user
+  <<: *mysql_settings
+  username: root
+  password:
+
+development: &development
+  <<: *local_user
+  database: curate_nd_development
+  host:     localhost
+  timeout: 5000
+
+development_remote_purl_database:
+  <<: *development
+
+test: &test
+  <<: *development
+  database: curate_nd_test
+
+test_remote_purl_database:
+  <<: *test
+
+ci: &ci
+  <<: *test
+
+ci_remote_purl_database:
+  <<: *ci
