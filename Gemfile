@@ -41,20 +41,19 @@ group :assets do
 end
 
 group :test do
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'rspec-html-matchers'
+  gem 'rspec-rails'
   gem 'webmock'
 end
 
 group :test, :development do
-  gem 'factory_girl_rails'
-  gem 'rspec-html-matchers'
-  gem 'rspec-rails'
-  gem 'simplecov'
   gem 'debugger'
-  gem 'database_cleaner'
-  gem 'sextant'
-  gem 'capybara'
-  gem 'simplecov'
   gem 'rails_best_practices'
+  gem 'sextant'
+  gem 'simplecov'
 end
 
 group :deploy do
