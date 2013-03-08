@@ -2,7 +2,7 @@
   <h1><%= curation_concern.title %></h1>
 <% end %>
 
-<%= render 'show_details', curation_concern: curation_concern %>
+<%= render 'attributes', curation_concern: curation_concern %>
 
 <h2>Related Files</h2>
 <%- generic_files_are_editable = can?(:edit, curation_concern) -%>
