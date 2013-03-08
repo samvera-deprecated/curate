@@ -33,7 +33,7 @@ describe 'end to end behavior', type: :feature do
 
   describe 'file uploaded via different paths' do
     let(:agreed_to_terms_of_service) { true }
-    it "related file via senior_thesis#new and generic_file#new should be similar", js: true do
+    it "related file via senior_thesis#new and generic_file#new should be similar" do
       login_as(user, scope: :user, run_callbacks: false)
       get_started
       classify_what_you_are_uploading('Senior Thesis')
