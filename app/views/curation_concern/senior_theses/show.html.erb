@@ -30,7 +30,9 @@
         <td class="attribute date_uploaded"><%= generic_file.date_uploaded %></td>
         <td class="attribute permission"><%= link_to_edit_permissions(generic_file) %></td>
         <td>
-          <%= link_to 'Edit', edit_polymorphic_path([:curation_concern, generic_file]), class: 'btn' %>
+          <%- if generic_files_are_editable -%>
+            <%= link_to 'Edit', edit_polymorphic_path([:curation_concern, generic_file]), class: 'btn' %>
+          <%- end -%>
         </td>
       </tr>
     <% end %>
@@ -38,7 +40,7 @@
 </table>
 
 <% content_for :second_row do %>
-  <% if can? :edit, curation_concern %>
+  <% if generic_files_are_editable %>
     <div class="form-actions">
       <%= link_to "Edit This Senior Thesis", edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary' %>
       <%= link_to "Add a Related File", new_curation_concern_generic_file_path(curation_concern), class: 'btn btn-primary' %>
