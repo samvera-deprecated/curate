@@ -28,12 +28,14 @@ describe MintDoi do
     end
   end
 
-  let(:mint_doi) { MintDoi.new}
+  let(:pid) { "und:j3860692c" }
 
-  let(:fed_obj){
+  let(:mint_doi) { MintDoi.new(pid)}
+
+  let(:fedora_object){
     OpenStruct.new(
       {
-        :pid => "und:j3860692c",
+        :pid => pid,
         :date_added => DateTime.new(2001,-11,-26,-20,-55,-54,'+7'),
         :date_modified => DateTime.new(2001,-11,-26,-20,-55,-54,'+7'),
         :url => "https://localhost:8983/fedora/get/und:99hijk99",
@@ -49,8 +51,9 @@ describe MintDoi do
   describe 'create_or_retreive_purl' do
 
     it 'should_return_digital_object_identifier' do
+      ActiveFedora::Base.stub(:find).with(pid, cast: true).and_return(fedora_object)
       stub_http_for_initial_url
-      mint_doi.create_or_retreive_doi(fed_obj).should include(expected_doi)
+      mint_doi.create_or_retreive_doi.should include(expected_doi)
     end
 
   end
