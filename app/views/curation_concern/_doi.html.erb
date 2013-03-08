@@ -1,0 +1,19 @@
+<%- if curation_concern.identifier.present? -%>
+  <p>Digital Object Identifier: <%= curation_concern.identifier %></p>
+<%- else -%>
+  <fieldset>
+    <legend class="nested-field-heading">
+      Assign a Digital Object Identifier (DOI)
+    </legend>
+    <p class="help-block">
+      <blockquote>
+        The DOI system provides a technical and social infrastructure for the registration and use of persistent interoperable identifiers for use on digital networks.
+      </blockquote>
+      More information at <a href="http://www.doi.org">www.doi.org</a>
+    </p>
+    <%= f.label :assign_doi do %>
+      <%= f.check_box :assign_doi %>
+      Yes, I would like to assign a Digital Object Identifier (DOI)
+    <% end %>
+  </fieldset>
+<%- end -%>

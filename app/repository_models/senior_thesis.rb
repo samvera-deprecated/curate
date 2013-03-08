@@ -53,7 +53,7 @@ class SeniorThesis < ActiveFedora::Base
     return solr_doc
   end
 
-  attr_accessor :thesis_file, :visibility
+  attr_accessor :thesis_file, :visibility, :assign_doi
 
   def current_thesis_file
     generic_files.first
