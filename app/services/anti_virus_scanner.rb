@@ -11,6 +11,6 @@ class AntiVirusScanner
 
   include Morphine
   register :scanner_function do
-    Rails.config.default_antivirus_instance
+    Rails.configuration.default_antivirus_instance
   end
 end
