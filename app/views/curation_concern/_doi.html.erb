@@ -1,19 +1,40 @@
-<%- if curation_concern.identifier.present? -%>
-  <p>Digital Object Identifier: <%= curation_concern.identifier %></p>
+<%- unless curation_concern.identifier.present? -%>
+  <%# Please forgive this questionably semantic markup -- it should just _look_ the same as a legend/fieldset %>
+  <fieldset>
+    <legend>Digital Object Identifier</legend>
+    <p>
+      This
+      <%= curation_concern.archived_object_type.demodulize.underscore.humanize.downcase %>
+      has a <abbr title="Digitial Object Identifier">DOI</abbr>.
+    </p>
+    <p class="doi centered">
+      <%= curation_concern.identifier %>
+    </p>
+    <%# TODO: Write something more helpful here. Also include a link to the _actual_ DOI. %>
+    <p>
+      It's great for citing your work.
+    </p>
+  </fieldset>
 <%- else -%>
   <fieldset>
-    <legend class="nested-field-heading">
-      Assign a Digital Object Identifier (DOI)
+    <legend>
+      Assign a Digital Object Identifier
     </legend>
-    <p class="help-block">
+    <div class="help-block">
       <blockquote>
-        The DOI system provides a technical and social infrastructure for the registration and use of persistent interoperable identifiers for use on digital networks.
+        <p>
+          The <abbr title="Digitial Object Identifier">DOI</abbr> system provides
+          a technical and social infrastructure for the registration and use of
+          persistent interoperable identifiers for use on digital networks.
+        </p>
       </blockquote>
-      More information at <a href="http://www.doi.org">www.doi.org</a>
-    </p>
+      <p>More information at <a href="http://www.doi.org">www.doi.org</a></p>
+    </div>
     <%= f.label :assign_doi do %>
       <%= f.check_box :assign_doi %>
-      Yes, I would like to assign a Digital Object Identifier (DOI)
+      Yes, I would like to assign this
+      <%= curation_concern.archived_object_type.demodulize.underscore.humanize.downcase %>
+      a <abbr title="Digitial Object Identifier">DOI</abbr>.
     <% end %>
   </fieldset>
 <%- end -%>
