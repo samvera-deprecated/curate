@@ -187,7 +187,7 @@ describe 'end to end behavior', type: :feature do
   def view_your_updated_thesis
     page.should have_content("Related Files")
     page.should have_content(updated_title)
-    click_on("Dashboard")
+    click_on("Back to Dashboard")
   end
 
   def view_your_dashboard
