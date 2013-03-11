@@ -1,12 +1,20 @@
-<%# only display the q parameter if the controller is not the dashboard.  If they are in the dashboard controller, then the search is of the dashboard. %>
-<% q = params[:controller] == 'dashboard' ? nil : params[:q] %>
-
 <%= form_tag catalog_index_path, :method => :get, :id => "search-form-header" do %>
-  <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
-  <div class="controls">
-    <div class="input-append">
-      <label class="accessible-hidden"><%= t('sufia.search.form.q.label') %></label>
-      <%= text_field_tag :q, q, :class => "q span40", :id => "search-field-header", :placeholder => t('sufia.search.form.q.placeholder'), :type => "search" %><button type="submit" class="btn btn-primary" id="search-submit-header">Go</button>
-    </div>
-  </div>
+  <fieldset>
+    <legend class="accessible-hidden">Search <%=t('sufia.product_name')%></legend>
+    <%= label_tag :catalog_search, t('sufia.search.form.q.label'), :class => "accessible-hidden" %>
+    <%= text_field_tag(
+      :q,
+      params[:q],
+      :class => "q input-xlarge search-query",
+      :id => "catalog_search",
+      :placeholder => t('sufia.search.form.q.placeholder'),
+      :size => "30",
+      :tabindex => "1",
+      :type => "search",
+    )%>
+    <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>
+    <button type="submit" class="btn btn-primary" id="search-submit-header" tabindex="2">
+      <i class="icon-search icon-white"></i> Go
+    </button>
+  </fieldset>
 <% end %>
