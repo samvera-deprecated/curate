@@ -1,3 +1,5 @@
+# This is a simple wrapper for an underlying scanner; Without it, we'll
+# always going to be running actual anti-virus
 class AntiVirusScanner
   class VirusDetected < RuntimeError
     def initialize(pid, file_path)
@@ -11,7 +13,7 @@ class AntiVirusScanner
   end
 
   def call
-    if scanner_function.call(file_path) == 0
+    if scanner_instance.call(file_path) == 0
       return true
     else
       raise VirusDetected.new(object.pid, file_path)
@@ -19,7 +21,7 @@ class AntiVirusScanner
   end
 
   include Morphine
-  register :scanner_function do
+  register :scanner_instance do
     Rails.configuration.default_antivirus_instance
   end
 end
