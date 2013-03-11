@@ -5,6 +5,10 @@ module ApplicationHelper
     self
   end
 
+  def classify_for_display(curation_concern)
+    curation_concern.class.to_s.demodulize.titleize.downcase
+  end
+
   def bootstrap_navigation_element(name, path)
     markup = ""
 

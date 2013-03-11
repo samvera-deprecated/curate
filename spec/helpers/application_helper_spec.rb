@@ -5,6 +5,10 @@ describe ApplicationHelper do
     expect(helper.sufia).to eq(helper)
   end
 
+  it 'has #classify_for_display' do
+    expect(helper.classify_for_display(SeniorThesis.new)).to eq('senior thesis')
+  end
+
   describe '#bootstrap_navigation_element' do
     let(:path) { '/hello/world' }
     let(:name) { "Link Name"}
