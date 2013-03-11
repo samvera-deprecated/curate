@@ -358,4 +358,10 @@ class CatalogController < ApplicationController
     # mean") suggestion is offered.
     config.spell_max = 5
   end
+
+  private
+
+  def show_site_search?
+    false
+  end
 end

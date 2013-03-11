@@ -75,6 +75,12 @@ class DashboardController < ApplicationController
     @response, @document_list = get_solr_response_for_field_values("is_part_of_s",["info:fedora/#{params[:id]}"],extra_controller_params)
   end
 
+  private
+
+  def show_site_search?
+    false
+  end
+
   protected
   # show only files with edit permissions in lib/hydra/access_controls_enforcement.rb apply_gated_discovery
   def discovery_permissions

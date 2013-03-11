@@ -26,6 +26,11 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  def show_site_search?
+    true
+  end
+  helper_method :show_site_search?
+
   protected
   def agreed_to_terms_of_service!
     return false unless current_user
