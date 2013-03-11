@@ -1,4 +1,11 @@
 class MintPurl
+
+  class PurlError < RuntimeError
+    def initialize(error_message)
+      super(error_message)
+    end
+  end
+
   def create_or_retreive_purl(fed_obj)
     repo_object = RepoObject.where(:filename => fed_obj.pid).first
     if repo_object
@@ -11,8 +18,8 @@ class MintPurl
       @purl = Purl.create_from_repo_object(@repo_object)
     end
     return purl_url(@purl.purl_id, fed_obj) if @purl
-
-    nil
+  rescue => e
+    raise PurlError.new("Could not create Purl for the following reasons: #{e.backtrace.inspect}")
   end
 
   private
