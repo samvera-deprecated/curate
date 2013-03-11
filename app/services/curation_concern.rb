@@ -11,15 +11,12 @@ module CurationConcern
   end
 
   def attach_file(generic_file, user, file_to_attach)
-    anti_virus = AntiVirusScanWorker.new(generic_file.pid,user[:id],file_to_attach)
-    if anti_virus.run
-      Sufia::GenericFile::Actions.create_content(
-        generic_file,
-        file_to_attach,
-        file_to_attach.original_filename,
-        'content',
-        user
-      )
-    end
+    Sufia::GenericFile::Actions.create_content(
+      generic_file,
+      file_to_attach,
+      file_to_attach.original_filename,
+      'content',
+      user
+    )
   end
 end
