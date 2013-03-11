@@ -4,7 +4,7 @@
     <legend>Digital Object Identifier</legend>
     <p>
       This
-      <%= curation_concern.class.demodulize.underscore.humanize.downcase %>
+      <%= classify_for_display(curation_concern) %>
       has a <abbr title="Digitial Object Identifier">DOI</abbr>.
     </p>
     <p class="doi centered">
@@ -33,7 +33,7 @@
     <%= f.label :assign_doi do %>
       <%= f.check_box :assign_doi %>
       Yes, I would like to assign this
-      <%= curation_concern.class.demodulize.underscore.humanize.downcase %>
+      <%= classify_for_display(curation_concern) %>
       a <abbr title="Digitial Object Identifier">DOI</abbr>.
     <% end %>
   </fieldset>
