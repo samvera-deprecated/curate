@@ -18,8 +18,14 @@ export HEADLESS=true
 echo "=-=-=-=-=-=-=-= bundle install"
 /shared/ruby_prod/ruby/1.9.3/bin/bundle install --path="$WORKSPACE/vendor/bundle" --binstubs="$WORKSPACE/vendor/bundle/bin" --shebang '/shared/ruby_prod/ruby/1.9.3/bin/ruby' --deployment --gemfile="$WORKSPACE/Gemfile"
 
+
 echo "=-=-=-=-=-=-=-= cd $WORKSPACE"
 cd $WORKSPACE
+
+echo "=-=-=-=-=-=-=-= Removing files Jenkins does not like"
+# A file in this directoy has a filename that Jenkins cannot handle. Likely
+# an atypical encoding.
+rm -f $(/shared/ruby_prod/ruby/1.9.3/bin/bundle show clamav)/spec/clamav-testfiles/*
 
 if [ -d secret_ci ]; then
     echo "=-=-=-=-=-=-=-= delete secret_ci"
