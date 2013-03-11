@@ -60,12 +60,12 @@ describe MintDoi do
 
   let(:expected_doi) { "doi:10.5072/FK2K361NJ" }
 
-  describe 'create_or_retreive_purl' do
+  describe 'create_or_retreive_doi' do
 
     it 'raises exception for fedora object without title' do
       ActiveFedora::Base.stub(:find).with(pid, cast: true).and_return(fedora_object_without_title)
       stub_http_for_initial_url
-      expect {mint_doi.create_or_retreive_doi}.to raise_error(MintDoi::MissingDataError)
+      expect {mint_doi.create_or_retrieve_doi}.to raise_error(MintDoi::MissingDataError)
     end
 
     it 'should return digital object identifier' do
