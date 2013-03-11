@@ -1,4 +1,9 @@
 class AntiVirusScanner
+  class VirusDetected < RuntimeError
+    def initialize(pid, file_path)
+      super("A virus was found for PID=#{pid.inspect} (#{file_path.inspect})")
+    end
+  end
   attr_reader :object, :file_path
   def initialize(object_with_pid, file_path)
     @object = object_with_pid
@@ -6,7 +11,11 @@ class AntiVirusScanner
   end
 
   def call
-    scanner_function.call(file_path) == 0
+    if scanner_function.call(file_path) == 0
+      return true
+    else
+      raise VirusDetected.new(object.pid, file_path)
+    end
   end
 
   include Morphine
