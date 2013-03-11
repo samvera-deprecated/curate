@@ -39,6 +39,10 @@ CurateNd::Application.configure do
 
   config.application_url = "http://localhost:3000"
 
+  config.fits_runner = lambda { |file_path|
+    Rails.root.join('spec/support/files/default_fits_output.xml').read
+  }
+
   config.default_antivirus_instance = lambda {|file_path|
     if ENV['FULL_STACK']
       require 'clamav'
