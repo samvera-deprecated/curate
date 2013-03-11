@@ -38,6 +38,8 @@ CurateNd::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
+  config.application_url = "http://localhost:3000"
+
   config.default_antivirus_instance = lambda {|file_path|
     require 'clamav'
     ClamAV.instance.scanfile(file_path)
