@@ -32,13 +32,25 @@ describe MintDoi do
 
   let(:mint_doi) { MintDoi.new(pid)}
 
+  let(:fedora_object_without_title){
+    OpenStruct.new(
+      {
+        :pid => pid,
+        :date_added => DateTime.new(2001,-11,-26,-20,-55,-54,'+7'),
+        :date_modified => DateTime.new(2001,-11,-26,-20,-55,-54,'+7'),
+        :information => "_TEST_",
+        :title => nil,
+        :creator => "DLIS"
+      }
+    )
+  }
+
   let(:fedora_object){
     OpenStruct.new(
       {
         :pid => pid,
         :date_added => DateTime.new(2001,-11,-26,-20,-55,-54,'+7'),
         :date_modified => DateTime.new(2001,-11,-26,-20,-55,-54,'+7'),
-        :url => "https://localhost:8983/fedora/get/und:99hijk99",
         :information => "_TEST_",
         :title => "Notre Dame Test",
         :creator => "DLIS"
@@ -50,7 +62,13 @@ describe MintDoi do
 
   describe 'create_or_retreive_purl' do
 
-    it 'should_return_digital_object_identifier' do
+    it 'raises exception for fedora object without title' do
+      ActiveFedora::Base.stub(:find).with(pid, cast: true).and_return(fedora_object_without_title)
+      stub_http_for_initial_url
+      expect {mint_doi.create_or_retreive_doi}.to raise_error(MintDoi::MissingDataError)
+    end
+
+    it 'should return digital object identifier' do
       ActiveFedora::Base.stub(:find).with(pid, cast: true).and_return(fedora_object)
       stub_http_for_initial_url
       mint_doi.create_or_retrieve_doi.should include(expected_doi)

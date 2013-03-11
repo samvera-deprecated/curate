@@ -2,6 +2,12 @@ class MintDoi
 
   attr_reader :fedora_object
 
+  class MissingDataError < RuntimeError
+    def initialize(error_message)
+      super(error_message)
+    end
+  end
+
   def initialize(obj_id)
     @fedora_object = retreive_fedora_object(obj_id)
   end
@@ -11,8 +17,6 @@ class MintDoi
     if (doi = fedora_object.identifier).present?
       return doi
     end
-
-    return nil if fedora_object.url.nil? && fedora_object.title.nil? && fedora_object.creator.nil?
 
     fedora_object.identifier = digital_object_identifier.doi
     fedora_object.save
@@ -40,6 +44,7 @@ class MintDoi
 
   # Create or retrieve purl link for the given fedora ID.
   def create_or_retreive_purl
+    raise MissingDataError.new("Title and Creator fields cannot be empty.") if fedora_object.title.blank? || fedora_object.creator.blank?
     mint_purl = MintPurl.new
     mint_purl.create_or_retreive_purl(fedora_object)
   end
