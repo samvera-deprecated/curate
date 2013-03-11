@@ -31,4 +31,14 @@ class TermsOfServiceAgreementsController < ApplicationController
     I_DO_NOT_AGREE_TEXT
   end
   helper_method :i_do_not_agree_text
+
+  private
+
+  def show_action_bar?
+    false
+  end
+
+  def show_site_search?
+    false
+  end
 end

@@ -26,6 +26,11 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  def show_action_bar?
+    true
+  end
+  helper_method :show_action_bar?
+
   def show_site_search?
     true
   end

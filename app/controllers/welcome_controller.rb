@@ -5,4 +5,10 @@ class WelcomeController < ApplicationController
   def index
     respond_with
   end
+
+  private
+
+  def show_action_bar?
+    false
+  end
 end

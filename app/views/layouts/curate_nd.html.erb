@@ -32,9 +32,9 @@
     </hgroup>
   </header>
 
-  <%= render 'shared/action_bar' unless yield(:hide_page_navigation) == 'yes' %>
+<%= render 'shared/action_bar' if show_action_bar? %>
 
-  <%= render 'shared/flash_message' %>
+<%= render 'shared/flash_message' %>
 
   <div id="main" role="main" class="container <%= yield(:page_class) if content_for?(:page_class)%>">
   <% if content_for?(:page_header) %>
