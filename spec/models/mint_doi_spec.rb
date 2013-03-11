@@ -53,7 +53,7 @@ describe MintDoi do
     it 'should_return_digital_object_identifier' do
       ActiveFedora::Base.stub(:find).with(pid, cast: true).and_return(fedora_object)
       stub_http_for_initial_url
-      mint_doi.create_or_retreive_doi.should include(expected_doi)
+      mint_doi.create_or_retrieve_doi.should include(expected_doi)
     end
 
   end

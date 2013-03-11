@@ -7,7 +7,7 @@ class MintDoi
   end
 
   # Return DOI if already stored in fedora object. If not create a new DOI and store it in the fedora object.
-  def create_or_retreive_doi
+  def create_or_retrieve_doi
     if !(doi = fedora_object.identifier).nil?
       return doi
     end

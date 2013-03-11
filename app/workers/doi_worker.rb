@@ -11,6 +11,6 @@ class DoiWorker
 
   def run
     mint_doi = MintDoi.new(generic_file_id)
-    mint_doi.create_or_retreive_doi
+    mint_doi.create_or_retrieve_doi
   end
 end
