@@ -8,7 +8,6 @@ describe Purl do
         :pid => "ARCH-SEASIDE:464",
         :date_added => DateTime.new(2001,-11,-26,-20,-55,-54,'+7'),
         :date_modified => DateTime.new(2001,-11,-26,-20,-55,-54,'+7'),
-        :url => "https://fedorapprd.library.nd.edu:8443/fedora/get/ARCH-SEASIDE:464/descMetadata",
         :information => "_TEST_"
       }
     )

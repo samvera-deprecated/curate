@@ -6,7 +6,6 @@ describe RepoObject do
     OpenStruct.new(
       {
         :pid => "ARCH-SEASIDE:464",
-        :url => "https://fedorapprd.library.nd.edu:8443/fedora/get/ARCH-SEASIDE:464/descMetadata",
         :information => "_TEST_",
         :date_added => DateTime.new(2001,-11,-26,-20,-55,-54,'+7'),
         :date_modified => DateTime.new(2001,-11,-26,-20,-55,-54,'+7')

@@ -10,7 +10,7 @@ class RepoObject < ActiveRecord::Base
       return
     end
     create do |repo_object|
-      repo_object.url= fedora_object.url
+      repo_object.url= File.join(Rails.configuration.application_url,"show", fedora_object.pid)
       repo_object.pid= fedora_object.pid
       repo_object.date_added= fedora_object.create_date
       repo_object.date_modified= fedora_object.modified_date
