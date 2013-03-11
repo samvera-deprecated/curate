@@ -1,13 +1,11 @@
-<p>
-  <%= link_to 'Back to Dashboard', dashboard_index_path %> |
-  <%= link_to "Edit General File", edit_polymorphic_path([:curation_concern, curation_concern]) %>
-</p>
-<h2 class="non lower">File Details</h2>
+<% content_for :page_header do %>
+  <h1>File Details</h1>
+<% end %>
+
+<%= render "attributes", curation_concern: curation_concern %>
 
 <% if can? :edit, curation_concern %>
   <div class="form-actions">
     <%= link_to "Edit This File", edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary'  %>
   </div>
 <% end %>
-
-<%= render "attributes", curation_concern: curation_concern %>
