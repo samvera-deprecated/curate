@@ -13,8 +13,9 @@ describe AntiVirusScanner do
     end
 
     it 'raise an exception if anti-virus failed' do
+      subject.scanner_function = always_has_virus_scanner
       expect {
-        subject.scanner_function = always_has_virus_scanner
+        subject.call
       }.to raise_error(AntiVirusScanner::VirusDetected)
     end
   end
