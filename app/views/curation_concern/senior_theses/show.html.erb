@@ -4,10 +4,9 @@
 
 <%= render 'attributes', curation_concern: curation_concern %>
 
-<h2>Related Files</h2>
 <%- generic_files_are_editable = can?(:edit, curation_concern) -%>
 <table class="table table-striped <%= dom_class(curation_concern) %> related_files">
-  <caption>Related Files</caption>
+  <caption><h2>Related Files</h2></caption>
   <thead>
     <tr>
       <th>Related File</th>
