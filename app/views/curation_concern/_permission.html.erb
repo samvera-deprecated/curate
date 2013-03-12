@@ -15,8 +15,7 @@ limitations under the License.
 %>
 <fieldset id="permissions_display">
 <% if curation_concern.persisted? %>
-  <% depositor = curation_concern.depositor %>
-  <% public_perm = curation_concern.permissions.map { |perm| perm[:access] if perm[:name] == "public"}.compact.first %>
+  <% depositor = curation_concern.depositor %> <% public_perm = curation_concern.permissions.map { |perm| perm[:access] if perm[:name] == "public"}.compact.first %>
   <% ndu_perm = curation_concern.permissions.map { |perm| perm[:access] if perm[:name] == "registered"}.compact.first %>
 <%else %>
   <% depositor = current_user.user_key %>
@@ -25,60 +24,53 @@ limitations under the License.
 <% end %>
 
 <div id="permissions_display">
-  <div class="alert alert-error hide" id="permissions_error"><a class="close" data-dismiss="alert" href="#">×</a><span id="permissions_error_text"></span></div>
-  <legend>
-    Access Rights
-    <small>Applied to the attached file</small>
-    <a href="#accessModal" role="button" class="btn btn-info pull-right" data-toggle="modal">
-      What&#8217;s this <i class="icon-question-sign icon-large icon-white"></i>
-    </a>
-  </legend>
+  <fieldset class="control-group">
+    <legend>
+      Access Rights
+      <small>Applied to the attached file</small>
+      <a href="#accessModal" role="button" class="btn btn-info pull-right" data-toggle="modal">
+        What&#8217;s this <i class="icon-question-sign icon-large icon-white"></i>
+      </a>
+    </legend>
 
-  <!-- Modal -->
+    <!-- Modal -->
 
-  <div class="modal hide fade" id="accessModal" tabindex="-1" role="dialog" aria-labelledby="accessModalLabel" aria-hidden="true">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-      <h2 id="accessModalLabel"><%=t('sufia.product_name') %> Access Rights</h2>
+    <div class="modal hide fade" id="accessModal" tabindex="-1" role="dialog" aria-labelledby="accessModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h2 id="accessModalLabel"><%=t('sufia.product_name') %> Access Rights</h2>
+      </div>
+      <div class="modal-body">
+        <p>This setting will determine who can view your file and the associated metadata.</p>
+        <p>Setting the visibility to <span class="label label-success">Open Access</span> will allow your content to be viewed by anyone.</p>
+        <p>The visibility setting <span class="label label-info"><%=t('sufia.institution_name') %></span> will only allow users who are logged into <%=t('sufia.product_name') %> to view the content.</p>
+        <p>Files that are marked <span class="label label-important">Private</span> are only able to be viewed by you.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
     </div>
-    <div class="modal-body">
-      <h3>Visibility</h3>
-      <p>This setting will determine who can view your file, and the associated metadata. Setting
-      the visibility to <span class="label label-success">Open Access</span> will allow your content to be viewed by anyone.
-      The visibility setting <span class="label label-info"><%=t('sufia.institution_name') %></span> will only allow users who are logged into <%=t('sufia.product_name') %>
-      to view the content.  Files that are marked <span class="label label-important">Private</span> are only able to be viewed
-      by you.
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
-    </div>
-  </div>
 
-    <fieldset class="control-group">
-      <legend class="nested-field-heading">
-        Visibility
-      </legend>
-      <p class="help-block">
-        Who should be able to read and download your files?
-      </p>
+    <!-- end Modal -->
 
-      <div class="controls">
-        <label class="radio">
-          <input type="radio" id="visibility_open" name="<%= f.object_name %>[visibility]" value="open" <% if !public_perm.blank? %> checked="true"<% end %>/>
-          <span class="label label-success">Open Access</span> Visible to the world.
-        </label>
-        <label class="radio">
-          <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="psu" <% if !ndu_perm.blank? %> checked="true"<% end %> />
-          <span class="label label-info"><%=t('sufia.institution_name') %></span> Visible to all <%=t('sufia.institution_name') %> users.
-        </label>
-        <label class="radio">
-          <input type="radio" id="visibility_restricted" name="<%= f.object_name %>[visibility]" value="restricted" <% if ndu_perm.blank? and public_perm.blank?%> checked="true"<% end %>/>
-          <span class="label label-important">Private</span> Visible to users/groups specified below, if any.
-        </label>
-     </div><!-- /.controls -->
+    <p class="help-block">
+    Who should be able to read and download your files?
+    </p>
 
-    </fieldset>
+    <div class="controls">
+      <label class="radio">
+        <input type="radio" id="visibility_open" name="<%= f.object_name %>[visibility]" value="open" <% if !public_perm.blank? %> checked="true"<% end %>/>
+        <span class="label label-success">Open Access</span> Visible to the world.
+      </label>
+      <label class="radio">
+        <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="psu" <% if !ndu_perm.blank? %> checked="true"<% end %> />
+        <span class="label label-info"><%=t('sufia.institution_name') %></span> Visible to all <%=t('sufia.institution_name') %> users.
+      </label>
+      <label class="radio">
+        <input type="radio" id="visibility_restricted" name="<%= f.object_name %>[visibility]" value="restricted" <% if ndu_perm.blank? and public_perm.blank?%> checked="true"<% end %>/>
+        <span class="label label-important">Private</span> Only visible to you.
+      </label>
+    </div><!-- /.controls -->
 
-</fieldset>
-
+  </fieldset>
+</div>
