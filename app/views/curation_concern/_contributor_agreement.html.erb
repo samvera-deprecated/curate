@@ -1,18 +1,17 @@
 <fieldset class="row contributor_agreement with-headroom">
   <div class="span12">
     <legend>
-      Contributor Agreement
+      CurateND Content Submission Terms
     </legend>
   </div>
 
   <div class="span12">
-    <h4>CurateND Content Submission Terms</h4>
     <article class="lawyer_readable contributor_agreement wide-text">
       <%= contributor_agreement.legally_binding_text.html_safe %>
     </article>
   </div>
 
-  <div class="span12 with-headroom">
+  <div class="span12">
     <%= label_tag contributor_agreement.param_key, class: 'checkbox' do %>
       <%= check_box_tag(
           contributor_agreement.param_key,

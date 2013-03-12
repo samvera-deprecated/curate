@@ -113,4 +113,8 @@ legend {
 .wide-text {
   @include column-count(2);
   @include column-width(30px);
+
+  p {
+    @include column-break-inside(avoid);
+  }
 }
