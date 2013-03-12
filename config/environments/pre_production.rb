@@ -67,9 +67,15 @@ CurateNd::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  require 'clamav'
-  ClamAV.instance.loaddb if defined? ClamAV
-  config.default_antivirus_instance = lambda {|file_path|
-    ClamAV.instance.scanfile(file_path)
-  }
+  begin
+    require 'clamav'
+    ClamAV.instance.loaddb
+    config.default_antivirus_instance = lambda {|file_path|
+      ClamAV.instance.scanfile(file_path)
+    }
+  rescue LoadError
+    config.default_antivirus_instance = lambda {|file_path|
+      AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE
+    }
+  end
 end
