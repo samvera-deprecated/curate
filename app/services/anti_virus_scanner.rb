@@ -6,13 +6,12 @@ class AntiVirusScanner
       super("A virus was found for PID=#{pid.inspect} (#{file_path.inspect})")
     end
   end
-  attr_reader :object, :file_path
-  def initialize(object_with_pid, file_path)
+  attr_reader :object
+  def initialize(object_with_pid)
     @object = object_with_pid
-    @file_path = file_path
   end
 
-  def call
+  def call(file_path)
     if scanner_instance.call(file_path) == 0
       return true
     else

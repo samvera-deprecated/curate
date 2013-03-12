@@ -12,13 +12,13 @@ class FileContentDatastream
   sufia_run_fits = self.instance_method(:run_fits!)
 
   def run_fits!(file_path)
-    anti_virus_scanner(file_path).call
+    anti_virus_scanner.call(file_path)
     fits_runner.call(file_path)
   end
 
   protected
-  def anti_virus_scanner(file_path)
-    AntiVirusScanner.new(self, file_path)
+  def anti_virus_scanner
+    AntiVirusScanner.new(self)
   end
 
   define_method :fits_runner do
