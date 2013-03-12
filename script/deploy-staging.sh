@@ -24,10 +24,10 @@ echo "=-=-=-=-=-=-=-= cd $WORKSPACE"
 cd $WORKSPACE
 
 # it would be nice to simultaneously deploy to the cluster and the worker.
-# the `git` binary have different paths on each host, but because of the shared file
-# mount, each can see the other's binaries
-echo "=-=-=-=-=-=-=-= cap pre_production deploy"
-$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" pre_production deploy
+# the `git` binaries on each host have different paths, but because of the
+# shared file mount, each can see the other's binaries.
+echo "=-=-=-=-=-=-=-= cap staging_cluster deploy"
+$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" staging_cluster deploy
 retval=$?
 
 echo "=-=-=-=-=-=-=-= $0 finished $retval"
@@ -38,8 +38,8 @@ fi
 
 # always run deploy:setup, so if a new vm is added to the list, it will
 # be prepared for a deploy automatically
-echo "=-=-=-=-=-=-=-= cap preproduction_worker deploy:setup deploy"
-$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" pre_production_worker deploy:setup deploy
+echo "=-=-=-=-=-=-=-= cap staging_worker deploy:setup deploy"
+$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" staging_worker deploy:setup deploy
 retval=$?
 
 echo "=-=-=-=-=-=-=-= $0 finished $retval"

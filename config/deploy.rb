@@ -158,7 +158,7 @@ set :repository,  "git@git.library.nd.edu:#{application}"
 #############################################################
 
 desc "Setup for the Pre-Production environment"
-task :pre_production do
+task :pre_production_cluster do
   set :symlink_targets do
     [
       ['/bundle/config','/.bundle/config', '/.bundle'],
@@ -188,8 +188,8 @@ task :pre_production do
   after 'deploy', 'deploy:kickstart'
 end
 
-desc "Setup for the Staging Worker environment"
-task :staging_worker do
+# Trying to keep the worker environments as similar as possible
+def common_worker_things
   set :symlink_targets do
     [
       [ '/bundle/config', '/.bundle/config', '/bundle'],
@@ -197,17 +197,29 @@ task :staging_worker do
       [ '/vendor/bundle', '/vendor/bundle', '/vendor/bundle'],
     ]
   end
-  set :rails_env,   'pre_production'
   set :deploy_to,   '/home/curatend'
   set :ruby_bin,    '/usr/local/ruby/bin'
   set :without_bundle_environments, 'development test'
-
-  set :user,        'curatend'
-  set :domain,      'curatestagingw1.library.nd.edu'
   set :group_writable, false
 
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :work
   after 'deploy', 'worker:start'
   after 'deploy:update_code', 'worker:update_secrets', 'deploy:symlink_shared', 'bundle:install'
+end
+
+desc "Setup for the Staging Worker environment"
+task :staging_worker do
+  set :rails_env,   'staging'
+  set :user,        'curatend'
+  set :domain,      'curatestagingw1.library.nd.edu'
+  common_worker_things
+end
+
+desc "Setup for the Preproduction Worker environment"
+task :pre_production_worker do
+  set :rails_env,   'pre_production'
+  set :user,        'curatend'
+  set :domain,      'curatepprdw1.library.nd.edu'
+  common_worker_things
 end
