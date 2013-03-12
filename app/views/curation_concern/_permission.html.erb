@@ -27,17 +27,19 @@ limitations under the License.
 <div id="permissions_display">
   <div class="alert alert-error hide" id="permissions_error"><a class="close" data-dismiss="alert" href="#">×</a><span id="permissions_error_text"></span></div>
   <legend>
-    Permissions
+    Access Rights
     <small>Applied to the attached file</small>
-    <a href="#myModal" role="button" class="btn btn-warning pull-right" data-toggle="modal">What's this <i class="icon-question-sign icon-large icon-white"></i></a>
+    <a href="#accessModal" role="button" class="btn btn-info pull-right" data-toggle="modal">
+      What&#8217;s this <i class="icon-question-sign icon-large icon-white"></i>
+    </a>
   </legend>
 
   <!-- Modal -->
 
-  <div class="modal hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal hide fade" id="accessModal" tabindex="-1" role="dialog" aria-labelledby="accessModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-      <h2 id="myModalLabel"><%=t('sufia.product_name') %> Permissions</h2>
+      <h2 id="accessModalLabel"><%=t('sufia.product_name') %> Access Rights</h2>
     </div>
     <div class="modal-body">
       <h3>Visibility</h3>
@@ -58,7 +60,7 @@ limitations under the License.
         Visibility
       </legend>
       <p class="help-block">
-        Who should be able to read and download your files
+        Who should be able to read and download your files?
       </p>
 
       <div class="controls">
