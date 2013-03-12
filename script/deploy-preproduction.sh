@@ -27,7 +27,7 @@ cd $WORKSPACE
 # the `git` binary have different paths on each host, but because of the shared file
 # mount, each can see the other's binaries
 echo "=-=-=-=-=-=-=-= cap pre_production deploy"
-$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" pre_production deploy
+$WORKSPACE/vendor/bundle/bin/cap -v -f "$WORKSPACE/Capfile" pre_production_cluster deploy
 retval=$?
 
 echo "=-=-=-=-=-=-=-= $0 finished $retval"
