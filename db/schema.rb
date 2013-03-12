@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225202726) do
+ActiveRecord::Schema.define(:version => 20130312135359) do
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -68,6 +68,20 @@ ActiveRecord::Schema.define(:version => 20130225202726) do
 
   add_index "follows", ["followable_id", "followable_type"], :name => "fk_followables"
   add_index "follows", ["follower_id", "follower_type"], :name => "fk_follows"
+
+  create_table "help_requests", :force => true do |t|
+    t.string   "view_port"
+    t.text     "current_url"
+    t.string   "user_agent"
+    t.string   "resolution"
+    t.text     "how_can_we_help_you"
+    t.integer  "user_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "help_requests", ["created_at"], :name => "index_help_requests_on_created_at"
+  add_index "help_requests", ["user_id"], :name => "index_help_requests_on_user_id"
 
   create_table "local_authorities", :force => true do |t|
     t.string "name"
