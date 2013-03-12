@@ -40,8 +40,9 @@ CurateNd::Application.configure do
 
   config.application_url = "http://localhost:3000"
 
+  require 'clamav'
+  ClamAV.instance.loaddb if defined? ClamAV
   config.default_antivirus_instance = lambda {|file_path|
-    require 'clamav'
     ClamAV.instance.scanfile(file_path)
   }
 end
