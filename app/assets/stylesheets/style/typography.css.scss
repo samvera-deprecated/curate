@@ -47,6 +47,10 @@
 
 legend {
   font-family:$headerFontFamily;
+
+  a {
+    font-family:$sansFontFamily;
+  }
 }
 
 .table-heading {

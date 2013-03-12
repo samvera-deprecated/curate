@@ -19,22 +19,49 @@
   <fieldset>
     <legend>
       Assign a Digital Object Identifier
+      <a href="#doiModal" role="button" class="btn btn-info pull-right" data-toggle="modal">
+        Why is this important <i class="icon-question-sign icon-large icon-white"></i>
+      </a>
     </legend>
+
+    <!-- Modal -->
+
+    <div class="modal hide fade" id="doiModal" tabindex="-1" role="dialog" aria-labelledby="doiModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h2 id="doiModalLabel">DOIs are Awesome</h2>
+      </div>
+      <div class="modal-body">
+        <p>Here are several reasons:</p>
+        <ul>
+          <li>Reason One</li>
+          <li>Reason Two</li>
+          <li>Reason Three</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+
+    <!-- end Modal -->
+
     <div class="help-block">
       <blockquote>
         <p>
-          The <abbr title="Digitial Object Identifier">DOI</abbr> system provides
+          The <abbr title="Digital Object Identifier">DOI</abbr> system provides
           a technical and social infrastructure for the registration and use of
           persistent interoperable identifiers for use on digital networks.
         </p>
       </blockquote>
       <p>More information at <a href="http://www.doi.org">www.doi.org</a></p>
     </div>
+
     <%= f.label :assign_doi do %>
       <%= f.check_box :assign_doi %>
       Yes, I would like to assign this
       <%= classify_for_display(curation_concern) %>
-      a <abbr title="Digitial Object Identifier">DOI</abbr>.
+      a <abbr title="Digital Object Identifier">DOI</abbr>.
     <% end %>
   </fieldset>
 <%- end -%>
