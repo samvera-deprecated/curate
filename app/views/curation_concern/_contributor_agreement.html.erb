@@ -1,23 +1,15 @@
-<%# TODO: When the contributor agreement for the senior thesis is ratified remove the 'unratified' class. %>
-<fieldset class="row unratified contributor_agreement">
+<fieldset class="row contributor_agreement">
   <div class="span12">
     <legend>
       Contributor Agreement
     </legend>
   </div>
 
-  <div class="span6">
-    <h4>Official Legally Binding Contributor Agreement</h4>
-    <%= contributor_agreement.legally_binding_text.html_safe %>
-  </div>
-
-  <div class="span6">
-    <h4>What This Means</h4>
-    <%= contributor_agreement.human_readable_text.html_safe %>
-    <small>
-      This summary is provided for your convenience but it is not legal council.
-      Please refer your lawyer to the Official Legally Binding Contributor Agreement if you have any questions.
-    </small>
+  <div class="span12 wide-text">
+    <h4>CurateND Content Submission Terms</h4>
+    <article class="lawyer_readable contributor_agreement">
+      <%= contributor_agreement.legally_binding_text.html_safe %>
+    </article>
   </div>
 
   <div class="span12">

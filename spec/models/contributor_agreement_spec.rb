@@ -7,10 +7,6 @@ describe ContributorAgreement do
   let(:params) { {} }
 
 
-  it 'has human readable text' do
-    subject.human_readable_text.should be_kind_of(String)
-  end
-
   it 'has legally binding text' do
     subject.legally_binding_text.should be_kind_of(String)
   end
