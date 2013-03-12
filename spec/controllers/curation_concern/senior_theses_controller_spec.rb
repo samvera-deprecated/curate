@@ -48,7 +48,7 @@ describe CurationConcern::SeniorThesesController do
       post(
         :create,
         :senior_thesis => valid_attributes,
-        :commit => controller.create_and_add_related_files_submit_value,
+        :commit => controller.save_and_add_related_files_submit_value,
         contributor_agreement.param_key => contributor_agreement.acceptance_value
       )
 

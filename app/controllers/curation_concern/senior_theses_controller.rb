@@ -29,7 +29,7 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   end
 
   def respond_for_create
-    if params[:commit] == create_and_add_related_files_submit_value
+    if params[:commit] == save_and_add_related_files_submit_value
       respond_to do |wants|
         wants.html {
           redirect_to new_curation_concern_generic_file_path(curation_concern)
