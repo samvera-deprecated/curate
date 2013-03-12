@@ -22,8 +22,8 @@ class FileContentDatastream
   end
 
   define_method :fits_runner do
-    if Rails.configuration.respond_to?(:fits_runner)
-      Rails.configuration.fits_runner
+    if Rails.configuration.respond_to?(:default_fits_runner)
+      Rails.configuration.default_fits_runner
     else
       sufia_run_fits.bind(self)
     end
