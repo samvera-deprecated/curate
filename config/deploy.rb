@@ -150,7 +150,8 @@ before 'deploy', 'env:set_paths'
 #############################################################
 
 set :application, 'curate_nd'
-set :repository,  "git@git.library.nd.edu:#{application}"
+set :repository,  "git://github.com/ndlib/curate_nd.git"
+set :branch, 'master'
 
 
 #############################################################
