@@ -22,8 +22,8 @@ echo "=-=-=-=-=-=-=-= bundle install"
 echo "=-=-=-=-=-=-=-= cd $WORKSPACE"
 cd $WORKSPACE
 
-echo "=-=-=-=-=-=-=-= clamconf --version"
-echo $(clamconf --version)
+echo "=-=-=-=-=-=-=-= clamscan --version"
+echo $(clamscan --version)
 
 echo "=-=-=-=-=-=-=-= Removing files Jenkins does not like"
 # A file in this directoy has a filename that Jenkins cannot handle. Likely
