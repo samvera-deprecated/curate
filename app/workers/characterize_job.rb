@@ -1,43 +1,18 @@
 require Sufia::Engine.root.join('lib/sufia/jobs/characterize_job')
+
+# I really don't want to touch much of Sufia's underworkings. In doing this
+# I'm able to mimic the #super behavior.
+#
+# More on this method at:
+# http://blog.jayfields.com/2006/12/ruby-alias-method-alternative.html
 class CharacterizeJob
-
-  def queue_name
-    :characterize
-  end
-
-  attr_reader :generic_file
-
-  def initialize(generic_file_id)
-    self.generic_file_id = generic_file_id
-  end
-
-  def run
-    characterize
-    create_thumbnail
-    transcode_video
-  end
-
-  def generic_file
-    @generic_file ||= GenericFile.find(generic_file_id)
-  end
-
-  protected
-  def characterize
+  sufia_run = self.instance_method(:run)
+  define_method :run do
     begin
-      generic_file.characterize
+      sufia_run.bind(self).call
     rescue AntiVirusScanner::VirusDetected => e
-      generic_file.destroy
+      GenericFile.find(generic_file_id).destroy
       raise e
-    end
-  end
-
-  def create_thumbnail
-    generic_file.create_thumbnail
-  end
-
-  def transcode_video
-    if generic_file.video?
-      Sufia.queue.push(TranscodeVideoJob.new(generic_file_id, 'content'))
     end
   end
 end
