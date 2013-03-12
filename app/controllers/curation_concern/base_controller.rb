@@ -17,7 +17,7 @@ class CurationConcern::BaseController < ApplicationController
   helper_method :contributor_agreement
 
   def save_and_add_related_files_submit_value
-    'Create and Add Related Files...'
+    "#{action_name == 'new' ? 'Create' : 'Update'} and Add Related Files..."
   end
   helper_method :save_and_add_related_files_submit_value
 end
