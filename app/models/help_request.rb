@@ -6,6 +6,7 @@ class HelpRequest < ActiveRecord::Base
     :user_agent,
     :resolution,
     :flash_version,
+    :javascript_enabled,
     :how_can_we_help_you
   )
 

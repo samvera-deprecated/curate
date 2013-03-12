@@ -30,6 +30,7 @@ CurateNd::Application.routes.draw do
   end
 
   resources :terms_of_service_agreements, only: [:new, :create]
+  resources :help_requests, only: [:new, :create]
 
   match "classify" => "classify#new", via: :get
   match "classify" => "classify#create", via: :post
