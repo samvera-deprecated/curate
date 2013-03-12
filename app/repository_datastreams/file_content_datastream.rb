@@ -11,6 +11,10 @@ class FileContentDatastream
   # ActiveSupport::Concern)
   sufia_run_fits = self.instance_method(:run_fits!)
 
+  # This is where I chose to insert the anti-virus. My reason being that the
+  # caller of this method is getting the Fedora datastream and writing it to
+  # a temp file for characterization; So to ease the load, I'm piggy backing
+  # on that behavior and first running an Anti-Virus scanner
   def run_fits!(file_path)
     anti_virus_scanner.call(file_path)
     fits_runner.call(file_path)
