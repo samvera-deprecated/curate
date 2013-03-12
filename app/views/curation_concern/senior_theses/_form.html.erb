@@ -24,7 +24,7 @@
     <div class="span6">
       <fieldset class="optional prompt">
         <legend>Additional Information</legend>
-        <%= f.input :contributor,            as: :multi_value, input_html: { class: 'input-xlarge' } %>
+        <%= f.input :contributor,            as: :multi_value, input_html: { class: 'input-xlarge' }, hint: 'Be sure to add your name because <em>you</em> are a contributor to your own thesis.'.html_safe %>
         <%= f.input :subject,                as: :multi_value, input_html: { class: 'input-xlarge' } %>
         <%= f.input :publisher,              as: :multi_value, input_html: { class: 'input-xlarge' } %>
         <%= f.input :bibliographic_citation, as: :multi_value, input_html: { class: 'input-xlarge' } %>
@@ -67,7 +67,7 @@
   <div class="row">
     <div class="span12 form-actions">
       <%= f.submit class: 'btn btn-primary' %>
-      <%= f.submit value: save_and_add_related_files_submit_value.html_safe, class: 'btn btn-primary' %>
+      <%= f.submit value: save_and_add_related_files_submit_value, class: 'btn btn-primary' %>
       <%= link_to 'Cancel', dashboard_index_path, class: 'btn btn-link' %>
     </div>
   </div>
