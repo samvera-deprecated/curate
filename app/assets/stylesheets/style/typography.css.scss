@@ -1,3 +1,5 @@
+@import "compass/css3/columns";
+
 #banner {
   font-family:$serifFontFamily;
 
@@ -45,6 +47,15 @@
 
 legend {
   font-family:$headerFontFamily;
+}
+
+.table-heading {
+  display:block;
+  text-align:left;
+
+  h1,h2,h3,h4,h5,h6 {
+    padding-top:1em;
+  }
 }
 
 .nested-field-heading {
@@ -97,4 +108,9 @@ legend {
   a {
     margin-right:.5em;
   }
+}
+
+.wide-text {
+  @include column-count(2);
+  @include column-width(30px);
 }
