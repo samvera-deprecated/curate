@@ -17,7 +17,7 @@ class FileContentDatastream
   # on that behavior and first running an Anti-Virus scanner
   def run_fits!(file_path)
     anti_virus_scanner.call(file_path)
-    fits_runner.call(file_path)
+    characterization_runner.call(file_path)
   end
 
   protected
@@ -25,9 +25,9 @@ class FileContentDatastream
     AntiVirusScanner.new(self)
   end
 
-  define_method :fits_runner do
-    if Rails.configuration.respond_to?(:default_fits_runner)
-      Rails.configuration.default_fits_runner
+  define_method :characterization_runner do
+    if Rails.configuration.respond_to?(:default_characterization_runner)
+      Rails.configuration.default_characterization_runner
     else
       sufia_run_fits.bind(self)
     end

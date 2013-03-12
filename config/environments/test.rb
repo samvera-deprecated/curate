@@ -39,7 +39,7 @@ CurateNd::Application.configure do
 
   config.application_url = "http://localhost:3000"
 
-  config.default_fits_runner = lambda { |file_path|
+  config.default_characterization_runner = lambda { |file_path|
     Rails.root.join('spec/support/files/default_fits_output.xml').read
   }
 
