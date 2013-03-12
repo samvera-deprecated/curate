@@ -12,7 +12,10 @@
         <%= f.input :description,
                     as: :text,
                     hint: 'Please keep your abstract to around 300 words.',
-                    input_html: { class: 'input-xxxlarge' },
+                    input_html: {
+                      class: 'input-xxxlarge',
+                      rows: '14'
+                    },
                     label: 'Abstract'
         %>
       </fieldset>
@@ -33,7 +36,7 @@
   </div>
 
   <% unless curation_concern.persisted? %>
-    <div class="row">
+    <div class="row with-headroom">
         <div class="span6">
           <fieldset class="required">
             <legend>
@@ -49,7 +52,7 @@
     </div>
   <% end %>
 
-  <div class="row">
+  <div class="row with-headroom">
     <div class="span6">
       <%= render "/curation_concern/doi", curation_concern: curation_concern, f: f %>
     </div>
