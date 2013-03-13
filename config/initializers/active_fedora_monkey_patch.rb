@@ -10,55 +10,55 @@ module Rubydora
       super("Performed soft delete on '#{pid}' via '#{method_name}'")
     end
   end
+
   class Repository
-    rubydora_purge_object = self.instance_method(:purge_object)
 
-    before_purge_object do |options|
-      find(options[:pid]).datastreams.each do |key, value|
-        purge_datastream({pid: options[:pid], dsid: key})
+    # There is likely a better way of doing this, but the ActiveFedora API doesn't
+    # appear to support soft-deletes (i.e. changing the state to 'D')
+    #
+    # So I am intercepting the :purge_object, :purge_datastream, and
+    # :purge_relationship methods and instead of purging, I'm modifying.
+    # the state.
+    module SoftDeleteBehavior
+      extend ActiveSupport::Concern
+      included do
+        before_purge_object do |options|
+          soft_purge_datastreams(options[:pid])
+          client[object_url(options[:pid],state: ActiveFedora::DELETED_STATE)].put(nil)
+          raise PerformedSoftDelete.new('purge_object', options[:pid], options)
+        end
+        before_purge_datastream do |options|
+          client[datastream_url(options[:pid], options[:dsid], dsState: ActiveFedora::DELETED_STATE )].put(nil)
+          raise PerformedSoftDelete.new('purge_datastream', options[:pid], options)
+        end
+
+        before_purge_relationship do |options|
+          client[object_relationship_url(options[:pid], state: ActiveFedora::DELETED_STATE)].put(nil)
+          raise PerformedSoftDelete.new('purge_relationship', options[:pid], options)
+        end
       end
-      client[object_url(options[:pid],state: ActiveFedora::DELETED_STATE)].put(nil)
-      raise PerformedSoftDelete.new('purge_object', options[:pid], options)
+
+      def purge_object(*args)
+        super(*args) rescue PerformedSoftDelete; true
+      end
+      def purge_datastream(*args)
+        super(*args) rescue PerformedSoftDelete; true
+      end
+      def purge_relationship(*args)
+        super(*args) rescue PerformedSoftDelete; true
+      end
+
+      # Because the delete happens and the pid is lost, the datastreams should
+      # be cleared.
+      def soft_purge_datastreams(pid)
+        find(pid).datastreams.each do |key, value|
+          purge_datastream({pid: pid, dsid: key})
+        end
+      end
+      private :soft_purge_datastreams
     end
 
-    define_method(:purge_object) { |*args|
-      begin
-        rubydora_purge_object.bind(self).call(*args)
-      rescue PerformedSoftDelete
-        true
-      end
-    }
-
-    rubydora_purge_datastream = self.instance_method(:purge_datastream)
-
-    before_purge_datastream do |options|
-      client[datastream_url(options[:pid], options[:dsid], dsState: ActiveFedora::DELETED_STATE )].put(nil)
-      raise PerformedSoftDelete.new('purge_datastream', options[:pid], options)
-    end
-
-    define_method(:purge_datastream) { |*args|
-      begin
-        rubydora_purge_datastream.bind(self).call(*args)
-      rescue PerformedSoftDelete
-        true
-      end
-    }
-
-    rubydora_purge_relationship = self.instance_method(:purge_relationship)
-
-    before_purge_relationship do |options|
-      client[object_relationship_url(options[:pid], state: ActiveFedora::DELETED_STATE)].put(nil)
-      raise PerformedSoftDelete.new('purge_relationship', options[:pid], options)
-    end
-
-    define_method(:purge_relationship) { |*args|
-      begin
-        rubydora_purge_relationship.bind(self).call(*args)
-      rescue PerformedSoftDelete
-        true
-      end
-    }
-
+    include SoftDeleteBehavior
   end
 end
 
