@@ -18,7 +18,7 @@ describe TermsOfServiceAgreementsController do
       it 'redirects to remember location if agreed' do
         post :create, commit: controller.i_agree_text
         response.status.should == 302
-        expect(response).to redirect_to(classify_path)
+        expect(response).to redirect_to(new_classify_concern_path)
       end
       it 'flashes a notice if you disagree and renders new' do
         post :create, commit: controller.i_do_not_agree_text

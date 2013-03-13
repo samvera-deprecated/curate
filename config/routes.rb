@@ -31,9 +31,8 @@ CurateNd::Application.routes.draw do
 
   resources :terms_of_service_agreements, only: [:new, :create]
   resources :help_requests, only: [:new, :create]
+  resources :classify_concerns, only: [:new, :create]
 
-  match "classify" => "classify#new", via: :get
-  match "classify" => "classify#create", via: :post
   match "show/:id" => "common_objects#show", via: :get, as: "common_object"
   root to: 'welcome#index'
 end

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe ClassifyController do
+describe ClassifyConcernsController do
   render_views
+  let(:user) { FactoryGirl.create(:user) }
 
   describe '#new' do
-    let(:user) { FactoryGirl.create(:user) }
     it 'requires authentication' do
       get :new
       response.status.should == 302
@@ -19,16 +19,17 @@ describe ClassifyController do
 
   describe '#create' do
     let(:user) { FactoryGirl.create(:user) }
-    it 'requires authentication' do
-      post :create, classify: { concern: 'SeniorThesis' }
+    it 'redirect to login page if user is not logged in' do
+      post :create, classify: { curation_concern_type: 'SeniorThesis' }
       response.status.should == 302
       expect(response).to redirect_to(user_session_path)
     end
 
     it 'requires authentication' do
-      post :create, classify: { concern: 'SeniorThesis' }
+      sign_in(user)
+      post :create, classify_concern: { curation_concern_type: 'SeniorThesis' }
       response.status.should == 302
-      expect(response).to redirect_to(user_session_path)
+      expect(response).to redirect_to(new_curation_concern_senior_thesis_path)
     end
 
   end

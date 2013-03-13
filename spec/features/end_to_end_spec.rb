@@ -129,8 +129,8 @@ describe 'end to end behavior', type: :feature do
 
   def classify_what_you_are_uploading(concern)
     page.should have_content("What are you uploading?")
-    within('#new_classify') do
-      select(concern, from: 'classify_curation_concern')
+    within('#new_classify_concern') do
+      select(concern, from: 'classify_concern_curation_concern_type')
       click_on("Continue")
     end
   end
