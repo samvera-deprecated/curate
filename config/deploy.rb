@@ -133,8 +133,10 @@ namespace :worker do
       "sudo /sbin/service resque-poold restart"
     ].join(" && ")
   end
+end
 
-  task :update_secrets, :roles => :work do
+namespace :und do
+  task :update_secrets do
     run "cd #{release_path} && ./script/update_secrets.sh"
   end
 end
@@ -165,11 +167,7 @@ task :pre_production_cluster do
       ['/bundle/config','/.bundle/config', '/.bundle'],
       ['/log','/log','/log'],
       ['/vendor/bundle','/vendor/bundle','/vendor'],
-      ['/config/database.yml','/config/database.yml','/config'],
-      ['/config/solr.yml','/config/solr.yml','/config'],
-      ['/config/redis.yml','/config/redis.yml','/config'],
-      ['/config/fedora.yml','/config/fedora.yml','/config'],
-      ["/config/role_map_#{rails_env}.yml","/config/role_map_#{rails_env}.yml",'/config'],
+      #["/config/role_map_#{rails_env}.yml","/config/role_map_#{rails_env}.yml",'/config'],
     ]
   end
   set :rails_env,   'pre_production'
@@ -183,7 +181,7 @@ task :pre_production_cluster do
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :app, :web, :db, :primary => true
 
-  after 'deploy:update_code', 'deploy:symlink_shared', 'bundle:install', 'deploy:migrate', 'deploy:precompile'
+  after 'deploy:update_code', 'und:update_secrets', 'deploy:symlink_shared', 'bundle:install', 'deploy:migrate', 'deploy:precompile'
   after 'deploy', 'deploy:cleanup'
   after 'deploy', 'deploy:restart'
   after 'deploy', 'deploy:kickstart'
@@ -206,7 +204,7 @@ def common_worker_things
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :work
   after 'deploy', 'worker:start'
-  after 'deploy:update_code', 'worker:update_secrets', 'deploy:symlink_shared', 'bundle:install'
+  after 'deploy:update_code', 'und:update_secrets', 'deploy:symlink_shared', 'bundle:install'
 end
 
 desc "Setup for the Staging Worker environment"
