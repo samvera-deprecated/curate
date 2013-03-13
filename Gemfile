@@ -21,6 +21,7 @@ group :not_deploy do
   gem "devise-guests", "~> 0.3"
   gem 'simple_form'
   gem 'roboto'
+  gem 'active_attr'
   # Need rubyracer to run integration tests.....really?!?
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
