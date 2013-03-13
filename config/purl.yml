@@ -8,7 +8,7 @@ ci:
   <<: *test
 
 pre_production:
-  <<: *development
+  url: http://repopurlpprd.library.nd.edu/view/
 
 production:
   url: http://repository.library.nd.edu/view/
