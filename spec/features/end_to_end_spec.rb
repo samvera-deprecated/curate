@@ -3,7 +3,12 @@ require 'spec_helper'
 require 'casclient'
 require 'casclient/frameworks/rails/filter'
 
-describe 'end to end behavior', type: :feature do
+describe_options = {type: :feature}
+if ENV['JAVASCRIPT']
+  describe_options[:js] = true
+end
+
+describe 'end to end behavior', describe_options do
   before(:each) do
     Warden.test_mode!
     @old_resque_inline_value = Resque.inline
