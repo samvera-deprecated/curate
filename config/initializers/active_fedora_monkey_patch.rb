@@ -70,19 +70,6 @@ module ActiveFedora
     end
   end
 
-  class Base
-    active_fedora_delete = self.instance_method(:delete)
-    define_method(:delete) do
-      @pid_before_delete = pid
-      active_fedora_delete.bind(self).call
-    end
-    active_fedora_destroy = self.instance_method(:destroy)
-    define_method(:destroy) do
-      @pid_before_delete = pid
-      active_fedora_destroy.bind(self).call
-    end
-  end
-
   class DigitalObject
     class << self
       active_fedora_digital_object_find = self.instance_method(:find)
