@@ -145,6 +145,7 @@ describe 'end to end behavior', describe_options do
     options['Upload your thesis'] ||= initial_file_path
     options['Visibility'] ||= 'Private'
     options["Button to click"] ||= "Create Senior thesis"
+    options["Contributor"] ||= "Dr. Horrible"
     page.should have_content('Describe Your Thesis')
     # Without accepting agreement
     within('#new_senior_thesis') do
@@ -153,6 +154,9 @@ describe 'end to end behavior', describe_options do
       choose(options['Visibility'])
       if options['Assign DOI']
         check('senior_thesis_assign_doi')
+      end
+      within('.senior_thesis_contributor.multi_value') do
+        fill_in('senior_thesis[contributor][]', with: options['Contributor'])
       end
       click_on(options["Button to click"])
     end
