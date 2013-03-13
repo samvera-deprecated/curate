@@ -53,6 +53,7 @@ describe 'end to end behavior', describe_options do
 
   describe 'file uploaded via different paths' do
     let(:agreed_to_terms_of_service) { true }
+    let(:contributors) { ["D'artagnan", "Porthos", "Athos", 'Aramas'] }
     it "related file via senior_thesis#new and generic_file#new should be similar" do
       login_as(user, scope: :user, run_callbacks: false)
       get_started
@@ -62,6 +63,7 @@ describe 'end to end behavior', describe_options do
         'Visibility' => 'Open Access',
         "Upload your thesis" => initial_file_path,
         "Assign DOI" => true,
+        "Contributors" => contributors,
         "Button to click" => 'Create and Add Related Files...'
       )
       # While the title is different, the filenames should be the same
@@ -76,6 +78,18 @@ describe 'end to end behavior', describe_options do
       page.assert_selector(
         '.senior_thesis.attributes .identifier.attribute',
         count: 1
+      )
+
+      contributors.each do |contributor|
+        page.assert_selector(
+          '.senior_thesis.attributes .contributor.attribute',
+          text: contributor
+        )
+      end
+
+      page.assert_selector(
+        '.senior_thesis.attributes .contributor.attribute',
+        text: "D'artagnan"
       )
 
       page.assert_selector(
@@ -145,7 +159,7 @@ describe 'end to end behavior', describe_options do
     options['Upload your thesis'] ||= initial_file_path
     options['Visibility'] ||= 'Private'
     options["Button to click"] ||= "Create Senior thesis"
-    options["Contributor"] ||= "Dr. Horrible"
+    options["Contributors"] ||= ["Dr. Horrible"]
     page.should have_content('Describe Your Thesis')
     # Without accepting agreement
     within('#new_senior_thesis') do
@@ -156,7 +170,14 @@ describe 'end to end behavior', describe_options do
         check('senior_thesis_assign_doi')
       end
       within('.senior_thesis_contributor.multi_value') do
-        fill_in('senior_thesis[contributor][]', with: options['Contributor'])
+        contributors = [options['Contributors']].flatten.compact
+        contributors.each_with_index do |contributor, i|
+          within('.input-append:last') do
+            fill_in('senior_thesis[contributor][]', with: contributor)
+            click_on('Add')
+          end
+        end
+
       end
       click_on(options["Button to click"])
     end

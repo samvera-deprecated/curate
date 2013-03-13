@@ -4,7 +4,13 @@
     <dd class="attribute identifier"><%= curation_concern.identifier %></dd>
   <%- end -%>
   <dt>Abstract</dt>
-  <dd><%= curation_concern.description %></dd>
+  <dd class="attribute abstract"><%= curation_concern.description %></dd>
+  <% if curation_concern.contributor.count > 0 %>
+    <dt>Contributor</dt>
+    <% curation_concern.contributor.each do |contributor| %>
+      <dd class="attribute contributor"><%= contributor %></dd>
+    <% end %>
+  <%- end -%>
   <dt>Access Rights</dt>
   <dd><%= link_to_edit_permissions(curation_concern) %></dd>
 </dl>
