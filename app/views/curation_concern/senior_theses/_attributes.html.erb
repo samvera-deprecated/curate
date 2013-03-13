@@ -5,12 +5,12 @@
   <%- end -%>
   <dt>Abstract</dt>
   <dd class="attribute abstract"><%= curation_concern.description %></dd>
-  <% if curation_concern.contributor.count > 0 %>
-    <dt>Contributor</dt>
-    <% curation_concern.contributor.each do |contributor| %>
-      <dd class="attribute contributor"><%= contributor %></dd>
-    <% end %>
-  <%- end -%>
+  <%= curation_concern_attribute_to_html(curation_concern, :contributor, "Contributor") %>
+  <%= curation_concern_attribute_to_html(curation_concern, :subject, "Subject") %>
+  <%= curation_concern_attribute_to_html(curation_concern, :publisher, "Publisher") %>
+  <%= curation_concern_attribute_to_html(curation_concern, :bibliographic_citation, "Bibliographic Citation") %>
+  <%= curation_concern_attribute_to_html(curation_concern, :source, "Source") %>
+  <%= curation_concern_attribute_to_html(curation_concern, :language, "Language") %>
   <dt>Access Rights</dt>
   <dd><%= link_to_edit_permissions(curation_concern) %></dd>
 </dl>

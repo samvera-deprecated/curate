@@ -51,9 +51,33 @@ describe 'end to end behavior', describe_options do
     end
   end
 
+  describe '+Add javascript behavior', js: true do
+    let(:contributors) { ["D'artagnan", "Porthos", "Athos", 'Aramas'] }
+    let(:agreed_to_terms_of_service) { true }
+    let(:title) {"Somebody Special's Senior Thesis" }
+    it 'handles contributor', js: true do
+      login_as(user, scope: :user, run_callbacks: false)
+      visit('/concern/senior_theses/new')
+      describe_your_thesis(
+        "Title" => title,
+        "Upload your thesis" => initial_file_path,
+        "Contributors" => contributors,
+        :js => true
+      )
+      page.should have_content(title)
+      contributors.each do |contributor|
+        page.assert_selector(
+          '.senior_thesis.attributes .contributor.attribute',
+          text: contributor
+        )
+      end
+    end
+
+  end
+
   describe 'file uploaded via different paths' do
     let(:agreed_to_terms_of_service) { true }
-    let(:contributors) { ["D'artagnan", "Porthos", "Athos", 'Aramas'] }
+    let(:contributors) { ["Goethe"]}
     it "related file via senior_thesis#new and generic_file#new should be similar" do
       login_as(user, scope: :user, run_callbacks: false)
       get_started
@@ -78,18 +102,6 @@ describe 'end to end behavior', describe_options do
       page.assert_selector(
         '.senior_thesis.attributes .identifier.attribute',
         count: 1
-      )
-
-      contributors.each do |contributor|
-        page.assert_selector(
-          '.senior_thesis.attributes .contributor.attribute',
-          text: contributor
-        )
-      end
-
-      page.assert_selector(
-        '.senior_thesis.attributes .contributor.attribute',
-        text: "D'artagnan"
       )
 
       page.assert_selector(
@@ -159,7 +171,7 @@ describe 'end to end behavior', describe_options do
     options['Upload your thesis'] ||= initial_file_path
     options['Visibility'] ||= 'Private'
     options["Button to click"] ||= "Create Senior thesis"
-    options["Contributors"] ||= ["Dr. Horrible"]
+    options["Contributors"] ||= ["Dante"]
     page.should have_content('Describe Your Thesis')
     # Without accepting agreement
     within('#new_senior_thesis') do
@@ -171,13 +183,16 @@ describe 'end to end behavior', describe_options do
       end
       within('.senior_thesis_contributor.multi_value') do
         contributors = [options['Contributors']].flatten.compact
-        contributors.each_with_index do |contributor, i|
-          within('.input-append:last') do
-            fill_in('senior_thesis[contributor][]', with: contributor)
-            click_on('Add')
+        if options[:js]
+          contributors.each_with_index do |contributor, i|
+            within('.input-append:last') do
+              fill_in('senior_thesis[contributor][]', with: contributor)
+              click_on('Add')
+            end
           end
+        else
+          fill_in('senior_thesis[contributor][]', with: contributors.first)
         end
-
       end
       click_on(options["Button to click"])
     end

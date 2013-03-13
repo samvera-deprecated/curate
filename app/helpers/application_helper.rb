@@ -5,6 +5,17 @@ module ApplicationHelper
     self
   end
 
+  def curation_concern_attribute_to_html(curation_concern, method_name, label)
+    markup = ""
+    if curation_concern.send(method_name).count > 0
+      markup << %(<dt>#{label}</dt>\n)
+      curation_concern.send(method_name).each do |value|
+        markup << %(<dd class="attribute #{method_name}">#{h(value)}</dd>\n)
+      end
+    end
+    markup.html_safe
+  end
+
   def classify_for_display(curation_concern)
     curation_concern.class.to_s.demodulize.titleize.downcase
   end

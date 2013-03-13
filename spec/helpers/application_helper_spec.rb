@@ -5,6 +5,15 @@ describe ApplicationHelper do
     expect(helper.sufia).to eq(helper)
   end
 
+  it 'has #curation_concern_attribute_to_html' do
+    collection = ["<h2>", "Johnny Tables"]
+    object = double('curation_concern', things: collection)
+
+    expect(helper.curation_concern_attribute_to_html(object, :things, "Weird")).to(
+      eq("<dt>Weird</dt>\n<dd class=\"attribute things\">&lt;h2&gt;</dd>\n<dd class=\"attribute things\">Johnny Tables</dd>\n")
+    )
+  end
+
   it 'has #classify_for_display' do
     expect(helper.classify_for_display(SeniorThesis.new)).to eq('senior thesis')
   end
