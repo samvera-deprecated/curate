@@ -37,7 +37,6 @@ class SeniorThesis < ActiveFedora::Base
     :descMetadata,
     [
       :contributor,
-      :contributor,
       :publisher,
       :bibliographic_citation,
       :source,
