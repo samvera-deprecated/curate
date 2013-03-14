@@ -12,7 +12,11 @@
       </dd>
       <dt>JavaScript</dt>
       <dd id="help-js">
-        is <strong>NOT</strong> enabled
+        <% if help_request.javascript_enabled %>
+          is enabled
+        <% else %>
+          is <strong>NOT</strong> enabled
+        <% end %>
       </dd>
       <dt>Current URL</dt>
       <dd id="help-url">
@@ -33,6 +37,7 @@
     <legend>Describe Your Issue</legend>
     <%= f.input :view_port, as: 'hidden' %>
     <%= f.input :resolution, as: 'hidden' %>
+    <%= f.input :current_url, as: 'hidden' %>
     <%= f.input :javascript_enabled, as: 'hidden' %>
     <%= f.input :how_can_we_help_you, as: 'text', input_html: { class: 'input-xxxlarge', rows: '10' } %>
   </fieldset>
