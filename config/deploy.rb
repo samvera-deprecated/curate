@@ -178,7 +178,6 @@ task :pre_production_cluster do
       ['/bundle/config','/.bundle/config', '/.bundle'],
       ['/log','/log','/log'],
       ['/vendor/bundle','/vendor/bundle','/vendor'],
-      #["/config/role_map_#{rails_env}.yml","/config/role_map_#{rails_env}.yml",'/config'],
     ]
   end
   set :branch, "release"
