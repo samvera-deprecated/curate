@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
 
-# Invoked by the CurateND-Integration Jenkins project
-# Setup and run capistrano to deploy the preproduction application and workers
+# Setup and run capistrano to deploy the production application and workers
 #
 # This runs on the same host as jenkins
 #
 # called from Jenkins command
 #       Build -> Execute Shell Command ==
-#       test -x $WORKSPACE/script/deploy-staging.sh && $WORKSPACE/script/deploy-staging.sh
+#       test -x $WORKSPACE/script/deploy-production.sh && $WORKSPACE/script/deploy-production.sh
 echo "=-=-=-=-=-=-=-= start $0"
 
 source $WORKSPACE/script/common-deploy.sh
 
-do_deploy staging
+do_deploy production
 
 echo "This should not be reached"
 exit 1
