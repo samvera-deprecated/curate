@@ -18,7 +18,6 @@ ssh_options[:paranoid] = false
 set :scm, :git
 set :deploy_via, :remote_cache
 set :scm_command, '/usr/bin/git'
-set :branch, "master"
 
 #############################################################
 #  Environment
@@ -153,8 +152,6 @@ before 'deploy', 'env:set_paths'
 
 set :application, 'curate_nd'
 set :repository,  "git://github.com/ndlib/curate_nd.git"
-set :branch, 'master'
-
 
 #############################################################
 #  Environments
@@ -170,6 +167,7 @@ task :pre_production_cluster do
       #["/config/role_map_#{rails_env}.yml","/config/role_map_#{rails_env}.yml",'/config'],
     ]
   end
+  set :branch, "release"
   set :rails_env,   'pre_production'
   set :deploy_to,   '/shared/ruby_pprd/data/app_home/curate'
   set :ruby_bin,    '/shared/ruby_pprd/ruby/1.9.3/bin'
@@ -212,6 +210,7 @@ task :staging_worker do
   set :rails_env,   'staging'
   set :user,        'curatend'
   set :domain,      'curatestagingw1.library.nd.edu'
+  set :branch, "master"
   common_worker_things
 end
 
@@ -220,5 +219,6 @@ task :pre_production_worker do
   set :rails_env,   'pre_production'
   set :user,        'curatend'
   set :domain,      'curatepprdw1.library.nd.edu'
+  set :branch, "release"
   common_worker_things
 end
