@@ -120,7 +120,7 @@ describe CurationConcern::GenericFilesController do
   end
 
   describe '#show' do
-    it 'should be successful' do
+    it 'should be successful if logged in' do
       generic_file
       sign_in user
       get :show, id: generic_file.to_param
@@ -136,4 +136,12 @@ describe CurationConcern::GenericFilesController do
     end
   end
 
+  describe '#destroy' do
+    it 'should be successful if file exists' do
+      generic_file
+      sign_in(user)
+      delete :destroy, id: generic_file.to_param
+      expect(response.status).to eq(302)
+    end
+  end
 end

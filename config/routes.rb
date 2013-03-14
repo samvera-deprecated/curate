@@ -25,7 +25,7 @@ CurateNd::Application.routes.draw do
     )
     resources(
       :generic_files,
-      only: [:show, :edit, :update]
+      only: [:show, :edit, :update, :destroy]
     )
   end
 

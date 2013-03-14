@@ -37,9 +37,9 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
     actor.create!
     respond_with([:curation_concern, parent])
   rescue ActiveFedora::RecordInvalid
-    respond_with([:curation_concern, curation_concern]) do |wants|
+    respond_with([:curation_concern, curation_concern]) { |wants|
       wants.html { render 'new', status: :unprocessable_entity }
-    end
+    }
   end
 
 
@@ -55,9 +55,15 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
     actor.update!
     respond_with([:curation_concern, curation_concern])
   rescue ActiveFedora::RecordInvalid
-    respond_with([:curation_concern, curation_concern]) do |wants|
+    respond_with([:curation_concern, curation_concern]) { |wants|
       wants.html { render 'edit', status: :unprocessable_entity }
-    end
+    }
+  end
+
+  def destroy
+    parent = curation_concern.batch
+    curation_concern.destroy
+    respond_with([:curation_concern, parent])
   end
 
   include Morphine
