@@ -64,6 +64,11 @@ module CurateNd
     # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
     config.assets.compress = !Rails.env.development?
 
+    config.build_identifier = begin
+      Rails.root.join('config/build-identifier.txt').read.strip
+    rescue Exception => e
+      Time.now.strftime("%Y-%m-%d %H:%M:%S")
+    end
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'

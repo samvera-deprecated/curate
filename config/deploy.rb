@@ -138,6 +138,10 @@ namespace :und do
   task :update_secrets do
     run "cd #{release_path} && ./script/update_secrets.sh"
   end
+
+  task :write_build_identifier, :roles => :app do
+    run "cd #{release_path} && echo '#{bundle_identifier}' > config/bundle-identifier.txt"
+  end
 end
 
 #############################################################
@@ -152,6 +156,8 @@ before 'deploy', 'env:set_paths'
 
 set :application, 'curate_nd'
 set :repository,  "git://github.com/ndlib/curate_nd.git"
+
+set :build_identifier, Time.now.strftime("%Y-%m-%d %H:%M:%S")
 
 #############################################################
 #  Environments
@@ -179,7 +185,7 @@ task :pre_production_cluster do
   default_environment['PATH'] = "#{ruby_bin}:$PATH"
   server "#{user}@#{domain}", :app, :web, :db, :primary => true
 
-  after 'deploy:update_code', 'und:update_secrets', 'deploy:symlink_shared', 'bundle:install', 'deploy:migrate', 'deploy:precompile'
+  after 'deploy:update_code', 'und:write_build_identifier', 'und:update_secrets', 'deploy:symlink_shared', 'bundle:install', 'deploy:migrate', 'deploy:precompile'
   after 'deploy', 'deploy:cleanup'
   after 'deploy', 'deploy:restart'
   after 'deploy', 'deploy:kickstart'
