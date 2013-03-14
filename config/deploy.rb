@@ -134,17 +134,17 @@ namespace :worker do
   end
 end
 
-def env_to_secret(env)
-  case env
+set(:secret_repo_name) {
+  case rails_env
   when 'staging' then 'secret_staging'
   when 'pre_production' then 'secret_pprd'
   when 'production' then 'secret_prod'
   end
-end
+}
 
 namespace :und do
   task :update_secrets do
-    run "cd #{release_path} && ./script/update_secrets.sh #{env_to_secret(rails_env)}"
+    run "cd #{release_path} && ./script/update_secrets.sh #{secret_repo_name}"
   end
 
   task :write_build_identifier, :roles => :app do
