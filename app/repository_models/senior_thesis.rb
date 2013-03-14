@@ -63,4 +63,8 @@ class SeniorThesis < ActiveFedora::Base
     noid
   end
 
+  def to_s
+    title
+  end
+
 end
