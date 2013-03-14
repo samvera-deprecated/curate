@@ -7,7 +7,7 @@ $(function(){
     $('body').modalmanager('loading');
 
     setTimeout(function(){
-      $modal.load('/help_requests/new #main', function(){
+      $modal.load('/help_requests/new #new_help_request', function(){
         $modal.modal();
       });
     }, 1000);
