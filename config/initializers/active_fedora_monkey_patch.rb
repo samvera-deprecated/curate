@@ -23,7 +23,6 @@ module Rubydora
       extend ActiveSupport::Concern
       included do
         before_purge_object do |options|
-          soft_purge_datastreams(options[:pid])
           client[object_url(options[:pid],state: ActiveFedora::DELETED_STATE)].put(nil)
           raise PerformedSoftDelete.new('purge_object', options[:pid], options)
         end
@@ -47,15 +46,6 @@ module Rubydora
       def purge_relationship(*args)
         super(*args) rescue PerformedSoftDelete; true
       end
-
-      # Because the delete happens and the pid is lost, the datastreams should
-      # be cleared.
-      def soft_purge_datastreams(pid)
-        find(pid).datastreams.each do |key, value|
-          purge_datastream({pid: pid, dsid: key})
-        end
-      end
-      private :soft_purge_datastreams
     end
 
     include SoftDeleteBehavior
@@ -65,20 +55,23 @@ end
 module ActiveFedora
   DELETED_STATE = 'D'
   class ActiveObjectNotFoundError < ObjectNotFoundError
-    def initialize(pid)
-      super("Unable to find active '#{pid}' in fedora.")
+    attr_reader :base_exception
+    def initialize(exception, *args)
+      @base_exception = exception
+      super("Unable to find via #{args.inspect} in fedora.")
     end
   end
 
   class DigitalObject
     # Application level enforcement of finding a DELETE_STATE object
     module SoftDeleteBehavior
+      # Because I don't want to be handling RestClient::Unauthorized in a
+      # controller, I want to change the exception to a more meaningful
+      # exception
       def find(*args)
-        returning_value = super
-        if returning_value.state == ActiveFedora::DELETED_STATE
-          raise ActiveFedora::ActiveObjectNotFoundError.new(returning_value.pid)
-        end
-        returning_value
+        super
+      rescue RestClient::Unauthorized => e
+        raise ActiveObjectNotFoundError.new(exception, *args)
       end
     end
     extend SoftDeleteBehavior

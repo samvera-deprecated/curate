@@ -12,8 +12,11 @@ describe 'active fedora monkey patches' do
     datastream_url = content_datastream_url.split("/")[0..-2].join("/")
     senior_thesis.destroy
 
-    response = generic_file.inner_object.repository.client["#{datastream_url}?format=xml"].get
-    expect(response.body).to include("<dsState>#{ActiveFedora::DELETED_STATE}</dsState>")
+    # Why is this not ActiveFedora::ActiveObjectNotFoundError?
+    # Because I am access the Fedora API, not using the ActiveFedora behavior
+    expect {
+      generic_file.inner_object.repository.client["#{datastream_url}?format=xml"].get
+    }.to raise_error(RestClient::Unauthorized)
 
     expect {
       SeniorThesis.find(senior_thesis_pid)
