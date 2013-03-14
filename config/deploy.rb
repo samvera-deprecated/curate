@@ -198,6 +198,35 @@ task :pre_production_cluster do
   after 'deploy', 'deploy:kickstart'
 end
 
+desc "Setup for the Production environment"
+task :production_cluster do
+  set :symlink_targets do
+    [
+      ['/bundle/config','/.bundle/config', '/.bundle'],
+      ['/log','/log','/log'],
+      ['/vendor/bundle','/vendor/bundle','/vendor'],
+      #["/config/role_map_#{rails_env}.yml","/config/role_map_#{rails_env}.yml",'/config'],
+    ]
+  end
+  set :branch,      'release'
+  set :rails_env,   'production'
+  set :deploy_to,   '/shared/ruby_prod/data/app_home/curate'
+  set :ruby_bin,    '/shared/ruby_prod/ruby/1.9.3/bin'
+
+  set :user,        'rbprod'
+  set :domain,      'curateprod.library.nd.edu'
+  set :without_bundle_environments, 'headless development test'
+
+  default_environment['PATH'] = "#{ruby_bin}:$PATH"
+  server "#{user}@#{domain}", :app, :web, :db, :primary => true
+
+  after 'deploy:update_code', 'und:write_build_identifier', 'und:update_secrets', 'deploy:symlink_shared', 'bundle:install', 'deploy:migrate', 'deploy:precompile'
+  after 'deploy', 'deploy:cleanup'
+  after 'deploy', 'deploy:restart'
+  after 'deploy', 'deploy:kickstart'
+end
+
+
 # Trying to keep the worker environments as similar as possible
 def common_worker_things
   set :symlink_targets do
@@ -235,3 +264,13 @@ task :pre_production_worker do
   set :branch, "release"
   common_worker_things
 end
+
+desc "Setup for the Production Worker environment"
+task :production_worker do
+  set :rails_env,   'production'
+  set :user,        'curatend'
+  set :domain,      'curateprodw1.library.nd.edu'
+  set :branch,      'release'
+  common_worker_things
+end
+
