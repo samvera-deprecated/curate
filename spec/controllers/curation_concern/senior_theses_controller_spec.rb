@@ -69,58 +69,68 @@ describe CurationConcern::SeniorThesesController do
   end
 
   describe '#show' do
-    subject {
+    let(:senior_thesis) {
       FactoryGirl.create_curation_concern(:senior_thesis, user, valid_attributes)
     }
     let(:pid) { CurationConcern.mint_a_pid }
     it 'should render' do
       sign_in user
-      subject
-      get :show, id: subject.to_param
+
+      get :show, id: senior_thesis.to_param
       response.should be_successful
-      controller.curation_concern.should == subject
+      controller.curation_concern.should == senior_thesis
     end
   end
   describe '#edit' do
-    subject {
+    let(:senior_thesis) {
       FactoryGirl.create_curation_concern(:senior_thesis, user, valid_attributes)
     }
     it 'should render' do
       sign_in user
-      subject
-      get :edit, id: subject.to_param
+
+      get :edit, id: senior_thesis.to_param
       response.should be_successful
-      controller.curation_concern.should == subject
+      controller.curation_concern.should == senior_thesis
       expect(response).to render_template('edit')
     end
 
     it 'should not be accessible by another user' do
       sign_in another_user
-      get :edit, id: subject.to_param
+      get :edit, id: senior_thesis.to_param
       response.status.should == 401
     end
   end
   describe '#update' do
-    subject {
+    let(:senior_thesis) {
       FactoryGirl.create_curation_concern(:senior_thesis, user, valid_attributes)
     }
     it 'updates a Senior Thesis when valid' do
       sign_in user
-      subject
+      senior_thesis
       expect {
-        put :update, id: subject.to_param, senior_thesis: valid_attributes
+        put :update, id: senior_thesis.to_param, senior_thesis: valid_attributes
       }.to_not change { SeniorThesis.count }.by(1)
-      expected_path = controller.polymorphic_path([:curation_concern, subject])
+      expected_path = controller.polymorphic_path([:curation_concern, senior_thesis])
       expect(response).to redirect_to(expected_path)
     end
     it 'does not create a Senior Thesis when invalid' do
       sign_in user
-      subject
-      put :update, id: subject.to_param, senior_thesis: invalid_attributes
+
+      put :update, id: senior_thesis.to_param, senior_thesis: invalid_attributes
       expect(response).to render_template('edit')
       response.response_code.should == 422
     end
   end
   describe '#destroy' do
+    let(:senior_thesis) {
+      FactoryGirl.create_curation_concern(:senior_thesis, user, valid_attributes)
+    }
+
+    it 'deletes an object' do
+      sign_in user
+      delete :destroy, id: senior_thesis.to_param
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(dashboard_index_path)
+    end
   end
 end

@@ -77,6 +77,11 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   end
 
   def destroy
+    title = curation_concern.to_s
+    curation_concern.destroy
+    respond_with { |wants|
+      wants.html { redirect_to dashboard_index_path, notice: "Deleted #{title}" }
+    }
   end
 
   include Morphine
