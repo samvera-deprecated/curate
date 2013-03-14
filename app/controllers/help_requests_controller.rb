@@ -5,12 +5,11 @@ class HelpRequestsController < ApplicationController
 
   respond_to(:html)
   def help_request
-    @help_request ||= HelpRequest.new(params[:help_request])
+    @help_request ||= build_help_request
   end
   helper_method :help_request
 
   def new
-
     respond_with(help_request)
   end
 
@@ -21,5 +20,26 @@ class HelpRequestsController < ApplicationController
     end
   rescue ActiveRecord::RecordInvalid
     respond_with(help_request)
+  end
+
+  private
+
+  def build_help_request
+    help_request = HelpRequest.new(params[:help_request])
+    help_request.user_agent  ||= human_name_from_user_agent_string(user_agent_from_request)
+    help_request.current_url ||= current_url_from_request
+    help_request
+  end
+
+  def user_agent_from_request
+    request.headers['HTTP_USER_AGENT']
+  end
+
+  def current_url_from_request
+    request.env['HTTP_REFERER']
+  end
+
+  def human_name_from_user_agent_string(user_agent_string)
+    user_agent_string
   end
 end

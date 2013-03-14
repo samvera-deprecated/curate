@@ -23,6 +23,9 @@
 //= require bootstrap-tooltip
 //= require bootstrap-popover
 //
-//= require manage_repeating_fields.js
+//= require manage_repeating_fields
+//= require help_modal
 
-$('.multi_value.control-group').manage_fields();
+$(function(){
+  $('.multi_value.control-group').manage_fields();
+});
