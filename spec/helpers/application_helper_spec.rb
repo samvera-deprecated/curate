@@ -5,6 +5,18 @@ describe ApplicationHelper do
     expect(helper.sufia).to eq(helper)
   end
 
+  it 'has #default_page_title' do
+    expect(helper.default_page_title).to(
+      eq("#{controller_name.titleize} // CurateND")
+    )
+  end
+
+  it 'has #curation_concern_page_title' do
+    expect(helper.curation_concern_page_title(SeniorThesis.new)).to(
+      eq("New Senior Thesis // CurateND")
+    )
+  end
+
   it 'has #curation_concern_attribute_to_html' do
     collection = ["<h2>", "Johnny Tables"]
     object = double('curation_concern', things: collection)

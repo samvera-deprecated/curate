@@ -5,6 +5,27 @@ module ApplicationHelper
     self
   end
 
+  def construct_page_title(*elements)
+    (elements.flatten.compact + [application_name]).join(" // ")
+  end
+  protected :construct_page_title
+
+  def curation_concern_page_title(curation_concern)
+    if curation_concern.persisted?
+      construct_page_title(curation_concern.title, "#{curation_concern.class.to_s.titleize} [#{curation_concern.to_param}]")
+    else
+      construct_page_title("New #{curation_concern.class.to_s.titleize}")
+    end
+  end
+
+  def default_page_title
+    text = controller_name.singularize.titleize
+    if action_name
+      text = "#{action_name.titleize} " + text
+    end
+    construct_page_title(text)
+  end
+
   def curation_concern_attribute_to_html(curation_concern, method_name, label)
     markup = ""
     if curation_concern.send(method_name).count > 0
