@@ -12,6 +12,3 @@ echo "=-=-=-=-=-=-=-= start $0"
 source $WORKSPACE/script/common-deploy.sh
 
 do_deploy production
-
-echo "This should not be reached"
-exit 1
