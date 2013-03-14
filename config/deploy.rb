@@ -148,7 +148,7 @@ namespace :und do
   end
 
   task :write_build_identifier, :roles => :app do
-    run "cd #{release_path} && echo '#{bundle_identifier}' > config/bundle-identifier.txt"
+    run "cd #{release_path} && echo '#{build_identifier}' > config/bundle-identifier.txt"
   end
 end
 
