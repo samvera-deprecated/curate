@@ -31,6 +31,12 @@ function do_deploy() {
     echo "=-=-=-=-=-=-=-= cd $WORKSPACE"
     cd $WORKSPACE
 
+    echo "=-=-=-=-=-=-=-= Removing files Jenkins does not like"
+    # A file in this directoy has a filename that Jenkins cannot handle. Likely
+    # an atypical encoding.
+    rm -f $(/shared/ruby_prod/ruby/1.9.3/bin/bundle show clamav)/spec/clamav-testfiles/*
+
+
     # it would be nice to simultaneously deploy to the cluster and the worker.
     # the `git` binaries on each host have different paths, but because of the
     # shared file mount, each can see the other's binaries.
