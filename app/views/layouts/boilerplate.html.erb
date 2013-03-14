@@ -18,10 +18,10 @@
     <%= content_for?(:body) ? yield(:body) : yield %>
 
     <%= render :partial => '/ga', :formats => [:html] -%>
-<%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag 'application' %>
 
-<% unless Rails.env == 'production' %>
-<!-- Rendered through: <%= yield(:layout_name) %>boilerplate -->
-<% end %>
+    <% unless Rails.env == 'production' %>
+    <!-- Rendered through: <%= yield(:layout_name) %>boilerplate -->
+    <% end %>
   </body>
 </html>
