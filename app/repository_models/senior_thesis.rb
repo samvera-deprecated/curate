@@ -59,10 +59,6 @@ class SeniorThesis < ActiveFedora::Base
 
   attr_accessor :thesis_file, :visibility, :assign_doi
 
-  def current_thesis_file
-    generic_files.first
-  end
-
   def to_param
     noid
   end
