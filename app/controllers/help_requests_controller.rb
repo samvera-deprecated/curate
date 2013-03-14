@@ -40,6 +40,7 @@ class HelpRequestsController < ApplicationController
   end
 
   def human_name_from_user_agent_string(user_agent_string)
-    user_agent_string
+    browser = Browser.new(:ua => user_agent_string)
+    "#{browser.name} on #{browser.platform}"
   end
 end
