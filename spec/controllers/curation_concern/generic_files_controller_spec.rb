@@ -138,10 +138,11 @@ describe CurationConcern::GenericFilesController do
 
   describe '#destroy' do
     it 'should be successful if file exists' do
-      generic_file
+      parent = generic_file.batch
       sign_in(user)
       delete :destroy, id: generic_file.to_param
       expect(response.status).to eq(302)
+      expect(response).to redirect_to(controller.polymorphic_path([:curation_concern, parent]))
     end
   end
 end
