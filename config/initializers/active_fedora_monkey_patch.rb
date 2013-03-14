@@ -71,15 +71,16 @@ module ActiveFedora
   end
 
   class DigitalObject
-    class << self
-      active_fedora_digital_object_find = self.instance_method(:find)
-      define_method(:find) do |*args|
-        returning_value = active_fedora_digital_object_find.bind(self).call(*args)
+    # Application level enforcement of finding a DELETE_STATE object
+    module SoftDeleteBehavior
+      def find(*args)
+        returning_value = super
         if returning_value.state == ActiveFedora::DELETED_STATE
           raise ActiveFedora::ActiveObjectNotFoundError.new(returning_value.pid)
         end
         returning_value
       end
     end
+    extend SoftDeleteBehavior
   end
 end
