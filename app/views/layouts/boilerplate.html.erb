@@ -20,7 +20,7 @@
     <%= render :partial => '/ga', :formats => [:html] -%>
     <%= javascript_include_tag 'application' %>
 
-    <% unless Rails.env == 'production' %>
+    <% unless Rails.env.production? %>
     <!-- Rendered through: <%= yield(:layout_name) %>boilerplate -->
     <% end %>
   </body>
