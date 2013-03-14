@@ -13,13 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //
-//= require jquery-ui-1.9.2/jquery.ui.core
 //= require jquery-ui-1.9.2/jquery.ui.widget
-//= require jquery-ui-1.9.2/jquery.ui.menu
-//= require jquery-ui-1.9.2/jquery.ui.autocomplete
-//= require jquery-ui-1.9.2/jquery.ui.position
-//= require jquery-ui-1.9.2/jquery.ui.effect
-//= require jquery-ui-1.9.2/jquery.ui.effect-highlight
 //
 //= require blacklight/blacklight
 //
