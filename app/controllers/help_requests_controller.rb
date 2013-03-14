@@ -26,7 +26,7 @@ class HelpRequestsController < ApplicationController
 
   def build_help_request
     help_request = HelpRequest.new(params[:help_request])
-    help_request.user_agent  ||= human_name_from_user_agent_string(user_agent_from_request)
+    help_request.user_agent  ||= user_agent_from_request
     help_request.current_url ||= current_url_from_request
     help_request
   end
@@ -37,10 +37,5 @@ class HelpRequestsController < ApplicationController
 
   def current_url_from_request
     request.env['HTTP_REFERER']
-  end
-
-  def human_name_from_user_agent_string(user_agent_string)
-    browser = Browser.new(:ua => user_agent_string)
-    "#{browser.name} on #{browser.platform}"
   end
 end

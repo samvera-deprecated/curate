@@ -4,11 +4,12 @@
       <fieldset>
         <legend>What We Know</legend>
         <ul>
-          <li>Screen Size: <span id="hlp-res"><%= help_request.resolution %></span></li>
-          <li>Browser Size: <span id="hlp-viewport"><%= help_request.view_port %></span></li>
-          <li>Javascript: <span id="hlp-js">is <strong>NOT</strong> enabled.</span></li>
-          <li>Current URL: <span id="hlp-url"><%= help_request.current_url %></span></li>
-          <li>Browser: <span id="hlp-agent"><%= help_request.user_agent %></span></li>
+          <li>Screen Size: <span id="help-resolution"><%= help_request.resolution %></span></li>
+          <li>Browser Size: <span id="help-viewport"><%= help_request.view_port %></span></li>
+          <li>JavaScript: <span id="help-js">is <strong>NOT</strong> enabled.</span></li>
+          <li>Current URL: <span id="help-url"><%= help_request.current_url %></span></li>
+          <li>Browser: <span id="help-browser"><%= help_request.browser_name %></span></li>
+          <li>Platform: <span id="help-platfrom"><%= help_request.platform %></span></li>
         </ul>
       </fieldset>
     </div>
@@ -18,8 +19,6 @@
         <%= f.input :view_port, as: 'hidden' %>
         <%= f.input :resolution, as: 'hidden' %>
         <%= f.input :javascript_enabled, as: 'hidden' %>
-        <%= f.input :current_url, as: 'hidden' %>
-        <%= f.input :user_agent, as: 'hidden' %>
         <%= f.input :how_can_we_help_you, as: 'text' %>
       </fieldset>
     </div>
