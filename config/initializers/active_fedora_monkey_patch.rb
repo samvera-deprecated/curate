@@ -71,7 +71,7 @@ module ActiveFedora
       def find(*args)
         super
       rescue RestClient::Unauthorized => e
-        raise ActiveObjectNotFoundError.new(exception, *args)
+        raise ActiveObjectNotFoundError.new(e, *args)
       end
     end
     extend SoftDeleteBehavior
