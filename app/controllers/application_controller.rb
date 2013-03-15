@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from StandardError do |exception|
-    error <<-ERROR
+    error = <<-ERROR
 ********************************************************************************
 #{exception.class}:
 #{exception}
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     ERROR
     logger.error(error)
     render(
-      "/error/internal_server_error",
+      "/errors/internal_server_error",
       status: 500
     )
   end
