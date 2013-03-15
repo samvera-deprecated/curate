@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
 ********************************************************************************
     ERROR
-    logger.error
+    logger.error(error)
     render(
       "/error/internal_server_error",
       status: 500
