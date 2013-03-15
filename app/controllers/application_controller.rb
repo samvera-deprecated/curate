@@ -10,24 +10,6 @@ class ApplicationController < ActionController::Base
     render '/errors/not_found', status: :not_found
   end
 
-  rescue_from StandardError do |exception|
-    error = <<-ERROR
-********************************************************************************
-#{exception.class}:
-#{exception}
-********************************************************************************
-
-#{exception.backtrace.join("\n")}
-
-********************************************************************************
-    ERROR
-    logger.error(error)
-    render(
-      "/errors/internal_server_error",
-      status: 500
-    )
-  end
-
   rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
     session["user_return_to"] = request.url
     render(
