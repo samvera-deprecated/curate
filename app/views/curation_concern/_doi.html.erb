@@ -8,54 +8,28 @@
       has a <abbr title="Digital Object Identifier">DOI</abbr>.
     </p>
     <p class="doi centered">
+      <%# TODO: Include a link to the _actual_ DOI. %>
       <%= curation_concern.identifier %>
     </p>
-    <%# TODO: Write something more helpful here. Also include a link to the _actual_ DOI. %>
     <p>
-      It's great for citing your work.
+      This <abbr title="Digital Object Identifier">DOI</abbr> link is the best way for others to cite your work.
     </p>
   </fieldset>
 <%- else -%>
   <fieldset class="promote promote-doi">
     <legend>
-      Assign a Digital Object Identifier
-      <a href="#doiModal" role="button" class="btn btn-info pull-right" data-toggle="modal">
-        Why is this important <i class="icon-question-sign icon-large icon-white"></i>
-      </a>
+      Assign a Digital Object Identifier (DOI)
     </legend>
 
-    <!-- Modal -->
-
-    <div class="modal hide fade" id="doiModal" tabindex="-1" role="dialog" aria-labelledby="doiModalLabel" aria-hidden="true">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-        <h2 id="doiModalLabel">DOIs are Awesome</h2>
-      </div>
-      <div class="modal-body">
-        <p>A <abbr title="Digital Object Identifier">DOI</abbr> has become the gold standard for citing an online scholarly work.</p>
-        <p>Here are several reasons:</p>
-        <ul>
-          <li>It is an <abbr title="International Organization for Standardization">ISO</abbr> certified (<a href="http://www.iso.org/iso/catalogue_detail?csnumber=43506" target="_blank">ISO 26324</a>) method of uniquely identifying materials.</li>
-          <li>It is portable; a <abbr title="Digital Object Identifier">DOI</abbr> can be updated to point to a different URL.</li>
-          <li>It is persistent; the DOI system is supported by a <a href="http://www.doi.org/registration_agencies.html" target="_blank">world-wide network of supporters</a>.</li>
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
-      </div>
-    </div>
-
-    <!-- end Modal -->
-
     <div class="help-block">
-      <blockquote>
-        <p>
-          The <abbr title="Digital Object Identifier">DOI</abbr> system provides
-          a technical and social infrastructure for the registration and use of
-          persistent interoperable identifiers for use on digital networks.
-        </p>
-      </blockquote>
-      <p>More information at <a href="http://www.doi.org">www.doi.org</a></p>
+      <p>
+        A <abbr title="Digital Object Identifier">DOI</abbr> is a perminant link to your
+        <%= classify_for_display(curation_concern) %>.
+        It's an easy way for other people to cite your work.
+      </p>
+      <p>
+        <a href="http://simple.wikipedia.org/wiki/Doi" target="_blank">Click here</a> for more information about <abbr title="Digital Object Identifier">DOI</abbr>s.
+      </p>
     </div>
 
     <%= f.label :assign_doi do %>
