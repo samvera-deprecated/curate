@@ -1,0 +1,25 @@
+.search-form {
+  .search-query,
+  .search-submit {
+    box-sizing:border-box;
+  }
+
+  .search-query {
+    width:80%;
+    padding-top:1em;
+    padding-bottom:1em;
+    @include border-bottom-left-radius(15px);
+    @include border-bottom-right-radius(0);
+    @include border-top-left-radius(15px);
+    @include border-top-right-radius(0);
+  }
+
+  .search-submit {
+    padding-left:0;
+    width:20%;
+    @include border-bottom-left-radius(0);
+    @include border-bottom-right-radius(15px);
+    @include border-top-left-radius(0);
+    @include border-top-right-radius(15px);
+  }
+}
