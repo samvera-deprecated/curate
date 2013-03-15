@@ -2,6 +2,10 @@
   <fieldset class="with-side-padding">
     <legend>What We Know</legend>
     <dl>
+      <dt>Your Username</dt>
+      <dd id="help-username">
+        <%= current_user.username %>
+      </dd>
       <dt>Screen Size</dt>
       <dd id="help-resolution">
         <%= help_request.resolution || 'Unknown' %>
