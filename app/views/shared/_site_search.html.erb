@@ -1,18 +1,17 @@
-<%= form_tag catalog_index_path, :method => :get, :id => "site-search-form" do %>
+<%= form_tag catalog_index_path, :method => :get, :class => "search-form" do %>
   <fieldset>
     <legend class="accessible-hidden">Search <%=t('sufia.product_name')%></legend>
     <%= label_tag :catalog_search, t('sufia.search.form.q.label'), :class => "accessible-hidden" %>
     <%= text_field_tag(
       :q,
       params[:q],
-      :class => "q input-xlarge search-query",
+      :class => "q search-query",
       :id => "catalog_search",
       :placeholder => t('sufia.search.form.q.placeholder'),
       :size => "30",
       :tabindex => "1",
       :type => "search",
-    )%>
-    <button type="submit" class="btn btn-primary" id="search-submit-header" tabindex="2">
+    )%><button type="submit" class="search-submit btn btn-primary" id="search-submit-header" tabindex="2">
       <i class="icon-search icon-white"></i> Go
     </button>
   </fieldset>
