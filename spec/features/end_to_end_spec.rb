@@ -45,7 +45,7 @@ describe 'end to end behavior', describe_options do
       click_link "Request Help"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
-        click_on("Submit")
+        click_on("Let Us Know")
       end
       page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
     end
