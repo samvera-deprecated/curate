@@ -28,5 +28,7 @@
 //= require help_modal
 
 $(function(){
+  $('abbr').tooltip();
+
   $('.multi_value.control-group').manage_fields();
 });
