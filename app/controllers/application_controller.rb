@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     render '/errors/not_found', status: :not_found
   end
 
-  rescue_from RuntimeError do |exception|
+  rescue_from StandardError do |exception|
     error <<-ERROR
 ********************************************************************************
 #{exception.class}:
