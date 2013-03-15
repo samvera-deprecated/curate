@@ -10,9 +10,22 @@ class ApplicationController < ActionController::Base
     render '/errors/not_found', status: :not_found
   end
 
-  rescue_from ArgumentError do |exception|
-    logger.error "*"*80+"\n\n"+exception.backtrace.split("\n")+"\n\n"*"*"*80
-    raise exception
+  rescue_from RuntimeError do |exception|
+    error <<-ERROR
+********************************************************************************
+#{exception.class}:
+#{exception}
+********************************************************************************
+
+#{exception.backtrace.join("\n")}
+
+********************************************************************************
+    ERROR
+    logger.error
+    render(
+      "/error/internal_server_error",
+      status: 500
+    )
   end
 
   rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
