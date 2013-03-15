@@ -12,6 +12,8 @@ Sufia.config do |config|
     { file_title: :title, file_author: :creator }
   end
 
+  config.noid_template = '.reeddeeddedk'
+
   config.max_days_between_audits = 7
 
   config.cc_licenses = {
