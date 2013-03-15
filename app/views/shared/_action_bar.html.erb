@@ -9,9 +9,15 @@
         <li class="pull-right">
           <%= link_to 'Log Out', destroy_user_session_path %>
         </li>
-        <li class="pull-right">
-          <%= link_to 'Request Help', new_help_request_path, class: 'request-help' %>
-        </li>
+        <% if current_page? new_help_request_path %>
+          <li class="pull-right disabled">
+            <%= link_to 'Request Help', '#' %>
+          </li>
+        <% else %>
+          <li class="pull-right">
+            <%= link_to 'Request Help', new_help_request_path, class: 'request-help' %>
+          </li>
+        <% end %>
       <% else %>
         <%= bootstrap_navigation_element 'Search',        catalog_index_path   -%>
         <li class="pull-right">
