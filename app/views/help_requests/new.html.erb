@@ -19,7 +19,7 @@
         <% end %>
       </dd>
       <dt>Current URL</dt>
-      <dd id="help-url">
+      <dd id="help-url"<%= ' class="unset"'.html_safe if help_request.current_url.blank? %>>
         <%= help_request.current_url %>
       </dd>
       <dt>Browser</dt>
@@ -37,7 +37,11 @@
     <legend>Describe Your Issue</legend>
     <%= f.input :view_port, as: 'hidden' %>
     <%= f.input :resolution, as: 'hidden' %>
+  <% if help_request.current_url.blank? %>
+    <%= f.input :current_url, as: 'hidden', input_html: { class: 'unset' } %>
+  <% else -%>
     <%= f.input :current_url, as: 'hidden' %>
+  <% end -%>
     <%= f.input :javascript_enabled, as: 'hidden' %>
     <%= f.input :how_can_we_help_you, as: 'text', input_html: { class: 'input-xxxlarge', rows: '10' } %>
   </fieldset>

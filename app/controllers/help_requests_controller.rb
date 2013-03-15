@@ -27,15 +27,10 @@ class HelpRequestsController < ApplicationController
   def build_help_request
     help_request = HelpRequest.new(params[:help_request])
     help_request.user_agent  ||= user_agent_from_request
-    help_request.current_url ||= current_url_from_request
     help_request
   end
 
   def user_agent_from_request
     request.headers['HTTP_USER_AGENT']
-  end
-
-  def current_url_from_request
-    request.env['HTTP_REFERER']
   end
 end
