@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130312145738) do
+ActiveRecord::Schema.define(:version => 20130315200555) do
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20130312145738) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.boolean  "javascript_enabled"
+    t.string   "release_version"
   end
 
   add_index "help_requests", ["created_at"], :name => "index_help_requests_on_created_at"
