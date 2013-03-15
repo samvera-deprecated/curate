@@ -21,18 +21,17 @@
       Assign a Digital Object Identifier (DOI)
     </legend>
 
-    <div class="help-block">
-      <p>
-        A <abbr title="Digital Object Identifier">DOI</abbr> is a perminant link to your
-        <%= classify_for_display(curation_concern) %>.
-        It's an easy way for other people to cite your work.
-      </p>
-      <p>
-        <a href="http://simple.wikipedia.org/wiki/Doi" target="_blank">Click here</a> for more information about <abbr title="Digital Object Identifier">DOI</abbr>s.
-      </p>
-    </div>
+    <p>
+      A <abbr title="Digital Object Identifier">DOI</abbr> is a permanent link to your
+      <%= classify_for_display(curation_concern) %>.
+      It's an easy way for other people to cite your work.
+    </p>
+    <p>
+      Want more information on <abbr title="Digital Object Identifier">DOI</abbr>s?
+      Here's a <a href="http://simple.wikipedia.org/wiki/Doi" target="_blank">brief summary</a> and the <a href="http://www.doi.org/faq.html" target="_blank">DOI FAQ</a>.
+    </p>
 
-    <%= f.label :assign_doi do %>
+    <%= f.label :assign_doi, class: 'label label-success label-large' do %>
       <%= f.check_box :assign_doi %>
       Yes, I would like to assign this
       <%= classify_for_display(curation_concern) %>

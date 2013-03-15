@@ -6,3 +6,13 @@
 legend small {
   margin-left:.5em;
 }
+
+.label-large {
+  font-size: 110%;
+  line-height: 1.2;
+  padding: .3em .6em;
+
+  input[type="checkbox"]{
+    margin:-2px 0 0;
+  }
+}
