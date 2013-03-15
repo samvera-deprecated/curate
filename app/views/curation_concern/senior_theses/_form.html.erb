@@ -65,9 +65,21 @@
     </div>
 
     <div class="span6">
+      <fieldset class="control-group">
+        <legend>
+          Embargo Date
+          <small>When to release it for public viewing</small>
+        </legend>
+        <p class="help-block">
+          Need to provide some help text
+        </p>
+        <%= f.input :embargo_release_date, as: :string, input_html: { class: 'datepicker' } %>
+      </fieldset>
       <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
     </div>
   </div>
+
+
 
   <%= render '/curation_concern/contributor_agreement', contributor_agreement: contributor_agreement %>
 

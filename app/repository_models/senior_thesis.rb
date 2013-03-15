@@ -47,9 +47,19 @@ class SeniorThesis < ActiveFedora::Base
     ]
   )
   delegate_to :properties, [:relative_path, :depositor], unique: true
+
   validates :title, presence: true
+  validates :embargo_release_date, embargo: true
+
+  #validate :valid_embargo_release_date?
 
   before_save {|obj| obj.archived_object_type = self.class.to_s }
+
+  before_save :write_embargo_release_date
+
+  def write_embargo_release_date
+    self.datastreams["rightsMetadata"].embargo_release_date=embargo_release_date
+  end
 
   def to_solr(solr_doc={}, opts={})
     super(solr_doc, opts)
@@ -57,7 +67,7 @@ class SeniorThesis < ActiveFedora::Base
     return solr_doc
   end
 
-  attr_accessor :thesis_file, :visibility, :assign_doi
+  attr_accessor :thesis_file, :visibility, :assign_doi, :embargo_release_date
 
   def to_param
     noid
@@ -65,6 +75,13 @@ class SeniorThesis < ActiveFedora::Base
 
   def to_s
     title
+  end
+  def embargo_release_date=(embargo_date)
+    @embargo_release_date = embargo_date
+  end
+
+  def embargo_release_date
+    @embargo_release_date || self.datastreams["rightsMetadata"].embargo_release_date
   end
 
 end

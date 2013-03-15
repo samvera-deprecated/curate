@@ -13,4 +13,6 @@
   <%= curation_concern_attribute_to_html(curation_concern, :language, "Language") %>
   <dt>Access Rights</dt>
   <dd><%= link_to_edit_permissions(curation_concern) %></dd>
+  <dt>Embargo Date</dt>
+  <dd><%= curation_concern.embargo_release_date %></dd>
 </dl>
