@@ -16,3 +16,8 @@ legend small {
     margin:-2px 0 0;
   }
 }
+
+.control-group.error input,
+.control-group.error text {
+  color:$grayDark;
+}
