@@ -24,6 +24,7 @@
 //= require bootstrap-popover
 //
 //= require manage_repeating_fields
+//= require toggle_details
 //= require help_modal
 
 $(function(){
