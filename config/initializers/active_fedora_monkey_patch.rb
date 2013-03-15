@@ -54,12 +54,24 @@ end
 
 module ActiveFedora
   DELETED_STATE = 'D'
-  class ActiveObjectNotFoundError < ObjectNotFoundError
+  class ActiveObjectNotFoundError < RuntimeError
     attr_reader :base_exception
     def initialize(exception, *args)
       @base_exception = exception
       super("Unable to find via #{args.inspect} in fedora.")
     end
+  end
+
+  class Base
+    module SoftDeleteBehavior
+      def exists?(*args)
+        super
+      rescue ActiveObjectNotFoundError, RestClient::Unauthorized
+        true
+      end
+    end
+
+    extend SoftDeleteBehavior
   end
 
   class DigitalObject

@@ -23,8 +23,11 @@ describe 'active fedora monkey patches' do
     }.to raise_error(ActiveFedora::ActiveObjectNotFoundError)
 
     expect {
-      SeniorThesis.find(generic_file_pid)
+      GenericFile.find(generic_file_pid)
     }.to raise_error(ActiveFedora::ActiveObjectNotFoundError)
+
+    expect(ActiveFedora::Base.exists?(senior_thesis_pid)).to eq(true)
+    expect(ActiveFedora::Base.exists?(generic_file_pid)).to eq(true)
   end
 
 end
