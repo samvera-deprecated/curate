@@ -6,8 +6,8 @@ Devise.setup do |config|
   else
     config.cas_base_url = "https://login.nd.edu/cas"
   end
-  config.cas_destination_url = Rais.configuration.application_url
-  config.cas_follow_url = Rais.configuration.application_url
+  config.cas_destination_url = Rails.configuration.application_url
+  config.cas_follow_url = Rails.configuration.application_url
   config.cas_logout_url_param = 'follow'
 
 
