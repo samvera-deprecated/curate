@@ -1,0 +1,45 @@
+<% content_for :layout_name, 'common_objects, ' %>
+<% content_for :body do %>
+
+  <header id="banner" role="banner">
+    <hgroup>
+      <div id="brand-bar-wrapper">
+        <div class="container">
+          <div id="brand-bar" class="row">
+            <div class="university span6">
+              <h3><a href="http://nd.edu" tabindex="-1">University <i>of</i> Notre Dame</a></h3>
+            </div>
+            <div class="division span6">
+              <h2><a href="http://www.library.nd.edu" tabindex="-1">Hesburgh Libraries</a></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </hgroup>
+  </header>
+
+  <div id="main" role="main" class="container <%= yield(:page_class) if content_for?(:page_class)%>">
+    <% if content_for?(:page_header) %>
+      <div class="row">
+        <div class="span12 main-header">
+          <%= yield(:page_header) %>
+        </div>
+      </div>
+    <% end %>
+    <div class="row">
+      <div class="<%= content_for?(:main_column_class) ? yield(:main_column_class) : "span12" %>">
+        <%= yield %>
+      </div>
+    </div>
+    <% if content_for?(:second_row) %>
+      <div class="row">
+        <div class="span12">
+          <%= yield(:second_row) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+<% end %>
+
+<%= render :template => 'layouts/boilerplate' %>

@@ -9,6 +9,7 @@ class CommonObjectsController < ApplicationController
   helper_method :curation_concern
   prepend_before_filter :normalize_identifier
   load_and_authorize_resource :curation_concern, class: "ActiveFedora::Base"
+  layout 'common_objects'
 
   helper :common_objects
 

@@ -1,0 +1,32 @@
+<%- generic_files_are_editable = can?(:edit, curation_concern) -%>
+<table class="table table-striped <%= dom_class(curation_concern) %> related_files with-headroom">
+  <caption class="table-heading">
+    <h2>Related Files</h2>
+  </caption>
+  <thead>
+    <tr>
+      <th>Related File</th>
+      <th>Filename</th>
+      <th>Date Uploaded</th>
+      <th>Visibility</th>
+      <%- if with_actions -%><th>Actions</th><%- end -%>
+    </tr>
+  </thead>
+  <tbody>
+    <% curation_concern.generic_files.each do |generic_file| %>
+      <tr class="<%= dom_class(generic_file) %> attributes">
+        <td class="attribute title"><%= generic_file %></td>
+        <td class="attribute filename"><%= generic_file.filename %></td>
+        <td class="attribute date_uploaded"><%= generic_file.date_uploaded %></td>
+        <td class="attribute permission"><%= link_to_edit_permissions(generic_file) %></td>
+        <%- if with_actions -%>
+          <td>
+            <%- if generic_files_are_editable -%>
+              <%= link_to 'Edit This File', edit_polymorphic_path([:curation_concern, generic_file]), class: 'btn' %>
+            <%- end -%>
+          </td>
+        <%- end -%>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
