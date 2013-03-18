@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130315200555) do
+ActiveRecord::Schema.define(:version => 20130318190723) do
 
   create_table "bookmarks", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(:version => 20130315200555) do
     t.datetime "updated_at",  :null => false
     t.string   "user_type"
   end
+
+  add_index "bookmarks", ["user_id", "user_type"], :name => "index_bookmarks_on_user_id_and_user_type"
 
   create_table "checksum_audit_logs", :force => true do |t|
     t.string   "pid"
@@ -115,6 +117,8 @@ ActiveRecord::Schema.define(:version => 20130315200555) do
   end
 
   add_index "notifications", ["conversation_id"], :name => "index_notifications_on_conversation_id"
+  add_index "notifications", ["notified_object_id", "notified_object_type"], :name => "notifications_notified_object"
+  add_index "notifications", ["sender_id", "sender_type"], :name => "index_notifications_on_sender_id_and_sender_type"
 
   create_table "object_access", :primary_key => "access_id", :force => true do |t|
     t.datetime "date_accessed"
@@ -148,6 +152,7 @@ ActiveRecord::Schema.define(:version => 20130315200555) do
   end
 
   add_index "receipts", ["notification_id"], :name => "index_receipts_on_notification_id"
+  add_index "receipts", ["receiver_id", "receiver_type"], :name => "index_receipts_on_receiver_id_and_receiver_type"
 
   create_table "repo_object", :primary_key => "repo_object_id", :force => true do |t|
     t.string   "filename"
@@ -166,6 +171,7 @@ ActiveRecord::Schema.define(:version => 20130315200555) do
     t.string   "user_type"
   end
 
+  add_index "searches", ["user_id", "user_type"], :name => "index_searches_on_user_id_and_user_type"
   add_index "searches", ["user_id"], :name => "index_searches_on_user_id"
 
   create_table "single_use_links", :force => true do |t|
@@ -191,6 +197,8 @@ ActiveRecord::Schema.define(:version => 20130315200555) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  add_index "trophies", ["user_id"], :name => "index_trophies_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                      :default => "",    :null => false
