@@ -10,6 +10,7 @@ task :test_setup do
   ENV['RAILS_ENV'] = 'test'
   Rails.env = 'test'
   Rake::Task['environment'].invoke
+  Rake::Task['db:schema:load'].invoke
 
 end
 desc "run all of the specs"
