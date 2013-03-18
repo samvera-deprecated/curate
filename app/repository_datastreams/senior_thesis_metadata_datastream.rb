@@ -35,17 +35,26 @@ class SeniorThesisMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     end
 
     map.available({in: RDF::DC})
-    map.publisher({in: RDF::DC})
+    map.publisher({in: RDF::DC}) do |index|
+      index.as :searchable, :displayable, :facetable
+    end
+
     map.bibliographic_citation({in: RDF::DC, to: 'bibliographicCitation'})
     map.source({in: RDF::DC})
 
     map.rights(:in => RDF::DC) do |index|
-      index.as :searchable, :displayable
+      index.as :searchable, :displayable, :facetable
     end
 
     map.access_rights({in: RDF::DC, to: 'accessRights'})
-    map.language({in: RDF::DC})
-    map.archived_object_type({in: RDF::DC, to: 'type'})
+    map.language({in: RDF::DC}) do |index|
+      index.as :searchable, :facetable
+    end
+
+    map.archived_object_type({in: RDF::DC, to: 'type'}) do |index|
+      index.as :searchable, :displayable, :facetable
+    end
+
     map.content_format({in: RDF::DC, to: 'format'})
     map.extent({in: RDF::DC})
     map.requires({in: RDF::DC})

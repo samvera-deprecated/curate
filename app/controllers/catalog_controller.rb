@@ -88,6 +88,7 @@ class CatalogController < ApplicationController
     config.add_facet_field "desc_metadata__creator_facet", :label => "Creator", :limit => 5
     config.add_facet_field "desc_metadata__tag_facet", :label => "Keyword", :limit => 5
     config.add_facet_field "desc_metadata__subject_facet", :label => "Subject", :limit => 5
+    config.add_facet_field "desc_metadata__archived_object_type_facet", :label => "Type", :limit => 5
     config.add_facet_field "desc_metadata__language_facet", :label => "Language", :limit => 5
     config.add_facet_field "desc_metadata__based_near_facet", :label => "Location", :limit => 5
     config.add_facet_field "desc_metadata__publisher_facet", :label => "Publisher", :limit => 5
