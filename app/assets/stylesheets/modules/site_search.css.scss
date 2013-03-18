@@ -17,6 +17,7 @@
   .search-submit {
     padding-left:0;
     width:20%;
+    white-space:nowrap;
     @include border-bottom-left-radius(0);
     @include border-bottom-right-radius(15px);
     @include border-top-left-radius(0);
