@@ -55,7 +55,11 @@ class SeniorThesis < ActiveFedora::Base
   #validate :valid_embargo_release_date?
   validates :rights, presence: true
 
-  before_save {|obj| obj.archived_object_type = self.class.to_s }
+  before_save {|obj| obj.archived_object_type = self.human_readable_type }
+
+  def human_readable_type
+    self.class.to_s.demodulize.titleize
+  end
 
   before_save :write_embargo_release_date
 
