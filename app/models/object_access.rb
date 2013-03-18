@@ -2,7 +2,7 @@ class ObjectAccess < ActiveRecord::Base
   self.establish_connection("#{Rails.env}_remote_purl_database".to_sym)
   self.table_name = "object_access"
 
-  attr_accessible :access_id, :purl_id, :repo_object_id, :ip_address, :date_accessed, :host_name, :request_method, :path_info
+  attr_accessible :date_accessed
 
   def self.create_from_purl(purl)
     if purl.nil?

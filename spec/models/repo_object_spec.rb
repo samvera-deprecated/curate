@@ -18,7 +18,10 @@ describe RepoObject do
     it 'should_create_data_in_purl_database' do
       RepoObject.create_from_fedora_object(object)
       results = RepoObject.where(:filename => object.pid)
-      results.first.filename.should == object.pid
+      object = results.first
+
+      object.filename.should == object.pid
+      expect(object.url).to eq(File.join(Rails.configuration.application_url, "show", object.pid))
     end
 
   end
