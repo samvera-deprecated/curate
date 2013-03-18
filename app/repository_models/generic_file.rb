@@ -21,4 +21,8 @@ class GenericFile
   def current_version_id
     content.latest_version.versionID
   end
+
+  def human_readable_type
+    self.class.to_s.demodulize.titleize
+  end
 end

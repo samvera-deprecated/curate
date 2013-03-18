@@ -4,6 +4,7 @@ require 'spec_helper'
 describe SeniorThesis do
   subject { FactoryGirl.build(:senior_thesis, title: 'Title') }
 
+  it { should respond_to(:human_readable_type) }
   it { should respond_to(:visibility) }
   it { should respond_to(:visibility=) }
 

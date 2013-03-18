@@ -3,6 +3,7 @@ describe GenericFile do
   subject { GenericFile.new }
 
   it { should respond_to(:versions) }
+  it { should respond_to(:human_readable_type) }
   it { should respond_to(:current_version_id) }
   it { should respond_to(:file=) }
   it { should respond_to(:filename) }
