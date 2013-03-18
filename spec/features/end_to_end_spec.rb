@@ -172,6 +172,7 @@ describe 'end to end behavior', describe_options do
     options['Visibility'] ||= 'Private'
     options["Button to click"] ||= "Create Senior thesis"
     options["Contributors"] ||= ["Dante"]
+    options["Rights"] ||= Sufia::Engine.config.cc_licenses.keys.first
     page.should have_content('Describe Your Thesis')
     # Without accepting agreement
     within('#new_senior_thesis') do
@@ -181,6 +182,7 @@ describe 'end to end behavior', describe_options do
       if options['Assign DOI']
         check('senior_thesis_assign_doi')
       end
+      select(options['Rights'], from: 'Rights')
       within('.senior_thesis_contributor.multi_value') do
         contributors = [options['Contributors']].flatten.compact
         if options[:js]

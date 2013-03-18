@@ -29,7 +29,8 @@ class SeniorThesis < ActiveFedora::Base
       :archived_object_type,
       :creator,
       :content_format,
-      :identifier
+      :identifier,
+      :rights
     ],
     unique: true
   )
@@ -48,6 +49,7 @@ class SeniorThesis < ActiveFedora::Base
   )
   delegate_to :properties, [:relative_path, :depositor], unique: true
   validates :title, presence: true
+  validates :rights, presence: true
 
   before_save {|obj| obj.archived_object_type = self.class.to_s }
 
