@@ -2,6 +2,7 @@ class HelpRequestsController < ApplicationController
   SUCCESS_NOTICE = "Thank you for your input!"
   layout 'curate_nd'
   before_filter :authenticate_user!
+  before_filter :agreed_to_terms_of_service!
 
   respond_to(:html)
   def help_request
