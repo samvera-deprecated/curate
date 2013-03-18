@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   # Adds Sufia behaviors into the application controller
   include Sufia::Controller
 
+  force_ssl
+
   rescue_from ActiveFedora::ObjectNotFoundError, ActiveFedora::ActiveObjectNotFoundError do |exception|
     render '/errors/not_found', status: :not_found
   end
