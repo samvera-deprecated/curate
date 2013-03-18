@@ -1,7 +1,7 @@
 <%= simple_form_for(help_request) do |f| %>
   <fieldset class="with-side-padding">
-    <legend>What We Know</legend>
-    <dl>
+    <legend>What&rsquo;s Going On?</legend>
+    <dl class="stacked">
       <dt>Your Username</dt>
       <dd id="help-username">
         <%= current_user.username %>
@@ -22,10 +22,6 @@
           is <strong>NOT</strong> enabled
         <% end %>
       </dd>
-      <dt>Current URL</dt>
-      <dd id="help-url"<%= ' class="unset"'.html_safe if help_request.current_url.blank? %>>
-        <%= help_request.current_url %>
-      </dd>
       <dt>Browser</dt>
       <dd id="help-browser">
         <%= help_request.browser_name %>
@@ -36,7 +32,11 @@
       </dd>
       <dt>CurateND Version</dt>
       <dd id="help-platfrom">
-        <%= help_request.release_version %>
+        <%= help_request.application_version %>
+      </dd>
+      <dt>Current URL</dt>
+      <dd id="help-url"<%= ' class="unset"'.html_safe if help_request.current_url.blank? %>>
+        <%= help_request.current_url %>
       </dd>
     </dl>
   </fieldset>
