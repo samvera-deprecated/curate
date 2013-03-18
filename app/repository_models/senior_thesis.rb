@@ -48,7 +48,7 @@ class SeniorThesis < ActiveFedora::Base
     ]
   )
   delegate_to :properties, [:relative_path, :depositor], unique: true
-  validates :title, presence: { message: 'Your abstract must have a title.' }
+  validates :title, presence: { message: 'Your thesis must have a title.' }
   validates :rights, presence: { message: 'You must select a license for your work.' }
 
   before_save {|obj| obj.archived_object_type = self.human_readable_type }
