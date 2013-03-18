@@ -9,8 +9,8 @@ class MintPurl
   def create_or_retreive_purl(fed_obj)
     repo_object = RepoObject.where(:filename => fed_obj.pid).first
     if repo_object
-      purl_id = Purl.where(:repo_object_id => repo_object.repo_object_id)
-      return purl_url(purl_id, fed_obj)
+      purl = Purl.where(:repo_object_id => repo_object.repo_object_id).first
+      return purl_url(purl.purl_id, fed_obj)
     end
 
     Purl.transaction do
