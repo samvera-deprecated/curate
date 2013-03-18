@@ -14,7 +14,7 @@ namespace :curatend do
       #Rake::Task["jetty:config"].invoke
       #Rake::Task["db:drop"].invoke
       #Rake::Task["db:create"].invoke
-      Rake::Task["db:migrate"].invoke
+      Rake::Task['db:schema:load'].invoke
 
       Rake::Task['curatend:ci_spec'].invoke
       # I don't think we have any cucumber tests ATM
