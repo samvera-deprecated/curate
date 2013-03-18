@@ -270,9 +270,11 @@ describe 'end to end behavior', describe_options do
     within('#facets') do
       # I call CSS/Dom shenannigans; I can't access 'Creator' link
       # directly and instead must find by CSS selector, validate it
-      creator_facet = find('a.accordion-toggle')
-      creator_facet.text.should == 'Creator'
-      creator_facet.click
+      all('a.accordion-toggle').each do |elem|
+        if elem.text == 'Creator'
+          elem.click
+        end
+      end
       click_on(user.username)
     end
     within('.alert.alert-info') do
