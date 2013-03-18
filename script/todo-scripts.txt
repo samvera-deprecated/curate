@@ -1,0 +1,4 @@
+# Scripts that we will likely want to do
+
+# Drop SOLR index
+curl -d '<delete><query>*:*</query></delete><commit/>' -H 'Content-Type:application/xml' http://<host:port>/solr/curate/update
