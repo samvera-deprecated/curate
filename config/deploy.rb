@@ -180,7 +180,7 @@ task :pre_production_cluster do
       ['/vendor/bundle','/vendor/bundle','/vendor'],
     ]
   end
-  set :branch, "release"
+  set :branch, "master"
   set :rails_env,   'pre_production'
   set :deploy_to,   '/shared/ruby_pprd/data/app_home/curate'
   set :ruby_bin,    '/shared/ruby_pprd/ruby/1.9.3/bin'
@@ -261,7 +261,7 @@ task :pre_production_worker do
   set :rails_env,   'pre_production'
   set :user,        'curatend'
   set :domain,      'curatepprdw1.library.nd.edu'
-  set :branch, "release"
+  set :branch, "master"
   common_worker_things
 end
 
