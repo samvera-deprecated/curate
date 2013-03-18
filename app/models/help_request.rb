@@ -10,7 +10,7 @@ class HelpRequest < ActiveRecord::Base
     :view_port
   )
 
-  attr_reader :site_version
+  attr_reader :release_version
 
   belongs_to :user
   validates_presence_of :how_can_we_help_you,
