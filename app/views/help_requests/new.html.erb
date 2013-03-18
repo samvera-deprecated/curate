@@ -32,7 +32,7 @@
       </dd>
       <dt>CurateND Version</dt>
       <dd id="help-platfrom">
-        <%= help_request.application_version %>
+        <%= Rails.configuration.build_identifier %>
       </dd>
       <dt>Current URL</dt>
       <dd id="help-url"<%= ' class="unset"'.html_safe if help_request.current_url.blank? %>>
@@ -55,6 +55,6 @@
   </fieldset>
 
   <div class="form-actions">
-    <%= f.submit "Let Us Know", class: 'btn btn-primary' %> <a href="#" id="never-mind" class="btn btn-link" data-dismiss="modal">never mind</a>
+    <%= f.submit "Let Us Know", class: 'btn btn-primary' %> <a href="#" id="never-mind" class="btn btn-link" data-dismiss="modal">or never mind</a>
   </div>
 <% end %>
