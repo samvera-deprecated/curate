@@ -24,11 +24,11 @@ $white:                 #fff !default;
 
 // Accent colors
 // -------------------------
-$blue:                  #002B5B;
-$blueDark:              #0D407B;
+$blue:                  $official-blue;
+$blueDark:              $dark-blue;
 $green:                 #46a546 !default;
 $red:                   #9d261d !default;
-$yellow:                #DCB439;
+$yellow:                $official-gold;
 $orange:                #f89406 !default;
 $pink:                  #c3325f !default;
 $purple:                #7a43b6 !default;
@@ -42,7 +42,7 @@ $textColor:             $grayDark !default;
 
 // Links
 // -------------------------
-$linkColor:             lighten(#002B5B, 5%);
+$linkColor:             lighten($blue, 20%);
 $linkColorHover:        darken($linkColor, 15%) !default;
 
 
