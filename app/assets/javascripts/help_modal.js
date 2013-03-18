@@ -6,6 +6,7 @@ $(function(){
       current_url = document.location.href;
 
   function populateHelpForm(){
+    // Removing the "NOT" portion
     $('#help-js strong').remove();
     $('#help_request_javascript_enabled').val(1);
 
