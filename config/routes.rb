@@ -35,4 +35,6 @@ CurateNd::Application.routes.draw do
 
   match "show/:id" => "common_objects#show", via: :get, as: "common_object"
   root to: 'welcome#index'
+
+  match "/404", to: "errors#not_found"
 end

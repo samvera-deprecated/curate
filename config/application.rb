@@ -64,6 +64,8 @@ module CurateNd
     # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
     config.assets.compress = !Rails.env.development?
 
+    config.exceptions_app = self.routes
+
     config.build_identifier = begin
       Rails.root.join('config/build-identifier.txt').read.strip
     rescue Exception => e
