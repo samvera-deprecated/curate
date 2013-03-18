@@ -25,11 +25,6 @@
                     },
                     label: 'Abstract'
         %>
-        <%= f.input :rights,
-                    as: :select,
-                    collection: Sufia::Engine::config.cc_licenses,
-                    input_html: { class: 'input-xxxlarge'}
-        %>
       </fieldset>
     </div>
 
@@ -81,6 +76,12 @@
         <%= f.input :embargo_release_date, as: :string, input_html: { class: 'datepicker' } %>
       </fieldset>
       <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
+    </div>
+  </div>
+
+  <div class="row with-headroom">
+    <div class="span6">
+      <%= render "/curation_concern/content_license", curation_concern: curation_concern, f: f %>
     </div>
   </div>
 
