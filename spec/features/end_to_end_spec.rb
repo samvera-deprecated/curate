@@ -253,7 +253,8 @@ describe 'end to end behavior', describe_options do
 
   def view_your_dashboard
     search_term = "\"#{updated_title}\""
-    within(".form-search") do
+
+    within(".search-form") do
       fill_in("q", with: search_term)
       click_on("Go")
     end
@@ -283,7 +284,7 @@ describe 'end to end behavior', describe_options do
   def other_persons_thesis_is_not_in_my_dashboard
     visit "/dashboard"
     search_term = "\"#{updated_title}\""
-    within(".form-search") do
+    within(".search-form") do
       fill_in("q", with: search_term)
       click_on("Go")
     end
