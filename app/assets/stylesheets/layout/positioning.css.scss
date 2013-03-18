@@ -31,3 +31,18 @@ legend .pull-right {
   padding-left:2em;
   padding-right:2em;
 }
+
+dl.stacked {
+  dt {
+    clear:both;
+    float:left;
+    width:30%;
+  }
+
+  dd {
+    clear:right;
+    margin:0 0 0 30%;
+    width:70%;
+    word-wrap:break-word;
+  }
+}
