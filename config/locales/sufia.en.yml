@@ -1,24 +1,25 @@
 en:
   sufia:
-    product_name:       "CurateND"
-    account_name:       "Notre Dame NetID"
-    institution_name:   "University of Notre Dame"
-    deposit_agreement:  "CurateND's Deposit Agreement"
-    upload_tooltip:     "Please accept Deposit Agreement before you can upload."
+    product_name:        "CurateND"
+    account_name:        "Notre Dame NetID"
+    institution_name:    "University of Notre Dame"
+    deposit_agreement:   "CurateND's Deposit Agreement"
+    upload_tooltip:      "Please accept Deposit Agreement before you can upload."
+    google_analytics_id: "UA-2118378-28"
     directory:
-      suffix:           "@nd.edu"
+      suffix:            "@nd.edu"
     search:
       form:
         q:
-          label:        "Search CurateND"
-          placeholder:  "Search CurateND"
+          label:         "Search CurateND"
+          placeholder:   "Search CurateND"
 
     field_label:
-      based_near:       "Location"
-      description:      "Abstract or Summary"
-      tag:              "Keyword"
-      date_created:     "Date Created"
-      related_url:      "Related URL"
+      based_near:        "Location"
+      description:       "Abstract or Summary"
+      tag:               "Keyword"
+      date_created:      "Date Created"
+      related_url:       "Related URL"
 
     metadata_help:
       resource_type: "Pre-defined categories to describe the type of file content being uploaded, such as \"article\" or \"dataset.\"  More than one type may be selected."

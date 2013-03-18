@@ -12,12 +12,12 @@
 
     <%= stylesheet_link_tag 'application' %>
     <%= javascript_include_tag 'modernizr' %>
+    <%= render :partial => '/ga', :formats => [:html] -%>
   </head>
   <body>
 
     <%= content_for?(:body) ? yield(:body) : yield %>
 
-    <%= render :partial => '/ga', :formats => [:html] -%>
     <%= javascript_include_tag 'application' %>
 
     <% unless Rails.env.production? %>
