@@ -28,4 +28,5 @@ describe SeniorThesis do
   it 'uses #noid for #to_param' do
     subject.to_param.should == subject.noid
   end
+
 end

@@ -29,7 +29,8 @@ class SeniorThesis < ActiveFedora::Base
       :archived_object_type,
       :creator,
       :content_format,
-      :identifier
+      :identifier,
+      :rights
     ],
     unique: true
   )
@@ -52,6 +53,7 @@ class SeniorThesis < ActiveFedora::Base
   validates :embargo_release_date, embargo: true
 
   #validate :valid_embargo_release_date?
+  validates :rights, presence: true
 
   before_save {|obj| obj.archived_object_type = self.class.to_s }
 
