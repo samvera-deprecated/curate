@@ -11,10 +11,21 @@ legend small {
   font-size: 110%;
   line-height: 1.2;
   padding: .3em .6em;
+  white-space: normal;
+  position: relative;
+
 
   input[type="checkbox"]{
     margin:-2px 0 0;
+    position: absolute;
+    left:.5em;
+    top:38%;
   }
+}
+
+.label-checkbox .label-text {
+  display:block;
+  padding-left:1.2em;
 }
 
 .control-group.error input,

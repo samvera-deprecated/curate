@@ -31,11 +31,13 @@
       Here's a <a href="http://simple.wikipedia.org/wiki/Doi" target="_blank">brief summary</a> and the <a href="http://www.doi.org/faq.html" target="_blank">DOI FAQ</a>.
     </p>
 
-    <%= f.label :assign_doi, class: 'label label-success label-large' do %>
+    <%= f.label :assign_doi, class: 'label label-success label-large label-checkbox' do %>
       <%= f.check_box :assign_doi %>
-      Yes, I would like to assign this
-      <%= classify_for_display(curation_concern) %>
-      a <abbr title="Digital Object Identifier">DOI</abbr>.
+      <span class="label-text">
+        Yes, I would like to assign this
+        <%= classify_for_display(curation_concern) %>
+        a <abbr title="Digital Object Identifier">DOI</abbr>.
+      </span>
     <% end %>
   </fieldset>
 <%- end -%>
