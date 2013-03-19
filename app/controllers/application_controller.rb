@@ -6,19 +6,6 @@ class ApplicationController < ActionController::Base
   # Adds Sufia behaviors into the application controller
   include Sufia::Controller
 
-  rescue_from ActiveFedora::ObjectNotFoundError, ActiveFedora::ActiveObjectNotFoundError do |exception|
-    render '/errors/not_found', status: :not_found
-  end
-
-  rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
-    session["user_return_to"] = request.url
-    render(
-      "/errors/unauthorized",
-      status: :unauthorized,
-      error: "You do not have sufficient privileges to #{exception.action} this document"
-    )
-  end
-
   # Please be sure to impelement current_user and user_session. Blacklight depends on
   # these methods in order to perform user specific actions.
 

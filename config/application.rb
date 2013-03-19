@@ -64,7 +64,13 @@ module CurateNd
     # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
     config.assets.compress = !Rails.env.development?
 
-    config.exceptions_app = self.routes
+    config.exceptions_app = lambda { |env| ErrorsController.action(:show).call(env) }
+
+    config.action_dispatch.rescue_responses["ActionController::RoutingError"] = :not_found
+    config.action_dispatch.rescue_responses["ActiveFedora::ObjectNotFoundError"] = :not_found
+    config.action_dispatch.rescue_responses["ActiveFedora::ActiveObjectNotFoundError"] = :not_found
+    config.action_dispatch.rescue_responses["Hydra::AccessDenied"] = :unauthorized
+    config.action_dispatch.rescue_responses["CanCan::AccessDenied"] = :unauthorized
 
     config.build_identifier = begin
       Rails.root.join('config/build-identifier.txt').read.strip
