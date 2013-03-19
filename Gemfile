@@ -26,6 +26,7 @@ group :not_deploy do
   # Need rubyracer to run integration tests.....really?!?
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
+  gem 'method_decorators'
 end
 
 group :headless do
