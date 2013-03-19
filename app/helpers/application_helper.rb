@@ -8,7 +8,6 @@ module ApplicationHelper
   def construct_page_title(*elements)
     (elements.flatten.compact + [application_name]).join(" // ")
   end
-  protected :construct_page_title
 
   def curation_concern_page_title(curation_concern)
     if curation_concern.persisted?
