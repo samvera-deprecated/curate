@@ -6,6 +6,15 @@ class ApplicationController < ActionController::Base
   # Adds Sufia behaviors into the application controller
   include Sufia::Controller
 
+  rescue_from StandardError, with: :exception_handler
+  def exception_handler(exception)
+    wrapper = ActionDispatch::ExceptionWrapper.new(env, exception)
+    if wrapper.status_code == 401
+      session['user_return_to'] = env['ORIGINAL_FULLPATH']
+    end
+    render "/errors/#{wrapper.status_code}", status: wrapper.status_code, layout: !request.xhr?
+  end
+
   # Please be sure to impelement current_user and user_session. Blacklight depends on
   # these methods in order to perform user specific actions.
 
