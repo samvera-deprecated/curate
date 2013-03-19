@@ -96,8 +96,9 @@ describe CurationConcern::SeniorThesesController do
 
     it 'should not be accessible by another user' do
       sign_in another_user
-      get :edit, id: senior_thesis.to_param
-      response.status.should == 401
+      expect {
+        get :edit, id: senior_thesis.to_param
+      }.to raise_rescue_response_type(:unauthorized)
     end
   end
   describe '#update' do

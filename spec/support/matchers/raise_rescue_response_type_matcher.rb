@@ -11,7 +11,7 @@ RSpec::Matchers.define :raise_rescue_response_type do |expected_rescue_response|
     end
 
     if @exception.nil?
-      raise "expected to raise an exception with rescue_response #{expected_rescue_response.to_sym.inspect}"
+      raise "expected to raise an exception with rescue_response #{expected_rescue_response.to_sym.inspect} but no exception was raised"
     end
     @actual_rescue_response = ActionDispatch::ExceptionWrapper.rescue_responses[@exception.class.name].to_sym
     @actual_rescue_response == @expected_rescue_response

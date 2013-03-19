@@ -21,8 +21,9 @@ describe CurationConcern::GenericFilesController do
     it 'redirects if you cannot edit the parent' do
       sign_in(another_user)
       parent
-      get :new, parent_id: parent.to_param
-      response.status.should == 401
+      expect {
+        get :new, parent_id: parent.to_param
+      }.to raise_rescue_response_type(:unauthorized)
     end
   end
 
@@ -131,8 +132,9 @@ describe CurationConcern::GenericFilesController do
     it 'does not allow another user to view it' do
       generic_file
       sign_in another_user
-      get :show, id: generic_file.to_param
-      response.status.should == 401
+      expect {
+        get :show, id: generic_file.to_param
+      }.to raise_rescue_response_type(:unauthorized)
     end
   end
 
