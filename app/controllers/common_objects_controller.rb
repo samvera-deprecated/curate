@@ -8,13 +8,19 @@ class CommonObjectsController < ApplicationController
   before_filter :curation_concern
   helper_method :curation_concern
   prepend_before_filter :normalize_identifier
-  load_and_authorize_resource :curation_concern, class: "ActiveFedora::Base"
   layout 'common_objects'
 
   helper :common_objects
 
   def show
-    respond_with(curation_concern)
+    if can? :show, curation_concern
+      respond_with(curation_concern)
+    else
+      redirect_to common_object_stub_information_path(curation_concern)
+    end
   end
 
+  def show_stub_information
+    respond_with(curation_concern)
+  end
 end
