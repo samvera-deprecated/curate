@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe '/purl routing' do
-  it "routes GET /purl" do
-    expect(get: "/purl").to_not be_routable
-  end
-
   it "routes GET /purl/:id" do
     param_id = "12a34b56c"
     expect(get: "/show/#{param_id}").to(
