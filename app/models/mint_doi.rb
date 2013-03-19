@@ -45,7 +45,7 @@ class MintDoi
   # Create or retrieve purl link for the given fedora ID.
   def create_or_retreive_purl
     raise MissingDataError.new("Title and Creator fields cannot be empty.") if fedora_object.title.blank? || fedora_object.creator.blank?
-    mint_purl = MintPurl.new
-    mint_purl.create_or_retreive_purl(fedora_object)
+    mint_purl = MintPurl.new(fedora_object)
+    mint_purl.create_or_retreive_purl
   end
 end
