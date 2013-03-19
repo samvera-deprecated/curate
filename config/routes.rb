@@ -37,4 +37,6 @@ CurateNd::Application.routes.draw do
   root to: 'welcome#index'
 
   match "/404", to: "errors#not_found"
+  match "/404", to: "errors#not_found"
+  match "/401", to: "errors#unauthorized"
 end
