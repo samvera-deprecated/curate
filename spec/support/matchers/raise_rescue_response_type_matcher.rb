@@ -4,17 +4,20 @@ RSpec::Matchers.define :raise_rescue_response_type do |expected_rescue_response|
   match do |response|
     @expected_rescue_response = expected_rescue_response.to_sym
     @exception = nil
+
     begin
-      response.call
+      @status = response.call.status
     rescue Exception => e
       @exception = e
     end
 
     if @exception.nil?
-      raise "expected to raise an exception with rescue_response #{expected_rescue_response.to_sym.inspect} but no exception was raised"
+      @status == Rake::Utils.status_code(expected_response_code)
+    else
+      response = ActionDispatch::ExceptionWrapper.rescue_responses[@exception.class.name]
+      @actual_rescue_response = ActionDispatch::ExceptionWrapper.rescue_responses[@exception.class.name].to_sym
+      @actual_rescue_response == @expected_rescue_response
     end
-    @actual_rescue_response = ActionDispatch::ExceptionWrapper.rescue_responses[@exception.class.name].to_sym
-    @actual_rescue_response == @expected_rescue_response
   end
 
   description do
