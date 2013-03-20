@@ -79,8 +79,9 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   def destroy
     title = curation_concern.to_s
     curation_concern.destroy
+    flash[:notice] = "Deleted #{title}"
     respond_with { |wants|
-      wants.html { redirect_to dashboard_index_path, notice: "Deleted #{title}" }
+      wants.html { redirect_to dashboard_index_path }
     }
   end
 
