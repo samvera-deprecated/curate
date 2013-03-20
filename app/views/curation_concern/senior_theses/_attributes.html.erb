@@ -3,14 +3,15 @@
     <dt>Digital Object Identifier (DOI)</dt>
     <dd class="attribute identifier"><%= curation_concern.identifier %></dd>
   <%- end -%>
-  <dt>Abstract</dt>
-  <dd class="attribute abstract"><%= curation_concern.description %></dd>
+
+  <%= curation_concern_attribute_to_html(curation_concern, :description, 'Abstract') %>
   <%= curation_concern_attribute_to_html(curation_concern, :contributor, "Contributor") %>
   <%= curation_concern_attribute_to_html(curation_concern, :subject, "Subject") %>
   <%= curation_concern_attribute_to_html(curation_concern, :publisher, "Publisher") %>
   <%= curation_concern_attribute_to_html(curation_concern, :bibliographic_citation, "Bibliographic Citation") %>
   <%= curation_concern_attribute_to_html(curation_concern, :source, "Source") %>
   <%= curation_concern_attribute_to_html(curation_concern, :language, "Language") %>
+
   <dt>Access Rights</dt>
   <dd><%= link_to_edit_permissions(curation_concern) %></dd>
 </dl>
