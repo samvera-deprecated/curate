@@ -3,6 +3,7 @@ class GenericFile
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
 
   validates :batch, presence: true
+  validates :file, presence: true
 
   attr_accessor :file, :version, :visibility
 
