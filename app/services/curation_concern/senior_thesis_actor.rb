@@ -22,6 +22,7 @@ module CurationConcern
     def create_thesis_file
       if thesis_file
         generic_file = GenericFile.new
+        generic_file.file = thesis_file
         generic_file.batch = curation_concern
         generic_file.label = 'Senior Thesis'
         Sufia::GenericFile::Actions.create_metadata(

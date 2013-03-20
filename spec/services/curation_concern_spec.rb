@@ -26,8 +26,8 @@ describe CurationConcern do
     let(:generic_file) { GenericFile.new }
     let(:curation_concern) { FactoryGirl.create_curation_concern(:senior_thesis, user)}
     it 'works with a string' do
-      CurationConcern::BaseActor.new(generic_file, user, {batch_id: curation_concern.pid}).create!
-      CurationConcern.attach_file(generic_file, user, file)
+      actor = CurationConcern.actor(generic_file, user, {batch_id: curation_concern.pid, file: file})
+      actor.create!
       generic_file.content.content.should == file.read
     end
   end
