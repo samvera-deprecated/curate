@@ -54,12 +54,12 @@ describe 'end to end behavior', describe_options do
     end
   end
 
-  describe 'I am logged in and request help' do
+  describe 'help request' do
     let(:agreed_to_terms_of_service) { true }
-    it "request help is registered" do
+    it "is available for users who are authenticated and agreed to ToS" do
       login_as(user, scope: :user, run_callbacks: false)
-      visit '/'
-      click_link "Get Started"
+      visit('/')
+      click_link("Get Started")
       click_link "Request Help"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
@@ -278,6 +278,7 @@ describe 'end to end behavior', describe_options do
       fill_in("q", with: search_term)
       click_on("Go")
     end
+
     within('#documents') do
       page.should have_content(updated_title)
     end
