@@ -17,13 +17,39 @@ describe ApplicationHelper do
     )
   end
 
-  it 'has #curation_concern_attribute_to_html' do
-    collection = ["<h2>", "Johnny Tables"]
-    object = double('curation_concern', things: collection)
+  describe '#curation_concern_attribute_to_html' do
+    it 'handles an array by rendering one <dd> per element' do
+      collection = ["<h2>", "Johnny Tables"]
+      object = double('curation_concern', things: collection)
 
-    expect(helper.curation_concern_attribute_to_html(object, :things, "Weird")).to(
-      eq("<dt>Weird</dt>\n<dd class=\"attribute things\">&lt;h2&gt;</dd>\n<dd class=\"attribute things\">Johnny Tables</dd>\n")
-    )
+      expect(helper.curation_concern_attribute_to_html(object, :things, "Weird")).to(
+        eq("<dt>Weird</dt>\n<dd class=\"attribute things\">&lt;h2&gt;</dd>\n<dd class=\"attribute things\">Johnny Tables</dd>\n")
+      )
+    end
+    it 'handles a string by rendering one <dd>' do
+      collection = "Tim"
+      object = double('curation_concern', things: collection)
+
+      expect(helper.curation_concern_attribute_to_html(object, :things, "Weird")).to(
+        eq("<dt>Weird</dt>\n<dd class=\"attribute things\">Tim</dd>\n")
+      )
+    end
+    it 'returns a '' for a nil value' do
+      collection = nil
+      object = double('curation_concern', things: collection)
+
+      expect(helper.curation_concern_attribute_to_html(object, :things, "Weird")).to(
+        eq("")
+      )
+    end
+    it 'returns a '' for an empty array' do
+      collection = []
+      object = double('curation_concern', things: collection)
+
+      expect(helper.curation_concern_attribute_to_html(object, :things, "Weird")).to(
+        eq("")
+      )
+    end
   end
 
   it 'has #classify_for_display' do
