@@ -1,4 +1,3 @@
-<%- generic_files_are_editable = can?(:edit, curation_concern) -%>
 <table class="table table-striped <%= dom_class(curation_concern) %> related_files with-headroom">
   <caption class="table-heading">
     <h2>Related Files</h2>
@@ -21,8 +20,22 @@
         <td class="attribute permission"><%= link_to_edit_permissions(generic_file) %></td>
         <%- if with_actions -%>
           <td>
-            <%- if generic_files_are_editable -%>
-              <%= link_to 'Edit This File', edit_polymorphic_path([:curation_concern, generic_file]), class: 'btn' %>
+            <%- if can?(:edit, generic_file) -%>
+              <%= link_to(
+                'Edit',
+                edit_polymorphic_path([:curation_concern, generic_file]),
+                { class: 'btn', title: "Edit #{generic_file}" }
+              ) %>
+            <%- end -%>
+            <%- if can?(:destroy, generic_file) -%>
+              <%= link_to(
+                'Delete',
+                polymorphic_path([:curation_concern, generic_file]),
+                class: 'btn', method: :delete, title: "Delete #{generic_file.to_s.inspect}",
+                data: {
+                  confirm: "Deleting #{generic_file.to_s.inspect} from #{t('sufia.product_name')} is permanent. Click OK to delete this from #{t('sufia.product_name')}, or Cancel to cancel this operation"
+                }
+              )%>
             <%- end -%>
           </td>
         <%- end -%>
