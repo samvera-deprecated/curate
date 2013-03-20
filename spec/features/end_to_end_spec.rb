@@ -26,6 +26,24 @@ describe 'end to end behavior', describe_options do
   let(:updated_title) { "#{prefix} Another Not Quite" }
   let(:updated_file_path) { Rails.root.join('app/controllers/application_controller.rb').to_s }
 
+  describe 'terms of service' do
+    let(:agreed_to_terms_of_service) { false }
+    it "only requires me to agree once" do
+      login_as(user, scope: :user, run_callbacks: false)
+      visit('/')
+      click_link('Get Started')
+      agree_to_terms_of_service
+      logout
+
+      visit('/')
+
+      user.reload # because the user isn't re-queried via Warden
+      login_as(user)
+      click_link('Get Started')
+      page.assert_selector('#terms_of_service', count: 0)
+    end
+  end
+
   describe 'with user who has already agreed to the terms of service' do
     let(:agreed_to_terms_of_service) { true }
     it "displays the start uploading" do
