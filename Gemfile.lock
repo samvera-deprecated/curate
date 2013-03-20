@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/ndlib/sufia.git
-  revision: 06685e1f13823f617713eb87d85f47795116cf8c
+  revision: 8d159259a0090cd34d37a33ede5805687d6cf97e
   branch: sufia-for-curate-nd
   specs:
     sufia (0.1.0)
@@ -274,7 +274,7 @@ GEM
     mini_magick (3.5.0)
       subexec (~> 0.2.1)
     morphine (0.1.1)
-    multi_json (1.6.1)
+    multi_json (1.7.1)
     mysql2 (0.3.11)
     nest (1.1.1)
       redis
@@ -287,7 +287,7 @@ GEM
       net-ssh (>= 2.6.5)
     noid (0.5.5)
       backports
-    nokogiri (1.5.6)
+    nokogiri (1.5.8)
     nom-xml (0.5.1)
       activesupport
       i18n
@@ -452,7 +452,7 @@ GEM
       libv8 (~> 3.11.8.12)
       ref
     thor (0.17.0)
-    tilt (1.3.5)
+    tilt (1.3.6)
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)

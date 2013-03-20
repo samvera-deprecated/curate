@@ -2,13 +2,12 @@
 #require_relative './generic_file'
 class SeniorThesis < ActiveFedora::Base
   include Hydra::ModelMixins::CommonMetadata
-  include Hydra::ModelMixins::RightsMetadata
   include Sufia::ModelMethods
   include Sufia::Noid
   include Sufia::GenericFile::Permissions
 
-  has_metadata name: "properties", type: PropertiesDatastream
-  has_metadata name: "descMetadata", type: SeniorThesisMetadataDatastream
+  has_metadata name: "properties", type: PropertiesDatastream, control_group: 'M'
+  has_metadata name: "descMetadata", type: SeniorThesisMetadataDatastream, control_group: 'M'
 
   has_many :generic_files, property: :is_part_of
 
