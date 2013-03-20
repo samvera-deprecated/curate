@@ -222,7 +222,7 @@ describe 'end to end behavior', describe_options do
       fill_in("Title", with: options['Title'])
       attach_file("Upload a file", options['Upload a file'])
       choose(options['Visibility'])
-      click_on("Create Generic file")
+      click_on("Attach to Senior Thesis")
     end
   end
 
