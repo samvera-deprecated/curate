@@ -1,9 +1,5 @@
 <dl class="<%= dom_class(curation_concern) %> attributes">
-  <% if curation_concern.identifier.present? %>
-    <dt>Digital Object Identifier (DOI)</dt>
-    <dd class="attribute identifier"><%= curation_concern.identifier %></dd>
-  <%- end -%>
-
+  <%= curation_concern_attribute_to_html(curation_concern, :identifier, "Digital Object Identifier (DOI)") %>
   <%= curation_concern_attribute_to_html(curation_concern, :description, 'Abstract') %>
   <%= curation_concern_attribute_to_html(curation_concern, :contributor, "Contributor") %>
   <%= curation_concern_attribute_to_html(curation_concern, :subject, "Subject") %>
@@ -11,7 +7,6 @@
   <%= curation_concern_attribute_to_html(curation_concern, :bibliographic_citation, "Bibliographic Citation") %>
   <%= curation_concern_attribute_to_html(curation_concern, :source, "Source") %>
   <%= curation_concern_attribute_to_html(curation_concern, :language, "Language") %>
-
   <dt>Access Rights</dt>
   <dd><%= link_to_edit_permissions(curation_concern) %></dd>
 </dl>
