@@ -32,9 +32,7 @@
                 'Delete',
                 polymorphic_path([:curation_concern, generic_file]),
                 class: 'btn', method: :delete, title: "Delete #{generic_file.to_s.inspect}",
-                data: {
-                  confirm: "Deleting #{generic_file.to_s.inspect} from #{t('sufia.product_name')} is permanent. Click OK to delete this from #{t('sufia.product_name')}, or Cancel to cancel this operation"
-                }
+                confirm: "Deleting #{generic_file.to_s.inspect} from #{t('sufia.product_name')} is permanent. Click OK to delete this from #{t('sufia.product_name')}, or Cancel to cancel this operation"
               )%>
             <%- end -%>
           </td>

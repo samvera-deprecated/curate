@@ -45,9 +45,8 @@ on element ids -->
       :class=> 'itemicon itemtrash',
       :title => %(Delete #{gf.to_s.inspect}),
       :method => :delete,
-      :data => {
-        :confirm => "Deleting #{gf.to_s.inspect} from #{t('sufia.product_name')} is permanent. Click OK to delete this from #{t('sufia.product_name')}, or Cancel to cancel this operation"
-    }) if can? :destroy, gf %>
+      :confirm => "Deleting #{gf.to_s.inspect} from #{t('sufia.product_name')} is permanent. Click OK to delete this from #{t('sufia.product_name')}, or Cancel to cancel this operation"
+    ) if can? :destroy, gf %>
   </td>
   <% end -%>
 </tr>
