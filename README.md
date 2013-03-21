@@ -1,4 +1,4 @@
-Curate ND
+CurateND
 =========
 
 This application will be deployed to [curate.nd.edu](http://curate.nd.edu).
