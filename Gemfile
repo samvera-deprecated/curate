@@ -54,7 +54,7 @@ group :test do
 end
 
 group :test, :development do
-  gem 'debugger'
+  gem 'debugger', :platform => :mri_19
   gem 'rails_best_practices'
   gem 'sextant'
   gem 'simplecov'
