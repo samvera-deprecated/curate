@@ -9,7 +9,7 @@ class ContributorAgreement
   def legally_binding_text
     <<-HTML
     <p>
-      I am submitting my work for inclusion in the Curate ND repository maintained by the University Libraries of the University of Notre Dame.
+      I am submitting my work for inclusion in the CurateND repository maintained by the University Libraries of the University of Notre Dame.
       I acknowledge that publication of the work may implicate my legal rights with respect to the work and its contents, including my ability to publish the work in other venues.
       I UNDERSTAND AND AGREE THAT BY SUBMITTING MY CONTENT FOR INCLUSION IN THE CURATEND REPOSITORY, I AGREE TO THE FOLLOWING TERMS:
     </p>

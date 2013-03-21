@@ -1,5 +1,5 @@
 #
-# Tasks specific to Curate ND
+# Tasks specific to CurateND
 #
 
 namespace :curatend do
