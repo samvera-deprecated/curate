@@ -29,7 +29,7 @@ describe 'end to end behavior', describe_options do
   describe 'terms of service' do
     let(:agreed_to_terms_of_service) { false }
     it "only requires me to agree once" do
-      login_as(user, scope: :user, run_callbacks: false)
+      login_as(user)
       visit('/')
       click_link('Get Started')
       agree_to_terms_of_service
@@ -37,7 +37,6 @@ describe 'end to end behavior', describe_options do
 
       visit('/')
 
-      user.reload # because the user isn't re-queried via Warden
       login_as(user)
       click_link('Get Started')
       page.assert_selector('#terms_of_service', count: 0)
@@ -47,7 +46,7 @@ describe 'end to end behavior', describe_options do
   describe 'with user who has already agreed to the terms of service' do
     let(:agreed_to_terms_of_service) { true }
     it "displays the start uploading" do
-      login_as(user, scope: :user, run_callbacks: false)
+      login_as(user)
       visit '/'
       click_link "Get Started"
       page.should have_content("What are you uploading?")
@@ -57,7 +56,7 @@ describe 'end to end behavior', describe_options do
   describe 'help request' do
     let(:agreed_to_terms_of_service) { true }
     it "is available for users who are authenticated and agreed to ToS" do
-      login_as(user, scope: :user, run_callbacks: false)
+      login_as(user)
       visit('/')
       click_link("Get Started")
       click_link "Request Help"
@@ -74,7 +73,7 @@ describe 'end to end behavior', describe_options do
     let(:agreed_to_terms_of_service) { true }
     let(:title) {"Somebody Special's Senior Thesis" }
     it 'handles contributor', js: true do
-      login_as(user, scope: :user, run_callbacks: false)
+      login_as(user)
       visit('/concern/senior_theses/new')
       describe_your_thesis(
         "Title" => title,
@@ -97,7 +96,7 @@ describe 'end to end behavior', describe_options do
     let(:agreed_to_terms_of_service) { true }
     let(:contributors) { ["Goethe"]}
     it "related file via senior_thesis#new and generic_file#new should be similar" do
-      login_as(user, scope: :user, run_callbacks: false)
+      login_as(user)
       get_started
       classify_what_you_are_uploading('Senior Thesis')
       describe_your_thesis(
@@ -147,7 +146,7 @@ describe 'end to end behavior', describe_options do
   describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
     it "displays the terms of service page after authentication" do
-      login_as(user, scope: :user, run_callbacks: false)
+      login_as(user)
       get_started
       agree_to_terms_of_service
       classify_what_you_are_uploading('Senior Thesis')
@@ -158,7 +157,7 @@ describe 'end to end behavior', describe_options do
       view_your_dashboard
 
       logout
-      login_as(another_user, scope: :user, run_callbacks: false)
+      login_as(another_user)
       other_persons_thesis_is_not_in_my_dashboard
       i_can_see_another_users_open_resource(path_to_view_thesis)
       i_cannot_edit_to_another_users_resource(path_to_edit_thesis)
