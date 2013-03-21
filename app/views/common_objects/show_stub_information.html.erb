@@ -1,7 +1,12 @@
 <% content_for :page_header do %>
   <h1>Object Not Available</h1>
 <% end %>
-<p>This object is presently not available.</p>
+<% if curation_concern.identifier %>
+  <p><%= curation_concern %> is presently not available.</p>
+  <p>Digital Object Identifier (DOI): <%= curation_concern.identifier %></p>
+<% else %>
+  <p>This object is presently not available.</p>
+<%- end -%>
 
 <div class="form-actions">
   <%= link_to "Login", new_user_session_path, class: 'btn btn-primary' %>
