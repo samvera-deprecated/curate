@@ -61,16 +61,19 @@ describe 'end to end behavior', describe_options do
 
   describe 'help request' do
     let(:agreed_to_terms_of_service) { true }
-    it "is available for users who are authenticated and agreed to ToS" do
-      login_as(user)
-      visit('/')
-      click_link("Get Started")
-      click_link "Request Help"
-      within("#new_help_request") do
-        fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
-        click_on("Let Us Know")
+    # I want to test both JS mode and non-JS mode
+    [true, false].each do |using_javascript|
+      it "is available for users who are authenticated and agreed to ToS", js: using_javascript do
+        login_as(user)
+        visit('/')
+        click_link("Get Started")
+        click_link "Request Help"
+        within("#new_help_request") do
+          fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
+          click_on("Let Us Know")
+        end
+        page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
       end
-      page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
     end
   end
 
