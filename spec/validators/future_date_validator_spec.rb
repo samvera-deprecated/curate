@@ -10,18 +10,16 @@ describe FutureDateValidator do
 
   subject { Validatable.new }
 
-  before { subject.stub(:embargo_release_date).and_return(embargo_release_date) }
+  before { subject.embargo_release_date = embargo_release_date }
 
   context 'with today as embargo release date' do
     let(:embargo_release_date) { Date.today.to_s    }
     it { should have(1).error_on(:embargo_release_date) }
-
   end
 
   context 'with past date as embargo release date' do
     let(:embargo_release_date) { (Date.today - 2).to_s  }
     it { should have(1).error_on(:embargo_release_date) }
-
   end
 
   context 'invalid date as embargo release date' do
