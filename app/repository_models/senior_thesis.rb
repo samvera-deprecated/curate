@@ -48,10 +48,8 @@ class SeniorThesis < ActiveFedora::Base
   )
   delegate_to :properties, [:relative_path, :depositor], unique: true
 
-  #validate :valid_embargo_release_date?
   validates :title, presence: { message: 'Your thesis must have a title.' }
   validates :rights, presence: { message: 'You must select a license for your work.' }
-  validates :embargo_release_date, future_date: true
 
   before_save {|obj| obj.archived_object_type = self.human_readable_type }
 
@@ -59,11 +57,6 @@ class SeniorThesis < ActiveFedora::Base
     self.class.to_s.demodulize.titleize
   end
 
-  before_save :write_embargo_release_date
-
-  def write_embargo_release_date
-    self.datastreams["rightsMetadata"].embargo_release_date=embargo_release_date
-  end
 
   def to_solr(solr_doc={}, opts={})
     super(solr_doc, opts)
@@ -71,7 +64,7 @@ class SeniorThesis < ActiveFedora::Base
     return solr_doc
   end
 
-  attr_accessor :thesis_file, :visibility, :assign_doi, :embargo_release_date
+  attr_accessor :thesis_file, :visibility, :assign_doi
 
   def to_param
     noid
@@ -80,6 +73,15 @@ class SeniorThesis < ActiveFedora::Base
   def to_s
     title
   end
+
+  validates :embargo_release_date, future_date: true
+  before_save :write_embargo_release_date
+
+  def write_embargo_release_date
+    self.datastreams["rightsMetadata"].embargo_release_date = embargo_release_date
+  end
+  protected :embargo_release_date
+
   def embargo_release_date=(embargo_date)
     @embargo_release_date = embargo_date
   end
