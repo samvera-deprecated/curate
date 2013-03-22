@@ -1,10 +1,10 @@
-class FutureDateValidator < ActiveModel::Validator
+class FutureDateValidator < ActiveModel::EachValidator
 
-  def validate(record)
-    if record.embargo_release_date.present?
+  def validate_each(record, attribute, value)
+    if value.present?
       begin
-        Date.parse(record.embargo_release_date)
-        record.errors[:embargo_release_date] << "Must be a future date" unless Date.parse(record.embargo_release_date)> Date.today
+        Date.parse(value)
+        record.errors[:embargo_release_date] << "Must be a future date" unless Date.parse(value)> Date.today
       rescue ArgumentError => e
         record.errors[:embargo_release_date] << "Invalid Date Format"
         return

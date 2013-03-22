@@ -2,12 +2,14 @@ require 'spec_helper'
 
 class Validatable
   include ActiveModel::Validations
-  validates_with FutureDateValidator
+  attr_accessor :embargo_release_date
+  validates :embargo_release_date, future_date: true
 end
 
 describe FutureDateValidator do
 
   subject { Validatable.new }
+
   before { subject.stub(:embargo_release_date).and_return(embargo_release_date) }
 
   context 'with today as embargo release date' do
