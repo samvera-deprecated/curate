@@ -25,7 +25,7 @@ describe FutureDateValidator do
   end
 
   context 'invalid date as embargo release date' do
-    let(:embargo_release_date) { "embargo_release_date" }
+    let(:embargo_release_date) { "invalid_ date" }
     it { should have(1).error_on(:embargo_release_date) }
   end
 
