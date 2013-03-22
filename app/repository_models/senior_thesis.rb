@@ -51,6 +51,7 @@ class SeniorThesis < ActiveFedora::Base
   #validate :valid_embargo_release_date?
   validates :title, presence: { message: 'Your thesis must have a title.' }
   validates :rights, presence: { message: 'You must select a license for your work.' }
+  validates :embargo_release_date, future_date: true
 
   before_save {|obj| obj.archived_object_type = self.human_readable_type }
 
