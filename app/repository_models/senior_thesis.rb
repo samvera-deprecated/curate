@@ -82,8 +82,8 @@ class SeniorThesis < ActiveFedora::Base
   end
   protected :write_embargo_release_date
 
-  def embargo_release_date=(embargo_date)
-    @embargo_release_date = embargo_date
+  def embargo_release_date=(value)
+    @embargo_release_date = value
   end
 
   def embargo_release_date
