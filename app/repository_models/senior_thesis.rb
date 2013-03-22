@@ -49,7 +49,6 @@ class SeniorThesis < ActiveFedora::Base
   delegate_to :properties, [:relative_path, :depositor], unique: true
 
   #validate :valid_embargo_release_date?
-  validates :rights, presence: true
   validates :title, presence: { message: 'Your thesis must have a title.' }
   validates :rights, presence: { message: 'You must select a license for your work.' }
 
