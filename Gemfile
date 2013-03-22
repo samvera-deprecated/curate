@@ -51,6 +51,7 @@ group :test do
   gem 'rspec-html-matchers'
   gem 'rspec-rails'
   gem 'webmock'
+  gem 'timecop'
 end
 
 group :test, :development do
