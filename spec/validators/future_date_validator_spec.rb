@@ -2,10 +2,10 @@ require 'spec_helper'
 
 class Validatable
   include ActiveModel::Validations
-  validates_with EmbargoValidator
+  validates_with FutureDateValidator
 end
 
-describe EmbargoValidator do
+describe FutureDateValidator do
 
   subject { Validatable.new }
   before { subject.stub(:embargo_release_date).and_return(embargo_release_date) }

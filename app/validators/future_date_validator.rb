@@ -1,4 +1,4 @@
-class EmbargoValidator < ActiveModel::Validator
+class FutureDateValidator < ActiveModel::Validator
 
   def validate(record)
     if record.embargo_release_date.present?
