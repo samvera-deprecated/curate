@@ -5,7 +5,7 @@ class EmbargoValidator < ActiveModel::Validator
       begin
         Date.parse(record.embargo_release_date)
         record.errors[:embargo_release_date] << "Must be a future date" unless Date.parse(record.embargo_release_date)> Date.today
-      rescue
+      rescue ArgumentError => e
         record.errors[:embargo_release_date] << "Invalid Date Format"
         return
       end
