@@ -5,6 +5,7 @@ class SeniorThesis < ActiveFedora::Base
   include Sufia::ModelMethods
   include Sufia::Noid
   include Sufia::GenericFile::Permissions
+  include CurationConcern::Embargoable
 
   has_metadata name: "properties", type: PropertiesDatastream, control_group: 'M'
   has_metadata name: "descMetadata", type: SeniorThesisMetadataDatastream, control_group: 'M'
@@ -72,22 +73,6 @@ class SeniorThesis < ActiveFedora::Base
 
   def to_s
     title
-  end
-
-  validates :embargo_release_date, future_date: true
-  before_save :write_embargo_release_date
-
-  def write_embargo_release_date
-    self.datastreams["rightsMetadata"].embargo_release_date = embargo_release_date
-  end
-  protected :write_embargo_release_date
-
-  def embargo_release_date=(value)
-    @embargo_release_date = value
-  end
-
-  def embargo_release_date
-    @embargo_release_date || self.datastreams["rightsMetadata"].embargo_release_date
   end
 
 end
