@@ -80,7 +80,7 @@ class SeniorThesis < ActiveFedora::Base
   def write_embargo_release_date
     self.datastreams["rightsMetadata"].embargo_release_date = embargo_release_date
   end
-  protected :embargo_release_date
+  protected :write_embargo_release_date
 
   def embargo_release_date=(embargo_date)
     @embargo_release_date = embargo_date
