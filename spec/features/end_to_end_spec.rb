@@ -84,7 +84,7 @@ describe 'end to end behavior', describe_options do
     it 'handles contributor', js: true do
       login_as(user)
       visit('/concern/senior_theses/new')
-      describe_your_thesis(
+      create_senior_thesis(
         "Title" => title,
         "Upload your thesis" => initial_file_path,
         "Contributors" => contributors,
@@ -108,7 +108,7 @@ describe 'end to end behavior', describe_options do
       login_as(user)
       get_started
       classify_what_you_are_uploading('Senior Thesis')
-      describe_your_thesis(
+      create_senior_thesis(
         "Title" => 'Senior Thesis',
         'Visibility' => 'Open Access',
         "Upload your thesis" => initial_file_path,
@@ -159,7 +159,7 @@ describe 'end to end behavior', describe_options do
       get_started
       agree_to_terms_of_service
       classify_what_you_are_uploading('Senior Thesis')
-      describe_your_thesis
+      create_senior_thesis
       path_to_view_thesis = view_your_new_thesis
       path_to_edit_thesis = edit_your_thesis
       view_your_updated_thesis
@@ -192,7 +192,7 @@ describe 'end to end behavior', describe_options do
     end
   end
 
-  def describe_your_thesis(options = {})
+  def create_senior_thesis(options = {})
     options['Title'] ||= initial_title
     options['Upload your thesis'] ||= initial_file_path
     options['Visibility'] ||= 'Private'
