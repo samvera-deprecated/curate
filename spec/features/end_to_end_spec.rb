@@ -57,6 +57,43 @@ describe 'end to end behavior', describe_options do
       visit('/concern/senior_theses/new')
       page.assert_selector('.main-header h2', "Describe Your Thesis")
     end
+
+    it "a public item with future embargo is not visible today", js: true do
+      embargo_release_date = 2.days.from_now
+      # Because the JS will transform an unexpected input entry to the real
+      # today (browser's date), and I want timecop to help
+      embargo_release_date_formatted = embargo_release_date.strftime("%Y-%m-%d")
+      login_as(user)
+      visit('/concern/senior_theses/new')
+      create_senior_thesis(
+        'Embargo Release Date' => embargo_release_date_formatted,
+        'Visibility' => 'University of Notre Dame',
+        'Contributors' => ['Dante'],
+        'I Agree' => true
+      )
+      page.assert_selector(
+        ".embargo_release_date.attribute",
+        text: embargo_release_date_formatted
+      )
+      page.assert_selector(
+        ".permission.attribute",
+        text: "University of Notre Dame"
+      )
+      noid = page.current_path.split("/").last
+      logout
+      visit("/show/#{noid}")
+      page.assert_selector('.contributor.attribute', text: 'Dante', count: 0)
+      page.assert_selector('h1', text: "Object Not Available")
+
+      # Seconds are weeks
+      Timecop.scale(60*60*24*7)
+      sleep(1)
+      visit("/show/#{noid}")
+
+      # With the embargo release date passed an anonymous user should be able
+      # to see it.
+      page.assert_selector('h1', text: "Object Not Available", count: 0)
+    end
   end
 
   describe 'help request' do
@@ -117,6 +154,7 @@ describe 'end to end behavior', describe_options do
         "I Agree" => true,
         "Button to click" => 'Create and Add Related Files...'
       )
+
       # While the title is different, the filenames should be the same
       add_a_related_file(
         "Title" => 'Related File',
@@ -211,6 +249,9 @@ describe 'end to end behavior', describe_options do
       choose(options['Visibility'])
       if options['Assign DOI']
         check('senior_thesis_assign_doi')
+      end
+      if options['Embargo Release Date']
+        fill_in("senior_thesis_embargo_release_date", with: options["Embargo Release Date"])
       end
       select(options['Content License'], from: 'Content License')
       within('.senior_thesis_contributor.multi_value') do
