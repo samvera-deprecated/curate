@@ -52,7 +52,7 @@ describe 'end to end behavior', describe_options do
       page.should have_content("What are you uploading?")
     end
 
-    it "allows me to directly create a senior thesis...then delete it", js: true do
+    it "allows me to directly create a senior thesis", js: true do
       login_as(user)
       visit('/concern/senior_theses/new')
       page.assert_selector('.main-header h2', "Describe Your Thesis")
