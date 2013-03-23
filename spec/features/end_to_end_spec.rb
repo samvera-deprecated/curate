@@ -98,7 +98,6 @@ describe 'end to end behavior', describe_options do
         )
       end
     end
-
   end
 
   describe 'file uploaded via different paths' do
@@ -152,6 +151,7 @@ describe 'end to end behavior', describe_options do
       )
     end
   end
+
   describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
     it "displays the terms of service page after authentication" do
@@ -172,6 +172,7 @@ describe 'end to end behavior', describe_options do
       i_cannot_edit_to_another_users_resource(path_to_edit_thesis)
     end
   end
+
   protected
   def get_started
     visit '/'
@@ -199,6 +200,7 @@ describe 'end to end behavior', describe_options do
     options["Button to click"] ||= "Create Senior thesis"
     options["Contributors"] ||= ["Dante"]
     options["Content License"] ||= Sufia::Engine.config.cc_licenses.keys.first
+
     page.should have_content('Describe Your Thesis')
     # Without accepting agreement
     within('#new_senior_thesis') do
