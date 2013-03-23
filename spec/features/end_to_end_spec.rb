@@ -52,13 +52,13 @@ describe 'end to end behavior', describe_options do
       page.should have_content("What are you uploading?")
     end
 
-    it "allows me to directly create a senior thesis", js: true do
+    it "allows me to directly create a senior thesis" do
       login_as(user)
       visit('/concern/senior_theses/new')
       page.assert_selector('.main-header h2', "Describe Your Thesis")
     end
 
-    it "a public item with future embargo is not visible today", js: true do
+    it "a public item with future embargo is not visible today but is in the future" do
       embargo_release_date = 2.days.from_now
       # Because the JS will transform an unexpected input entry to the real
       # today (browser's date), and I want timecop to help
