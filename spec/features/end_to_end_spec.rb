@@ -88,6 +88,7 @@ describe 'end to end behavior', describe_options do
         "Title" => title,
         "Upload your thesis" => initial_file_path,
         "Contributors" => contributors,
+        "I Agree" => true,
         :js => true
       )
       page.should have_content(title)
@@ -113,6 +114,7 @@ describe 'end to end behavior', describe_options do
         "Upload your thesis" => initial_file_path,
         "Assign DOI" => true,
         "Contributors" => contributors,
+        "I Agree" => true,
         "Button to click" => 'Create and Add Related Files...'
       )
       # While the title is different, the filenames should be the same
@@ -159,7 +161,7 @@ describe 'end to end behavior', describe_options do
       get_started
       agree_to_terms_of_service
       classify_what_you_are_uploading('Senior Thesis')
-      create_senior_thesis
+      create_senior_thesis('I Agree' => true, 'Visibility' => 'Open Access')
       path_to_view_thesis = view_your_new_thesis
       path_to_edit_thesis = edit_your_thesis
       view_your_updated_thesis
@@ -224,21 +226,17 @@ describe 'end to end behavior', describe_options do
           fill_in('senior_thesis[contributor][]', with: contributors.first)
         end
       end
+      if options['I Agree']
+        check("I have read and accept the contributor licence agreement")
+      end
       click_on(options["Button to click"])
     end
 
-    within('.alert.error') do
-      page.should have_content('You must accept the contributor agreement')
-    end
-    page.should have_content("Describe Your Thesis")
-
-    # With accepting agreement
-    within('#new_senior_thesis') do
-      # The system remembers the initial title
-      find("#senior_thesis_title").value.should == options["Title"]
-      attach_file("Upload your thesis", options['Upload your thesis'])
-      check("I have read and accept the contributor licence agreement")
-      click_on(options["Button to click"])
+    if !options["I Agree"]
+      within('.alert.error') do
+        page.should have_content('You must accept the contributor agreement')
+      end
+      page.should have_content("Describe Your Thesis")
     end
   end
 
