@@ -40,6 +40,13 @@ CurateNd::Application.configure do
 
   config.application_url = "http://localhost:3000"
 
+  config.after_initialize do
+    # Set Time.now to July 5, 1976 8:00:00 AM (at this instant)
+    # but allow it to move forward
+    t = Time.local(1976, 7, 5, 8, 0, 0)
+    Timecop.travel(t)
+  end
+
 
   config.default_antivirus_instance = lambda {|file_path|
     AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE
