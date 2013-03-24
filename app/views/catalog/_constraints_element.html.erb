@@ -1,6 +1,6 @@
 <%# This view is overridden to change the alt attribute to be a title in the link_to below in order to conform to the HTML5 validity standard.  This should ultimately be fixed in Blacklight.  -%>
 <%- # local params:
-    # label 
+    # label
     # value
     # options =>
     #   :remove => url for a remove constraint link
@@ -10,9 +10,9 @@
     options[:escape_value] = true unless options.has_key?(:escape_value)
 -%>
 
-<span class="appliedFilter constraint <%= options[:classes].join(" ") if options[:classes] %>"> 
+<span class="appliedFilter constraint <%= options[:classes].join(" ") if options[:classes] %>">
       <%- unless label.blank? -%>
-        <span class="filterName"><%= options[:escape_label] ? h(label) : label %>:</span> 
+        <span class="filterName"><%= options[:escape_label] ? h(label) : label %>:</span>
       <%- end -%>
       <%- unless value.blank? -%>
         <span class="filterValue"><%= options[:escape_value] ? h(value) : value %></span>
