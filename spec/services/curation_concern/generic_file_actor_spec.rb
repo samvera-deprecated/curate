@@ -10,7 +10,7 @@ describe CurationConcern::GenericFileActor do
   let(:file_content) { File.read(file)}
   let(:title) { Time.now.to_s }
   let(:attributes) {
-    { file: file, title: title, visibility: 'psu' }
+    { file: file, title: title, visibility: AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
   }
 
   subject {

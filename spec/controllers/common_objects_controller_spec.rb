@@ -57,7 +57,7 @@ describe CommonObjectsController do
       end
     end
     describe '"Institution Only" object' do
-      let(:visibility) { 'psu' }
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
       it 'does not display for unauthenticated person' do
         get :show, id: curation_concern.to_param
         response.status.should == 302
@@ -99,7 +99,7 @@ describe CommonObjectsController do
       end
     end
     describe '"Institution Only" object' do
-      let(:visibility) { 'psu' }
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
       it 'renders rudimentary DOI information' do
         get :show_stub_information, id: curation_concern.to_param
         response.status.should == 200

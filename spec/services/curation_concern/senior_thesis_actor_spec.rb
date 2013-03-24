@@ -27,7 +27,7 @@ describe CurationConcern::SeniorThesisActor do
     let(:attributes) {
       FactoryGirl.attributes_for(:senior_thesis).tap {|a|
         a[:thesis_file] = thesis_file
-        a[:visibility] = 'psu'
+        a[:visibility] = AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
         a[:assign_doi] = '1'
       }
     }
