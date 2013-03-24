@@ -2,6 +2,8 @@ require 'spec_helper'
 describe GenericFile do
   subject { GenericFile.new }
 
+  include_examples 'with_access_rights'
+
   it { should respond_to(:versions) }
   it { should respond_to(:human_readable_type) }
   it { should respond_to(:current_version_id) }
