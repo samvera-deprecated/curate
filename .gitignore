@@ -24,3 +24,4 @@ Vagrantfile
 /tmp
 coverage/
 .rvmrc
+rails_best_practice*
