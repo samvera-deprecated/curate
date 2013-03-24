@@ -65,7 +65,7 @@ describe CurationConcern::SeniorThesisActor do
 
     let(:attributes) {
       FactoryGirl.attributes_for(:senior_thesis).tap {|a|
-        a[:visibility] = 'open'
+        a[:visibility] = AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
         a[:assign_doi] = '1'
       }
     }

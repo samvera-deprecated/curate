@@ -97,7 +97,7 @@ describe ApplicationHelper do
     describe 'with a "public" access group' do
       let(:expected_label) { "Open Access" }
       let(:access_policy) { 'public' }
-      let(:visibility) { 'open'}
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
       it 'renders an "Open Access" label' do
         rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
