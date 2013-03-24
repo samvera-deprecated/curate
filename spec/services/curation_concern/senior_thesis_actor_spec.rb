@@ -70,8 +70,8 @@ describe CurationConcern::SeniorThesisActor do
         senior_thesis_file.filename.should == File.basename(thesis_file_path)
         senior_thesis_file.to_s.should == 'Senior Thesis'
 
-        expect(new_curation_concern.to_solr['read_access_group_t']).to eq(['registered'])
-        expect(senior_thesis_file.to_solr['read_access_group_t']).to eq(['registered'])
+        expect(new_curation_concern).to be_authenticated_only_rights
+        expect(senior_thesis_file).to be_authenticated_only_rights
         expect(new_curation_concern.identifier).to eq(assigned_doi)
       end
     end
@@ -96,7 +96,7 @@ describe CurationConcern::SeniorThesisActor do
         subject.update!
         expect(curation_concern.identifier).to be_blank
         expect(curation_concern).to be_persisted
-        curation_concern.permissions.select{|r| r[:type] == 'group' && r[:name]=='public'}.count == 1
+        expect(curation_concern).to be_open_access_rights
         new_curation_concern = curation_concern.class.find(curation_concern.pid)
         expect(new_curation_concern.identifier).to eq(assigned_doi)
       end
