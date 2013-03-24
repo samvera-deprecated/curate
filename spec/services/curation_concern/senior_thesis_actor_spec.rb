@@ -40,7 +40,7 @@ describe CurationConcern::SeniorThesisActor do
               subject.create!
             }.to raise_error(ActiveFedora::RecordInvalid)
           }.to change(curation_concern, :visibility).from(nil).to(visibility)
-        }.to change(curation_concern, :authenticated_only_rights?).from(false).to(true)
+        }.to change(curation_concern, :authenticated_only_access?).from(false).to(true)
       end
     end
     describe 'valid attributes' do
@@ -70,8 +70,8 @@ describe CurationConcern::SeniorThesisActor do
         senior_thesis_file.filename.should == File.basename(thesis_file_path)
         senior_thesis_file.to_s.should == 'Senior Thesis'
 
-        expect(new_curation_concern).to be_authenticated_only_rights
-        expect(senior_thesis_file).to be_authenticated_only_rights
+        expect(new_curation_concern).to be_authenticated_only_access
+        expect(senior_thesis_file).to be_authenticated_only_access
         expect(new_curation_concern.identifier).to eq(assigned_doi)
       end
     end
@@ -96,7 +96,7 @@ describe CurationConcern::SeniorThesisActor do
         subject.update!
         expect(curation_concern.identifier).to be_blank
         expect(curation_concern).to be_persisted
-        expect(curation_concern).to be_open_access_rights
+        expect(curation_concern).to be_open_access
         new_curation_concern = curation_concern.class.find(curation_concern.pid)
         expect(new_curation_concern.identifier).to eq(assigned_doi)
       end

@@ -6,15 +6,15 @@ module CurationConcern
       attr_accessor :visibility
     end
 
-    def open_access_rights?
+    def open_access?
       access_rights.open_access?
     end
 
-    def authenticated_only_rights?
+    def authenticated_only_access?
       access_rights.authenticated_only?
     end
 
-    def private_rights?
+    def private_access?
       access_rights.private?
     end
 

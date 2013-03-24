@@ -6,21 +6,21 @@ shared_examples 'with_access_rights' do
     expect(subject).to respond_to(:visibility=)
   end
 
-  it "has an open_access_rights?" do
+  it "has an open_access?" do
     expect {
-      subject.open_access_rights?
+      subject.open_access?
     }.to_not raise_error(NoMethodError)
   end
 
-  it "has an authenticated_only_rights?" do
+  it "has an authenticated_only_access?" do
     expect {
-      subject.authenticated_only_rights?
+      subject.authenticated_only_access?
     }.to_not raise_error(NoMethodError)
   end
 
-  it "has an private_rights?" do
+  it "has an private_access?" do
     expect {
-      subject.private_rights?
+      subject.private_access?
     }.to_not raise_error(NoMethodError)
   end
 

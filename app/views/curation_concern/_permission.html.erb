@@ -26,15 +26,15 @@ limitations under the License.
 
     <div class="controls">
       <label class="radio">
-        <input type="radio" id="visibility_open" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC %>" <% if curation_concern.open_access_rights? %> checked="true"<% end %>/>
+        <input type="radio" id="visibility_open" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC %>" <% if curation_concern.open_access? %> checked="true"<% end %>/>
         <span class="label label-success">Open Access</span> Visible to the world.
       </label>
       <label class="radio">
-        <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED %>" <% if curation_concern.authenticated_only_rights? %> checked="true"<% end %> />
+        <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED %>" <% if curation_concern.authenticated_only_access? %> checked="true"<% end %> />
         <span class="label label-info"><%=t('sufia.institution_name') %></span> Visible to all <%=t('sufia.institution_name') %> users.
       </label>
       <label class="radio">
-        <input type="radio" id="visibility_restricted" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE%>" <% if curation_concern.private_rights? %> checked="true"<% end %>/>
+        <input type="radio" id="visibility_restricted" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE%>" <% if curation_concern.private_access? %> checked="true"<% end %>/>
         <span class="label label-important">Private</span> Only visible to you.
       </label>
     </div><!-- /.controls -->
