@@ -125,7 +125,7 @@ describe ApplicationHelper do
     describe 'without an access group' do
       let(:expected_label) { "Private" }
       let(:access_policy) { nil }
-      let(:visibility) { 'restricted' }
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
       it 'renders an "Private" label' do
         rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
