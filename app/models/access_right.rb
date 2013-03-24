@@ -10,12 +10,17 @@ class AccessRight
   extend MethodDecorators
   +MethodDecorators::Precondition.new { |permissionable|
     permissionable.respond_to?(:visibility) &&
+    permissionable.respond_to?(:persisted?) &&
     permissionable.respond_to?(:permissions) &&
     permissionable.permissions.respond_to?(:map)
   }
   def initialize(permissionable)
     @permissionable = permissionable
   end
+
+  extend Forwardable
+  def_delegators :permissionable, :persisted?, :permissions, :visibility
+  protected :persisted?, :permissions, :visibility
 
   attr_reader :permissionable
 
@@ -36,9 +41,9 @@ class AccessRight
 
   private
   def has_visibility_text_for?(text)
-    permissionable.visibility == text
+    visibility == text
   end
   def has_permission_text_for?(text)
-    !!permissionable.permissions.detect { |perm| perm[:name] == text }
+    !!permissions.detect { |perm| perm[:name] == text }
   end
 end
