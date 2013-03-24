@@ -7,7 +7,8 @@ describe CurationConcern::SeniorThesisActor do
   let(:thesis_file_path) { __FILE__ }
   let(:thesis_file) { Rack::Test::UploadedFile.new(thesis_file_path, 'text/plain', false)}
   let(:assigned_doi) { 'abc-123' }
-  let(:mock_doi_minter) { lambda {|pid|
+  let(:mock_doi_minter) {
+    lambda {|pid|
       object = ActiveFedora::Base.find(pid, cast: true)
       object.identifier = assigned_doi
       object.save
@@ -24,14 +25,32 @@ describe CurationConcern::SeniorThesisActor do
   }
 
   describe '#create' do
-    let(:attributes) {
-      FactoryGirl.attributes_for(:senior_thesis).tap {|a|
-        a[:thesis_file] = thesis_file
-        a[:visibility] = AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
-        a[:assign_doi] = '1'
+
+    describe 'invalid attributes' do
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+      let(:attributes) {
+        FactoryGirl.attributes_for(:senior_thesis_invalid).tap {|a|
+          a[:visibility] = visibility
+        }
       }
-    }
+      it 'remembers the input visibility' do
+        expect {
+          expect {
+            expect{
+              subject.create!
+            }.to raise_error(ActiveFedora::RecordInvalid)
+          }.to change(curation_concern, :visibility).from(nil).to(visibility)
+        }.to change(curation_concern, :authenticated_only_rights?).from(false).to(true)
+      end
+    end
     describe 'valid attributes' do
+      let(:attributes) {
+        FactoryGirl.attributes_for(:senior_thesis).tap {|a|
+          a[:thesis_file] = thesis_file
+          a[:visibility] = AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+          a[:assign_doi] = '1'
+        }
+      }
       before(:each) do
         subject.create!
       end
