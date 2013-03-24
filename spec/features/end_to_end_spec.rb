@@ -58,6 +58,19 @@ describe 'end to end behavior', describe_options do
       page.assert_selector('.main-header h2', "Describe Your Thesis")
     end
 
+    it 'remembers senior thesis inputs when data was invalid' do
+      login_as(user)
+      visit('/concern/senior_theses/new')
+      create_senior_thesis(
+        'Visibility' => 'Private',
+        'I Agree' => true,
+        'Title' => ''
+      )
+      page.assert_selector('.main-header h2', "Describe Your Thesis")
+      expect(page).to have_checked_field('visibility_restricted')
+      expect(page).to_not have_checked_field('visibility_open')
+    end
+
     it "a public item with future embargo is not visible today but is in the future" do
       embargo_release_date = 2.days.from_now
       # Because the JS will transform an unexpected input entry to the real
