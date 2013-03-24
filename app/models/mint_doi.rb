@@ -19,7 +19,7 @@ class MintDoi
     end
 
     fedora_object.identifier = digital_object_identifier.doi
-    fedora_object.save
+    fedora_object.save!
     return fedora_object.identifier
   end
 
