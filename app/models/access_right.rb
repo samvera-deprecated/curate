@@ -25,8 +25,12 @@ class AccessRight
   attr_reader :permissionable
 
   def open_access?
-    has_permission_text_for?(PERMISSION_TEXT_VALUE_PUBLIC) ||
-      has_visibility_text_for?(VISIBILITY_TEXT_VALUE_PUBLIC)
+    return true if has_visibility_text_for?(VISIBILITY_TEXT_VALUE_PUBLIC)
+    if persisted?
+      has_permission_text_for?(PERMISSION_TEXT_VALUE_PUBLIC)
+    else
+      visibility.to_s == ''
+    end
   end
 
   def authenticated_only?

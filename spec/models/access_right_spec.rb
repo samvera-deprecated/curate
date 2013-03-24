@@ -3,24 +3,30 @@ require 'spec_helper'
 describe AccessRight do
   [
     [false, AccessRight::PERMISSION_TEXT_VALUE_PUBLIC, nil, true, false, false],
-    [false, AccessRight::PERMISSION_TEXT_VALUE_AUTHENTICATED, nil, false, true, false],
-    [false, nil, nil, false, false, true],
+    [false, AccessRight::PERMISSION_TEXT_VALUE_AUTHENTICATED, nil, true, false, false],
+    [false, nil, nil, true, false, false],
     [false, nil, AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC, true, false, false],
     [false, nil, AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED, false, true, false],
     [false, nil, AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false, false, true],
+    [true, AccessRight::PERMISSION_TEXT_VALUE_PUBLIC, nil, true, false, false],
+    [true, AccessRight::PERMISSION_TEXT_VALUE_AUTHENTICATED, nil, false, true, false],
+    [true, nil, nil, false, false, true],
+    [true, nil, AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC, true, false, false],
+    [true, nil, AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED, false, true, false],
+    [true, nil, AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE, false, false, true],
   ].each do |given_persisted, givin_permission, given_visibility, expected_open_access, expected_authentication_only, expected_private|
     spec_text = <<-TEXT
 
+    GIVEN: {
+      persisted: #{given_persisted.inspect},
+      permission: #{givin_permission.inspect},
+      visibility: #{given_visibility.inspect}
+    },
     EXPECTED: {
       open_access: #{expected_open_access.inspect},
       restricted: #{expected_authentication_only.inspect},
       private: #{expected_private.inspect}
     },
-    GIVEN: {
-      persisted: #{given_persisted.inspect},
-      permission: #{givin_permission.inspect},
-      visibility: #{given_visibility.inspect}
-    }
     TEXT
 
     it spec_text do
