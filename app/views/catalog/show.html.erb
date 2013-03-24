@@ -7,7 +7,7 @@
     <span class="back_to_cat"><%= link_back_to_catalog :label=>'← Return to search results' %></span>
     <%- if @previous_document || @next_document -%>
       <div id="previousNextDocument">
-	    <span class="previous"><%= link_to_previous_document(@previous_document) %></span>
+      <span class="previous"><%= link_to_previous_document(@previous_document) %></span>
     <%- end -%>
     <%- if session[:search][:counter].to_i > 0 -%>
       <span class="result-num">
@@ -15,13 +15,13 @@
       </span>
     <%- end -%>
     <%- if @previous_document || @next_document -%>
-	    <span class="next"><%= link_to_next_document(@next_document)%></span>
+      <span class="next"><%= link_to_next_document(@next_document)%></span>
       </div>
     <%- end -%>
     <%- if editor? && controller.action_name != "delete" -%>
-    	<span class="edit-browse">
-    		<%= edit_and_browse_links %>
-    	</span>
+      <span class="edit-browse">
+        <%= edit_and_browse_links %>
+      </span>
     <%- end -%>
   </div>
 </div>

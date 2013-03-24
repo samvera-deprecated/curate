@@ -68,22 +68,22 @@ limitations under the License.
           <% end %>
           <%= display_facet.items.length >
 Blacklight.config[:facet_more_num] ? "<li class='more_li'><a href=''
-							     class='more_link'
-							     title='more
-							     #{pluralize(2,
-							     facet_field_labels[solr_fname])[2..-1].downcase}'>more<span class='off_screen'>
-		#{pluralize(2,
-		facet_field_labels[solr_fname])[2..-1].downcase}</span></a></li>"
+                   class='more_link'
+                   title='more
+                   #{pluralize(2,
+                   facet_field_labels[solr_fname])[2..-1].downcase}'>more<span class='off_screen'>
+    #{pluralize(2,
+    facet_field_labels[solr_fname])[2..-1].downcase}</span></a></li>"
 : "" %>
           <%= display_facet.items.length >
 Blacklight.config[:facet_more_num] ? "<li class='less_li'
-					  style='display:none;'><a href=''
-								   class='more_link'
-								   title='less
-								   #{pluralize(2,
-								   facet_field_labels[solr_fname])[2..-1].downcase}'>less<span class='off_screen'>
-		#{pluralize(2,
-		facet_field_labels[solr_fname])[2..-1].downcase}</span></a></li>"
+            style='display:none;'><a href=''
+                   class='more_link'
+                   title='less
+                   #{pluralize(2,
+                   facet_field_labels[solr_fname])[2..-1].downcase}'>less<span class='off_screen'>
+    #{pluralize(2,
+    facet_field_labels[solr_fname])[2..-1].downcase}</span></a></li>"
 : "" %>
         </ul>
       <% end %>

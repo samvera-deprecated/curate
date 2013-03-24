@@ -74,7 +74,7 @@ module CurateNd
 
     config.build_identifier = begin
       Rails.root.join('config/build-identifier.txt').read.strip
-    rescue Exception => e
+    rescue Errno::ENOENT => e
       Time.now.strftime("%Y-%m-%d %H:%M:%S")
     end
 

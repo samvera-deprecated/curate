@@ -2,6 +2,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   respond_to(:html)
 
   before_filter :parent
+  before_filter :curation_concern
   load_and_authorize_resource :parent, class: "ActiveFedora::Base"
 
   def parent

@@ -59,7 +59,6 @@ class SeniorThesis < ActiveFedora::Base
     self.class.to_s.demodulize.titleize
   end
 
-
   def to_solr(solr_doc={}, opts={})
     super(solr_doc, opts)
     solr_doc["noid_s"] = noid

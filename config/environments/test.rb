@@ -46,7 +46,6 @@ CurateNd::Application.configure do
     Timecop.travel(t)
   end
 
-
   if ENV['FULL_STACK']
     require 'clamav'
     ClamAV.instance.loaddb

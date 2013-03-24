@@ -35,7 +35,7 @@
         <%= Rails.configuration.build_identifier %>
       </dd>
       <dt>Current URL</dt>
-      <dd id="help-url"<%= ' class="unset"'.html_safe if help_request.current_url.blank? %>>
+      <dd id="help-url"<%= ' class="unset"'.html_safe if help_request.current_url? %>>
         <%= help_request.current_url %>
       </dd>
     </dl>

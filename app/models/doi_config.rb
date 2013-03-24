@@ -2,8 +2,6 @@ class DoiConfig
   @@config_info, @@url = nil
   def self.configure
     @@config_info ||= YAML.load(File.open(File.join(Rails.root, "config/doi.yml")))
-  rescue => e
-    raise e
   end
 
   def self.username
