@@ -12,14 +12,14 @@ describe AccessRight do
     spec_text = <<-TEXT
 
     EXPECTED: {
-      open_access: #{expected_open_access},
-      restricted: #{expected_authentication_only},
-      private: #{expected_private}
+      open_access: #{expected_open_access.inspect},
+      restricted: #{expected_authentication_only.inspect},
+      private: #{expected_private.inspect}
     },
     GIVEN: {
-      persisted: #{given_persisted},
-      permission: #{givin_permission},
-      visibility: #{given_visibility}
+      persisted: #{given_persisted.inspect},
+      permission: #{givin_permission.inspect},
+      visibility: #{given_visibility.inspect}
     }
     TEXT
 
