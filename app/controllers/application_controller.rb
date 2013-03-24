@@ -11,8 +11,12 @@ class ApplicationController < ActionController::Base
 
   rescue_from StandardError, with: :exception_handler
   def exception_handler(exception)
-    wrapper = ActionDispatch::ExceptionWrapper.new(env, exception)
-    render_response_for_error(wrapper)
+    if ActionDispatch::ExceptionWrapper.rescue_responses[exception.class.name]
+      wrapper = ActionDispatch::ExceptionWrapper.new(env, exception)
+      render_response_for_error(wrapper)
+    else
+      raise exception
+    end
   end
   protected :exception_handler
 
