@@ -8,22 +8,22 @@
 
 
 <div class="document_viewer" id="cover_container">
-	<div id="delete_dialog">
-		<div id="delete_dialog_container">
-			
-				
-				<div>
-	        <span>Permanently delete <%= @document['id'] %> and its assets from the repository?</span><br/>
-	        <div id="deletable_assets"></div>
-	      </div>
-				
-					<div>
-					<%= button_to("Delete", {:action => :destroy, :controller => :assets, :id => @document['id'] }, :confirm => 'Are you sure?', :method => :delete )%>
-					 <%= button_to("Withdraw", :action=>"withdraw", :controller => :assets, :id => @document['id'] ) %>
-					 <%= button_to("Cancel", :action=>:edit, :controller => :catalog, :id => @document['id'] ) %>
-					
-	      </div>
-	      		 
-		 </div>
-	</div>
+  <div id="delete_dialog">
+    <div id="delete_dialog_container">
+      
+        
+        <div>
+          <span>Permanently delete <%= @document['id'] %> and its assets from the repository?</span><br/>
+          <div id="deletable_assets"></div>
+        </div>
+        
+          <div>
+          <%= button_to("Delete", {:action => :destroy, :controller => :assets, :id => @document['id'] }, :confirm => 'Are you sure?', :method => :delete )%>
+           <%= button_to("Withdraw", :action=>"withdraw", :controller => :assets, :id => @document['id'] ) %>
+           <%= button_to("Cancel", :action=>:edit, :controller => :catalog, :id => @document['id'] ) %>
+          
+        </div>
+             
+     </div>
+  </div>
 </div>
