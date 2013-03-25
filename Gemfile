@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-# This should be everything except :deploy; And by not_deploy, we mean any of
+# This should be everything except :deploy; And by default, we mean any of
 # the environments that are not used to execute the deploy scripts
-group :not_deploy do
+group :default do
   gem 'rails', '3.2.11'
   gem 'mysql2'
   gem 'common_repository_model', git: 'git://github.com/ndlib/common_repository_model'
