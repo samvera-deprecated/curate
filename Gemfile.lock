@@ -267,6 +267,7 @@ GEM
     marc (0.5.0)
     mediashelf-loggable (0.4.9)
     method_decorators (0.9.3)
+    method_locator (0.0.4)
     mime-types (1.21)
     mini_magick (3.5.0)
       subexec (~> 0.2.1)
@@ -496,6 +497,7 @@ DEPENDENCIES
   jettywrapper
   jquery-rails
   method_decorators
+  method_locator
   morphine
   mysql2
   rails (= 3.2.11)
