@@ -99,9 +99,14 @@ describe 'end to end behavior', describe_options do
       page.assert_selector('h1', text: "Object Not Available")
 
       # Seconds are weeks
-      Timecop.scale(60*60*24*7)
-      sleep(1)
+      begin
+        Timecop.scale(60*60*24*7)
+        sleep(1)
+      ensure
+        Timecop.scale(1)
+      end
       visit("/show/#{noid}")
+      expect(Time.now > embargo_release_date).to be_true
 
       # With the embargo release date passed an anonymous user should be able
       # to see it.
