@@ -26,7 +26,7 @@ function do_deploy() {
 
     # fetch capistrano
     echo "=-=-=-=-=-=-=-= bundle install"
-    /shared/ruby_prod/ruby/1.9.3/bin/bundle install --path="$WORKSPACE/vendor/bundle" --binstubs="$WORKSPACE/vendor/bundle/bin" --shebang '/shared/ruby_prod/ruby/1.9.3/bin/ruby' --deployment --without development test assets not_deploy headless --gemfile="$WORKSPACE/Gemfile"
+    /shared/ruby_prod/ruby/1.9.3/bin/bundle install --path="$WORKSPACE/vendor/bundle" --binstubs="$WORKSPACE/vendor/bundle/bin" --shebang '/shared/ruby_prod/ruby/1.9.3/bin/ruby' --deployment --without development test assets default headless --gemfile="$WORKSPACE/Gemfile"
 
     echo "=-=-=-=-=-=-=-= cd $WORKSPACE"
     cd $WORKSPACE
