@@ -59,6 +59,7 @@ group :test, :development do
   gem 'rails_best_practices'
   gem 'sextant'
   gem 'simplecov'
+  gem 'method_locator'
 end
 
 group :deploy do
