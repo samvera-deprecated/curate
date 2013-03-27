@@ -48,7 +48,9 @@ cp secret_ci/curate_nd/secret_token.rb config/initializers/secret_token.rb
 echo "=-=-=-=-=-=-=-= Clearing Solr Documents"
 RUBY_SCRIPT="data = YAML.load(File.read('config/solr.yml')); puts data['ci']['url'];"
 SOLR_URL=$($RUBY -ryaml -e "$RUBY_SCRIPT")
-curl "$SOLR_URL/update?commit=true" -H 'Content-Type:application/xml' -d '<delete><query>*:*</query></delete>'
+if [ $SOLR_URL ]; then
+  curl "$SOLR_URL/update?commit=true" -H 'Content-Type:application/xml' -d '<delete><query>*:*</query></delete>'
+fi
 
 echo "=-=-=-=-=-=-=-= Clearing Fedora Objects and database indexes."
 # Code to clear fedora goes here.
