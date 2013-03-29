@@ -25,3 +25,4 @@ Vagrantfile
 coverage/
 .rvmrc
 rails_best_practice*
+jetty/
