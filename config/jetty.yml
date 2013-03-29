@@ -1,8 +1,15 @@
-default:
+default: &DEFAULT
   jetty_port: 8983
+  jetty_home: <%= File.join(ENV['TEST_JETTY_PATH'] || File.join(Rails.root, '../hydra-jetty'),'/') %>
+  startup_wait: 70
+  java_opts:
+    - "-XX:+CMSPermGenSweepingEnabled"
+    - "-XX:+CMSClassUnloadingEnabled"
+    - "-XX:PermSize=64M"
+    - "-XX:MaxPermSize=128M"
+  quiet: true
 test: &TEST
-  jetty_port: <%= ENV['TEST_JETTY_PORT'] || 8888 %>
-  jetty_home: <%= ENV['TEST_JETTY_PATH'] || File.join(Rails.root, 'test_jetty') %>
-  startup_wait: 15
+  <<: *DEFAULT
 ci:
   <<: *TEST
+  startup_wait: 75
