@@ -35,6 +35,9 @@
                 confirm: "Deleting #{generic_file.to_s.inspect} from #{t('sufia.product_name')} is permanent. Click OK to delete this from #{t('sufia.product_name')}, or Cancel to cancel this operation"
               )%>
             <%- end -%>
+            <%- if can?(:read, generic_file) -%>
+              <%= render '/curation_concern/media_display', generic_file: generic_file %>
+            <%- end -%>
           </td>
         <%- end -%>
       </tr>
