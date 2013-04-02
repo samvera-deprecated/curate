@@ -1,9 +1,11 @@
 <% content_for :page_header do %>
-  <h1><%= curation_concern %></h1>
+  <h1><%= curation_concern %><span class="human_readable_type">(<%= curation_concern.human_readable_type %>)</span></h1>
 <% end %>
 
 <%= render common_object_partial_for(curation_concern) %>
 
-<div class="form-actions">
-  <%= link_to %(Edit "#{curation_concern}"), edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary' %>
-</div>
+<% if can?(:edit, curation_concern) %>
+  <div class="form-actions">
+    <%= link_to %(Edit #{curation_concern}), edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary' %>
+  </div>
+<% end %>
