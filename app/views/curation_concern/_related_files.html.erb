@@ -1,14 +1,14 @@
 <table class="table table-striped <%= dom_class(curation_concern) %> related_files with-headroom">
   <caption class="table-heading">
-    <h2>Related Files</h2>
+    <h2>Files</h2>
   </caption>
   <thead>
     <tr>
-      <th>Related File</th>
+      <th>File</th>
       <th>Filename</th>
       <th>Date Uploaded</th>
       <th>Visibility</th>
-      <%- if with_actions -%><th>Actions</th><%- end -%>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -18,8 +18,8 @@
         <td class="attribute filename"><%= generic_file.filename %></td>
         <td class="attribute date_uploaded"><%= generic_file.date_uploaded %></td>
         <td class="attribute permission"><%= link_to_edit_permissions(generic_file) %></td>
-        <%- if with_actions -%>
-          <td>
+        <td>
+          <%- if with_actions -%>
             <%- if can?(:edit, generic_file) -%>
               <%= link_to(
                 'Edit',
@@ -35,11 +35,11 @@
                 confirm: "Deleting #{generic_file.to_s.inspect} from #{t('sufia.product_name')} is permanent. Click OK to delete this from #{t('sufia.product_name')}, or Cancel to cancel this operation"
               )%>
             <%- end -%>
-            <%- if can?(:read, generic_file) -%>
-              <%= render '/curation_concern/media_display', generic_file: generic_file %>
-            <%- end -%>
-          </td>
-        <%- end -%>
+          <%- end -%>
+          <%- if can?(:read, generic_file) -%>
+            <%= render '/curation_concern/media_display', generic_file: generic_file %>
+          <%- end -%>
+        </td>
       </tr>
     <% end %>
   </tbody>
