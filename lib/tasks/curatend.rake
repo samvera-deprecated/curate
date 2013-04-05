@@ -10,7 +10,6 @@ namespace :curatend do
       JETTY_ZIP = Rails.root.join('spec', JETTY_URL.split('/').last).to_s
       JETTY_DIR = 'jetty'
 
-      desc "download the jetty zip file"
       task :download do
         puts "Downloading jetty..."
         system "curl -L #{JETTY_URL} -o #{JETTY_ZIP}"
@@ -46,17 +45,15 @@ namespace :curatend do
         cp('fedora_conf/conf/test/fedora.fcfg', File.join(JETTY_DIR, 'fedora/test/server/config/'), verbose: true)
       end
 
+      desc 'Download the appropriate jetty instance and install it with proper configuration'
+      task :init => ["curatend:jetty:download", "curatend:jetty:clean", "curatend:jetty:unzip", "curatend:jetty:configure_solr", "curatend:jetty:configure_fedora"]
     end
 
     desc 'Run specs on travis'
     task :travis do
       ENV['RAILS_ENV'] = 'ci'
       Rails.env = 'ci'
-      Rake::Task['curatend:jetty:download'].invoke
-      Rake::Task['curatend:jetty:clean'].invoke
-      Rake::Task['curatend:jetty:unzip'].invoke
-      Rake::Task['curatend:jetty:configure_solr'].invoke
-      Rake::Task['curatend:jetty:configure_fedora'].invoke
+      Rake::Task['curatend:jetty:init']
 
       jetty_params = Jettywrapper.load_config
       error = Jettywrapper.wrap(jetty_params) do
