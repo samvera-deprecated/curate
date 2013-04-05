@@ -5,9 +5,8 @@ source 'https://rubygems.org'
 group :default do
   gem 'rails', '3.2.11'
   gem 'mysql2'
-  gem 'common_repository_model', git: 'git://github.com/ndlib/common_repository_model'
   gem 'sufia', git: 'git://github.com/ndlib/sufia.git', branch: 'sufia-for-curate-nd'
-  gem 'solrizer'#, git: 'git://github.com/ndlib/solrizer.git'
+  gem 'solrizer'
   gem 'rsolr', git: 'git://github.com/jeremyf/rsolr.git', branch: 'adding-connection-information-to-error-handling'
   gem 'jettywrapper'
   gem 'jquery-rails'
@@ -54,7 +53,7 @@ group :test do
   gem 'timecop'
 end
 
-group :test, :development do
+group :development do
   gem 'debugger', ">= 1.4"
   gem 'rails_best_practices'
   gem 'sextant'
