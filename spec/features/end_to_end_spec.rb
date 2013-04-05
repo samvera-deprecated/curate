@@ -80,7 +80,7 @@ describe 'end to end behavior', describe_options do
       visit('/concern/senior_theses/new')
       create_senior_thesis(
         'Embargo Release Date' => embargo_release_date_formatted,
-        'Visibility' => 'University of Notre Dame',
+        'Visibility' => 'Open Access',
         'Contributors' => ['Dante'],
         'I Agree' => true
       )
@@ -90,11 +90,12 @@ describe 'end to end behavior', describe_options do
       )
       page.assert_selector(
         ".permission.attribute",
-        text: "University of Notre Dame"
+        text: "Open Access"
       )
       noid = page.current_path.split("/").last
       logout
       visit("/show/#{noid}")
+      require 'debugger'; debugger; true
       page.assert_selector('.contributor.attribute', text: 'Dante', count: 0)
       page.assert_selector('h1', text: "Object Not Available")
 
