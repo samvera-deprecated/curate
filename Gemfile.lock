@@ -7,19 +7,6 @@ GIT
       builder (>= 2.1.2)
 
 GIT
-  remote: git://github.com/ndlib/common_repository_model
-  revision: b6a648a6ce6ff4b06d4106f09fd5f2d4a46752e7
-  specs:
-    common_repository_model (0.1.0)
-      active-fedora (~> 5.6.1)
-      active_model_serializers
-      activemodel (~> 3.2.11)
-      activesupport (~> 3.2.11)
-      builder (~> 3.0)
-      equivalent-xml
-      morphine (~> 0.1.1)
-
-GIT
   remote: git://github.com/ndlib/sufia.git
   revision: 8d159259a0090cd34d37a33ede5805687d6cf97e
   branch: sufia-for-curate-nd
@@ -84,8 +71,6 @@ GEM
     active_attr (0.7.0)
       activemodel (>= 3.0.2, < 4.1)
       activesupport (>= 3.0.2, < 4.1)
-    active_model_serializers (0.6.0)
-      activemodel (>= 3.0)
     activemodel (3.2.11)
       activesupport (= 3.2.11)
       builder (~> 3.0.0)
@@ -485,7 +470,6 @@ DEPENDENCIES
   capybara
   clamav
   coffee-rails (~> 3.2.1)
-  common_repository_model!
   compass-rails
   database_cleaner
   debugger (>= 1.4)
