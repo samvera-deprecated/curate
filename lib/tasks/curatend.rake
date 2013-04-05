@@ -19,7 +19,7 @@ namespace :curatend do
 
       task :unzip do
         puts "Unpacking jetty..."
-        tmp_save_dir = Rails.root('spec', 'jetty_generator').to_s
+        tmp_save_dir = Rails.root.join('spec', 'jetty_generator').to_s
         system "unzip -d #{tmp_save_dir} -qo #{JETTY_ZIP}"
         abort "Unable to unzip #{JETTY_ZIP} into #{tmp_save_dir}" unless $?.success?
 
