@@ -6,6 +6,10 @@ module CurationConcern
       attr_accessor :visibility
     end
 
+    def under_embargo?
+      @under_embargo ||= rightsMetadata.under_embargo?
+    end
+
     def open_access?
       access_rights.open_access?
     end
