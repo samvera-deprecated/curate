@@ -13,3 +13,4 @@ test: &TEST
 ci:
   <<: *TEST
   startup_wait: 75
+  jetty_home: <%= File.join(ENV['TEST_JETTY_PATH'] || Rails.root.join('jetty') %>
