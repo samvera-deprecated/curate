@@ -72,4 +72,8 @@ class SeniorThesis < ActiveFedora::Base
     title
   end
 
+  def doi_url
+    File.join(Rails.configuration.doi_url, self.identifier)
+  end
+
 end

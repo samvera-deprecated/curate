@@ -71,6 +71,8 @@ module CurateNd
     config.action_dispatch.rescue_responses["Hydra::AccessDenied"] = :unauthorized
     config.action_dispatch.rescue_responses["CanCan::AccessDenied"] = :unauthorized
 
+    config.doi_url = "http://dx.doi.org/"
+
     config.build_identifier = begin
       Rails.root.join('config/build-identifier.txt').read.strip
     rescue Errno::ENOENT => e
