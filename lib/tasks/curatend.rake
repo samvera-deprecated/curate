@@ -54,7 +54,6 @@ namespace :curatend do
     task :travis do
       ENV['RAILS_ENV'] = 'ci'
       Rails.env = 'ci'
-      Rake::Task['environment'].invoke
       Rake::Task['curatend:jetty:download'].invoke
       Rake::Task['curatend:jetty:clean'].invoke
       Rake::Task['curatend:jetty:unzip'].invoke
@@ -63,7 +62,6 @@ namespace :curatend do
 
       jetty_params = Jettywrapper.load_config
       error = Jettywrapper.wrap(jetty_params) do
-        ENV['COVERAGE'] = 'true'
         Rake::Task['curatend:ci'].invoke
       end
       raise "test failures: #{error}" if error
