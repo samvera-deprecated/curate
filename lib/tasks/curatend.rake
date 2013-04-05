@@ -7,7 +7,7 @@ namespace :curatend do
   if defined?(RSpec)
     namespace :jetty do
       JETTY_URL = 'https://github.com/ndlib/hydra-jetty/archive/xacml-updates-for-curate.zip'
-      JETTY_ZIP = File.join 'tmp', JETTY_URL.split('/').last
+      JETTY_ZIP = Rails.root.join('tmp', JETTY_URL.split('/').last).to_s
       JETTY_DIR = 'jetty'
 
       desc "download the jetty zip file"
