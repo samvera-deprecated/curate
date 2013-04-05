@@ -7,23 +7,21 @@ namespace :curatend do
   if defined?(RSpec)
     namespace :jetty do
       JETTY_URL = 'https://github.com/ndlib/hydra-jetty/archive/xacml-updates-for-curate.zip'
-      JETTY_ZIP = Rails.root.join('tmp', JETTY_URL.split('/').last).to_s
+      JETTY_ZIP = Rails.root.join('spec', JETTY_URL.split('/').last).to_s
       JETTY_DIR = 'jetty'
 
       desc "download the jetty zip file"
       task :download do
         puts "Downloading jetty..."
-        # system "cp -rf /Users/jfriesen/Repositories/hydra-jetty #{Rails.root.join(JETTY_DIR)}"
         system "curl -L #{JETTY_URL} -o #{JETTY_ZIP}"
         abort "Unable to download jetty from #{JETTY_URL}" unless $?.success?
       end
 
       task :unzip do
-        # Rake::Task["jetty:download"].invoke unless File.exists? JETTY_ZIP
         puts "Unpacking jetty..."
-        tmp_save_dir = File.join 'tmp', 'jetty_generator'
+        tmp_save_dir = Rails.root('spec', 'jetty_generator').to_s
         system "unzip -d #{tmp_save_dir} -qo #{JETTY_ZIP}"
-        abort "Unable to unzip #{JETTY_ZIP} into tmp_save_dir/" unless $?.success?
+        abort "Unable to unzip #{JETTY_ZIP} into #{tmp_save_dir}" unless $?.success?
 
         expanded_dir = Dir[File.join(tmp_save_dir, "hydra-jetty-*")].first
         system "mv #{expanded_dir} #{JETTY_DIR}"
