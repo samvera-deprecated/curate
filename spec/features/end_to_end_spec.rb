@@ -95,7 +95,7 @@ describe 'end to end behavior', describe_options do
       noid = page.current_path.split("/").last
       logout
       visit("/show/#{noid}")
-      require 'debugger'; debugger; true
+
       page.assert_selector('.contributor.attribute', text: 'Dante', count: 0)
       page.assert_selector('h1', text: "Object Not Available")
 
