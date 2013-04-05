@@ -9,7 +9,6 @@ if defined?(Bundler)
       headless: %w(development test ci),
       ci: %w(test),
       test: %w(ci),
-      development: %w(ci),
       assets: %w(development test)
   )
   Bundler.require(*bundle_environment_aliases)
