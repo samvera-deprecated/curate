@@ -7,7 +7,7 @@ if defined?(Bundler)
   bundle_environment_aliases = Rails.groups(
       default: %w(production pre_production staging development test ci),
       headless: %w(development test ci),
-      ci: %w(development test),
+      ci: %w(test),
       test: %w(ci),
       development: %w(ci),
       assets: %w(development test)
