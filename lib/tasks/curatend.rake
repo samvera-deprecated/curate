@@ -74,11 +74,11 @@ namespace :curatend do
     task :ci do
       ENV['RAILS_ENV'] = 'ci'
       Rails.env = 'ci'
+      Rake::Task["db:drop"].invoke rescue true
+      Rake::Task["db:create"].invoke
       Rake::Task['environment'].invoke
       #Rake::Task["hyhead:doc"].invoke
       #Rake::Task["jetty:config"].invoke
-      #Rake::Task["db:drop"].invoke
-      #Rake::Task["db:create"].invoke
       Rake::Task['db:schema:load'].invoke
 
       Rake::Task['curatend:ci_spec'].invoke
