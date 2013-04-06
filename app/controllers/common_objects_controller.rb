@@ -5,8 +5,8 @@ class CommonObjectsController < ApplicationController
   def curation_concern
     @curation_concern ||= ActiveFedora::Base.find(params[:id], cast: true)
   end
-  before_filter :enforce_show_permissions, only: [:show]
   before_filter :curation_concern
+  before_filter :enforce_show_permissions, only: [:show]
   helper_method :curation_concern
   prepend_before_filter :normalize_identifier
   layout 'common_objects'
