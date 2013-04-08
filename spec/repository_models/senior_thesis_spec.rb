@@ -4,6 +4,7 @@ describe SeniorThesis do
   subject { FactoryGirl.build(:senior_thesis, title: 'Title') }
 
   include_examples('with_access_rights')
+  include_examples('is_embargoable')
 
   it { should respond_to(:human_readable_type) }
   it { should respond_to(:visibility) }
