@@ -39,7 +39,6 @@ CurateNd::Application.configure do
 
   config.application_url = "http://localhost:3000"
 
-
   if ENV['FULL_STACK']
     require 'clamav'
     ClamAV.instance.loaddb

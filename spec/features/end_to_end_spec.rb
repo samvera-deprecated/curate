@@ -52,10 +52,66 @@ describe 'end to end behavior', describe_options do
       page.should have_content("What are you uploading?")
     end
 
-    it "allows me to directly create a senior thesis...then delete it", js: true do
+    it "allows me to directly create a senior thesis" do
       login_as(user)
       visit('/concern/senior_theses/new')
       page.assert_selector('.main-header h2', "Describe Your Thesis")
+    end
+
+    it 'remembers senior thesis inputs when data was invalid' do
+      login_as(user)
+      visit('/concern/senior_theses/new')
+      create_senior_thesis(
+        'Visibility' => 'Private',
+        'I Agree' => true,
+        'Title' => ''
+      )
+      page.assert_selector('.main-header h2', "Describe Your Thesis")
+      expect(page).to have_checked_field('visibility_restricted')
+      expect(page).to_not have_checked_field('visibility_open')
+    end
+
+    it "a public item with future embargo is not visible today but is in the future" do
+      embargo_release_date = 2.days.from_now
+      # Because the JS will transform an unexpected input entry to the real
+      # today (browser's date), and I want timecop to help
+      embargo_release_date_formatted = embargo_release_date.strftime("%Y-%m-%d")
+      login_as(user)
+      visit('/concern/senior_theses/new')
+      create_senior_thesis(
+        'Embargo Release Date' => embargo_release_date_formatted,
+        'Visibility' => 'Open Access',
+        'Contributors' => ['Dante'],
+        'I Agree' => true
+      )
+      page.assert_selector(
+        ".embargo_release_date.attribute",
+        text: embargo_release_date_formatted
+      )
+      page.assert_selector(
+        ".permission.attribute",
+        text: "Open Access"
+      )
+      noid = page.current_path.split("/").last
+      logout
+      visit("/show/#{noid}")
+
+      page.assert_selector('.contributor.attribute', text: 'Dante', count: 0)
+      page.assert_selector('h1', text: "Object Not Available")
+
+      # Seconds are weeks
+      begin
+        Timecop.scale(60*60*24*7)
+        sleep(1)
+      ensure
+        Timecop.scale(1)
+      end
+      visit("/show/#{noid}")
+      expect(Time.now > embargo_release_date).to be_true
+
+      # With the embargo release date passed an anonymous user should be able
+      # to see it.
+      page.assert_selector('h1', text: "Object Not Available", count: 0)
     end
   end
 
@@ -84,10 +140,11 @@ describe 'end to end behavior', describe_options do
     it 'handles contributor', js: true do
       login_as(user)
       visit('/concern/senior_theses/new')
-      describe_your_thesis(
+      create_senior_thesis(
         "Title" => title,
         "Upload your thesis" => initial_file_path,
         "Contributors" => contributors,
+        "I Agree" => true,
         :js => true
       )
       page.should have_content(title)
@@ -98,7 +155,6 @@ describe 'end to end behavior', describe_options do
         )
       end
     end
-
   end
 
   describe 'file uploaded via different paths' do
@@ -108,14 +164,16 @@ describe 'end to end behavior', describe_options do
       login_as(user)
       get_started
       classify_what_you_are_uploading('Senior Thesis')
-      describe_your_thesis(
+      create_senior_thesis(
         "Title" => 'Senior Thesis',
         'Visibility' => 'Open Access',
         "Upload your thesis" => initial_file_path,
         "Assign DOI" => true,
         "Contributors" => contributors,
+        "I Agree" => true,
         "Button to click" => 'Create and Add Related Files...'
       )
+
       # While the title is different, the filenames should be the same
       add_a_related_file(
         "Title" => 'Related File',
@@ -152,6 +210,7 @@ describe 'end to end behavior', describe_options do
       )
     end
   end
+
   describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
     it "displays the terms of service page after authentication" do
@@ -159,7 +218,7 @@ describe 'end to end behavior', describe_options do
       get_started
       agree_to_terms_of_service
       classify_what_you_are_uploading('Senior Thesis')
-      describe_your_thesis
+      create_senior_thesis('I Agree' => true, 'Visibility' => 'Open Access')
       path_to_view_thesis = view_your_new_thesis
       path_to_edit_thesis = edit_your_thesis
       view_your_updated_thesis
@@ -172,6 +231,7 @@ describe 'end to end behavior', describe_options do
       i_cannot_edit_to_another_users_resource(path_to_edit_thesis)
     end
   end
+
   protected
   def get_started
     visit '/'
@@ -192,13 +252,14 @@ describe 'end to end behavior', describe_options do
     end
   end
 
-  def describe_your_thesis(options = {})
+  def create_senior_thesis(options = {})
     options['Title'] ||= initial_title
     options['Upload your thesis'] ||= initial_file_path
     options['Visibility'] ||= 'Private'
     options["Button to click"] ||= "Create Senior thesis"
     options["Contributors"] ||= ["Dante"]
     options["Content License"] ||= Sufia::Engine.config.cc_licenses.keys.first
+
     page.should have_content('Describe Your Thesis')
     # Without accepting agreement
     within('#new_senior_thesis') do
@@ -207,6 +268,9 @@ describe 'end to end behavior', describe_options do
       choose(options['Visibility'])
       if options['Assign DOI']
         check('senior_thesis_assign_doi')
+      end
+      if options['Embargo Release Date']
+        fill_in("senior_thesis_embargo_release_date", with: options["Embargo Release Date"])
       end
       select(options['Content License'], from: 'Content License')
       within('.senior_thesis_contributor.multi_value') do
@@ -222,21 +286,17 @@ describe 'end to end behavior', describe_options do
           fill_in('senior_thesis[contributor][]', with: contributors.first)
         end
       end
+      if options['I Agree']
+        check("I have read and accept the contributor licence agreement")
+      end
       click_on(options["Button to click"])
     end
 
-    within('.alert.error') do
-      page.should have_content('You must accept the contributor agreement')
-    end
-    page.should have_content("Describe Your Thesis")
-
-    # With accepting agreement
-    within('#new_senior_thesis') do
-      # The system remembers the initial title
-      find("#senior_thesis_title").value.should == options["Title"]
-      attach_file("Upload your thesis", options['Upload your thesis'])
-      check("I have read and accept the contributor licence agreement")
-      click_on(options["Button to click"])
+    if !options["I Agree"]
+      within('.alert.error') do
+        page.should have_content('You must accept the contributor agreement')
+      end
+      page.should have_content("Describe Your Thesis")
     end
   end
 

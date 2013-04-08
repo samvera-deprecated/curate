@@ -5,6 +5,8 @@ class SeniorThesis < ActiveFedora::Base
   include Sufia::ModelMethods
   include Sufia::Noid
   include Sufia::GenericFile::Permissions
+  include CurationConcern::Embargoable
+  include CurationConcern::WithAccessRight
 
   has_metadata name: "properties", type: PropertiesDatastream, control_group: 'M'
   has_metadata name: "descMetadata", type: SeniorThesisMetadataDatastream, control_group: 'M'
@@ -47,6 +49,7 @@ class SeniorThesis < ActiveFedora::Base
     ]
   )
   delegate_to :properties, [:relative_path, :depositor], unique: true
+
   validates :title, presence: { message: 'Your thesis must have a title.' }
   validates :rights, presence: { message: 'You must select a license for your work.' }
 
@@ -62,7 +65,7 @@ class SeniorThesis < ActiveFedora::Base
     return solr_doc
   end
 
-  attr_accessor :thesis_file, :visibility, :assign_doi
+  attr_accessor :thesis_file, :assign_doi
 
   def to_param
     noid

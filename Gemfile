@@ -25,6 +25,7 @@ group :default do
   # Need rubyracer to run integration tests.....really?!?
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
+  gem 'bootstrap-datepicker-rails'
   gem 'method_decorators'
 end
 
@@ -49,6 +50,7 @@ group :test do
   gem 'rspec-html-matchers'
   gem 'rspec-rails'
   gem 'webmock'
+  gem 'timecop'
 end
 
 group :development do

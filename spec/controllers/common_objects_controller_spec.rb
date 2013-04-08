@@ -12,7 +12,7 @@ describe CommonObjectsController do
   describe '#show' do
     let(:template_for_success) { 'show' }
     describe '"Open Access" object' do
-      let(:visibility) { 'open' }
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
       it 'renders for unauthenticated person' do
         get :show, id: curation_concern.to_param
         response.status.should == 200
@@ -35,7 +35,7 @@ describe CommonObjectsController do
     end
 
     describe '"Restricted" object' do
-      let(:visibility) { 'restricted' }
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
       it 'redirect to DOI information for unauthenticated person' do
         get :show, id: curation_concern.to_param
         response.status.should == 302
@@ -57,7 +57,7 @@ describe CommonObjectsController do
       end
     end
     describe '"Institution Only" object' do
-      let(:visibility) { 'psu' }
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
       it 'does not display for unauthenticated person' do
         get :show, id: curation_concern.to_param
         response.status.should == 302
@@ -83,7 +83,7 @@ describe CommonObjectsController do
   describe '#show_stub_information' do
     let(:template_for_success) { 'show_stub_information' }
     describe '"Open Access" object' do
-      let(:visibility) { 'open' }
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
       it 'renders rudimentary DOI information' do
         get :show_stub_information, id: curation_concern.to_param
         response.status.should == 200
@@ -91,7 +91,7 @@ describe CommonObjectsController do
       end
     end
     describe '"Restricted" object' do
-      let(:visibility) { 'restricted' }
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
       it 'renders rudimentary DOI information' do
         get :show_stub_information, id: curation_concern.to_param
         response.status.should == 200
@@ -99,7 +99,7 @@ describe CommonObjectsController do
       end
     end
     describe '"Institution Only" object' do
-      let(:visibility) { 'psu' }
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
       it 'renders rudimentary DOI information' do
         get :show_stub_information, id: curation_concern.to_param
         response.status.should == 200

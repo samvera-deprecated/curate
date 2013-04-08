@@ -7,7 +7,8 @@ describe CurationConcern::SeniorThesisActor do
   let(:thesis_file_path) { __FILE__ }
   let(:thesis_file) { Rack::Test::UploadedFile.new(thesis_file_path, 'text/plain', false)}
   let(:assigned_doi) { 'abc-123' }
-  let(:mock_doi_minter) { lambda {|pid|
+  let(:mock_doi_minter) {
+    lambda {|pid|
       object = ActiveFedora::Base.find(pid, cast: true)
       object.identifier = assigned_doi
       object.save
@@ -24,14 +25,32 @@ describe CurationConcern::SeniorThesisActor do
   }
 
   describe '#create' do
-    let(:attributes) {
-      FactoryGirl.attributes_for(:senior_thesis).tap {|a|
-        a[:thesis_file] = thesis_file
-        a[:visibility] = 'psu'
-        a[:assign_doi] = '1'
+
+    describe 'invalid attributes' do
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+      let(:attributes) {
+        FactoryGirl.attributes_for(:senior_thesis_invalid).tap {|a|
+          a[:visibility] = visibility
+        }
       }
-    }
+      it 'remembers the input visibility' do
+        expect {
+          expect {
+            expect{
+              subject.create!
+            }.to raise_error(ActiveFedora::RecordInvalid)
+          }.to change(curation_concern, :visibility).from(nil).to(visibility)
+        }.to change(curation_concern, :authenticated_only_access?).from(false).to(true)
+      end
+    end
     describe 'valid attributes' do
+      let(:attributes) {
+        FactoryGirl.attributes_for(:senior_thesis).tap {|a|
+          a[:thesis_file] = thesis_file
+          a[:visibility] = AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+          a[:assign_doi] = '1'
+        }
+      }
       before(:each) do
         subject.create!
       end
@@ -51,8 +70,8 @@ describe CurationConcern::SeniorThesisActor do
         senior_thesis_file.filename.should == File.basename(thesis_file_path)
         senior_thesis_file.to_s.should == 'Senior Thesis'
 
-        expect(new_curation_concern.to_solr['read_access_group_t']).to eq(['registered'])
-        expect(senior_thesis_file.to_solr['read_access_group_t']).to eq(['registered'])
+        expect(new_curation_concern).to be_authenticated_only_access
+        expect(senior_thesis_file).to be_authenticated_only_access
         expect(new_curation_concern.identifier).to eq(assigned_doi)
       end
     end
@@ -65,7 +84,7 @@ describe CurationConcern::SeniorThesisActor do
 
     let(:attributes) {
       FactoryGirl.attributes_for(:senior_thesis).tap {|a|
-        a[:visibility] = 'open'
+        a[:visibility] = AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
         a[:assign_doi] = '1'
       }
     }
@@ -77,7 +96,7 @@ describe CurationConcern::SeniorThesisActor do
         subject.update!
         expect(curation_concern.identifier).to be_blank
         expect(curation_concern).to be_persisted
-        curation_concern.permissions.select{|r| r[:type] == 'group' && r[:name]=='public'}.count == 1
+        expect(curation_concern).to be_open_access
         new_curation_concern = curation_concern.class.find(curation_concern.pid)
         expect(new_curation_concern.identifier).to eq(assigned_doi)
       end

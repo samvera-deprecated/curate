@@ -22,7 +22,7 @@ describe 'error behavior', describe_options do
 
   it 'handles unauthorized pages'do
     user = FactoryGirl.create(:user)
-    curation_concern = FactoryGirl.create_curation_concern(:senior_thesis, user, visibility: 'psu')
+    curation_concern = FactoryGirl.create_curation_concern(:senior_thesis, user, visibility: AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED)
 
     visit("/concern/senior_theses/#{curation_concern.to_param}")
     expect(page).to have_content("Unauthorized")

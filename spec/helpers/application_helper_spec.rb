@@ -83,7 +83,7 @@ describe ApplicationHelper do
     let(:access_policy) { nil }
     describe 'with a "registered" access group' do
       let(:expected_label) { "University of Notre Dame" }
-      let(:visibility) { 'psu' } # Can we change this?
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED } # Can we change this?
       let(:access_policy) { 'registered' }
       it 'renders a Notre Dame only label' do
         rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
@@ -97,7 +97,7 @@ describe ApplicationHelper do
     describe 'with a "public" access group' do
       let(:expected_label) { "Open Access" }
       let(:access_policy) { 'public' }
-      let(:visibility) { 'open'}
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
       it 'renders an "Open Access" label' do
         rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
@@ -125,7 +125,7 @@ describe ApplicationHelper do
     describe 'without an access group' do
       let(:expected_label) { "Private" }
       let(:access_policy) { nil }
-      let(:visibility) { 'restricted' }
+      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
       it 'renders an "Private" label' do
         rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(

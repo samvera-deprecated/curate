@@ -22,6 +22,7 @@
 //= require bootstrap-collapse
 //= require bootstrap-tooltip
 //= require bootstrap-popover
+//= require bootstrap-datepicker
 //
 //= require manage_repeating_fields
 //= require toggle_details
@@ -31,4 +32,7 @@ $(function(){
   $('abbr').tooltip();
 
   $('.multi_value.control-group').manage_fields();
+
+  $('.datepicker').datepicker({
+    format: 'yyyy-mm-dd' });
 });

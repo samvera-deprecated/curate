@@ -8,8 +8,8 @@ module CurationConcern
     def initialize(curation_concern, user, input_attributes)
       @curation_concern = curation_concern
       @user = user
-      @attributes = input_attributes.clone
-      @visibility = attributes.delete(:visibility)
+      @attributes = input_attributes.dup
+      @visibility = attributes[:visibility]
     end
 
     def create!

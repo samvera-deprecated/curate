@@ -1,29 +1,15 @@
-<%#
-Copyright © 2012 The Pennsylvania State University
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-%>
-<fieldset id="permissions_display">
-<% if curation_concern.persisted? %>
-  <% depositor = curation_concern.depositor %> <% public_perm = curation_concern.permissions.map { |perm| perm[:access] if perm[:name] == "public"}.compact.first %>
-  <% ndu_perm = curation_concern.permissions.map { |perm| perm[:access] if perm[:name] == "registered"}.compact.first %>
-<%else %>
-  <% depositor = current_user.user_key %>
-  <% public_perm = true %>
-  <% ndu_perm = false %>
-<% end %>
-
 <div id="permissions_display">
+  <fieldset class="control-group">
+    <legend>
+      Embargo Date
+      <small>When to release it for public viewing</small>
+    </legend>
+    <p class="help-block">
+      Need to provide some help text
+    </p>
+    <%= f.input :embargo_release_date, as: :string, input_html: { class: 'datepicker' } %>
+  </fieldset>
+
   <fieldset class="control-group">
     <legend>
       Access Rights
@@ -36,15 +22,15 @@ limitations under the License.
 
     <div class="controls">
       <label class="radio">
-        <input type="radio" id="visibility_open" name="<%= f.object_name %>[visibility]" value="open" <% if !public_perm.blank? %> checked="true"<% end %>/>
+        <input type="radio" id="visibility_open" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC %>" <% if curation_concern.open_access? %> checked="true"<% end %>/>
         <span class="label label-success">Open Access</span> Visible to the world.
       </label>
       <label class="radio">
-        <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="psu" <% if !ndu_perm.blank? %> checked="true"<% end %> />
+        <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED %>" <% if curation_concern.authenticated_only_access? %> checked="true"<% end %> />
         <span class="label label-info"><%=t('sufia.institution_name') %></span> Visible to all <%=t('sufia.institution_name') %> users.
       </label>
       <label class="radio">
-        <input type="radio" id="visibility_restricted" name="<%= f.object_name %>[visibility]" value="restricted" <% if ndu_perm.blank? and public_perm.blank?%> checked="true"<% end %>/>
+        <input type="radio" id="visibility_restricted" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE%>" <% if curation_concern.private_access? %> checked="true"<% end %>/>
         <span class="label label-important">Private</span> Only visible to you.
       </label>
     </div><!-- /.controls -->
