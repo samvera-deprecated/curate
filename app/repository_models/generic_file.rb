@@ -1,6 +1,7 @@
 require Sufia::Engine.root.join('app/models/generic_file')
 class GenericFile
   include CurationConcern::WithAccessRight
+  include CurationConcern::Embargoable
 
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
 

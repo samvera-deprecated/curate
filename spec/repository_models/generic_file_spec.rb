@@ -3,6 +3,7 @@ describe GenericFile do
   subject { GenericFile.new }
 
   include_examples 'with_access_rights'
+  include_examples 'is_embargoable'
 
   it { should respond_to(:versions) }
   it { should respond_to(:human_readable_type) }
