@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
+
 # This should be everything except :deploy; And by default, we mean any of
 # the environments that are not used to execute the deploy scripts
 group :default do
-  gem 'rails', '3.2.11'
   gem 'mysql2'
-  gem 'sufia', git: 'git://github.com/ndlib/sufia.git', branch: 'sufia-for-curate-nd'
-  gem 'solrizer'
+  gem 'curate', path: '../curate', require: nil
+  gem 'sufia', path: '../sufia', require: nil
   gem 'rsolr', git: 'git://github.com/jeremyf/rsolr.git', branch: 'adding-connection-information-to-error-handling'
   gem 'jettywrapper'
   gem 'jquery-rails'

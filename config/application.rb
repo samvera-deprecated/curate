@@ -16,6 +16,8 @@ end
 
 module CurateNd
   class Application < Rails::Application
+    require 'curate'
+    require 'sufia'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -70,6 +72,7 @@ module CurateNd
     config.action_dispatch.rescue_responses["ActiveFedora::ActiveObjectNotFoundError"] = :not_found
     config.action_dispatch.rescue_responses["Hydra::AccessDenied"] = :unauthorized
     config.action_dispatch.rescue_responses["CanCan::AccessDenied"] = :unauthorized
+    config.action_dispatch.rescue_responses["Rubydora::RecordNotFound"] = :not_found
 
     config.doi_url = "http://dx.doi.org/"
 
