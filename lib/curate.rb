@@ -1,6 +1,8 @@
 require "curate/engine"
 require 'rails'
 require 'sufia'
+require 'simple_form'
+require 'roboto'
 
 %w(helpers validators repository_models repository_datastreams workers).each do |slug|
   directory = File.expand_path("../app/#{slug}",File.dirname(__FILE__))
