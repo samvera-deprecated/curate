@@ -10,12 +10,16 @@ describe CharacterizeJob do
     let(:curation_concern) {
       MockCurationConcern.new.tap(&:save)
     }
+    let(:generic_file) {
+      FactoryGirl.create_generic_file(curation_concern, user)
+    }
+    subject { CharacterizeJob.new(generic_file.pid) }
+
     it 'deletes the generic file when I upload a virus' do
       EnvironmentOverride.with_anti_virus_scanner(false) do
         expect {
-          FactoryGirl.create_generic_file(curation_concern, user)
+          subject.run
         }.to raise_error(AntiVirusScanner::VirusDetected)
-        expect(curation_concern.generic_files.count).to eq(0)
       end
     end
   end
