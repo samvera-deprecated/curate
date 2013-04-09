@@ -60,6 +60,22 @@ ActiveRecord::Schema.define(:version => 20130408165026) do
   add_index "follows", ["followable_id", "followable_type"], :name => "fk_followables"
   add_index "follows", ["follower_id", "follower_type"], :name => "fk_follows"
 
+  create_table "help_requests", :force => true do |t|
+    t.string   "view_port"
+    t.text     "current_url"
+    t.string   "user_agent"
+    t.string   "resolution"
+    t.text     "how_can_we_help_you"
+    t.boolean  "javascript_enabled"
+    t.string   "release_version"
+    t.integer  "user_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "help_requests", ["created_at"], :name => "index_help_requests_on_created_at"
+  add_index "help_requests", ["user_id"], :name => "index_help_requests_on_user_id"
+
   create_table "local_authorities", :force => true do |t|
     t.string "name"
   end
@@ -91,6 +107,25 @@ ActiveRecord::Schema.define(:version => 20130408165026) do
 
   add_index "notifications", ["conversation_id"], :name => "index_notifications_on_conversation_id"
 
+  create_table "object_access", :primary_key => "access_id", :force => true do |t|
+    t.datetime "date_accessed"
+    t.string   "ip_address"
+    t.string   "host_name"
+    t.string   "user_agent"
+    t.string   "request_method"
+    t.string   "path_info"
+    t.integer  "repo_object_id"
+    t.integer  "purl_id"
+  end
+
+  create_table "purl", :primary_key => "purl_id", :force => true do |t|
+    t.integer  "repo_object_id"
+    t.string   "access_count"
+    t.datetime "last_accessed"
+    t.string   "source_app"
+    t.datetime "date_created"
+  end
+
   create_table "receipts", :force => true do |t|
     t.integer  "receiver_id"
     t.string   "receiver_type"
@@ -104,6 +139,15 @@ ActiveRecord::Schema.define(:version => 20130408165026) do
   end
 
   add_index "receipts", ["notification_id"], :name => "index_receipts_on_notification_id"
+
+  create_table "repo_object", :primary_key => "repo_object_id", :force => true do |t|
+    t.string   "filename"
+    t.string   "url"
+    t.datetime "date_added"
+    t.string   "add_source_ip"
+    t.datetime "date_modified"
+    t.string   "information"
+  end
 
   create_table "single_use_links", :force => true do |t|
     t.string   "downloadKey"

@@ -10,6 +10,7 @@ end
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
 require 'rspec/rails'
+require 'webmock/rspec'
 require 'rspec-html-matchers'
 require 'rspec/autorun'
 require 'database_cleaner'
@@ -45,6 +46,10 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.use_transactional_fixtures = false
+
+  config.before(:all) do
+    WebMock.allow_net_connect!
+  end
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation

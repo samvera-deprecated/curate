@@ -1,0 +1,15 @@
+development: &development
+  url: http://localhost:3000/view/
+
+test: &test
+  <<: *development
+
+ci:
+  <<: *test
+
+pre_production:
+  url: http://repopurlpprd.library.nd.edu/view/
+
+production:
+  url: http://repository.library.nd.edu/view/
+

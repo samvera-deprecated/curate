@@ -55,6 +55,8 @@ module Dummy
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    config.application_url = "http://curate.github.io"
+
     config.default_antivirus_instance = lambda {|file_path|
       AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE
     }
