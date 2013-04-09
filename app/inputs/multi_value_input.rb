@@ -1,3 +1,4 @@
+require 'simple_form'
 class MultiValueInput < SimpleForm::Inputs::CollectionInput
   def input
     input_html_classes.unshift("string")
