@@ -2,8 +2,6 @@ CurateNd::Application.routes.draw do
   mount_roboto
 
   Blacklight.add_routes(self)
-  # HydraHead.add_routes(self)
-  # Hydra::BatchEdit.add_routes(self)
 
   devise_for :users
 
@@ -18,15 +16,6 @@ CurateNd::Application.routes.draw do
 
   namespace :curation_concern, path: :concern do
     resources :senior_theses, except: :index
-    resources(
-      :generic_files,
-      only: [:new, :create],
-      path: 'container/:parent_id/generic_files'
-    )
-    resources(
-      :generic_files,
-      only: [:show, :edit, :update, :destroy]
-    )
   end
 
   resources :terms_of_service_agreements, only: [:new, :create]
