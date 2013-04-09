@@ -20,6 +20,7 @@ PATH
       mini_magick
       morphine
       rails (= 3.2.11)
+      roboto
       simple_form
       solrizer (~> 2)
       sufia
@@ -482,7 +483,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_attr
   bootstrap-datepicker-rails
   bootstrap-sass (~> 2.2.0)
   browser
@@ -501,20 +501,17 @@ DEPENDENCIES
   factory_girl_rails
   jettywrapper
   jquery-rails
-  method_decorators
   method_locator
   morphine
   mysql2
   rails_best_practices
   rake
   resque-pool
-  roboto
   rsolr!
   rspec-html-matchers
   rspec-rails
   sass-rails (~> 3.2.3)
   sextant
-  simple_form
   simplecov
   sufia!
   therubyracer

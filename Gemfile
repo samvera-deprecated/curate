@@ -18,15 +18,11 @@ group :default do
   gem "unicode", :platforms => [:mri_18, :mri_19]
   gem "devise"
   gem "devise-guests", "~> 0.3"
-  gem 'simple_form'
-  gem 'roboto'
-  gem 'active_attr'
   gem 'browser'
   # Need rubyracer to run integration tests.....really?!?
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
   gem 'bootstrap-datepicker-rails'
-  gem 'method_decorators'
 end
 
 group :headless do
