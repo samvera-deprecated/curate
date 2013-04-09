@@ -10,6 +10,7 @@ end
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
 require 'rspec/rails'
+require 'rspec-html-matchers'
 require 'rspec/autorun'
 require 'database_cleaner'
 require 'factory_girl'
