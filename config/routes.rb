@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
+  # devise_for :users
+
   mount_roboto
 
   Blacklight.add_routes(self)
-
-  devise_for :users
 
   resources 'dashboard', :only=>:index do
     collection do

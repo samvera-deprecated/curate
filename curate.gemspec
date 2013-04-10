@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'bootstrap-datepicker-rails'
   s.add_dependency 'method_decorators'
   s.add_dependency 'devise'
+  s.add_dependency "devise-guests", "~> 0.3"
   s.add_dependency 'roboto'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency "mysql2"

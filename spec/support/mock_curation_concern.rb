@@ -1,5 +1,13 @@
 class MockCurationConcern < ActiveFedora::Base
+  include Hydra::ModelMixins::CommonMetadata
+  include Sufia::ModelMethods
+  include Sufia::Noid
+  include Sufia::GenericFile::Permissions
+  include CurationConcern::Embargoable
   include CurationConcern::WithAccessRight
+
+  has_metadata name: "properties", type: PropertiesDatastream, control_group: 'M'
+  delegate_to :properties, [:relative_path, :depositor], unique: true
 
   has_many :generic_files, property: :is_part_of
 
@@ -13,5 +21,10 @@ class MockCurationConcern < ActiveFedora::Base
   end
   def to_param
     pid.split(':').last
+  end
+
+  # This is metadata that should be used for the DOI
+  def identifier
+    to_param
   end
 end

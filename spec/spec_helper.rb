@@ -45,6 +45,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
+  config.include Devise::TestHelpers, type: :controller
+
   config.use_transactional_fixtures = false
 
   config.before(:all) do

@@ -1,4 +1,8 @@
 require Sufia::Engine.root.join('app/models/generic_file')
+require File.expand_path("../curation_concern/with_access_right", __FILE__)
+require File.expand_path("../curation_concern/embargoable", __FILE__)
+require File.expand_path("../../repository_datastreams/file_content_datastream", __FILE__)
+
 class GenericFile
   include CurationConcern::WithAccessRight
   include CurationConcern::Embargoable

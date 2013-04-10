@@ -1,3 +1,4 @@
+require File.expand_path('../../../validators/future_date_validator', __FILE__)
 module CurationConcern
   module Embargoable
     extend ActiveSupport::Concern

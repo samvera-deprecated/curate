@@ -16,7 +16,7 @@ describe ClassifyConcern do
     end
   end
 
-  describe 'with curation_concern_type: "SeniorThesis"' do
+  describe 'with curation_concern_type: "MockCurationConcern"' do
     let(:curation_concern_type) { "MockCurationConcern" }
 
     it 'is valid if curation_concern_type is from the right list' do

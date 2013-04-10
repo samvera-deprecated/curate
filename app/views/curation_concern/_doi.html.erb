@@ -1,0 +1,43 @@
+<%- if curation_concern.identifier.present? -%>
+  <%# Please forgive this questionably semantic markup -- it should just _look_ the same as a legend/fieldset %>
+  <fieldset>
+    <legend>Digital Object Identifier</legend>
+    <p>
+      This
+      <%= classify_for_display(curation_concern) %>
+      has a <abbr title="Digital Object Identifier">DOI</abbr>.
+    </p>
+    <p class="doi centered">
+      <%# TODO: Include a link to the _actual_ DOI. %>
+      <a href="<%= curation_concern.doi_url %>"><%= curation_concern.doi_url %></a>
+    </p>
+    <p>
+      This <abbr title="Digital Object Identifier">DOI</abbr> link is the best way for others to cite your work.
+    </p>
+  </fieldset>
+<%- else -%>
+  <fieldset class="promote promote-doi">
+    <legend>
+      Assign a Digital Object Identifier (DOI)
+    </legend>
+
+    <p>
+      A <abbr title="Digital Object Identifier">DOI</abbr> is a permanent link to your
+      <%= classify_for_display(curation_concern) %>.
+      It's an easy way for other people to cite your work.
+    </p>
+    <p>
+      Want more information on <abbr title="Digital Object Identifier">DOI</abbr>s?
+      Here's a <a href="http://simple.wikipedia.org/wiki/Doi" target="_blank">brief summary</a> and the <a href="http://www.doi.org/faq.html" target="_blank">DOI FAQ</a>.
+    </p>
+
+    <%= f.label :assign_doi, class: 'label label-success label-large label-checkbox' do %>
+      <%= f.check_box :assign_doi %>
+      <span class="label-text">
+        Yes, I would like to assign this
+        <%= classify_for_display(curation_concern) %>
+        a <abbr title="Digital Object Identifier">DOI</abbr>.
+      </span>
+    <% end %>
+  </fieldset>
+<%- end -%>

@@ -1,0 +1,24 @@
+<% content_for :page_header do %>
+
+<h2>What are you uploading?</h2>
+<p>Before we can begin we need to know a little about what you're uploading.</p>
+
+<% end %>
+
+<%= simple_form_for classify_concern do |f| %>
+  <fieldset>
+    <legend>Describe Your Files</legend>
+
+    <%= f.input :curation_concern_type,
+                as: :select,
+                collection: classify_concern.possible_curation_concern_types,
+                label: "What are you uploading?"
+    %>
+
+    <div class="form-actions">
+      <%= f.submit('Continue', class: "btn btn-primary") %>
+      <%= link_to 'Cancel', dashboard_index_path, class: "btn btn-link" %>
+    </div>
+
+  </fieldset>
+<% end %>

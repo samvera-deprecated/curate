@@ -1,0 +1,30 @@
+<nav class="container page-actions">
+  <div class="row">
+    <div class="span12 action-bar">
+      <ul class="nav nav-pills" role="menu">
+      <% if current_user %>
+        <%= bootstrap_navigation_element 'Dashboard',     dashboard_index_path -%>
+        <%= bootstrap_navigation_element 'Upload a file', new_classify_concern_path -%>
+        <%= bootstrap_navigation_element 'Search',        catalog_index_path   -%>
+        <li class="pull-right">
+          <%= link_to 'Log Out', destroy_user_session_path %>
+        </li>
+        <% if current_page? new_help_request_path %>
+          <li class="pull-right disabled">
+            <%= link_to 'Request Help', '#' %>
+          </li>
+        <% else %>
+          <li class="pull-right">
+            <%= link_to 'Request Help', new_help_request_path, class: 'request-help' %>
+          </li>
+        <% end %>
+      <% else %>
+        <%= bootstrap_navigation_element 'Search',        catalog_index_path   -%>
+        <li class="pull-right">
+          <%= link_to 'Log In', new_user_session_path %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

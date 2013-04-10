@@ -1,0 +1,88 @@
+<%= simple_form_for [:curation_concern, curation_concern] do |f| %>
+  <% if f.error_notification -%>
+    <div class="alert alert-error fade in">
+      <strong>Wait don't go!</strong> There was a problem with your submission. Please review the errors below:
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+    </div>
+  <% end -%>
+
+  <div class="row">
+
+    <div class="span6">
+      <fieldset class="required">
+        <legend>Required Information</legend>
+
+        <%= f.input :title,
+                    input_html: { class: 'input-xlarge' }
+        %>
+
+        <%= f.input :description,
+                    as: :text,
+                    hint: 'Please keep your abstract to 300 words or less.',
+                    input_html: {
+                      class: 'input-xxxlarge',
+                      rows: '14'
+                    },
+                    label: 'Abstract'
+        %>
+      </fieldset>
+    </div>
+
+    <div class="span6">
+      <fieldset class="optional prompt">
+        <legend>Additional Information</legend>
+        <%= f.input :contributor,            as: :multi_value, input_html: { class: 'input-xlarge' }, hint: 'Be sure to add your name because <em>you</em> are a contributor to your own thesis.'.html_safe %>
+        <%= f.input :subject,                as: :multi_value, input_html: { class: 'input-xlarge' } %>
+        <%= f.input :publisher,              as: :multi_value, input_html: { class: 'input-xlarge' } %>
+        <%= f.input :bibliographic_citation, as: :multi_value, input_html: { class: 'input-xlarge' } %>
+        <%= f.input :source,                 as: :multi_value, input_html: { class: 'input-xlarge' } %>
+        <%= f.input :language,               as: :multi_value, input_html: { class: 'input-xlarge' } %>
+      </fieldset>
+    </div>
+
+  </div>
+
+  <% unless curation_concern.persisted? %>
+    <div class="row with-headroom">
+        <div class="span6">
+          <fieldset class="required">
+            <legend>
+              Attach Your Thesis
+              <small>A PDF copy is preferred.</small>
+            </legend>
+            <%= f.input :thesis_file,
+                        as: :file,
+                        label: 'Upload your thesis'
+            %>
+          </fieldset>
+        </div>
+    </div>
+  <% end %>
+
+  <div class="row with-headroom">
+    <div class="span6">
+      <%= render "/curation_concern/doi", curation_concern: curation_concern, f: f %>
+    </div>
+
+    <div class="span6">
+      <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
+    </div>
+  </div>
+
+  <div class="row with-headroom">
+    <div class="span6">
+      <%= render "/curation_concern/content_license", curation_concern: curation_concern, f: f %>
+    </div>
+  </div>
+
+  <%= render '/curation_concern/contributor_agreement', curation_concern: curation_concern, contributor_agreement: contributor_agreement %>
+
+  <div class="row">
+    <div class="span12 form-actions">
+      <%= f.submit class: 'btn btn-primary' %>
+      <%= f.submit value: save_and_add_related_files_submit_value, class: 'btn btn-primary' %>
+      <%= link_to 'Cancel', dashboard_index_path, class: 'btn btn-link' %>
+    </div>
+  </div>
+
+<% end %>
