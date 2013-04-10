@@ -15,6 +15,7 @@ PATH
       bootstrap-datepicker-rails
       devise
       devise
+      devise-guests (~> 0.3)
       hydra-head (~> 5.4.0)
       method_decorators
       mini_magick
