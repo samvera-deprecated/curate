@@ -1,4 +1,25 @@
 class MockCurationConcern < ActiveFedora::Base
+  class MetadataDatastream < ActiveFedora::NtriplesRDFDatastream
+  map_predicates do |map|
+    map.title(in: RDF::DC) do |index|
+      index.as :searchable, :displayable
+    end
+    map.created(in: RDF::DC)
+    map.creator(in: RDF::DC) do |index|
+      index.as :searchable, :facetable, :displayable
+    end
+    map.date_uploaded(to: "dateSubmitted", in: RDF::DC) do |index|
+      index.type :date
+      index.as :searchable, :displayable, :sortable
+    end
+    map.date_modified(to: "modified", in: RDF::DC) do |index|
+      index.type :date
+      index.as :searchable, :displayable, :sortable
+    end
+    map.part(:to => "hasPart", in: RDF::DC)
+
+  end
+end
   include Hydra::ModelMixins::CommonMetadata
   include Sufia::ModelMethods
   include Sufia::Noid
@@ -8,6 +29,20 @@ class MockCurationConcern < ActiveFedora::Base
 
   has_metadata name: "properties", type: PropertiesDatastream, control_group: 'M'
   delegate_to :properties, [:relative_path, :depositor], unique: true
+
+  has_metadata name: "descMetadata", type: MockCurationConcern::MetadataDatastream, control_group: 'M'
+
+  delegate_to(
+    :descMetadata,
+    [
+      :title,
+      :date_uploaded,
+      :date_modified,
+      :creator,
+      :identifier,
+    ],
+    unique: true
+  )
 
   has_many :generic_files, property: :is_part_of
 
@@ -23,8 +58,4 @@ class MockCurationConcern < ActiveFedora::Base
     pid.split(':').last
   end
 
-  # This is metadata that should be used for the DOI
-  def identifier
-    to_param
-  end
 end
