@@ -5,11 +5,14 @@ describe "User" do
   describe "Abilities" do
     subject { ability }
     let(:ability) { Ability.new(current_user) }
+    let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
     let(:mock_curation_concern) {
-      FactoryGirl.create(:mock_curation_concern, creating_user, visibility: AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE)
+      FactoryGirl.create_curation_concern(:mock_curation_concern, creating_user, { visibility: visibility })
     }
     let(:generic_file) {
-      FactoryGirl.create_generic_file(mock_curation_concern, creating_user)
+      FactoryGirl.create_generic_file(mock_curation_concern, creating_user) { |gf|
+        gf.visibility = visibility
+      }
     }
     let(:creating_user) { nil }
     let(:current_user) { nil }
