@@ -5,4 +5,9 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable
 
   def password; 'password'; end
+
+  def agree_to_terms_of_service!
+    update_column(:agreed_to_terms_of_service, true)
+  end
+
 end

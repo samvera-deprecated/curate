@@ -61,5 +61,6 @@ module Dummy
       AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE
     }
 
+    config.build_identifier = Time.now.strftime("%Y-%m-%d %H:%M:%S")
   end
 end
