@@ -7,18 +7,16 @@ describe CommonObjectsController do
   let(:another_user) { FactoryGirl.create(:user) }
   let(:visibility) { nil }
   let(:curation_concern) {
-    FactoryGirl.create_curation_concern(:mock_curation_concern, user, visibility: visibility)
+    FactoryGirl.create_generic_file(:mock_curation_concern, user) { |gf|
+      gf.visibility = visibility
+    }
   }
   describe '#show' do
     let(:template_for_success) { 'show' }
     describe '"Open Access" object' do
       let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
       it 'renders for unauthenticated person' do
-        begin
-          get :show, id: curation_concern.to_param
-        rescue Exception => e
-          require 'debugger'; debugger; true
-        end
+        get :show, id: curation_concern.to_param
         response.status.should == 200
         expect(response).to render_template(template_for_success)
       end
