@@ -15,7 +15,14 @@ module Curate
       end
     end
 
-    initializer "curate" do
+    config.action_dispatch.rescue_responses["ActionController::RoutingError"] = :not_found
+    config.action_dispatch.rescue_responses["ActiveFedora::ObjectNotFoundError"] = :not_found
+    config.action_dispatch.rescue_responses["ActiveFedora::ActiveObjectNotFoundError"] = :not_found
+    config.action_dispatch.rescue_responses["Hydra::AccessDenied"] = :unauthorized
+    config.action_dispatch.rescue_responses["CanCan::AccessDenied"] = :unauthorized
+    config.action_dispatch.rescue_responses["Rubydora::RecordNotFound"] = :not_found
+
+    initializer "curate" do |app|
       require File.expand_path('../../../app/repository_models/generic_file', __FILE__)
       require File.expand_path('../../../app/models/solr_document', __FILE__)
       # require File.expand_path('../../../app/workers/characterize_job', __FILE__)
