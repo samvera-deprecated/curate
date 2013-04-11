@@ -13,6 +13,7 @@ PATH
       active-fedora (~> 5.6.2)
       active_attr
       bootstrap-datepicker-rails
+      browser
       devise
       devise
       devise-guests (~> 0.3)
@@ -486,7 +487,6 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-datepicker-rails
   bootstrap-sass (~> 2.2.0)
-  browser
   capistrano
   capybara
   clamav
