@@ -67,13 +67,6 @@ module CurateNd
 
     config.exceptions_app = lambda { |env| ErrorsController.action(:show).call(env) }
 
-    config.action_dispatch.rescue_responses["ActionController::RoutingError"] = :not_found
-    config.action_dispatch.rescue_responses["ActiveFedora::ObjectNotFoundError"] = :not_found
-    config.action_dispatch.rescue_responses["ActiveFedora::ActiveObjectNotFoundError"] = :not_found
-    config.action_dispatch.rescue_responses["Hydra::AccessDenied"] = :unauthorized
-    config.action_dispatch.rescue_responses["CanCan::AccessDenied"] = :unauthorized
-    config.action_dispatch.rescue_responses["Rubydora::RecordNotFound"] = :not_found
-
     config.doi_url = "http://dx.doi.org/"
 
     config.build_identifier = begin
