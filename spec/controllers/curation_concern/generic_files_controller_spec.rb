@@ -4,9 +4,15 @@ describe CurationConcern::GenericFilesController do
   render_views
   let(:user) { FactoryGirl.create(:user) }
   let(:another_user) { FactoryGirl.create(:user) }
-  let(:parent) { FactoryGirl.create_curation_concern(:mock_curation_concern, user) }
+  let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+  let(:parent) {
+    FactoryGirl.create_curation_concern(:mock_curation_concern, user, {visibility: visibility})
+  }
   let(:file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false) }
-  let(:generic_file) { FactoryGirl.create_generic_file(parent, user) }
+  let(:generic_file) { FactoryGirl.create_generic_file(parent, user) {|gf|
+      gf.visibility = visibility
+    }
+  }
   let(:another_user) { FactoryGirl.create(:user) }
 
   describe '#new' do
