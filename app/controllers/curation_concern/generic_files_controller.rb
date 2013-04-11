@@ -2,9 +2,6 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   respond_to(:html)
 
   before_filter :parent
-  before_filter :curation_concern
-  load_and_authorize_resource :parent, class: "ActiveFedora::Base"
-
   def parent
     @parent ||=
     if params[:id]
@@ -19,6 +16,15 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
     Sufia::Noid.namespaceize(params[:parent_id])
   end
   protected :namespaced_parent_id
+
+  before_filter :authorize_edit_parent_rights!, except: [:show]
+  def authorize_edit_parent_rights!
+    authorize! :edit, parent
+  end
+  protected :authorize_edit_parent_rights!
+
+  before_filter :curation_concern
+  load_and_authorize_resource :curation_concern, class: "ActiveFedora::Base", except: [:new, :create]
 
   def curation_concern
     @curation_concern ||=
