@@ -17,7 +17,7 @@ class MockCurationConcern < ActiveFedora::Base
       index.as :searchable, :displayable, :sortable
     end
     map.part(:to => "hasPart", in: RDF::DC)
-
+    map.identifier({in: RDF::DC})
   end
 end
   include Hydra::ModelMixins::CommonMetadata
