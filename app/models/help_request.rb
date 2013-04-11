@@ -1,3 +1,4 @@
+require 'browser'
 class HelpRequest < ActiveRecord::Base
 
   attr_accessible(
