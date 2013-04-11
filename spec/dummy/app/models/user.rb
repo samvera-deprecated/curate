@@ -5,8 +5,4 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable
 
   def password; 'password'; end
-
-  def encrypted_password
-    password_digest(password)
-  end
 end

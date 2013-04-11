@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(:version => 20130408165026) do
   create_table "users", :force => true do |t|
     t.string   "email"
     t.boolean  "agreed_to_terms_of_service"
+    t.string   "encrypted_password"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
   end
