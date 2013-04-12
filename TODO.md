@@ -6,3 +6,6 @@
 * Inject build identifier
 * Inject User methods on application user
 * Exception handler is adding to the configuration
+* Inject in application.js the `//= curate` message
+* Remove brand-bar image
+* Remove reference to Hesburgh Library
