@@ -9,16 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require 'style/fonts'
+ *= require 'global-variables'
+ *= require 'curate'
  *= require_self
  */
-
-@import 'compass';
-@import 'global-variables';
-@import 'bootstrap';
-@import 'bootstrap-responsive';
-@import 'bootstrap-datepicker';
-@import 'blacklight/blacklight';
-@import 'layout/positioning';
-@import 'modules';
-@import 'style/theme';
-@import 'style/typography';
