@@ -5,3 +5,4 @@
 * Move the purl config into an application specific configuration
 * Inject build identifier
 * Inject User methods on application user
+* Exception handler is adding to the configuration
