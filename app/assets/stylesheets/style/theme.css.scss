@@ -1,0 +1,44 @@
+#brand-bar-wrapper {
+  background-color:$blueDark;
+  @include background-image(linear-gradient($blueDark, #07366C 85%, #001834));
+  border-bottom:1px solid #001834;
+
+  h2 a, h3 a {
+    color:#FFF;
+  }
+
+  .division {
+    float:right;
+  }
+}
+
+#title-bar-wrapper {
+  background-color:$yellow;
+  @include background-image(linear-gradient(#F5E59E, $yellow 98%, #9C7012));
+  border-top:1px solid #FFF;
+  margin-bottom:.3em;
+
+  h1 {
+    color:$blue;
+    @include text-shadow(#FFF 0 0 1px)
+
+  }
+
+  a:visited {
+    color:$blue;
+  }
+
+  .site-search {
+    float:right;
+  }
+}
+
+#main {
+  h1,h2,h3,h4,h5,h6 {
+    color:$blue;
+  }
+}
+
+#footer {
+  color:#999;
+}

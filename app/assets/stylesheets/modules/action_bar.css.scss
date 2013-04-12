@@ -1,0 +1,14 @@
+.action-bar {
+  border-bottom:1px solid $dropdownDividerTop;
+  padding-bottom:.25em;
+
+  .nav-pills {
+    margin-bottom:0;
+  }
+
+  a,
+  a:hover,
+  a:visited {
+    color: $blue;
+  }
+}
