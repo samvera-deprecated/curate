@@ -1,5 +1,5 @@
 # UI & UX Refinements
-- When you log in you should be sent to your Dashboard with ONE EXCEPTION
+- When you log in you should be sent to your Dashboard with ONE EXCEPTION [IDR-144]
   - When you log in for the FIRST time you should be sent to the "Upload a File" page
 - Alternative link styles should be kept consistent throughout the site
   - Buttons as links are preferred (btn-link)
