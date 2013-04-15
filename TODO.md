@@ -1,0 +1,58 @@
+# UI & UX Refinements
+- When you log in you should be sent to your Dashboard with ONE EXCEPTION
+  - When you log in for the FIRST time you should be sent to the "Upload a File" page
+- Alternative link styles should be kept consistent throughout the site
+  - Buttons as links are preferred (btn-link)
+  - Having a red :active and/or :hover state would be a nice touch
+  - Text _inbetween_ buttons like "or" should _always_ be there or _never_ be there (DBH votes for never)
+- Multi-field input needs a little TLC
+  - Return capture does not work as expected once there is more than one field
+    - Given that the focus is on the new field when you press enter it should trigger the "add" action
+    - Given that the focus is an existing, repeating field when you press enter it should trigger the "remove" action
+  - After the "add" action the focus should change back to the blank field
+  - The "add" button should be separated from the first field -- there should be a 2em (or so) gap between them
+  - The "add" button should have a .disabled class until a valid entry is present
+  - The "add" button should not function until a valid entry is present -- in this case not null
+  - The input field should have placeholder text with an example of the desired input formatting
+  - There needs to be an audit of the "additional fields" -- examine _why_ each one is there and find an example for the placeholder text
+    - Should "publisher" be there?
+    - What do we mean by "citation"; shouldn't that field be bigger?
+- Senior Thesis submission form need some UX refinements
+  - Keep the required information on the left and optional content on the right
+    - An abstract should be a required field
+    - A DOI is optional therefore it should be on the right. Swap it with access controls which are required.
+  - Upload a file is not required, but the field goes away on "edit" -- is this what we want?
+    - Is there a way to indicate "This file is my actual thesis" ?
+    - If the file upload box is _supposed_ to go away there should be a note and a link to where you can manage Senior Thesis files
+  - The "I agree" check box to the legal termes should be more prominent
+  - On "create" you should be sent back to the dashboard
+  - On "update" you should be sent back to the Senior Thesis record view
+  - Indicating required fields needs additional clarity
+    - The `*` that indicates a required field is not sufficiently prominent (make it bigger, maybe change the color)
+    - Make the value of the tool tip display as "Required" (or something even more helpful) rather than "required"
+    - Position the star such that the label text is aligned with the start of the corresponding field
+    - Remove the underline: `.control-label abbr {border-bottom:none;}`
+- Senior Thesis show view needs UX and UI refinements
+  - Remove the "Back to Dashboard" button
+  - The file listing needs some additional clarity
+    - Split attributes and file listing into different rows
+    - Inset the file listing into the Senior Thesis context -- from "span12" to "span10 offset1"
+    - The filename should like to the edit view of the file
+    - The "Visibility" of a file should _not_ link to the edit view but _should_ have a tooltip or modal with an explanation of the visibility options
+    - Move the "Attach a File" Action from the Senior Thesis form actions to the bottom of the file listing -- like in a `tfoot`
+  - The title text should have a link to the edit form
+  - Text rendering for abstracts needs to be improved
+    - The abstract should either be split into two columns or made a single column with significant padding (optimal column width is something around 2 alphabets long)
+    - Line breaks are not honored -- maybe the best thing is to switch to a markdown parser with a tag whitelist
+  - Add and action that links to the "show" view for the Senior Thesis -- something like "View as a member of the Public" (although that isn't _quite_ right)
+- Generic File show view needs some UX refinements
+  - It should show what collections contain this file (like the Senior Thesis)
+  - It should have a link to view/download the file contents
+  - It should have an action to "View as a member of the Public" or similar (like the Senior Thesis)
+- Generic File versioning is confusing
+  - Be able to view each version _before_ selecting it (The current process is select a previous version, update the Generic File, and go somewhere (where?) to download the file)
+  - A select box may not be appropriate -- radio button list?
+- All non-category pages (e.g. Dashboard, Upload a File, Search) should have a breadcrumb below the action bar
+  - Our application _assumes_ that each Generic File will belong to one Senior Thesis -- use _that_ senior thesis as the breadcrumb value
+- Search Box padding doesn't work right in Firefox 20 for Mac (possibly a border-box issue)
+- The "current URL" value in the help dialog box is not being populated properly
