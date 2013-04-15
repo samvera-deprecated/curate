@@ -2,8 +2,8 @@
 - When you log in you should be sent to your Dashboard with ONE EXCEPTION [IDR-144]
   - When you log in for the FIRST time you should be sent to the "Upload a File" page
 - Alternative link styles should be kept consistent throughout the site
-  - Buttons as links are preferred (btn-link)
-  - Having a red :active and/or :hover state would be a nice touch
+  - Buttons as links are preferred (`.btn-link`)
+  - Having a red `:active` and/or `:hover` state would be a nice touch
   - Text _inbetween_ buttons like "or" should _always_ be there or _never_ be there (DBH votes for never)
 - Multi-field input needs a little TLC
   - Return capture does not work as expected once there is more than one field
@@ -11,7 +11,7 @@
     - Given that the focus is an existing, repeating field when you press enter it should trigger the "remove" action
   - After the "add" action the focus should change back to the blank field
   - The "add" button should be separated from the first field -- there should be a 2em (or so) gap between them
-  - The "add" button should have a .disabled class until a valid entry is present
+  - The "add" button should have a `.disabled` class until a valid entry is present
   - The "add" button should not function until a valid entry is present -- in this case not null
   - The input field should have placeholder text with an example of the desired input formatting
   - There needs to be an audit of the "additional fields" -- examine _why_ each one is there and find an example for the placeholder text
@@ -40,7 +40,7 @@
     - Inset the file listing into the Senior Thesis context -- from "span12" to "span10 offset1"
     - The filename should like to the edit view of the file
     - The "Visibility" of a file should _not_ link to the edit view but _should_ have a tooltip or modal with an explanation of the visibility options
-    - Move the "Attach a File" Action from the Senior Thesis form actions to the bottom of the file listing -- like in a `tfoot`
+    - Move the "Attach a File" Action from the Senior Thesis form actions to the bottom of the file listing -- like in a `<tfoot>`
   - The title text should have a link to the edit form
   - Text rendering for abstracts needs to be improved
     - The abstract should either be split into two columns or made a single column with significant padding (optimal column width is something around 2 alphabets long)
