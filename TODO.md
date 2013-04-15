@@ -1,7 +1,7 @@
 # UI & UX Refinements
 - When you log in you should be sent to your Dashboard with ONE EXCEPTION [IDR-144]
   - When you log in for the FIRST time you should be sent to the "Upload a File" page
-- Alternative link styles should be kept consistent throughout the site
+- Alternative link styles should be kept consistent throughout the site [IDR-145]
   - Buttons as links are preferred (btn-link)
   - Having a red :active and/or :hover state would be a nice touch
   - Text _inbetween_ buttons like "or" should _always_ be there or _never_ be there (DBH votes for never)
