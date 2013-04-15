@@ -32,6 +32,7 @@
     - Make the value of the tool tip display as "Required" (or something even more helpful) rather than "required"
     - Position the star such that the label text is aligned with the start of the corresponding field
     - Remove the underline: `.control-label abbr {border-bottom:none;}`
+  - "Update Senior thesis" and "Update and Add Related Files..." both do the same thing
 - Senior Thesis show view needs UX and UI refinements
   - Remove the "Back to Dashboard" button
   - The file listing needs some additional clarity
