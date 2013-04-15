@@ -17,6 +17,9 @@ class MockCurationConcern < ActiveFedora::Base
         index.as :searchable, :displayable, :sortable
       end
       map.part(:to => "hasPart", in: RDF::DC)
+      map.archived_object_type({in: RDF::DC, to: 'type'}) do |index|
+        index.as :searchable, :displayable, :facetable
+      end
       map.identifier({in: RDF::DC})
     end
   end
@@ -38,6 +41,7 @@ class MockCurationConcern < ActiveFedora::Base
       :date_modified,
       :creator,
       :identifier,
+      :archived_object_type,
     ],
     unique: true
   )
@@ -48,5 +52,6 @@ class MockCurationConcern < ActiveFedora::Base
   def after_destroy_cleanup
     generic_files.each(&:destroy)
   end
+
 
 end
