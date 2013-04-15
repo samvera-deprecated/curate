@@ -10,11 +10,16 @@ module CurationConcern
 
       has_metadata name: "properties", type: PropertiesDatastream, control_group: 'M'
       delegate_to :properties, [:relative_path, :depositor], unique: true
-      before_save {|obj| obj.archived_object_type = self.human_readable_type }
+      delegate_to :descMetadata, [:archived_object_type], unique: true
+      before_save :set_archived_object_type
     end
 
     def human_readable_type
       self.class.to_s.demodulize.titleize
+    end
+
+    def set_archived_object_type
+      self.archived_object_type = human_readable_type
     end
 
     def to_solr(solr_doc={}, opts={})
