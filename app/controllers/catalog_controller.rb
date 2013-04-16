@@ -27,6 +27,8 @@ class CatalogController < ApplicationController
   include Hydra::Controller::ControllerBehavior
   include BlacklightAdvancedSearch::ParseBasicQ
 
+  add_breadcrumb 'Search', lambda {|controller| controller.request.path }
+
   layout 'curate_nd/catalog'
 
   # These before_filters apply the hydra access controls

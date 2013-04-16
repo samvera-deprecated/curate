@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
   s.add_dependency "devise-guests", "~> 0.3"
   s.add_dependency 'roboto'
   s.add_dependency 'browser'
+  s.add_dependency 'breadcrumbs_on_rails'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency "mysql2"
   s.add_development_dependency "rspec-rails"

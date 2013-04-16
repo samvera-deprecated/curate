@@ -4,6 +4,8 @@ class HelpRequestsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :agreed_to_terms_of_service!
 
+  add_breadcrumb 'Help Request', lambda {|controller| controller.request.path }
+
   respond_to(:html)
   def help_request
     @help_request ||= build_help_request

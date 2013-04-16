@@ -4,6 +4,8 @@ class ClassifyConcernsController < ApplicationController
   layout 'curate_nd/2_column'
   respond_to :html
 
+  add_breadcrumb 'Upload a file', lambda {|controller| controller.request.path }
+
   def classify_concern
     @classify_concern ||= ClassifyConcern.new(params[:classify_concern])
   end

@@ -1,4 +1,5 @@
 require File.expand_path("../../helpers/application_helper", __FILE__)
+require 'breadcrumbs_on_rails'
 class ApplicationController < ActionController::Base
   # Adds a few additional behaviors into the application controller
   include Blacklight::Controller
@@ -6,6 +7,11 @@ class ApplicationController < ActionController::Base
   include Hydra::Controller::ControllerBehavior
   # Adds Sufia behaviors into the application controller
   include Sufia::Controller
+
+  include BreadcrumbsOnRails::ActionController
+  add_breadcrumb "Dashboard", :dashboard_index_path
+
+
 
   # Please be sure to impelement current_user and user_session. Blacklight depends on
   # these methods in order to perform user specific actions.
