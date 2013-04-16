@@ -35,6 +35,34 @@ describe 'end to end behavior', describe_options do
   let(:updated_title) { "#{prefix} Another Not Quite" }
   let(:updated_file_path) { Rails.root.join('app/controllers/application_controller.rb').to_s }
 
+  def assert_breadcrumb_trail(page, *breadcrumbs)
+    page.assert_selector('.breadcrumb li', count: breadcrumbs.length)
+    within('.breadcrumb') do
+      breadcrumbs.each do |text, path|
+        if String(path).empty?
+          page.has_css?('li', text: text)
+        else
+          page.has_css?("li a[href='#{path}']", text: text)
+        end
+      end
+    end
+  end
+
+  describe 'breadcrumb' do
+    let(:agreed_to_terms_of_service) { true }
+    it 'renders a breadcrumb' do
+      login_as(user)
+      visit('/')
+      click_link('Get Started')
+      assert_breadcrumb_trail(page, ["Dashboard", '/dashboard'], ["What are you uploading?", nil])
+
+      visit('/concern/mock_curation_concerns/new')
+      assert_breadcrumb_trail(page, ["Dashboard", '/dashboard'], ['New Mock Curation Concern', nil])
+    end
+  end
+
+
+
   describe 'terms of service' do
     let(:agreed_to_terms_of_service) { false }
     it "only requires me to agree once" do
@@ -61,13 +89,13 @@ describe 'end to end behavior', describe_options do
       page.should have_content("What are you uploading?")
     end
 
-    it "allows me to directly create a senior thesis" do
+    it "allows me to directly create a mock curation concern" do
       login_as(user)
       visit('/concern/mock_curation_concerns/new')
       page.assert_selector('.main-header h2', "Describe Your Thesis")
     end
 
-    it 'remembers senior thesis inputs when data was invalid' do
+    it 'remembers mock curation concern inputs when data was invalid' do
       login_as(user)
       visit('/concern/mock_curation_concerns/new')
       create_mock_curation_concern(

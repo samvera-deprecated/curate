@@ -6,25 +6,20 @@
         <%= bootstrap_navigation_element 'Dashboard',     dashboard_index_path -%>
         <%= bootstrap_navigation_element 'Upload a file', new_classify_concern_path -%>
         <%= bootstrap_navigation_element 'Search',        catalog_index_path   -%>
-        <li class="pull-right">
-          <%= link_to 'Log Out', destroy_user_session_path %>
-        </li>
-        <% if current_page? new_help_request_path %>
-          <li class="pull-right disabled">
-            <%= link_to 'Request Help', '#' %>
-          </li>
-        <% else %>
-          <li class="pull-right">
-            <%= link_to 'Request Help', new_help_request_path, class: 'request-help' %>
-          </li>
-        <% end %>
+        <%= bootstrap_navigation_element 'Log Out', destroy_user_session_path, class: 'pull-right' %>
+        <%= bootstrap_navigation_element 'Request Help', new_help_request_path, class: 'pull-right', a_tag_options: {class: 'request-help'} %>
       <% else %>
         <%= bootstrap_navigation_element 'Search',        catalog_index_path   -%>
-        <li class="pull-right">
-          <%= link_to 'Log In', new_user_session_path %>
-        </li>
+        <%= bootstrap_navigation_element 'Log In', new_user_session_path, class: 'pull-right' %>
       <% end %>
       </ul>
     </div>
   </div>
 </nav>
+<div class="container">
+  <div class="row">
+    <div class="span12 page-breadcrumbs">
+      <%= render_breadcrumbs :builder => ::BootstrapBreadcrumbsBuilder, :separator => "&raquo;" %>
+    </div>
+  </div>
+</div>

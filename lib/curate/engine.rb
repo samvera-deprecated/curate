@@ -11,6 +11,7 @@ module Curate
         super_paths.add "app/workers", eager_load: true
         super_paths.add "app/inputs", eager_load: true
         super_paths.add "app/mailers", eager_load: true
+        super_paths.add "app/builders", eager_load: true
         super_paths
       end
     end
@@ -42,10 +43,12 @@ module Curate
       require File.expand_path('../../../app/controllers/application_controller', __FILE__)
       require File.expand_path('../../../app/controllers/downloads_controller', __FILE__)
       require File.expand_path('../../../app/controllers/errors_controller', __FILE__)
+      require File.expand_path('../../../app/builders/bootstrap_breadcrumbs_builder', __FILE__)
       require File.expand_path('../../../app/controllers/dashboard_controller', __FILE__)
       require File.expand_path('../../../app/services/curation_concern', __FILE__)
 
       require File.expand_path('../../../app/helpers/blacklight_helper', __FILE__)
+      require File.expand_path('../../../app/services/curation_concern', __FILE__)
 
     end
   end
