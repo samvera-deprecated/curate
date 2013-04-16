@@ -5,7 +5,7 @@
   - Buttons as links are preferred (`.btn-link`)
   - Having a red `:active` and/or `:hover` state would be a nice touch
   - Text _inbetween_ buttons like "or" should _always_ be there or _never_ be there (DBH votes for never)
-- Multi-field input needs a little TLC
+- Multi-field input needs a little TLC [IDR-146]
   - Return capture does not work as expected once there is more than one field
     - Given that the focus is on the new field when you press enter it should trigger the "add" action
     - Given that the focus is an existing, repeating field when you press enter it should trigger the "remove" action
@@ -17,7 +17,7 @@
   - There needs to be an audit of the "additional fields" -- examine _why_ each one is there and find an example for the placeholder text
     - Should "publisher" be there?
     - What do we mean by "citation"; shouldn't that field be bigger?
-- Senior Thesis submission form need some UX refinements
+- Senior Thesis submission form need some UX refinements [IDR-147]
   - Keep the required information on the left and optional content on the right
     - An abstract should be a required field
     - A DOI is optional therefore it should be on the right. Swap it with access controls which are required.
@@ -33,7 +33,7 @@
     - Position the star such that the label text is aligned with the start of the corresponding field
     - Remove the underline: `.control-label abbr {border-bottom:none;}`
   - "Update Senior thesis" and "Update and Add Related Files..." both do the same thing
-- Senior Thesis show view needs UX and UI refinements
+- Senior Thesis show view needs UX and UI refinements [IDR-148]
   - Remove the "Back to Dashboard" button
   - The file listing needs some additional clarity
     - Split attributes and file listing into different rows
@@ -46,14 +46,15 @@
     - The abstract should either be split into two columns or made a single column with significant padding (optimal column width is something around 2 alphabets long)
     - Line breaks are not honored -- maybe the best thing is to switch to a markdown parser with a tag whitelist
   - Add and action that links to the "show" view for the Senior Thesis -- something like "View as a member of the Public" (although that isn't _quite_ right)
-- Generic File show view needs some UX refinements
+- Generic File show view needs some UX refinements [IDR-149]
   - It should show what collections contain this file (like the Senior Thesis)
   - It should have a link to view/download the file contents
   - It should have an action to "View as a member of the Public" or similar (like the Senior Thesis)
-- Generic File versioning is confusing
+- Generic File versioning is confusing [IDR-150]
+  - Generic File versioning should be a separate action, including it in the edit menu creates confusion (i.e. when I update the version and update a field value, which one takes precedence?)
   - Be able to view each version _before_ selecting it (The current process is select a previous version, update the Generic File, and go somewhere (where?) to download the file)
   - A select box may not be appropriate -- radio button list?
-- All non-category pages (e.g. Dashboard, Upload a File, Search) should have a breadcrumb below the action bar
+- All non-category pages (e.g. Dashboard, Upload a File, Search) should have a breadcrumb below the action bar [IDR-151]
   - Our application _assumes_ that each Generic File will belong to one Senior Thesis -- use _that_ senior thesis as the breadcrumb value
-- Search Box padding doesn't work right in Firefox 20 for Mac (possibly a border-box issue)
-- The "current URL" value in the help dialog box is not being populated properly
+- Search Box padding doesn't work right in Firefox 20 for Mac (possibly a border-box issue) [IDR-152]
+- The "current URL" value in the help dialog box is not being populated properly [IDR-153]
