@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
   s.add_dependency "devise-guests", "~> 0.3"
   s.add_dependency 'roboto'
   s.add_dependency 'browser'
+  s.add_dependency 'bootstrap-datepicker-rails'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency "mysql2"
   s.add_development_dependency "rspec-rails"
@@ -45,4 +46,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-html-matchers'
   s.add_development_dependency 'webmock'
   s.add_development_dependency 'capybara'
+  s.add_development_dependency 'selenium-webdriver'
+  s.add_development_dependency 'timecop'
 end

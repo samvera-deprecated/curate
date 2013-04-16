@@ -46,6 +46,8 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.include Devise::TestHelpers, type: :controller
+  config.include Warden::Test::Helpers, type: :feature
+  config.include FeatureSupport, type: :feature
 
   config.use_transactional_fixtures = false
 
