@@ -8,3 +8,4 @@ spec/dummy/.sass-cache
 Gemfile.lock
 .rvmrc
 vendor/cache
+.sass-cache
