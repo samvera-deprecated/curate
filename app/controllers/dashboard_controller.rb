@@ -27,6 +27,9 @@ class DashboardController < ApplicationController
   DashboardController.solr_search_params_logic += [:exclude_unwanted_models]
 
   def index
+    if first_time_login?
+      redirect_to new_classify_concern_path
+    end
     extra_head_content << view_context.auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss')), :title => "RSS for results")
     extra_head_content << view_context.auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom')), :title => "Atom for results")
     (@response, @document_list) = get_search_results
@@ -68,6 +71,14 @@ class DashboardController < ApplicationController
 
   def show_site_search?
     false
+  end
+
+  def first_time_login?
+    user_login_count > 1 ? false : true
+  end
+
+  def user_login_count
+    current_user.sign_in_count
   end
 
   protected
