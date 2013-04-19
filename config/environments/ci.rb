@@ -52,4 +52,10 @@ CurateNd::Application.configure do
     AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE
   }
 
+  if ENV['TRAVIS']
+    config.default_characterization_runner = lambda { |file_path|
+      Rails.root.join('spec/support/files/default_fits_output.xml').read
+    }
+  end
+
 end

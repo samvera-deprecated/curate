@@ -38,6 +38,7 @@ namespace :curatend do
     desc 'Run specs on travis'
     task :travis do
       ENV['RAILS_ENV'] = 'ci'
+      ENV['TRAVIS'] = true
       Rails.env = 'ci'
       # Rake::Task['curatend:jetty:download'].invoke
       Rake::Task['curatend:jetty:init'].invoke
