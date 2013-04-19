@@ -14,7 +14,7 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
       unless value.to_s.strip.blank?
         markup << <<-HTML
           <li class="field-wrapper">
-            #{build_text_field(value)}
+            #{build_text_field(value, '')}
           </li>
         HTML
       end
@@ -22,7 +22,7 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
 
     markup << <<-HTML
           <li class="field-wrapper">
-            #{build_text_field('')}
+            #{build_text_field('', 'add')}
           </li>
         </ul>
 
@@ -53,10 +53,10 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
     label_html_options[:class].map{|c| c.to_s}.join(' ')
   end
 
-  def build_text_field(value)
+  def build_text_field(value, append_to_id)
     input_html_options[:value] = value
-    input_html_options[:id] = nil
-    input_html_options[:class] = "#{object_name}_#{attribute_name}"
+    input_html_options[:id] = append_to_id.blank? ? "#{attribute_name}" : "#{attribute_name}_#{append_to_id}"
+    input_html_options[:class] = "#{object_name}_#{attribute_name} multi-text-field"
     input_html_options[:'aria-labelledby'] = label_id
     @builder.text_field(attribute_name, input_html_options)
   end
