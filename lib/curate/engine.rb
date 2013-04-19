@@ -15,6 +15,8 @@ module Curate
       end
     end
 
+    autoload :CatalogController, File.expand_path('../../../app/controllers/catalog_controller', __FILE__)
+
     config.action_dispatch.rescue_responses["ActionController::RoutingError"] = :not_found
     config.action_dispatch.rescue_responses["ActiveFedora::ObjectNotFoundError"] = :not_found
     config.action_dispatch.rescue_responses["ActiveFedora::ActiveObjectNotFoundError"] = :not_found
@@ -40,8 +42,8 @@ module Curate
       require File.expand_path('../../../app/controllers/application_controller', __FILE__)
       require File.expand_path('../../../app/controllers/downloads_controller', __FILE__)
       require File.expand_path('../../../app/controllers/errors_controller', __FILE__)
-      require File.expand_path('../../../app/controllers/catalog_controller', __FILE__)
       require File.expand_path('../../../app/controllers/dashboard_controller', __FILE__)
+      require File.expand_path('../../../app/services/curation_concern', __FILE__)
 
       require File.expand_path('../../../app/helpers/blacklight_helper', __FILE__)
 

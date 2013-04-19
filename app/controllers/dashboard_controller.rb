@@ -1,5 +1,4 @@
 require 'blacklight/catalog'
-require File.expand_path("../catalog_controller", __FILE__)
 class DashboardController < ApplicationController
   include Hydra::BatchEditBehavior
   include Blacklight::Catalog
