@@ -2,6 +2,8 @@ class TermsOfServiceAgreementsController < ApplicationController
   before_filter :authenticate_user!
   respond_to(:html)
 
+  add_breadcrumb 'Terms of Service', lambda {|controller| controller.request.path }
+
   layout 'curate_nd/1_column'
   def new
   end

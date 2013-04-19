@@ -42,20 +42,18 @@ module ApplicationHelper
     curation_concern.human_readable_type.downcase
   end
 
-  def bootstrap_navigation_element(name, path)
-    markup = ""
-
+  def bootstrap_navigation_element(name, path, options = {})
+    a_tag_options = options.delete(:a_tag_options) || {}
+    path_to_use = path
     if current_page? path
-      markup = <<HTML
-<li class="disabled">#{link_to name, '#', tabindex: :'-1'}</li>
-HTML
-    else
-      markup = <<HTML
-<li>#{link_to name, path}</li>
-HTML
+      options[:class] ||= ''
+      options[:class] << ' active'
+      a_tag_options[:tabindex] ||= :'-1'
+      path_to_use = '#'
     end
-
-    markup.html_safe()
+    content_tag('li', options) {
+      link_to name, path_to_use, a_tag_options
+    }.html_safe
   end
 
   def link_to_edit_permissions(curation_concern, solr_document = nil)

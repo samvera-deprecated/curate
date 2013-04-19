@@ -1,5 +1,4 @@
 .action-bar {
-  border-bottom:1px solid $dropdownDividerTop;
   padding-bottom:.25em;
 
   .nav-pills {
@@ -11,4 +10,20 @@
   a:visited {
     color: $blue;
   }
+}
+
+.page-breadcrumbs {
+  border-bottom:1px solid $dropdownDividerTop;
+  padding-bottom:.25em;
+
+  .breadcrumb {
+    margin-bottom: 0;
+  }
+
+  a,
+  a:hover,
+  a:visited {
+    color: $blue;
+  }
+
 }

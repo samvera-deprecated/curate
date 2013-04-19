@@ -2,11 +2,18 @@ module CurationConcern
   module Model
     extend ActiveSupport::Concern
 
+    module ClassMethods
+      def human_readable_type
+        name.demodulize.titleize
+      end
+    end
+
     included do
       include Hydra::ModelMixins::CommonMetadata
       include Sufia::ModelMethods
       include Sufia::Noid
       include Sufia::GenericFile::Permissions
+      extend ClassMethods
 
       has_metadata name: "properties", type: PropertiesDatastream, control_group: 'M'
       delegate_to :properties, [:relative_path, :depositor], unique: true
@@ -15,7 +22,7 @@ module CurationConcern
     end
 
     def human_readable_type
-      self.class.to_s.demodulize.titleize
+      self.class.human_readable_type
     end
 
     def set_archived_object_type
