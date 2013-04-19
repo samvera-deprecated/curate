@@ -16,7 +16,7 @@
 
       this.controls = $("<span class=\"field-controls\">");
       this.remover  = $("<button class=\"btn btn-danger remove\"><i class=\"icon-white icon-minus\"></i><span>Remove</span></button>");
-      this.adder    = $("<button class=\"btn btn-success add\"><i class=\"icon-white icon-plus\"></i><span>Add</span></button>");
+      this.adder    = $("<button class=\"btn btn-success with-margin add\"><i class=\"icon-white icon-plus\"></i><span>Add</span></button>");
 
       $('.field-wrapper', this.element).append(this.controls);
       $('.field-wrapper:not(:last-child) .field-controls', this.element).append(this.remover);
@@ -35,16 +35,20 @@
           $activeFieldControls = $activeField.children('.field-controls'),
           $removeControl = this.remover.clone(),
           $newField = $activeField.clone(),
-          $listing = $('.listing', this.element);
-
-      $('.add', $activeFieldControls).remove();
-      $activeFieldControls.prepend($removeControl);
-
-      $newField.children('input').val('');
-      $newField.children('input').focus()
-      $listing.append($newField);
-
-      this._trigger("add");
+          $listing = $('.listing', this.element),
+          $warningSpan  = $("<span class=\'warning\'>cannot add new empty field</span>");
+      if ($activeField.children('input').val() == '') {
+          $listing.append($warningSpan);
+      }
+      else{
+        $listing.children('.warning').remove();
+        $('.add', $activeFieldControls).remove();
+        $activeFieldControls.prepend($removeControl);
+        $newField.children('input').val('');
+        $newField.children('input').focus()
+        $listing.append($newField);
+        this._trigger("add");
+      }
     },
 
     remove_from_list: function( event ) {
