@@ -41,6 +41,7 @@
       $activeFieldControls.prepend($removeControl);
 
       $newField.children('input').val('');
+      $newField.children('input').focus()
       $listing.append($newField);
 
       this._trigger("add");
