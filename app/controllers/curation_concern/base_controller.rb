@@ -1,5 +1,19 @@
 module CurationConcern
   class BaseController < ApplicationController
+    before_filter :attach_action_breadcrumb
+    def attach_action_breadcrumb
+      case action_name
+      when 'show'
+        add_breadcrumb curation_concern.human_readable_type, request.path
+      when 'new', 'create'
+        add_breadcrumb "New #{curation_concern.human_readable_type}", request.path
+      else
+        add_breadcrumb curation_concern.human_readable_type, polymorphic_path([:curation_concern, curation_concern])
+        add_breadcrumb action_name.titleize, request.path
+      end
+    end
+    protected :attach_action_breadcrumb
+
     layout 'curate_nd'
     include Sufia::Noid # for normalize_identifier method
 
@@ -22,5 +36,6 @@ module CurationConcern
       "#{verb_name} and Add Related Files..."
     end
     helper_method :save_and_add_related_files_submit_value
+
   end
 end
