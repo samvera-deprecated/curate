@@ -26,7 +26,13 @@ describe 'end to end behavior', describe_options do
       sign_in_count: sign_in_count
     )
   }
-  let(:another_user) { FactoryGirl.create(:user, agreed_to_terms_of_service: true) }
+  let(:another_user) {
+    FactoryGirl.create(
+      :user,
+      agreed_to_terms_of_service: true,
+      sign_in_count: sign_in_count
+    )
+  }
   let(:prefix) { Time.now.strftime("%Y-%m-%d-%H-%M-%S-%L") }
   let(:initial_title) { "#{prefix} Something Special" }
   let(:initial_file_path) { __FILE__ }
@@ -221,7 +227,7 @@ describe 'end to end behavior', describe_options do
 
   describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
-    let(:sign_in_count) { 1 }
+    let(:sign_in_count) { 2 }
     it "displays the terms of service page after authentication" do
       login_as(user)
       get_started
