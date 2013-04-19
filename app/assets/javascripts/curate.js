@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //
 //= require jquery-ui-1.9.2/jquery.ui.widget
+//= require jquery-ui-1.9.2/jquery.ui.core
 //
 //= require blacklight/blacklight
 //
@@ -31,7 +32,18 @@
 $(function(){
   $('abbr').tooltip();
 
-  $('.multi_value.control-group').manage_fields();
+  $('body').on('keypress', '.multi-text-field', function(event) {
+    var $activeField = $(event.target).parents('.field-wrapper'),
+        $activeFieldControls = $activeField.children('.field-controls'),
+        $addControl=$activeFieldControls.children('.add'),
+        $removeControl=$activeFieldControls.children('.remove');
+    if (event.keyCode == 13) {
+      event.preventDefault();
+      $addControl.click()
+      $removeControl.click()
+    }
+  });
+  $('.multi_value.control-group').manage_fields()
 
   $('.datepicker').datepicker({
     format: 'yyyy-mm-dd' });
