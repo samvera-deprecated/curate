@@ -42,22 +42,29 @@
 
   </div>
 
-  <% unless curation_concern.persisted? %>
-    <div class="row with-headroom">
-        <div class="span6">
-          <fieldset class="required">
-            <legend>
-              Attach Your Thesis
-              <small>A PDF copy is preferred.</small>
-            </legend>
-            <%= f.input :thesis_file,
-                        as: :file,
-                        label: 'Upload your thesis'
-            %>
-          </fieldset>
-        </div>
+  <div class="row with-headroom">
+    <div class="span6">
+      <% if curation_concern.persisted? %>
+        <fieldset class="required">
+          <legend>
+            Manage your thesis File
+          </legend>
+            <%= render '/curation_concern/manage_related_files', curation_concern: curation_concern, with_actions: true %>
+        </fieldset>
+      <% else %>
+        <fieldset class="required">
+          <legend>
+            Attach Your Thesis
+            <small>A PDF copy is preferred.</small>
+          </legend>
+          <%= f.input :thesis_file,
+                      as: :file,
+                      label: 'Upload your thesis'
+          %>
+        </fieldset>
+      <% end %>
     </div>
-  <% end %>
+  </div>
 
   <div class="row with-headroom">
     <div class="span6">
