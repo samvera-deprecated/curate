@@ -1,4 +1,5 @@
 require Curate::Engine.root.join('app/controllers/curation_concern/base_controller')
+require Curate::Engine.root.join('app/services/curation_concern')
 class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   respond_to(:html)
   layout 'curate_nd/1_column'
