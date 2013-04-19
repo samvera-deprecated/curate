@@ -14,7 +14,7 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
       unless value.to_s.strip.blank?
         markup << <<-HTML
           <li class="field-wrapper">
-            #{build_text_field(value)}
+            #{build_text_field(value, '')}
           </li>
         HTML
       end
