@@ -16,8 +16,8 @@ $(function(){
     $('#help-viewport').text(viewport);
     $('#help_request_view_port').val(viewport);
 
-    $('#help-url.unset').text(current_url);
-    $('#help_request_current_url.unset').val(current_url);
+    $('#help-url').text(current_url);
+    $('#help_request_current_url').val(current_url);
   }
   populateHelpForm();
 
