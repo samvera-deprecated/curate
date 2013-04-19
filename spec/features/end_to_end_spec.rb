@@ -20,7 +20,14 @@ describe 'end to end behavior', describe_options do
     Warden.test_reset!
     Resque.inline = @old_resque_inline_value
   end
-  let(:user) { FactoryGirl.create(:user, agreed_to_terms_of_service: agreed_to_terms_of_service) }
+  let(:sign_in_count) { 0 }
+  let(:user) {
+    FactoryGirl.create(
+      :user,
+      agreed_to_terms_of_service: agreed_to_terms_of_service,
+      sign_in_count: sign_in_count
+    )
+  }
   let(:another_user) { FactoryGirl.create(:user, agreed_to_terms_of_service: true) }
   let(:prefix) { Time.now.strftime("%Y-%m-%d-%H-%M-%S-%L") }
   let(:initial_title) { "#{prefix} Something Special" }
@@ -119,6 +126,7 @@ describe 'end to end behavior', describe_options do
 
   describe 'help request' do
     let(:agreed_to_terms_of_service) { true }
+    let(:sign_in_count) { 2 }
     # I want to test both JS mode and non-JS mode
     [true, false].each do |using_javascript|
       it "is available for users who are authenticated and agreed to ToS", js: using_javascript do
@@ -216,6 +224,7 @@ describe 'end to end behavior', describe_options do
 
   describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
+    let(:sign_in_count) { 20 }
     it "displays the terms of service page after authentication" do
       login_as(user)
       get_started
