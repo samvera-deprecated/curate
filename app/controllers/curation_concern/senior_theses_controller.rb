@@ -1,4 +1,5 @@
 require Curate::Engine.root.join('app/controllers/curation_concern/base_controller')
+require Curate::Engine.root.join('app/services/curation_concern')
 class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   respond_to(:html)
   layout 'curate_nd/1_column'
@@ -37,7 +38,7 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
         }
       end
     else
-      respond_with([:curation_concern, curation_concern])
+      redirect_to dashboard_index_path
     end
   end
   protected :respond_for_create
