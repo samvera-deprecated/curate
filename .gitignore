@@ -25,3 +25,5 @@ Vagrantfile
 coverage/
 .rvmrc
 rails_best_practice*
+.ruby-gemset
+.ruby-version
