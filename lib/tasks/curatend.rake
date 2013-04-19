@@ -31,29 +31,16 @@ namespace :curatend do
         system "rm -rf #{JETTY_DIR}"
       end
 
-      task :configure_solr do
-        cp('solr_conf/solr.xml', File.join(JETTY_DIR, 'solr/development-core'), verbose: true)
-        cp('solr_conf/solr.xml', File.join(JETTY_DIR, 'solr/test-core/'), verbose: true)
-        FileList['solr_conf/conf/*'].each do |f|
-          cp("#{f}", File.join(JETTY_DIR, 'solr/development-core/conf/'), :verbose => true)
-          cp("#{f}", File.join(JETTY_DIR, 'solr/test-core/conf/'), :verbose => true)
-        end
-      end
-
-      task :configure_fedora do
-        cp('fedora_conf/conf/development/fedora.fcfg', File.join(JETTY_DIR, 'fedora/default/server/config/'), verbose: true)
-        cp('fedora_conf/conf/test/fedora.fcfg', File.join(JETTY_DIR, 'fedora/test/server/config/'), verbose: true)
-      end
-
       desc 'Download the appropriate jetty instance and install it with proper configuration'
-      task :init => ["curatend:jetty:download", "curatend:jetty:clean", "curatend:jetty:unzip", "curatend:jetty:configure_solr", "curatend:jetty:configure_fedora"]
+      task :init => ["curatend:jetty:download", "curatend:jetty:clean", "curatend:jetty:unzip"]
     end
 
     desc 'Run specs on travis'
     task :travis do
       ENV['RAILS_ENV'] = 'ci'
       Rails.env = 'ci'
-      Rake::Task['curatend:jetty:init']
+      # Rake::Task['curatend:jetty:download'].invoke
+      Rake::Task['curatend:jetty:init'].invoke
 
       jetty_params = Jettywrapper.load_config
       error = Jettywrapper.wrap(jetty_params) do

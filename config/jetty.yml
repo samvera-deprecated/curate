@@ -1,6 +1,6 @@
 default: &DEFAULT
   jetty_port: 8983
-  jetty_home: <%= File.join(ENV['TEST_JETTY_PATH'] || File.join(Rails.root, '../hydra-jetty')) %>
+  jetty_home: <%= Rails.root.join('../hydra-jetty') %>
   startup_wait: 70
   java_opts:
     - "-XX:+CMSPermGenSweepingEnabled"
@@ -13,4 +13,4 @@ test: &TEST
 ci:
   <<: *TEST
   startup_wait: 75
-  jetty_home: <%= File.join(ENV['TEST_JETTY_PATH'] || Rails.root.join('jetty').to_s) %>
+  jetty_home: <%= Rails.root.join('jetty') %>
