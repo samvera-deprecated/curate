@@ -1,15 +1,13 @@
 <% curation_concern.generic_files.each do |generic_file| %>
-  <%- if can?(:edit, generic_file) -%>
-    <dl>
-      <dd>
-        <%= generic_file %>
-        <%= link_to(
-                    raw('<i class="icon-pencil icon-large"></i>'),
-                    edit_polymorphic_path([:curation_concern, generic_file]),
-                    :class=> 'itemicon itemedit',
-                    :title => "Edit #{generic_file}"
-            ) if can? :edit, generic_file %>
-      </dd>
-    </dl>
-  <%- end -%>
+  <dl>
+    <dd>
+      <%= generic_file %>
+      <%= link_to(
+                  raw('<i class="icon-pencil icon-large"></i>'),
+                  edit_polymorphic_path([:curation_concern, generic_file]),
+                  :class=> 'itemicon itemedit',
+                  :title => "Edit #{generic_file}"
+          ) if can? :edit, generic_file %>
+    </dd>
+  </dl>
 <% end %>
