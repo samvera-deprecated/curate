@@ -31,6 +31,7 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   end
 
   def respond_for_create
+    flash[:curation_concern_pid] = curation_concern.pid
     if params[:commit] == save_and_add_related_files_submit_value
       respond_to do |wants|
         wants.html {

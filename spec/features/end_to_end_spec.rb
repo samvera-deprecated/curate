@@ -39,6 +39,10 @@ describe 'end to end behavior', describe_options do
   let(:updated_title) { "#{prefix} Another Not Quite" }
   let(:updated_file_path) { Rails.root.join('app/controllers/application_controller.rb').to_s }
 
+  def follow_created_curation_concern_link!
+    find('.created_curation_concern').click
+  end
+
   describe 'terms of service' do
     let(:agreed_to_terms_of_service) { false }
     it "only requires me to agree once" do
@@ -58,98 +62,120 @@ describe 'end to end behavior', describe_options do
 
   describe 'with user who has already agreed to the terms of service' do
     let(:agreed_to_terms_of_service) { true }
-    it "displays the start uploading" do
-      login_as(user)
-      visit '/'
-      click_link "Get Started"
-      page.should have_content("What are you uploading?")
-    end
 
-    it "allows me to directly create a senior thesis" do
-      login_as(user)
-      visit('/concern/senior_theses/new')
-      page.assert_selector('.main-header h2', "Describe Your Thesis")
-    end
-
-    it 'remembers senior thesis inputs when data was invalid' do
-      login_as(user)
-      visit('/concern/senior_theses/new')
-      create_senior_thesis(
-        'Visibility' => 'Private',
-        'I Agree' => true,
-        'Title' => ''
-      )
-      page.assert_selector('.main-header h2', "Describe Your Thesis")
-      expect(page).to have_checked_field('visibility_restricted')
-      expect(page).to_not have_checked_field('visibility_open')
-    end
-
-    it "a public item with future embargo is not visible today but is in the future" do
-      embargo_release_date = 2.days.from_now
-      # Because the JS will transform an unexpected input entry to the real
-      # today (browser's date), and I want timecop to help
-      embargo_release_date_formatted = embargo_release_date.strftime("%Y-%m-%d")
-      login_as(user)
-      visit('/concern/senior_theses/new')
-      create_senior_thesis(
-        'Embargo Release Date' => embargo_release_date_formatted,
-        'Visibility' => 'Open Access',
-        'Contributors' => ['Dante'],
-        'I Agree' => true
-      )
-      page.assert_selector(
-        ".embargo_release_date.attribute",
-        text: embargo_release_date_formatted
-      )
-      page.assert_selector(
-        ".permission.attribute",
-        text: "Open Access"
-      )
-      noid = page.current_path.split("/").last
-      logout
-      visit("/show/#{noid}")
-
-      page.assert_selector('.contributor.attribute', text: 'Dante', count: 0)
-      page.assert_selector('h1', text: "Object Not Available")
-
-      # Seconds are weeks
-      begin
-        Timecop.scale(60*60*24*7)
-        sleep(1)
-      ensure
-        Timecop.scale(1)
+    describe 'having not signed in before' do
+      let(:sign_in_count) { 0 }
+      it "displays the start uploading" do
+        login_as(user)
+        visit '/'
+        click_link "Get Started"
+        page.should have_content("What are you uploading?")
       end
-      visit("/show/#{noid}")
-      expect(Time.now > embargo_release_date).to be_true
+    end
 
-      # With the embargo release date passed an anonymous user should be able
-      # to see it.
-      page.assert_selector('h1', text: "Object Not Available", count: 0)
+    describe 'having signed in before' do
+      let(:sign_in_count) { 2 }
+      it "allows me to directly create a senior thesis" do
+        login_as(user)
+        visit('/concern/senior_theses/new')
+        page.assert_selector('.main-header h2', "Describe Your Thesis")
+      end
+
+      it 'remembers senior thesis inputs when data was invalid' do
+        login_as(user)
+        visit('/concern/senior_theses/new')
+        create_senior_thesis(
+          'Visibility' => 'Private',
+          'I Agree' => true,
+          'Title' => ''
+        )
+        page.assert_selector('.main-header h2', "Describe Your Thesis")
+        expect(page).to have_checked_field('visibility_restricted')
+        expect(page).to_not have_checked_field('visibility_open')
+      end
+
+      it "a public item with future embargo is not visible today but is in the future" do
+        embargo_release_date = 2.days.from_now
+        # Because the JS will transform an unexpected input entry to the real
+        # today (browser's date), and I want timecop to help
+        embargo_release_date_formatted = embargo_release_date.strftime("%Y-%m-%d")
+        login_as(user)
+        visit('/concern/senior_theses/new')
+        create_senior_thesis(
+          'Embargo Release Date' => embargo_release_date_formatted,
+          'Visibility' => 'Open Access',
+          'Contributors' => ['Dante'],
+          'I Agree' => true
+        )
+
+        follow_created_curation_concern_link!
+
+        page.assert_selector(
+          ".embargo_release_date.attribute",
+          text: embargo_release_date_formatted
+        )
+        page.assert_selector(
+          ".permission.attribute",
+          text: "Open Access"
+        )
+        noid = page.current_path.split("/").last
+        logout
+        visit("/show/#{noid}")
+
+        page.assert_selector('.contributor.attribute', text: 'Dante', count: 0)
+        page.assert_selector('h1', text: "Object Not Available")
+
+        # Seconds are weeks
+        begin
+          Timecop.scale(60*60*24*7)
+          sleep(1)
+        ensure
+          Timecop.scale(1)
+        end
+        visit("/show/#{noid}")
+        expect(Time.now > embargo_release_date).to be_true
+
+        # With the embargo release date passed an anonymous user should be able
+        # to see it.
+        page.assert_selector('h1', text: "Object Not Available", count: 0)
+      end
     end
   end
 
   describe 'help request' do
     let(:agreed_to_terms_of_service) { true }
     let(:sign_in_count) { 20 }
-    # I want to test both JS mode and non-JS mode
-    [true, false].each do |using_javascript|
-      it "is available for users who are authenticated and agreed to ToS", js: using_javascript do
-        login_as(user)
-        visit('/')
-        click_link("Get Started")
-        click_link "Request Help"
-        within("#new_help_request") do
-          fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
-          click_on("Let Us Know")
-        end
-        page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
+
+    it "with JS is available for users who are authenticated and agreed to ToS", js: true do
+      login_as(user)
+      visit('/')
+      click_link("Get Started")
+      click_link "Request Help"
+      within("#new_help_request") do
+        fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
+        click_on("Let Us Know")
       end
+      page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
     end
+
+    it "without JS is available for users who are authenticated and agreed to ToS", js: false do
+      login_as(user)
+      visit('/')
+      click_link("Get Started")
+      click_link "Request Help"
+      within("#new_help_request") do
+        fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
+        click_on("Let Us Know")
+      end
+      page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
+    end
+
   end
 
   describe '+Add javascript behavior', js: true do
     let(:contributors) { ["D'artagnan", "Porthos", "Athos", 'Aramas'] }
     let(:agreed_to_terms_of_service) { true }
+    let(:sign_in_count) { 2 }
     let(:title) {"Somebody Special's Senior Thesis" }
     it 'handles contributor', js: true do
       login_as(user)
@@ -161,6 +187,7 @@ describe 'end to end behavior', describe_options do
         "I Agree" => true,
         :js => true
       )
+      follow_created_curation_concern_link!
       page.should have_content(title)
       contributors.each do |contributor|
         page.assert_selector(
@@ -234,6 +261,7 @@ describe 'end to end behavior', describe_options do
       agree_to_terms_of_service
       classify_what_you_are_uploading('Senior Thesis')
       create_senior_thesis('I Agree' => true, 'Visibility' => 'Open Access')
+      follow_created_curation_concern_link!
       path_to_view_thesis = view_your_new_thesis
       path_to_edit_thesis = edit_your_thesis
       view_your_updated_thesis
@@ -268,6 +296,7 @@ describe 'end to end behavior', describe_options do
   end
 
   def create_senior_thesis(options = {})
+    options['Abstract'] ||= 'Lorem Ipsum'
     options['Title'] ||= initial_title
     options['Upload your thesis'] ||= initial_file_path
     options['Visibility'] ||= 'Private'
@@ -279,6 +308,7 @@ describe 'end to end behavior', describe_options do
     # Without accepting agreement
     within('#new_senior_thesis') do
       fill_in("Title", with: options['Title'])
+      fill_in("Abstract", with: options['Abstract'])
       attach_file("Upload your thesis", options['Upload your thesis'])
       choose(options['Visibility'])
       if options['Assign DOI']

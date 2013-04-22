@@ -39,7 +39,7 @@ describe CurationConcern::SeniorThesesController do
           contributor_agreement.param_key => contributor_agreement.acceptance_value
         )
       }.to change { SeniorThesis.count }.by(1)
-      expected_path = controller.polymorphic_path([:curation_concern, controller.curation_concern])
+      expected_path = controller.dashboard_index_path
       expect(response).to redirect_to(expected_path)
     end
 
