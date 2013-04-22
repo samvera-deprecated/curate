@@ -35,16 +35,21 @@
           $activeFieldControls = $activeField.children('.field-controls'),
           $removeControl = this.remover.clone(),
           $newField = $activeField.clone(),
-          $listing = $('.listing', this.element);
-
-      $('.add', $activeFieldControls).remove();
-      $activeFieldControls.prepend($removeControl);
-
-      $newField.children('input').val('');
-      $newField.children('input').focus()
-      $listing.append($newField);
-
-      this._trigger("add");
+          $listing = $('.listing', this.element),
+          $warningSpan  = $("<span class=\'message warning\'>cannot add new empty field</span>");
+      if ($activeField.children('input').val() == '') {
+          $listing.children('.warning').remove();
+          $listing.append($warningSpan);
+      }
+      else{
+        $listing.children('.warning').remove();
+        $('.add', $activeFieldControls).remove();
+        $activeFieldControls.prepend($removeControl);
+        $newField.children('input').val('');
+        $newField.children('input').focus()
+        $listing.append($newField);
+        this._trigger("add");
+      }
     },
 
     remove_from_list: function( event ) {
