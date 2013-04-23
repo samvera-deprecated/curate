@@ -37,6 +37,17 @@
 
     <div class="span6">
       <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
+      <fieldset>
+        <legend>Manage belonging collection</legend>
+        <%= curation_concern.batch.title
+        %>
+        <%= link_to(
+                    raw('<i class="icon-pencil icon-large"></i>'),
+                    edit_polymorphic_path([:curation_concern, curation_concern.batch]),
+                    :class=> 'itemicon itemedit',
+                    :title => "Edit parent collection"
+            ) if can? :edit, curation_concern.batch %>
+      </fieldset>
     </div>
   </div>
 
@@ -51,6 +62,7 @@
       <%= link_to 'Cancel', dashboard_index_path, class: 'btn btn-link' %>
     <% unless curation_concern.new_record? -%>
       <%= link_to 'Go to File Record View', polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-info pull-right' %>
+      <%= link_to 'Download', download_path(curation_concern.noid),{class: 'btn btn-info pull-right', title: "Download #{curation_concern.to_s.inspect}", :target => "_blank"} if can? :read, curation_concern%>
     <% end -%>
     </div>
   </div>
