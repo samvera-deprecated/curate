@@ -1,6 +1,6 @@
 class HelpRequestsController < ApplicationController
   SUCCESS_NOTICE = "Thank you for your input!"
-  layout 'curate_nd'
+  with_themed_layout
   before_filter :authenticate_user!
   before_filter :agreed_to_terms_of_service!
 

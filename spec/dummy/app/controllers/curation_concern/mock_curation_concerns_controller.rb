@@ -2,7 +2,7 @@ require Curate::Engine.root.join('app/controllers/curation_concern/base_controll
 require Curate::Engine.root.join('spec/dummy/app/services/curation_concern/mock_curation_concern_actor')
 class CurationConcern::MockCurationConcernsController < CurationConcern::BaseController
   respond_to(:html)
-  layout 'curate_nd/1_column'
+  with_themed_layout '1_column'
 
   def curation_concern
     @curation_concern ||=

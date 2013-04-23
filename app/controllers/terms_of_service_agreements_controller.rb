@@ -4,7 +4,7 @@ class TermsOfServiceAgreementsController < ApplicationController
 
   add_breadcrumb 'Terms of Service', lambda {|controller| controller.request.path }
 
-  layout 'curate_nd/1_column'
+  with_themed_layout '1_column'
   def new
   end
 

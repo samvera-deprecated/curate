@@ -1,7 +1,7 @@
 class ClassifyConcernsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :agreed_to_terms_of_service!
-  layout 'curate_nd/2_column'
+  with_themed_layout '2_column'
   respond_to :html
 
   add_breadcrumb 'Upload a file', lambda {|controller| controller.request.path }

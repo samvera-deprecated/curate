@@ -29,7 +29,7 @@ class CatalogController < ApplicationController
 
   add_breadcrumb 'Search', lambda {|controller| controller.request.path }
 
-  layout 'curate_nd/catalog'
+  with_themed_layout 'catalog'
 
   # These before_filters apply the hydra access controls
   before_filter :enforce_show_permissions, :only=>:show
