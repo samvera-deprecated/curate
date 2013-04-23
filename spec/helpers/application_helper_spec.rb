@@ -73,7 +73,7 @@ describe ApplicationHelper do
   end
 
   describe '#link_to_edit_permissions' do
-    let(:solr_document) { {read_access_group_t: access_policy } }
+    let(:solr_document) { {read_access_group_t: access_policy, embargo_release_date_dt: embargo_release_date } }
     let(:user) { FactoryGirl.create(:user) }
     let(:curation_concern) {
       FactoryGirl.create_curation_concern(
@@ -82,6 +82,7 @@ describe ApplicationHelper do
     }
     let(:visibility) { nil }
     let(:access_policy) { nil }
+    let(:embargo_release_date) { nil }
     describe 'with a "registered" access group' do
       let(:expected_label) { t('sufia.institution_name') }
       let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED } # Can we change this?
@@ -96,18 +97,35 @@ describe ApplicationHelper do
       end
     end
     describe 'with a "public" access group' do
-      let(:expected_label) { "Open Access" }
       let(:access_policy) { 'public' }
-      let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
-      it 'renders an "Open Access" label' do
-        rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
-        expect(rendered).to(
-          have_tag("a#permission_#{curation_concern.to_param}") {
-            with_tag("span.label.label-success", with: {title: expected_label }, text: expected_label)
-          }
-        )
+      describe 'without embargo release date' do
+        let(:expected_label) { "Open Access" }
+        let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
+        it 'renders an "Open Access" label' do
+          rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
+          expect(rendered).to(
+            have_tag("a#permission_#{curation_concern.to_param}") {
+              with_tag("span.label.label-success", with: {title: expected_label }, text: expected_label)
+            }
+          )
+        end
+      end
+
+      describe 'with an embargo release date' do
+        let(:expected_label) { "Open Access with Embargo" }
+        let(:embargo_release_date) { Date.today.to_s }
+        let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
+        it 'renders an "Open Access with Embargo" label' do
+          rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
+          expect(rendered).to(
+            have_tag("a#permission_#{curation_concern.to_param}") {
+              with_tag("span.label.label-info", with: {title: expected_label }, text: expected_label)
+            }
+          )
+        end
       end
     end
+
     describe 'with a mixed "public registered" access group' do
       # This test is purely speculative to the appropriate labeling behavior and
       # does not account for whether the document is truly accessable; I suppose
