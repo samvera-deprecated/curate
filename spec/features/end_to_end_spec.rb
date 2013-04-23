@@ -214,7 +214,6 @@ describe 'end to end behavior', describe_options do
         "I Agree" => true,
         "Button to click" => 'Create and Add Related Files...'
       )
-      require 'debugger'; debugger; true
 
       # While the title is different, the filenames should be the same
       add_a_related_file(
