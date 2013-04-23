@@ -76,7 +76,11 @@ module ApplicationHelper
     dom_label_class, link_title = "label-important", "Private"
     if hash['read_access_group_t'].present?
       if hash['read_access_group_t'].include?('public')
-        dom_label_class, link_title = 'label-success', 'Open Access'
+        if hash['embargo_release_date_dt'].present?
+          dom_label_class, link_title = 'label-info', 'Open Access with Embargo'
+        else
+          dom_label_class, link_title = 'label-success', 'Open Access'
+        end
       elsif hash['read_access_group_t'].include?('registered')
         dom_label_class, link_title = "label-info", t('sufia.institution_name')
       end
