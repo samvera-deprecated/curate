@@ -11,7 +11,17 @@ class ApplicationController < ActionController::Base
   include BreadcrumbsOnRails::ActionController
   add_breadcrumb "Dashboard", :dashboard_index_path
 
+  def self.with_themed_layout(view_name = nil)
+    if view_name
+      layout("#{theme}/#{view_name}")
+    else
+      layout(theme)
+    end
+  end
 
+  class_attribute :theme
+  self.theme = 'curate_nd'
+  helper_method :theme
 
   # Please be sure to impelement current_user and user_session. Blacklight depends on
   # these methods in order to perform user specific actions.

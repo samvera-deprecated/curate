@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
   include BlacklightAdvancedSearch::ParseBasicQ
   include BlacklightAdvancedSearch::Controller
 
-  layout 'curate_nd/dashboard'
+  with_themed_layout 'dashboard'
 
   before_filter :authenticate_user!
   before_filter :agreed_to_terms_of_service!

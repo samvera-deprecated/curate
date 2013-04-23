@@ -14,7 +14,7 @@ module CurationConcern
     end
     protected :attach_action_breadcrumb
 
-    layout 'curate_nd'
+    with_themed_layout
     include Sufia::Noid # for normalize_identifier method
 
     before_filter :authenticate_user!, :except => [:show]

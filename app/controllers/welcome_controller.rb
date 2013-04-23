@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  layout 'curate_nd/2_column'
+  with_themed_layout '2_column'
 
   respond_to :html
   def index

@@ -1,5 +1,5 @@
 class ErrorsController < ApplicationController
-  layout 'curate_nd'
+  with_themed_layout(nil)
 
   def show
     render_response_for_error(exception_wrapper)
