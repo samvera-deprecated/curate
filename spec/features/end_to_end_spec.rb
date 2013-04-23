@@ -85,7 +85,7 @@ describe 'end to end behavior', describe_options do
         login_as(user)
         visit('/concern/senior_theses/new')
         create_senior_thesis(
-          'Visibility' => 'Private',
+          'Visibility' => 'visibility_restricted',
           'I Agree' => true,
           'Title' => ''
         )
@@ -103,7 +103,7 @@ describe 'end to end behavior', describe_options do
         visit('/concern/senior_theses/new')
         create_senior_thesis(
           'Embargo Release Date' => embargo_release_date_formatted,
-          'Visibility' => 'Open Access',
+          'Visibility' => 'visibility_open',
           'Contributors' => ['Dante'],
           'I Agree' => true
         )
@@ -207,18 +207,19 @@ describe 'end to end behavior', describe_options do
       classify_what_you_are_uploading('Senior Thesis')
       create_senior_thesis(
         "Title" => 'Senior Thesis',
-        'Visibility' => 'Open Access',
+        'Visibility' => 'visibility_open',
         "Upload your thesis" => initial_file_path,
         "Assign DOI" => true,
         "Contributors" => contributors,
         "I Agree" => true,
         "Button to click" => 'Create and Add Related Files...'
       )
+      require 'debugger'; debugger; true
 
       # While the title is different, the filenames should be the same
       add_a_related_file(
         "Title" => 'Related File',
-        'Visibility' => 'University of Notre Dame',
+        'Visibility' => 'visibility_ndu',
         "Upload a related file" => initial_file_path
       )
 
@@ -260,7 +261,7 @@ describe 'end to end behavior', describe_options do
       get_started
       agree_to_terms_of_service
       classify_what_you_are_uploading('Senior Thesis')
-      create_senior_thesis('I Agree' => true, 'Visibility' => 'Open Access')
+      create_senior_thesis('I Agree' => true, 'Visibility' => 'visibility_open')
       follow_created_curation_concern_link!
       path_to_view_thesis = view_your_new_thesis
       path_to_edit_thesis = edit_your_thesis
@@ -299,7 +300,7 @@ describe 'end to end behavior', describe_options do
     options['Abstract'] ||= 'Lorem Ipsum'
     options['Title'] ||= initial_title
     options['Upload your thesis'] ||= initial_file_path
-    options['Visibility'] ||= 'Private'
+    options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Senior thesis"
     options["Contributors"] ||= ["Dante"]
     options["Content License"] ||= Sufia::Engine.config.cc_licenses.keys.first
@@ -348,7 +349,7 @@ describe 'end to end behavior', describe_options do
   def add_a_related_file(options = {})
     options['Title'] ||= initial_title
     options['Upload a file'] ||= initial_file_path
-    options['Visibility'] ||= 'Private'
+    options['Visibility'] ||= 'visibility_restricted'
     within("form.new_generic_file") do
       fill_in("Title", with: options['Title'])
       attach_file("Upload a file", options['Upload a file'])
