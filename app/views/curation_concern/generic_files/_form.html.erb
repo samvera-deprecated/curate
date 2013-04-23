@@ -37,17 +37,6 @@
 
     <div class="span6">
       <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
-      <fieldset>
-        <legend>Manage belonging collection</legend>
-        <%= curation_concern.batch.title
-        %>
-        <%= link_to(
-                    raw('<i class="icon-pencil icon-large"></i>'),
-                    edit_polymorphic_path([:curation_concern, curation_concern.batch]),
-                    :class=> 'itemicon itemedit',
-                    :title => "Edit parent collection"
-            ) if can? :edit, curation_concern.batch %>
-      </fieldset>
     </div>
   </div>
 
