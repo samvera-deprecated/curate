@@ -99,7 +99,7 @@ describe 'end to end behavior', describe_options do
       login_as(user)
       visit('/concern/mock_curation_concerns/new')
       create_mock_curation_concern(
-        'Visibility' => 'Private',
+        'Visibility' => 'visibility_restricted',
         'I Agree' => true,
         'Title' => ''
       )
@@ -117,7 +117,7 @@ describe 'end to end behavior', describe_options do
       visit('/concern/mock_curation_concerns/new')
       create_mock_curation_concern(
         'Embargo Release Date' => embargo_release_date_formatted,
-        'Visibility' => 'Open Access',
+        'Visibility' => 'visibility_open',
         'Contributors' => ['Dante'],
         'I Agree' => true
       )
@@ -155,19 +155,28 @@ describe 'end to end behavior', describe_options do
   describe 'help request' do
     let(:agreed_to_terms_of_service) { true }
     let(:sign_in_count) { 2 }
-    # I want to test both JS mode and non-JS mode
-    [true, false].each do |using_javascript|
-      it "is available for users who are authenticated and agreed to ToS", js: using_javascript do
-        login_as(user)
-        visit('/')
-        click_link("Get Started")
-        click_link "Request Help"
-        within("#new_help_request") do
-          fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
-          click_on("Let Us Know")
-        end
-        page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
+    it "with JS is available for users who are authenticated and agreed to ToS", js: true do
+      login_as(user)
+      visit('/')
+      click_link("Get Started")
+      click_link "Request Help"
+      within("#new_help_request") do
+        fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
+        click_on("Let Us Know")
       end
+      page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
+    end
+
+    it "without JS is available for users who are authenticated and agreed to ToS", js: false do
+      login_as(user)
+      visit('/')
+      click_link("Get Started")
+      click_link "Request Help"
+      within("#new_help_request") do
+        fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
+        click_on("Let Us Know")
+      end
+      page.assert_selector('.notice', text: HelpRequestsController::SUCCESS_NOTICE)
     end
   end
 
@@ -205,7 +214,7 @@ describe 'end to end behavior', describe_options do
       classify_what_you_are_uploading('Mock Curation Concern')
       create_mock_curation_concern(
         "Title" => 'Mock Curation Concern',
-        'Visibility' => 'Open Access',
+        'Visibility' => 'visibility_open',
         "Upload your thesis" => initial_file_path,
         "Assign DOI" => true,
         "Contributors" => contributors,
@@ -216,7 +225,7 @@ describe 'end to end behavior', describe_options do
       # While the title is different, the filenames should be the same
       add_a_related_file(
         "Title" => 'Related File',
-        'Visibility' => authenticated_visibility_text,
+        'Visibility' => 'visibility_ndu',
         "Upload a related file" => initial_file_path
       )
 
@@ -231,6 +240,7 @@ describe 'end to end behavior', describe_options do
         '.generic_file.attributes .title.attribute',
         text: "Related File",count: 1
       )
+
       page.assert_selector(
         '.generic_file.attributes .permission.attribute',
         text: authenticated_visibility_text,count: 1
@@ -258,7 +268,7 @@ describe 'end to end behavior', describe_options do
       get_started
       agree_to_terms_of_service
       classify_what_you_are_uploading('Mock Curation Concern')
-      create_mock_curation_concern('I Agree' => true, 'Visibility' => 'Open Access')
+      create_mock_curation_concern('I Agree' => true, 'Visibility' => 'visibility_open')
       path_to_view_thesis = view_your_new_thesis
       path_to_edit_thesis = edit_your_thesis
       view_your_updated_thesis
@@ -295,7 +305,7 @@ describe 'end to end behavior', describe_options do
   def create_mock_curation_concern(options = {})
     options['Title'] ||= initial_title
     options['Upload your thesis'] ||= initial_file_path
-    options['Visibility'] ||= 'Private'
+    options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Mock curation concern"
     options["Contributors"] ||= ["Dante"]
     options["Content License"] ||= Sufia::Engine.config.cc_licenses.keys.first
@@ -343,7 +353,7 @@ describe 'end to end behavior', describe_options do
   def add_a_related_file(options = {})
     options['Title'] ||= initial_title
     options['Upload a file'] ||= initial_file_path
-    options['Visibility'] ||= 'Private'
+    options['Visibility'] ||= 'visibility_restricted'
     within("form.new_generic_file") do
       fill_in("Title", with: options['Title'])
       attach_file("Upload a file", options['Upload a file'])

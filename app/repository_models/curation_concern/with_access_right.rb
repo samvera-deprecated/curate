@@ -14,6 +14,10 @@ module CurationConcern
       access_rights.open_access?
     end
 
+    def open_access_with_embargo_release_date?
+      access_rights.open_access_with_embargo_release_date?
+    end
+
     def authenticated_only_access?
       access_rights.authenticated_only?
     end
