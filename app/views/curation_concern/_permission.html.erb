@@ -1,17 +1,6 @@
 <div id="permissions_display">
   <fieldset class="control-group">
     <legend>
-      Embargo Date
-      <small>When to release it for public viewing</small>
-    </legend>
-    <p class="help-block">
-      Need to provide some help text
-    </p>
-    <%= f.input :embargo_release_date, as: :string, input_html: { class: 'datepicker' } %>
-  </fieldset>
-
-  <fieldset class="control-group">
-    <legend>
       Access Rights
       <small>Applied to the attached files and their metadata</small>
     </legend>
@@ -26,6 +15,10 @@
         <span class="label label-success">Open Access</span> Visible to the world.
       </label>
       <label class="radio">
+        <input type="radio" id="visibility_embargo" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO %>" <% if curation_concern.open_access_with_embargo_release_date? %> checked="true"<% end %>/>
+        <span class="label label-warning">Open Access with Embargo</span> Treated as <span class="label label-important">Private</span> until <%= f.text_field :embargo_release_date, placeholder: Date.today,class: 'datepicker' %> then it is <span class="label label-success">Open Access</span>.
+      </label>
+      <label class="radio">
         <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED %>" <% if curation_concern.authenticated_only_access? %> checked="true"<% end %> />
         <span class="label label-info"><%=t('sufia.institution_name') %></span> Visible to all <%=t('sufia.institution_name') %> users.
       </label>
@@ -33,7 +26,6 @@
         <input type="radio" id="visibility_restricted" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE%>" <% if curation_concern.private_access? %> checked="true"<% end %>/>
         <span class="label label-important">Private</span> Only visible to you.
       </label>
-    </div><!-- /.controls -->
-
+    </div>
   </fieldset>
 </div>
