@@ -5,20 +5,28 @@
 
 <% end %>
 
-<%= simple_form_for classify_concern do |f| %>
-  <fieldset>
-    <legend>Describe Your Files</legend>
 
-    <%= f.input :curation_concern_type,
-                as: :select,
-                collection: classify_concern.possible_curation_concern_types,
-                label: "What are you uploading?"
-    %>
-
-    <div class="form-actions">
-      <%= f.submit('Continue', class: "btn btn-primary") %>
-      <%= link_to 'Cancel', dashboard_index_path, class: "btn btn-link" %>
-    </div>
-
-  </fieldset>
-<% end %>
+<div class="row-fluid">
+  <ul class="thumbnails">
+    <% classify_concern.possible_curation_concern_types.each do |key,value| %>
+      <li class="span2">
+        <div class="thumbnail">
+          <div class="icon">
+            <h3><%= key %></h3>
+            <p>Need Caption Text</p>
+            <p> <%= link_to 'Add New', classify_concerns_path(:classify_concern => {"curation_concern_type"=>value}), :class => "btn btn-primary", :method => :post %> <%# f.submit('Continue', class: "btn btn-primary") %> </p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+    <li class="span2 disabled">
+      <div class="thumbnail">
+        <div class="icon">
+          <h3>Datasets</h3>
+          <p>Up coming</p>
+          <p> <a class ="btn">Add New</a> </p>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
