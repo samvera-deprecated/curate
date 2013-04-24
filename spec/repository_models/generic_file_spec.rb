@@ -13,6 +13,14 @@ describe GenericFile do
   it { should respond_to(:visibility) }
   it { should respond_to(:visibility=) }
 
+  it 'has a #human_readable_short_description' do
+    subject.human_readable_short_description.length.should_not == 0
+  end
+
+  it 'has a .human_readable_short_description' do
+    subject.class.human_readable_short_description.length.should_not == 0
+  end
+
   it 'uses #noid for #to_param' do
     subject.to_param.should == subject.noid
   end
