@@ -28,6 +28,7 @@ module Curate
     initializer "curate" do |app|
       require File.expand_path('../../../app/repository_models/generic_file', __FILE__)
       require File.expand_path('../../../app/models/solr_document', __FILE__)
+      require File.expand_path('../../../app/builders/accordion_builder_helper', __FILE__)
       # require File.expand_path('../../../app/workers/characterize_job', __FILE__)
 
       module WithAntiVirusHandler
