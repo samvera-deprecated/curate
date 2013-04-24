@@ -1,3 +1,4 @@
+require File.expand_path('../application_controller', __FILE__)
 class ErrorsController < ApplicationController
   with_themed_layout(nil)
 
