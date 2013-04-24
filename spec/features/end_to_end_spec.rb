@@ -292,6 +292,10 @@ describe 'end to end behavior', describe_options do
     find("a.btn.add_new_senior_thesis").click
   end
 
+  def click_continue_for_pane(i)
+    find("#accordion_senior_thesis-fieldset-#{i} .btn-info.pull-right").click
+  end
+
   def create_senior_thesis(options = {})
     options['Abstract'] ||= 'Lorem Ipsum'
     options['Title'] ||= initial_title
@@ -304,17 +308,17 @@ describe 'end to end behavior', describe_options do
     page.should have_content('Describe Your Thesis')
     # Without accepting agreement
     within('#new_senior_thesis') do
+
+      # 0th Pane
       fill_in("Title", with: options['Title'])
       fill_in("Abstract", with: options['Abstract'])
-      attach_file("Upload your thesis", options['Upload your thesis'])
-      choose(options['Visibility'])
+      select(options['Content License'], from: 'Content License')
       if options['Assign DOI']
         check('senior_thesis_assign_doi')
       end
-      if options['Embargo Release Date']
-        fill_in("senior_thesis_embargo_release_date", with: options["Embargo Release Date"])
-      end
-      select(options['Content License'], from: 'Content License')
+      click_continue_for_pane(0)
+
+      # 1st Pane
       within('.senior_thesis_contributor.multi_value') do
         contributors = [options['Contributors']].flatten.compact
         if options[:js]
@@ -328,9 +332,21 @@ describe 'end to end behavior', describe_options do
           fill_in('senior_thesis[contributor][]', with: contributors.first)
         end
       end
+      click_continue_for_pane(1)
+
+      # 2nd Pane
+      choose(options['Visibility'])
+      if options['Embargo Release Date']
+        fill_in("senior_thesis_embargo_release_date", with: options["Embargo Release Date"])
+      end
+      click_continue_for_pane(2)
+
+      # 3rd Pane
+      attach_file("Upload your thesis", options['Upload your thesis'])
       if options['I Agree']
         check("I have read and accept the contributor licence agreement")
       end
+
       click_on(options["Button to click"])
     end
 
