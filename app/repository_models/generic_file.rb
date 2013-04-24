@@ -12,6 +12,9 @@ class GenericFile
   validates :batch, presence: true
   validates :file, presence: true, on: :create
 
+  class_attribute :human_readable_short_description
+  self.human_readable_short_description = "An arbitrary single file."
+
   attr_accessor :file, :version
 
   def filename

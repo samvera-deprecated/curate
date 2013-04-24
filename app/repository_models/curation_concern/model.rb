@@ -19,6 +19,8 @@ module CurationConcern
       delegate_to :properties, [:relative_path, :depositor], unique: true
       delegate_to :descMetadata, [:archived_object_type], unique: true
       before_save :set_archived_object_type
+
+      class_attribute :human_readable_short_description
     end
 
     def human_readable_type
