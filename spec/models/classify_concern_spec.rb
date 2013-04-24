@@ -4,6 +4,13 @@ describe ClassifyConcern do
   subject { ClassifyConcern.new(curation_concern_type: curation_concern_type) }
   let(:curation_concern_type) { nil }
 
+  describe '.curation_concern_classes' do
+    it 'has MockCurationConcern' do
+      expect(ClassifyConcern.curation_concern_classes).to include(MockCurationConcern)
+      expect(ClassifyConcern.curation_concern_classes).to_not include('MockCurationConcern')
+    end
+  end
+
   describe 'with curation_concern_type: nil' do
     it 'is not valid' do
       expect(subject).to_not be_valid
