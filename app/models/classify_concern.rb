@@ -14,8 +14,12 @@ class ClassifyConcern
     inclusion: { in: lambda { |record| VALID_CURATION_CONCERN_CLASS_NAMES } }
   )
 
-  def self.curation_concern_classes
+  def self.all_curation_concern_classes
     VALID_CURATION_CONCERN_CLASS_NAMES.collect(&:constantize)
+  end
+
+  def all_curation_concern_classes
+    self.class.all_curation_concern_classes
   end
 
   def possible_curation_concern_types
