@@ -14,7 +14,7 @@ require 'breadcrumbs_on_rails'
 class BootstrapBreadcrumbsBuilder < BreadcrumbsOnRails::Breadcrumbs::Builder
   def render
     @context.content_tag(:ul, class: 'breadcrumb') do
-      @elements.collect do |element|
+      @elements.uniq.collect do |element|
         render_element(element)
       end.join.html_safe
     end
