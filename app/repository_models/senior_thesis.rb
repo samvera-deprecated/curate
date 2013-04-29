@@ -7,6 +7,8 @@ class SeniorThesis < ActiveFedora::Base
   include CurationConcern::Embargoable
   include CurationConcern::WithAccessRight
 
+  self.human_readable_short_description = "PDFs and other Documents for your Senior Thesis"
+
   has_metadata name: "descMetadata", type: SeniorThesisMetadataDatastream, control_group: 'M'
 
   delegate_to(
