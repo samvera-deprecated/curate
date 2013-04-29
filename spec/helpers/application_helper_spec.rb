@@ -119,7 +119,7 @@ describe ApplicationHelper do
           rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
           expect(rendered).to(
             have_tag("a#permission_#{curation_concern.to_param}") {
-              with_tag("span.label.label-info", with: {title: expected_label }, text: expected_label)
+              with_tag("span.label.label-warning", with: {title: expected_label }, text: expected_label)
             }
           )
         end
