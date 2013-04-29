@@ -59,16 +59,13 @@ legend + .control-group {
 }
 
 .thumbnail {
-
+  border: 2px solid $gray;
+  background-color: $grayLighter;
   .icon{
-    width: 160px;
-    height: 120px;
-    background-color: #E5E5E5;
     text-align: center;
     vertical-align: middle;
-      h3 {
-        margin: 1px;
-      }
+    h3 {
+      margin: 1px;
+    }
   }
-
 }
