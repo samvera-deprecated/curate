@@ -1,0 +1,18 @@
+<nav class="container page-actions">
+  <div class="row">
+    <div class="span12 action-bar">
+      <ul class="nav nav-pills" role="menu">
+      <% if current_user %>
+        <%= bootstrap_navigation_element 'Dashboard',     dashboard_index_path -%>
+        <%= bootstrap_navigation_element 'Submit a work', new_classify_concern_path -%>
+        <%= bootstrap_navigation_element 'Search',        catalog_index_path   -%>
+        <%= bootstrap_navigation_element 'Log Out', destroy_user_session_path, class: 'pull-right' %>
+        <%= bootstrap_navigation_element 'Request Help', new_help_request_path, class: 'pull-right', a_tag_options: {class: 'request-help'} %>
+      <% else %>
+        <%= bootstrap_navigation_element 'Search',        catalog_index_path   -%>
+        <%= bootstrap_navigation_element 'Log In', new_user_session_path, class: 'pull-right' %>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
