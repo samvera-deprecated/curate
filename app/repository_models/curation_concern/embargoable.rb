@@ -1,12 +1,23 @@
 require File.expand_path('../../../validators/future_date_validator', __FILE__)
 module CurationConcern
   module Embargoable
+    module VisibilityOverride
+      def set_visibility(value)
+        if value == AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
+          super(AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)
+        else
+          super(value)
+        end
+      end
+    end
+    include VisibilityOverride
     extend ActiveSupport::Concern
 
     included do
       validates :embargo_release_date, future_date: true
       before_save :write_embargo_release_date, prepend: true
     end
+
 
     def write_embargo_release_date
       if defined?(@embargo_release_date)
