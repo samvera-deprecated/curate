@@ -46,7 +46,7 @@
       <% if curation_concern.persisted? %>
         <fieldset class="required">
           <legend>
-            Manage your thesis File
+            Manage your files
           </legend>
             <%= render '/curation_concern/manage_related_files', curation_concern: curation_concern, with_actions: true %>
         </fieldset>
@@ -56,9 +56,11 @@
             Attach Your Thesis
             <small>A PDF copy is preferred.</small>
           </legend>
-          <%= f.input :thesis_file,
+          <%= f.input :files,
                       as: :file,
-                      label: 'Upload your thesis'
+                      label: 'Upload your files.',
+                      hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files.",
+                      input_html: { multiple: 'multiple'}
           %>
         </fieldset>
       <% end %>

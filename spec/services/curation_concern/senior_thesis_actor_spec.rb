@@ -4,8 +4,6 @@ describe CurationConcern::SeniorThesisActor do
   let(:pid) { CurationConcern.mint_a_pid }
   let(:user) { FactoryGirl.create(:user) }
   let(:curation_concern) { SeniorThesis.new(pid: pid)}
-  let(:thesis_file_path) { __FILE__ }
-  let(:thesis_file) { Rack::Test::UploadedFile.new(thesis_file_path, 'text/plain', false)}
   let(:assigned_doi) { 'abc-123' }
   let(:mock_doi_minter) {
     lambda {|pid|
@@ -44,35 +42,52 @@ describe CurationConcern::SeniorThesisActor do
       end
     end
     describe 'valid attributes' do
+      let(:files) { [] }
       let(:attributes) {
         FactoryGirl.attributes_for(:senior_thesis).tap {|a|
-          a[:thesis_file] = thesis_file
+          a[:files] = files
           a[:visibility] = AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
           a[:assign_doi] = '1'
         }
       }
-      before(:each) do
-        subject.create!
+
+      describe 'with one file' do
+        let(:files_path) { __FILE__ }
+        let(:files) { Rack::Test::UploadedFile.new(files_path, 'text/plain', false)}
+        before(:each) do
+          subject.create!
+        end
+        it 'handles one file' do
+          expect(curation_concern).to be_persisted
+          curation_concern.date_uploaded.should == Date.today
+          curation_concern.date_modified.should == Date.today
+          curation_concern.depositor.should == user.user_key
+          curation_concern.creator.should == user.name
+
+          new_curation_concern = curation_concern.class.find(curation_concern.pid)
+
+          new_curation_concern.generic_files.count.should == 1
+          # Sanity test to make sure the file we uploaded is stored and has same permission as parent.
+          senior_files = new_curation_concern.generic_files.first
+          senior_files.content.content.should == files.read
+          senior_files.filename.should == File.basename(files_path)
+
+          expect(new_curation_concern).to be_authenticated_only_access
+          expect(senior_files).to be_authenticated_only_access
+          expect(new_curation_concern.identifier).to eq(assigned_doi)
+        end
       end
-      it do
-        expect(curation_concern).to be_persisted
-        curation_concern.date_uploaded.should == Date.today
-        curation_concern.date_modified.should == Date.today
-        curation_concern.depositor.should == user.user_key
-        curation_concern.creator.should == user.name
 
-        new_curation_concern = curation_concern.class.find(curation_concern.pid)
-
-        new_curation_concern.generic_files.count.should == 1
-        # Sanity test to make sure the file we uploaded is stored and has same permission as parent.
-        senior_thesis_file = new_curation_concern.generic_files.first
-        senior_thesis_file.content.content.should == thesis_file.read
-        senior_thesis_file.filename.should == File.basename(thesis_file_path)
-        senior_thesis_file.to_s.should == 'Senior Thesis'
-
-        expect(new_curation_concern).to be_authenticated_only_access
-        expect(senior_thesis_file).to be_authenticated_only_access
-        expect(new_curation_concern.identifier).to eq(assigned_doi)
+      describe 'with two or more files' do
+        let(:files) { [file_1, file_2, file_3]}
+        let(:file_1) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false) }
+        let(:file_2) { Rack::Test::UploadedFile.new(File.expand_path('../../../spec_helper.rb', __FILE__), 'text/plain', false) }
+        let(:file_3) { Rack::Test::UploadedFile.new(File.expand_path('../../../../Gemfile', __FILE__), 'text/plain', false) }
+        it "creates both files" do
+          subject.create!
+          new_curation_concern = curation_concern.class.find(curation_concern.pid)
+          new_curation_concern.generic_files.count.should == files.length
+        end
       end
     end
   end

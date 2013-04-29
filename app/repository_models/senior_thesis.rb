@@ -45,7 +45,7 @@ class SeniorThesis < ActiveFedora::Base
   validates :title, presence: { message: 'Your thesis must have a title.' }
   validates :rights, presence: { message: 'You must select a license for your work.' }
 
-  attr_accessor :thesis_file, :assign_doi
+  attr_accessor :files, :assign_doi
 
   def doi_url
     File.join(Rails.configuration.doi_url, self.identifier)

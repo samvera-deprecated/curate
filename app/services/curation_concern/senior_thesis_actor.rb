@@ -3,7 +3,7 @@ module CurationConcern
 
     def create!
       super
-      create_thesis_file
+      create_files
       assign_doi_if_applicable
     end
 
@@ -14,22 +14,21 @@ module CurationConcern
     end
 
     protected
-    def thesis_file
-      return @thesis_file if defined?(@thesis_file)
-      @thesis_file = attributes.delete(:thesis_file)
+    def files
+      return @files if defined?(@files)
+      @files = [attributes[:files]].flatten.compact
     end
 
-    def create_thesis_file
-      if thesis_file
+    def create_files
+      files.each do |file|
         generic_file = GenericFile.new
-        generic_file.file = thesis_file
+        generic_file.file = file
         generic_file.batch = curation_concern
-        generic_file.label = 'Senior Thesis'
         Sufia::GenericFile::Actions.create_metadata(
           generic_file, user, curation_concern.pid
         )
         generic_file.set_visibility(visibility)
-        CurationConcern.attach_file(generic_file, user, thesis_file)
+        CurationConcern.attach_file(generic_file, user, file)
       end
     end
 
