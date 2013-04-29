@@ -400,17 +400,17 @@ describe 'end to end behavior', describe_options do
       # I call CSS/Dom shenannigans; I can't access 'Creator' link
       # directly and instead must find by CSS selector, validate it
       all('a.accordion-toggle').each do |elem|
-        if elem.text == 'Creator'
+        if elem.text == 'Type'
           elem.click
         end
       end
-      click_on(user.username)
+      click_on('Senior Thesis')
     end
     within('.alert.alert-info') do
       page.should have_content("You searched for: #{search_term}")
     end
     within('.alert.alert-warning') do
-      page.should have_content(user.username)
+      page.should have_content('Senior Thesis')
     end
   end
 
