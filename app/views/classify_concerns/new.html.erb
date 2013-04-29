@@ -8,25 +8,30 @@
 
 <div class="row-fluid">
   <ul class="thumbnails">
-    <% classify_concern.possible_curation_concern_types.each do |key,value| %>
+    <% classify_concern.all_curation_concern_classes.each do |klass| %>
       <li class="span2">
         <div class="thumbnail">
           <div class="icon">
-            <h3><%= key %></h3>
-            <p>Need Caption Text</p>
-            <p> <%= link_to 'Add New', classify_concerns_path(:classify_concern => {"curation_concern_type"=>value}), :class => "btn btn-primary", :method => :post %> <%# f.submit('Continue', class: "btn btn-primary") %> </p>
+            <h3><%= klass.human_readable_type %></h3>
+            <p class="short-description"><%= klass.human_readable_short_description %></p>
+            <p>
+              <%= link_to 'Add New',
+                classify_concerns_path(classify_concern: {"curation_concern_type"=>klass.name}),
+                class: "btn btn-primary #{dom_class(klass, 'add_new')}", method: :post
+              %>
+            </p>
           </div>
         </div>
       </li>
     <% end %>
-    <li class="span2 disabled">
+    <!--<li class="span2 disabled">
       <div class="thumbnail">
         <div class="icon">
           <h3>Datasets</h3>
-          <p>Up coming</p>
-          <p> <a class ="btn">Add New</a> </p>
+          <p class="short-description">Upcoming</p>
+          <p><a class ="btn disabled">Add New</a></p>
         </div>
       </div>
-    </li>
+    </li>-->
   </ul>
 </div>
