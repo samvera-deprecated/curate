@@ -1,1 +1,0 @@
-require Curate::Engine.root.join('app/controllers/dashboard_controller')
