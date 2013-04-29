@@ -77,7 +77,7 @@ module ApplicationHelper
     if hash['read_access_group_t'].present?
       if hash['read_access_group_t'].include?('public')
         if hash['embargo_release_date_dt'].present?
-          dom_label_class, link_title = 'label-info', 'Open Access with Embargo'
+          dom_label_class, link_title = 'label-warning', 'Open Access with Embargo'
         else
           dom_label_class, link_title = 'label-success', 'Open Access'
         end
