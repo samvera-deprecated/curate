@@ -43,7 +43,6 @@ class SeniorThesis < ActiveFedora::Base
   )
 
   validates :title, presence: { message: 'Your thesis must have a title.' }
-  validates :description, presence: { message: 'Your thesis must have abstract.' }
   validates :rights, presence: { message: 'You must select a license for your work.' }
 
   attr_accessor :thesis_file, :assign_doi
