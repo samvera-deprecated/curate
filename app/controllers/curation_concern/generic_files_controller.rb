@@ -72,6 +72,15 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
     }
   end
 
+  def versions
+    respond_with(curation_concern)
+  end
+
+  def rollback
+    retrieve_version
+    respond_with([:curation_concern, curation_concern])
+  end
+
   def destroy
     parent = curation_concern.batch
     title = curation_concern.to_s
@@ -83,5 +92,14 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   include Morphine
   register :actor do
     CurationConcern.actor(curation_concern, current_user, params[:generic_file])
+  end
+
+  private
+
+  def retrieve_version
+    revision = curation_concern.content.get_version(params["generic_file"]["version"])
+    curation_concern.add_file_datastream(revision.content, :label => revision.label, :dsid => 'content')
+    curation_concern.record_version_committer(current_user)
+    curation_concern.save!
   end
 end
