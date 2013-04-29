@@ -44,7 +44,7 @@ module AccordionBuilderHelper
       css_class =  (first_fieldset? && opts[:open]) ? 'in' : ''
       content_tag(:div, :class => "accordion-body collapse #{css_class}", :id => fieldset_id_for_index(fieldset_rendered_counter)) do
         content_tag(:div, :class => 'accordion-inner') do
-          content_tag(:div, :class => 'row') do
+          content_tag(:div) do
             capture(&block)
           end + pane_actions(fieldset_opts)
         end
