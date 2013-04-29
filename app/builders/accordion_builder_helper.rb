@@ -58,7 +58,7 @@ module AccordionBuilderHelper
           link_to(
             raw('Continue&hellip;'),
             "##{fieldset_id_for_index(fieldset_rendered_counter+1)}",
-            :class => 'btn btn-info  pull-right',
+            :class => 'btn btn-info  pull-right continue',
             :'data-toggle' => 'collapse',
             :'data-target' => "##{fieldset_id_for_index(fieldset_rendered_counter+1)}",
             :'data-parent' => "##{opts[:accordion_id]}"
