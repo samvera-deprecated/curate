@@ -43,7 +43,14 @@ $(function(){
       $removeControl.click()
     }
   });
-  $('.multi_value.control-group').manage_fields()
+  $('.multi_value.control-group').manage_fields();
+
+  // Collapse all of the accordion body elements except the first
+  $('.accordion-body').each(function(index){
+    if(index != 0) {
+      $(this).removeClass('in');
+    }
+  });
 
   $('.datepicker').datepicker({
     format: 'yyyy-mm-dd' });
