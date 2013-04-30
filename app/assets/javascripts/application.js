@@ -13,6 +13,17 @@
 //= require curate
 
 $(function(){
-    $("a[rel=popover]").popover({ html : true, trigger: "hover" });
-    $("a[rel=popover]").click(function() { return false;});
+  $("a[rel=popover]").popover({ html : true, trigger: "hover" });
+  $("a[rel=popover]").click(function() { return false;});
+
+  $('#accept_contributor_agreement').each(function(){
+    $.fn.disableAgreeButton = function() {
+      var $submit_button = $('input.require-contributor-agreement');
+      $submit_button.prop("disabled",!$submit_button.prop("disabled"));
+    };
+    $.fn.disableAgreeButton();
+    $(this).on('change', function(){
+      $.fn.disableAgreeButton();
+    });
+  });
 });
