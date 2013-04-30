@@ -93,6 +93,9 @@ describe CurationConcern::SeniorThesisActor do
   end
 
   describe '#update' do
+    let(:files_path) { __FILE__ }
+    let(:files) { [Rack::Test::UploadedFile.new(files_path, 'text/plain', false)] }
+
     before(:each) {
       subject.doi_minter = mock_doi_minter
     }
@@ -101,6 +104,7 @@ describe CurationConcern::SeniorThesisActor do
       FactoryGirl.attributes_for(:senior_thesis).tap {|a|
         a[:visibility] = AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
         a[:assign_doi] = '1'
+        a[:files] = files
       }
     }
     describe 'valid attributes' do
@@ -114,8 +118,11 @@ describe CurationConcern::SeniorThesisActor do
         expect(curation_concern).to be_open_access
         new_curation_concern = curation_concern.class.find(curation_concern.pid)
         expect(new_curation_concern.identifier).to eq(assigned_doi)
+        expect(new_curation_concern.generic_files.count).to eq(1)
+        generic_file = new_curation_concern.generic_files.first
+        generic_file.content.content.should == files.first.read
+        generic_file.filename.should == File.basename(files_path)
       end
-
     end
   end
 

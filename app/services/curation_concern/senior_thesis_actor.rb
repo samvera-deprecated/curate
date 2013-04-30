@@ -9,6 +9,7 @@ module CurationConcern
 
     def update!
       super
+      create_files
       update_contained_generic_file_visibility
       assign_doi_if_applicable
     end
