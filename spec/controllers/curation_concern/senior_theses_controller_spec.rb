@@ -43,19 +43,6 @@ describe CurationConcern::SeniorThesesController do
       expect(response).to redirect_to(expected_path)
     end
 
-    it 'creates senior thesis, then prompt for related files' do
-      sign_in user
-      post(
-        :create,
-        :senior_thesis => valid_attributes,
-        :commit => controller.save_and_add_related_files_submit_value('create'),
-        contributor_agreement.param_key => contributor_agreement.acceptance_value
-      )
-
-      expected_path = controller.new_curation_concern_generic_file_path(controller.curation_concern)
-      expect(response).to redirect_to(expected_path)
-    end
-
     it 'does not create a Senior Thesis when invalid' do
       sign_in user
       post(

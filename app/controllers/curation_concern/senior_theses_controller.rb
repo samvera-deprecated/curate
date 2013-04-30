@@ -21,7 +21,8 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
       begin
         @curation_concern = SeniorThesis.new(pid: CurationConcern.mint_a_pid)
         actor.create!
-        respond_for_create
+        redirect_to dashboard_index_path
+        flash[:curation_concern_pid] = curation_concern.pid
       rescue ActiveFedora::RecordInvalid
         respond_with([:curation_concern, curation_concern]) do |wants|
           wants.html { render 'new', status: :unprocessable_entity }
@@ -29,20 +30,6 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
       end
     end
   end
-
-  def respond_for_create
-    flash[:curation_concern_pid] = curation_concern.pid
-    if params[:commit] == save_and_add_related_files_submit_value
-      respond_to do |wants|
-        wants.html {
-          redirect_to new_curation_concern_generic_file_path(curation_concern)
-        }
-      end
-    else
-      redirect_to dashboard_index_path
-    end
-  end
-  protected :respond_for_create
 
   def verify_acceptance_of_user_agreement!
     if contributor_agreement.is_being_accepted?

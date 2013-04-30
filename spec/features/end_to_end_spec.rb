@@ -198,61 +198,6 @@ describe 'end to end behavior', describe_options do
     end
   end
 
-  describe 'file uploaded via different paths' do
-    let(:agreed_to_terms_of_service) { true }
-    let(:contributors) { ["Goethe"]}
-    it "related file via senior_thesis#new and generic_file#new should be similar" do
-      login_as(user)
-      get_started
-      classify_what_you_are_uploading('Senior Thesis')
-      create_senior_thesis(
-        "Title" => 'Senior Thesis',
-        'Visibility' => 'visibility_open',
-        "Upload files" => initial_file_path,
-        "Assign DOI" => true,
-        "Contributors" => contributors,
-        "I Agree" => true,
-        "Button to click" => 'Create and Add Related Files...'
-      )
-
-      # While the title is different, the filenames should be the same
-      add_a_related_file(
-        "Title" => 'Related File',
-        'Visibility' => 'visibility_ndu',
-        "Upload a related file" => initial_file_path
-      )
-
-      page.assert_selector('h1', text: 'Senior Thesis')
-
-      page.assert_selector(
-        '.senior_thesis.attributes .identifier.attribute',
-        count: 1
-      )
-
-      page.assert_selector(
-        '.generic_file.attributes .title.attribute',
-        text: "Related File",count: 1
-      )
-      page.assert_selector(
-        '.generic_file.attributes .permission.attribute',
-        text: "University of Notre Dame",count: 1
-      )
-
-      page.assert_selector(
-        '.generic_file.attributes .title.attribute',
-        text: File.basename(initial_file_path),count: 1
-      )
-      page.assert_selector(
-        '.generic_file.attributes .permission.attribute',
-        text: "Open Access",count: 1
-      )
-      page.assert_selector(
-        '.generic_file.attributes .filename.attribute',
-        text: File.basename(initial_file_path),count: 2
-      )
-    end
-  end
-
   describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
     let(:sign_in_count) { 2 }
