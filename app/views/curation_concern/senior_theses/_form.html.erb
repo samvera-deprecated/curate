@@ -66,7 +66,14 @@
 
   <div class="row">
     <div class="span12 form-actions">
-      <%= f.submit class: 'btn btn-primary' %>
+      <% if curation_concern.persisted? %>
+        <%= f.submit(class: 'btn btn-primary') %>
+      <% else %>
+        <%= f.submit(
+          title: "Submit your #{curation_concern.human_readable_type} after you accept the Content Submission Terms.",
+          class: 'btn btn-primary require-contributor-agreement'
+        ) %>
+      <% end %>
       <%= link_to 'Cancel', dashboard_index_path, class: 'btn btn-link' %>
     </div>
   </div>
