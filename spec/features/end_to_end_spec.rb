@@ -78,7 +78,7 @@ describe 'end to end behavior', describe_options do
       it "allows me to directly create a senior thesis" do
         login_as(user)
         visit('/concern/senior_theses/new')
-        page.assert_selector('.main-header h2', "Describe Your Thesis")
+        page.assert_selector('.main-header h2', "Describe Your Senior Thesis")
       end
 
       it 'remembers senior thesis inputs when data was invalid' do
@@ -89,7 +89,7 @@ describe 'end to end behavior', describe_options do
           'I Agree' => true,
           'Title' => ''
         )
-        page.assert_selector('.main-header h2', "Describe Your Thesis")
+        page.assert_selector('.main-header h2', "Describe Your Senior Thesis")
         expect(page).to have_checked_field('visibility_restricted')
         expect(page).to_not have_checked_field('visibility_open')
       end
@@ -182,7 +182,7 @@ describe 'end to end behavior', describe_options do
       visit('/concern/senior_theses/new')
       create_senior_thesis(
         "Title" => title,
-        "Upload your files" => initial_file_path,
+        "Upload files" => initial_file_path,
         "Contributors" => contributors,
         "I Agree" => true,
         :js => true
@@ -208,7 +208,7 @@ describe 'end to end behavior', describe_options do
       create_senior_thesis(
         "Title" => 'Senior Thesis',
         'Visibility' => 'visibility_open',
-        "Upload your files" => initial_file_path,
+        "Upload files" => initial_file_path,
         "Assign DOI" => true,
         "Contributors" => contributors,
         "I Agree" => true,
@@ -237,9 +237,10 @@ describe 'end to end behavior', describe_options do
         '.generic_file.attributes .permission.attribute',
         text: "University of Notre Dame",count: 1
       )
+
       page.assert_selector(
         '.generic_file.attributes .title.attribute',
-        text: "Senior Thesis",count: 1
+        text: File.basename(initial_file_path),count: 1
       )
       page.assert_selector(
         '.generic_file.attributes .permission.attribute',
@@ -299,13 +300,13 @@ describe 'end to end behavior', describe_options do
   def create_senior_thesis(options = {})
     options['Abstract'] ||= 'Lorem Ipsum'
     options['Title'] ||= initial_title
-    options['Upload your files'] ||= initial_file_path
+    options['Upload files'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Senior thesis"
     options["Contributors"] ||= ["Dante"]
     options["Content License"] ||= Sufia::Engine.config.cc_licenses.keys.first
 
-    page.should have_content('Describe Your Thesis')
+    page.should have_content('Describe Your Senior Thesis')
     # Without accepting agreement
     within('#new_senior_thesis') do
 
@@ -342,7 +343,7 @@ describe 'end to end behavior', describe_options do
       click_continue_for_pane(2)
 
       # 3rd Pane
-      attach_file("Upload your files", options['Upload your files'])
+      attach_file("Upload files", options['Upload files'])
       if options['I Agree']
         check("I have read and accept the contributor licence agreement")
       end
@@ -354,7 +355,7 @@ describe 'end to end behavior', describe_options do
       within('.alert.error') do
         page.should have_content('You must accept the contributor agreement')
       end
-      page.should have_content("Describe Your Thesis")
+      page.should have_content("Describe Your Senior Thesis")
     end
   end
 
