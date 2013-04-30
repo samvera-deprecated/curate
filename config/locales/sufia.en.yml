@@ -21,8 +21,10 @@ en:
       date_created:      "Date Created"
       related_url:       "Related URL"
       rights:            "Content License"
+      files:             "Upload Files"
 
     metadata_help:
+      files: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files.”"
       resource_type: "Pre-defined categories to describe the type of file content being uploaded, such as \"article\" or \"dataset.\"  More than one type may be selected."
       title: "A name for the file to aid in identifying it. Defaults to the file name, though a more descriptive title is encouraged."
       tag: "Words or phrases you select to describe what the file is about. These are used to search for content."
