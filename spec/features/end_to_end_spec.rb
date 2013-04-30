@@ -43,6 +43,31 @@ describe 'end to end behavior', describe_options do
     find('.created_curation_concern').click
   end
 
+  describe 'user profile' do
+    let(:agreed_to_terms_of_service) { true }
+    let(:sign_in_count) { 2 }
+    let(:expected_email) { 'hello@world.com' }
+    it 'allows me to edit my email' do
+      expect(user.email).to be_empty
+      login_as(user)
+      visit('/dashboard')
+      within('.page-actions') do
+        click_link('Profile')
+      end
+      within('form.edit_user') do
+        fill_in('Alternate email', with: expected_email)
+        click_button('Update')
+      end
+      page.should have_content('You updated your account successfully.')
+      within('.page-actions') do
+        click_link('Profile')
+      end
+      within('form.edit_user') do
+        expect(find('#user_email').value).to eq(expected_email)
+      end
+    end
+  end
+
   describe 'terms of service' do
     let(:agreed_to_terms_of_service) { false }
     it "only requires me to agree once" do

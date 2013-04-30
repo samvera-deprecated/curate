@@ -20,6 +20,11 @@ class User < ActiveRecord::Base
   def password_required?; false; end
   def email_required?; false; end
 
+  def update_with_password(attributes)
+    self.email = attributes[:email]
+    self.save
+  end
+
   def self.audituser
     User.find_by_user_key(audituser_key) || User.create!(Devise.authentication_keys.first => audituser_key)
   end

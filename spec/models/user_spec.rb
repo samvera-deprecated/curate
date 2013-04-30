@@ -13,6 +13,16 @@ describe User do
     User.new(username: 'hello').to_s.should == 'hello'
   end
 
+  describe '#update_with_password' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:email) { 'hello@world.com' }
+    it 'should update email, if given' do
+      expect {
+        user.update_with_password(email: email)
+      }.to change(user, :email).from('').to(email)
+    end
+  end
+
   describe '.batchuser' do
     it 'persists an instance the first time, then returns the persisted object' do
       expect {

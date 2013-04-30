@@ -7,6 +7,7 @@
         <%= bootstrap_navigation_element 'Submit a work', new_classify_concern_path -%>
         <%= bootstrap_navigation_element 'Search',        catalog_index_path   -%>
         <%= bootstrap_navigation_element 'Log Out', destroy_user_session_path, class: 'pull-right' %>
+        <%= bootstrap_navigation_element 'Profile', edit_registration_path(current_user), class: 'pull-right' %>
         <%= bootstrap_navigation_element 'Request Help', new_help_request_path, class: 'pull-right', a_tag_options: {class: 'request-help'} %>
       <% else %>
         <%= bootstrap_navigation_element 'Search',        catalog_index_path   -%>

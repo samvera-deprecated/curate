@@ -1,0 +1,22 @@
+<%= simple_form_for(current_user, url: user_registration_path) do |f| %>
+  <% if f.error_notification -%>
+    <div class="alert alert-error fade in">
+      <strong>Wait don't go!</strong> There was a problem with your submission. Please review the errors below:
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+    </div>
+  <% end -%>
+
+  <fieldset>
+    <legend>
+      Update your profile
+    </legend>
+    <%= f.input :email, label: 'Alternate email' %>
+    <p>By providing an alternate email, you will be able to use that email to login to CurateND even after you have left the University of Notre Dame.</p>
+    <p><em>Note: The ability to login via this email is not yet functioning, but at least we'll have your email.</em></p>
+  </fieldset>
+  <div class="row">
+    <div class="span12 form-actions">
+      <%= f.submit(class: 'btn btn-primary', value: 'Update') %>
+    </div>
+  </div>
+<% end %>

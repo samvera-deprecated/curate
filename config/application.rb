@@ -75,6 +75,10 @@ module CurateNd
       Time.now.strftime("%Y-%m-%d %H:%M:%S")
     end
 
+    config.to_prepare do
+      Devise::RegistrationsController.layout('curate_nd/1_column')
+    end
+
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
