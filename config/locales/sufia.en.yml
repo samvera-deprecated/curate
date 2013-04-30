@@ -20,6 +20,7 @@ en:
       tag:               "Keyword"
       date_created:      "Date Created"
       related_url:       "Related URL"
+      rights:            "Content License"
 
     metadata_help:
       resource_type: "Pre-defined categories to describe the type of file content being uploaded, such as \"article\" or \"dataset.\"  More than one type may be selected."
