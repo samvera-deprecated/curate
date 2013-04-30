@@ -50,7 +50,7 @@ describe 'end to end behavior', describe_options do
       visit('/')
       click_link('Get Started')
       agree_to_terms_of_service
-      logout
+      logout(:user)
 
       visit('/')
 
@@ -119,7 +119,7 @@ describe 'end to end behavior', describe_options do
           text: "Open Access"
         )
         noid = page.current_path.split("/").last
-        logout
+        logout(:user)
         visit("/show/#{noid}")
 
         page.assert_selector('.contributor.attribute', text: 'Dante', count: 0)
@@ -213,7 +213,7 @@ describe 'end to end behavior', describe_options do
       view_your_updated_thesis
       view_your_dashboard
 
-      logout
+      logout(:user)
       login_as(another_user)
       other_persons_thesis_is_not_in_my_dashboard
       i_can_see_another_users_open_resource(path_to_view_thesis)
@@ -395,6 +395,7 @@ describe 'end to end behavior', describe_options do
 
   def i_cannot_edit_to_another_users_resource(path_to_other_persons_resource)
     visit path_to_other_persons_resource
-    page.should_not have_content(updated_title)
+    page.should_not have_content("Please consider releasing your thesis as an Open Access work. ")
+    page.should have_content("Unauthorized")
   end
 end
