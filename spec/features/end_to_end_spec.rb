@@ -182,7 +182,7 @@ describe 'end to end behavior', describe_options do
       visit('/concern/senior_theses/new')
       create_senior_thesis(
         "Title" => title,
-        "Upload your thesis" => initial_file_path,
+        "Upload your files" => initial_file_path,
         "Contributors" => contributors,
         "I Agree" => true,
         :js => true
@@ -208,7 +208,7 @@ describe 'end to end behavior', describe_options do
       create_senior_thesis(
         "Title" => 'Senior Thesis',
         'Visibility' => 'visibility_open',
-        "Upload your thesis" => initial_file_path,
+        "Upload your files" => initial_file_path,
         "Assign DOI" => true,
         "Contributors" => contributors,
         "I Agree" => true,
@@ -293,13 +293,13 @@ describe 'end to end behavior', describe_options do
   end
 
   def click_continue_for_pane(i)
-    find("#accordion_senior_thesis-fieldset-#{i} .btn-info.pull-right").click
+    find("#accordion-fieldset-#{i} .btn-info.pull-right").click
   end
 
   def create_senior_thesis(options = {})
     options['Abstract'] ||= 'Lorem Ipsum'
     options['Title'] ||= initial_title
-    options['Upload your thesis'] ||= initial_file_path
+    options['Upload your files'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Senior thesis"
     options["Contributors"] ||= ["Dante"]
@@ -342,7 +342,7 @@ describe 'end to end behavior', describe_options do
       click_continue_for_pane(2)
 
       # 3rd Pane
-      attach_file("Upload your thesis", options['Upload your thesis'])
+      attach_file("Upload your files", options['Upload your files'])
       if options['I Agree']
         check("I have read and accept the contributor licence agreement")
       end

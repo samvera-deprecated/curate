@@ -6,7 +6,7 @@
     </div>
   <% end -%>
 
-  <%= accordion(accordion_id: dom_id(curation_concern, 'accordion')) do |container| %>
+  <%= accordion(accordion_id: 'accordion') do |container| %>
 
     <%= container.pane(raw("Required Information&hellip;"), class: 'required', open_next: 'true') do %>
       <fieldset class="required">
