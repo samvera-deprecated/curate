@@ -43,26 +43,20 @@
     <% end %>
 
     <%= container.pane(raw("Files&hellip;")) do %>
+      <fieldset>
+        <legend>
+          Manage your <%= curation_concern.human_readable_type %> files
+          <small>A PDF copy is preferred.</small>
+        </legend>
+        <%= f.input :files,
+                    as: :file,
+                    label: 'Upload files',
+                    hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files.",
+                    input_html: { multiple: 'multiple'}
+        %>
+      </fieldset>
       <% if curation_concern.persisted? %>
-        <fieldset class="required">
-          <legend>
-            Manage your files
-          </legend>
-            <%= render '/curation_concern/manage_related_files', curation_concern: curation_concern, with_actions: true %>
-        </fieldset>
-      <% else %>
-        <fieldset class="required">
-          <legend>
-            Attach Your Thesis
-            <small>A PDF copy is preferred.</small>
-          </legend>
-          <%= f.input :files,
-                      as: :file,
-                      label: 'Upload your files.',
-                      hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files.",
-                      input_html: { multiple: 'multiple'}
-          %>
-        </fieldset>
+        <%= render '/curation_concern/manage_related_files', curation_concern: curation_concern, f: f %>
       <% end %>
     <% end %>
 
