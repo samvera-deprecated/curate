@@ -21,7 +21,14 @@ module CurationConcern
     before_filter :agreed_to_terms_of_service!
     prepend_before_filter :normalize_identifier, except: [:index, :new, :create]
     before_filter :curation_concern, except: [:index]
-    load_and_authorize_resource :curation_concern, except: [:index, :new, :create], class: "ActiveFedora::Base"
+
+    class_attribute :excluded_actions_for_curation_concern_authorization
+    self.excluded_actions_for_curation_concern_authorization = [:new, :create]
+    before_filter :authorize_curation_concern!, except: excluded_actions_for_curation_concern_authorization
+    def authorize_curation_concern!
+      authorize!(action_name.to_sym, curation_concern) || true
+    end
+
 
     attr_reader :curation_concern
     helper_method :curation_concern

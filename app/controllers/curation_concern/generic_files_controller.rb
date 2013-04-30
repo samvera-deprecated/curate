@@ -28,8 +28,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
   protected :authorize_edit_parent_rights!
 
-  before_filter :curation_concern
-  load_and_authorize_resource :curation_concern, class: "ActiveFedora::Base", except: [:new, :create]
+  self.excluded_actions_for_curation_concern_authorization = [:new, :create]
 
   def curation_concern
     @curation_concern ||=
