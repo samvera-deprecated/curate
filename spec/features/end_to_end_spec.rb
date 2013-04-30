@@ -182,7 +182,7 @@ describe 'end to end behavior', describe_options do
       visit('/concern/senior_theses/new')
       create_senior_thesis(
         "Title" => title,
-        "Upload files" => initial_file_path,
+        "Upload Files" => initial_file_path,
         "Contributors" => contributors,
         "I Agree" => true,
         :js => true
@@ -245,7 +245,7 @@ describe 'end to end behavior', describe_options do
   def create_senior_thesis(options = {})
     options['Abstract'] ||= 'Lorem Ipsum'
     options['Title'] ||= initial_title
-    options['Upload files'] ||= initial_file_path
+    options['Upload Files'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Senior thesis"
     options["Contributors"] ||= ["Dante"]
@@ -288,7 +288,7 @@ describe 'end to end behavior', describe_options do
       click_continue_for_pane(2)
 
       # 3rd Pane
-      attach_file("Upload files", options['Upload files'])
+      attach_file("Upload Files", options['Upload Files'])
       if options['I Agree']
         check("I have read and accept the contributor licence agreement")
       end
