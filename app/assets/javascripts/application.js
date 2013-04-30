@@ -11,3 +11,8 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require curate
+
+$(function(){
+    $("a[rel=popover]").popover({ html : true, trigger: "hover" });
+    $("a[rel=popover]").click(function() { return false;});
+});
