@@ -50,6 +50,10 @@ legend small {
   }
 }
 
+.accordion-body.in {
+  overflow:visible;
+}
+
 .control-group input.inline {
   display: inline-block;
 }
