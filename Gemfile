@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 group :default do
   gem 'mysql2'
   gem 'sufia', git: 'git://github.com/ndlib/sufia.git', branch: 'sufia-for-curate-nd'
-  gem 'curate', path: '../curate' #, git: 'git://github.com/ndlib/curate.git'
+  gem 'curate', git: 'git://github.com/ndlib/curate.git'
   gem 'rsolr', git: 'git://github.com/jeremyf/rsolr.git', branch: 'adding-connection-information-to-error-handling'
   gem 'jettywrapper'
   gem 'jquery-rails'
