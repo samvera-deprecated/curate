@@ -8,7 +8,7 @@
 
   <%= accordion(accordion_id: 'accordion') do |container| %>
 
-    <%= container.pane(raw("Required Information&hellip;"), class: 'required', open_next: 'true') do %>
+    <%= container.pane(raw("Required Information&hellip;"), class: 'required') do %>
       <fieldset class="required">
         <legend>This is what we need to know about your Senior Thesis</legend>
         <%= f.input :title, hint: help_icon('title').html_safe, input_html: { class: 'input-xlarge' } %>
@@ -26,7 +26,7 @@
       <%= render "/curation_concern/doi", curation_concern: curation_concern, f: f %>
     <% end %>
 
-    <%= container.pane(raw("Additional Information and Metadata&hellip;"), class: 'optional prompt', open_next: 'true') do %>
+    <%= container.pane(raw("Additional Information and Metadata&hellip;"), class: 'optional prompt') do %>
       <fieldset class="optional prompt">
         <legend>Any additional information is optional, but helpful for others looking to find your work.</legend>
         <%= f.input :contributor,             as: :multi_value, input_html: { class: 'input-xlarge' }, hint: help_icon('contributor') %>
@@ -38,7 +38,7 @@
       </fieldset>
     <% end %>
 
-    <%= container.pane(raw("Access and Permissions&hellip;"), open_next: 'true') do %>
+    <%= container.pane(raw("Access and Permissions&hellip;")) do %>
       <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
     <% end %>
 

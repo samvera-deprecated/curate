@@ -288,7 +288,7 @@ describe 'end to end behavior', describe_options do
   end
 
   def click_continue_for_pane(i)
-    find("#accordion-fieldset-#{i} .btn-info.pull-right").click
+
   end
 
   def create_senior_thesis(options = {})
