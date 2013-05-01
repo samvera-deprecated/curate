@@ -223,6 +223,31 @@ describe 'end to end behavior', describe_options do
     end
   end
 
+  describe 'with a user who has agreed to ToS' do
+    let(:agreed_to_terms_of_service) { true }
+    let(:sign_in_count) { 2 }
+    let(:embargo_release_date) { 2.days.from_now }
+    let(:embargo_release_date_formatted) { embargo_release_date.strftime("%Y-%m-%d") }
+
+    # CAS does not yet fully log you out of the site, so I want to verify that
+    # if I log out, I don't see it.
+    it 'when they create an embargoed file then log out they should not see it' do
+      login_as(user)
+      visit('/concern/senior_theses/new')
+      url = create_senior_thesis(
+        "Title" => "A Title",
+        "Upload Files" => __FILE__,
+        "Contributors" => ['Washington, George'],
+        "I Agree" => true,
+        'Embargo Release Date' => embargo_release_date_formatted,
+        :js => true
+      )
+      logout(:user)
+      follow_created_curation_concern_link!
+      page.should have_content('Unauthorized')
+    end
+  end
+
   describe 'with a user who has not agreed to terms of service' do
     let(:agreed_to_terms_of_service) { false }
     let(:sign_in_count) { 2 }
