@@ -22,16 +22,21 @@ module CurationConcern
 
     def create_files
       files.each do |file|
+        create_file(file)
+      end
+    end
+
+    def create_file(file)
         generic_file = GenericFile.new
         generic_file.file = file
         generic_file.batch = curation_concern
         Sufia::GenericFile::Actions.create_metadata(
           generic_file, user, curation_concern.pid
         )
+        generic_file.embargo_release_date = curation_concern.embargo_release_date
         generic_file.set_visibility(visibility)
         CurationConcern.attach_file(generic_file, user, file)
       end
-    end
 
     def update_contained_generic_file_visibility
       if visibility_may_have_changed?
