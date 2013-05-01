@@ -239,8 +239,7 @@ describe 'end to end behavior', describe_options do
         "Upload Files" => __FILE__,
         "Contributors" => ['Washington, George'],
         "I Agree" => true,
-        'Embargo Release Date' => embargo_release_date_formatted,
-        :js => true
+        'Embargo Release Date' => embargo_release_date_formatted
       )
       logout(:user)
       follow_created_curation_concern_link!
