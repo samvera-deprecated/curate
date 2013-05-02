@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   resources :terms_of_service_agreements, only: [:new, :create]
   resources :help_requests, only: [:new, :create]
   resources :classify_concerns, only: [:new, :create]
+  resources :welcome, only: [:new, :index]
 
   match "show/:id" => "common_objects#show", via: :get, as: "common_object"
   match "show/stub/:id" => "common_objects#show_stub_information", via: :get, as: "common_object_stub_information"
