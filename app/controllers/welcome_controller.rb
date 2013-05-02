@@ -11,8 +11,9 @@ class WelcomeController < ApplicationController
   def new
     if first_time_login?
       redirect_to new_classify_concern_path
+    else
+      redirect_to dashboard_index_path
     end
-    redirect_to dashboard_index_path
   end
 
   private
