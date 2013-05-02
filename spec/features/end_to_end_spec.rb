@@ -296,10 +296,7 @@ describe 'end to end behavior', describe_options do
 
   def classify_what_you_are_uploading(concern)
     page.should have_content("What are you uploading?")
-    within('#new_classify_concern') do
-      select(concern, from: 'classify_concern_curation_concern_type')
-      click_on("Continue")
-    end
+    find("a.btn.add_new_#{concern.gsub(/\s/,'_').downcase}").click
   end
 
   def create_mock_curation_concern(options = {})
@@ -322,7 +319,8 @@ describe 'end to end behavior', describe_options do
       if options['Embargo Release Date']
         fill_in("mock_curation_concern_embargo_release_date", with: options["Embargo Release Date"])
       end
-      select(options['Content License'], from: 'Content License')
+
+      select(options['Content License'], from: I18n.translate('sufia.field_label.rights'))
       within('.mock_curation_concern_contributor.multi_value') do
         contributors = [options['Contributors']].flatten.compact
         if options[:js]
@@ -408,17 +406,18 @@ describe 'end to end behavior', describe_options do
       # I call CSS/Dom shenannigans; I can't access 'Creator' link
       # directly and instead must find by CSS selector, validate it
       all('a.accordion-toggle').each do |elem|
-        if elem.text == 'Creator'
+        if elem.text == 'Type'
           elem.click
         end
       end
-      click_on(user.user_key)
+      click_on('Mock Curation Concern')
+
     end
     within('.alert.alert-info') do
       page.should have_content("You searched for: #{search_term}")
     end
     within('.alert.alert-warning') do
-      page.should have_content(user.user_key)
+      page.should have_content('Mock Curation Concern')
     end
   end
 

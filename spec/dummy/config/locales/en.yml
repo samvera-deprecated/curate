@@ -3,3 +3,12 @@
 
 en:
   hello: "Hello world"
+  sufia:
+    field_label:
+      based_near:        "Location"
+      description:       "Abstract or Summary"
+      tag:               "Keyword"
+      date_created:      "Date Created"
+      related_url:       "Related URL"
+      rights:            "Content License"
+      files:             "Upload Files"
