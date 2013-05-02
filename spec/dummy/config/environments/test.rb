@@ -34,4 +34,20 @@ Dummy::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  if ENV['FULL_STACK']
+    require 'clamav'
+    ClamAV.instance.loaddb
+    config.default_antivirus_instance = lambda {|file_path|
+      ClamAV.instance.scanfile(file_path)
+    }
+  else
+    config.default_antivirus_instance = lambda {|file_path|
+      AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE
+    }
+    config.default_characterization_runner = lambda { |file_path|
+      Rails.root.join('../../spec/support/files/default_fits_output.xml').read
+    }
+  end
+
 end
