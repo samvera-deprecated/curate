@@ -4,6 +4,8 @@ pkg/
 spec/dummy/db/*.sqlite3
 spec/dummy/log/*.log
 spec/dummy/tmp/
+spec/dummy/jetty/*
+spec/dummy/spec/jetty_generator
 spec/dummy/.sass-cache
 Gemfile.lock
 .rvmrc

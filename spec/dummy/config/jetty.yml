@@ -1,6 +1,13 @@
-default:
+default: &DEFAULT
   jetty_port: 8983
-test:
-  jetty_port: <%= ENV['TEST_JETTY_PORT'] || 8888 %> 
-  jetty_home: <%= ENV['TEST_JETTY_PATH'] || File.join(Rails.root, 'test_jetty') %>
-  startup_wait: 15
+  jetty_home: <%= Rails.root.join('jetty') %>
+  startup_wait: 75
+  java_opts:
+    - "-XX:+CMSPermGenSweepingEnabled"
+    - "-XX:+CMSClassUnloadingEnabled"
+    - "-XX:PermSize=64M"
+    - "-XX:MaxPermSize=128M"
+  quiet: true
+test: &TEST
+  <<: *DEFAULT
+  jetty_home: <%= Rails.root.join('jetty') %>
