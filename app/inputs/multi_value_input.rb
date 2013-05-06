@@ -37,13 +37,17 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
   # It would be _better_ to use @builder construct the element but the proper
   # syntax escapes me.
   def label
-    attribute_label = template.get_label(attribute_name) rescue attribute_name.to_s.titleize
     <<-HTML
-    <label id="#{label_id}" class="string #{label_classes}">#{attribute_label}</label>
+    <label id="#{label_id}" class="string #{label_classes}">#{label_text_for(attribute_name)}</label>
     HTML
   end
 
   private
+
+  def label_text_for(attribute_name)
+    return options[:label] if options[:label]
+    template.get_label(attribute_name)
+  end
 
   def label_id
     "#{object_name}_#{attribute_name}_label"
