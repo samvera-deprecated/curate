@@ -32,4 +32,17 @@ describe SeniorThesis do
     subject.to_param.should == subject.noid
   end
 
+  describe 'contributor' do
+    it 'normalizes input to "Last Name, First Name"' do
+      subject.contributor = [
+        'Washington, George', 'John Lennon','Prof. Hubert J. Farnsworth'
+      ]
+      expect(subject.contributor).to eq(
+        [
+          'George Washington', 'John Lennon', 'Prof. Hubert J. Farnsworth'
+        ]
+      )
+    end
+  end
+
 end

@@ -285,6 +285,7 @@ GEM
     morphine (0.1.1)
     multi_json (1.7.2)
     mysql2 (0.3.11)
+    namae (0.7.1)
     nest (1.1.1)
       redis
     net-scp (1.1.0)
@@ -510,6 +511,7 @@ DEPENDENCIES
   method_locator
   morphine
   mysql2
+  namae
   rails_best_practices
   rake
   resque-pool

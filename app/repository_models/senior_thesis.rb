@@ -31,7 +31,6 @@ class SeniorThesis < ActiveFedora::Base
   delegate_to(
     :descMetadata,
     [
-      :contributor,
       :publisher,
       :bibliographic_citation,
       :source,
@@ -47,8 +46,40 @@ class SeniorThesis < ActiveFedora::Base
 
   attr_accessor :files, :assign_doi
 
+  def contributor=(values)
+    @contributor = parse_person_name(values)
+    datastreams['descMetadata'].contributor = @contributor
+    @contributor
+  end
+
+  def contributor
+    @contributor || self.contributor = datastreams['descMetadata'].contributor
+  end
+
   def doi_url
     File.join(Rails.configuration.doi_url, self.identifier)
+  end
+
+  private
+  def parse_person_name(values)
+    Array(values).each_with_object([]) {|value, collector|
+      Namae.parse(value).each {|name|
+        collector << normalize_contributor(name)
+      }
+    }
+  end
+
+  def normalize_contributor(name)
+    [
+      name.appellation,
+      name.title,
+      name.given,
+      name.dropping_particle,
+      name.nick,
+      name.particle,
+      name.family,
+      name.suffix
+    ].flatten.compact.join(" ")
   end
 
 end
