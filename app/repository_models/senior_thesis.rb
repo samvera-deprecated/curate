@@ -24,7 +24,8 @@ class SeniorThesis < ActiveFedora::Base
       :creator,
       :content_format,
       :identifier,
-      :rights
+      :rights,
+      :date_created
     ],
     unique: true
   )

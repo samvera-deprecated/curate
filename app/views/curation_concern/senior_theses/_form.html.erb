@@ -11,35 +11,62 @@
     <%= container.pane(raw("Required Information&hellip;"), class: 'required') do %>
       <fieldset class="required">
         <legend>This is what we need to know about your Senior Thesis</legend>
-        <%= f.input :title, hint: help_icon('title').html_safe, input_html: { class: 'input-xlarge' } %>
+        <%= f.input :title,
+                    label: "Title of your #{curation_concern.human_readable_type}",
+                    input_html: { class: 'input-xxlarge'}
+        %>
         <%= f.input :description,
                     as: :text,
-                    hint: help_icon('description'),
                     input_html: {
                       class: 'input-xxxlarge',
                       rows: '9'
                     },
-                    label: get_label('description')
+                    label: "Abstract or Summary of #{curation_concern.human_readable_type}"
+        %>
+        <%= f.input :creator,
+                    input_html: { class: 'input-xlarge', placeholder: 'George Washington' },
+                    label: 'Author',
+                    hint: 'Enter your preferred name'
+        %>
+        <%= f.input :date_created,
+                    input_html: { class: 'datepicker', placeholder: Date.today },
+                    label: "When did your finish your #{curation_concern.human_readable_type}",
+                    hint: "This does not need to be exact, but your best guess."
         %>
       </fieldset>
       <%= render '/curation_concern/content_license', f: f %>
+      <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
       <%= render "/curation_concern/doi", curation_concern: curation_concern, f: f %>
     <% end %>
 
     <%= container.pane(raw("Additional Information and Metadata&hellip;"), class: 'optional prompt') do %>
       <fieldset class="optional prompt">
         <legend>Any additional information is optional, but helpful for others looking to find your work.</legend>
-        <%= f.input :contributor,             as: :multi_value, input_html: { class: 'input-xlarge', placeholder: 'Washington, George' }, hint: help_icon('contributor') %>
-        <%= f.input :subject,                 as: :multi_value, input_html: { class: 'input-xlarge' }, hint:help_icon('subject') %>
-        <%= f.input :publisher,               as: :multi_value, input_html: { class: 'input-xlarge' }, hint:help_icon('publisher') %>
-        <%= f.input :bibliographic_citation,  as: :multi_value, input_html: { class: 'input-xlarge' }, hint:help_icon('bibliographic_citation') %>
-        <%= f.input :source,                  as: :multi_value, input_html: { class: 'input-xlarge' }, hint:help_icon('source') %>
-        <%= f.input :language,                as: :multi_value, input_html: { class: 'input-xlarge', placeholder: 'English' }, hint:help_icon('language') %>
+        <%= f.input :contributor,
+                    as: :multi_value,
+                    input_html: { placeholder: 'Prof. Roy Hinkley', class: 'input-xlarge' },
+                    label: "Contributing Author(s)",
+                    hint: "A person or group you want to recognize for playing a role in the creation of the file, but not the primary role."
+        %>
+        <%= f.input :subject,
+                    as: :multi_value,
+                    input_html: { class: 'input-xlarge' },
+                    label: "Keyword(s)"
+        %>
+        <%= f.input :bibliographic_citation,
+                    as: :multi_value,
+                    input_html: { class: 'input-xlarge' },
+                    hint: "Recommended Bibliographic Citation for referencing your #{curation_concern.human_readable_type}"
+        %>
+        <%= f.input :language,
+                    as: :multi_value,
+                    input_html: { class: 'input-xlarge', placeholder: 'English' }
+        %>
+        <%= f.input :publisher,
+                    as: :multi_value,
+                    input_html: { class: 'input-xlarge', placeholder: 'University of Notre Dame' }
+        %>
       </fieldset>
-    <% end %>
-
-    <%= container.pane(raw("Access and Permissions&hellip;")) do %>
-      <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
     <% end %>
 
     <%= container.pane(raw("Files&hellip;")) do %>
@@ -50,8 +77,8 @@
         </legend>
         <%= f.input :files,
                     as: :file,
-                    label: get_label(:files),
-                    hint: help_icon(:files),
+                    label: "Upload Files",
+                    hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files.",
                     input_html: { multiple: 'multiple'}
         %>
       </fieldset>

@@ -25,6 +25,11 @@ class SeniorThesisMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :searchable, :displayable, :sortable
     end
 
+    map.date_created(:to => "created", :in => RDF::DC) do |index|
+      index.type :date
+      index.as :searchable, :displayable
+    end
+
     map.date_modified(to: "modified", in: RDF::DC) do |index|
       index.type :date
       index.as :searchable, :displayable, :sortable
