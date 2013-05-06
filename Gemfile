@@ -22,6 +22,7 @@ group :default do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
   gem 'bootstrap-datepicker-rails'
+  gem 'namae'
 end
 
 group :headless do
