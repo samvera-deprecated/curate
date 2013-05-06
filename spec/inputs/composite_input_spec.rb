@@ -34,7 +34,7 @@ describe 'CompositeInput' do
       with_tag('.controls') do
         with_tag('fieldset.composite-input') do
           with_tag('input.foo_bar_baz.input-xlarge#foo_bar_baz', name: 'foo[bar][baz]', value: 'baz1')
-          with_tag('input.foo_bar_baz.input-xlarge#foo_bar_baz', name: 'foo[bar][bong]', value: 'bong1')
+          with_tag('input.foo_bar_bong.input-xlarge#foo_bar_bong', name: 'foo[bar][bong]', value: 'bong1')
         end
       end
     end
