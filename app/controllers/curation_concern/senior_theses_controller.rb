@@ -14,6 +14,16 @@ class CurationConcern::SeniorThesesController < CurationConcern::BaseController
   end
 
   def new
+    # @WIP - this should be extracted to the model, but that is not ideal at
+    # present
+    unless params[:senior_thesis]
+      curation_concern.date_created = Date.today.to_s("%Y-%m-%d")
+      curation_concern.rights = "All rights reserved"
+      curation_concern.visibility = AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+      curation_concern.assign_doi = true
+      curation_concern.language = ['English'] if curation_concern.language.empty?
+      curation_concern.publisher = ['University of Notre Dame'] if curation_concern.publisher.empty?
+    end
   end
 
   def create

@@ -61,11 +61,12 @@
         %>
         <%= f.input :language,
                     as: :multi_value,
-                    input_html: { class: 'input-xlarge', placeholder: 'English' }
+                    input_html: { class: 'input-xlarge'},
+                    hint: "What is the language(s) in which you wrote your work?"
         %>
         <%= f.input :publisher,
                     as: :multi_value,
-                    input_html: { class: 'input-xlarge', placeholder: 'University of Notre Dame' }
+                    input_html: { class: 'input-xlarge' }
         %>
       </fieldset>
     <% end %>
