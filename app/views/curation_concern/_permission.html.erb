@@ -2,11 +2,15 @@
   <fieldset class="control-group">
     <legend>
       Access Rights
-      <small>Applied to the attached files and their metadata</small>
+      <small>Who should be able to read and download your files?</small>
     </legend>
 
     <p class="help-block">
-      Who should be able to read and download your files?
+      <strong>Please note</strong>, making something visible to the world (i.e. marking this as <span class="label label-success">Open Access</span>) may be viewed as publishing, which could:
+      <ul>
+        <li>impact the ability to patent your work</li>
+        <li>publish your work in a journal</li>
+      </ul>
     </p>
 
     <div class="controls">
@@ -16,7 +20,7 @@
       </label>
       <label class="radio">
         <input type="radio" id="visibility_embargo" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO %>" <% if curation_concern.open_access_with_embargo_release_date? %> checked="true"<% end %>/>
-        <span class="label label-warning">Open Access with Embargo</span> Treated as <span class="label label-important">Private</span> until <%= f.input :embargo_release_date, label: false, input_html: { placeholder: Date.today, class: 'datepicker inline' } %> then it is <span class="label label-success">Open Access</span>.
+        <span class="label label-warning">Open Access with Embargo</span> Treated as <span class="label label-important">Private</span> until <%= f.input :embargo_release_date, wrapper: :inline, input_html: { placeholder: Date.today, class: 'input-small datepicker' } %> then it is <span class="label label-success">Open Access</span>.
       </label>
       <label class="radio">
         <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED %>" <% if curation_concern.authenticated_only_access? %> checked="true"<% end %> />
@@ -27,5 +31,6 @@
         <span class="label label-important">Private</span> Only visible to you.
       </label>
     </div>
+
   </fieldset>
 </div>
