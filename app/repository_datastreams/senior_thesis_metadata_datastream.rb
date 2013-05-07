@@ -5,7 +5,7 @@ class SeniorThesisMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :searchable, :displayable
     end
     map.contributor(in: RDF::DC) do |index|
-      index.as :searchable, :facetable, :displayable
+      index.as :searchable, :displayable
     end
     map.created(in: RDF::DC)
     map.creator(in: RDF::DC) do |index|
