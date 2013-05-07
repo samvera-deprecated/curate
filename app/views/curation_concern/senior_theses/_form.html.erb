@@ -24,7 +24,7 @@
                     label: "Abstract or Summary of #{curation_concern.human_readable_type}"
         %>
         <%= f.input :creator,
-                    input_html: { class: 'input-xlarge', placeholder: 'George Washington' },
+                    input_html: { class: 'input-xlarge', placeholder: 'George Washington', multiple: 'multiple' },
                     label: 'Author',
                     hint: 'Enter your preferred name'
         %>
@@ -44,29 +44,29 @@
         <legend>Any additional information is optional, but helpful for others looking to find your work.</legend>
         <%= f.input :contributor,
                     as: :multi_value,
-                    input_html: { placeholder: 'Prof. Roy Hinkley', class: 'input-xlarge' },
+                    input_html: { placeholder: 'Prof. Roy Hinkley', class: 'input-xlarge', multiple: 'multiple' },
                     label: "Contributing Author(s)",
                     hint: "Who else played a non-primary role in the creation of your Senior Thesis."
         %>
         <%= f.input :subject,
                     as: :multi_value,
-                    input_html: { class: 'input-xlarge' },
-                    label: "Keyword(s) or phrase(s)"
+                    input_html: { class: 'input-xlarge', multiple: 'multiple' },
+                    label: "Keyword(s) or phrase(s)",
                     hint: "What words or phrases would be helpful for someone searching for your Senior Thesis"
         %>
         <%= f.input :bibliographic_citation,
                     as: :multi_value,
-                    input_html: { class: 'input-xlarge' },
+                    input_html: { class: 'input-xlarge', multiple: 'multiple' },
                     hint: "Recommended Bibliographic Citation for referencing your #{curation_concern.human_readable_type}. <a href='http://lib.calpoly.edu/research/citations/apa.html'>Citation Examples</a>"
         %>
         <%= f.input :language,
                     as: :multi_value,
-                    input_html: { class: 'input-xlarge'},
+                    input_html: { class: 'input-xlarge', multiple: 'multiple'},
                     hint: "What is the language(s) in which you wrote your work?"
         %>
         <%= f.input :publisher,
                     as: :multi_value,
-                    input_html: { class: 'input-xlarge' }
+                    input_html: { class: 'input-xlarge', multiple: 'multiple' }
         %>
       </fieldset>
     <% end %>

@@ -294,6 +294,7 @@ describe 'end to end behavior', describe_options do
   def create_senior_thesis(options = {})
     options['Abstract'] ||= 'Lorem Ipsum'
     options['Title'] ||= initial_title
+    options['Author'] ||= "Johnny Student"
     options['Upload Files'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Senior thesis"
@@ -307,6 +308,7 @@ describe 'end to end behavior', describe_options do
       # 0th Pane
       fill_in("Title", with: options['Title'])
       fill_in("Abstract", with: options['Abstract'])
+      fill_in('Author', with: options['Author'])
       select(options['Content License'], from: 'Content License')
       if options['Assign DOI']
         check('senior_thesis_assign_doi')
