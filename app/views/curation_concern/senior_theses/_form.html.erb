@@ -46,17 +46,18 @@
                     as: :multi_value,
                     input_html: { placeholder: 'Prof. Roy Hinkley', class: 'input-xlarge' },
                     label: "Contributing Author(s)",
-                    hint: "A person or group you want to recognize for playing a role in the creation of the file, but not the primary role."
+                    hint: "Who else played a non-primary role in the creation of your Senior Thesis."
         %>
         <%= f.input :subject,
                     as: :multi_value,
                     input_html: { class: 'input-xlarge' },
-                    label: "Keyword(s)"
+                    label: "Keyword(s) or phrase(s)"
+                    hint: "What words or phrases would be helpful for someone searching for your Senior Thesis"
         %>
         <%= f.input :bibliographic_citation,
                     as: :multi_value,
                     input_html: { class: 'input-xlarge' },
-                    hint: "Recommended Bibliographic Citation for referencing your #{curation_concern.human_readable_type}"
+                    hint: "Recommended Bibliographic Citation for referencing your #{curation_concern.human_readable_type}. <a href='http://lib.calpoly.edu/research/citations/apa.html'>Citation Examples</a>"
         %>
         <%= f.input :language,
                     as: :multi_value,
