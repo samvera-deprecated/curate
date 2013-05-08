@@ -86,5 +86,19 @@ module CurateNd
       g.test_framework :rspec, :spec => true, :fixture => false
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
+
+    SMTP_CONFIG = YAML.load_file("#{Rails.root}/config/smtp_config.yml")[Rails.env]
+
+    config.action_mailer.delivery_method = SMTP_CONFIG['smtp_delivery_method'].to_sym
+    config.action_mailer.smtp_settings = {
+      address:              SMTP_CONFIG['smtp_host'],
+      port:                 SMTP_CONFIG['smtp_port'],
+      domain:               SMTP_CONFIG['smtp_domain'],
+      user_name:            SMTP_CONFIG['smtp_user_name'],
+      password:             SMTP_CONFIG['smtp_password'],
+      authentication:       SMTP_CONFIG['smtp_authentication_type'],
+      enable_starttls_auto: SMTP_CONFIG['smtp_enable_starttls_auto']
+    }
+
   end
 end
