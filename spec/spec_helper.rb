@@ -48,6 +48,10 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   config.include Warden::Test::Helpers, type: :feature
   config.include FeatureSupport, type: :feature
+  config.include InputSupport, type: :input, example_group: {
+    file_path: config.escaped_path(%w[spec inputs])
+  }
+
 
   config.use_transactional_fixtures = false
 
