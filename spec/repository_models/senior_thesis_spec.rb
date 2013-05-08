@@ -32,6 +32,30 @@ describe SeniorThesis do
     subject.to_param.should == subject.noid
   end
 
+  describe '#advisor' do
+    it 'normalizes multiple entries' do
+      subject.advisor = [
+        'Washington, George', 'John Lennon','Prof. Hubert J. Farnsworth'
+      ]
+      expect(subject.advisor).to eq(
+        [
+          'George Washington', 'John Lennon', 'Prof. Hubert J. Farnsworth'
+        ]
+      )
+    end
+
+    it 'handles blank entries' do
+      subject.advisor = [
+        'Washington, George', '', ''
+      ]
+      expect(subject.advisor).to eq(
+        [
+          'George Washington'
+        ]
+      )
+    end
+  end
+
   describe '#creator' do
     it 'validates that we have at least one creator' do
       subject.creator = ['']

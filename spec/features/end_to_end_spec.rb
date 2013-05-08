@@ -201,6 +201,30 @@ describe 'end to end behavior', describe_options do
 
   end
 
+  describe 'Advisor (because of its wonky URI)' do
+    let(:advisors) { ['Professor John Doe'] }
+    let(:agreed_to_terms_of_service) { true }
+    let(:sign_in_count) { 2 }
+    let(:title) {"Somebody Special's Senior Thesis" }
+    it 'handles contributor', js: true do
+      login_as(user)
+      visit('/concern/senior_theses/new')
+      create_senior_thesis(
+        "Title" => title,
+        "Upload Files" => initial_file_path,
+        "Advisors" => advisors,
+        "I Agree" => true
+      )
+      follow_created_curation_concern_link!
+      page.should have_content(title)
+      advisors.each do |advisor|
+        page.assert_selector(
+          '.senior_thesis.attributes .advisor.attribute',
+          text: advisor
+        )
+      end
+    end
+  end
   describe '+Add javascript behavior', js: true do
     let(:contributors) { ["D'artagnan", "Porthos", "Athos", 'Aramas'] }
     let(:agreed_to_terms_of_service) { true }
@@ -298,6 +322,7 @@ describe 'end to end behavior', describe_options do
     options['Abstract'] ||= 'Lorem Ipsum'
     options['Title'] ||= initial_title
     options['Authors'] ||= ["Johnny Student"]
+    options['Advisors'] ||= ["Prof. Roy Hinkley"]
     options['Upload Files'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Senior thesis"
@@ -319,6 +344,7 @@ describe 'end to end behavior', describe_options do
       click_continue_for_pane(0)
 
       # 1st Pane
+      fill_out_form_multi_value_for('advisor', with: options['Advisors'])
       fill_out_form_multi_value_for('contributor', with: options['Contributors'])
       click_continue_for_pane(1)
 

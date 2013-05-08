@@ -1,4 +1,4 @@
-
+require 'lib/rdf/qualified_dc'
 class SeniorThesisMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
   map_predicates do |map|
     map.title(in: RDF::DC) do |index|
@@ -7,9 +7,12 @@ class SeniorThesisMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     map.contributor(in: RDF::DC) do |index|
       index.as :searchable, :displayable
     end
+    map.advisor(to: "contributor#advisor", in: RDF::QualifiedDC) do |index|
+      index.as :searchable, :displayable
+    end
     map.created(in: RDF::DC)
     map.creator(in: RDF::DC) do |index|
-      index.as :searchable, :facetable, :displayable
+      index.as :searchable, :displayable
     end
     map.description(in: RDF::DC) do |index|
       index.type :text

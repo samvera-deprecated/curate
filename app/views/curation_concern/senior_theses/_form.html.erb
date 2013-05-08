@@ -15,6 +15,12 @@
                     label: "Title of your #{curation_concern.human_readable_type}",
                     input_html: { class: 'input-xxlarge'}
         %>
+        <%= f.input :creator,
+                    as: :multi_value,
+                    input_html: { class: 'input-xlarge', placeholder: 'George Washington', multiple: 'multiple' },
+                    label: 'Author',
+                    hint: 'Enter your preferred name'
+        %>
         <%= f.input :description,
                     as: :text,
                     input_html: {
@@ -22,12 +28,6 @@
                       rows: '9'
                     },
                     label: "Abstract or Summary of #{curation_concern.human_readable_type}"
-        %>
-        <%= f.input :creator,
-                    as: :multi_value,
-                    input_html: { class: 'input-xlarge', placeholder: 'George Washington', multiple: 'multiple' },
-                    label: 'Author',
-                    hint: 'Enter your preferred name'
         %>
         <%= f.input :date_created,
                     input_html: { class: 'datepicker', placeholder: Date.today },
@@ -43,9 +43,14 @@
     <%= container.pane(raw("Additional Information and Metadata&hellip;"), class: 'optional prompt') do %>
       <fieldset class="optional prompt">
         <legend>Any additional information is optional, but helpful for others looking to find your work.</legend>
-        <%= f.input :contributor,
+        <%= f.input :advisor,
                     as: :multi_value,
                     input_html: { placeholder: 'Prof. Roy Hinkley', class: 'input-xlarge', multiple: 'multiple' },
+                    label: "Advisor(s)"
+        %>
+        <%= f.input :contributor,
+                    as: :multi_value,
+                    input_html: { class: 'input-xlarge', multiple: 'multiple' },
                     label: "Contributing Author(s)",
                     hint: "Who else played a non-primary role in the creation of your Senior Thesis."
         %>

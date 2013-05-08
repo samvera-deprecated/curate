@@ -67,6 +67,16 @@ class SeniorThesis < ActiveFedora::Base
     @creator ||= parse_person_name(datastreams['descMetadata'].creator)
   end
 
+  def advisor=(values)
+    @advisor = parse_person_name(values)
+    datastreams['descMetadata'].advisor = @advisor
+    @advisor
+  end
+
+  def advisor
+    @advisor ||= parse_person_name(datastreams['descMetadata'].advisor)
+  end
+
   def doi_url
     File.join(Rails.configuration.doi_url, self.identifier)
   end
