@@ -34,6 +34,6 @@ class HelpRequest < ActiveRecord::Base
   end
 
   def send_notification
-    NotificationMailer.notify(self).deliver
+    Sufia.queue.push(NotificationWorker.new(id))
   end
 end
