@@ -4,8 +4,7 @@ class ClassifyConcernsController < ApplicationController
   with_themed_layout '1_column'
   respond_to :html
 
-  add_breadcrumb 'Submit a creation', lambda {|controller| controller.request.path }
-
+  add_breadcrumb 'Submit a work', lambda {|controller| controller.request.path }
   def classify_concern
     @classify_concern ||= ClassifyConcern.new(params[:classify_concern])
   end
