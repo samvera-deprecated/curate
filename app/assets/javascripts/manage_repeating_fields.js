@@ -37,7 +37,7 @@
           $newField = $activeField.clone(),
           $listing = $('.listing', this.element),
           $warningSpan  = $("<span class=\'message warning\'>cannot add new empty field</span>");
-      if ($activeField.children('input').val() == '') {
+      if ($activeField.children('input').val() === '') {
           $listing.children('.warning').remove();
           $listing.append($warningSpan);
       }
@@ -66,6 +66,6 @@
       this.actions.remove();
       $('.field-wrapper', this.element).removeClass("input-append");
       this.element.removeClass( "managed" );
-    },
+    }
   });
 })(jQuery);
