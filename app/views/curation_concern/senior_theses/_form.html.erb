@@ -24,6 +24,7 @@
                     label: "Abstract or Summary of #{curation_concern.human_readable_type}"
         %>
         <%= f.input :creator,
+                    as: :multi_value,
                     input_html: { class: 'input-xlarge', placeholder: 'George Washington', multiple: 'multiple' },
                     label: 'Author',
                     hint: 'Enter your preferred name'

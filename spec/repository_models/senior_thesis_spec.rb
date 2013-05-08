@@ -32,8 +32,44 @@ describe SeniorThesis do
     subject.to_param.should == subject.noid
   end
 
+  describe '#creator' do
+    it 'validates that we have at least one creator' do
+      subject.creator = ['']
+      subject.valid?
+      expect(subject.errors[:creator].size).to eq(1)
+      subject.creator = ['Tiny']
+      subject.valid?
+      expect(subject.errors[:creator].size).to eq(0)
+      subject.creator = ['George Harrison', '']
+      subject.valid?
+      expect(subject.errors[:creator].size).to eq(0)
+    end
+
+    it 'normalizes multiple entries' do
+      subject.creator = [
+        'Washington, George', 'John Lennon','Prof. Hubert J. Farnsworth'
+      ]
+      expect(subject.creator).to eq(
+        [
+          'George Washington', 'John Lennon', 'Prof. Hubert J. Farnsworth'
+        ]
+      )
+    end
+
+    it 'handles blank entries' do
+      subject.creator = [
+        'Washington, George', '', ''
+      ]
+      expect(subject.creator).to eq(
+        [
+          'George Washington'
+        ]
+      )
+    end
+  end
+
   describe 'contributor' do
-    it 'normalizes input to "Last Name, First Name"' do
+    it 'normalizes input to "First Name Last Name"' do
       subject.contributor = [
         'Washington, George', 'John Lennon','Prof. Hubert J. Farnsworth'
       ]

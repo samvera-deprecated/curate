@@ -9,6 +9,10 @@ if ENV['JS']
 end
 
 describe 'end to end behavior', describe_options do
+  def with_javascript?
+    @example.metadata[:js] || @example.metadata[:javascript]
+  end
+
   before(:each) do
     Warden.test_mode!
     @old_resque_inline_value = Resque.inline
@@ -209,8 +213,7 @@ describe 'end to end behavior', describe_options do
         "Title" => title,
         "Upload Files" => initial_file_path,
         "Contributors" => contributors,
-        "I Agree" => true,
-        :js => true
+        "I Agree" => true
       )
       follow_created_curation_concern_link!
       page.should have_content(title)
@@ -294,7 +297,7 @@ describe 'end to end behavior', describe_options do
   def create_senior_thesis(options = {})
     options['Abstract'] ||= 'Lorem Ipsum'
     options['Title'] ||= initial_title
-    options['Author'] ||= "Johnny Student"
+    options['Authors'] ||= ["Johnny Student"]
     options['Upload Files'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Senior thesis"
@@ -308,7 +311,7 @@ describe 'end to end behavior', describe_options do
       # 0th Pane
       fill_in("Title", with: options['Title'])
       fill_in("Abstract", with: options['Abstract'])
-      fill_in('Author', with: options['Author'])
+      fill_out_form_multi_value_for('creator', with: options['Authors'])
       select(options['Content License'], from: 'Content License')
       if options['Assign DOI']
         check('senior_thesis_assign_doi')
@@ -316,19 +319,7 @@ describe 'end to end behavior', describe_options do
       click_continue_for_pane(0)
 
       # 1st Pane
-      within('.senior_thesis_contributor.multi_value') do
-        contributors = [options['Contributors']].flatten.compact
-        if options[:js]
-          contributors.each_with_index do |contributor, i|
-            within('.input-append:last') do
-              fill_in('senior_thesis[contributor][]', with: contributor)
-              click_on('Add')
-            end
-          end
-        else
-          fill_in('senior_thesis[contributor][]', with: contributors.first)
-        end
-      end
+      fill_out_form_multi_value_for('contributor', with: options['Contributors'])
       click_continue_for_pane(1)
 
       # 2nd Pane
@@ -343,7 +334,6 @@ describe 'end to end behavior', describe_options do
       if options['I Agree']
         check("I have read and accept the contributor licence agreement")
       end
-
       click_on(options["Button to click"])
     end
 
@@ -352,6 +342,23 @@ describe 'end to end behavior', describe_options do
         page.should have_content('You must accept the contributor agreement')
       end
       page.should have_content("Describe Your Senior Thesis")
+    end
+  end
+
+  def fill_out_form_multi_value_for(method_name, options={})
+    field_name = "senior_thesis[#{method_name}][]"
+    within(".senior_thesis_#{method_name}.multi_value") do
+      elements = [options[:with]].flatten.compact
+      if with_javascript?
+        elements.each_with_index do |contributor, i|
+          within('.input-append:last') do
+            fill_in(field_name, with: contributor)
+            click_on('Add')
+          end
+        end
+      else
+        fill_in(field_name, with: elements.first)
+      end
     end
   end
 

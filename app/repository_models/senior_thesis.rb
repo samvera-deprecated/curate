@@ -21,7 +21,6 @@ class SeniorThesis < ActiveFedora::Base
       :date_modified,
       :available,
       :archived_object_type,
-      :creator,
       :content_format,
       :identifier,
       :rights,
@@ -42,8 +41,9 @@ class SeniorThesis < ActiveFedora::Base
     ]
   )
 
-  validates :title, presence: { message: 'Your thesis must have a title.' }
+  validates :title, presence: { message: 'Your must have a title.' }
   validates :rights, presence: { message: 'You must select a license for your work.' }
+  validates :creator, presence: { message: "You must have an author."}
 
   attr_accessor :files, :assign_doi
 
@@ -54,7 +54,17 @@ class SeniorThesis < ActiveFedora::Base
   end
 
   def contributor
-    @contributor || self.contributor = datastreams['descMetadata'].contributor
+    @contributor ||= parse_person_name(datastreams['descMetadata'].contributor)
+  end
+
+  def creator=(values)
+    @creator = parse_person_name(values)
+    datastreams['descMetadata'].creator = @creator
+    @creator
+  end
+
+  def creator
+    @creator ||= parse_person_name(datastreams['descMetadata'].creator)
   end
 
   def doi_url
