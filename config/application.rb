@@ -87,7 +87,7 @@ module CurateNd
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
 
-    SMTP_CONFIG = YAML.load_file(Rail.root.join("config/smtp_config.yml"))[Rails.env]
+    SMTP_CONFIG = YAML.load_file(Rails.root.join("config/smtp_config.yml"))[Rails.env]
 
     config.action_mailer.delivery_method = SMTP_CONFIG['smtp_delivery_method'].to_sym
     config.action_mailer.smtp_settings = {
