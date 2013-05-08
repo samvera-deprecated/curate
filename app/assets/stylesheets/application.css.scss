@@ -13,3 +13,12 @@
  *= require 'curate'
  *= require_self
  */
+
+/* Accordion Overrides */
+.accordion-heading {
+  background-color:#f9f9f9;
+}
+
+.accordion-heading h3 {
+  margin:0;
+}
