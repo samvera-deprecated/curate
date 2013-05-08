@@ -17,13 +17,13 @@ $(function(){
   $("a[rel=popover]").click(function() { return false;});
 
   $('#accept_contributor_agreement').each(function(){
-    $.fn.disableAgreeButton = function() {
+    $.fn.disableAgreeButton = function(element) {
       var $submit_button = $('input.require-contributor-agreement');
-      $submit_button.prop("disabled",!$submit_button.prop("disabled"));
+      $submit_button.prop("disabled", !element.checked);
     };
-    $.fn.disableAgreeButton();
+    $.fn.disableAgreeButton(this);
     $(this).on('change', function(){
-      $.fn.disableAgreeButton();
+      $.fn.disableAgreeButton(this);
     });
   });
 });
