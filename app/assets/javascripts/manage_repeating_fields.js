@@ -45,11 +45,12 @@
         $listing.children('.warning').remove();
         $('.add', $activeFieldControls).remove();
         $activeFieldControls.prepend($removeControl);
-        $newField.children('input').
+        $newChildren = $newField.children('input');
+        $newChildren.
           val('').
-          removeProp('required').
-          focus();
+          removeProp('required');
         $listing.append($newField);
+        $newChildren.first().focus();
         this._trigger("add");
       }
     },
