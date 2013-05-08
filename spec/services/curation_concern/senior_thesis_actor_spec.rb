@@ -65,7 +65,6 @@ describe CurationConcern::SeniorThesisActor do
             curation_concern.date_uploaded.should == Date.today
             curation_concern.date_modified.should == Date.today
             curation_concern.depositor.should == user.user_key
-            curation_concern.creator.should == user.name
 
             new_curation_concern = curation_concern.class.find(curation_concern.pid)
 
