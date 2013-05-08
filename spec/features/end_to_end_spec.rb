@@ -373,7 +373,7 @@ describe 'end to end behavior', describe_options do
 
   def fill_out_form_multi_value_for(method_name, options={})
     field_name = "senior_thesis[#{method_name}][]"
-    within(".senior_thesis_#{method_name}.multi_value") do
+    within(".control-group.senior_thesis_#{method_name}.multi_value") do
       elements = [options[:with]].flatten.compact
       if with_javascript?
         elements.each_with_index do |contributor, i|
