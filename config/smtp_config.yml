@@ -6,9 +6,19 @@ development: &development
   smtp_user_name: <username>
   smtp_password: <password>
   smtp_enable_starttls_auto: true
+  smtp_delivery_method: smtp
 
 test: &test
   <<: *development
+  smtp_delivery_method: test
 
 ci:
   <<: *test
+
+production:
+  <<: *development
+  smtp_delivery_method: sendmail
+
+pre_production:
+  <<: *development
+  smtp_delivery_method: sendmail
