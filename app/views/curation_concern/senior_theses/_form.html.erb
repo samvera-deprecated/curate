@@ -8,7 +8,7 @@
 
   <%= accordion(accordion_id: 'accordion') do |container| %>
 
-    <%= container.pane(raw("Required Information&hellip;"), class: 'required') do %>
+    <%= container.pane("Required Information", class: 'required') do %>
       <fieldset class="required">
         <legend>This is what we need to know about your Senior Thesis</legend>
         <%= f.input :title,
@@ -40,7 +40,7 @@
       <%= render "/curation_concern/doi", curation_concern: curation_concern, f: f %>
     <% end %>
 
-    <%= container.pane(raw("Additional Information and Metadata&hellip;"), class: 'optional prompt') do %>
+    <%= container.pane("Additional Information and Metadata", class: 'optional prompt') do %>
       <fieldset class="optional prompt">
         <legend>Any additional information is optional, but helpful for others looking to find your work.</legend>
         <%= f.input :advisor,
@@ -77,7 +77,7 @@
       </fieldset>
     <% end %>
 
-    <%= container.pane(raw("Files&hellip;")) do %>
+    <%= container.pane("Files") do %>
       <fieldset>
         <legend>
           Manage your <%= curation_concern.human_readable_type %> files
