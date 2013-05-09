@@ -39,11 +39,12 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
     options[:value] = value
     if @rendered_first_element
       options[:id] = nil
+      options[:required] = nil
     else
       options[:id] ||= input_dom_id
     end
-    options[:class] ||= ''
-    options[:class] << " #{input_dom_id} multi-text-field"
+    options[:class] ||= []
+    options[:class] += [" #{input_dom_id} multi-text-field"]
     options[:'aria-labelledby'] = label_id
     @rendered_first_element = true
     @builder.text_field(attribute_name, options)
