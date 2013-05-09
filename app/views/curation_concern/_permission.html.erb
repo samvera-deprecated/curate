@@ -1,5 +1,5 @@
 <div id="permissions_display">
-  <fieldset class="control-group">
+  <fieldset>
     <legend>
       Access Rights
       <small>Who should be able to read and download your files?</small>
@@ -13,7 +13,7 @@
       </ul>
     </p>
 
-    <div class="controls">
+    <div class="control-group">
       <label class="radio">
         <input type="radio" id="visibility_open" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC %>" <% if curation_concern.open_access? %> checked="true"<% end %>/>
         <span class="label label-success">Open Access</span> Visible to the world.
