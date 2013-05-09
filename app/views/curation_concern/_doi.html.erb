@@ -21,7 +21,7 @@
     </legend>
 
     <p>
-      A <abbr title="Digital Object Identifier">DOI</abbr> is a permanent link to your
+      A <abbr title="Digital Object Identifier" data-position="right">DOI</abbr> is a permanent link to your
       <%= classify_for_display(curation_concern) %>.
       It's an easy way for other people to cite your work.
     </p>
@@ -30,13 +30,15 @@
       Here's a <a href="http://simple.wikipedia.org/wiki/Doi" target="_blank">brief summary</a> and the <a href="http://www.doi.org/faq.html" target="_blank">DOI FAQ</a>.
     </p>
 
-    <%= f.label :assign_doi, class: 'label label-success label-large label-checkbox' do %>
-      <%= f.check_box :assign_doi %>
-      <span class="label-text">
-        Yes, I would like to assign this
-        <%= classify_for_display(curation_concern) %>
-        a <abbr title="Digital Object Identifier">DOI</abbr>.
-      </span>
-    <% end %>
+    <div class="control-group">
+      <%= f.label :assign_doi, class: 'label label-success label-large label-checkbox' do %>
+        <%= f.check_box :assign_doi %>
+        <span class="label-text">
+          Yes, I would like to assign this
+          <%= classify_for_display(curation_concern) %>
+          a <abbr title="Digital Object Identifier">DOI</abbr>.
+        </span>
+      <% end %>
+    </div>
   </fieldset>
 <%- end -%>
