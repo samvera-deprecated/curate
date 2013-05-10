@@ -31,10 +31,11 @@ module ApplicationHelper
     markup = ""
     subject = curation_concern.send(method_name)
     return markup unless subject.present?
-    markup << %(<dt>#{label}</dt>\n)
+    markup << %(<tr><th>#{label}</th>\n<td><ul class='tabular'>)
     [subject].flatten.compact.each do |value|
-      markup << %(<dd class="attribute #{method_name}">#{h(value)}</dd>\n)
+      markup << %(<li class="attribute #{method_name}">#{h(value)}</li>\n)
     end
+    markup << %(</ul></td></tr>)
     markup.html_safe
   end
 
