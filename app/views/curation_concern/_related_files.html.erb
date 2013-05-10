@@ -30,7 +30,7 @@
             <%- if can?(:edit, generic_file) -%>
               <%= link_to(
                 'Rollback',
-                curation_concern_generic_file_versions_path(generic_file, :id => generic_file.pid),
+                curation_concern_generic_file_versions_path(generic_file),
                 { class: 'btn', title: "Rollback to previous version" }
               ) %>
             <%- end -%>

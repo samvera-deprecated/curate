@@ -29,6 +29,10 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   protected :authorize_edit_parent_rights!
 
   self.excluded_actions_for_curation_concern_authorization = [:new, :create]
+  def action_name_for_authorization
+    (action_name == 'versions' || action_name == 'rollback') ? :edit : super
+  end
+  protected :action_name_for_authorization
 
   def curation_concern
     @curation_concern ||=
