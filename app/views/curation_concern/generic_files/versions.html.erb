@@ -1,4 +1,4 @@
-<%= simple_form_for curation_concern, :url => curation_concern_generic_file_rollback_path(:id => curation_concern.to_param) do |f| %>
+<%= simple_form_for curation_concern, :url => rollback_curation_concern_generic_file_path(curation_concern) do |f| %>
       <% if curation_concern.persisted? %>
         <fieldset>
           <legend> Versioning</legend>

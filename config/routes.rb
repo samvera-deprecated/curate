@@ -23,10 +23,12 @@ Rails.application.routes.draw do
     resources(
       :generic_files,
       only: [:show, :edit, :update, :destroy]
-    ){
-      get :versions
-      put :rollback
-    }
+    ) do
+      member do
+        get :versions
+        put :rollback
+      end
+    end
   end
 
   resources :terms_of_service_agreements, only: [:new, :create]
