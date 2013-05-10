@@ -5,8 +5,9 @@
 
 <%= render "attributes", curation_concern: curation_concern %>
 
-<% if can? :edit, curation_concern %>
   <div class="form-actions">
-    <%= link_to "Edit This File", edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary'  %>
+    <%= link_to "Download this File", download_path(curation_concern), class: 'btn btn-primary' %>
+    <% if can? :edit, curation_concern %>
+      <%= link_to "Edit this File", edit_polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-primary'  %>
+    <% end %>
   </div>
-<% end %>
