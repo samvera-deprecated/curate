@@ -1,4 +1,9 @@
-<dl class="<%= dom_class(curation_concern) %> attributes">
+<table class="table table-striped <%= dom_class(curation_concern) %> attributes">
+  <caption class="table-heading"><h2>Attributes</h2></caption>
+  <thead>
+    <tr><th>Attribute Name</th><th>Values</th></tr>
+  </thead>
+  <tbody>
   <%= curation_concern_attribute_to_html(curation_concern, :identifier, "Digital Object Identifier (DOI)") %>
   <%= curation_concern_attribute_to_html(curation_concern, :description, 'Abstract') %>
   <%= curation_concern_attribute_to_html(curation_concern, :contributor, "Contributor") %>
@@ -7,7 +12,14 @@
   <%= curation_concern_attribute_to_html(curation_concern, :bibliographic_citation, "Bibliographic Citation") %>
   <%= curation_concern_attribute_to_html(curation_concern, :source, "Source") %>
   <%= curation_concern_attribute_to_html(curation_concern, :language, "Language") %>
-  <dt>Access Rights</dt>
-  <dd class="attribute permission"><%= link_to_edit_permissions(curation_concern) %></dd>
+  <tr>
+    <th>Access Rights</th>
+    <td>
+      <ul class="tabular">
+        <li class="attribute permission"><%= link_to_edit_permissions(curation_concern) %></li>
+      </ul>
+    </td>
+  </tr>
   <%= curation_concern_attribute_to_html(curation_concern, :embargo_release_date, "Embargo Release Date") %>
-</dl>
+  </tbody>
+</table>
