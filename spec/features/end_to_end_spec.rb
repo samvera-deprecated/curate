@@ -48,6 +48,29 @@ describe 'end to end behavior', describe_options do
     end
   end
 
+  def with_javascript?
+    @example.metadata[:js] || @example.metadata[:javascript]
+  end
+
+  def fill_out_form_multi_value_for(method_name, options={})
+    field_name = "mock_curation_concern[#{method_name}][]"
+    within(".control-group.mock_curation_concern_#{method_name}.multi_value") do
+      elements = [options[:with]].flatten.compact
+      if with_javascript?
+        elements.each_with_index do |element, i|
+          container = all('.input-append').last
+          within(container) do
+            fill_in(field_name, with: element)
+            click_on('Add')
+          end
+        end
+      else
+        fill_in(field_name, with: elements.first)
+      end
+    end
+  end
+
+
   describe 'breadcrumb' do
     let(:agreed_to_terms_of_service) { true }
     it 'renders a breadcrumb' do
@@ -321,19 +344,9 @@ describe 'end to end behavior', describe_options do
       end
 
       select(options['Content License'], from: I18n.translate('sufia.field_label.rights'))
-      within('.mock_curation_concern_contributor.multi_value') do
-        contributors = [options['Contributors']].flatten.compact
-        if options[:js]
-          contributors.each_with_index do |contributor, i|
-            within(all('.input-append').last) do
-              fill_in('mock_curation_concern[contributor][]', with: contributor)
-              click_on('Add')
-            end
-          end
-        else
-          fill_in('mock_curation_concern[contributor][]', with: contributors.first)
-        end
-      end
+
+      fill_out_form_multi_value_for('contributor', with: options['Contributors'])
+
       if options['I Agree']
         check("I have read and accept the contributor licence agreement")
       end

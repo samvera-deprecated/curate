@@ -23,7 +23,7 @@ describe ApplicationHelper do
       object = double('curation_concern', things: collection)
 
       expect(helper.curation_concern_attribute_to_html(object, :things, "Weird")).to(
-        eq("<dt>Weird</dt>\n<dd class=\"attribute things\">&lt;h2&gt;</dd>\n<dd class=\"attribute things\">Johnny Tables</dd>\n")
+        eq("<tr><th>Weird</th>\n<td><ul class='tabular'><li class=\"attribute things\">&lt;h2&gt;</li>\n<li class=\"attribute things\">Johnny Tables</li>\n</ul></td></tr>")
       )
     end
     it 'handles a string by rendering one <dd>' do
@@ -31,7 +31,7 @@ describe ApplicationHelper do
       object = double('curation_concern', things: collection)
 
       expect(helper.curation_concern_attribute_to_html(object, :things, "Weird")).to(
-        eq("<dt>Weird</dt>\n<dd class=\"attribute things\">Tim</dd>\n")
+        eq("<tr><th>Weird</th>\n<td><ul class='tabular'><li class=\"attribute things\">Tim</li>\n</ul></td></tr>")
       )
     end
     it 'returns a '' for a nil value' do
