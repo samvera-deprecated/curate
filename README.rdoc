@@ -1,3 +1,0 @@
-= Curate
-
-This project rocks and uses Apache License.
