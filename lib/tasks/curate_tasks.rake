@@ -45,6 +45,7 @@ namespace :curate do
       Rails.env = 'test'
       Rake::Task['app:curate:jetty:init'].invoke
 
+      require 'jettywrapper'
       jetty_params = Jettywrapper.load_config
       error = Jettywrapper.wrap(jetty_params) do
         Rake::Task['app:curate:test'].invoke
