@@ -71,6 +71,15 @@ shared_examples 'with_access_rights' do
       end
     end
 
+    it 'removes embargo release date when non embargo is set' do
+      if subject.respond_to?(:embargo_release_date=)
+        prepare_subject_for_access_rights_visibility_test!
+        subject.embargo_release_date = 2.days.from_now
+        subject.set_visibility(AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED)
+        expect(subject.embargo_release_date).to be_nil
+      end
+    end
+
     it "has an open_access_with_embargo_release_date?" do
       expect {
         subject.open_access_with_embargo_release_date?
