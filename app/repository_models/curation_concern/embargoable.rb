@@ -6,6 +6,7 @@ module CurationConcern
         if value == AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
           super(AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)
         else
+          self.embargo_release_date = nil
           super(value)
         end
       end
@@ -21,7 +22,7 @@ module CurationConcern
 
     def write_embargo_release_date
       if defined?(@embargo_release_date)
-        embargoable_persistence_container.embargo_release_date = embargo_release_date
+        embargoable_persistence_container.embargo_release_date = @embargo_release_date
       end
       true
     end
@@ -29,7 +30,7 @@ module CurationConcern
 
     def embargo_release_date=(value)
       @embargo_release_date = begin
-        value.to_date
+        value.present? ? value.to_date : nil
       rescue NoMethodError
         value
       end
