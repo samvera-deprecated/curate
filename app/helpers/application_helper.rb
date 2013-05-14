@@ -27,10 +27,11 @@ module ApplicationHelper
     construct_page_title(text)
   end
 
-  def curation_concern_attribute_to_html(curation_concern, method_name, label)
+  # options[:include_empty]
+  def curation_concern_attribute_to_html(curation_concern, method_name, label, options = {})
     markup = ""
     subject = curation_concern.send(method_name)
-    return markup unless subject.present?
+    return markup if !subject.present? && !options[:include_empty]
     markup << %(<tr><th>#{label}</th>\n<td><ul class='tabular'>)
     [subject].flatten.compact.each do |value|
       markup << %(<li class="attribute #{method_name}">#{h(value)}</li>\n)
