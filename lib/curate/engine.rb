@@ -32,16 +32,6 @@ module Curate
       require File.expand_path('../../../app/models/solr_document', __FILE__)
       require File.expand_path('../../../app/builders/accordion_builder_helper', __FILE__)
 
-      module WithAntiVirusHandler
-        def run
-          super
-        rescue AntiVirusScanner::VirusDetected => e
-          GenericFile.find(generic_file_id).destroy
-          raise e
-        end
-      end
-      CharacterizeJob.send(:include, WithAntiVirusHandler)
-
       require File.expand_path('../../../app/controllers/downloads_controller', __FILE__)
       require File.expand_path('../../../app/controllers/errors_controller', __FILE__)
       require File.expand_path('../../../app/builders/bootstrap_breadcrumbs_builder', __FILE__)
