@@ -140,10 +140,11 @@ describe 'end to end behavior', describe_options do
       visit('/concern/mock_curation_concerns/new')
       create_mock_curation_concern(
         'Embargo Release Date' => embargo_release_date_formatted,
-        'Visibility' => 'visibility_open',
+        'Visibility' => 'visibility_embargo',
         'Contributors' => ['Dante'],
         'I Agree' => true
       )
+
       page.assert_selector(
         ".embargo_release_date.attribute",
         text: embargo_release_date_formatted
