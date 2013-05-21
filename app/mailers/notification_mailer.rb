@@ -2,7 +2,8 @@ class NotificationMailer < ActionMailer::Base
 
   def notify(help_request)
     mail(to: recipients_list,
-        subject: "CurateND: Help Request - #{help_request.id}",
+        from: config[:from] || 'no-reply@test.com',
+        subject: "#{t('sufia.product_name')}: Help Request - #{help_request.id}",
         body: prepare_body(help_request))
   end
 

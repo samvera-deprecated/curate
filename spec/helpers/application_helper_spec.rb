@@ -7,13 +7,13 @@ describe ApplicationHelper do
 
   it 'has #default_page_title' do
     expect(helper.default_page_title).to(
-      eq("#{controller_name.titleize} // CurateND")
+      eq("#{controller_name.titleize} // #{I18n.t('sufia.product_name')}")
     )
   end
 
   it 'has #curation_concern_page_title' do
     expect(helper.curation_concern_page_title(MockCurationConcern.new)).to(
-      eq("New Mock Curation Concern // CurateND")
+      eq("New Mock Curation Concern // #{I18n.t('sufia.product_name')}")
     )
   end
 

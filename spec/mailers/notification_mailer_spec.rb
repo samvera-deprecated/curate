@@ -30,7 +30,7 @@ describe NotificationMailer do
   }
 
   let(:subject){
-    "CurateND: Help Request - #{help_request_id}"
+    "#{I18n.t('sufia.product_name')}: Help Request - #{help_request_id}"
   }
 
   before(:each) { 
