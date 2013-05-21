@@ -16,7 +16,7 @@ class RepoObject < ActiveRecord::Base
         repo_object.pid = fedora_object.to_param
         repo_object.date_added= fedora_object.create_date
         repo_object.date_modified= fedora_object.modified_date
-        repo_object.information= "CurateND - #{fedora_object.to_param}"
+        repo_object.information= "#{I18n.t('sufia.product_name')} - #{fedora_object.to_param}"
       end
     end
   end

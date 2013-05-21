@@ -14,6 +14,6 @@ module BlacklightHelper
   include Blacklight::BlacklightHelperBehavior
 
   def application_name
-    "CurateND"
+    t('sufia.product_name')
   end
 end

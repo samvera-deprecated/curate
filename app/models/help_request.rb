@@ -13,7 +13,7 @@ class HelpRequest < ActiveRecord::Base
 
   belongs_to :user
   validates_presence_of :how_can_we_help_you,
-    :message => "Please tell us about the problem or issue you are having with CurateND."
+    :message => "Please tell us about the problem or issue you are having with #{I18n.t('sufia.product_name')}."
 
   after_save :send_notification
 

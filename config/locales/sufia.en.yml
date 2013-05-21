@@ -1,0 +1,8 @@
+en:
+  sufia:
+    product_name:       "Curate"
+    search:
+      form:
+        q:
+          label:        "Search Scholarsphere"
+          placeholder:  "Type keywords in here"
