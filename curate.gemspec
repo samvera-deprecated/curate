@@ -17,10 +17,10 @@ Gem::Specification.new do |s|
   s.summary     = "A data curation Ruby on Rails engine built on Hydra and Sufia"
   s.description = "A data curation Ruby on Rails engine built on Hydra and Sufia"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", "3.2.11"
+  s.add_dependency "rails", "~>3.2.11"
   s.add_dependency 'sufia'
   s.add_dependency 'active-fedora', '~>5.6.2'
   s.add_dependency 'solrizer', '~>2'
