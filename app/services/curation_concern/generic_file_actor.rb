@@ -8,6 +8,9 @@ module CurationConcern
     def update!
       super
       update_file
+    end
+
+    def rollback!
       update_version
     end
 

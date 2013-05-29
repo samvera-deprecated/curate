@@ -126,6 +126,53 @@ describe CurationConcern::GenericFilesController do
     end
   end
 
+
+  describe '#versions' do
+    it 'should be successful' do
+      generic_file
+      sign_in user
+      get :versions, id: generic_file.to_param
+      controller.curation_concern.should be_kind_of(GenericFile)
+      response.should be_successful
+    end
+  end
+
+  describe '#rollback' do
+    let(:updated_title) { Time.now.to_s }
+    let(:failing_actor) {
+      actor.
+      should_receive(:rollback!).
+      and_raise(ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new))
+      actor
+    }
+    let(:successful_actor) {
+      actor.should_receive(:rollback!).and_return(true)
+      actor
+    }
+    let(:actor) { double('actor') }
+    it 'renders form when unsuccessful' do
+      generic_file
+      controller.actor = failing_actor
+      sign_in(user)
+      put :rollback, id: generic_file.to_param, generic_file: {version: '1'}
+      expect(response).to render_template('versions')
+      response.status.should == 422
+    end
+
+    it 'redirects to generic_file when successful' do
+      generic_file
+      sign_in(user)
+      controller.actor = successful_actor
+      put :rollback, id: generic_file.to_param, generic_file: {version: '1'}
+      response.status.should == 302
+      expect(response).to(
+        redirect_to(
+          controller.polymorphic_path([:curation_concern, generic_file])
+        )
+      )
+    end
+  end
+
   describe '#show' do
     it 'should be successful if logged in' do
       generic_file

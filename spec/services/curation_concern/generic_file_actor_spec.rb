@@ -4,7 +4,8 @@ describe CurationConcern::GenericFileActor do
   let(:user) { FactoryGirl.create(:user) }
   let(:parent) { FactoryGirl.create_curation_concern(:mock_curation_concern, user) }
   let(:file_path) { __FILE__ }
-  let(:file) { Rack::Test::UploadedFile.new(file_path, 'text/plain', false)}
+  let(:mime_type) { 'application/x-ruby'}
+  let(:file) { Rack::Test::UploadedFile.new(file_path, mime_type, false)}
   let(:file_content) { File.read(file)}
   let(:title) { Time.now.to_s }
   let(:attributes) {
@@ -70,6 +71,34 @@ describe CurationConcern::GenericFileActor do
       generic_file.title.should == title
       generic_file.to_s.should == title
       generic_file.content.content.should == file_content
+    end
+  end
+
+  describe '#rollback!' do
+    let(:attributes) {
+      { version: version }
+    }
+    let(:version) { generic_file.versions.last.versionID }
+    let(:generic_file) {
+      FactoryGirl.create_generic_file(parent, user)
+    }
+    let(:new_file) {
+      Rack::Test::UploadedFile.new(
+        File.expand_path('../../../fixtures/files/image.png', __FILE__),
+        'image/png',
+        false
+      )
+    }
+    before(:each) do
+      # I need to make an update
+      updated_attributes = { file: new_file}
+      actor = CurationConcern::GenericFileActor.new(generic_file, user, updated_attributes)
+      actor.update!
+    end
+    it do
+      expect {
+        subject.rollback!
+      }.to change {subject.curation_concern.content.mimeType}.from('image/png').to(mime_type)
     end
   end
 end
