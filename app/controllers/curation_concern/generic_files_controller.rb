@@ -80,15 +80,18 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   def rollback
-    retrieve_version
+    actor.rollback!
     respond_with([:curation_concern, curation_concern])
+  rescue ActiveFedora::RecordInvalid
+    respond_with([:curation_concern, curation_concern]) { |wants|
+      wants.html { render 'versions', status: :unprocessable_entity }
+    }
   end
 
   def destroy
     parent = curation_concern.batch
-    title = curation_concern.to_s
+    flash[:notice] = "Deleted #{curation_concern}"
     curation_concern.destroy
-    flash[:notice] = "Deleted #{title}"
     respond_with([:curation_concern, parent])
   end
 
@@ -97,12 +100,4 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
     CurationConcern.actor(curation_concern, current_user, params[:generic_file])
   end
 
-  private
-
-  def retrieve_version
-    revision = curation_concern.content.get_version(params["generic_file"]["version"])
-    curation_concern.add_file_datastream(revision.content, :label => revision.label, :dsid => 'content')
-    curation_concern.record_version_committer(current_user)
-    curation_concern.save!
-  end
 end
