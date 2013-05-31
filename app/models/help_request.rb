@@ -27,6 +27,10 @@ class HelpRequest < ActiveRecord::Base
     @browser.platform
   end
 
+  def sender_email
+    self.user.email
+  end
+
   private
 
   def parse_user_agent
