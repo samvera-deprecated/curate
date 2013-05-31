@@ -1,8 +1,8 @@
 class NotificationMailer < ActionMailer::Base
 
   def notify(help_request)
-    mail(to: recipients_list,
-        from: config[:from] || 'no-reply@test.com',
+    mail(from: sender_email(help_request),
+        to: recipients_list,
         subject: "#{t('sufia.product_name')}: Help Request - #{help_request.id}",
         body: prepare_body(help_request))
   end
@@ -10,7 +10,7 @@ class NotificationMailer < ActionMailer::Base
   private
 
   def prepare_body(help_request)
-    body  = "From: #{help_request.user.email}\n"
+    body  = "From: #{sender_email(help_request)}\n"
     body += "URL: #{help_request.current_url}\n"
     body += "Javascript enabled: #{help_request.javascript_enabled}\n"
     body += "User Agent: #{help_request.user_agent}\n"
@@ -20,9 +20,18 @@ class NotificationMailer < ActionMailer::Base
   end
 
   def recipients_list
-    return @list if !@list.nil?
+    return @list if !@list.blank?
     @list = YAML.load(File.open(File.join(Rails.root, "config/recipients_list.yml"))).split(" ")
     return @list
+  end
+
+  def sender_email(help_request)
+    help_request.sender_email.blank? ? default_sender : help_request.sender_email
+  end
+
+  def default_sender
+    @sender ||= YAML.load(File.open(File.join(Rails.root, "config/smtp_config.yml")))
+    return @sender[Rails.env]["smtp_user_name"]
   end
 end
 
