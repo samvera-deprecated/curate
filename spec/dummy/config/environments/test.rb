@@ -15,7 +15,7 @@ Dummy::Application.configure do
   config.whiny_nils = true
 
   # Show full error reports and disable caching
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local       = ENV['LOCAL'] || false
   config.action_controller.perform_caching = false
 
   # Raise exceptions instead of rendering exception templates
