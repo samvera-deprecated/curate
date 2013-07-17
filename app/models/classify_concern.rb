@@ -5,6 +5,8 @@ class ClassifyConcern
   VALID_CURATION_CONCERN_CLASS_NAMES = [
     'MockCurationConcern'
   ]
+  UPCOMING_CONCERNS = []
+
   include ActiveAttr::Model
   attribute :curation_concern_type
 
@@ -36,5 +38,9 @@ class ClassifyConcern
     else
       raise RuntimeError, "Invalid :curation_concern_type"
     end
+  end
+
+  def upcoming_concerns
+    UPCOMING_CONCERNS
   end
 end

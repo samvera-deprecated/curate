@@ -42,4 +42,10 @@ describe ClassifyConcern do
       expect(subject.curation_concern_class).to eq(MockCurationConcern)
     end
   end
+
+  describe '#upcoming_concerns' do
+    it 'yields two elements' do
+      expect(subject.upcoming_concerns).to be_kind_of(Array)
+    end
+  end
 end
