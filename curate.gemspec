@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
   s.required_ruby_version     = '>= 1.9.3'
   s.require_paths = ["lib"]
+  s.license = ['APACHE2']
 
   s.add_dependency "rails", "~>3.2.11"
   s.add_dependency 'sufia'
