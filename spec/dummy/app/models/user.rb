@@ -1,3 +1,4 @@
+require Sufia::Models::Engine.root.join('lib/sufia/models/user')
 class User < ActiveRecord::Base
   # Connects this user object to Sufia behaviors.
   include Sufia::User

@@ -1,4 +1,4 @@
-require Sufia::Engine.root.join('lib/sufia/jobs/characterize_job')
+require Sufia::Models::Engine.root.join('lib/sufia/models/jobs/characterize_job')
 
 class CharacterizeJob
   module WithAntiVirusHandler

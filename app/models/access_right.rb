@@ -8,6 +8,15 @@ class AccessRight
   VISIBILITY_TEXT_VALUE_AUTHENTICATED = 'psu'.freeze
   VISIBILITY_TEXT_VALUE_PRIVATE = 'restricted'.freeze
 
+  def self.valid_visibility_values
+    [
+      VISIBILITY_TEXT_VALUE_PUBLIC,
+      VISIBILITY_TEXT_VALUE_EMBARGO,
+      VISIBILITY_TEXT_VALUE_AUTHENTICATED,
+      VISIBILITY_TEXT_VALUE_PRIVATE
+    ]
+  end
+
   extend MethodDecorators
   +MethodDecorators::Precondition.new { |permissionable|
     permissionable.respond_to?(:visibility) &&
@@ -55,27 +64,27 @@ class AccessRight
 
   private
 
-  def persisted_open_access_permission?
-    if persisted?
-      has_permission_text_for?(PERMISSION_TEXT_VALUE_PUBLIC)
-    else
-      visibility.to_s == ''
+    def persisted_open_access_permission?
+      if persisted?
+        has_permission_text_for?(PERMISSION_TEXT_VALUE_PUBLIC)
+      else
+        visibility.to_s == ''
+      end
     end
-  end
 
-  def on_or_after_any_embargo_release_date?
-    return true unless permissionable.embargo_release_date
-    permissionable.embargo_release_date.to_date < Date.today
-  end
+    def on_or_after_any_embargo_release_date?
+      return true unless permissionable.embargo_release_date
+      permissionable.embargo_release_date.to_date < Date.today
+    end
 
-  def permissionable_is_embargoable?
-    permissionable.respond_to?(:embargo_release_date)
-  end
+    def permissionable_is_embargoable?
+      permissionable.respond_to?(:embargo_release_date)
+    end
 
-  def has_visibility_text_for?(text)
-    visibility == text
-  end
-  def has_permission_text_for?(text)
-    !!permissions.detect { |perm| perm[:name] == text }
-  end
+    def has_visibility_text_for?(text)
+      visibility == text
+    end
+    def has_permission_text_for?(text)
+      !!permissions.detect { |perm| perm[:name] == text }
+    end
 end

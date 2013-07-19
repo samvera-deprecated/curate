@@ -33,7 +33,7 @@ describe CurationConcern::GenericFileActor do
         reloaded_generic_file.to_s.should == title
         reloaded_generic_file.filename.should == File.basename(__FILE__)
 
-        expect(reloaded_generic_file.to_solr['read_access_group_t']).to eq(['registered'])
+        expect(reloaded_generic_file.to_solr[Hydra.config[:permissions][:read][:group]]).to eq(['registered'])
       end
 
       it 'fails if no batch is provided' do
@@ -68,7 +68,7 @@ describe CurationConcern::GenericFileActor do
       expect {
         subject.update!
       }.to change {generic_file.versions.count}.by(1)
-      generic_file.title.should == title
+      generic_file.title.should == [title]
       generic_file.to_s.should == title
       generic_file.content.content.should == file_content
     end

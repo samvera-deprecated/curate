@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe AccessRight do
+  it 'has .valid_visibility_values' do
+    expect(AccessRight.valid_visibility_values).to be_kind_of(Array)
+  end
+
   [
     [false, AccessRight::PERMISSION_TEXT_VALUE_PUBLIC,        nil,                                              nil,             true, false, false, false],
     [false, AccessRight::PERMISSION_TEXT_VALUE_AUTHENTICATED, nil,                                              nil,             true, false, false, false],

@@ -1,4 +1,4 @@
-require Sufia::Engine.root.join('app/models/datastreams/file_content_datastream')
+require Sufia::Models::Engine.root.join('app/models/datastreams/file_content_datastream')
 # I really don't want to touch much of Sufia's underworkings. In doing this
 # I'm able to mimic the #super behavior.
 #
