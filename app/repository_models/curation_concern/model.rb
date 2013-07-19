@@ -37,8 +37,12 @@ module CurationConcern
       return solr_doc
     end
 
+    def to_key
+      persisted? ? [noid] : nil
+    end
+
     def to_param
-      noid
+      persisted? ? noid : nil
     end
 
     def to_s

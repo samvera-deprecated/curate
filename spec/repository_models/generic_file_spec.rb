@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 describe GenericFile do
   subject { GenericFile.new }
 
@@ -22,6 +23,7 @@ describe GenericFile do
   end
 
   it 'uses #noid for #to_param' do
+    subject.stub(:persisted?).and_return(true)
     subject.to_param.should == subject.noid
   end
 
