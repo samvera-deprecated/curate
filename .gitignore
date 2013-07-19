@@ -11,3 +11,6 @@ Gemfile.lock
 .rvmrc
 vendor/cache
 .sass-cache
+tmp/*
+.sass-cache
+spec/dummy/spec/master.zip

@@ -23,11 +23,13 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.license = ['APACHE2']
 
-  s.add_dependency "rails", "~>3.2.11"
-  s.add_dependency 'sufia'
-  s.add_dependency 'active-fedora', '~>5.6.2'
-  s.add_dependency 'solrizer', '~>2'
-  s.add_dependency 'hydra-head', '~>5.4.0'
+  s.add_dependency "rails", "~>3.2.13"
+  s.add_dependency 'sufia-models'
+  s.add_dependency 'solrizer', '~>3.0'
+  s.add_dependency 'hydra-head', '~>6.0'
+  s.add_dependency 'blacklight', '~> 4.0'
+  s.add_dependency 'hydra-batch-edit', '~> 0.1.0'
+  s.add_dependency 'blacklight_advanced_search'
   s.add_dependency 'morphine'
   s.add_dependency 'devise'
   s.add_dependency 'mini_magick'

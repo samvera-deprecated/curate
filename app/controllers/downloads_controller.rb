@@ -1,4 +1,4 @@
-require 'sufia/noid'
+require 'sufia/models/noid'
 
 class DownloadsController < ApplicationController
   include Sufia::Noid # for normalize_identifier method

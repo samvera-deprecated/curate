@@ -94,7 +94,12 @@ describe ApplicationHelper do
   end
 
   describe '#link_to_edit_permissions' do
-    let(:solr_document) { {read_access_group_t: access_policy, embargo_release_date_dt: embargo_release_date } }
+    let(:solr_document) {
+      {
+        Hydra.config[:permissions][:read][:group] => access_policy,
+        Hydra.config[:permissions][:embargo_release_date] => embargo_release_date
+      }
+    }
     let(:user) { FactoryGirl.create(:user) }
     let(:curation_concern) {
       FactoryGirl.create_curation_concern(

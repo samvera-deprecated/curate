@@ -76,14 +76,14 @@ module ApplicationHelper
   def extract_dom_label_class_and_link_title(document)
     hash = document.stringify_keys
     dom_label_class, link_title = "label-important", "Private"
-    if hash['read_access_group_t'].present?
-      if hash['read_access_group_t'].include?('public')
-        if hash['embargo_release_date_dt'].present?
+    if hash[Hydra.config[:permissions][:read][:group]].present?
+      if hash[Hydra.config[:permissions][:read][:group]].include?('public')
+        if hash[Hydra.config[:permissions][:embargo_release_date]].present?
           dom_label_class, link_title = 'label-warning', 'Open Access with Embargo'
         else
           dom_label_class, link_title = 'label-success', 'Open Access'
         end
-      elsif hash['read_access_group_t'].include?('registered')
+      elsif hash[Hydra.config[:permissions][:read][:group]].include?('registered')
         dom_label_class, link_title = "label-info", t('sufia.institution_name')
       end
     end

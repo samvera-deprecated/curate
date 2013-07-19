@@ -25,6 +25,14 @@
       </li>
     <% end %>
     <% classify_concern.upcoming_concerns.each do |name, description| %>
+      <li class="span2 upcoming">
+        <div class="thumbnail">
+          <div class="icon">
+            <h3><%= name %></h3>
+            <p class="short-description"><%= description %></p>
+          </div>
+        </div>
+      </li>
     <%- end -%>
   </ul>
 </div>

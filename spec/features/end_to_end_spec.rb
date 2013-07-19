@@ -329,7 +329,7 @@ describe 'end to end behavior', describe_options do
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Mock curation concern"
     options["Contributors"] ||= ["Dante"]
-    options["Content License"] ||= Sufia::Engine.config.cc_licenses.keys.first
+    options["Content License"] ||= Sufia.config.cc_licenses.keys.first
 
     page.should have_content('Describe Your Thesis')
     # Without accepting agreement

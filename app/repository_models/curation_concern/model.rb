@@ -33,7 +33,7 @@ module CurationConcern
 
     def to_solr(solr_doc={}, opts={})
       super(solr_doc, opts)
-      solr_doc["noid_s"] = noid
+      solr_doc[Solrizer.solr_name('noid', Sufia::GenericFile.noid_indexer)] = noid
       return solr_doc
     end
 

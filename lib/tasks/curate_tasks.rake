@@ -5,7 +5,8 @@ namespace :curate do
       system(command)
     end
     namespace :jetty do
-      JETTY_URL = 'https://github.com/ndlib/hydra-jetty/archive/curate-without-xacml-alterations.zip'
+      JETTY_ZIP_BASENAME = 'master'
+      JETTY_URL = "https://github.com/projecthydra/hydra-jetty/archive/#{JETTY_ZIP_BASENAME}.zip"
       JETTY_ZIP = Rails.root.join('spec', JETTY_URL.split('/').last).to_s
       JETTY_DIR = Rails.root.join('jetty').to_s
 
@@ -25,7 +26,7 @@ namespace :curate do
         system_with_command_output "unzip -d #{tmp_save_dir} -qo #{JETTY_ZIP}"
         abort "Unable to unzip #{JETTY_ZIP} into #{tmp_save_dir}" unless $?.success?
 
-        expanded_dir = Dir[File.join(tmp_save_dir, "hydra-jetty-*")].first
+        expanded_dir = File.join(tmp_save_dir, "hydra-jetty-#{JETTY_ZIP_BASENAME}")
         system_with_command_output "mv #{File.join(expanded_dir, '/*')} #{JETTY_DIR}"
         abort "Unable to move #{expanded_dir} into #{JETTY_DIR}/" unless $?.success?
       end

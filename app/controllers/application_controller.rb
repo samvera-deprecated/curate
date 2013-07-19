@@ -6,10 +6,23 @@ class ApplicationController < ActionController::Base
   # Adds Hydra behaviors into the application controller
   include Hydra::Controller::ControllerBehavior
   # Adds Sufia behaviors into the application controller
-  include Sufia::Controller
+
+  def current_ability
+    user_signed_in? ? current_user.ability : super
+  end
+  protected :current_ability
+
+  def groups
+    @groups ||= user_signed_in? ? current_user.groups : []
+  end
+  protected :groups
 
   include BreadcrumbsOnRails::ActionController
   add_breadcrumb "Dashboard", :dashboard_index_path
+
+  class_attribute :theme
+  self.theme = 'curate_nd'
+  helper_method :theme
 
   def self.with_themed_layout(view_name = nil)
     if view_name

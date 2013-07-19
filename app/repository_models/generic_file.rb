@@ -1,4 +1,5 @@
-require Sufia::Engine.root.join('app/models/generic_file')
+require File.expand_path("../../../lib/sufia/generic_file/thumbnail", __FILE__)
+require Sufia::Models::Engine.root.join('app/models/generic_file')
 require File.expand_path("../curation_concern/with_access_right", __FILE__)
 require File.expand_path("../curation_concern/embargoable", __FILE__)
 require File.expand_path("../../repository_datastreams/file_content_datastream", __FILE__)
@@ -22,7 +23,8 @@ class GenericFile
   end
 
   def to_s
-    title || label || "No Title"
+    return title.join(", ") if title.present?
+    label || "No Title"
   end
 
   def versions
