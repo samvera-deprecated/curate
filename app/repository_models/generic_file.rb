@@ -27,6 +27,14 @@ class GenericFile
     label || "No Title"
   end
 
+  def to_key
+    persisted? ? [noid] : nil
+  end
+
+  def to_param
+    persisted? ? noid : nil
+  end
+
   def versions
     content.versions
   end
