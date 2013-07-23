@@ -11,8 +11,8 @@ module CurationConcern
     included do
       include Hydra::ModelMixins::CommonMetadata
       include Sufia::ModelMethods
-      include Sufia::Noid
       include Sufia::GenericFile::Permissions
+      include Curate::ActiveModelAdaptor
       extend ClassMethods
 
       has_metadata name: "properties", type: PropertiesDatastream, control_group: 'M'
@@ -35,14 +35,6 @@ module CurationConcern
       super(solr_doc, opts)
       solr_doc[Solrizer.solr_name('noid', Sufia::GenericFile.noid_indexer)] = noid
       return solr_doc
-    end
-
-    def to_key
-      persisted? ? [noid] : nil
-    end
-
-    def to_param
-      persisted? ? noid : nil
     end
 
     def to_s

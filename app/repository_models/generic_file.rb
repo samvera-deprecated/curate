@@ -7,6 +7,7 @@ require File.expand_path("../../repository_datastreams/file_content_datastream",
 class GenericFile
   include CurationConcern::WithAccessRight
   include CurationConcern::Embargoable
+  include Curate::ActiveModelAdaptor
 
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
 
@@ -25,14 +26,6 @@ class GenericFile
   def to_s
     return title.join(", ") if title.present?
     label || "No Title"
-  end
-
-  def to_key
-    persisted? ? [noid] : nil
-  end
-
-  def to_param
-    persisted? ? noid : nil
   end
 
   def versions
