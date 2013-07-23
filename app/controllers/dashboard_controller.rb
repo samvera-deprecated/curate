@@ -17,6 +17,7 @@ class DashboardController < ApplicationController
 
   before_filter :authenticate_user!
   before_filter :agreed_to_terms_of_service!
+  before_filter :force_update_user_profile!
   before_filter :enforce_show_permissions, :only=>:show
   before_filter :enforce_viewing_context_for_show_requests, :only=>:show
 

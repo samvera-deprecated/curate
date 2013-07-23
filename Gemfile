@@ -14,7 +14,7 @@ gem "jquery-rails"
 # your gem to rubygems.org.
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'
 
 group :assets do
   gem 'bootstrap-sass', '~> 2.2.0'
