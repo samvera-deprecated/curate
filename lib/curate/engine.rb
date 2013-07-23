@@ -27,7 +27,7 @@ module Curate
     config.action_dispatch.rescue_responses["Rubydora::RecordNotFound"] = :not_found
 
     initializer "curate" do |app|
-
+      require File.expand_path("../active_model_adaptor", __FILE__)
       require File.expand_path('../../../app/repository_models/generic_file', __FILE__)
       require File.expand_path('../../../app/models/solr_document', __FILE__)
       require File.expand_path('../../../app/builders/accordion_builder_helper', __FILE__)
