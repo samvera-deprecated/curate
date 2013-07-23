@@ -1,9 +1,4 @@
-require 'spec_helper'
-require 'selenium-webdriver'
-require 'compass-rails'
-require 'compass'
-require 'bootstrap-datepicker-rails'
-require 'timecop'
+require 'spec_helper_features'
 
 describe_options = {type: :feature}
 if ENV['JS']
@@ -11,15 +6,6 @@ if ENV['JS']
 end
 
 describe 'end to end behavior', describe_options do
-  before(:each) do
-    Warden.test_mode!
-    @old_resque_inline_value = Resque.inline
-    Resque.inline = true
-  end
-  after(:each) do
-    Warden.test_reset!
-    Resque.inline = @old_resque_inline_value
-  end
   let(:sign_in_count) { 0 }
   let(:user) {
     FactoryGirl.create(
@@ -48,9 +34,7 @@ describe 'end to end behavior', describe_options do
     end
   end
 
-  def with_javascript?
-    @example.metadata[:js] || @example.metadata[:javascript]
-  end
+
 
   def fill_out_form_multi_value_for(method_name, options={})
     field_name = "mock_curation_concern[#{method_name}][]"
