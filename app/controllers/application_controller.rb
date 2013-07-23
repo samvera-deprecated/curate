@@ -85,6 +85,16 @@ class ApplicationController < ActionController::Base
   helper_method :show_site_search?
 
   protected
+
+  def force_update_user_profile!
+    return true unless current_user
+    if current_user.force_update_profile?
+      redirect_to edit_user_registration_path
+      return false
+    else
+      return true
+    end
+  end
   def agreed_to_terms_of_service!
     return false unless current_user
     if current_user.agreed_to_terms_of_service?

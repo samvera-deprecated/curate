@@ -19,6 +19,7 @@ module CurationConcern
 
     before_filter :authenticate_user!, :except => [:show]
     before_filter :agreed_to_terms_of_service!
+    before_filter :force_update_user_profile!
     prepend_before_filter :normalize_identifier, except: [:index, :new, :create]
     before_filter :curation_concern, except: [:index]
 
