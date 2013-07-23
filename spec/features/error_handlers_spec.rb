@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'spec_helper_features'
 
 describe_options = {type: :feature}
 if ENV['JS']

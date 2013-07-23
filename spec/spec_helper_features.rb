@@ -1,0 +1,6 @@
+require 'spec_helper'
+require 'selenium-webdriver'
+require 'compass-rails'
+require 'compass'
+require 'bootstrap-datepicker-rails'
+require 'timecop'
