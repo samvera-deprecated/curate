@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -195,11 +196,32 @@ ActiveRecord::Schema.define(:version => 20130723143459) do
     t.string   "email"
     t.boolean  "agreed_to_terms_of_service"
     t.string   "encrypted_password"
-    t.integer  "sign_in_count",              :default => 0
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
-    t.boolean  "force_update_profile",       :default => true
+    t.integer  "sign_in_count",                        :default => 0
+    t.datetime "created_at",                                              :null => false
+    t.datetime "updated_at",                                              :null => false
+    t.string   "facebook_handle"
+    t.string   "twitter_handle"
+    t.string   "googleplus_handle"
+    t.string   "display_name"
+    t.string   "address"
+    t.string   "admin_area"
+    t.string   "department"
+    t.string   "title"
+    t.string   "office"
+    t.string   "chat_id"
+    t.string   "website"
+    t.string   "affiliation"
+    t.string   "telephone"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.text     "group_list"
+    t.datetime "groups_last_update"
+    t.boolean  "user_does_not_require_profile_update", :default => false
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email"
 
   create_table "version_committers", :force => true do |t|
     t.string   "obj_id"

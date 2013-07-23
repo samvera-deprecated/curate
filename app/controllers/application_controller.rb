@@ -88,11 +88,11 @@ class ApplicationController < ActionController::Base
 
   def force_update_user_profile!
     return true unless current_user
-    if current_user.force_update_profile?
+    if current_user.user_does_not_require_profile_update?
+      return true
+    else
       redirect_to edit_user_registration_path
       return false
-    else
-      return true
     end
   end
   def agreed_to_terms_of_service!
