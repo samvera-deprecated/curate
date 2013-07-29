@@ -63,9 +63,10 @@ class ApplicationController < ActionController::Base
   end
   protected :set_return_location_from_status_code
 
-  def render_response_for_error(exception)
-    set_return_location_from_status_code(exception.status_code)
-    render "/errors/#{exception.status_code}", status: exception.status_code, layout: !request.xhr?
+  def render_response_for_error(wrapper)
+    capture_exception(wrapper.exception) if respond_to?(:capture_exception)
+    set_return_location_from_status_code(wrapper.status_code)
+    render "/errors/#{wrapper.status_code}", status: wrapper.status_code, layout: !request.xhr?
   end
   protected :render_response_for_error
 
