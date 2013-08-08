@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.licenses = ['APACHE2']
 
   s.add_dependency "rails", "~>3.2.13"
+  s.add_dependency "breach-mitigation-rails"
   s.add_dependency 'sufia-models'
   s.add_dependency 'solrizer', '~>3.0'
   s.add_dependency 'hydra-head', '~>6.0'
