@@ -63,7 +63,7 @@ RSpec.configure do |config|
   config.include EngineRoutes, type: :routing
   config.include EngineRoutes, type: :controller
 
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures = true
 
   config.before(:each, type: :feature) do
     Warden.test_mode!
