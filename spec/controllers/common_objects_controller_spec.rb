@@ -38,7 +38,7 @@ describe CommonObjectsController do
 
     describe '"Restricted" object' do
       let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
-      it 'redirect to DOI information for unauthenticated person' do
+      it 'redirect for unauthenticated person' do
         get :show, id: curation_concern.to_param
         response.status.should == 302
         expect(response).to redirect_to(common_object_stub_information_path(curation_concern))
@@ -86,7 +86,7 @@ describe CommonObjectsController do
     let(:template_for_success) { 'show_stub_information' }
     describe '"Open Access" object' do
       let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
-      it 'renders rudimentary DOI information' do
+      it 'renders rudimentary information' do
         get :show_stub_information, id: curation_concern.to_param
         response.status.should == 200
         expect(response).to render_template(template_for_success)
@@ -94,7 +94,7 @@ describe CommonObjectsController do
     end
     describe '"Restricted" object' do
       let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
-      it 'renders rudimentary DOI information' do
+      it 'renders rudimentary information' do
         get :show_stub_information, id: curation_concern.to_param
         response.status.should == 200
         expect(response).to render_template(template_for_success)
@@ -102,7 +102,7 @@ describe CommonObjectsController do
     end
     describe '"Institution Only" object' do
       let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
-      it 'renders rudimentary DOI information' do
+      it 'renders rudimentary information' do
         get :show_stub_information, id: curation_concern.to_param
         response.status.should == 200
         expect(response).to render_template(template_for_success)
