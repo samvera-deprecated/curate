@@ -239,11 +239,6 @@ describe 'end to end behavior', describe_options do
       page.assert_selector('h1', text: 'Mock Curation Concern')
 
       page.assert_selector(
-        '.mock_curation_concern.attributes .identifier.attribute',
-        count: 1
-      )
-
-      page.assert_selector(
         '.generic_file.attributes .title.attribute',
         text: "Related File",count: 1
       )
