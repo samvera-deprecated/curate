@@ -7,7 +7,7 @@ if ENV['COVERAGE']
   SimpleCov.command_name "spec"
 end
 
-require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+require File.expand_path("../internal/config/environment.rb",  __FILE__)
 
 require File.expand_path('../spec_patch', __FILE__)
 require "rails/test_help"
@@ -15,7 +15,7 @@ require 'rspec/rails'
 require 'webmock/rspec'
 require 'rspec-html-matchers'
 require 'rspec/autorun'
-require 'database_cleaner'
+#require 'database_cleaner'
 require 'factory_girl'
 
 Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each { |f| require f }
@@ -73,16 +73,16 @@ RSpec.configure do |config|
     WebMock.allow_net_connect!
   end
 
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean_with(:truncation)
-  end
+  # config.before(:suite) do
+  #   DatabaseCleaner.strategy = :truncation
+  #   DatabaseCleaner.clean_with(:truncation)
+  # end
 
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
+  # config.before(:each) do
+  #   DatabaseCleaner.start
+  # end
 
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
+  # config.after(:each) do
+  #   DatabaseCleaner.clean
+  # end
 end

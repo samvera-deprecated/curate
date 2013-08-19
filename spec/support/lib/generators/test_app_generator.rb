@@ -15,10 +15,10 @@ class TestAppGenerator < Rails::Generators::Base
     generate 'hydra:head', '-f'
   end
 
-  def run_sufia_generator
+  def run_sufia_models_generator
     say_status("warning", "GENERATING SUFIA", :yellow)       
 
-    generate 'sufia', '-f'
+    generate 'sufia:models:install', '-f'
 
     remove_file 'spec/factories/users.rb'
   end
