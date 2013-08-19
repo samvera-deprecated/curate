@@ -77,7 +77,7 @@ desc 'Run specs on travis'
 task :ci do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
-  Rails.env = 'test'
+  APP_ROOT = '.'
 
   require 'jettywrapper'
   Jettywrapper.url = JETTY_URL
