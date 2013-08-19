@@ -1,9 +1,9 @@
-Rails.application.routes.draw do
-  devise_for :users, :controllers => { :registrations => :registrations }
+Curate::Engine.routes.draw do
+  #devise_for :users, :controllers => { :registrations => :registrations }
 
   mount_roboto
 
-  Blacklight.add_routes(self)
+  #Blacklight.add_routes(self)
 
   resources 'dashboard', :only=>:index do
     collection do

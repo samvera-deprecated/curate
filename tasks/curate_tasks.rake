@@ -28,9 +28,12 @@ task :generate do
     system_with_command_output 'rails new ' + DUMMY_APP
     puts "Updating gemfile"
 
-    `echo "gem 'sufia', :path=>'../../../sufia'
+    `echo "gem 'curate', :path=>'../../../curate'
 gem 'capybara'
 gem 'factory_girl_rails'
+gem 'webmock'
+gem 'rspec-html-matchers'
+gem 'sufia-models', github: 'projecthydra/sufia', branch: 'extracting-sufia-models-generator'
 gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'" >> #{DUMMY_APP}/Gemfile`
     puts "Copying generator"
     `cp -r spec/support/lib/generators #{DUMMY_APP}/lib`
