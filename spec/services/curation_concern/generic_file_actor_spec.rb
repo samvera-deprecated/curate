@@ -36,13 +36,18 @@ describe CurationConcern::GenericFileActor do
         expect(reloaded_generic_file.to_solr[Hydra.config[:permissions][:read][:group]]).to eq(['registered'])
       end
 
-      it 'fails if no batch is provided' do
-        generic_file.batch = nil
-        expect {
+      describe 'failure' do
+        let(:attributes) {
+          { title: title, visibility: AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+        }
+
+        it 'fails if no file is provided' do
           expect {
-            subject.create!
-          }.to raise_error(ActiveFedora::RecordInvalid)
-        }.to_not change { GenericFile.count }
+            expect {
+              subject.create!
+            }.to raise_error(ActiveFedora::RecordInvalid)
+          }.to_not change { GenericFile.count }
+        end
       end
     end
 
