@@ -224,7 +224,6 @@ describe 'end to end behavior', describe_options do
         "Title" => 'Mock Curation Concern',
         'Visibility' => 'visibility_open',
         "Upload your thesis" => initial_file_path,
-        "Assign DOI" => true,
         "Contributors" => contributors,
         "I Agree" => true,
         "Button to click" => 'Create and Add Related Files...'
@@ -321,9 +320,6 @@ describe 'end to end behavior', describe_options do
       fill_in("Title", with: options['Title'])
       attach_file("Upload your thesis", options['Upload your thesis'])
       choose(options['Visibility'])
-      if options['Assign DOI']
-        check('mock_curation_concern_assign_doi')
-      end
       if options['Embargo Release Date']
         fill_in("mock_curation_concern_embargo_release_date", with: options["Embargo Release Date"])
       end
