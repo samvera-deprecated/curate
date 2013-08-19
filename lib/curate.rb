@@ -7,6 +7,7 @@ require 'simple_form'
 require 'roboto'
 require 'bootstrap-datepicker-rails'
 require 'hydra-batch-edit'
+require 'blacklight_advanced_search'
 
 module Curate
 end
