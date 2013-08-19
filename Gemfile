@@ -16,10 +16,6 @@ gem "jquery-rails"
 
 gem 'sufia-models', github: 'projecthydra/sufia', ref: '95480cb6381462778121ce7985a8dc8234a630e2'
 
-group :assets do
-  gem 'bootstrap-sass', '~> 2.2.0'
-  gem 'coffee-rails', '~> 3.2.2'
-  gem 'compass-rails'
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'uglifier', '>= 1.0.3'
-end
+gem "jettywrapper"
+gem 'rspec-rails', '~> 2.14'
+
