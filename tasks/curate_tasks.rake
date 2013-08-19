@@ -81,6 +81,7 @@ task :ci do
 
   require 'jettywrapper'
   Jettywrapper.url = JETTY_URL
+  Jettywrapper.unzip
   jetty_params = Jettywrapper.load_config
   error = Jettywrapper.wrap(jetty_params) do
     Rake::Task['spec'].invoke
