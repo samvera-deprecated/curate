@@ -65,7 +65,7 @@ end
 desc "Run specs"
 RSpec::Core::RakeTask.new(:rspec) do |t|
   t.pattern = '../**/*_spec.rb'
-  t.rspec_opts = "--colour -I ../"
+  t.rspec_opts = ["--colour -I ../", '--tag ~js:true']
 end
 
 
@@ -74,7 +74,7 @@ JETTY_ZIP_BASENAME = 'master'
 JETTY_URL = "https://github.com/projecthydra/hydra-jetty/archive/#{JETTY_ZIP_BASENAME}.zip"
 
 desc 'Run specs on travis'
-task :travis do
+task :ci do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
   Rails.env = 'test'
@@ -83,25 +83,7 @@ task :travis do
   Jettywrapper.url = JETTY_URL
   jetty_params = Jettywrapper.load_config
   error = Jettywrapper.wrap(jetty_params) do
-    Rake::Task['app:curate:test'].invoke
+    Rake::Task['spec'].invoke
   end
   raise "test failures: #{error}" if error
-end
-
-
-RSpec::Core::RakeTask.new(:test_spec) do |t|
-  t.pattern = "./spec/**/*_spec.rb"
-  t.rspec_opts = ['--tag ~js:true']
-end
-
-desc "Execute Continuous Integration build (docs, tests with coverage)"
-task :test do
-  ENV['RAILS_ENV'] = 'test'
-  Rails.env = 'test'
-  Rake::Task["db:drop"].invoke rescue true
-  Rake::Task["db:create"].invoke
-  Rake::Task['environment'].invoke
-  Rake::Task['db:schema:load'].invoke
-
-  Rake::Task['app:curate:test_spec'].invoke
 end
