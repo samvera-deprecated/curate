@@ -16,19 +16,18 @@ class TestAppGenerator < Rails::Generators::Base
   end
 
   def run_sufia_models_generator
-    say_status("warning", "GENERATING SUFIA", :yellow)       
+    say_status("warning", "GENERATING SUFIA-MODELS", :yellow)       
 
     generate 'sufia:models:install', '-f'
 
     remove_file 'spec/factories/users.rb'
   end
 
-  def remove_index_page
-    remove_file 'public/index.html'
+  def run_curate_generator
+    say_status("warning", "GENERATING CURATE", :yellow)       
+
+    generate 'curate', '-f'
+
   end
 
-  def copy_rspec_rake_task
-    copy_file "lib/tasks/rspec.rake"
-  end
-  
 end
