@@ -3,7 +3,7 @@ rvm:
   - "1.9.3"
   - "2.0.0"
 
-script: "rake app:curate:travis"
+script: "rake ci"
 
 notifications:
   irc: "irc.freenode.org#ndlib"
