@@ -40,7 +40,7 @@ gem 'rspec-html-matchers'
 gem 'sufia-models', github: 'projecthydra/sufia', branch: 'extracting-sufia-models-generator'
 gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'" >> #{DUMMY_APP}/Gemfile`
     puts "Copying generator"
-    `cp -r spec/support/lib/generators #{DUMMY_APP}/lib`
+    `cp -r spec/skeleton/lib/generators #{DUMMY_APP}/lib`
     Bundler.with_clean_env do
       within_test_app do
         puts "Bundle install"

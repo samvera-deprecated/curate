@@ -1,7 +1,7 @@
 require 'rails/generators'
 
 class TestAppGenerator < Rails::Generators::Base
-  source_root File.expand_path("../../../../support", __FILE__)
+  source_root File.expand_path("../../../../skeleton", __FILE__)
 
   def run_blacklight_generator
     say_status("warning", "GENERATING BL", :yellow)
@@ -45,7 +45,7 @@ class TestAppGenerator < Rails::Generators::Base
 
   def add_mock_routes
     marker = /^\s*curate_for :containers=>\[:senior_theses\]/
-    gsub_file 'config/routes.rb', marker, "  curate_for :containers=>[:mock_curation_concern]"
+    gsub_file 'config/routes.rb', marker, "  curate_for :containers=>[:mock_curation_concerns]"
   end
   
 
