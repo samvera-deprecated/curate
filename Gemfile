@@ -14,8 +14,6 @@ gem "jquery-rails"
 # your gem to rubygems.org.
 
 
-gem 'sufia-models', github: 'projecthydra/sufia', ref: '95480cb6381462778121ce7985a8dc8234a630e2'
-
 gem "jettywrapper"
 gem 'rspec-rails', '~> 2.14'
 

@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.0.0"
   s.add_dependency "breach-mitigation-rails"
-  s.add_dependency 'sufia-models'
+  s.add_dependency 'sufia-models', '~>3.1.1'
   s.add_dependency 'solrizer', '~>3.0'
   s.add_dependency 'hydra-head', '~>6.0'
   s.add_dependency 'blacklight', '~> 4.0'
