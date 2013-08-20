@@ -24,7 +24,6 @@ task :clean do
 end
 
 
-
 desc "Create the test rails app"
 task :generate do
   unless File.exists?(DUMMY_APP + '/Rakefile')
@@ -75,10 +74,8 @@ RSpec::Core::RakeTask.new(:rspec) do |t|
 end
 
 
-
-
 desc 'Run specs on travis'
-task :ci do
+task :ci => [:clean, :generate] do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
   Jettywrapper.unzip
