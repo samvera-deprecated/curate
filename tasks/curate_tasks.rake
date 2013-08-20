@@ -1,6 +1,8 @@
 require 'rspec/core'
 require 'rspec/core/rake_task'
 DUMMY_APP = 'spec/internal'
+APP_ROOT = '.'
+require 'jettywrapper'
 
 def system_with_command_output(command)
   puts("\n$\t#{command}")
@@ -77,9 +79,6 @@ desc 'Run specs on travis'
 task :ci do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
-  APP_ROOT = '.'
-
-  require 'jettywrapper'
   Jettywrapper.url = JETTY_URL
   Jettywrapper.unzip
   jetty_params = Jettywrapper.load_config
