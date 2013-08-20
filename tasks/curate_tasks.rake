@@ -3,6 +3,8 @@ require 'rspec/core/rake_task'
 DUMMY_APP = 'spec/internal'
 APP_ROOT = '.'
 require 'jettywrapper'
+JETTY_ZIP_BASENAME = 'master'
+Jettywrapper.url = "https://github.com/projecthydra/hydra-jetty/archive/#{JETTY_ZIP_BASENAME}.zip"
 
 def system_with_command_output(command)
   puts("\n$\t#{command}")
@@ -72,14 +74,11 @@ end
 
 
 
-JETTY_ZIP_BASENAME = 'master'
-JETTY_URL = "https://github.com/projecthydra/hydra-jetty/archive/#{JETTY_ZIP_BASENAME}.zip"
 
 desc 'Run specs on travis'
 task :ci do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
-  Jettywrapper.url = JETTY_URL
   Jettywrapper.unzip
   jetty_params = Jettywrapper.load_config
   error = Jettywrapper.wrap(jetty_params) do
