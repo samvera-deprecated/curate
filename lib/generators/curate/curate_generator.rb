@@ -11,8 +11,9 @@ class CurateGenerator < Rails::Generators::Base
 
   desc """
 This generator makes the following changes to your application:
- 1. Adds the curate routes
- 2. Adds a user migration
+ 1. Runs required generators
+ 2. Adds the curate routes
+ 3. Adds a user migration
        """
   # Implement the required interface for Rails::Generators::Migration.
   # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
@@ -23,6 +24,12 @@ This generator makes the following changes to your application:
       @prev_migration_nr += 1
     end
     @prev_migration_nr.to_s
+  end
+
+  def run_required_generators
+    generate "blacklight --devise"
+    generate "hydra:head -f"
+    generate "sufia:models:install"
   end
 
   # Setup the database migrations
