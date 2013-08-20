@@ -45,6 +45,10 @@ This generator makes the following changes to your application:
     inject_into_file 'config/routes.rb', routing_code, { :after => sentinel, :verbose => false }
   end
 
+  def create_recipients_list
+    create_file('config/recipients_list.yml', "---\n- hello@world.com\n")
+  end
+
   private
 
   def better_migration_template (file)
