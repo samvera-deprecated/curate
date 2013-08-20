@@ -1,5 +1,7 @@
 module Curate
   class Engine < ::Rails::Engine
+    engine_name 'curate'
+    
     def paths
       @curate_paths ||= begin
         super_paths = super
