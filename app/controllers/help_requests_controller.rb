@@ -29,15 +29,18 @@ class HelpRequestsController < ApplicationController
   private
 
   def build_help_request
-    help_request = HelpRequest.new(params.require(:help_request).permit(
-      :current_url,
-      :flash_version,
-      :how_can_we_help_you,
-      :javascript_enabled,
-      :resolution,
-      :user_agent,
-      :view_port
-    ))
+    help_request = HelpRequest.new()
+    unless params[:action] == 'new'
+      help_request.attributes = params.require(:help_request).permit(
+        :current_url,
+        :flash_version,
+        :how_can_we_help_you,
+        :javascript_enabled,
+        :resolution,
+        :user_agent,
+        :view_port
+      )
+    end
 
     help_request.user_agent  ||= user_agent_from_request
     help_request.release_version = Curate.configuration.build_identifier
