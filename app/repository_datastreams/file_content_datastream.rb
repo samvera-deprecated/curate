@@ -26,8 +26,8 @@ class FileContentDatastream
   end
 
   define_method :characterization_runner do
-    if Rails.configuration.respond_to?(:default_characterization_runner)
-      Rails.configuration.default_characterization_runner
+    if Curate.configuration.characterization_runner.respond_to?(:call)
+      Curate.configuration.characterization_runner
     else
       sufia_run_fits.bind(self)
     end
