@@ -1,5 +1,3 @@
-require 'app/services/anti_virus_scanner'
-
 module Curate
   class << self
     attr_accessor :configuration
