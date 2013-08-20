@@ -50,6 +50,12 @@ This generator makes the following changes to your application:
     create_file('config/recipients_list.yml', "---\n- hello@world.com\n")
   end
 
+  def inject_curate_user
+    inject_into_class 'app/models/user.rb', 'User' do
+      "\n  include Curate::User\n"
+    end
+  end
+
   private
 
   def better_migration_template (file)
