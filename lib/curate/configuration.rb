@@ -16,6 +16,10 @@ module Curate
 
     # When was this last built/deployed
     attr_accessor :build_identifier
+
+    # Override characterization runner
+    attr_accessor :characterization_runner
+
     def initialize
       @default_antivirus_instance = lambda {|file_path|
         AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE
