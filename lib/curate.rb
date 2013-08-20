@@ -2,6 +2,7 @@ require 'devise'
 require 'warden'
 require 'sufia/models'
 require "curate/engine"
+require "curate/configuration"
 require 'rails'
 require 'simple_form'
 require 'roboto'
