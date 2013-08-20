@@ -24,4 +24,4 @@ Dir.glob('tasks/*.rake').each { |r| import r }
 
 Bundler::GemHelper.install_tasks
 
-task :default => 'travis'
+task :default => 'ci'
