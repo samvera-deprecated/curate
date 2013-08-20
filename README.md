@@ -11,6 +11,8 @@
 * Run the hydra-head generator `rails generate hydra:head -f`
 * Run the sufia-models generator `rails generate sufia:models:install`
 * Run the generator: `rails generate curate`
+* Run the migrations `rake db:migrate`
+
 
 ## Curate Developer Notes
 
@@ -42,4 +44,3 @@ To run the test suite:
     rake spec
 
 =======
-* Run the migrations `rake db:migrate`
