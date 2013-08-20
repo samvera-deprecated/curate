@@ -10,7 +10,7 @@ class FutureDateValidator < ActiveModel::EachValidator
         else
           record.errors[:embargo_release_date] << "Invalid Date Format"
         end
-      rescue NoMethodError
+      rescue ArgumentError, NoMethodError
         record.errors[:embargo_release_date] << "Invalid Date Format"
       end
     end
