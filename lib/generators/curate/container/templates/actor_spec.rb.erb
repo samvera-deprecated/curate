@@ -1,0 +1,22 @@
+# Generated via
+#  `rails generate curate:container <%= class_name %>`
+require 'spec_helper'
+
+describe <%= class_name %>Actor do
+  let(:user) { User.new }
+  let(:curation_concern) { GenericFile.new }
+  let(:attributes) { {visibility: visibility} }
+  let(:visibility) { nil }
+  subject { CurationConcern.actor(curation_concern, user, attributes)}
+  describe 'with visibility "1"' do
+    let(:visibility) { "1" }
+    its(:visibility) { should == visibility }
+    its(:visibility_may_have_changed?) { should == true }
+  end
+
+  describe 'with missing visibility' do
+    let(:visibility) { nil }
+    its(:visibility) { should be_nil }
+    its(:visibility_may_have_changed?) { should == false }
+  end
+end

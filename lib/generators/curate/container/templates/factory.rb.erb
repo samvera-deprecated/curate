@@ -1,0 +1,13 @@
+# Generated via
+#  `rails generate curate:container <%= class_name %>`
+#
+# Read about factories at https://github.com/thoughtbot/factory_girl
+
+require 'curate/spec_support'
+FactoryGirl.define do
+  factory :<%= singular_table_name %>, class: <%= class_name %> do
+<% for attribute in attributes -%>
+    <%= attribute.name %> <%= attribute.default.inspect %>
+<% end -%>
+  end
+end
