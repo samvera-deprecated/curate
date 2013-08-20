@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe ApplicationHelper do
-  it 'has #sufia as a "monkey-patch" for sufia gem' do
-    expect(helper.sufia).to eq(helper)
-  end
-
   it 'has #default_page_title' do
     expect(helper.default_page_title).to(
       eq("#{controller_name.titleize} // #{I18n.t('sufia.product_name')}")

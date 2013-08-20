@@ -5,7 +5,6 @@ require "curate/user"
 require 'simple_form'
 require 'bootstrap-datepicker-rails'
 require 'hydra-batch-edit'
-require 'blacklight_advanced_search'
 
 module Curate
 end

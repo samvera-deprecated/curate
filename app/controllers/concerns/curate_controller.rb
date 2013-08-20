@@ -1,52 +1,58 @@
-require File.expand_path("../../helpers/application_helper", __FILE__)
+#require File.expand_path("../../helpers/application_helper", __FILE__)
 require 'breadcrumbs_on_rails'
-class ApplicationController < ActionController::Base
-  # Adds a few additional behaviors into the application controller
-  include Blacklight::Controller
-  # Adds Hydra behaviors into the application controller
-  include Hydra::Controller::ControllerBehavior
-  # Adds Sufia behaviors into the application controller
+module CurateController
+  extend ActiveSupport::Concern
+  # # Adds a few additional behaviors into the application controller
+  # include Blacklight::Controller
+  # # Adds Hydra behaviors into the application controller
+  # include Hydra::Controller::ControllerBehavior
+  # # Adds Sufia behaviors into the application controller
 
-  def current_ability
-    user_signed_in? ? current_user.ability : super
+  # def current_ability
+  #   user_signed_in? ? current_user.ability : super
+  # end
+  # protected :current_ability
+
+  # def groups
+  #   @groups ||= user_signed_in? ? current_user.groups : []
+  # end
+  # protected :groups
+
+  included do
+    include BreadcrumbsOnRails::ActionController
+    add_breadcrumb "Dashboard", :dashboard_index_path
+
+    class_attribute :theme
+    self.theme = 'curate_nd'
+    rescue_from StandardError, with: :exception_handler
+
+    helper_method :theme
+    helper_method :show_action_bar?
+    helper_method :show_site_search?
   end
-  protected :current_ability
 
-  def groups
-    @groups ||= user_signed_in? ? current_user.groups : []
-  end
-  protected :groups
 
-  include BreadcrumbsOnRails::ActionController
-  add_breadcrumb "Dashboard", :dashboard_index_path
-
-  class_attribute :theme
-  self.theme = 'curate_nd'
-  helper_method :theme
-
-  def self.with_themed_layout(view_name = nil)
-    if view_name
-      layout("#{theme}/#{view_name}")
-    else
-      layout(theme)
+  module ClassMethods
+    def with_themed_layout(view_name = nil)
+      if view_name
+        layout("#{theme}/#{view_name}")
+      else
+        layout(theme)
+      end
     end
   end
 
-  class_attribute :theme
-  self.theme = 'curate_nd'
-  helper_method :theme
 
   # Please be sure to impelement current_user and user_session. Blacklight depends on
   # these methods in order to perform user specific actions.
 
-  def sufia
-    self
-  end
-  helper_method :sufia
+  # def sufia
+  #   self
+  # end
+  # helper_method :sufia
 
-  helper ApplicationHelper
+  # helper ApplicationHelper
 
-  rescue_from StandardError, with: :exception_handler
   def exception_handler(exception)
     raise exception if Rails.configuration.consider_all_requests_local
     raise exception unless ActionDispatch::ExceptionWrapper.rescue_responses[exception.class.name]
@@ -71,19 +77,17 @@ class ApplicationController < ActionController::Base
   protected :render_response_for_error
 
 
-  layout 'hydra-head'
+  # layout 'hydra-head'
 
-  protect_from_forgery
+  # protect_from_forgery
 
   def show_action_bar?
     true
   end
-  helper_method :show_action_bar?
 
   def show_site_search?
     true
   end
-  helper_method :show_site_search?
 
   protected
 
