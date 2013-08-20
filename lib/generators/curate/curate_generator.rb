@@ -1,19 +1,19 @@
 # -*- encoding : utf-8 -*-
 require 'rails/generators'
-require 'rails/generators/migration'     
+require 'rails/generators/migration'
 
 
 class CurateGenerator < Rails::Generators::Base
   include Rails::Generators::Migration
 
   source_root File.expand_path('../templates', __FILE__)
-  
-  
+
+
   desc """
 This generator makes the following changes to your application:
  1. Adds the curate routes
  2. Adds a user migration
-       """ 
+       """
   # Implement the required interface for Rails::Generators::Migration.
   # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
   def self.next_migration_number(path)
@@ -29,7 +29,11 @@ This generator makes the following changes to your application:
   def copy_migrations
     sleep 6 # Mailboxer just uses a sequence, so it can end up using our sequence numbers.
     # Can't get this any more DRY, because we need this order.
-    %w{add_terms_of_service_to_user.rb add_user_force_update_profile.rb}.each do |f|
+    [
+      'add_terms_of_service_to_user.rb',
+      'add_user_force_update_profile.rb',
+      'create_help_requests.rb'
+    ].each do |f|
       better_migration_template f
     end
   end
@@ -41,8 +45,8 @@ This generator makes the following changes to your application:
     inject_into_file 'config/routes.rb', routing_code, { :after => sentinel, :verbose => false }
   end
 
-  private  
-  
+  private
+
   def better_migration_template (file)
     begin
       migration_template "migrations/#{file}", "db/migrate/#{file}"
@@ -51,5 +55,5 @@ This generator makes the following changes to your application:
       puts "  \e[1m\e[34mMigrations\e[0m  " + $!.message
     end
   end
-  
+
 end
