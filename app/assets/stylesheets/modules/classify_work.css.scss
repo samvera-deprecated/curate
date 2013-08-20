@@ -6,12 +6,34 @@
   border:1px solid #EEE;
   margin-bottom:2em;
   padding:.5em;
+  position:relative;
   text-align:center;
 }
 
 .classify-work > .upcoming {
   color:#ACACAC;
   color:rgba(51, 51, 51, 0.5);
+}
+
+.classify-work > .upcoming:before {
+  background-color:#FFF;
+  background-color:rgba(255, 255, 255, 0.8);
+  color:#F00;
+  content:"Coming Soon";
+  font-size:1.5em;
+  left:0;
+  position:absolute;
+  text-align:center;
+  text-shadow:0 0 2px #CCC, 0 0 1em #FFF;
+  top:40%;
+  width:100%;
+  z-index:1;
+
+  -webkit-transform: rotate(-30deg);
+  -moz-transform: rotate(-30deg);
+  -ms-transform: rotate(-30deg);
+  -o-transform: rotate(-30deg);
+  transform: rotate(-30deg);
 }
 
 #main .upcoming .title {
