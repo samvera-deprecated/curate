@@ -1,3 +1,5 @@
+require 'morphine'
+
 # This is a simple wrapper for an underlying scanner; Without it, we'll
 # always going to be running actual anti-virus
 class AntiVirusScanner
@@ -23,6 +25,6 @@ class AntiVirusScanner
 
   include Morphine
   register :scanner_instance do
-    Rails.configuration.default_antivirus_instance
+    Curate.configuration.default_antivirus_instance
   end
 end
