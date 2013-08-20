@@ -1,10 +1,7 @@
 module ActionDispatch::Routing
   class Mapper
 
-
     def curate_for(opts={})
-      mount_roboto
-
       resources 'dashboard', :only=>:index do
         collection do
           get 'page/:page', :action => :index
@@ -34,7 +31,6 @@ module ActionDispatch::Routing
 
       match "show/:id" => "common_objects#show", via: :get, as: "common_object"
       match "show/stub/:id" => "common_objects#show_stub_information", via: :get, as: "common_object_stub_information"
-      root to: 'welcome#index'
     end
   end
 end
