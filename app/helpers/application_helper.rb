@@ -60,7 +60,7 @@ module ApplicationHelper
 
   def link_to_edit_permissions(curation_concern, solr_document = nil)
     markup = <<-HTML
-      <a href="#{edit_polymorphic_path([:curation_concern, curation_concern])}" id="permission_#{curation_concern.to_param}">
+      <a href="#{curate.edit_polymorphic_path([:curation_concern, curation_concern])}" id="permission_#{curation_concern.to_param}">
         #{permission_badge_for(curation_concern, solr_document)}
       </a>
     HTML
