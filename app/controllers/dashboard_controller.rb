@@ -1,4 +1,4 @@
-require 'blacklight/catalog'
+require 'blacklight_advanced_search'
 class DashboardController < ApplicationController
   include Hydra::BatchEditBehavior
   include Blacklight::Catalog

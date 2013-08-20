@@ -17,9 +17,6 @@ module Curate
       end
     end
 
-    autoload :CatalogController, File.expand_path('../../../app/controllers/catalog_controller', __FILE__)
-    autoload :ApplicationController, File.expand_path('../../../app/controllers/application_controller', __FILE__)
-
     config.action_dispatch.rescue_responses["ActionController::RoutingError"] = :not_found
     config.action_dispatch.rescue_responses["ActiveFedora::ObjectNotFoundError"] = :not_found
     config.action_dispatch.rescue_responses["ActiveFedora::ActiveObjectNotFoundError"] = :not_found
@@ -31,16 +28,13 @@ module Curate
       require File.expand_path("../active_model_adaptor", __FILE__)
       require 'curate/rails/routes' 
       require File.expand_path('../../../app/repository_models/generic_file', __FILE__)
-      require File.expand_path('../../../app/models/solr_document', __FILE__)
-      require File.expand_path('../../../app/builders/accordion_builder_helper', __FILE__)
 
-      require File.expand_path('../../../app/controllers/downloads_controller', __FILE__)
-      require File.expand_path('../../../app/controllers/errors_controller', __FILE__)
+      require File.expand_path('../../../app/builders/accordion_builder_helper', __FILE__)
       require File.expand_path('../../../app/builders/bootstrap_breadcrumbs_builder', __FILE__)
+
       require File.expand_path('../../../app/services/curation_concern', __FILE__)
 
       require File.expand_path('../../../app/helpers/blacklight_helper', __FILE__)
-      require File.expand_path('../../../app/services/curation_concern', __FILE__)
 
     end
   end

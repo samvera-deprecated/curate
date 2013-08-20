@@ -12,8 +12,9 @@ class CurateGenerator < Rails::Generators::Base
   desc """
 This generator makes the following changes to your application:
  1. Runs required generators
- 2. Adds the curate routes
- 3. Adds a user migration
+ 2. Adds curate behaviors to ApplicationController
+ 3. Adds the curate routes
+ 4. Adds a user migration
        """
   # Implement the required interface for Rails::Generators::Migration.
   # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
@@ -31,6 +32,24 @@ This generator makes the following changes to your application:
     generate "hydra:head -f"
     generate "sufia:models:install"
   end
+
+  # Add behaviors to the application controller
+  def inject_controller_behavior
+    controller_name = "ApplicationController"
+    file_path = "app/controllers/application_controller.rb"
+    if File.exists?(file_path)
+      insert_into_file file_path, :after => 'include Blacklight::Controller' do
+        "  \n# Adds Curate behaviors into the application controller \n" +
+        "  include CurateController\n"
+      end
+      gsub_file file_path, "layout 'blacklight'", ""
+    else
+      puts "     \e[31mFailure\e[0m  Could not find #{file_path}.  To add Curate behaviors to your ApplicationController, you must include the CurateController module in the ApplicationController class definition."
+
+    end
+  end
+
+  
 
   # Setup the database migrations
   def copy_migrations
