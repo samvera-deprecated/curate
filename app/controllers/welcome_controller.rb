@@ -10,9 +10,9 @@ class WelcomeController < ApplicationController
 
   def new
     if first_time_login?
-      redirect_to curate.new_classify_concern_path
+      redirect_to new_classify_concern_path
     else
-      redirect_to curate.dashboard_index_path
+      redirect_to dashboard_index_path
     end
   end
 
