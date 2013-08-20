@@ -100,6 +100,7 @@ module CurateController
       return false
     end
   end
+
   def agreed_to_terms_of_service!
     return false unless current_user
     if current_user.agreed_to_terms_of_service?

@@ -66,11 +66,17 @@ This generator makes the following changes to your application:
 
   # The engine routes have to come after the devise routes so that /users/sign_in will work
   def inject_routes
-    routing_code = "\n  curate_for :containers=>[:senior_theses]\n"
+    routing_code = "\n  curate_for containers: [:senior_theses]\n"
     sentinel = /devise_for :users/
     inject_into_file 'config/routes.rb', routing_code, { :after => sentinel, :verbose => false }
     gsub_file 'config/routes.rb', /^\s+root.+$/, "  root 'welcome#index'"
   end
+
+  # This enables our registrations controller to run the after_update_path_for hook.
+  def update_devise_route
+    gsub_file 'config/routes.rb', /^\s+devise_for :users/, '  devise_for :users, controllers: { registrations: :registrations }'
+  end
+
 
   def create_recipients_list
     create_file('config/recipients_list.yml', "---\n- hello@world.com\n")
