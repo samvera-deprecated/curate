@@ -32,7 +32,7 @@
       </dd>
       <dt><%= t('sufia.product_name') %> Version</dt>
       <dd id="help-platfrom">
-        <%= Rails.configuration.build_identifier %>
+        <%= Curate.configuration.build_identifier %>
       </dd>
       <dt>Current URL</dt>
       <dd id="help-url"<%= ' class="unset"'.html_safe if help_request.current_url? %>>
