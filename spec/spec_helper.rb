@@ -15,7 +15,6 @@ require 'rspec/rails'
 require 'webmock/rspec'
 require 'rspec-html-matchers'
 require 'rspec/autorun'
-#require 'database_cleaner'
 require 'factory_girl'
 
 Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each { |f| require f }
