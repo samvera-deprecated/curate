@@ -1,6 +1,10 @@
 require 'rspec/core'
 require 'rspec/core/rake_task'
 DUMMY_APP = 'spec/internal'
+APP_ROOT = '.'
+require 'jettywrapper'
+JETTY_ZIP_BASENAME = 'master'
+Jettywrapper.url = "https://github.com/projecthydra/hydra-jetty/archive/#{JETTY_ZIP_BASENAME}.zip"
 
 def system_with_command_output(command)
   puts("\n$\t#{command}")
@@ -20,7 +24,6 @@ task :clean do
 end
 
 
-
 desc "Create the test rails app"
 task :generate do
   unless File.exists?(DUMMY_APP + '/Rakefile')
@@ -30,13 +33,15 @@ task :generate do
 
     `echo "gem 'curate', :path=>'../../../curate'
 gem 'capybara'
+gem 'selenium-webdriver'
 gem 'factory_girl_rails'
 gem 'webmock'
+gem 'timecop'
 gem 'rspec-html-matchers'
 gem 'sufia-models', github: 'projecthydra/sufia', branch: 'extracting-sufia-models-generator'
 gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'" >> #{DUMMY_APP}/Gemfile`
     puts "Copying generator"
-    `cp -r spec/support/lib/generators #{DUMMY_APP}/lib`
+    `cp -r spec/skeleton/* #{DUMMY_APP}`
     Bundler.with_clean_env do
       within_test_app do
         puts "Bundle install"
@@ -65,43 +70,18 @@ end
 desc "Run specs"
 RSpec::Core::RakeTask.new(:rspec) do |t|
   t.pattern = '../**/*_spec.rb'
-  t.rspec_opts = "--colour -I ../"
+  t.rspec_opts = ["--colour -I ../", '--tag ~js:true']
 end
 
-
-
-JETTY_ZIP_BASENAME = 'master'
-JETTY_URL = "https://github.com/projecthydra/hydra-jetty/archive/#{JETTY_ZIP_BASENAME}.zip"
 
 desc 'Run specs on travis'
-task :travis do
+task :ci => [:clean, :generate] do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
-  Rails.env = 'test'
-
-  require 'jettywrapper'
-  Jettywrapper.url = JETTY_URL
+  Jettywrapper.unzip
   jetty_params = Jettywrapper.load_config
   error = Jettywrapper.wrap(jetty_params) do
-    Rake::Task['app:curate:test'].invoke
+    Rake::Task['spec'].invoke
   end
   raise "test failures: #{error}" if error
-end
-
-
-RSpec::Core::RakeTask.new(:test_spec) do |t|
-  t.pattern = "./spec/**/*_spec.rb"
-  t.rspec_opts = ['--tag ~js:true']
-end
-
-desc "Execute Continuous Integration build (docs, tests with coverage)"
-task :test do
-  ENV['RAILS_ENV'] = 'test'
-  Rails.env = 'test'
-  Rake::Task["db:drop"].invoke rescue true
-  Rake::Task["db:create"].invoke
-  Rake::Task['environment'].invoke
-  Rake::Task['db:schema:load'].invoke
-
-  Rake::Task['app:curate:test_spec'].invoke
 end

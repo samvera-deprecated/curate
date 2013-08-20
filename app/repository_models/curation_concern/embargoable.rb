@@ -31,7 +31,7 @@ module CurationConcern
     def embargo_release_date=(value)
       @embargo_release_date = begin
         value.present? ? value.to_date : nil
-      rescue NoMethodError
+      rescue NoMethodError, ArgumentError
         value
       end
     end
