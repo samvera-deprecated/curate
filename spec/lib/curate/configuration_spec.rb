@@ -1,6 +1,7 @@
 require 'spec_helper'
 module Curate
   describe Configuration do
+    its(:build_identifier) { should be_an_instance_of String }
     describe '#default_antivirus_instance' do
       before(:each) do
         @previous_av_instance = Curate.configuration.default_antivirus_instance

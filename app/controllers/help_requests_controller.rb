@@ -31,7 +31,7 @@ class HelpRequestsController < ApplicationController
   def build_help_request
     help_request = HelpRequest.new(params[:help_request])
     help_request.user_agent  ||= user_agent_from_request
-    help_request.release_version = Rails.configuration.build_identifier
+    help_request.release_version = Curate.configuration.build_identifier
     help_request.user = current_user
     help_request
   end
