@@ -1,10 +1,8 @@
-require 'devise'
-require 'warden'
 require 'sufia/models'
 require "curate/engine"
-require 'rails'
+require "curate/configuration"
+require "curate/user"
 require 'simple_form'
-require 'roboto'
 require 'bootstrap-datepicker-rails'
 require 'hydra-batch-edit'
 require 'blacklight_advanced_search'

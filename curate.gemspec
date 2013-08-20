@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.licenses = ['APACHE2']
 
-  s.add_dependency "rails", "~>3.2.13"
+  s.add_dependency "rails", "~> 4.0.0"
   s.add_dependency "breach-mitigation-rails"
   s.add_dependency 'sufia-models'
   s.add_dependency 'solrizer', '~>3.0'
@@ -34,13 +34,12 @@ Gem::Specification.new do |s|
   s.add_dependency 'morphine'
   s.add_dependency 'devise'
   s.add_dependency 'mini_magick'
-  s.add_dependency 'simple_form'
+  s.add_dependency 'simple_form', '3.0.0.rc'
   s.add_dependency 'active_attr'
   s.add_dependency 'bootstrap-datepicker-rails'
   s.add_dependency 'method_decorators'
   s.add_dependency 'devise'
   s.add_dependency "devise-guests", "~> 0.3"
-  s.add_dependency 'roboto'
   s.add_dependency 'browser'
   s.add_dependency 'breadcrumbs_on_rails'
   s.add_development_dependency 'sqlite3'

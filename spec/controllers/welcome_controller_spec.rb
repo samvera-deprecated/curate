@@ -18,7 +18,7 @@ describe WelcomeController do
       user.save!
       sign_in user
       get :new
-      response.should redirect_to(new_classify_concern_path)
+      response.should redirect_to(@routes.url_helpers.new_classify_concern_path)
     end
 
     it 'should redirect to dashboard_index for subsequent logins' do
@@ -26,7 +26,7 @@ describe WelcomeController do
       another_user.save!
       sign_in another_user
       get :new
-      response.should redirect_to(dashboard_index_path)
+      response.should redirect_to(@routes.url_helpers.dashboard_index_path)
     end
   end
 end

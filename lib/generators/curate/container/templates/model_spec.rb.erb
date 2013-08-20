@@ -1,0 +1,19 @@
+# Generated via
+#  `rails generate curate:container <%= class_name %>`
+require 'spec_helper'
+require 'active_fedora/test_support'
+
+describe <%= class_name %> do
+  include ActiveFedora::TestSupport
+  subject { <%= class_name %>.new }
+
+  it 'should persist to Fedora' do
+    subject.save!
+    expect {
+      subject.reload
+    }.to_not raise_error(ActiveFedora::ObjectNotFoundError)
+
+    subject.destroy
+  end
+
+end

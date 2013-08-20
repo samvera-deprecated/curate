@@ -1,5 +1,6 @@
 module Curate
   class Engine < ::Rails::Engine
+    
     def paths
       @curate_paths ||= begin
         super_paths = super
@@ -28,6 +29,7 @@ module Curate
 
     initializer "curate" do |app|
       require File.expand_path("../active_model_adaptor", __FILE__)
+      require 'curate/rails/routes' 
       require File.expand_path('../../../app/repository_models/generic_file', __FILE__)
       require File.expand_path('../../../app/models/solr_document', __FILE__)
       require File.expand_path('../../../app/builders/accordion_builder_helper', __FILE__)
