@@ -24,7 +24,7 @@ describe CurationConcern do
     let(:file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false) }
     let(:user) { FactoryGirl.create(:user) }
     let(:generic_file) { GenericFile.new }
-    let(:curation_concern) { FactoryGirl.create_curation_concern(:mock_curation_concern, user) }
+    let(:curation_concern) { FactoryGirl.create_curation_concern(:generic_work, user) }
     it 'works with a string' do
       actor = CurationConcern.actor(generic_file, user, {batch_id: curation_concern.pid, file: file})
       actor.create!

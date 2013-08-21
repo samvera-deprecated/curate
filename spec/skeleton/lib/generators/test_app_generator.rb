@@ -20,13 +20,5 @@ class TestAppGenerator < Rails::Generators::Base
       end
       EOV
     end
-
   end
-
-  def add_mock_routes
-    marker = /^\s*curate_for containers: \[:senior_theses\]/
-    gsub_file 'config/routes.rb', marker, "  curate_for :containers=>[:mock_curation_concerns]"
-  end
-  
-
 end

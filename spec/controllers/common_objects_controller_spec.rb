@@ -7,7 +7,7 @@ describe CommonObjectsController do
   let(:another_user) { FactoryGirl.create(:user) }
   let(:visibility) { nil }
   let(:curation_concern) {
-    FactoryGirl.create_generic_file(:mock_curation_concern, user) { |gf|
+    FactoryGirl.create_generic_file(:generic_work, user) { |gf|
       gf.visibility = visibility
     }
   }

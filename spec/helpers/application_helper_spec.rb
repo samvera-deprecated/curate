@@ -8,8 +8,8 @@ describe ApplicationHelper do
   end
 
   it 'has #curation_concern_page_title' do
-    expect(helper.curation_concern_page_title(MockCurationConcern.new)).to(
-      eq("New Mock Curation Concern // #{I18n.t('sufia.product_name')}")
+    expect(helper.curation_concern_page_title(GenericWork.new)).to(
+      eq("New Generic Work // #{I18n.t('sufia.product_name')}")
     )
   end
 
@@ -70,7 +70,7 @@ describe ApplicationHelper do
   end
 
   it 'has #classify_for_display' do
-    expect(helper.classify_for_display(MockCurationConcern.new)).to eq('mock curation concern')
+    expect(helper.classify_for_display(GenericWork.new)).to eq('generic work')
   end
 
   describe '#bootstrap_navigation_element' do
@@ -99,7 +99,7 @@ describe ApplicationHelper do
     let(:user) { FactoryGirl.create(:user) }
     let(:curation_concern) {
       FactoryGirl.create_curation_concern(
-        :mock_curation_concern, user, visibility: visibility
+        :generic_work, user, visibility: visibility
       )
     }
     let(:visibility) { nil }
