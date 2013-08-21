@@ -35,7 +35,6 @@ task :generate do
 gem 'capybara'
 gem 'selenium-webdriver'
 gem 'factory_girl_rails'
-gem 'webmock'
 gem 'timecop'
 gem 'rspec-html-matchers'
 gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'" >> #{DUMMY_APP}/Gemfile`
