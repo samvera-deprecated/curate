@@ -12,7 +12,6 @@ require File.expand_path("../internal/config/environment.rb",  __FILE__)
 require File.expand_path('../spec_patch', __FILE__)
 require "rails/test_help"
 require 'rspec/rails'
-require 'webmock/rspec'
 require 'rspec-html-matchers'
 require 'rspec/autorun'
 require 'factory_girl'
@@ -65,22 +64,4 @@ RSpec.configure do |config|
     Warden.test_reset!
     Resque.inline = @old_resque_inline_value
   end
-
-
-  config.before(:all) do
-    WebMock.allow_net_connect!
-  end
-
-  # config.before(:suite) do
-  #   DatabaseCleaner.strategy = :truncation
-  #   DatabaseCleaner.clean_with(:truncation)
-  # end
-
-  # config.before(:each) do
-  #   DatabaseCleaner.start
-  # end
-
-  # config.after(:each) do
-  #   DatabaseCleaner.clean
-  # end
 end
