@@ -4,5 +4,5 @@ en:
     search:
       form:
         q:
-          label:        "Search Scholarsphere"
+          label:        "Search Curate"
           placeholder:  "Type keywords in here"
