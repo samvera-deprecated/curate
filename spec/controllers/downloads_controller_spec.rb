@@ -6,7 +6,7 @@ describe DownloadsController do
     let(:another_user) { FactoryGirl.create(:user) }
     let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
     let(:generic_file) {
-      FactoryGirl.create_generic_file(:mock_curation_concern, user) {|g|
+      FactoryGirl.create_generic_file(:generic_work, user) {|g|
         g.visibility = visibility
       }
     }

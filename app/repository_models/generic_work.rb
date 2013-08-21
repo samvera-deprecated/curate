@@ -1,4 +1,4 @@
-class MockCurationConcern < ActiveFedora::Base
+class GenericWork < ActiveFedora::Base
   class MetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     map_predicates do |map|
       map.title(in: RDF::DC) do |index|
@@ -72,7 +72,7 @@ class MockCurationConcern < ActiveFedora::Base
   include CurationConcern::Embargoable
   include CurationConcern::WithAccessRight
 
-  has_metadata name: "descMetadata", type: MockCurationConcern::MetadataDatastream, control_group: 'M'
+  has_metadata name: "descMetadata", type: GenericWork::MetadataDatastream, control_group: 'M'
 
   delegate_to(
     :descMetadata,

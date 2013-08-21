@@ -5,16 +5,16 @@ describe ClassifyConcern do
   let(:curation_concern_type) { nil }
 
   describe '.all_curation_concern_classes' do
-    it 'has MockCurationConcern' do
-      expect(ClassifyConcern.all_curation_concern_classes).to include(MockCurationConcern)
-      expect(ClassifyConcern.all_curation_concern_classes).to_not include('MockCurationConcern')
+    it 'has GenericWork' do
+      expect(ClassifyConcern.all_curation_concern_classes).to include(GenericWork)
+      expect(ClassifyConcern.all_curation_concern_classes).to_not include('GenericWork')
     end
   end
 
   describe '#all_curation_concern_classes' do
-    it 'has MockCurationConcern' do
-      expect(subject.all_curation_concern_classes).to include(MockCurationConcern)
-      expect(subject.all_curation_concern_classes).to_not include('MockCurationConcern')
+    it 'has GenericWork' do
+      expect(subject.all_curation_concern_classes).to include(GenericWork)
+      expect(subject.all_curation_concern_classes).to_not include('GenericWork')
     end
   end
 
@@ -31,15 +31,15 @@ describe ClassifyConcern do
     end
   end
 
-  describe 'with curation_concern_type: "MockCurationConcern"' do
-    let(:curation_concern_type) { "MockCurationConcern" }
+  describe 'with curation_concern_type: "GenericWork"' do
+    let(:curation_concern_type) { "GenericWork" }
 
     it 'is valid if curation_concern_type is from the right list' do
       expect(subject).to be_valid
     end
 
-    it 'has a <MockCurationConcern> class for curation_concern_class' do
-      expect(subject.curation_concern_class).to eq(MockCurationConcern)
+    it 'has a <GenericWork> class for curation_concern_class' do
+      expect(subject.curation_concern_class).to eq(GenericWork)
     end
   end
 
