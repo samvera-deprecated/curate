@@ -9,7 +9,11 @@
 * Add `gem 'curate'` to your Gemfile, then run `bundle`
 * Run the generator: `rails generate curate`
 * Run the migrations `rake db:migrate`
-
+* Remove the generated blacklight css: `rm app/assets/stylesheets/blacklight.css.scss` 
+* In `app/assets/stylesheets/application.css` add this line:
+  ```
+    *= require curate
+  ```
 
 ## Curate Developer Notes
 
