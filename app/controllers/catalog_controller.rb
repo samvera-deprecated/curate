@@ -15,7 +15,6 @@
 
 # -*- encoding : utf-8 -*-
 require 'blacklight/catalog'
-require 'blacklight_advanced_search'
 
 # bl_advanced_search 1.2.4 is doing unitialized constant on these because we're calling ParseBasicQ directly
 require 'parslet'
@@ -25,7 +24,6 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
   # Extend Blacklight::Catalog with Hydra behaviors (primarily editing).
   include Hydra::Controller::ControllerBehavior
-  include BlacklightAdvancedSearch::ParseBasicQ
 
   add_breadcrumb 'Search', lambda {|controller| controller.request.path }
   with_themed_layout 'catalog'

@@ -1,4 +1,3 @@
-require 'blacklight_advanced_search'
 class DashboardController < ApplicationController
   include Hydra::BatchEditBehavior
   include Blacklight::Catalog
@@ -10,8 +9,6 @@ class DashboardController < ApplicationController
 
   include Hydra::Controller::ControllerBehavior
   include ActionView::Helpers::DateHelper
-  include BlacklightAdvancedSearch::ParseBasicQ
-  include BlacklightAdvancedSearch::Controller
 
   with_themed_layout 'dashboard'
 
