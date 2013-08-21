@@ -20,23 +20,28 @@
 ### Jetty Commands
 
 Install jetty:
-    > rake jetty:unzip  
+
+        rake jetty:unzip
 
 Start/stop jetty:
-    > rake jetty:start  
-    > rake jetty:stop  
+
+        rake jetty:start
+        rake jetty:stop
 
 Jetty logs:
-    > tail -f jetty/jettywrapper.log  
+
+        tail -f jetty/jettywrapper.log
 
 ### Running the Specs
 
 To clean & generate a dummy app that the specs will use for testing:
-    > rake clean  
-    > rake generate  
+
+        rake clean
+        rake generate
 
 Make sure jetty is running before you run the specs.
 
 To run the test suite:
-    > rake spec  
+
+        rake spec
 
