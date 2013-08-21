@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CurationConcern::GenericFileActor do
   let(:user) { FactoryGirl.create(:user) }
-  let(:parent) { FactoryGirl.create_curation_concern(:mock_curation_concern, user) }
+  let(:parent) { FactoryGirl.create_curation_concern(:generic_work, user) }
   let(:file_path) { __FILE__ }
   let(:mime_type) { 'application/x-ruby'}
   let(:file) { Rack::Test::UploadedFile.new(file_path, mime_type, false)}

@@ -8,7 +8,7 @@ describe CharacterizeJob do
   describe '#run' do
     let(:user) { FactoryGirl.create(:user) }
     let(:curation_concern) {
-      MockCurationConcern.new.tap(&:save)
+      GenericWork.new.tap(&:save)
     }
     let(:generic_file) {
       FactoryGirl.create_generic_file(curation_concern, user)

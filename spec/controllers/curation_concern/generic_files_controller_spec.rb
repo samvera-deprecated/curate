@@ -6,7 +6,7 @@ describe CurationConcern::GenericFilesController do
   let(:another_user) { FactoryGirl.create(:user) }
   let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
   let(:parent) {
-    FactoryGirl.create_curation_concern(:mock_curation_concern, user, {visibility: visibility})
+    FactoryGirl.create_curation_concern(:generic_work, user, {visibility: visibility})
   }
   let(:file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false) }
   let(:generic_file) { FactoryGirl.create_generic_file(parent, user) {|gf|

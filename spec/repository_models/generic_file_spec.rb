@@ -34,7 +34,7 @@ describe GenericFile do
   let(:user) { FactoryGirl.create(:user) }
   let(:file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false) }
   let(:persisted_generic_file) {
-    FactoryGirl.create_generic_file(:mock_curation_concern, user, file)
+    FactoryGirl.create_generic_file(:generic_work, user, file)
   }
 
   it 'has a current version id' do

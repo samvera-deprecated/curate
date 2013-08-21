@@ -1,15 +1,13 @@
-require Curate::Engine.root.join('app/controllers/curation_concern/base_controller')
-require Curate::Engine.root.join('spec/internal/app/services/curation_concern/mock_curation_concern_actor')
-class CurationConcern::MockCurationConcernsController < CurationConcern::BaseController
+class CurationConcern::GenericWorksController < CurationConcern::BaseController
   respond_to(:html)
   with_themed_layout '1_column'
 
   def curation_concern
     @curation_concern ||=
     if params[:id]
-      MockCurationConcern.find(params[:id])
+      GenericWork.find(params[:id])
     else
-      MockCurationConcern.new(params[:mock_curation_concern])
+      GenericWork.new(params[:generic_work])
     end
   end
 
@@ -19,7 +17,7 @@ class CurationConcern::MockCurationConcernsController < CurationConcern::BaseCon
   def create
     if verify_acceptance_of_user_agreement!
       begin
-        @curation_concern = MockCurationConcern.new(pid: CurationConcern.mint_a_pid)
+        @curation_concern = GenericWork.new(pid: CurationConcern.mint_a_pid)
         actor.create!
         respond_for_create
       rescue ActiveFedora::RecordInvalid
@@ -89,6 +87,6 @@ class CurationConcern::MockCurationConcernsController < CurationConcern::BaseCon
 
   include Morphine
   register :actor do
-    CurationConcern.actor(curation_concern, current_user,params[:mock_curation_concern])
+    CurationConcern.actor(curation_concern, current_user, params[:generic_work])
   end
 end
