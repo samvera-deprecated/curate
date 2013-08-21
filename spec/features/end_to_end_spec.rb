@@ -102,7 +102,7 @@ describe 'end to end behavior', describe_options do
     it "allows me to directly create a generic work" do
       login_as(user)
       visit new_curation_concern_generic_work_path
-      page.assert_selector('.main-header h2', "Describe Your Thesis")
+      page.assert_selector('.main-header h2', "Describe Your Work")
     end
 
     it 'remembers generic_work inputs when data was invalid' do
@@ -113,7 +113,6 @@ describe 'end to end behavior', describe_options do
         'I Agree' => true,
         'Title' => ''
       )
-      page.assert_selector('.main-header h2', "Describe Your Thesis")
       expect(page).to have_checked_field('visibility_restricted')
       expect(page).to_not have_checked_field('visibility_open')
     end
@@ -170,6 +169,7 @@ describe 'end to end behavior', describe_options do
       login_as(user)
       visit('/')
       click_link("Get Started")
+      save_and_open_page
       click_link "Request Help"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
@@ -312,7 +312,6 @@ describe 'end to end behavior', describe_options do
     options["Contributors"] ||= ["Dante"]
     options["Content License"] ||= Sufia.config.cc_licenses.keys.first
 
-    page.should have_content('Describe Your Thesis')
     # Without accepting agreement
     within('#new_generic_work') do
       fill_in("Title", with: options['Title'])
@@ -332,11 +331,10 @@ describe 'end to end behavior', describe_options do
       click_on(options["Button to click"])
     end
 
-    if !options["I Agree"]
+    unless options["I Agree"]
       within('.alert.error') do
         page.should have_content('You must accept the contributor agreement')
       end
-      page.should have_content("Describe Your Thesis")
     end
   end
 
