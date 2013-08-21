@@ -6,6 +6,9 @@ if ENV['JS']
 end
 
 describe 'end to end behavior', describe_options do
+  before(:all) {
+    ActiveFedora::Base.destroy_all
+  }
   let(:sign_in_count) { 0 }
   let(:user) {
     FactoryGirl.create(
@@ -37,8 +40,8 @@ describe 'end to end behavior', describe_options do
 
 
   def fill_out_form_multi_value_for(method_name, options={})
-    field_name = "mock_curation_concern[#{method_name}][]"
-    within(".control-group.mock_curation_concern_#{method_name}.multi_value") do
+    field_name = "generic_work[#{method_name}][]"
+    within(".control-group.generic_work_#{method_name}.multi_value") do
       elements = [options[:with]].flatten.compact
       if with_javascript?
         elements.each_with_index do |element, i|
@@ -63,8 +66,8 @@ describe 'end to end behavior', describe_options do
       click_link('Get Started')
       assert_breadcrumb_trail(page, ["Dashboard", '/dashboard'], ["What are you uploading?", nil])
 
-      visit('/concern/mock_curation_concerns/new')
-      assert_breadcrumb_trail(page, ["Dashboard", '/dashboard'], ['New Mock Curation Concern', nil])
+      visit new_curation_concern_generic_work_path
+      assert_breadcrumb_trail(page, ["Dashboard", '/dashboard'], ['New Generic Work', nil])
     end
   end
 
@@ -96,16 +99,16 @@ describe 'end to end behavior', describe_options do
       page.should have_content("What are you uploading?")
     end
 
-    it "allows me to directly create a mock curation concern" do
+    it "allows me to directly create a generic work" do
       login_as(user)
-      visit('/concern/mock_curation_concerns/new')
+      visit new_curation_concern_generic_work_path
       page.assert_selector('.main-header h2', "Describe Your Thesis")
     end
 
-    it 'remembers mock curation concern inputs when data was invalid' do
+    it 'remembers generic_work inputs when data was invalid' do
       login_as(user)
-      visit('/concern/mock_curation_concerns/new')
-      create_mock_curation_concern(
+      visit new_curation_concern_generic_work_path
+      create_generic_work(
         'Visibility' => 'visibility_restricted',
         'I Agree' => true,
         'Title' => ''
@@ -121,8 +124,8 @@ describe 'end to end behavior', describe_options do
       # today (browser's date), and I want timecop to help
       embargo_release_date_formatted = embargo_release_date.strftime("%Y-%m-%d")
       login_as(user)
-      visit('/concern/mock_curation_concerns/new')
-      create_mock_curation_concern(
+      visit new_curation_concern_generic_work_path
+      create_generic_work(
         'Embargo Release Date' => embargo_release_date_formatted,
         'Visibility' => 'visibility_embargo',
         'Contributors' => ['Dante'],
@@ -191,11 +194,11 @@ describe 'end to end behavior', describe_options do
   describe '+Add javascript behavior', js: true do
     let(:contributors) { ["D'artagnan", "Porthos", "Athos", 'Aramas'] }
     let(:agreed_to_terms_of_service) { true }
-    let(:title) {"Somebody Special's Mock Curation Concern" }
+    let(:title) {"Somebody Special's Generic Work" }
     it 'handles contributor', js: true do
       login_as(user)
-      visit('/concern/mock_curation_concerns/new')
-      create_mock_curation_concern(
+      visit new_curation_concern_generic_work_path
+      create_generic_work(
         "Title" => title,
         "Upload your thesis" => initial_file_path,
         "Contributors" => contributors,
@@ -205,7 +208,7 @@ describe 'end to end behavior', describe_options do
       page.should have_content(title)
       contributors.each do |contributor|
         page.assert_selector(
-          '.mock_curation_concern.attributes .contributor.attribute',
+          '.generic_work.attributes .contributor.attribute',
           text: contributor
         )
       end
@@ -216,12 +219,12 @@ describe 'end to end behavior', describe_options do
     let(:agreed_to_terms_of_service) { true }
     let(:contributors) { ["Goethe"]}
     let(:authenticated_visibility_text) { I18n.translate('sufia.institution_name') }
-    it "related file via mock_curation_concern#new and generic_file#new should be similar" do
+    it "related file via generic_work#new and generic_file#new should be similar" do
       login_as(user)
       get_started
-      classify_what_you_are_uploading('Mock Curation Concern')
-      create_mock_curation_concern(
-        "Title" => 'Mock Curation Concern',
+      classify_what_you_are_uploading('Generic Work')
+      create_generic_work(
+        "Title" => 'Generic Work',
         'Visibility' => 'visibility_open',
         "Upload your thesis" => initial_file_path,
         "Contributors" => contributors,
@@ -236,7 +239,7 @@ describe 'end to end behavior', describe_options do
         "Upload a related file" => initial_file_path
       )
 
-      page.assert_selector('h1', text: 'Mock Curation Concern')
+      page.assert_selector('h1', text: 'Generic Work')
 
       page.assert_selector(
         '.generic_file.attributes .title.attribute',
@@ -249,7 +252,7 @@ describe 'end to end behavior', describe_options do
       )
       page.assert_selector(
         '.generic_file.attributes .title.attribute',
-        text: "Mock Curation Concern",count: 1
+        text: "Generic Work",count: 1
       )
       page.assert_selector(
         '.generic_file.attributes .permission.attribute',
@@ -269,8 +272,8 @@ describe 'end to end behavior', describe_options do
       login_as(user)
       get_started
       agree_to_terms_of_service
-      classify_what_you_are_uploading('Mock Curation Concern')
-      create_mock_curation_concern('I Agree' => true, 'Visibility' => 'visibility_open')
+      classify_what_you_are_uploading('Generic Work')
+      create_generic_work('I Agree' => true, 'Visibility' => 'visibility_open')
       path_to_view_thesis = view_your_new_thesis
       path_to_edit_thesis = edit_your_thesis
       view_your_updated_thesis
@@ -301,22 +304,22 @@ describe 'end to end behavior', describe_options do
     find("a.btn.add_new_#{concern.gsub(/\s/,'_').downcase}").click
   end
 
-  def create_mock_curation_concern(options = {})
+  def create_generic_work(options = {})
     options['Title'] ||= initial_title
     options['Upload your thesis'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
-    options["Button to click"] ||= "Create Mock curation concern"
+    options["Button to click"] ||= "Create Generic work" 
     options["Contributors"] ||= ["Dante"]
     options["Content License"] ||= Sufia.config.cc_licenses.keys.first
 
     page.should have_content('Describe Your Thesis')
     # Without accepting agreement
-    within('#new_mock_curation_concern') do
+    within('#new_generic_work') do
       fill_in("Title", with: options['Title'])
       attach_file("Upload your thesis", options['Upload your thesis'])
       choose(options['Visibility'])
       if options['Embargo Release Date']
-        fill_in("mock_curation_concern_embargo_release_date", with: options["Embargo Release Date"])
+        fill_in("generic_work_embargo_release_date", with: options["Embargo Release Date"])
       end
 
       select(options['Content License'], from: I18n.translate('sufia.field_label.rights'))
@@ -345,7 +348,7 @@ describe 'end to end behavior', describe_options do
       fill_in("Title", with: options['Title'])
       attach_file("Upload a file", options['Upload a file'])
       choose(options['Visibility'])
-      click_on("Attach to Mock Curation Concern")
+      click_on("Attach to Generic Work")
     end
   end
 
@@ -361,12 +364,12 @@ describe 'end to end behavior', describe_options do
   end
 
   def edit_your_thesis
-    click_on("Edit This Mock Curation Concern")
+    click_on("Edit This Generic Work")
     edit_page_path = page.current_path
-    within('.edit_mock_curation_concern') do
+    within('.edit_generic_work') do
       fill_in("Title", with: updated_title)
       fill_in("Abstract", with: "Lorem Ipsum")
-      click_on("Update Mock curation concern")
+      click_on("Update Generic work")
     end
     return edit_page_path
   end
@@ -399,14 +402,14 @@ describe 'end to end behavior', describe_options do
           elem.click
         end
       end
-      click_on('Mock Curation Concern')
+      click_on('Generic Work')
 
     end
     within('.alert.alert-info') do
       page.should have_content("You searched for: #{search_term}")
     end
     within('.alert.alert-warning') do
-      page.should have_content('Mock Curation Concern')
+      page.should have_content('Generic Work')
     end
   end
 

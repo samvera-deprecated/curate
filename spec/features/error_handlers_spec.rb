@@ -20,7 +20,7 @@ describe 'error behavior', describe_options do
     expect(page).to have_content("Not Found")
   end
 
-  let(:curation_concern_type) { :mock_curation_concern }
+  let(:curation_concern_type) { :generic_work }
   let(:user) { FactoryGirl.create(:user) }
   let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
   let(:curation_concern) {

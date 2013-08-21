@@ -6,11 +6,11 @@ describe "User" do
     subject { ability }
     let(:ability) { Ability.new(current_user) }
     let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
-    let(:mock_curation_concern) {
-      FactoryGirl.create_curation_concern(:mock_curation_concern, creating_user, { visibility: visibility })
+    let(:generic_work) {
+      FactoryGirl.create_curation_concern(:generic_work, creating_user, { visibility: visibility })
     }
     let(:generic_file) {
-      FactoryGirl.create_generic_file(mock_curation_concern, creating_user) { |gf|
+      FactoryGirl.create_generic_file(generic_work, creating_user) { |gf|
         gf.visibility = visibility
       }
     }

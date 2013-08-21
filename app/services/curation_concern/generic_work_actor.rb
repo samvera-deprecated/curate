@@ -1,5 +1,5 @@
 module CurationConcern
-  class MockCurationConcernActor < CurationConcern::BaseActor
+  class GenericWorkActor < CurationConcern::BaseActor
 
     def create!
       super

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ContributorAgreement do
   subject { ContributorAgreement.new(curation_concern, user, params) }
-  let(:curation_concern) { MockCurationConcern.new }
+  let(:curation_concern) { GenericWork.new }
   let(:user) { User.new }
   let(:params) { {} }
 
