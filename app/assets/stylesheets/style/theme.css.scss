@@ -1,6 +1,6 @@
 #brand-bar-wrapper {
   background-color:$blueDark;
-  @include background-image(linear-gradient($blueDark, #07366C 85%, #001834));
+  background-image: linear-gradient(#0d407b,#07366c 85%,#001834);
   border-bottom:1px solid #001834;
 
   h2 a, h3 a {
@@ -14,13 +14,14 @@
 
 #title-bar-wrapper {
   background-color:$yellow;
-  @include background-image(linear-gradient(#F5E59E, $yellow 98%, #9C7012));
+  background-image: linear-gradient(#f5e59e,#dcb439 98%,#9c7012);
   border-top:1px solid #FFF;
   margin-bottom:.3em;
 
   h1 {
     color:$blue;
-    @include text-shadow(#FFF 0 0 1px)
+    //@include text-shadow(#FFF 0 0 1px)
+    text-shadow: #fff 0 0 1px;
 
   }
 
