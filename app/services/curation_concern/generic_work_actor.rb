@@ -3,7 +3,8 @@ module CurationConcern
 
     def create!
       super
-      create_thesis_file
+      create_attached_file
+      create_linked_resource
     end
 
     def update!
@@ -12,22 +13,35 @@ module CurationConcern
     end
 
     protected
-    def thesis_file
-      return @thesis_file if defined?(@thesis_file)
-      @thesis_file = attributes.delete(:thesis_file)
+    def attached_file
+      @attached_file ||= attributes.delete(:thesis_file)
+    end
+    def linked_resource
+      @linked_resource ||= attributes.delete(:linked_resource_url)
     end
 
-    def create_thesis_file
-      if thesis_file
+    def create_linked_resource
+      if linked_resource.present?
+        resouce = LinkedResource.new.tap do |link|
+          link.url = linked_resource
+          link.batch = curation_concern
+          link.label = curation_concern.human_readable_type
+        end
+        Sufia::GenericFile::Actions.create_metadata( resouce, user, curation_concern.pid)
+      end
+    end
+
+    def create_attached_file
+      if attached_file
         generic_file = GenericFile.new
-        generic_file.file = thesis_file
+        generic_file.file = attached_file
         generic_file.batch = curation_concern
         generic_file.label = curation_concern.human_readable_type
         Sufia::GenericFile::Actions.create_metadata(
           generic_file, user, curation_concern.pid
         )
         generic_file.set_visibility(visibility)
-        CurationConcern.attach_file(generic_file, user, thesis_file)
+        CurationConcern.attach_file(generic_file, user, attached_file)
       end
     end
 

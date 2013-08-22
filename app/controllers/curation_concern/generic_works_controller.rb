@@ -16,8 +16,8 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
 
   def create
     if verify_acceptance_of_user_agreement!
+      @curation_concern = GenericWork.new(pid: CurationConcern.mint_a_pid)
       begin
-        @curation_concern = GenericWork.new(pid: CurationConcern.mint_a_pid)
         actor.create!
         respond_for_create
       rescue ActiveFedora::RecordInvalid
