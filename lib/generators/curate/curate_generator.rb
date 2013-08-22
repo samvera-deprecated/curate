@@ -88,6 +88,11 @@ This generator makes the following changes to your application:
     end
   end
 
+  def remove_catalog_controller
+    say_status("warning", "Removing Blacklight's generated CatalogController...It will cause you grief", :yellow)
+    remove_file('app/controllers/catalog_controller.rb')
+  end
+
   private
 
   def better_migration_template (file)
