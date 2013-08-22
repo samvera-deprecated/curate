@@ -1,4 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
+  include Curate::ThemedLayoutController
+  with_themed_layout '1_column'
 
   protected
     def after_update_path_for(resource)
