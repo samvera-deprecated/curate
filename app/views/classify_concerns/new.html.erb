@@ -7,31 +7,25 @@
 
 
 <div class="row-fluid">
-  <ul class="thumbnails">
+  <ul class="classify-work">
     <% classify_concern.all_curation_concern_classes.each do |klass| %>
-      <li class="span2">
-        <div class="thumbnail">
-          <div class="icon">
-            <h3><%= klass.human_readable_type %></h3>
-            <p class="short-description"><%= klass.human_readable_short_description %></p>
-            <p>
-              <%= link_to 'Add New',
-                classify_concerns_path(classify_concern: {"curation_concern_type"=>klass.name}),
-                class: "btn btn-primary #{dom_class(klass, 'add_new')}", method: :post
-              %>
-            </p>
-          </div>
-        </div>
+      <li class="span2 work-type">
+        <h3 class="title"><%= klass.human_readable_type %></h3>
+        <p class="short-description"><%= klass.human_readable_short_description %></p>
+        <%= link_to 'Add New',
+          classify_concerns_path(classify_concern: {"curation_concern_type"=>klass.name}),
+          class: "add-button btn btn-primary #{dom_class(klass, 'add_new')}", method: :post
+        %>
       </li>
     <% end %>
     <% classify_concern.upcoming_concerns.each do |name, description| %>
-      <li class="span2 upcoming">
-        <div class="thumbnail">
-          <div class="icon">
-            <h3><%= name %></h3>
-            <p class="short-description"><%= description %></p>
-          </div>
-        </div>
+      <li class="span2 upcoming work-type">
+        <h3 class="title"><%= name %></h3>
+        <p class="short-description"><%= description %></p>
+        <%= link_to 'Add New',
+          'javascript:void(null);',
+          class: "add-button btn btn-primary disabled"
+        %>
       </li>
     <%- end -%>
   </ul>
