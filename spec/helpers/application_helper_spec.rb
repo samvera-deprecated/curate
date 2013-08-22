@@ -109,7 +109,7 @@ describe ApplicationHelper do
       let(:expected_label) { t('sufia.institution_name') }
       let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED } # Can we change this?
       let(:access_policy) { 'registered' }
-      it 'renders a Notre Dame only label' do
+      it 'renders an Institution only label' do
         rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(
           have_tag("a#permission_#{curation_concern.to_param}") {
