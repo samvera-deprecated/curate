@@ -169,7 +169,6 @@ describe 'end to end behavior', describe_options do
       login_as(user)
       visit('/')
       click_link("Get Started")
-      save_and_open_page
       click_link "Request Help"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
