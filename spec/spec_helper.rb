@@ -46,22 +46,10 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.include Devise::TestHelpers, type: :controller
-  config.include Warden::Test::Helpers, type: :feature
-  config.include FeatureSupport, type: :feature
   config.include InputSupport, type: :input, example_group: {
     file_path: config.escaped_path(%w[spec inputs])
   }
 
   config.use_transactional_fixtures = true
 
-  config.before(:each, type: :feature) do
-    Warden.test_mode!
-    @old_resque_inline_value = Resque.inline
-    Resque.inline = true
-  end
-
-  config.after(:each, type: :feature) do
-    Warden.test_reset!
-    Resque.inline = @old_resque_inline_value
-  end
 end
