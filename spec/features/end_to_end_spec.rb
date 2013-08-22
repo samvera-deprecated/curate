@@ -298,11 +298,6 @@ describe 'end to end behavior', describe_options do
     end
   end
 
-  def classify_what_you_are_uploading(concern)
-    page.should have_content("What are you uploading?")
-    find("a.btn.add_new_#{concern.gsub(/\s/,'_').downcase}").click
-  end
-
   def create_generic_work(options = {})
     options['Title'] ||= initial_title
     options['Upload your thesis'] ||= initial_file_path
