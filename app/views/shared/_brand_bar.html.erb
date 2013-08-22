@@ -6,5 +6,8 @@
             <div class="division span6">
               <h2><a href="<%= t('sufia.division_homepage_url') %>" tabindex="-1"><%= t('sufia.division_name') %></a></h2>
             </div>
+            <% if current_user %>
+              <%= link_to 'Log Out', destroy_user_session_path, class: 'pull-right' %>
+            <% end %>
           </div>
         </div>
