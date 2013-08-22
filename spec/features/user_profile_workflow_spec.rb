@@ -71,6 +71,7 @@ describe 'user profile workflow', describe_options do
       fill_in("user[password]", with: password)
       click_button("Sign in")
     end
+    click_link("Submit a work")
     assert_on_page_allowing_upload!
   end
 
