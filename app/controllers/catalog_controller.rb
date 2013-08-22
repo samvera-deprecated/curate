@@ -16,10 +16,6 @@
 # -*- encoding : utf-8 -*-
 require 'blacklight/catalog'
 
-# bl_advanced_search 1.2.4 is doing unitialized constant on these because we're calling ParseBasicQ directly
-require 'parslet'
-require 'parsing_nesting/tree'
-
 class CatalogController < ApplicationController
   include Blacklight::Catalog
   # Extend Blacklight::Catalog with Hydra behaviors (primarily editing).
