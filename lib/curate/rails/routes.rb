@@ -15,6 +15,8 @@ module ActionDispatch::Routing
         opts[:containers].each do |container|
           resources container, except: [:index]
         end
+        resources( :linked_resources, only: [:new, :create], path: 'container/:parent_id/linked_resources')
+        resources( :linked_resources, only: [:show, :edit, :update, :destroy])
         resources( :generic_files, only: [:new, :create], path: 'container/:parent_id/generic_files')
         resources( :generic_files, only: [:show, :edit, :update, :destroy]) do
           member do
