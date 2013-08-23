@@ -21,35 +21,28 @@
 
 <% end %>
 
-<% if has_search_parameters? %>
-  <h3>Search Results</h3>
-  <div class="alert alert-info search-constraints">
-    <i class="icon-search icon-large"></i>
-    You searched for:
-      <%= render_constraints(params) %>
+<h3>Search Results</h3>
+<div class="alert alert-info search-constraints">
+  <i class="icon-search icon-large"></i>
+  You searched for:
+    <%= render_constraints(params) %>
+</div>
+
+<%= render :partial => 'did_you_mean' %>
+<%= render :partial => 'facet_selected' %>
+
+<div class="row">
+  <div class="span6">
+    <%= render_pagination_info @response, :entry_name=>'item' %>
+    <%= render 'sort_and_per_page' %>
   </div>
-
-  <%= render :partial => 'did_you_mean' %>
-  <%= render :partial => 'facet_selected' %>
-
-  <div class="row">
-    <div class="span6">
-      <%= render_pagination_info @response, :entry_name=>'item' %>
-      <%= render 'sort_and_per_page' %>
-    </div>
-    <div class="span3 emphatic-action-area">
-      <%= link_to "New Search", catalog_index_path, :id=>"startOverLink", :class=>"btn btn-primary pull-right" %>
-    </div>
+  <div class="span3 emphatic-action-area">
+    <%= link_to "New Search", catalog_index_path, :id=>"startOverLink", :class=>"btn btn-primary pull-right" %>
   </div>
+</div>
 
-  <%= render 'results_pagination' %>
+<%= render 'results_pagination' %>
 
-  <%= render 'document_list' %>
+<%= render 'document_list' %>
 
-  <%= render 'results_pagination' %>
-
-<% else %>
-
-  <%= render 'home' %>
-
-<% end %>
+<%= render 'results_pagination' %>
