@@ -1,6 +1,10 @@
 en:
   sufia:
     product_name:       "Curate"
+    institution_name:   "Your Institution"
+    institution_homepage_url:   "#"
+    division_name:      "Your Division at Institution"
+    division_homepage_url:   "#"
     search:
       form:
         q:
