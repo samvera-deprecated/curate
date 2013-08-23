@@ -2,11 +2,14 @@ module ActionDispatch::Routing
   class Mapper
 
     def curate_for(opts={})
-      resources 'dashboard', :only=>:index do
+      scope module: 'curate' do
+        resources 'collections'
+      end
+      resources 'dashboard', only: :index do
         collection do
-          get 'page/:page', :action => :index
-          get 'facet/:id',  :action => :facet, :as => :dashboard_facet
-          get 'related/:id',:action => :get_related_file, :as => :related_file
+          get 'page/:page', action: :index
+          get 'facet/:id',  action: :facet, as: :dashboard_facet
+          get 'related/:id', action: :get_related_file, as: :related_file
         end
       end
       resources :downloads, only: [:show]
