@@ -19,10 +19,14 @@ This generator makes the following changes to your application:
   # Implement the required interface for Rails::Generators::Migration.
   # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
   def self.next_migration_number(path)
-    unless @prev_migration_nr
-      @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
-    else
+    if @prev_migration_nr
       @prev_migration_nr += 1
+    else
+      if last_migration = Dir[File.join(path, '*.rb')].sort.last
+        @prev_migration_nr = last_migration.sub(File.join(path, '/'), '').to_i + 1
+      else
+        @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
+      end
     end
     @prev_migration_nr.to_s
   end
@@ -39,8 +43,7 @@ This generator makes the following changes to your application:
     file_path = "app/controllers/application_controller.rb"
     if File.exists?(file_path)
       insert_into_file file_path, :after => 'include Blacklight::Controller' do
-        "  \n# Adds Curate behaviors into the application controller \n" +
-        "  include CurateController\n"
+        "\n  include CurateController\n"
       end
       gsub_file file_path, "layout 'blacklight'", ""
     else
@@ -49,18 +52,19 @@ This generator makes the following changes to your application:
     end
   end
 
-  
+  def remove_catalog_controller
+    say_status("warning", "Removing Blacklight's generated CatalogController...It will cause you grief", :yellow)
+    remove_file('app/controllers/catalog_controller.rb')
+  end
 
   # Setup the database migrations
   def copy_migrations
-    sleep 6 # Mailboxer just uses a sequence, so it can end up using our sequence numbers.
-    # Can't get this any more DRY, because we need this order.
     [
       'add_terms_of_service_to_user.rb',
       'add_user_force_update_profile.rb',
       'create_help_requests.rb'
-    ].each do |f|
-      better_migration_template f
+    ].each do |file|
+      migration_template "migrations/#{file}", "db/migrate/#{file}"
     end
   end
 
@@ -91,17 +95,6 @@ This generator makes the following changes to your application:
   def remove_catalog_controller
     say_status("warning", "Removing Blacklight's generated CatalogController...It will cause you grief", :yellow)
     remove_file('app/controllers/catalog_controller.rb')
-  end
-
-  private
-
-  def better_migration_template (file)
-    begin
-      migration_template "migrations/#{file}", "db/migrate/#{file}"
-      sleep 1 # ensure scripts have different time stamps
-    rescue
-      puts "  \e[1m\e[34mMigrations\e[0m  " + $!.message
-    end
   end
 
 end
