@@ -3,7 +3,6 @@ class GenericWork < ActiveFedora::Base
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
   include CurationConcern::Embargoable
-  include CurationConcern::WithAccessRight
 
   has_metadata "descMetadata", type: GenericWorkRdfDatastream
 
