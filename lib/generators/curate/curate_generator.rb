@@ -33,6 +33,7 @@ This generator makes the following changes to your application:
 
   def run_required_generators
     generate "blacklight --devise"
+    remove_dir('app/views/devise')
     generate "hydra:head -f"
     generate "sufia:models:install"
   end
