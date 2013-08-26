@@ -1,6 +1,11 @@
 require File.expand_path('../../../validators/future_date_validator', __FILE__)
 module CurationConcern
   module Embargoable
+    extend ActiveSupport::Concern
+
+    # Embargo is not a proper citizen in the sufia model. Hence the override.
+    # Embargo, as implemented in HydraAccessControls, prevents something from
+    # being seen until the release date, then is public.
     module VisibilityOverride
       def set_visibility(value)
         if value == AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
@@ -11,12 +16,11 @@ module CurationConcern
         end
       end
     end
-    include VisibilityOverride
-    extend ActiveSupport::Concern
-
     included do
+      include CurationConcern::WithAccessRight
       validates :embargo_release_date, future_date: true
       before_save :write_embargo_release_date, prepend: true
+      include VisibilityOverride
     end
 
 
@@ -38,17 +42,6 @@ module CurationConcern
 
     def embargo_release_date
       @embargo_release_date || embargoable_persistence_container.embargo_release_date
-    end
-
-    if ! included_modules.include?('Morphine')
-      require 'morphine'
-      include Morphine
-    end
-    register :embargoable_persistence_container do
-      if ! self.class.included_modules.include?('Sufia::GenericFile::Permissions')
-        self.class.send(:include, Sufia::GenericFile::Permissions)
-      end
-      self.datastreams["rightsMetadata"]
     end
 
   end

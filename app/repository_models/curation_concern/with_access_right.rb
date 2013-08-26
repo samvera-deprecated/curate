@@ -4,6 +4,14 @@ module CurationConcern
 
     included do
       attr_accessor :visibility
+      require 'morphine'
+      include Morphine
+      register :embargoable_persistence_container do
+        if ! self.class.included_modules.include?('Sufia::GenericFile::Permissions')
+          self.class.send(:include, Sufia::GenericFile::Permissions)
+        end
+        self.datastreams["rightsMetadata"]
+      end
     end
 
     def under_embargo?
