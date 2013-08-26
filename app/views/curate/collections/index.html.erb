@@ -1,0 +1,5 @@
+<%= render_document_index %>
+
+<% if can? :create, Collection %>
+  <%= button_for_create_collection %>
+<% end %>

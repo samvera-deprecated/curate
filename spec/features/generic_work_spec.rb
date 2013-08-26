@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Creating a generic work' do
-  let(:user) { FactoryGirl.create( :user) }
+  let(:user) { FactoryGirl.create(:user) }
 
   describe 'with a related link' do
     it "should allow me to attach the link on the create page" do
