@@ -27,6 +27,7 @@ module Curate
     initializer "curate" do |app|
       require File.expand_path("../active_model_adaptor", __FILE__)
       require 'curate/rails/routes' 
+      require 'hydra-collections' 
       require File.expand_path('../../../app/repository_models/generic_file', __FILE__)
 
       require File.expand_path('../../../app/builders/accordion_builder_helper', __FILE__)
