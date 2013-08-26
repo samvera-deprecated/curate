@@ -1,4 +1,6 @@
 class CurationConcern::GenericFilesController < CurationConcern::BaseController
+  include Curate::ParentContainer
+
   respond_to(:html)
 
   def attach_action_breadcrumb
@@ -7,26 +9,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   before_filter :parent
-  def parent
-    @parent ||=
-    if params[:id]
-      curation_concern.batch
-    else
-      ActiveFedora::Base.find(namespaced_parent_id,cast: true)
-    end
-  end
-  helper_method :parent
-
-  def namespaced_parent_id
-    Sufia::Noid.namespaceize(params[:parent_id])
-  end
-  protected :namespaced_parent_id
-
   before_filter :authorize_edit_parent_rights!, except: [:show]
-  def authorize_edit_parent_rights!
-    authorize! :edit, parent
-  end
-  protected :authorize_edit_parent_rights!
 
   self.excluded_actions_for_curation_concern_authorization = [:new, :create]
   def action_name_for_authorization
