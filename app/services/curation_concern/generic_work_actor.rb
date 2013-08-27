@@ -8,11 +8,28 @@ module CurationConcern
     end
 
     def update!
+      add_to_collections attributes.delete('collection_ids')
       super
       update_contained_generic_file_visibility
     end
 
     protected
+
+    # The default behavior of active_fedora's has_and_belongs_to_many association, 
+    # when assigning the id accessor (e.g. collection_ids = ['foo:1']) is to add 
+    # to new collections, but not remove from old collections.
+    # This method ensures it's removed from the old collections.
+    def add_to_collections(new_collection_ids)
+      return if new_collection_ids.nil?
+      #remove from old collections
+      (curation_concern.collection_ids - new_collection_ids).each do |old_id|
+        Collection.find(old_id).members.delete(curation_concern)
+      end
+
+      #add to new
+      curation_concern.collection_ids = new_collection_ids
+    end
+
     def attached_file
       @attached_file ||= attributes.delete(:thesis_file)
     end
