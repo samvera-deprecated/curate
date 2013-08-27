@@ -25,3 +25,32 @@ describe 'Creating a generic work' do
     end
   end
 end
+
+describe 'An existing generic work' do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:work) { FactoryGirl.create(:generic_work, user: user) }
+  let(:you_tube_link) { 'http://www.youtube.com/watch?v=oHg5SJYRHA0' }
+
+  it 'should allow me to attach a linked resource' do
+    login_as(user)
+    visit curation_concern_generic_work_path(work)
+    click_link 'Add an External Link'
+
+    within '#new_linked_resource' do
+      fill_in 'External link', with: you_tube_link
+      click_button 'Add External Link'
+    end
+
+    within ('.linked_resource.attributes') do
+      expect(page).to have_link(you_tube_link, href: you_tube_link)
+    end
+  end
+
+  it 'cancel takes me back to the dashboard' do
+    login_as(user)
+    visit curation_concern_generic_work_path(work)
+    click_link 'Add an External Link'
+    page.should have_link('Cancel', href: dashboard_index_path)
+  end
+end
+
