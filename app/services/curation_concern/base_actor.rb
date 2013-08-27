@@ -26,7 +26,7 @@ module CurationConcern
     def save
       curation_concern.attributes = attributes
       curation_concern.date_modified = Date.today
-      curation_concern.set_visibility(visibility)
+      #curation_concern.visibility = visibility
       curation_concern.save!
     end
     protected :save
@@ -34,10 +34,6 @@ module CurationConcern
     attr_reader :visibility
     protected :visibility
 
-    def visibility_may_have_changed?
-      !!@visibility
-    end
-    protected :visibility_may_have_changed?
 
     def attach_file(generic_file, file_to_attach)
       ActiveSupport::Deprecation.warn("removing #{self.class}#attach_file, use CurationConcern.attach_file instead")

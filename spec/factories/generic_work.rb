@@ -11,7 +11,7 @@ FactoryGirl.define do
     before(:create) { |work, evaluator|
       work.apply_depositor_metadata(evaluator.user.user_key)
       work.creator = evaluator.user.to_s
-      work.set_visibility(evaluator.visibility)
+      work.visibility = evaluator.visibility
     }
   end
 end

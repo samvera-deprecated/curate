@@ -69,7 +69,11 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
 
   def update
     actor.update!
-    respond_with([:curation_concern, curation_concern])
+    if curation_concern.visibility_changed?
+      redirect_to confirm_curation_concern_permission_path(curation_concern)
+    else
+      respond_with([:curation_concern, curation_concern])
+    end
   rescue ActiveFedora::RecordInvalid
     respond_with([:curation_concern, curation_concern]) do |wants|
       wants.html { render 'edit', status: :unprocessable_entity }

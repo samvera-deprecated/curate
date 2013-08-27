@@ -17,7 +17,7 @@ def FactoryGirl.create_generic_file(container_factory_name_or_object, user, file
 
   Sufia::GenericFile::Actions.create_metadata(generic_file, user, curation_concern.pid) do |gf|
     gf.batch = curation_concern
-    gf.set_visibility(generic_file.visibility)
+    gf.visibility = (generic_file.visibility)
   end
 
   Sufia::GenericFile::Actions.create_content(
