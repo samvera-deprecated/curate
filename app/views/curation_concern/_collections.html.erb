@@ -1,0 +1,24 @@
+<table class="table table-striped <%= dom_class(curation_concern) %> collections with-headroom">
+  <caption class="table-heading">
+    <h2>Collections</h2>
+  </caption>
+  <% if curation_concern.collections.present? %>
+    <thead>
+      <tr>
+        <th>Collection Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% curation_concern.collections.each do |collection| %>
+        <tr class="collection attributes">
+          <td class="attribute title"><%= link_to collection.title, collection %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  <% end %>
+</table>
+
+<%= form_for [:curation_concern, @curation_concern], method: :patch do |f| %>
+  <%= f.select :collection_ids, options_from_collection_for_select(current_user.collections.to_a, :id, :title, @curation_concern.collection_ids),{include_hidden: false}, { multiple: true} %>
+  <%= f.submit "Assign to collections", class: 'btn btn-primary' %>
+<% end %>
