@@ -14,6 +14,7 @@ This generator makes the following changes to your application:
  1. Runs required generators
  2. Adds curate behaviors to ApplicationController
  3. Adds the curate routes
+ 3. Adds the curate abilities
  4. Adds a user migration
        """
   # Implement the required interface for Rails::Generators::Migration.
@@ -90,6 +91,12 @@ This generator makes the following changes to your application:
   def inject_curate_user
     inject_into_class 'app/models/user.rb', 'User' do
       "\n  include Curate::User\n"
+    end
+  end
+
+  def inject_curate_ability
+    inject_into_file 'app/models/ability.rb', :after => /Hydra::Ability\s*\n/ do
+      "  include Curate::Ability\n\n"
     end
   end
 
