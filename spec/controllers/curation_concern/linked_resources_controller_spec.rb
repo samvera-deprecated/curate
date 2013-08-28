@@ -3,7 +3,7 @@ require 'spec_helper'
 describe CurationConcern::LinkedResourcesController do
   let(:user) { FactoryGirl.create(:user) }
   let(:another_user) { FactoryGirl.create(:user) }
-  let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+  let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
   let(:parent) {
     FactoryGirl.create_curation_concern(:generic_work, user, {visibility: visibility})
   }

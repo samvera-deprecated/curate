@@ -15,19 +15,19 @@
 
     <div class="control-group">
       <label class="radio">
-        <input type="radio" id="visibility_open" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC %>" <% if curation_concern.open_access? %> checked="true"<% end %>/>
+        <input type="radio" id="visibility_open" name="<%= f.object_name %>[visibility]" value="<%= Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC %>" <% if curation_concern.open_access? %> checked="true"<% end %>/>
         <span class="label label-success">Open Access</span> Visible to the world.
       </label>
       <label class="radio">
-        <input type="radio" id="visibility_embargo" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO %>" <% if curation_concern.open_access_with_embargo_release_date? %> checked="true"<% end %>/>
+        <input type="radio" id="visibility_embargo" name="<%= f.object_name %>[visibility]" value="<%= Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO %>" <% if curation_concern.open_access_with_embargo_release_date? %> checked="true"<% end %>/>
         <span class="label label-warning">Open Access with Embargo</span> Treated as <span class="label label-important">Private</span> until <%= f.input :embargo_release_date, wrapper: :inline, input_html: { placeholder: Date.today, class: 'input-small datepicker' } %> then it is <span class="label label-success">Open Access</span>.
       </label>
       <label class="radio">
-        <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED %>" <% if curation_concern.authenticated_only_access? %> checked="true"<% end %> />
+        <input type="radio" id="visibility_ndu" name="<%= f.object_name %>[visibility]" value="<%= Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED %>" <% if curation_concern.authenticated_only_access? %> checked="true"<% end %> />
         <span class="label label-info"><%=t('sufia.institution_name') %></span> Visible to all <%=t('sufia.institution_name') %> users.
       </label>
       <label class="radio">
-        <input type="radio" id="visibility_restricted" name="<%= f.object_name %>[visibility]" value="<%= AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE%>" <% if curation_concern.private_access? %> checked="true"<% end %>/>
+        <input type="radio" id="visibility_restricted" name="<%= f.object_name %>[visibility]" value="<%= Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE%>" <% if curation_concern.private_access? %> checked="true"<% end %>/>
         <span class="label label-important">Private</span> Only visible to you.
       </label>
     </div>

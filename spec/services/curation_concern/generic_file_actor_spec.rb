@@ -9,7 +9,7 @@ describe CurationConcern::GenericFileActor do
   let(:file_content) { File.read(file)}
   let(:title) { Time.now.to_s }
   let(:attributes) {
-    { file: file, title: title, visibility: AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+    { file: file, title: title, visibility: Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
   }
 
   subject {
@@ -38,7 +38,7 @@ describe CurationConcern::GenericFileActor do
 
       describe 'failure' do
         let(:attributes) {
-          { title: title, visibility: AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+          { title: title, visibility: Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
         }
 
         it 'fails if no file is provided' do
