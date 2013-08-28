@@ -10,7 +10,6 @@ module CurationConcern
     def update!
       add_to_collections attributes.delete('collection_ids')
       super
-      update_contained_generic_file_visibility
     end
 
     protected
@@ -57,17 +56,8 @@ module CurationConcern
         Sufia::GenericFile::Actions.create_metadata(
           generic_file, user, curation_concern.pid
         )
-        generic_file.set_visibility(visibility)
+        generic_file.visibility= visibility
         CurationConcern.attach_file(generic_file, user, attached_file)
-      end
-    end
-
-    def update_contained_generic_file_visibility
-      if visibility_may_have_changed?
-        curation_concern.generic_files.each do |f|
-          f.set_visibility(visibility)
-          f.save!
-        end
       end
     end
 
