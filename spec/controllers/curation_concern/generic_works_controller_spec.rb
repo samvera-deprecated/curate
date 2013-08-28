@@ -4,6 +4,30 @@ describe CurationConcern::GenericWorksController do
   let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
 
+  describe "#show" do
+    context "my own private work" do
+      let(:generic_work) { FactoryGirl.create(:private_work, user: user) }
+      it "should show me the page" do
+        get :show, id: generic_work
+        expect(response).to be_success
+      end
+    end
+    context "someone elses private work" do
+      let(:generic_work) { FactoryGirl.create(:private_work) }
+      it "should show 401 Unauthorized" do
+        get :show, id: generic_work
+        expect(response.status).to eq 401
+      end
+    end
+    context "someone elses public work" do
+      let(:generic_work) { FactoryGirl.create(:public_work) }
+      it "should show me the page" do
+        get :show, id: generic_work
+        expect(response).to be_success
+      end
+    end
+  end
+      
   describe "#create" do
     it "should create a linked resource" do
       post :create, accept_contributor_agreement: "accept", generic_work: {
