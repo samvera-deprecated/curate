@@ -7,7 +7,7 @@ module CurationConcern
     # Embargo, as implemented in HydraAccessControls, prevents something from
     # being seen until the release date, then is public.
     module VisibilityOverride
-      def set_visibility(value)
+      def visibility= value
         if value == AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
           super(AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)
         else

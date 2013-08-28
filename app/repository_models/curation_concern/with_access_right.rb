@@ -3,7 +3,6 @@ module CurationConcern
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :visibility
       require 'morphine'
       include Morphine
       register :embargoable_persistence_container do

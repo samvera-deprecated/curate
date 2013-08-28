@@ -3,7 +3,7 @@ require 'spec_helper'
 describe CurationConcern::GenericWorksController do
   let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
-      
+
   describe "#create" do
     it "should create a linked resource" do
       post :create, accept_contributor_agreement: "accept", generic_work: {
@@ -17,20 +17,32 @@ describe CurationConcern::GenericWorksController do
   end
 
   describe "#update" do
-    let!(:collection1) { FactoryGirl.create(:collection, user: user) }
-    let!(:collection2) { FactoryGirl.create(:collection, user: user) }
-    let!(:generic_work) { FactoryGirl.create(:generic_work, user: user) }
-    before do
-      collection1.members << generic_work
-      collection1.save
+    describe "assigning to a collection" do
+      let!(:collection1) { FactoryGirl.create(:collection, user: user) }
+      let!(:collection2) { FactoryGirl.create(:collection, user: user) }
+      let(:generic_work) { FactoryGirl.create(:generic_work, user: user) }
+      before do
+        collection1.members << generic_work
+        collection1.save
+      end
+      it "should add to a collection" do
+        generic_work.reload
+        generic_work.collections.should == [collection1]
+        patch :update, generic_work: { "collection_ids"=>[collection2.pid]}, id: generic_work
+        response.should redirect_to curation_concern_generic_work_path(assigns[:curation_concern])
+        generic_work.reload
+        expect(generic_work.collections).to eq [collection2]
+      end
     end
-    it "should add to a collection" do
-      generic_work.reload
-      generic_work.collections.should == [collection1]
-      patch :update, generic_work: { "collection_ids"=>[collection2.pid]}, id: generic_work
-      response.should redirect_to curation_concern_generic_work_path(assigns[:curation_concern])
-      generic_work.reload
-      expect(generic_work.collections).to eq [collection2]
+
+    describe "changing rights" do
+      describe "when the files are private" do
+        let(:generic_file) { FactoryGirl.create(:generic_file, user: user) }
+        it "should prompt to change the files" do
+          patch :update, generic_work: { "visibility"=> 'open'}, id: generic_file.batch
+          response.should redirect_to confirm_curation_concern_permission_path(assigns[:curation_concern])
+        end
+      end
     end
   end
 end
