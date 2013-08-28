@@ -10,7 +10,7 @@ def FactoryGirl.create_generic_file(container_factory_name_or_object, user, file
 
   yield(generic_file) if block_given?
 
-  generic_file.visibility ||= AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+  generic_file.visibility ||= Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
 
   file ||= Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false)
   generic_file.file ||= file

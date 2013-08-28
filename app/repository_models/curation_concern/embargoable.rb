@@ -8,8 +8,8 @@ module CurationConcern
     # being seen until the release date, then is public.
     module VisibilityOverride
       def visibility= value
-        if value == AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
-          super(AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)
+        if value == Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
+          super(Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)
         else
           self.embargo_release_date = nil
           super(value)
@@ -17,10 +17,19 @@ module CurationConcern
       end
     end
     included do
-      include CurationConcern::WithAccessRight
+      include Sufia::Models::WithAccessRight
       validates :embargo_release_date, future_date: true
       before_save :write_embargo_release_date, prepend: true
       include VisibilityOverride
+
+      require 'morphine'
+      include Morphine
+      register :embargoable_persistence_container do
+        if ! self.class.included_modules.include?('Sufia::GenericFile::Permissions')
+          self.class.send(:include, Sufia::GenericFile::Permissions)
+        end
+        self.datastreams["rightsMetadata"]
+      end
     end
 
 
