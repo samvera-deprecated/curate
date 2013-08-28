@@ -13,6 +13,8 @@ module CurationConcern
       include Sufia::ModelMethods
       include Sufia::GenericFile::Permissions
       include Curate::ActiveModelAdaptor
+      include Hydra::Collections::Collectible
+      
       extend ClassMethods
 
       has_metadata name: "properties", type: PropertiesDatastream, control_group: 'M'
