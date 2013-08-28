@@ -9,5 +9,4 @@ require 'active_fedora/registered_attributes'
 module Curate
   extend ActiveSupport::Autoload
   autoload :Ability
-  autoload :User
 end
