@@ -29,12 +29,5 @@ class LinkedResource < ActiveFedora::Base
     self.class.to_s.demodulize.titleize
   end
 
-  # TODO : Consider delegating the visibility to the batch
-  # delegate :visibility, :to => :batch
-
-  def set_visibility(visibility)
-    # no-op
-  end
-
 end
 
