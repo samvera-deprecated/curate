@@ -9,13 +9,13 @@ class ContributorAgreement
   def legally_binding_text
     <<-HTML
     <p>
-      I am submitting my work for inclusion in the #{I18n.t('sufia.product_name')} repository maintained by the University Libraries of the <%= I18n.t('sufia.institution_name') %>.
+      I am submitting my work for inclusion in the #{I18n.t('sufia.product_name')} repository maintained by the University Libraries of the #{ I18n.t('sufia.institution_name') }.
       I acknowledge that publication of the work may implicate my legal rights with respect to the work and its contents, including my ability to publish the work in other venues.
       I UNDERSTAND AND AGREE THAT BY SUBMITTING MY CONTENT FOR INCLUSION IN THE #{I18n.t('sufia.product_name')} REPOSITORY, I AGREE TO THE FOLLOWING TERMS:
     </p>
 
     <p>
-      I hereby grant the <%= I18n.t('sufia.institution_name') %> permission to reproduce, edit, publish, disseminate, publicly display, or publicly perform, in whole or in part, the work in any medium at the University&rsquo;s discretion (including but not limited to public websites).
+      I hereby grant the #{ I18n.t('sufia.institution_name') } permission to reproduce, edit, publish, disseminate, publicly display, or publicly perform, in whole or in part, the work in any medium at the University&rsquo;s discretion (including but not limited to public websites).
       I agree that the University can keep more than one copy of the submission for the purpose of preservation and security.
       I agree that the University can preserve the submission by migrating or translating it to a new format or medium as needed in the future.
       I also agree that the metadata attached to the item can be reviewed and altered by the University to aid in preservation and discovery.
