@@ -13,5 +13,16 @@ FactoryGirl.define do
       work.creator = evaluator.user.to_s
       work.visibility = evaluator.visibility
     }
+
+    factory :private_work do
+      ignore do
+        visibility AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      end
+    end
+    factory :public_work do
+      ignore do
+        visibility AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      end
+    end
   end
 end
