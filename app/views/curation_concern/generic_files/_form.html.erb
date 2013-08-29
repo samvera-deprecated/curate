@@ -3,7 +3,10 @@
     <div class="span6">
       <fieldset class="required">
         <legend>Your File&#8217;s Title</legend>
-        <%= f.input :title,
+        <span class="control-label">
+          <label class="string optional" for="generic_file_title">Title</label>
+        </span>
+        <%= text_field_tag 'generic_file[title]', curation_concern.title.first,
                     input_html: { class: 'input-xlarge' }
         %>
       </fieldset>
