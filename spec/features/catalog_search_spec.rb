@@ -18,17 +18,23 @@ describe 'catalog search', describe_options do
 end
 
 describe "Search for a work" do
-  before { GenericWork.delete_all }
-  let!(:work) { FactoryGirl.create(:public_work, 
-    title: "McSweeney's Schlitz wolf, gentrify skateboard occupy Godard Cosby " +
-    "sweater Carles cornhole swag next level.")}
-  it "should find results" do
-    visit('/')
-    within('.search-form') do
-      fill_in "Search Curate", with: 'skateboard Cosby'
-      click_button("Go")
-    end
+  context "when not logged in" do
+    before { GenericWork.delete_all }
+    let!(:public_work) { FactoryGirl.create(:public_work, 
+      title: "McSweeney's Schlitz wolf, gentrify skateboard occupy Godard Cosby " +
+      "sweater Carles cornhole swag next level.")}
+    let!(:private_work) { FactoryGirl.create(:private_work, 
+      title: "McSweeney's Schlitz wolf, gentrify skateboard occupy Godard Cosby " +
+      "sweater Carles cornhole swag next level.")}
+    it "should find results" do
+      visit('/')
+      within('.search-form') do
+        fill_in "Search Curate", with: 'skateboard Cosby'
+        click_button("Go")
+      end
 
-    expect(page).to have_selector("#document_#{work.noid}")
+      expect(page).to have_selector("#document_#{public_work.noid}")
+      expect(page).to_not have_selector("#document_#{private_work.noid}")
+    end
   end
 end
