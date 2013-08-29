@@ -15,6 +15,14 @@ module CurationConcern
           super(value)
         end
       end
+
+      def visibility
+        if read_groups.include?(Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC) &&
+          embargo_release_date
+          return Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
+        end
+        super
+      end
     end
     included do
       include Sufia::Models::WithAccessRight
