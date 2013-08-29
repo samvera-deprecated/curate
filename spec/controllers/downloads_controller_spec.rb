@@ -4,7 +4,7 @@ describe DownloadsController do
   describe '#show' do
     let(:user) { FactoryGirl.create(:user) }
     let(:another_user) { FactoryGirl.create(:user) }
-    let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+    let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
     let(:generic_file) {
       FactoryGirl.create_generic_file(:generic_work, user) {|g|
         g.visibility = visibility
