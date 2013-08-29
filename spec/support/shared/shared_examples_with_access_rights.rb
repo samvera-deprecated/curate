@@ -27,7 +27,7 @@ shared_examples 'with_access_rights' do
 
     it 'sets visibility' do
       prepare_subject_for_access_rights_visibility_test!
-      subject.visibility = AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      subject.visibility = Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
       expect(subject).to be_open_access
     end
   end
@@ -35,7 +35,7 @@ shared_examples 'with_access_rights' do
   describe 'authenticated access' do
     it 'sets visibility' do
       prepare_subject_for_access_rights_visibility_test!
-      subject.visibility = AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+      subject.visibility = Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
       expect(subject).to be_authenticated_only_access
     end
 
@@ -49,7 +49,7 @@ shared_examples 'with_access_rights' do
   describe 'private access' do
     it 'sets visibility' do
       prepare_subject_for_access_rights_visibility_test!
-      subject.visibility = AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      subject.visibility = Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
       expect(subject).to be_private_access
     end
 
@@ -66,7 +66,7 @@ shared_examples 'with_access_rights' do
       if subject.respond_to?(:embargo_release_date=)
         prepare_subject_for_access_rights_visibility_test!
         subject.embargo_release_date = 2.days.from_now
-        subject.visibility = AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
+        subject.visibility = Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
         expect(subject).to be_open_access_with_embargo_release_date
       end
     end
@@ -75,7 +75,7 @@ shared_examples 'with_access_rights' do
       if subject.respond_to?(:embargo_release_date=)
         prepare_subject_for_access_rights_visibility_test!
         subject.embargo_release_date = 2.days.from_now
-        subject.visibility = AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+        subject.visibility = Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
         expect(subject.embargo_release_date).to be_nil
       end
     end

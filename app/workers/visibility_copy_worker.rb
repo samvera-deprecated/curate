@@ -10,7 +10,11 @@ class VisibilityCopyWorker
   end
 
   def run
-    # TODO fill in to satisfy https://github.com/ndlib/planning/issues/104
+    work = ActiveFedora::Base.load_instance_from_solr(pid)
+    work.generic_files.each do |file|
+      file.visibility = work.visibility
+      file.save!
+    end    
   end
 end
 
