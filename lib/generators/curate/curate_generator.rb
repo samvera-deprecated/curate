@@ -105,4 +105,10 @@ This generator makes the following changes to your application:
     remove_file('app/controllers/catalog_controller.rb')
   end
 
+  def update_assets
+    gsub_file 'app/assets/stylesheets/application.css', /^ *\*= +require_tree +\. *$/ do |match|
+      match = " *= require curate\n" + match
+    end
+  end
+
 end
