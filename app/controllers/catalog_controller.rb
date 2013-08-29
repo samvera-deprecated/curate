@@ -24,27 +24,6 @@ class CatalogController < ApplicationController
 
   def index
     super
-    recent
-    #also grab my recent docs too
-    recent_me
-  end
-
-  def recent
-    if user_signed_in?
-      # grab other people's documents
-      (_, @recent_documents) = get_search_results(:q =>filter_not_mine,
-                                                  :sort=>sort_field, :rows=>4)
-    else
-      # grab any documents we do not know who you are
-      (_, @recent_documents) = get_search_results(:q =>'', :sort=>sort_field, :rows=>4)
-    end
-  end
-
-  def recent_me
-    if user_signed_in?
-      (_, @recent_user_documents) = get_search_results(:q =>filter_not_mine,
-                                                       :sort=>sort_field, :rows=>4)
-    end
   end
 
   def self.uploaded_field
@@ -60,6 +39,7 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
+      :qf => 'desc_metadata__title_tesim',
       :qt => "search",
       :rows => 10
     }
@@ -352,16 +332,13 @@ class CatalogController < ApplicationController
     # @param user_parameters the current user-subitted parameters
     def exclude_unwanted_models(solr_parameters, user_parameters)
       solr_parameters[:fq] ||= []
-      solr_parameters[:fq] << "#{Solrizer.solr_name("has_model", :symbol)}:\"info:fedora/afmodel:GenericFile\""
+      solr_parameters[:fq] << "(#{Solrizer.solr_name("has_model", :symbol)}:\"info:fedora/afmodel:GenericFile\" OR " +
+       "#{Solrizer.solr_name("has_model", :symbol)}:\"info:fedora/afmodel:GenericWork\")"
     end
 
     def depositor
       #Hydra.config[:permissions][:owner] maybe it should match this config variable, but it doesn't.
       Solrizer.solr_name('depositor', :stored_searchable, type: :string)
-    end
-
-    def filter_not_mine
-      "{!lucene q.op=AND df=#{depositor}}-#{current_user.user_key}"
     end
 
     def sort_field
