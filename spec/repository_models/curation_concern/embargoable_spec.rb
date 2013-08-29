@@ -1,15 +1,30 @@
 require 'spec_helper'
 require 'ostruct'
 
-describe CurationConcern::Embargoable do
+describe CurationConcern::Embargoable do 
+
+  before do
+    module MockVisibility
+      def visibility
+        'open'
+      end
+    end
+  end
+
   let(:model) {
     Class.new(ActiveFedora::Base) {
       def save(returning_value = true)
         valid? && run_callbacks(:save) && !!returning_value
       end
+      def read_groups
+        ['public']
+      end
+
+      include MockVisibility
       include CurationConcern::Embargoable
     }
   }
+
 
   let(:persistence) {
     Class.new {
@@ -21,6 +36,17 @@ describe CurationConcern::Embargoable do
 
   before(:each) do
     subject.embargoable_persistence_container = persistence
+  end
+
+  context 'visibility' do
+    let(:the_date) { 2.days.from_now }
+    it "should return the 'open' value when embargo isn't set" do
+      expect(subject.visibility).to eq Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+    end
+    it "should return the 'open_with_embargo_release_date' value when embargo is set" do
+      subject.embargo_release_date = the_date
+      expect(subject.visibility).to eq Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
+    end
   end
 
   context 'validation' do
