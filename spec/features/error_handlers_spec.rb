@@ -22,7 +22,7 @@ describe 'error behavior', describe_options do
 
   let(:curation_concern_type) { :generic_work }
   let(:user) { FactoryGirl.create(:user) }
-  let(:visibility) { AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+  let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
   let(:curation_concern) {
     FactoryGirl.create_curation_concern(
       curation_concern_type, user, {visibility: visibility}

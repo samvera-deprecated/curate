@@ -1,6 +1,5 @@
 require File.expand_path("../../../lib/sufia/generic_file/thumbnail", __FILE__)
 require Sufia::Models::Engine.root.join('app/models/generic_file')
-require File.expand_path("../curation_concern/with_access_right", __FILE__)
 require File.expand_path("../curation_concern/embargoable", __FILE__)
 require File.expand_path("../../repository_datastreams/file_content_datastream", __FILE__)
 
