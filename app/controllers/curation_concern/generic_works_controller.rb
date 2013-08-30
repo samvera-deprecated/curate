@@ -19,7 +19,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
       @curation_concern = GenericWork.new(pid: CurationConcern.mint_a_pid)
       begin
         actor.create!
-        respond_for_create
+        respond_with([:curation_concern, curation_concern])
       rescue ActiveFedora::RecordInvalid
         respond_with([:curation_concern, curation_concern]) do |wants|
           wants.html { render 'new', status: :unprocessable_entity }
@@ -27,19 +27,6 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
       end
     end
   end
-
-  def respond_for_create
-    if params[:commit] == save_and_add_related_files_submit_value
-      respond_to do |wants|
-        wants.html {
-          redirect_to new_curation_concern_generic_file_path(curation_concern)
-        }
-      end
-    else
-      respond_with([:curation_concern, curation_concern])
-    end
-  end
-  protected :respond_for_create
 
   def verify_acceptance_of_user_agreement!
     if contributor_agreement.is_being_accepted?
