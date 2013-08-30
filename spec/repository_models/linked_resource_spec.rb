@@ -22,6 +22,33 @@ describe LinkedResource do
     subject.to_s.should == nil
   end
 
+  describe "sanitizing" do
+    context "javascript uri" do
+      subject { FactoryGirl.build(:linked_resource, url: "javascript:void(alert('Hello'));") }
+      it "should be cleared" do
+        subject.url.should be_nil
+      end
+    end
+    context "http uri" do
+      subject { FactoryGirl.build(:linked_resource, url: "http://www.youtube.com/watch?v=oHg5SJYRHA0") }
+      it "should be stored" do
+        expect(subject.to_s).to eq 'http://www.youtube.com/watch?v=oHg5SJYRHA0'
+      end
+    end
+    context "https uri" do
+      subject { FactoryGirl.build(:linked_resource, url: "https://www.youtube.com/watch?v=oHg5SJYRHA0") }
+      it "should be stored" do
+        expect(subject.to_s).to eq 'https://www.youtube.com/watch?v=oHg5SJYRHA0'
+      end
+    end
+    context "ftp uri" do
+      subject { FactoryGirl.build(:linked_resource, url: "ftp://ftp.ed.ac.uk") }
+      it "should be stored" do
+        expect(subject.to_s).to eq 'ftp://ftp.ed.ac.uk/'
+      end
+    end
+  end
+
   describe "with a persisted resource" do
     let!(:resource) { FactoryGirl.create(:linked_resource, url: 'http://www.youtube.com/watch?v=oHg5SJYRHA0') }
     after do
@@ -31,6 +58,7 @@ describe LinkedResource do
     it 'has url as its title to display' do
       expect(resource.to_s).to eq 'http://www.youtube.com/watch?v=oHg5SJYRHA0'
     end
+
   end
 
 end
