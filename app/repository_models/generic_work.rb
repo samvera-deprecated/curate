@@ -35,7 +35,7 @@ class GenericWork < ActiveFedora::Base
   attribute :requires, datastream: :descMetadata, multiple: true
   attribute :subject, datastream: :descMetadata, multiple: true
 
-  attribute :thesis_file, multiple: true, form: {as: :file},
+  attribute :files, multiple: true, form: {as: :file},
     hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
 
   attribute :linked_resource_url, multiple: true
