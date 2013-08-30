@@ -2,21 +2,12 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   respond_to(:html)
   with_themed_layout '1_column'
 
-  def curation_concern
-    @curation_concern ||=
-    if params[:id]
-      GenericWork.find(params[:id])
-    else
-      GenericWork.new(params[:generic_work])
-    end
-  end
-
   def new
   end
 
   def create
     if verify_acceptance_of_user_agreement!
-      @curation_concern = GenericWork.new(pid: CurationConcern.mint_a_pid)
+      self.curation_concern.inner_object.pid = CurationConcern.mint_a_pid
       begin
         actor.create!
         respond_with([:curation_concern, curation_concern])
@@ -56,7 +47,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
 
   def update
     actor.update!
-    if curation_concern.visibility_changed?
+    if actor.visibility_changed?
       redirect_to confirm_curation_concern_permission_path(curation_concern)
     else
       respond_with([:curation_concern, curation_concern])
@@ -80,4 +71,12 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   register :actor do
     CurationConcern.actor(curation_concern, current_user, params[:generic_work])
   end
+  register :curation_concern do
+    if params[:id]
+      GenericWork.find(params[:id])
+    else
+      GenericWork.new(params[:generic_work])
+    end
+  end
+
 end

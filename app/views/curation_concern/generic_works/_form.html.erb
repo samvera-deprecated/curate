@@ -50,10 +50,7 @@
               Attach Your File
               <small>A PDF is preferred.</small>
             </legend>
-            <%= f.input :thesis_file,
-                        as: :file,
-                        label: 'Upload your thesis'
-            %>
+            <%= f.input :files, as: :file, label: 'Upload your file' %>
           <strong>OR</strong>
             <%= f.input :linked_resource_url, label: "External link", input_html: {class: 'input-xlarge'} %>
           </fieldset>
