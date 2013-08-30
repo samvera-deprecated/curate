@@ -18,7 +18,7 @@
   <% end %>
 </table>
 
-<%= form_for [:curation_concern, @curation_concern], method: :patch do |f| %>
-  <%= f.select :collection_ids, options_from_collection_for_select(current_user.collections.to_a, :id, :title, @curation_concern.collection_ids),{include_hidden: false}, { multiple: true} %>
+<%= form_for [:curation_concern, curation_concern], method: :patch do |f| %>
+  <%= f.select :collection_ids, options_from_collection_for_select(current_user.collections.to_a, :id, :title, curation_concern.collection_ids),{include_hidden: false}, { multiple: true} %>
   <%= f.submit "Assign to collections", class: 'btn btn-primary' %>
 <% end %>
