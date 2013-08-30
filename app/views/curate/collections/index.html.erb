@@ -1,4 +1,10 @@
-<%= render_document_index %>
+<%- if has_any_collections? %>
+  <%= render_document_index %>
+<%- else %>
+  <div class="span12 main-header">
+    <p> You have no collections yet </p>
+  </div>
+<%- end %>
 
 <% if can? :create, Collection %>
   <%= button_for_create_collection %>
