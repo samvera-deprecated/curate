@@ -199,7 +199,7 @@ describe 'end to end behavior', describe_options do
       visit new_curation_concern_generic_work_path
       create_generic_work(
         "Title" => title,
-        "Upload your thesis" => initial_file_path,
+        "Upload your file" => initial_file_path,
         "Contributors" => contributors,
         "I Agree" => true,
         :js => true
@@ -250,7 +250,7 @@ describe 'end to end behavior', describe_options do
 
   def create_generic_work(options = {})
     options['Title'] ||= initial_title
-    options['Upload your thesis'] ||= initial_file_path
+    options['Upload your file'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Generic work" 
     options["Contributors"] ||= ["Dante"]
@@ -259,7 +259,7 @@ describe 'end to end behavior', describe_options do
     # Without accepting agreement
     within('#new_generic_work') do
       fill_in("Title", with: options['Title'])
-      attach_file("Upload your thesis", options['Upload your thesis'])
+      attach_file("Upload your file", options['Upload your file'])
       choose(options['Visibility'])
       if options['Embargo Release Date']
         fill_in("generic_work_embargo_release_date", with: options["Embargo Release Date"])

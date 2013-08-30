@@ -12,6 +12,8 @@ module CurationConcern
       super
     end
 
+    delegate :visibility_changed?, to: :curation_concern
+
     protected
 
     # The default behavior of active_fedora's has_and_belongs_to_many association, 
@@ -30,7 +32,7 @@ module CurationConcern
     end
 
     def attached_file
-      @attached_file ||= attributes.delete(:thesis_file)
+      @attached_file ||= attributes.delete(:files)
     end
     def linked_resource
       @linked_resource ||= attributes.delete(:linked_resource_url)
