@@ -16,6 +16,10 @@ module Curate::CollectionsHelper
     end
     _erbout.html_safe
   end
+
+  def has_any_collections?
+    current_user.collections.count > 0
+  end
   
 end
 
