@@ -14,8 +14,9 @@ This generator makes the following changes to your application:
  1. Runs required generators
  2. Adds curate behaviors to ApplicationController
  3. Adds the curate routes
- 3. Adds the curate abilities
- 4. Adds a user migration
+ 4. Adds the curate abilities
+ 5. Adds a user migration
+ 6. Adds views for devise
        """
   # Implement the required interface for Rails::Generators::Migration.
   # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
@@ -64,7 +65,8 @@ This generator makes the following changes to your application:
     [
       'add_terms_of_service_to_user.rb',
       'add_user_force_update_profile.rb',
-      'create_help_requests.rb'
+      'create_help_requests.rb',
+      'add_repository_id_to_user.rb'
     ].each do |file|
       migration_template "migrations/#{file}", "db/migrate/#{file}"
     end
@@ -109,6 +111,12 @@ This generator makes the following changes to your application:
     gsub_file 'app/assets/stylesheets/application.css', /^ *\*= +require_tree +\. *$/ do |match|
       match = " *= require curate\n" + match
     end
+  end
+
+  def add_views_for_devise
+    src_file = 'views/devise/registrations/edit.html.erb'
+    dest_file = 'app/views/devise/registrations/edit.html.erb'
+    copy_file(src_file, dest_file)
   end
 
 end
