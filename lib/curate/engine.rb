@@ -17,6 +17,10 @@ module Curate
       end
     end
 
+    config.autoload_paths += %W(
+       #{config.root}/app/repository_models/concerns
+    )
+
     config.action_dispatch.rescue_responses["ActionController::RoutingError"] = :not_found
     config.action_dispatch.rescue_responses["ActiveFedora::ObjectNotFoundError"] = :not_found
     config.action_dispatch.rescue_responses["ActiveFedora::ActiveObjectNotFoundError"] = :not_found
