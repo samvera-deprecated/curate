@@ -24,6 +24,8 @@ module CurateController
     add_breadcrumb "Dashboard", :dashboard_index_path
 
     rescue_from StandardError, with: :exception_handler
+
+    before_filter :configure_permitted_parameters, if: :devise_controller?
   end
 
 
@@ -59,6 +61,16 @@ module CurateController
     render "/errors/#{wrapper.status_code}", status: wrapper.status_code, layout: !request.xhr?
   end
   protected :render_response_for_error
+
+  def configure_permitted_parameters
+    full_list = [:email, :password, :password_confirmation, :current_password,
+                 :name, :preferred_email, :alternate_email,
+                 :date_of_birth, :gender, :title,
+                 :campus_phone_number, :alternate_phone_number,
+                 :personal_webpage, :blog]
+    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(full_list) }
+  end
+  protected :configure_permitted_parameters
 
   protected
 
