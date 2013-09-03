@@ -9,12 +9,15 @@ describe ClassifyConcern do
       expect(ClassifyConcern.all_curation_concern_classes).to include(GenericWork)
       expect(ClassifyConcern.all_curation_concern_classes).to_not include('GenericWork')
     end
+    it 'has Dataset' do
+      expect(ClassifyConcern.all_curation_concern_classes).to include(Dataset)
+      expect(ClassifyConcern.all_curation_concern_classes).to_not include('Dataset')
+    end
   end
 
   describe '#all_curation_concern_classes' do
-    it 'has GenericWork' do
-      expect(subject.all_curation_concern_classes).to include(GenericWork)
-      expect(subject.all_curation_concern_classes).to_not include('GenericWork')
+    it 'relies on the list from ClassifyConcern Class' do
+      expect(subject.all_curation_concern_classes).to eql(ClassifyConcern.all_curation_concern_classes)
     end
   end
 
