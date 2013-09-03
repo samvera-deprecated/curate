@@ -74,7 +74,7 @@ This generator makes the following changes to your application:
 
   # The engine routes have to come after the devise routes so that /users/sign_in will work
   def inject_routes
-    routing_code = "\n  curate_for containers: [:generic_works]\n"
+    routing_code = "\n  curate_for containers: [:generic_works, :datasets]\n"
     sentinel = /devise_for :users/
     inject_into_file 'config/routes.rb', routing_code, { :after => sentinel, :verbose => false }
     gsub_file 'config/routes.rb', /^\s+root.+$/, "  root 'welcome#index'"
