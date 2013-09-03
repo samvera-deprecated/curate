@@ -3,7 +3,7 @@ class ClassifyConcern
   # @TODO - This should be part of the application configuration
   # or detected on load
   VALID_CURATION_CONCERN_CLASS_NAMES = [
-    'GenericWork'
+    'GenericWork', 'Dataset'
   ]
   UPCOMING_CONCERNS = []
 
