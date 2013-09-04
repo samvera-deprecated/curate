@@ -1,10 +1,10 @@
 <% noid = document.noid %>
-<tr id="document_<%= noid.gsub(":", "_") %>" class="<%= cycle("","zebra") %>">
+<tr id="document_<%= noid %>" class="<%= cycle("","zebra") %>">
   <% gf = ActiveFedora::Base.load_instance_from_solr(document.id) %>
   <td>
-    <a href="" title="Click for more details"><i id="expand_<%= noid.gsub(":", "_") %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
+    <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
     <%= render :partial => 'dashboard/_index_partials/thumbnail_display', :locals => {:document=>document} %>
-    <span class="center"><%= link_to gf, polymorphic_path([:curation_concern, gf]), :id => "src_copy_link#{noid}" %> <br /></span>
+    <span class="center"><%= link_to gf, polymorphic_path([:curation_concern, gf]), :id => "src_copy_link_#{noid}" %> <br /></span>
   </td>
   <td><%= gf.human_readable_type %></td>
   <td width="17%"><%= gf.date_uploaded%></td>
@@ -30,7 +30,7 @@
   </td>
   <% end -%>
 </tr>
-<tr class="hide" id="detail_<%= noid.gsub(":", "_") %>"> <!--  document detail"> -->
+<tr class="hide" id="detail_<%= noid %>"> <!--  document detail"> -->
   <td colspan="6">
     <dl class="expanded-details">
       <% index_fields.each do |solr_fname, field| -%>
