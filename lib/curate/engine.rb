@@ -32,6 +32,8 @@ module Curate
       require File.expand_path("../active_model_adaptor", __FILE__)
       require 'curate/rails/routes' 
       require 'hydra-collections' 
+      require File.expand_path('../../../app/workers/characterize_job', __FILE__)
+      require File.expand_path('../../../app/repository_datastreams/file_content_datastream', __FILE__)
       require File.expand_path('../../../app/repository_models/generic_file', __FILE__)
 
       require File.expand_path('../../../app/builders/accordion_builder_helper', __FILE__)

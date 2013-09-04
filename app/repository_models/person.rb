@@ -35,30 +35,10 @@ class Person < ActiveFedora::Base
   attribute :gender,
       datastream: :descMetadata, multiple: false
 
-  def self.find_or_create_by_user(user)
-    return Person.find(user.repository_id.to_s)
-  rescue ActiveFedora::ObjectNotFoundError, ArgumentError
-    return create_person(user)
-  end
-
-  def self.create_person(user)
-    person = Person.new
-    person.name = user.get_value_from_ldap(:display_name)
-    person.preferred_email = user.get_value_from_ldap(:preferred_email)
-    person.alternate_email = user.email
-    person.save!
-    person.update_user!(user)
-    person
-  end
-
-  def update_user!(user)
-    user.update_column(:repository_id, self.pid)
-  end
-
   def first_name
     name_parser.given
   end
-  
+
   def last_name
     name_parser.family
   end

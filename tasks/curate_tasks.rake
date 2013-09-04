@@ -37,7 +37,9 @@ gem 'selenium-webdriver'
 gem 'factory_girl_rails'
 gem 'timecop'
 gem 'rspec-html-matchers'
+gem 'test_after_commit', :group => :test
 gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'" >> #{DUMMY_APP}/Gemfile`
+
     puts "Copying generator"
     `cp -r spec/skeleton/* #{DUMMY_APP}`
     Bundler.with_clean_env do
