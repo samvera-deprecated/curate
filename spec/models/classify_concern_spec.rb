@@ -13,6 +13,10 @@ describe ClassifyConcern do
       expect(ClassifyConcern.all_curation_concern_classes).to include(Dataset)
       expect(ClassifyConcern.all_curation_concern_classes).to_not include('Dataset')
     end
+    it 'has Article' do
+      expect(ClassifyConcern.all_curation_concern_classes).to include(Article)
+      expect(ClassifyConcern.all_curation_concern_classes).to_not include('Article')
+    end
   end
 
   describe '#all_curation_concern_classes' do
