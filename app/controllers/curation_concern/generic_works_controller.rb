@@ -67,16 +67,22 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
     }
   end
 
+  class_attribute :curation_concern_type
+  self.curation_concern_type = GenericWork
+
   include Morphine
   register :actor do
-    CurationConcern.actor(curation_concern, current_user, params[:generic_work])
+    CurationConcern.actor(curation_concern, current_user, params[hash_key_for_curation_concern])
   end
   register :curation_concern do
     if params[:id]
-      GenericWork.find(params[:id])
+      curation_concern_type.find(params[:id])
     else
-      GenericWork.new(params[:generic_work])
+      curation_concern_type.new(params[hash_key_for_curation_concern])
     end
   end
 
+  def hash_key_for_curation_concern
+    curation_concern_type.name.underscore.to_sym
+  end
 end

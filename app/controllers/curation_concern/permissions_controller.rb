@@ -13,7 +13,6 @@ class CurationConcern::PermissionsController < CurationConcern::BaseController
     @curation_concern ||=
     if params[:id]
       ActiveFedora::Base.find(params[:id], cast: true)
-      #ActiveFedora::Base.load_instance_from_solr(params[:id])
     else
       raise "Missing required parameter `id'"
     end
