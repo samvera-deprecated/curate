@@ -1,4 +1,3 @@
-require 'spec_helper'
 shared_examples 'with_access_rights' do
 
   def prepare_subject_for_access_rights_visibility_test!

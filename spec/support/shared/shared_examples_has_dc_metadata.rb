@@ -1,4 +1,3 @@
-require 'spec_helper'
 shared_examples 'has_dc_metadata' do
 
   # Single-valued fields
