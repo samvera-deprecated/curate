@@ -2,21 +2,34 @@
 #  `rails generate curate:work <%= class_name %>`
 require 'spec_helper'
 
-describe <%= class_name %>Actor do
-  let(:user) { User.new }
-  let(:curation_concern) { GenericFile.new }
-  let(:attributes) { {visibility: visibility} }
-  let(:visibility) { nil }
+describe CurationConcern::<%= class_name %>Actor do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:curation_concern) { <%= class_name %>.new }
+  let(:attributes) { {} }
   subject { CurationConcern.actor(curation_concern, user, attributes)}
-  describe 'with visibility "1"' do
-    let(:visibility) { "1" }
-    its(:visibility) { should == visibility }
-    its(:visibility_may_have_changed?) { should == true }
+
+  describe 'create!' do
+    let(:curation_concern) { FactoryGirl.build(:<%= file_name %>) }
+    after(:each) do
+      curation_concern.destroy
+    end
+    it 'should create when valid' do
+      expect {
+        subject.create!
+      }.to change { <%= class_name %>.count }.by(1)
+    end
   end
 
-  describe 'with missing visibility' do
-    let(:visibility) { nil }
-    its(:visibility) { should be_nil }
-    its(:visibility_may_have_changed?) { should == false }
+  describe 'update!' do
+    let(:curation_concern) { FactoryGirl.create(:<%= file_name %>) }
+    let(:attributes) { {title: 'A New Title'} }
+    after(:each) do
+      curation_concern.destroy
+    end
+    it 'should update the file when valid' do
+      expect(subject.update!).to eq true
+      expect(curation_concern.title).to eq attributes.fetch(:title)
+    end
   end
+
 end
