@@ -10,3 +10,7 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 #
+
+gem 'active-fedora', git: 'git://github.com/projecthydra/active_fedora.git'
+gem 'sufia', git: 'git://github.com/projecthydra/sufia.git'
+
