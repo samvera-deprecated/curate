@@ -9,7 +9,6 @@ class Curate::CollectionsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :agreed_to_terms_of_service!
   before_filter :force_update_user_profile!
-  before_filter :enforce_show_permissions, :only=>:show
 
   # This applies appropriate access controls to all solr queries (the internal method of this is overidden bellow to only include edit files)
   Curate::CollectionsController.solr_search_params_logic += [:add_access_controls_to_solr_params]
