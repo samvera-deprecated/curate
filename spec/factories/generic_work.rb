@@ -13,13 +13,13 @@ FactoryGirl.define do
       work.creator = evaluator.user.to_s
     }
 
-    factory :private_work do
+    factory :private_generic_work do
       visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
-    factory :public_work do
+    factory :public_generic_work do
       visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
-    factory :work_with_files do
+    factory :generic_work_with_files do
       ignore do
         file_count 3
       end
