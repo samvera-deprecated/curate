@@ -3,7 +3,7 @@ require 'spec_helper'
 describe VisibilityCopyWorker do
 
   describe "an open access work" do
-    let(:work) { FactoryGirl.create(:work_with_files, visibility: Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC) }
+    let(:work) { FactoryGirl.create(:generic_work_with_files, visibility: Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC) }
     subject { VisibilityCopyWorker.new(work.id) }
 
     it "should have no content at the outset" do
@@ -19,8 +19,8 @@ describe VisibilityCopyWorker do
   end
 
   describe "an embargoed work" do
-    let(:embargo_date) { 2.days.from_now } 
-    let(:work) { FactoryGirl.create(:work_with_files, visibility: Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC, embargo_release_date: embargo_date) }
+    let(:embargo_date) { 2.days.from_now }
+    let(:work) { FactoryGirl.create(:generic_work_with_files, visibility: Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC, embargo_release_date: embargo_date) }
     subject { VisibilityCopyWorker.new(work.id) }
 
     it "should have no content at the outset" do
