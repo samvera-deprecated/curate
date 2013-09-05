@@ -16,7 +16,6 @@ class DashboardController < ApplicationController
   before_filter :agreed_to_terms_of_service!
   before_filter :force_update_user_profile!
   before_filter :enforce_show_permissions, :only=>:show
-  before_filter :enforce_viewing_context_for_show_requests, :only=>:show
 
   # This applies appropriate access controls to all solr queries (the internal method of this is overidden bellow to only include edit files)
   DashboardController.solr_search_params_logic += [:add_access_controls_to_solr_params]
