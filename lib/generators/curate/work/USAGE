@@ -2,7 +2,7 @@ Description:
   This generator provides a means of creating a container
 
 Example:
-  rails generate curate:container ChickenPie
+  rails generate curate:work ChickenPie
 
   This will create:
     app/repository_models/chicken_pie.rb

@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'rails/generators'
 
-class Curate::ContainerGenerator < Rails::Generators::NamedBase
+class Curate::WorkGenerator < Rails::Generators::NamedBase
   source_root File.expand_path("../templates", __FILE__)
 
   desc "Create a Repository Model."
