@@ -36,6 +36,7 @@ class DashboardController < ApplicationController
       format.html { save_current_search_params }
       format.rss  { render :layout => false }
       format.atom { render :layout => false }
+      format.json { render :json => json_response }
     end
 
     # set up some parameters for allowing the batch controls to show appropiately
@@ -77,5 +78,19 @@ class DashboardController < ApplicationController
     solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:GenericFile\""
     solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Collection\""
     return solr_parameters
+  end
+
+  def json_response
+    json_response = @response
+    json_response["response"]["docs"] = @response["response"]["docs"].map {|solr_doc| serialize_work_from_solr(solr_doc) }
+    json_response
+  end
+
+
+  def serialize_work_from_solr(solr_doc)
+     {
+      pid:solr_doc["id"], title:solr_doc["desc_metadata__title_tesim"].first, model:solr_doc["active_fedora_model_ssi"],
+      curation_concern_type:solr_doc["desc_metadata__archived_object_type_tesim"].first, solr_doc:solr_doc
+     }
   end
 end
