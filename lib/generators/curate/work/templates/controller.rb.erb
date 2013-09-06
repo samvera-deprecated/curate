@@ -1,0 +1,6 @@
+# Generated via
+#  `rails generate curate:work <%= class_name %>`
+
+class CurationConcern::<%= class_name.pluralize %>Controller < CurationConcern::GenericWorksController
+  self.curation_concern_type = <%= class_name %>
+end
