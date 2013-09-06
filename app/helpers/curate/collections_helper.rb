@@ -3,7 +3,7 @@
 module Curate::CollectionsHelper 
   
   # Displays the Collections create collection button.
-  def button_for_create_collection(label = 'Create Collection')
+  def button_for_create_new_collection(label = 'Create Collection')
     render partial: 'button_create_collection', locals:{label:label}
   end
 
