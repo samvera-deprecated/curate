@@ -5,6 +5,7 @@ body {
 .form-actions > form.button_to {
   // make sure a rails button_to form renders inline when it's in a bootstrap .form-actions line.
   display: inline-block;
+  margin-bottom:0;
 }
 
 #site-search{

@@ -1,5 +1,8 @@
-<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+<% content_for :page_header do %>
+  <h1>Account Details</h1>
+<% end %>
 
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <% if f.error_notification -%> 
     <div class="alert alert-error fade in">
       <strong>Wait don't go!</strong> There was a problem with your submission. Please review the errors below:
@@ -8,66 +11,72 @@
   <% end -%>
 
   <div class="row">
-    <div class="span6">
-      <legend> Update your profile </legend>
-      <fieldset>
-        <div>
-          <%= f.label :email %><br />
-          <%= f.email_field :email, :autofocus => true %>
-        </div>
 
-        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-        <% end %>
+    <fieldset class="span6">
+      <legend>Personal Information</legend>
 
-        <div>
-          <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-          <%= f.password_field :password, :autocomplete => "off" %>
-        </div>
+      <%= f.input :name %>
+      <%= f.input :date_of_birth %>
+      <%= f.input :gender %>
+      <%= f.input :title %>
+      <%= f.input :personal_webpage %>
+      <%= f.input :blog %>
 
-        <div>
-          <%= f.label :password_confirmation %><br />
-          <%= f.password_field :password_confirmation %>
-        </div>
+    </fieldset>
 
-        <div>
-          <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-          <%= f.password_field :current_password %>
-        </div>
+    <fieldset class="span6">
+      <legend>Contact Information</legend>
 
-        <div>
-          <%= f.input :name %>
-        </div>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <p><em>Currently waiting confirmation for: <%= resource.unconfirmed_email %></em></p>
+      <% end %>
 
-        <div>
-          <%= f.label :preferred_email %><br />
-          <%= f.email_field :preferred_email %>
-        </div>
+      <%= f.input :email,           as: :email, required: true %>
+      <%= f.input :preferred_email, as: :email %>
+      <%= f.input :alternate_email, as: :email %>
 
-        <div>
-          <%= f.label :alternate_email %><br />
-          <%= f.email_field :alternate_email %>
-        </div>
+      <%= f.input :campus_phone_number,    as: :tel %>
+      <%= f.input :alternate_phone_number, as: :tel %>
 
-        <%= f.input :date_of_birth %>
-        <%= f.input :gender %>
-        <%= f.input :title %>
-        <%= f.input :campus_phone_number %>
-        <%= f.input :alternate_phone_number %>
-        <%= f.input :personal_webpage %>
-        <%= f.input :blog %>
-      </fieldset>
-    </div>
+    </fieldset>
+
   </div>
 
   <div class="row">
+
+    <fieldset class="span12">
+      <legend>Change Your Password</legend>
+
+      <%= f.input :password, label: "New password", input_html: { autocomplete: "off" } %>
+      <%= f.input :password_confirmation, label: "Repeat your new password", input_html: { autocomplete: "off" } %>
+    </fieldset>
+
+  </div>
+
+  <div class="row">
+
+    <fieldset class="span12">
+      <legend>Authorize Your Changes</legend>
+      <p><em>Enter your current password to confirm your changes</em></p>
+
+      <%= f.input :current_password, required: true %>
+
+    </fieldset>
+  </div>
+
+
+  <div class="row">
     <div class="span12 form-actions">
-      <%= f.submit(class: 'btn btn-primary', value: 'Update') %>
+      <%= f.submit class: 'btn btn-primary', value: 'Update My Account' %>
     </div>
   </div>
 <% end %>
 
-<h3>Cancel my account</h3>
+<h2>Account Deactivation</h2>
 
-<p><%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>
+<div class="row">
+  <div class="span12 form-actions">
+    <%= button_to "Cancel My Account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %>
+  </div>
+</div>
 
