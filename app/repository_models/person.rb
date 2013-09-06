@@ -5,6 +5,8 @@ class Person < ActiveFedora::Base
 
   has_metadata name: "descMetadata", type: PersonMetadataDatastream, control_group: 'M'
 
+  belongs_to :profile, property: :has_profile, class_name: 'Collection'
+
   attribute :name,
       datastream: :descMetadata, multiple: false
 
@@ -46,4 +48,13 @@ class Person < ActiveFedora::Base
   def name_parser
     Namae.parse(self.name).first
   end
+
+  def create_profile(depositor)
+    collection = Collection.new(title: "My Profile")
+    collection.apply_depositor_metadata(depositor.user_key)
+    collection.save!
+    self.profile = collection
+    self.save!
+  end
+
 end
