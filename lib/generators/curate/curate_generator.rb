@@ -37,7 +37,7 @@ This generator makes the following changes to your application:
     generate "blacklight --devise"
     remove_dir('app/views/devise')
     generate "hydra:head -f"
-    generate "sufia:models:install"
+    generate "sufia:models:install#{options[:force] ? ' -f' : ''}"
   end
 
   # Add behaviors to the application controller
@@ -63,21 +63,25 @@ This generator makes the following changes to your application:
       'create_help_requests.rb',
       'add_repository_id_to_user.rb'
     ].each do |file|
-      migration_template "migrations/#{file}", "db/migrate/#{file}"
+      begin
+        migration_template "migrations/#{file}", "db/migrate/#{file}"
+      rescue Rails::Generators::Error => e
+        say_status("warning", e.message, :yellow)
+      end
     end
   end
 
   # The engine routes have to come after the devise routes so that /users/sign_in will work
   def inject_routes
     routing_code = "\n  curate_for containers: [:generic_works, :datasets, :articles]\n"
-    sentinel = /devise_for :users/
+    sentinel = /devise_for +:users.*$/
     inject_into_file 'config/routes.rb', routing_code, { :after => sentinel, :verbose => false }
     gsub_file 'config/routes.rb', /^\s+root.+$/, "  root 'welcome#index'"
   end
 
   # This enables our registrations controller to run the after_update_path_for hook.
   def update_devise_route
-    gsub_file 'config/routes.rb', /^\s+devise_for :users/, '  devise_for :users, controllers: { sessions: :sessions, registrations: :registrations }'
+    gsub_file 'config/routes.rb', /^\s+devise_for :users\s*$/, '  devise_for :users, controllers: { sessions: :sessions, registrations: :registrations }'
   end
 
 
