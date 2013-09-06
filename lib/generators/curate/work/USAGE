@@ -8,7 +8,9 @@ Example:
     app/repository_models/chicken_pie.rb
     app/repository_datastreams/chicken_pie_metadata_datastream.rb
     app/services/curation_concern/chicken_pie_actor.rb
+    app/controllers/curation_concern/chicken_pies_controller.rb
+    spec/factories/chicken_pie_factory.rb
     spec/repository_models/chicken_pie_spec.rb
     spec/repository_datastreams/chicken_pie_metadata_datastream_spec.rb
     spec/services/curation_concern/chicken_pie_actor_spec.rb
-    spec/factories/chicken_pie_factory.rb
+    spec/controllers/curation_concern/chicken_pies_controller_spec.rb
