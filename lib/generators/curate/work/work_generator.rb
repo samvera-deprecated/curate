@@ -46,6 +46,15 @@ class Curate::WorkGenerator < Rails::Generators::NamedBase
     end
   end
 
+  def register_work
+    inject_into_file 'config/initializers/curate_config.rb', after: "Curate.configure do |config|\n" do
+      data = ""
+      data << "  # Injected via `rails g curate:work #{class_name}`\n"
+      data << "  config.register_curation_concern :#{file_name}\n"
+      data
+    end
+  end
+
   # def create_views
   # end
 end

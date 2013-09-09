@@ -7,33 +7,9 @@ describe <%= class_name %> do
   include ActiveFedora::TestSupport
   subject { <%= class_name %>.new }
 
+  include_examples 'is_a_curation_concern_model'
   include_examples 'with_access_rights'
   include_examples 'is_embargoable'
   include_examples 'has_dc_metadata'
-
-  it { should have_unique_field(:archived_object_type) }
-
-  describe 'its test support factories', factory_verification: true do
-    it {
-      expect {
-        FactoryGirl.create(:<%= file_name %>).destroy
-      }.to_not raise_error
-    }
-    it {
-      expect {
-        FactoryGirl.create(:private_<%= file_name %>).destroy
-      }.to_not raise_error
-    }
-    it {
-      expect {
-        FactoryGirl.create(:public_<%= file_name %>).destroy
-      }.to_not raise_error
-    }
-    it {
-      expect {
-        FactoryGirl.create(:<%= file_name %>_with_files).destroy
-      }.to_not raise_error
-    }
-  end
 
 end

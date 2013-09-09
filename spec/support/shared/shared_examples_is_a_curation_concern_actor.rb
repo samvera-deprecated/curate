@@ -1,13 +1,8 @@
 shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
+  CurationConcern::FactoryHelpers.load_factories_for(self, curation_concern_class)
   include ActionDispatch::TestProcess
   let(:user) { FactoryGirl.create(:user) }
   let(:file) { fixture_file_upload('/files/image.png', 'image/png') }
-
-  let(:curation_concern_type_underscore) { curation_concern_class.name.underscore }
-  let(:default_work_factory_name) { curation_concern_type_underscore }
-  let(:private_work_factory_name) { "private_#{curation_concern_type_underscore}".to_sym }
-  let(:public_work_factory_name) { "public_#{curation_concern_type_underscore}".to_sym }
-
 
   subject {
     CurationConcern.actor(curation_concern, user, attributes)
