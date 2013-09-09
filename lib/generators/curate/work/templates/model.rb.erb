@@ -5,6 +5,7 @@ require Rails.root.join('app/repository_datastreams/<%= file_name %>_rdf_datastr
 class <%= class_name %> < ActiveFedora::Base
   include CurationConcern::Model
   include CurationConcern::WithGenericFiles
+  include CurationConcern::WithLinkedResources
   include CurationConcern::Embargoable
   include ActiveFedora::RegisteredAttributes
 
