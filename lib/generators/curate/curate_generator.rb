@@ -114,4 +114,12 @@ This generator makes the following changes to your application:
     copy_file(src_file, dest_file)
   end
 
+  def remove_blacklight
+    remove_file('app/assets/stylesheets/blacklight.css.scss')
+  end
+
+  def run_migrations
+    rake "db:migrate"
+  end
+
 end
