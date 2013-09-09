@@ -14,6 +14,7 @@ class GenericWork < ActiveFedora::Base
 
   attribute :rights, datastream: :descMetadata,
     multiple: false,
+    default: Sufia.config.cc_licenses['All rights reserved'],
     validates: {presence: { message: 'You must select a license for your work.' }}
 
   attribute :created, datastream: :descMetadata, multiple: false
