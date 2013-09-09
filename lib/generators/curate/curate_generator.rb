@@ -126,4 +126,8 @@ This generator makes the following changes to your application:
     rake "db:migrate"
   end
 
+  def install_readme
+    readme 'README.md'
+  end
+
 end
