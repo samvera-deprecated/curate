@@ -52,5 +52,16 @@ describe 'An existing generic work' do
     click_link 'Add an External Link'
     page.should have_link('Cancel', href: dashboard_index_path)
   end
+
+  context 'when the user has no collections yet,' do
+    before { user; Collection.delete_all }
+
+    it 'displays a message instead of the widget to add a work to a collection' do
+      login_as(user)
+      Collection.count.should == 0
+      visit curation_concern_generic_work_path(work)
+      expect(page).to have_content('You have no collections yet')
+    end
+  end
 end
 
