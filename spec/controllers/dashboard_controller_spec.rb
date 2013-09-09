@@ -32,7 +32,7 @@ describe DashboardController do
         # Should repeat the solr responseHeader
         json["responseHeader"].keys.should == ["status", "QTime", "params"]
         # Grab the doc corresponding to work and inspect the json
-        work_json = json["response"]["docs"].first
+        work_json = json["docs"].first
         work_solr_doc = work_json.delete("solr_doc")  # removing the solr_doc because its hard to run a clean comparison
         work_json.should == {"pid"=>work.pid, "title"=>work.title, "model"=>"GenericWork", "curation_concern_type"=>"Generic Work"}
         # Trying to check the contents of work_solr_doc

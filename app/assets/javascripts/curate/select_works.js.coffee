@@ -1,25 +1,24 @@
-$.fn.blacklightAutoComplete = () ->
-    return this.each( () ->
-      selectedDocs =  $(this).find("option[selected='selected']")
-      selectedPids =  $.map(selectedDocs, (el) -> return $(el).attr("value") )
-      excludePids =   $(this).data("exclude").split(",")
-      targetElement = this
-      queryUrl = $(this).data("source")
-
-      $.getJSON( queryUrl, {})
-        .done( ( data ) ->
-            $(targetElement).empty()
-            $.each( data.response.docs, ( i, doc ) ->
-                # Skip creating optionElement if pid is in excludePids array
-                if (excludePids.indexOf(doc.pid) == -1)
-                    optionElement = $( "<option/>" ).attr( "value", doc.pid ).text(doc.title)
-                   #  Set "selected" attribute if option was in the original list of selected options.
-                    if (selectedPids.indexOf(doc.pid) > -1)
-                        optionElement.attr( "selected", "selected" )
-                    optionElement.appendTo( targetElement )
-            )
-            $(targetElement).chosen()
+jQuery ->
+  $('.autocomplete').each( (index, el) ->
+    $targetElement = $(el)
+    $targetElement.tokenInput $targetElement.data("url"), {
+      theme: 'facebook'
+      prePopulate: $('.autocomplete').data('load')
+      jsonContainer: "docs"
+      propertyToSearch: "title"
+      preventDuplicates: true
+      tokenValue: "pid"
+      onResult: (results) ->
+#        selectedPids = $.map( $targetElement.tokenInput("get") , (el, index) -> return el.pid )
+#        pidsToFilter = $targetElement.data('exclude').concat(selectedPids)
+        pidsToFilter = $targetElement.data('exclude')
+        console.log(results.docs)
+        $.each(results.docs, (index, value) ->
+          console.log(value)
+          # Filter out anything listed in data-exclude.  ie. the current object.
+          if (pidsToFilter.indexOf(value.pid) > -1)
+            results.docs.splice(index, 1)
         )
-    )
-
-$(".autocomplete").blacklightAutoComplete()
+        return results;
+    }
+  )
