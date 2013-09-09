@@ -1,19 +1,16 @@
-shared_examples 'is_a_curation_concern_controller' do |collection_class, actions = :all|
+shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, actions = :all|
+  CurationConcern::FactoryHelpers.load_factories_for(self, curation_concern_class)
+
   def self.optionally_include_specs(actions, action_name)
     normalized_actions = Array(actions).flatten.compact
     return true if normalized_actions.include?(:all)
     return true if normalized_actions.include?(action_name.to_sym)
     return true if normalized_actions.include?(action_name.to_s)
   end
-  its(:curation_concern_type) { should eq collection_class }
+  its(:curation_concern_type) { should eq curation_concern_class }
 
   let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
-
-  let(:curation_concern_type_underscore) { collection_class.name.underscore }
-  let(:default_work_factory_name) { curation_concern_type_underscore }
-  let(:private_work_factory_name) { "private_#{curation_concern_type_underscore}".to_sym }
-  let(:public_work_factory_name) { "public_#{curation_concern_type_underscore}".to_sym }
 
   def path_to_curation_concern
     public_send("curation_concern_#{curation_concern_type_underscore}_path", controller.curation_concern)
