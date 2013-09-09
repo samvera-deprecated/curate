@@ -1,5 +1,6 @@
 Description:
-  This generator provides a means of creating a container
+  This generator creates the necessary files for work that extends
+  Curate's GenericWork.
 
 Example:
   rails generate curate:work ChickenPie
@@ -9,8 +10,12 @@ Example:
     app/repository_datastreams/chicken_pie_metadata_datastream.rb
     app/services/curation_concern/chicken_pie_actor.rb
     app/controllers/curation_concern/chicken_pies_controller.rb
+    app/views/curation_concern/chicken_pies/.keep
     spec/factories/chicken_pie_factory.rb
     spec/repository_models/chicken_pie_spec.rb
     spec/repository_datastreams/chicken_pie_metadata_datastream_spec.rb
     spec/services/curation_concern/chicken_pie_actor_spec.rb
     spec/controllers/curation_concern/chicken_pies_controller_spec.rb
+
+  This will also:
+    register ChickenPie as a valid curation concern

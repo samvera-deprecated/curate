@@ -8,6 +8,7 @@
 
 * Add `gem 'curate'` to your Gemfile, then run `bundle`
 * Run the generator: `rails generate curate`
+* Run the following: `rails generate curate:work -h`; You may want to see how to create and register new works.
 
 ## Curate Developer Notes
 

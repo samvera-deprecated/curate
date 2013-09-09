@@ -4,7 +4,6 @@ require 'rails/generators'
 class Curate::WorkGenerator < Rails::Generators::NamedBase
   source_root File.expand_path("../templates", __FILE__)
 
-  desc "Create a Repository Model."
   argument :attributes, :type => :array, :default => [], :banner => "field:type field:type"
 
   # Why all of these antics with defining individual methods?
@@ -55,6 +54,12 @@ class Curate::WorkGenerator < Rails::Generators::NamedBase
     end
   end
 
-  # def create_views
-  # end
+  def create_views
+    create_file("app/views/curation_concern/#{plural_file_name}/.keep")
+  end
+
+  def create_readme
+    readme 'README'
+  end
+
 end
