@@ -5,6 +5,8 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
   # Extend Blacklight::Catalog with Hydra behaviors (primarily editing).
   include Hydra::Controller::ControllerBehavior
+  include BreadcrumbsOnRails::ActionController
+  include Curate::ThemedLayoutController
 
   add_breadcrumb 'Search', lambda {|controller| controller.request.path }
   with_themed_layout 'catalog'

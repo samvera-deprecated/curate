@@ -31,7 +31,9 @@ task :generate do
     system_with_command_output 'rails new ' + DUMMY_APP
     puts "Updating gemfile"
 
-    `echo "gem 'curate', :path=>'../../../curate'
+    `echo "gem 'active-fedora', git: 'git://github.com/projecthydra/active_fedora.git'
+gem 'sufia', git: 'git://github.com/projecthydra/sufia.git'
+gem 'curate', :path=>'../../../curate'
 gem 'capybara'
 gem 'selenium-webdriver'
 gem 'factory_girl_rails'
