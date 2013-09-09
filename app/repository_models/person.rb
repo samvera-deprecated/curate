@@ -52,9 +52,11 @@ class Person < ActiveFedora::Base
   def create_profile(depositor)
     collection = Collection.new(title: "My Profile")
     collection.apply_depositor_metadata(depositor.user_key)
+    collection.read_groups = [Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC]
     collection.save!
     self.profile = collection
     self.save!
+    self.profile
   end
 
 end
