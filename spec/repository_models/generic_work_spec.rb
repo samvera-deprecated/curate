@@ -10,4 +10,10 @@ describe GenericWork do
   it { should have_unique_field(:available) }
   it { should have_unique_field(:archived_object_type) }
 
+  context '#rights' do
+    it 'has a default value' do
+      subject.rights.should == 'All rights reserved'
+    end
+  end
+
 end
