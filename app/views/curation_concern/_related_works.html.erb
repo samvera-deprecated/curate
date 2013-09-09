@@ -1,7 +1,18 @@
+<h2>Related Works</h2>
+
+<p>List works that are related to this one.</p>
+
+<%= form_for [:curation_concern, curation_concern], method: :patch do |f| %>
+  <%#= f.select :related_work_ids, options_from_collection_for_select(curation_concern.related_works, :id, :title, curation_concern.related_work_ids),{include_hidden: false}, { multiple: true, class:"autocomplete chosen-select", "data-source"=>dashboard_index_path, "data-exclude"=>"#{curation_concern.pid}", "data-placeholder"=>"Choose works to associate..."} %>
+  <%= f.text_field :related_work_tokens, class:"autocomplete", "data-url"=>dashboard_index_path, "data-load"=>curation_concern.related_works.to_json, "data-exclude"=>"[#{curation_concern.pid.inspect}]" %>
+  <%= f.submit "Update Related Works", class: 'btn btn-primary' %>
+<% end %>
+
 
 <table class="table table-striped <%= dom_class(curation_concern) %> referenced_by_works with-headroom">
   <caption class="table-heading">
     <h2>Referenced by</h2>
+    <p>Works that list this one in as being related to them.</p>
   </caption>
   <% if curation_concern.referenced_by_works.present? %>
     <thead>
@@ -18,30 +29,3 @@
     </tbody>
   <% end %>
 </table>
-
-<table class="table table-striped <%= dom_class(curation_concern) %> related_works with-headroom">
-  <caption class="table-heading">
-    <h2>Related Works</h2>
-  </caption>
-  <% if curation_concern.related_works.present? %>
-    <thead>
-    <tr>
-      <th>Work Title</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% curation_concern.related_works.each do |related_work| %>
-      <tr class="related_works attributes">
-        <td class="attribute title"><%= link_to related_work.title, polymorphic_path([:curation_concern, related_work]) %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  <% end %>
-</table>
-
-
-<%= form_for [:curation_concern, curation_concern], method: :patch do |f| %>
-  <%= f.select :related_work_ids, options_from_collection_for_select(curation_concern.related_works, :id, :title, curation_concern.related_work_ids),{include_hidden: false}, { multiple: true, class:"autocomplete chosen-select", "data-source"=>dashboard_index_path, "data-exclude"=>"#{curation_concern.pid}", "data-placeholder"=>"Choose works to associate..."} %>
-  <%= f.submit "Update Related Works", class: 'btn btn-primary' %>
-<% end %>
-

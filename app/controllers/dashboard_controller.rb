@@ -82,7 +82,7 @@ class DashboardController < ApplicationController
 
   def json_response
     json_response = @response
-    json_response["response"]["docs"] = @response["response"]["docs"].map {|solr_doc| serialize_work_from_solr(solr_doc) }
+    json_response["docs"] = @response["response"]["docs"].map {|solr_doc| serialize_work_from_solr(solr_doc) }
     json_response
   end
 

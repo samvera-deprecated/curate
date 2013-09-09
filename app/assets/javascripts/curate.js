@@ -26,7 +26,7 @@
 //= require manage_repeating_fields
 //= require toggle_details
 //= require help_modal
-//= require chosen
+//= require jquery.tokeninput
 //= require curate/select_works
 
 $(function(){
