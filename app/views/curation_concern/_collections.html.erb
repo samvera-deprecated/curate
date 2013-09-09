@@ -2,6 +2,7 @@
   <caption class="table-heading">
     <h2>Collections</h2>
   </caption>
+
   <% if curation_concern.collections.present? %>
     <thead>
       <tr>
@@ -18,7 +19,13 @@
   <% end %>
 </table>
 
-<%= form_for [:curation_concern, curation_concern], method: :patch do |f| %>
-  <%= f.select :collection_ids, options_from_collection_for_select(current_user.collections.to_a, :id, :title, curation_concern.collection_ids),{include_hidden: false}, { multiple: true} %>
-  <%= f.submit "Assign to collections", class: 'btn btn-primary' %>
-<% end %>
+<%- if has_any_collections? %>
+  <%= form_for [:curation_concern, curation_concern], method: :patch do |f| %>
+    <%= f.select :collection_ids, options_from_collection_for_select(current_user.collections.to_a, :id, :title, curation_concern.collection_ids),{include_hidden: false}, { multiple: true} %>
+    <%= f.submit "Assign to collections", class: 'btn btn-primary' %>
+  <% end %>
+<%- else %>
+  <div class="span12 main-header">
+    <p> You have no collections yet </p>
+  </div>
+<%- end %>
