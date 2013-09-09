@@ -26,16 +26,16 @@ module CurateController
     rescue_from StandardError, with: :exception_handler
 
     before_filter :configure_permitted_parameters, if: :devise_controller?
+    helper_method :sufia
   end
 
 
   # Please be sure to impelement current_user and user_session. Blacklight depends on
   # these methods in order to perform user specific actions.
 
-  # def sufia
-  #   self
-  # end
-  # helper_method :sufia
+   def sufia
+     self
+   end
 
   # helper ApplicationHelper
 
