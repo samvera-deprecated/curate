@@ -1,10 +1,5 @@
 require 'active_attr'
 class ClassifyConcern
-  # @TODO - This should be part of the application configuration
-  # or detected on load
-  VALID_CURATION_CONCERN_CLASS_NAMES = [
-    'GenericWork', 'Dataset', 'Article'
-  ]
   UPCOMING_CONCERNS = []
 
   include ActiveAttr::Model
@@ -13,19 +8,15 @@ class ClassifyConcern
   validates(
     :curation_concern_type,
     presence: true,
-    inclusion: { in: lambda { |record| VALID_CURATION_CONCERN_CLASS_NAMES } }
+    inclusion: { in: lambda { |record| record.registered_curation_concern_types } }
   )
 
-  def self.all_curation_concern_classes
-    VALID_CURATION_CONCERN_CLASS_NAMES.collect(&:constantize)
-  end
-
   def all_curation_concern_classes
-    self.class.all_curation_concern_classes
+    registered_curation_concern_types.collect(&:constantize)
   end
 
   def possible_curation_concern_types
-    VALID_CURATION_CONCERN_CLASS_NAMES.collect{|concern|
+    registered_curation_concern_types.collect{|concern|
       [concern.constantize.human_readable_type, concern]
     }
   end
@@ -42,5 +33,11 @@ class ClassifyConcern
 
   def upcoming_concerns
     UPCOMING_CONCERNS
+  end
+
+  require 'morphine'
+  include Morphine
+  register :registered_curation_concern_types do
+    Curate.configuration.registered_curation_concern_types
   end
 end

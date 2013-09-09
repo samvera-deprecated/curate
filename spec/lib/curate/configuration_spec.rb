@@ -1,28 +1,13 @@
 require 'spec_helper'
 module Curate
   describe Configuration do
+    its(:default_antivirus_instance) { should respond_to(:call)}
     its(:build_identifier) { should be_an_instance_of String }
-    describe '#default_antivirus_instance' do
-      before(:each) do
-        @previous_av_instance = Curate.configuration.default_antivirus_instance
-      end
-      after(:each) do
-        Curate.configuration.default_antivirus_instance = @previous_av_instance
-      end
-      it 'has a default callable' do
-        expect(Curate.configuration.default_antivirus_instance.call(__FILE__)).
-          to eq(AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE)
-      end
+    it 'allow for registration of curation_concerns' do
+      expect {
+        subject.register_curation_concern(:generic_work)
+      }.to change{ subject.registered_curation_concern_types }.from([]).to(['GenericWork'])
 
-      it 'is configurable' do
-        Curate.configure do |config|
-          config.default_antivirus_instance = lambda {|path|
-            '2'
-          }
-        end
-        expect(Curate.configuration.default_antivirus_instance.call(__FILE__)).
-          to eq("2")
-      end
     end
   end
 end
