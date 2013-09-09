@@ -71,12 +71,28 @@ This generator makes the following changes to your application:
     end
   end
 
+  DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles]
+
   # The engine routes have to come after the devise routes so that /users/sign_in will work
   def inject_routes
-    routing_code = "\n  curate_for containers: [:generic_works, :datasets, :articles]\n"
+    routing_code = "\n  curate_for containers: #{DEFAULT_CURATION_CONCERNS.inspect}\n"
     sentinel = /devise_for +:users.*$/
     inject_into_file 'config/routes.rb', routing_code, { :after => sentinel, :verbose => false }
     gsub_file 'config/routes.rb', /^\s+root.+$/, "  root 'welcome#index'"
+  end
+
+  def create_curate_initializer
+    initializer 'curate_config.rb' do
+      data = []
+
+      data << "Curate.configure do |config|"
+      DEFAULT_CURATION_CONCERNS.each do |curation_concern|
+        data << "  config.register_curation_concern :#{curation_concern.to_s.singularize}"
+      end
+      data << "end"
+
+      data.join("\n")
+    end
   end
 
   # This enables our registrations controller to run the after_update_path_for hook.
