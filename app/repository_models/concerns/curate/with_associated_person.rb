@@ -2,17 +2,24 @@ module Curate::WithAssociatedPerson
   extend ActiveSupport::Concern
 
   included do
-    # Every User has an associated Person record in Fedora, which is created lazily.
+    # Every User has an associated Person record in Fedora
     after_commit :update_person, on: [:create, :update]
+    after_create :create_person_with_profile
     delegate :date_of_birth, :gender, :title,
       :campus_phone_number, :alternate_phone_number,
       :personal_webpage, :blog, :preferred_email,
+      :profile,
       to: :person
     delegate :date_of_birth=, :gender=, :title=,
       :campus_phone_number=, :alternate_phone_number=,
       :personal_webpage=, :blog=, :preferred_email=,
       to: :person
   end
+
+  def create_person_with_profile
+    person.create_profile(self)
+  end
+  private :create_person_with_profile
 
   def person
     @person ||= if self.repository_id
