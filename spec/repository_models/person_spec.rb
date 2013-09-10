@@ -25,6 +25,11 @@ describe Person do
         person.create_profile(user)
         person.profile.title.should == "My Profile"
       end
+
+      it 'has public visibility by default' do
+        profile = person.create_profile(user)
+        profile.read_groups.should == [Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC]
+      end
     end
 
   end
