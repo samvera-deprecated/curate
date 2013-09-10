@@ -33,6 +33,15 @@ module CurationConcern
       self.archived_object_type = human_readable_type
     end
 
+    # Parses a comma-separated string of tokens, returning an array of ids
+    def self.ids_from_tokens(tokens)
+      tokens.gsub(/\s+/, "").split(',')
+    end
+
+    def as_json(options)
+      { pid: pid, title: title, model: self.class.to_s, curation_concern_type: archived_object_type }
+    end
+
     def to_solr(solr_doc={}, opts={})
       super(solr_doc, opts)
       solr_doc[Solrizer.solr_name('noid', Sufia::GenericFile.noid_indexer)] = noid

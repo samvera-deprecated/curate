@@ -2,6 +2,7 @@ class GenericWork < ActiveFedora::Base
   include CurationConcern::Model
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
+  include CurationConcern::WithRelatedWorks
   include CurationConcern::Embargoable
 
   include ActiveFedora::RegisteredAttributes
