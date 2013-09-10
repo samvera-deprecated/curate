@@ -8,67 +8,12 @@
 
   <div class="row">
 
-    <div class="span6">
-      <fieldset class="required">
-        <legend>Required Information</legend>
-
-        <%= f.input :title,
-                    input_html: { class: 'input-xlarge' }
-        %>
-
-        <%= f.input :description,
-                    as: :text,
-                    hint: 'Please keep your abstract to 300 words or less.',
-                    input_html: {
-                      class: 'input-xxxlarge',
-                      rows: '14'
-                    },
-                    label: 'Abstract'
-        %>
-      </fieldset>
-    </div>
-
-    <div class="span6">
-      <fieldset class="optional prompt">
-        <legend>Additional Information</legend>
-        <%= f.input :contributor,            as: :multi_value, input_html: { class: 'input-xlarge' }, hint: 'Be sure to add your name because <em>you</em> are a contributor to your own thesis.'.html_safe %>
-        <%= f.input :subject,                as: :multi_value, input_html: { class: 'input-xlarge' } %>
-        <%= f.input :publisher,              as: :multi_value, input_html: { class: 'input-xlarge' } %>
-        <%= f.input :bibliographic_citation, as: :multi_value, input_html: { class: 'input-xlarge' } %>
-        <%= f.input :source,                 as: :multi_value, input_html: { class: 'input-xlarge' } %>
-        <%= f.input :language,               as: :multi_value, input_html: { class: 'input-xlarge' } %>
-      </fieldset>
-    </div>
+    <%= render "form_required_information", curation_concern: curation_concern, f: f %>
+    <%= render "form_additional_information", curation_concern: curation_concern, f: f %>
 
   </div>
 
-  <% unless curation_concern.persisted? %>
-    <div class="row with-headroom">
-        <div class="span6">
-          <fieldset class="required">
-            <legend>
-              Attach Your File
-              <small>A PDF is preferred.</small>
-            </legend>
-            <%= f.input :files, as: :file, label: 'Upload your file' %>
-          <strong>OR</strong>
-            <%= f.input :linked_resource_url, label: "External link", input_html: {class: 'input-xlarge'} %>
-          </fieldset>
-        </div>
-    </div>
-  <% end %>
-
-  <div class="row with-headroom">
-    <div class="span6">
-      <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
-    </div>
-  </div>
-
-  <div class="row with-headroom">
-    <div class="span6">
-      <%= render "/curation_concern/content_license", curation_concern: curation_concern, f: f %>
-    </div>
-  </div>
+  <%= render "/curation_concern/supplementary_fields", curation_concern: curation_concern, f: f %>
 
   <%= render '/curation_concern/contributor_agreement', curation_concern: curation_concern, contributor_agreement: contributor_agreement %>
 
