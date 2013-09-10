@@ -1,0 +1,27 @@
+<% unless curation_concern.persisted? %>
+  <div class="row with-headroom">
+      <div class="span6">
+        <fieldset class="required">
+          <legend>
+            Attach Your File
+            <small>A PDF is preferred.</small>
+          </legend>
+          <%= f.input :files, as: :file, label: 'Upload your file' %>
+        <strong>OR</strong>
+          <%= f.input :linked_resource_url, label: "External link", input_html: {class: 'input-xlarge'} %>
+        </fieldset>
+      </div>
+  </div>
+<% end %>
+
+<div class="row with-headroom">
+  <div class="span6">
+    <%= render "/curation_concern/permission", curation_concern: curation_concern, f: f %>
+  </div>
+</div>
+
+<div class="row with-headroom">
+  <div class="span6">
+    <%= render "/curation_concern/content_license", curation_concern: curation_concern, f: f %>
+  </div>
+</div>
