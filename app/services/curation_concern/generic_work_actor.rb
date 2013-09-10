@@ -12,8 +12,6 @@ module CurationConcern
       super
     end
 
-    delegate :visibility_changed?, to: :curation_concern
-
     protected
 
     # The default behavior of active_fedora's has_and_belongs_to_many association, 
