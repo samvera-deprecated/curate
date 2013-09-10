@@ -2,9 +2,9 @@
 
 <p>List works that are related to this one.</p>
 
-<%= form_for [:curation_concern, curation_concern], method: :patch do |f| %>
+<%= form_for [:curation_concern, curation_concern], method: :patch, html: {id:"edit_related_works"} do |f| %>
   <%#= f.select :related_work_ids, options_from_collection_for_select(curation_concern.related_works, :id, :title, curation_concern.related_work_ids),{include_hidden: false}, { multiple: true, class:"autocomplete chosen-select", "data-source"=>dashboard_index_path, "data-exclude"=>"#{curation_concern.pid}", "data-placeholder"=>"Choose works to associate..."} %>
-  <%= f.text_field :related_work_tokens, class:"autocomplete", "data-url"=>dashboard_index_path, "data-load"=>curation_concern.related_works.to_json, "data-exclude"=>"[#{curation_concern.pid.inspect}]" %>
+  <%= f.text_field :related_work_tokens, class:"autocomplete tokens", "data-url"=>dashboard_index_path, "data-load"=>curation_concern.related_works.to_json, "data-exclude"=>"[#{curation_concern.pid.inspect}]" %>
   <%= f.submit "Update Related Works", class: 'btn btn-primary' %>
 <% end %>
 
