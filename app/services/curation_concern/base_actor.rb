@@ -34,6 +34,7 @@ module CurationConcern
     attr_reader :visibility
     protected :visibility
 
+    delegate :visibility_changed?, to: :curation_concern
 
     def attach_file(generic_file, file_to_attach)
       ActiveSupport::Deprecation.warn("removing #{self.class}#attach_file, use CurationConcern.attach_file instead")
