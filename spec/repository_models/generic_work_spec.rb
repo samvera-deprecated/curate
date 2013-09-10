@@ -4,6 +4,7 @@ describe GenericWork do
   subject { GenericWork.new }
 
   include_examples 'with_access_rights'
+  include_examples 'with_related_works'
   include_examples 'is_embargoable'
   include_examples 'has_dc_metadata'
 
