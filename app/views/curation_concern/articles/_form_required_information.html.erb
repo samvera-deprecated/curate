@@ -1,0 +1,19 @@
+<div class="span6">
+  <fieldset class="required">
+    <legend>Required Information</legend>
+
+    <%= f.input :title,
+                input_html: { class: 'input-xlarge' }
+    %>
+
+    <%= f.input :abstract,
+                as: :text,
+                hint: 'Please keep your abstract to 300 words or less.',
+                input_html: {
+                  class: 'input-xxxlarge',
+                  rows: '14'
+                },
+                label: 'Abstract'
+    %>
+  </fieldset>
+</div>

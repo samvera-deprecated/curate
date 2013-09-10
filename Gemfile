@@ -12,6 +12,5 @@ gemspec
 #
 
 # For now during development, just point to the master branch for these:
-gem 'active-fedora', git: 'git://github.com/projecthydra/active_fedora.git'
-gem 'sufia', git: 'git://github.com/projecthydra/sufia.git'
+gem 'sufia-models', git: 'git://github.com/projecthydra/sufia.git'
 
