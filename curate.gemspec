@@ -40,6 +40,7 @@ Gem::Specification.new do |s|
   s.add_dependency "devise-guests", "~> 0.3"
   s.add_dependency 'browser'
   s.add_dependency 'breadcrumbs_on_rails'
+  s.add_dependency 'active-fedora', "~> 6.5.1"
   s.add_dependency 'active_fedora-registered_attributes'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency "rspec-rails"
