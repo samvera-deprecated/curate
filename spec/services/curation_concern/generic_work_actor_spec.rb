@@ -3,7 +3,7 @@ require 'spec_helper'
 describe CurationConcern::GenericWorkActor do
   include ActionDispatch::TestProcess
   let(:user) { FactoryGirl.create(:user) }
-  let(:file) { fixture_file_upload('/files/image.png', 'image/png') }
+  let(:file) { curate_fixture_file_upload('files/image.png', 'image/png') }
 
   subject {
     CurationConcern.actor(curation_concern, user, attributes)
@@ -77,7 +77,7 @@ describe CurationConcern::GenericWorkActor do
         let!(:collection1) { FactoryGirl.create(:collection, user: user) }
         let!(:collection2) { FactoryGirl.create(:collection, user: user) }
         let(:attributes) {
-          FactoryGirl.attributes_for(:generic_work, 
+          FactoryGirl.attributes_for(:generic_work,
                                      visibility: Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC,
                                      collection_ids: [collection2.pid])
         }
