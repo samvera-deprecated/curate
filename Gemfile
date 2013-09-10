@@ -10,7 +10,3 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 #
-
-# For now during development, just point to the master branch for these:
-gem 'sufia-models', git: 'git://github.com/projecthydra/sufia.git'
-
