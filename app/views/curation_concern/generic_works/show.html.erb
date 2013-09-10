@@ -5,10 +5,10 @@
 
 <%= render 'attributes', curation_concern: curation_concern %>
 
-<%= render '/curation_concern/related_files', curation_concern: curation_concern, with_actions: true %>
-<%= render '/curation_concern/related_works', curation_concern: curation_concern, with_actions: true %>
-<%= render '/curation_concern/related_resources', curation_concern: curation_concern, with_actions: true %>
-<%= render '/curation_concern/collections', curation_concern: curation_concern %>
+<%= render 'related_files', curation_concern: curation_concern, with_actions: true %>
+<%= render 'related_works', curation_concern: curation_concern, with_actions: true %>
+<%= render 'related_resources', curation_concern: curation_concern, with_actions: true %>
+<%= render 'collections', curation_concern: curation_concern %>
 
 <% content_for :second_row do %>
   <% if can?(:edit, curation_concern) %>
