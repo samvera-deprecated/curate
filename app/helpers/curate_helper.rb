@@ -52,7 +52,7 @@ module CurateHelper
 
   def link_to_edit_permissions(curation_concern, solr_document = nil)
     markup = <<-HTML
-      <a href="#{edit_polymorphic_path(polymorphic_path_args(curation_concern))}" id="permission_#{curation_concern.to_param}">
+      <a href="#{edit_polymorphic_path_for_asset(curation_concern)}" id="permission_#{curation_concern.to_param}">
         #{permission_badge_for(curation_concern, solr_document)}
       </a>
     HTML
@@ -66,7 +66,7 @@ module CurateHelper
   end
 
   def polymorphic_path_args(asset)
-    if Curate.configuration.registered_curation_concern_types.include? asset.class.inspect
+    if (Curate.configuration.registered_curation_concern_types + ["GenericFile"]).include? asset.class.inspect
       return [:curation_concern, asset]
     else
       return asset
