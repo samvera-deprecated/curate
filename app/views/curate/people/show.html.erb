@@ -1,0 +1,24 @@
+<% content_for :page_title, "#{person_name_or_stub(@person)} // Curate" %>
+
+<% content_for :page_header do %>
+  <h1><%= @person.name %> </h1>
+  <h3><%= @person.title %> </h3>
+<% end %>
+
+<div id="person_profile">
+  <% if profile_has_contents?(@person) %>
+    <h3><%= "Selected Works of #{@person.name}" %> </h3>
+    <p><%= @person.profile.description %> </p>
+
+    <div id="documents" class="clear">
+      <ul>
+        <% @person.profile.members.each do |work| %>
+          <li>
+            <%= link_to work.title, curation_concern_generic_work_path(work) %>
+            <%= "(#{work.contributor.join(', ')})" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
