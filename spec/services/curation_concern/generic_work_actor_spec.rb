@@ -45,6 +45,31 @@ describe CurationConcern::GenericWorkActor do
         end
       end
 
+      describe 'with multiple files file' do
+        let(:attributes) {
+          FactoryGirl.attributes_for(:generic_work, visibility: visibility).tap {|a|
+            a[:files] = [file, file]
+          }
+        }
+        before(:each) do
+          subject.create!
+        end
+
+        describe 'authenticated visibility' do
+          it 'should stamp each file with the access rights' do
+            expect(curation_concern).to be_persisted
+            curation_concern.date_uploaded.should == Date.today
+            curation_concern.date_modified.should == Date.today
+            curation_concern.depositor.should == user.user_key
+
+            curation_concern.generic_files.count.should == 2
+            # Sanity test to make sure the file we uploaded is stored and has same permission as parent.
+
+            expect(curation_concern).to be_authenticated_only_access
+          end
+        end
+      end
+
       describe 'with a linked resource' do
         let(:attributes) {
           FactoryGirl.attributes_for(:generic_work, visibility: visibility, linked_resource_url: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
