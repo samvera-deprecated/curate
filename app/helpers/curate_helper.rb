@@ -52,7 +52,7 @@ module CurateHelper
 
   def link_to_edit_permissions(curation_concern, solr_document = nil)
     markup = <<-HTML
-      <a href="#{edit_polymorphic_path([:curation_concern, curation_concern])}" id="permission_#{curation_concern.to_param}">
+      <a href="#{edit_polymorphic_path(polymorphic_path_args(curation_concern))}" id="permission_#{curation_concern.to_param}">
         #{permission_badge_for(curation_concern, solr_document)}
       </a>
     HTML
@@ -64,6 +64,21 @@ module CurateHelper
     dom_label_class, link_title = extract_dom_label_class_and_link_title(solr_document)
     %(<span class="label #{dom_label_class}" title="#{link_title}">#{link_title}</span>).html_safe
   end
+
+  def polymorphic_path_args(asset)
+    if Curate.configuration.registered_curation_concern_types.include? asset.class.inspect
+      return [:curation_concern, asset]
+    else
+      return asset
+    end
+  end
+  def polymorphic_path_for_asset(asset)
+    return polymorphic_path(polymorphic_path_args(asset))
+  end
+  def edit_polymorphic_path_for_asset(asset)
+    return edit_polymorphic_path(polymorphic_path_args(asset))
+  end
+
 
   def extract_dom_label_class_and_link_title(document)
     hash = document.stringify_keys
