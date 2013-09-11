@@ -11,7 +11,7 @@ class ContributorAgreement
     <p>
       I am submitting my work for inclusion in the #{I18n.t('sufia.product_name')} repository maintained by the University Libraries of the #{ I18n.t('sufia.institution_name') }.
       I acknowledge that publication of the work may implicate my legal rights with respect to the work and its contents, including my ability to publish the work in other venues.
-      I UNDERSTAND AND AGREE THAT BY SUBMITTING MY CONTENT FOR INCLUSION IN THE #{I18n.t('sufia.product_name')} REPOSITORY, I AGREE TO THE FOLLOWING TERMS:
+      I UNDERSTAND AND AGREE THAT BY SUBMITTING MY CONTENT FOR INCLUSION IN THE #{I18n.t('sufia.product_name').upcase} REPOSITORY, I AGREE TO THE FOLLOWING TERMS:
     </p>
 
     <p>
