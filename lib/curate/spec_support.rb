@@ -7,6 +7,5 @@ require 'rspec/rails'
 require 'rspec-html-matchers'
 require 'rspec/autorun'
 require 'factory_girl'
-require 'factory_girl/strategy/reuse'
 Dir["#{spec_directory}/factories/**/*.rb"].each { |f| require f }
 Dir["#{spec_directory}/support/**/*.rb"].each { |f| require f }
