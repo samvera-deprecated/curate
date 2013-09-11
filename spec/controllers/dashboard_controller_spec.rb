@@ -14,6 +14,18 @@ describe DashboardController do
       User.any_instance.stub(:groups).and_return([])
     end
     describe "#index" do
+      before (:each) do
+        xhr :get, :index
+        # Make sure there are at least 3 files owned by @user. Otherwise, the tests aren't meaningful.
+        if assigns(:document_list).count < 3
+          files_count = assigns(:document_list).count
+          until files_count == 3
+            FactoryGirl.create(:generic_work, user: user)
+            files_count += 1
+          end
+          xhr :get, :index
+        end
+      end
       it "should be a success" do
         xhr :get, :index
         response.should be_success
