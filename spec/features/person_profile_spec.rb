@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Profile for a Person: ' do
 
-  context 'logged in user' do
+  context 'logged in user', with_callbacks: true do
     let(:user) { FactoryGirl.create(:user) }
     before { login_as(user) }
 

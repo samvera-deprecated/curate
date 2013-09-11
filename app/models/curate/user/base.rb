@@ -1,6 +1,7 @@
 module Curate
   module User
     module Base
+      extend ActiveSupport::Concern
 
       def agree_to_terms_of_service!
         update_column(:agreed_to_terms_of_service, true)

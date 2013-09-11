@@ -1,7 +1,7 @@
 require File.expand_path('../../../lib/rdf/qualified_foaf', __FILE__)
 class PersonMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
   map_predicates do |map|
-    map.name(to: "name", in: RDF::FOAF) do |index|
+    map.display_name(to: "name", in: RDF::FOAF) do |index|
       index.as :stored_searchable, :displayable
     end
 
@@ -37,11 +37,11 @@ class PersonMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :displayable
     end
 
-    map.alternate_email(to: "account#alternate_email", in: RDF::QualifiedFOAF) do |index|
+    map.email(to: "account#email", in: RDF::QualifiedFOAF) do |index|
       index.as :stored_searchable, :displayable
     end
 
-    map.preferred_email(to: "account#preferred_email", in: RDF::QualifiedFOAF) do |index|
+    map.alternate_email(to: "account#alternate_email", in: RDF::QualifiedFOAF) do |index|
       index.as :stored_searchable, :displayable
     end
   end

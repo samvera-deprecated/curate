@@ -4,22 +4,38 @@ module Curate
       extend ActiveSupport::Concern
 
       included do
-        # Every User has an associated Person record in Fedora
         after_commit :user_create_callback, on: [:create]
         after_commit :user_update_callback, on: [:update]
 
-        # TODO - cache these on the user and synchronize with the
-        # repository
-        delegate :date_of_birth, :gender, :title,
-          :campus_phone_number, :alternate_phone_number,
-          :personal_webpage, :blog, :preferred_email,
-          :profile,
-          to: :person
-        delegate :date_of_birth=, :gender=, :title=,
-          :campus_phone_number=, :alternate_phone_number=,
-          :personal_webpage=, :blog=, :preferred_email=,
-          to: :person
+        delegate :profile, to: :person
+
+        alias_attribute :name, :display_name
+
+        Person.registered_attribute_names.each do |method_name|
+          unless attribute_method?(method_name)
+            define_method(method_name) do
+              @person_attributes ||= {}
+              @person_attributes.fetch(method_name, person.send(method_name))
+            end
+            define_method("#{method_name}=") do |value|
+              @person_attributes ||= {}
+              @person_attributes[method_name] = value
+            end
+            define_method("#{method_name}_changed?") do
+              @person_attributes ||= {}
+              !!@person_attributes.fetch(method_name, false)
+            end
+          end
+        end
       end
+
+      def reload
+        @person_attributes = {}
+        super
+      end
+
+      def preferred_email; email; end
+      def preferred_email=(value); self.email = value; end
 
       def user_create_callback
         Curate.configuration.user_create_callback.call(self)
@@ -38,30 +54,6 @@ module Curate
           Person.new
         end
       end
-
-      def display_name
-        @display_name ||= self.attributes['display_name'] || person.name
-      end
-
-      def display_name=(display_name)
-        write_attribute(:display_name, display_name)
-        person.name = display_name
-      end
-
-      alias_method :name, :display_name
-      alias_method :name=, :display_name=
-
-      def alternate_email
-        if person.blank? || person.alternate_email.blank?
-          return email
-        end
-        person.alternate_email
-      end
-
-      def alternate_email=(alternate_email)
-        person.alternate_email = alternate_email
-      end
-
     end
   end
 end

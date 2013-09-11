@@ -7,10 +7,10 @@ class Person < ActiveFedora::Base
 
   belongs_to :profile, property: :has_profile, class_name: 'Collection'
 
-  attribute :name,
+  attribute :display_name,
       datastream: :descMetadata, multiple: false
 
-  attribute :preferred_email,
+  attribute :email,
       datastream: :descMetadata, multiple: false
 
   attribute :alternate_email,
@@ -36,6 +36,10 @@ class Person < ActiveFedora::Base
 
   attribute :gender,
       datastream: :descMetadata, multiple: false
+
+
+  def name; display_name; end
+  def name=(value); self.display_name = value; end
 
   def first_name
     name_parser.given

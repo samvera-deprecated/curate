@@ -29,8 +29,10 @@ module Curate
       end
 
       def create_person
-        @person = Person.new
-        @person.alternate_email = user.email
+        @person = user.person
+        Person.registered_attribute_names.each do |attr_name|
+          @person.send("#{attr_name}=", user.send(attr_name)) if user.send("#{attr_name}_changed?")
+        end
         @person.save!
         user.repository_id = @person.pid
         user.save
