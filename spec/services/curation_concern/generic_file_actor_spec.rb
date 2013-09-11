@@ -84,16 +84,8 @@ describe CurationConcern::GenericFileActor do
       { version: version }
     }
     let(:version) { generic_file.versions.last.versionID }
-    let(:generic_file) {
-      FactoryGirl.create_generic_file(parent, user)
-    }
-    let(:new_file) {
-      Rack::Test::UploadedFile.new(
-        File.expand_path('../../../fixtures/files/image.png', __FILE__),
-        'image/png',
-        false
-      )
-    }
+    let(:generic_file) { FactoryGirl.create_generic_file(parent, user) }
+    let(:new_file) { curate_fixture_file_upload('files/image.png', 'image/png', false)}
     before(:each) do
       # I need to make an update
       updated_attributes = { file: new_file}

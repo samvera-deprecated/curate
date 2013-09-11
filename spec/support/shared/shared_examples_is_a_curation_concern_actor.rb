@@ -2,7 +2,7 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
   CurationConcern::FactoryHelpers.load_factories_for(self, curation_concern_class)
   include ActionDispatch::TestProcess
   let(:user) { FactoryGirl.create(:user) }
-  let(:file) { fixture_file_upload('/files/image.png', 'image/png') }
+  let(:file) { curate_fixture_file_upload('/files/image.png', 'image/png') }
 
   subject {
     CurationConcern.actor(curation_concern, user, attributes)
