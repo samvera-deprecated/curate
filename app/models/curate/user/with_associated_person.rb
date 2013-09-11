@@ -39,6 +39,8 @@ module Curate
         person = Person.new
         yield if block_given?
         person.alternate_email = email
+        person.apply_depositor_metadata(self.user_key)
+        person.read_groups = [Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC]
         person.save!
         self.repository_id = person.pid
         self.save
