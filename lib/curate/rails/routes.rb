@@ -4,6 +4,7 @@ module ActionDispatch::Routing
     def curate_for(opts={})
       scope module: 'curate' do
         resources 'collections'
+        resources 'people', only: :show
       end
       resources 'dashboard', only: :index do
         collection do

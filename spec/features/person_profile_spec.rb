@@ -8,7 +8,7 @@ describe 'Profile for a Person: ' do
 
     it 'will see a link to their profile in the nav' do
       visit dashboard_index_path
-      page.should have_link("Profile", href: collection_path(user.person.profile))
+      page.should have_link("Profile", href: person_path(user.person))
     end
   end
 
