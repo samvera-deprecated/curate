@@ -1,12 +1,13 @@
 <% noid = document.noid %>
+
 <tr id="document_<%= noid %>" class="<%= cycle("","zebra") %>">
-  <% gf = ActiveFedora::Base.load_instance_from_solr(document.id) %>
+  <%- gf = ActiveFedora::Base.load_instance_from_solr(document.id) %>
   <td>
     <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
     <%= render :partial => 'dashboard/_index_partials/thumbnail_display', :locals => {:document=>document} %>
-    <span class="center"><%= link_to gf, polymorphic_path([:curation_concern, gf]), :id => "src_copy_link_#{noid}" %> <br /></span>
+    <span class="center"><%= link_to gf, polymorphic_path_for_asset(gf), :id => "src_copy_link_#{noid}" %> <br /></span>
   </td>
-  <td><%= gf.human_readable_type %></td>
+  <td><%#= gf.human_readable_type %></td>
   <td width="17%"><%= gf.date_uploaded%></td>
   <td width="5%">
     <%= link_to_edit_permissions(gf, document) %>
@@ -15,13 +16,13 @@
   <td width="23%" class="inline-item-actions">
     <%= link_to(
       raw('<i class="icon-pencil icon-large"></i>'),
-      edit_polymorphic_path([:curation_concern, gf]),
+      edit_polymorphic_path_for_asset(gf),
       :class=> 'itemicon itemedit',
       :title => 'Edit File'
     ) if can? :edit, gf %>
     <%= link_to(
       raw('<i class="icon-trash icon-large"></i>'),
-      polymorphic_path([:curation_concern, gf]),
+      edit_polymorphic_path_for_asset(gf),
       :class=> 'itemicon itemtrash',
       :title => %(Delete #{gf.to_s.inspect}),
       :method => :delete,
