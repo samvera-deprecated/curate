@@ -23,7 +23,7 @@ describe Person do
 
       it 'sets the title of the profile' do
         person.create_profile(user)
-        person.profile.title.should == "My Profile"
+        person.profile.title.should == person.name
       end
 
       it 'has public visibility by default' do
