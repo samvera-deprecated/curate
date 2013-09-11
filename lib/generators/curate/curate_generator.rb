@@ -123,8 +123,8 @@ This generator makes the following changes to your application:
   end
 
   def update_assets
-    gsub_file 'app/assets/stylesheets/application.css', /^ *\*= +require_tree +\. *$/ do |match|
-      match = " *= require curate\n" + match
+    insert_into_file 'app/assets/stylesheets/application.css', before: /^ *\*= +require_tree +\. *$/ do
+      " *= require curate\n"
     end
     insert_into_file "app/assets/javascripts/application.js", :before => '//= require_tree .' do
       "//= require curate\n"
