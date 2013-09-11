@@ -333,9 +333,11 @@ class CatalogController < ApplicationController
     # @param solr_parameters the current solr parameters
     # @param user_parameters the current user-subitted parameters
     def exclude_unwanted_models(solr_parameters, user_parameters)
+      super
       solr_parameters[:fq] ||= []
-      solr_parameters[:fq] << "(#{Solrizer.solr_name("has_model", :symbol)}:\"info:fedora/afmodel:GenericFile\" OR " +
-       "#{Solrizer.solr_name("has_model", :symbol)}:\"info:fedora/afmodel:GenericWork\")"
+      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:GenericFile\""
+      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Person\""
+      return solr_parameters
     end
 
     def depositor

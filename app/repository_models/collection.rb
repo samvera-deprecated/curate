@@ -31,7 +31,7 @@ class Collection < ActiveFedora::Base
   end
 
   def to_s
-    title
+    self.title.nil? ? self.inspect : self.title
   end
 
   def to_solr(solr_doc={}, opts={})
