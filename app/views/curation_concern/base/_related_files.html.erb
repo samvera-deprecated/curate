@@ -44,7 +44,7 @@
             <%- end -%>
           <%- end -%>
           <%- if can?(:read, generic_file) -%>
-            <%= render '/curation_concern/media_display', generic_file: generic_file %>
+            <%= render 'curation_concern/generic_files/media_display', generic_file: generic_file %>
           <%- end -%>
         </td>
       </tr>

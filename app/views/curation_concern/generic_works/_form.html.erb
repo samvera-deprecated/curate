@@ -13,9 +13,9 @@
 
   </div>
 
-  <%= render "/curation_concern/supplementary_fields", curation_concern: curation_concern, f: f %>
+  <%= render "form_supplementary_fields", curation_concern: curation_concern, f: f %>
 
-  <%= render '/curation_concern/contributor_agreement', curation_concern: curation_concern, contributor_agreement: contributor_agreement %>
+  <%= render 'form_contributor_agreement', curation_concern: curation_concern, contributor_agreement: contributor_agreement %>
 
   <div class="row">
     <div class="span12 form-actions">
