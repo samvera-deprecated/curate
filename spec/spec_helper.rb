@@ -52,7 +52,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before(:each) do
-    if !(example.metadata[:type] == :feature || example.metadata[:with_callbacks])
+    if !(example.metadata[:with_callbacks])
       @original_user_create_callback = Curate.configuration.user_create_callback
       @original_user_update_callback = Curate.configuration.user_update_callback
       Curate.configuration.user_create_callback = lambda {|user|}
@@ -61,7 +61,7 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    if !(example.metadata[:type] == :feature || example.metadata[:with_callbacks])
+    if !(example.metadata[:with_callbacks])
       Curate.configuration.user_create_callback = @original_user_create_callback
       Curate.configuration.user_update_callback = @original_user_update_callback
     end

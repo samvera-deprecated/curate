@@ -16,7 +16,12 @@ module Curate
       protected
 
       def update_person
-        user.person.update
+        @person = user.person
+        Person.registered_attribute_names.each do |attr_name|
+          @person.send("#{attr_name}=", user.send(attr_name)) if user.send("#{attr_name}_changed?")
+        end
+        @person.save
+        @person
       end
     end
   end

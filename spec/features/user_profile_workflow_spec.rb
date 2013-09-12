@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe_options = {type: :feature}
+describe_options = {type: :feature, with_callbacks: true}
 if ENV['JS']
   describe_options[:js] = true
 end
 
 describe 'user profile workflow', describe_options do
 
-  describe 'editing your profile', with_callbacks: true do
+  describe 'editing your profile' do
     let(:user) { FactoryGirl.create(:user) }
 
     it 'successfully updates your attributes' do
@@ -15,9 +15,9 @@ describe 'user profile workflow', describe_options do
       visit edit_user_registration_path
 
       # Establish the starting state
-      user.name.should == user.email
-      user.preferred_email.should == nil
-      user.alternate_email.should == user.email
+      # user.name.should == user.email
+      user.preferred_email.should == user.email
+      user.alternate_email.should == nil
       user.date_of_birth.should == nil
       user.gender.should == nil
       user.title.should == nil
@@ -27,7 +27,7 @@ describe 'user profile workflow', describe_options do
       user.blog.should == nil
 
       new_name = 'Frodo Baggins'
-      new_pref = 'pref@example.com'
+      new_email = 'pref@example.com'
       new_alt = 'alt@example.com'
       new_dob = '1/2/1980'
       new_gender = 'female'
@@ -41,7 +41,7 @@ describe 'user profile workflow', describe_options do
         fill_in("user[current_password]", with: user.password)
 
         fill_in("user[name]", with: new_name)
-        fill_in("user[preferred_email]", with: new_pref)
+        fill_in("user[email]", with: new_email)
         fill_in("user[alternate_email]", with: new_alt)
         fill_in("user[date_of_birth]", with: new_dob)
         fill_in("user[gender]", with: new_gender)
@@ -59,12 +59,12 @@ describe 'user profile workflow', describe_options do
 
       # Reload models
       user.reload
-
       user.person.reload
 
       # Verify that everything got updated
       user.name.should == new_name
-      user.preferred_email.should == new_pref
+      user.email.should == new_email
+      user.preferred_email.should == new_email
       user.alternate_email.should == new_alt
       user.date_of_birth.should == new_dob
       user.gender.should == new_gender

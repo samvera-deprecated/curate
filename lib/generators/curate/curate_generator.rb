@@ -61,7 +61,8 @@ This generator makes the following changes to your application:
       'add_terms_of_service_to_user.rb',
       'add_user_force_update_profile.rb',
       'create_help_requests.rb',
-      'add_repository_id_to_user.rb'
+      'add_repository_id_to_user.rb',
+      'add_alternate_email_to_user.rb'
     ].each do |file|
       begin
         migration_template "migrations/#{file}", "db/migrate/#{file}"
