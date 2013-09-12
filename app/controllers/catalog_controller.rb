@@ -57,15 +57,17 @@ class CatalogController < ApplicationController
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
-    config.add_facet_field solr_name("desc_metadata__resource_type", :facetable), :label => "Resource Type", :limit => 5
+    config.add_facet_field solr_name("desc_metadata__archived_object_type", :facetable), :label => "Type", :limit => 5
     config.add_facet_field solr_name("desc_metadata__creator", :facetable), :label => "Creator", :limit => 5
+    config.add_facet_field solr_name(:collection, :facetable), :label => "Collection",  :helper_method => :collection_title_from_pid, :limit => 5
+    # Skipping resource type because its confusing to have both Type and Resource Type as facets
+    # config.add_facet_field solr_name("desc_metadata__resource_type", :facetable), :label => "Resource Type", :limit => 5
     config.add_facet_field solr_name("desc_metadata__tag", :facetable), :label => "Keyword", :limit => 5
     config.add_facet_field solr_name("desc_metadata__subject", :facetable), :label => "Subject", :limit => 5
     config.add_facet_field solr_name("desc_metadata__language", :facetable), :label => "Language", :limit => 5
     config.add_facet_field solr_name("desc_metadata__based_near", :facetable), :label => "Location", :limit => 5
     config.add_facet_field solr_name("desc_metadata__publisher", :facetable), :label => "Publisher", :limit => 5
     config.add_facet_field solr_name("file_format", :facetable), :label => "File Format", :limit => 5
-    config.add_facet_field solr_name("desc_metadata__archived_object_type", :facetable), :label => "Type", :limit => 5
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
