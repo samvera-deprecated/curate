@@ -86,6 +86,7 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
           collection1.save
         end
         it "should add to collections" do
+          collection1.save # Had to call .save again to make this persist properly!? - MZ Sept 2013
           expect(curation_concern.collections).to eq [collection1]
           subject.update!
           expect(curation_concern.identifier).to be_blank
