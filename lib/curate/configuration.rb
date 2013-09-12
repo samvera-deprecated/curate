@@ -1,3 +1,4 @@
+require 'morphine'
 module Curate
   class << self
     attr_accessor :configuration
@@ -9,6 +10,16 @@ module Curate
   end
 
   class Configuration
+    include Morphine
+
+    register :user_create_callback do
+      Curate::Service::UserCreateCallback.method(:call)
+    end
+
+    register :user_update_callback do
+      Curate::Service::UserUpdateCallback.method(:call)
+    end
+
     # An anonymous function that receives a path to a file
     # and returns AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE if no
     # virus is found; Any other returned value means a virus was found
