@@ -7,7 +7,7 @@ end
 
 describe 'user profile workflow', describe_options do
 
-  describe 'editing your profile', with_callbacks: true do
+  describe 'editing your profile' do
     let(:user) { FactoryGirl.create(:user) }
 
     it 'successfully updates your attributes' do
@@ -59,7 +59,6 @@ describe 'user profile workflow', describe_options do
 
       # Reload models
       user.reload
-
       user.person.reload
 
       # Verify that everything got updated

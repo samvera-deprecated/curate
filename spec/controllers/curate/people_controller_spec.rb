@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Curate::PeopleController, with_callbacks: true do
+describe Curate::PeopleController do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:person) { user.person }
   let(:a_different_user) { FactoryGirl.create(:user) }
