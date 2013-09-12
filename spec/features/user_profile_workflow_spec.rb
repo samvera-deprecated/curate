@@ -1,30 +1,16 @@
 require 'spec_helper'
 
-describe_options = {type: :feature}
-if ENV['JS']
-  describe_options[:js] = true
-end
-
-describe 'user profile workflow', describe_options do
+describe 'user profile workflow', FeatureSupport.options do
 
   describe 'editing your profile' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:password) { FactoryGirl.attributes_for(:user).fetch(:password) }
+    let(:account) { FactoryGirl.create(:account) }
+    let(:user) { account.user }
 
     it 'successfully updates your attributes' do
       login_as(user)
-      visit edit_user_registration_path
 
-      # Establish the starting state
-      user.name.should == user.email
-      user.preferred_email.should == nil
-      user.alternate_email.should == user.email
-      user.date_of_birth.should == nil
-      user.gender.should == nil
-      user.title.should == nil
-      user.campus_phone_number.should == nil
-      user.alternate_phone_number.should == nil
-      user.personal_webpage.should == nil
-      user.blog.should == nil
+      visit edit_user_registration_path
 
       new_name = 'Frodo Baggins'
       new_pref = 'pref@example.com'
@@ -38,10 +24,9 @@ describe 'user profile workflow', describe_options do
       new_blog = 'blog.example.com'
 
       within('form.edit_user') do
-        fill_in("user[current_password]", with: user.password)
-
+        fill_in("user[current_password]", with: password)
         fill_in("user[name]", with: new_name)
-        fill_in("user[preferred_email]", with: new_pref)
+        fill_in("user[email]", with: new_pref)
         fill_in("user[alternate_email]", with: new_alt)
         fill_in("user[date_of_birth]", with: new_dob)
         fill_in("user[gender]", with: new_gender)
@@ -50,7 +35,6 @@ describe 'user profile workflow', describe_options do
         fill_in("user[alternate_phone_number]", with: new_alt_phone)
         fill_in("user[personal_webpage]", with: new_webpage)
         fill_in("user[blog]", with: new_blog)
-
         click_button("Update")
       end
 
@@ -63,6 +47,7 @@ describe 'user profile workflow', describe_options do
 
       # Verify that everything got updated
       user.name.should == new_name
+      user.email.should == new_pref
       user.alternate_email.should == new_alt
       user.date_of_birth.should == new_dob
       user.gender.should == new_gender
@@ -120,12 +105,14 @@ describe 'user profile workflow', describe_options do
     within('form#terms_of_service') do
       click_button("I Agree")
     end
+
     within('form.edit_user') do
       fill_in("user[email]", with: new_email)
       fill_in("user[current_password]", with: password)
       click_button("Update")
     end
     click_link("Get Started")
+
     assert_on_page_allowing_upload!
   end
 
@@ -152,7 +139,7 @@ describe 'user profile workflow', describe_options do
 
   def assert_user_has_not_updated_their_profile_yet(user_email)
     user = User.find_by_email(email)
-    assert !user.user_does_not_require_profile_update
+    expect(user.user_does_not_require_profile_update?).to eq false
   end
 
   def sign_up_new_user(email, password)
