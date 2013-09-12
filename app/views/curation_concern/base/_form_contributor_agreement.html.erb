@@ -12,12 +12,13 @@
       </article>
     </div>
 
-    <div class="span12">
+    <div class="span12 accept-contributor-agreement">
       <%= label_tag contributor_agreement.param_key, class: 'checkbox' do %>
         <%= check_box_tag(
             contributor_agreement.param_key,
             contributor_agreement.acceptance_value,
-            contributor_agreement.param_value
+            contributor_agreement.param_value,
+            required: :required
           )
         %>
         I have read and accept the contributor licence agreement
