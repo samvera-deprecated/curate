@@ -1,4 +1,11 @@
 module CurateHelper
+
+  # Loads the object and returns its title
+  def collection_title_from_pid  value
+    c = Collection.load_instance_from_solr(value)
+    return c.title
+  end
+
   def construct_page_title(*elements)
     (elements.flatten.compact + [application_name]).join(" // ")
   end
