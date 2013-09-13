@@ -7,7 +7,7 @@
     <%= render :partial => 'dashboard/_index_partials/thumbnail_display', :locals => {:document=>document} %>
     <span class="center"><%= link_to gf, polymorphic_path_for_asset(gf), :id => "src_copy_link_#{noid}" %> <br /></span>
   </td>
-  <td><%#= gf.human_readable_type %></td>
+  <td><%= gf.human_readable_type %></td>
   <td width="17%"><%= gf.date_uploaded%></td>
   <td width="5%">
     <%= link_to_edit_permissions(gf, document) %>

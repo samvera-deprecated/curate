@@ -33,8 +33,8 @@ describe DashboardController do
       end
       it "should return an array of documents I can edit" do
         xhr :get, :index
-        user.profile.delete   # Don't include the user's auto-generated profile
-        @user_results = Blacklight.solr.get "select", :params=>{:fq=>["edit_access_group_ssim:public OR edit_access_person_ssim:#{user.user_key}"]}
+        #user.profile.delete   # Don't include the user's auto-generated profile
+        @user_results = Blacklight.solr.get "select", :params=>{:fq=>["edit_access_group_ssim:public OR edit_access_person_ssim:#{user.user_key}","-has_model_ssim:\"info:fedora/afmodel:Person\""]}
         assigns(:document_list).count.should eql(@user_results["response"]["numFound"])
       end
       it "should return json" do

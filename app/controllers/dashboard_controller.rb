@@ -75,6 +75,7 @@ class DashboardController < ApplicationController
     super
     solr_parameters[:fq] ||= []
     solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:GenericFile\""
+    solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Person\""
     return solr_parameters
   end
 

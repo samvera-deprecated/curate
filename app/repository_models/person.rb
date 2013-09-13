@@ -1,7 +1,10 @@
 require 'active_fedora/registered_attributes'
 
+# Person - A named singular entity; A Person may have a one to one relationship with a User. A Person is a Container.
+#   profile: Each person has a profile which is actually just a collection that is explicitly referenced by the person using a :has_profile relationship.
 class Person < ActiveFedora::Base
   include ActiveFedora::RegisteredAttributes
+  include CurationConcern::Model
 
   has_metadata name: "descMetadata", type: PersonMetadataDatastream, control_group: 'M'
 
@@ -37,6 +40,10 @@ class Person < ActiveFedora::Base
   attribute :gender,
       datastream: :descMetadata, multiple: false
 
+  def date_uploaded
+    Time.new(create_date).strftime("%Y-%m-%d")
+  end
+
   def first_name
     name_parser.given
   end
@@ -49,8 +56,11 @@ class Person < ActiveFedora::Base
     Namae.parse(self.name).first
   end
 
+  # Create associated Profile (which is a Collection object)
+  # Note: marks the profile with resource_type "Profile" (default is Collection) so it can be displayed in Search Results and Facets
+  #   as a Profile instead of a Collection.
   def create_profile(depositor)
-    collection = Collection.new(title: "My Profile")
+    collection = Collection.new(title: self.name, resource_type: "Profile")
     collection.apply_depositor_metadata(depositor.user_key)
     collection.read_groups = [Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC]
     collection.save!
