@@ -14,8 +14,8 @@
   <tbody>
     <% curation_concern.generic_files.each do |generic_file| %>
       <tr class="<%= dom_class(generic_file) %> attributes">
-        <td class="attribute title"><%= generic_file %></td>
-        <td class="attribute filename"><%= generic_file.filename %></td>
+        <td class="attribute title"><%= generic_file_title(generic_file) %></td>
+        <td class="attribute filename"><%= link_to(generic_file_link_name(generic_file), curation_concern_generic_file_path(generic_file)) %></td>
         <td class="attribute date_uploaded"><%= generic_file.date_uploaded %></td>
         <td class="attribute permission"><%= link_to_edit_permissions(generic_file) %></td>
         <td>
