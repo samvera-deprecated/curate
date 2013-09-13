@@ -44,3 +44,17 @@ To run the test suite:
 
         rake spec
 
+To run a localized spec:
+
+        BUNDLE_GEMFILE=spec/internal/Gemfile bundle exec rspec path/to/spec.rb:LINE
+
+### Running a copy of Curate in the curate gem
+
+Given that Curate regenerates (via the `rake clean generate` tasks) you can run a functioning instance of curate in that directory.
+
+From the curate directory:
+
+        rake clean generate
+        rake jetty:start
+        cd ./spec/internal
+        rails server
