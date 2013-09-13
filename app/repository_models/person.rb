@@ -11,34 +11,34 @@ class Person < ActiveFedora::Base
   belongs_to :profile, property: :has_profile, class_name: 'Collection'
 
   attribute :name,
-      datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false
 
   attribute :preferred_email,
-      datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false
 
   attribute :alternate_email,
-      datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false
 
   attribute :date_of_birth,
-      datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false
 
   attribute :title,
-      datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false
 
   attribute :campus_phone_number,
-      datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false
 
   attribute :alternate_phone_number,
-      datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false
 
   attribute :personal_webpage,
-      datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false
 
   attribute :blog,
-      datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false
 
   attribute :gender,
-      datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false
 
   def date_uploaded
     Time.new(create_date).strftime("%Y-%m-%d")
@@ -54,6 +54,10 @@ class Person < ActiveFedora::Base
 
   def name_parser
     Namae.parse(self.name).first
+  end
+
+  def user
+    persisted? ? User.where(repository_id: pid).first : nil
   end
 
   # Create associated Profile (which is a Collection object)
