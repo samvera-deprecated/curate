@@ -2,8 +2,12 @@ module CurateHelper
 
   # Loads the object and returns its title
   def collection_title_from_pid  value
-    c = Collection.load_instance_from_solr(value)
-    return c.title
+    begin
+      c = Collection.load_instance_from_solr(value)
+    rescue => e
+      logger.warn("WARN: Helper method collection_title_from_pid raised an error when loading #{value}.  Error was #{e}")
+    end
+    return c.nil? ? value : c.title
   end
 
   def construct_page_title(*elements)

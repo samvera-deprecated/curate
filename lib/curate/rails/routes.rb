@@ -36,8 +36,6 @@ module ActionDispatch::Routing
         end
       end
 
-      resources :person
-
       resources :terms_of_service_agreements, only: [:new, :create]
       resources :help_requests, only: [:new, :create]
       resources :classify_concerns, only: [:new, :create]
