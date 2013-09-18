@@ -10,3 +10,4 @@ vendor/cache
 tmp/*
 .sass-cache
 .idea/
+coverage
