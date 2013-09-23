@@ -37,15 +37,18 @@ task :generate do
     system_with_command_output('rails new ' + DUMMY_APP)
     puts "Updating gemfile"
 
-    `echo "gem 'active-fedora', git: 'git://github.com/projecthydra/active_fedora.git'
+    `echo "gem 'active-fedora', git: 'git://github.com/projecthydra/active_fedora.git', ref: 'b77c542997c03f5184cc0ed1a414eac388e93d36'
 gem 'sufia', git: 'git://github.com/projecthydra/sufia.git'
+gem 'blacklight', git: 'git://github.com/jeremyf/blacklight.git', branch: 'adding-max-pages-for-kaminari'
 gem 'curate', :path=>'../../../curate'
 gem 'capybara'
 gem 'selenium-webdriver'
 gem 'factory_girl_rails'
 gem 'timecop'
 gem 'rspec-html-matchers'
-gem 'test_after_commit', :group => :test
+gem 'database_cleaner', '< 1.1.0', :group => :test
+gem 'test_after_commit', group: :test
+gem 'poltergeist', group: :test
 gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'" >> #{DUMMY_APP}/Gemfile`
 
     puts "Copying generator"

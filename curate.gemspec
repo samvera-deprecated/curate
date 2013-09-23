@@ -28,10 +28,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'sufia-models', '~>3.2'
   s.add_dependency 'solrizer', '~>3.0'
   s.add_dependency 'hydra-head', '~>6.3.4'
-  s.add_dependency 'blacklight', '~> 4.0'
+  s.add_dependency 'blacklight', '~> 4.2'
   s.add_dependency 'hydra-batch-edit', '~> 1.0.0'
   s.add_dependency 'morphine'
-  s.add_dependency 'devise'
   s.add_dependency 'mini_magick'
   s.add_dependency 'simple_form', '3.0.0.rc'
   s.add_dependency 'active_attr'
@@ -50,4 +49,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'selenium-webdriver'
   s.add_development_dependency 'timecop'
   s.add_development_dependency 'jettywrapper'
+  s.add_development_dependency 'database_cleaner', '< 1.1.0'
+  s.add_development_dependency 'poltergeist'
 end
