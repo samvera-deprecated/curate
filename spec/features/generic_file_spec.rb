@@ -6,7 +6,7 @@ describe 'Generic File' do
 
   context 'a public work that contains a public file' do
     let(:public_work) { FactoryGirl.create(:public_generic_work, user: another_user) }
-    before { upload_public_file(public_work, 'visibility_open') }
+    before { upload_my_file(public_work, 'visibility_open') }
 
     context 'when the user views the public work' do
       before do
@@ -24,7 +24,7 @@ describe 'Generic File' do
 
   context 'a public work that contains a private file' do
     let(:public_work) { FactoryGirl.create(:public_generic_work, user: another_user) }
-    before { upload_public_file(public_work, 'visibility_restricted') }
+    before { upload_my_file(public_work, 'visibility_restricted') }
 
     context 'when the user views the public work' do
       before do
@@ -42,14 +42,14 @@ describe 'Generic File' do
   end
 
 
-  def upload_public_file(work, visibility)
+  def upload_my_file(work, visibility)
     login_as another_user
     visit new_curation_concern_generic_file_path(work)
-    upload_1 = '/Users/valerie/valerie/program/workspace/dce/code/curate/spec/fixtures/files/image.png'
+    uploaded_file = File.join(Rails.root, '..', '..', 'spec/fixtures/files/image.png')
 
     within("form.new_generic_file") do
       fill_in("Title", with: 'image.png')
-      attach_file("Upload a file", upload_1)
+      attach_file("Upload a file", uploaded_file)
       choose(visibility)
       click_on("Attach to Generic Work")
     end
