@@ -63,7 +63,6 @@ describe 'user profile workflow', describe_options do
 
       # Verify that everything got updated
       user.name.should == new_name
-      user.preferred_email.should == new_pref
       user.alternate_email.should == new_alt
       user.date_of_birth.should == new_dob
       user.gender.should == new_gender
