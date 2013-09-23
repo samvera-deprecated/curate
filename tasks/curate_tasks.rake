@@ -37,8 +37,9 @@ task :generate do
     system_with_command_output('rails new ' + DUMMY_APP)
     puts "Updating gemfile"
 
-    `echo "gem 'active-fedora', git: 'git://github.com/projecthydra/active_fedora.git'
+    `echo "gem 'active-fedora', git: 'git://github.com/projecthydra/active_fedora.git', ref: 'b77c542997c03f5184cc0ed1a414eac388e93d36'
 gem 'sufia', git: 'git://github.com/projecthydra/sufia.git'
+gem 'blacklight', git: 'git://github.com/jeremyf/blacklight.git', branch: 'adding-max-pages-for-kaminari'
 gem 'curate', :path=>'../../../curate'
 gem 'capybara'
 gem 'selenium-webdriver'
