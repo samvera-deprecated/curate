@@ -2,36 +2,20 @@ require 'spec_helper'
 
 describe Person do
 
-
-  describe 'Profile' do
-
-    context '#create_profile' do
-      let(:name) { "Bilbo Baggins" }
-      let(:user) { FactoryGirl.create(:user, name: name) }
-      let(:person) { user.person }
-
-      it 'creates a profile with class Collection' do
-        person.create_profile(user)
-        person = Person.find(user.repository_id)    # reload
-        person.profile.class.should == Collection
-      end
-
-      it 'sets depositor metadata' do
-        person.create_profile(user)
-        person.profile.depositor.should == user.to_s
-      end
-
-      it 'sets the title of the profile' do
-        person.create_profile(user)
-        person.profile.title.should == person.name
-      end
-
-      it 'has public visibility by default' do
-        profile = person.create_profile(user)
-        profile.read_groups.should == [Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC]
-      end
+  describe 'associated with a user' do
+    subject { FactoryGirl.create(:person_with_user) }
+    its(:user) { should be_instance_of User }
+    it '#profile' do
+      expect(subject.profile).to be_instance_of Collection
+      expect(subject.profile.depositor).to eq subject.user.to_s
+      expect(subject.profile.title).to eq subject.name
+      expect(subject.profile.read_groups).to eq [Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC]
     end
+  end
 
+  describe 'not associated with a user' do
+    subject { FactoryGirl.create(:person) }
+    its(:user) { should be_nil }
   end
 
 end
