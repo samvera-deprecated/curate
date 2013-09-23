@@ -45,7 +45,7 @@ describe 'Generic File' do
   def upload_my_file(work, visibility)
     login_as another_user
     visit new_curation_concern_generic_file_path(work)
-    uploaded_file = File.join(Rails.root, '..', '..', 'spec/fixtures/files/image.png')
+    uploaded_file = File.join(fixture_path, 'files/image.png')
 
     within("form.new_generic_file") do
       fill_in("Title", with: 'image.png')
