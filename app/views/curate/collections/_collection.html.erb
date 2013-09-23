@@ -1,3 +1,10 @@
-<tr><td>
-  <%= render_index_field_value collection, field: 'desc_metadata__title_tesim' %>
-  </td></tr>
+<tr>
+  <td>
+    <%= render_index_field_value collection, field: 'desc_metadata__title_tesim' %>
+  </td>
+  <td>
+    <% if can? :edit, collection %>
+      <%=link_to "Edit", edit_collection_path(collection) %>
+    <% end %>
+  </td>
+</tr>
