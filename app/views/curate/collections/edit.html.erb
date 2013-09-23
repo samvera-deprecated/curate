@@ -1,0 +1,6 @@
+<h1><%= @collection %> (collection)</h1>
+
+<%=form_for @collection do |f| %>
+  <%= render partial: 'form_permission', locals: {f: f} %>
+  <%= f.submit class: 'btn btn-primary' %>
+<% end %>
