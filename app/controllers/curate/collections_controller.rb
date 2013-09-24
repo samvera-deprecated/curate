@@ -1,6 +1,8 @@
 class Curate::CollectionsController < ApplicationController
-  include Hydra::CollectionsControllerBehavior
   include Blacklight::Catalog
+  # Hydra::CollectionsControllerBehavior must come after Blacklight::Catalog
+  # so that the update method is overridden.
+  include Hydra::CollectionsControllerBehavior
   with_themed_layout '1_column'
 
   add_breadcrumb 'Collections', lambda {|controller| controller.request.path }
@@ -22,7 +24,6 @@ class Curate::CollectionsController < ApplicationController
       format.json { render json: @collection, status: :created, location: @collection }
     end
   end
-    
 
   ### Turn off this filter query if it's the index action
   def include_collection_ids(solr_parameters, user_parameters)
@@ -39,6 +40,12 @@ class Curate::CollectionsController < ApplicationController
   # show only files with edit permissions in lib/hydra/access_controls_enforcement.rb apply_gated_discovery
   def discovery_permissions
     ["edit"]
+  end
+
+  # Proxy engine (collections) routes to the local routes
+  #  e.g. collections.collection_path(@collection)
+  def collections
+    self
   end
 end
 
