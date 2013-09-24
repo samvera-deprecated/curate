@@ -46,7 +46,9 @@ gem 'selenium-webdriver'
 gem 'factory_girl_rails'
 gem 'timecop'
 gem 'rspec-html-matchers'
-gem 'test_after_commit', :group => :test
+gem 'database_cleaner', '< 1.1.0', :group => :test
+gem 'test_after_commit', group: :test
+gem 'poltergeist', group: :test
 gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'" >> #{DUMMY_APP}/Gemfile`
 
     puts "Copying generator"

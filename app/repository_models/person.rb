@@ -60,17 +60,4 @@ class Person < ActiveFedora::Base
     persisted? ? User.where(repository_id: pid).first : nil
   end
 
-  # Create associated Profile (which is a Collection object)
-  # Note: marks the profile with resource_type "Profile" (default is Collection) so it can be displayed in Search Results and Facets
-  #   as a Profile instead of a Collection.
-  def create_profile(depositor)
-    collection = Collection.new(title: self.name, resource_type: "Profile")
-    collection.apply_depositor_metadata(depositor.user_key)
-    collection.read_groups = [Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC]
-    collection.save!
-    self.profile = collection
-    self.save!
-    self.profile
-  end
-
 end

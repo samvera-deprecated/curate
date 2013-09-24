@@ -1,7 +1,10 @@
 module Curate
   module User
     module Base
-
+      extend ActiveSupport::Concern
+      included do
+        alias_attribute :name, :display_name
+      end
       def agree_to_terms_of_service!
         update_column(:agreed_to_terms_of_service, true)
       end
