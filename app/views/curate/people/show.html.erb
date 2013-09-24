@@ -11,14 +11,7 @@
     <p><%= @person.profile.description %> </p>
 
     <div id="documents" class="clear">
-      <ul>
-        <% @person.profile.members.each do |work| %>
-          <li>
-            <%= link_to work.title, curation_concern_generic_work_path(work) %>
-            <%= "(#{work.contributor.join(', ')})" %>
-          </li>
-        <% end %>
-      </ul>
+      <%= list_items_in_collection(@person.profile) %>
     </div>
   <% end %>
 </div>
