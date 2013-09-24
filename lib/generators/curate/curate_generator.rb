@@ -97,7 +97,9 @@ This generator makes the following changes to your application:
 
   # This enables our registrations controller to run the after_update_path_for hook.
   def update_devise_route
-    gsub_file 'config/routes.rb', /^\s+devise_for :users\s*$/, '  devise_for :users, controllers: { sessions: :sessions, registrations: :registrations }'
+    gsub_file 'config/routes.rb', /^\s+devise_for :users\s*$/ do
+      %(    devise_for :users, controllers: { sessions: :sessions, registrations: :registrations}\n\n)
+    end
   end
 
 
