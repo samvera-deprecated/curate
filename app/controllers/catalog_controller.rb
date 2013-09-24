@@ -330,6 +330,12 @@ class CatalogController < ApplicationController
   end
 
   protected
+    # show only files with edit permissions in lib/hydra/access_controls_enforcement.rb apply_gated_discovery
+    def discovery_permissions
+      return ["edit"] if params[:works] == 'mine'
+      super
+    end
+
 
     # Limits search results just to GenericFiles
     # @param solr_parameters the current solr parameters
