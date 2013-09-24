@@ -31,4 +31,32 @@ describe Curate::CollectionsController do
     end
   end
 
+  describe "without access" do
+    describe "#update" do
+      let(:collection) { FactoryGirl.create(:collection) }
+      it "should be able to update permissions" do
+        patch :update, id: collection.id, visibility: Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+        expect(response).to redirect_to root_path
+        expect(flash[:alert]).to eq 'You are not authorized to access this page.'
+
+        collection.reload.should_not be_open_access
+
+      end
+    end
+  end
+
+  describe "with access" do
+    describe "#update" do
+      let(:collection) { FactoryGirl.create(:collection, user: user) }
+      it "should be able to update permissions" do
+        patch :update, id: collection.id, collection: {visibility: Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
+        expect(response).to redirect_to collection_path(collection)
+        expect(flash[:notice]).to eq 'Collection was successfully updated.'
+
+        collection.reload.should be_open_access
+
+      end
+    end
+  end
+
 end
