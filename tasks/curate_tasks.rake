@@ -38,9 +38,9 @@ task :generate do
     puts "Updating gemfile"
 
     `echo "gem 'active-fedora', git: 'git://github.com/projecthydra/active_fedora.git', ref: 'b77c542997c03f5184cc0ed1a414eac388e93d36'
-gem 'sufia', git: 'git://github.com/projecthydra/sufia.git'
 gem 'curate', :path=>'../../../curate'
 gem 'capybara'
+gem 'launchy'
 gem 'selenium-webdriver'
 gem 'factory_girl_rails'
 gem 'timecop'

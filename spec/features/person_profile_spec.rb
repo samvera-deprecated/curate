@@ -9,7 +9,7 @@ describe 'Profile for a Person: ' do
     before { login_as(user) }
 
     it 'will see a link to their profile in the nav' do
-      visit dashboard_index_path
+      visit catalog_index_path
       page.should have_link("Profile", href: person_path(account.person))
     end
   end

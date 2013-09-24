@@ -50,7 +50,7 @@ describe 'An existing generic work' do
     login_as(user)
     visit curation_concern_generic_work_path(work)
     click_link 'Add an External Link'
-    page.should have_link('Cancel', href: dashboard_index_path)
+    page.should have_link('Cancel', href: catalog_index_path)
   end
 
   context 'when the user has no collections yet,' do

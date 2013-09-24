@@ -21,7 +21,7 @@ module CurateController
   included do
     include BreadcrumbsOnRails::ActionController
     include Curate::ThemedLayoutController
-    add_breadcrumb "Dashboard", :dashboard_index_path
+    add_breadcrumb "Dashboard", :catalog_index_path
 
     rescue_from StandardError, with: :exception_handler
 
