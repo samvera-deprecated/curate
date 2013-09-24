@@ -20,6 +20,32 @@ module Curate::CollectionsHelper
   def has_any_collections?
     current_user.collections.count > 0
   end
-  
+
+  def list_items_in_collection(collection, terminate=false)
+    content_tag :ul do
+      collection.members.inject('') do |output, member|
+        output << member_line_item(member, terminate)
+      end.html_safe
+    end
+  end
+
+  def member_line_item(member, terminate)
+    content_tag :li do
+      member.respond_to?(:members) ? collection_line_item(member, terminate) : work_line_item(member)
+    end
+  end
+
+  def work_line_item(work)
+    link = link_to work.title, polymorphic_path_for_asset(work)
+    contributors = work.contributor.empty? ? '' : "(#{work.contributor.join(', ')})"
+    link + ' ' + contributors
+  end
+
+  def collection_line_item(collection, terminate)
+    list_item = link_to(collection.to_s, collection_path(collection))
+    list_item << list_items_in_collection(collection, true) unless terminate  # limit nesting
+    list_item
+  end
+
 end
 
