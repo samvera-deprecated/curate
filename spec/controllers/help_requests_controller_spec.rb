@@ -26,7 +26,7 @@ describe HelpRequestsController do
         sign_in(user)
         post(:create, help_request: attributes)
         expect(response.status).to eq(302)
-        expect(response).to redirect_to(dashboard_index_path)
+        expect(response).to redirect_to(catalog_index_path)
       end
     end
     describe 'failure' do

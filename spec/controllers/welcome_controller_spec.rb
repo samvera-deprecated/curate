@@ -26,7 +26,7 @@ describe WelcomeController do
       another_user.save!
       sign_in another_user
       get :new
-      response.should redirect_to(@routes.url_helpers.dashboard_index_path)
+      response.should redirect_to(@routes.url_helpers.catalog_index_path)
     end
   end
 end

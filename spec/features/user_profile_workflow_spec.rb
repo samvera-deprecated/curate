@@ -71,7 +71,7 @@ describe 'user profile workflow', FeatureSupport.options do
       assert_user_has_not_updated_their_profile_yet(email)
       assert_logout_link_is_visible
 
-      visit dashboard_index_path
+      visit catalog_index_path
       assert_logout_link_is_visible
     end
   end

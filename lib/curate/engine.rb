@@ -5,7 +5,6 @@ module Curate
       @curate_paths ||= begin
         super_paths = super
         super_paths.add "app/repository_datastreams", eager_load: true
-        super_paths.add "app/repository_models", eager_load: true
         super_paths.add "app/repository_models/curation_concern", eager_load: true
         super_paths.add "app/services", eager_load: true
         super_paths.add "app/validators", eager_load: true
@@ -18,6 +17,7 @@ module Curate
     end
 
     config.autoload_paths += %W(
+       #{config.root}/app/repository_models
        #{config.root}/app/repository_models/concerns
     )
 
@@ -31,10 +31,11 @@ module Curate
     initializer "curate" do |app|
       require File.expand_path("../active_model_adaptor", __FILE__)
       require 'curate/rails/routes' 
-      require 'hydra-collections' 
+      require 'sufia/models'
       require File.expand_path('../../../app/workers/characterize_job', __FILE__)
       require File.expand_path('../../../app/repository_datastreams/file_content_datastream', __FILE__)
       require File.expand_path('../../../app/repository_models/generic_file', __FILE__)
+      require File.expand_path('../../../app/repository_models/collection', __FILE__)
 
       require File.expand_path('../../../app/builders/accordion_builder_helper', __FILE__)
       require File.expand_path('../../../app/builders/bootstrap_breadcrumbs_builder', __FILE__)

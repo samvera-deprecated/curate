@@ -8,7 +8,6 @@ class CatalogController < ApplicationController
   include BreadcrumbsOnRails::ActionController
   include Curate::ThemedLayoutController
 
-  add_breadcrumb 'Search', lambda {|controller| controller.request.path }
   with_themed_layout 'catalog'
   def show_site_search?
     false
@@ -22,6 +21,8 @@ class CatalogController < ApplicationController
   # This filters out objects that you want to exclude from search results, like FileAssets
   CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
 
+  before_filter :agreed_to_terms_of_service!
+  
   skip_before_filter :default_html_head
 
   def index
