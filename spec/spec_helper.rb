@@ -11,19 +11,9 @@ require File.expand_path("../internal/config/environment.rb",  __FILE__)
 
 require File.expand_path('../spec_patch', __FILE__)
 require 'curate/spec_support'
+require 'database_cleaner'
 
-# This is hear because it cannot be part of spec_support as other
-# Curate based apps would very likely register a :user
-FactoryGirl.define do
-  factory :user do
-    sequence(:email) {|n| "email-#{srand}@test.com" }
-    agreed_to_terms_of_service true
-    user_does_not_require_profile_update true
-    password 'a password'
-    password_confirmation 'a password'
-    sign_in_count 20
-  end
-end
+require 'curate/internal/factories'
 
 Rails.backtrace_cleaner.remove_silencers!
 
@@ -37,7 +27,6 @@ RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
   config.fixture_path = File.expand_path("../fixtures", __FILE__)
-  
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
@@ -50,6 +39,20 @@ RSpec.configure do |config|
     file_path: config.escaped_path(%w[spec inputs])
   }
 
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
+
+  config.before(:suite) do
+    ActiveFedora::Base.destroy_all
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 
 end

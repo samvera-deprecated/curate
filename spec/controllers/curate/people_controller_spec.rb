@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Curate::PeopleController do
-  let!(:user) { FactoryGirl.create(:user) }
-  let!(:person) { user.person }
+  let(:person) { FactoryGirl.create(:person_with_user) }
+  let(:user) { person.user }
   let(:a_different_user) { FactoryGirl.create(:user) }
 
   describe "#show" do

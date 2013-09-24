@@ -8,8 +8,10 @@ FactoryGirl.define do
   end
   factory :person_with_user, class: Person do
     initialize_with {
-      user = FactoryGirl.create(:user)
-      user.person
+      user = FactoryGirl.build(:user)
+      account = Account.new(user)
+      account.save
+      account.person
     }
   end
 end
