@@ -1,4 +1,7 @@
 class Curate::PeopleController < ApplicationController
+  include Sufia::Noid # for normalize_identifier method
+  prepend_before_filter :normalize_identifier, except: [:index, :new, :create]
+
   respond_to :html
   with_themed_layout
 
