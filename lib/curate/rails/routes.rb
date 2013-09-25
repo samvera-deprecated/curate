@@ -6,13 +6,6 @@ module ActionDispatch::Routing
         resources 'collections'
         resources 'people', only: :show
       end
-      resources 'dashboard', only: :index do
-        collection do
-          get 'page/:page', action: :index
-          get 'facet/:id',  action: :facet, as: :dashboard_facet
-          get 'related/:id', action: :get_related_file, as: :related_file
-        end
-      end
       resources :downloads, only: [:show]
 
       namespace :curation_concern, path: :concern do

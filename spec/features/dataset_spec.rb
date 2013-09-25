@@ -49,7 +49,7 @@ describe 'An existing dataset' do
     login_as(user)
     visit curation_concern_dataset_path(dataset)
     click_link 'Add an External Link'
-    page.should have_link('Cancel', href: dashboard_index_path)
+    page.should have_link('Cancel', href: catalog_index_path)
   end
 end
 

@@ -49,6 +49,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'selenium-webdriver'
   s.add_development_dependency 'timecop'
   s.add_development_dependency 'jettywrapper'
+  s.add_development_dependency 'launchy'
   s.add_development_dependency 'database_cleaner', '< 1.1.0'
   s.add_development_dependency 'poltergeist'
 end
