@@ -25,8 +25,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.0.0"
   s.add_dependency "breach-mitigation-rails"
-  s.add_dependency 'sufia-models', '~>3.2'
-  s.add_dependency 'solrizer', '~>3.0'
+  s.add_dependency 'sufia-models', '~>3.3'
   s.add_dependency 'hydra-head', '~>6.3.4'
   s.add_dependency 'blacklight', '~> 4.0', '< 4.4' # blacklight 4.4.1/0 doesn't work with kaminari > 0.14.1
   s.add_dependency 'hydra-batch-edit', '~> 1.0.0'
