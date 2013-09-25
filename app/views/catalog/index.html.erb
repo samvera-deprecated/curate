@@ -1,20 +1,4 @@
 <% content_for :page_title, "#{application_name} Search Results" %>
-<% content_for :page_header do %>
-
-<div class="row">
-
-    <div class="span8">
-      <h2>Search <%=t('sufia.product_name') %></h2>
-    </div>
-
-    <div class="span4 page-search">
-      <%= render 'shared/site_search' %>
-    </div>
-
-</div>
-
-<% end %>
-
 <% content_for :sidebar do %>
 
   <%= render 'facets' %>

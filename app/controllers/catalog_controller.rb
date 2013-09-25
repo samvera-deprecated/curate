@@ -9,10 +9,6 @@ class CatalogController < ApplicationController
   include Curate::ThemedLayoutController
 
   with_themed_layout 'catalog'
-  def show_site_search?
-    false
-  end
-  protected :show_site_search?
 
   # These before_filters apply the hydra access controls
   before_filter :enforce_show_permissions, :only=>:show
