@@ -71,7 +71,6 @@ class Article < ActiveFedora::Base
     default: ['English'],
     datastream: :descMetadata, multiple: true
   attribute :publisher,
-    default: ["University of Notre Dame"],
     datastream: :descMetadata, multiple: true
   attribute :coverage_spatial,
     datastream: :descMetadata, multiple: false
