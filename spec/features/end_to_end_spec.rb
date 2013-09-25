@@ -356,7 +356,9 @@ describe 'end to end behavior', describe_options do
   end
 
   def other_persons_thesis_is_not_in_my_dashboard
-    visit "/dashboard"
+    visit "/catalog"
+    choose 'works_mine'
+    click_on 'aux-search-submit-header'  # this is hidden if javascript is enabled
     search_term = "\"#{updated_title}\""
     within(".search-form") do
       fill_in("q", with: search_term)
