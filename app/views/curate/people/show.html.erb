@@ -1,10 +1,21 @@
 <% content_for :page_title, "#{person_name_or_stub(@person)} // Curate" %>
 
 <% content_for :page_header do %>
-  <h1><%= @person.name %> </h1>
+  <h1><%= @person.name %></h1>
   <h3><%= @person.title %> </h3>
+  <p><%= link_to "edit profile", edit_user_registration_path %></p> 
 <% end %>
-
+<table class="table table-striped <%= dom_class(@person) %> attributes">
+  <tbody>
+  <tr><th>Campus Phone: </th><td><ul class='tabular'><%= @person.campus_phone_number %></ul></td></tr>
+  <tr><th>Alternate Phone: </th><td><ul class='tabular'><%= @person.alternate_phone_number %></ul></td></tr>
+  <tr><th>Preferred Email: </th><td><ul class='tabular'><%= @person.preferred_email %></ul></td></tr>
+  <tr><th>Alternate Email: </th><td><ul class='tabular'><%= @person.alternate_email %></ul></td></tr>
+  <tr><th>Date of Birth: </th><td><ul class='tabular'><%= @person.date_of_birth %></ul></td></tr>
+  <tr><th>Personal Webpage: </th><td><ul class='tabular'><%= @person.personal_webpage %></ul></td></tr>
+  <tr><th>Blog: </th><td><ul class='tabular'><%= @person.blog %></ul></td></tr>
+  </tbody>
+</table>
 <div id="person_profile">
   <% if profile_has_contents?(@person) %>
     <h3><%= "Selected Works of #{@person.name}" %> </h3>
