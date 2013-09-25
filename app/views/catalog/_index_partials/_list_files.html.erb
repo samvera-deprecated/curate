@@ -4,7 +4,7 @@
   <%- gf = ActiveFedora::Base.load_instance_from_solr(document.id) %>
   <td>
     <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
-    <%= render :partial => 'dashboard/_index_partials/thumbnail_display', :locals => {:document=>document} %>
+    <%= render :partial => 'catalog/_index_partials/thumbnail_display', :locals => {:document=>document} %>
     <span class="center"><%= link_to gf, polymorphic_path_for_asset(gf), :id => "src_copy_link_#{noid}" %> <br /></span>
   </td>
   <td><%= gf.human_readable_type %></td>

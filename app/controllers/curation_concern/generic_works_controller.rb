@@ -77,7 +77,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   def after_destroy_response
     flash[:notice] = "Deleted #{title}"
     respond_with { |wants|
-      wants.html { redirect_to dashboard_index_path }
+      wants.html { redirect_to catalog_index_path }
     }
   end
   protected :after_destroy_response

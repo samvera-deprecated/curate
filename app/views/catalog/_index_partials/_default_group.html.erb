@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped" id="documents">
   <caption class="accessible-hidden">List of files deposited in <%= t('sufia.product_name') %> that match your search criteria</caption>
 <% unless params[:display_type] == 'list' %>
   <thead>
@@ -15,7 +15,7 @@
   <% end %>
   <tbody>
   <% docs.each_with_index do |document,counter| %>
-    <%= render :partial => '/dashboard/_index_partials/list_files', :locals => {:document => document, :counter => counter} %>
+    <%= render partial: '/catalog/_index_partials/list_files', :locals => {:document => document, :counter => counter} %>
   <% end %>
   </tbody>
 </table>
