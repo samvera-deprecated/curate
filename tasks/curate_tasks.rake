@@ -41,7 +41,6 @@ task :generate do
 gem 'curate', :path=>'../../../curate'
 gem 'capybara'
 gem 'launchy'
-gem 'selenium-webdriver'
 gem 'factory_girl_rails'
 gem 'timecop'
 gem 'rspec-html-matchers'
