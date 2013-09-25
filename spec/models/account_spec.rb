@@ -39,6 +39,7 @@ describe Account do
     let(:person) { user.person }
     let(:alternate_email) { 'somewhere@not-here.com'}
     subject { FactoryGirl.create(:account) }
+
     describe 'with valid attributes' do
       it 'should update the user' do
         expect {
@@ -48,6 +49,13 @@ describe Account do
         }.to change(person, :alternate_email).to(alternate_email)
       end
 
+      it 'if the person name changes, it keeps profile title in sync' do
+        new_name = 'Meriadoc Brandybuck'
+        subject.update_with_password(current_password: password, name: new_name)
+        person.name.should == new_name
+        person.profile.reload
+        person.profile.title.should == new_name
+      end
     end
 
     describe 'with invalid attributes' do
@@ -112,6 +120,16 @@ describe Account do
         }.to_not change(Collection, :count)
         expect(subject.errors).to_not be_empty
       end
+    end
+  end
+
+  describe 'a user with no name' do
+    let(:user) { FactoryGirl.build(:user) }
+    subject { Account.new(user) }
+
+    it 'has a default title for the profile' do
+      subject.name.should be_nil
+      subject.profile.title.should == 'Profile'
     end
   end
 

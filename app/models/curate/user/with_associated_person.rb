@@ -18,11 +18,11 @@ module Curate
       end
 
       def person
-        if self.repository_id
-          @person ||= Person.find(self.repository_id)
-        else
-          Person.new
-        end
+        @person ||= if self.repository_id
+                      Person.find(self.repository_id)
+                    else
+                      Person.new
+                    end
       end
 
     end
