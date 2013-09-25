@@ -5,7 +5,7 @@ if ENV['JS']
   describe_options[:js] = true
 end
 
-describe 'end to end behavior', describe_options do
+describe 'end to end behavior', FeatureSupport.options(describe_options) do
   before(:all) {
     ActiveFedora::Base.destroy_all
   }
