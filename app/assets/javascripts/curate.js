@@ -21,13 +21,14 @@
 //= require bootstrap-collapse
 //= require bootstrap-tooltip
 //= require bootstrap-popover
-//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
 //
 //= require manage_repeating_fields
 //= require toggle_details
 //= require help_modal
 //= require jquery.tokeninput
 //= require curate/select_works
+//= require curate/facet_mine
 
 $(function(){
   $('abbr').tooltip();
