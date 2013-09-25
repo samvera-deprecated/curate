@@ -133,12 +133,6 @@ This generator makes the following changes to your application:
     end
   end
 
-  def add_views_for_devise
-    src_file = 'views/devise/registrations/edit.html.erb'
-    dest_file = 'app/views/devise/registrations/edit.html.erb'
-    copy_file(src_file, dest_file)
-  end
-
   def remove_blacklight
     remove_file('app/assets/stylesheets/blacklight.css.scss')
   end
