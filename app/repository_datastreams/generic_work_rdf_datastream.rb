@@ -53,7 +53,7 @@ class GenericWorkRdfDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :searchable, :facetable
     end
 
-    map.archived_object_type({in: RDF::DC, to: 'type'}) do |index|
+    map.resource_type({in: RDF::DC, to: 'type'}) do |index|
       index.as :stored_searchable, :facetable
     end
 
