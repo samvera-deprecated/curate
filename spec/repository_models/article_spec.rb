@@ -7,7 +7,7 @@ describe Article do
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_common_solr_fields'
 
-  it { should have_unique_field(:archived_object_type) }
+  it { should have_unique_field(:resource_type) }
   it { should have_unique_field(:abstract) }
   it { should have_unique_field(:title) }
   it { should have_unique_field(:journal_information) }

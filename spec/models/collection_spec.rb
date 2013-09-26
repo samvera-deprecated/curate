@@ -22,4 +22,13 @@ describe Collection do
     end
   end
 
+  describe "to_solr" do
+    before { subject.resource_type = 'Profile' } 
+    let(:solr_doc) {subject.to_solr}
+    it "should have field" do
+     solr_doc['desc_metadata__resource_type_sim'].should == [subject.human_readable_type]
+     solr_doc['generic_type_sim'].should == ['Collection']
+    end
+  end
+
 end

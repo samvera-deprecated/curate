@@ -5,7 +5,7 @@ class Collection < ActiveFedora::Base
 
   has_many :associated_persons, property: :has_profile, class_name: 'Person'
 
-  delegate_to :descMetadata, [:resource_type], :unique => true
+  delegate_to :descMetadata, [:resource_type], unique: true
 
   # Reads from resource_type attribute.
   # Defaults to "Collection", but can be set to something else.
@@ -25,7 +25,7 @@ class Collection < ActiveFedora::Base
 
   def to_solr(solr_doc={}, opts={})
     super
-    solr_doc[Solrizer.solr_name("desc_metadata__archived_object_type", :facetable)] = human_readable_type
+    Solrizer.set_field(solr_doc, 'generic_type', 'Collection', :facetable)
     solr_doc
   end
 end

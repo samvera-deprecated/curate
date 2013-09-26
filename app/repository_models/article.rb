@@ -37,7 +37,7 @@ class Article < ActiveFedora::Base
     label: "Abstract or Summary of the Artical",
     datastream: :descMetadata, multiple: false,
     validates: { presence: { message: 'Your Article must have an abstract.' } }
-  attribute :archived_object_type,
+  attribute :resource_type,
     label: "Archived Content Type",
     datastream: :descMetadata, multiple: false
   attribute :content_format,
