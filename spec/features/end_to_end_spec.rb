@@ -333,7 +333,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       page.should have_content(updated_title)
     end
     within('.alert.alert-info') do
-      page.should have_content("You searched for: #{search_term}")
+      page.should have_content("Limited to: #{search_term}")
     end
 
     within('#facets') do
@@ -348,7 +348,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
     end
     within('.alert.alert-info') do
-      page.should have_content("You searched for: #{search_term}")
+      page.should have_content("Limited to: #{search_term}")
     end
     within('.alert.alert-warning') do
       page.should have_content('Generic Work')
