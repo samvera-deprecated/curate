@@ -19,12 +19,19 @@ class Account
   end
 
   attr_reader :user
+
   def person
-    @person ||= Person.new(name: user.name)
+    return @person if @person
+    @person = if user.person
+                user.person
+              else
+                user.person = Person.new(name: user.name)
+              end
+    @person
   end
 
   def profile
-    @profile ||= Collection.new(title: person.name, resource_type: "Profile")
+    @profile ||= person.profile || Collection.new(title: profile_title, resource_type: "Profile")
   end
 
   class_attribute :person_attribute_names
@@ -72,6 +79,9 @@ class Account
     person.errors.each do |key, value|
       errors.add(key, value)
     end
+    profile.errors.each do |key, value|
+      errors.add(key, value)
+    end
   end
   protected :collect_errors
 
@@ -79,7 +89,8 @@ class Account
     params = normalize_update_params(initial_params)
     extract_user_and_person_attributes_for_update(params)
     if user.update_with_password(user_attributes, *options) &&
-      user.person.update(person_attributes)
+      user.person.update(person_attributes) &&
+      sync_profile_title_to_name(person_attributes)
       true
     else
       collect_errors
@@ -171,6 +182,15 @@ class Account
         end
       end
     end
+  end
+
+  def profile_title
+    person.name.nil? ? 'Profile' : person.name
+  end
+
+  def sync_profile_title_to_name(update_attributes)
+    return true unless update_attributes[:name]
+    profile.update(title: profile_title)
   end
 
 end
