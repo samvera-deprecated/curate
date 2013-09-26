@@ -56,7 +56,7 @@ describe 'Editing existing works', describe_options do
       page.should have_field("generic_work_related_work_tokens", with: "")
       fill_in 'generic_work_related_work_tokens', :with => [dataset1.pid, dataset2.pid].join(", ")
       click_button 'Update Related Works'
-      page.should have_field("generic_work_related_work_tokens", with: [dataset1.pid, dataset2.pid].join(", "))
+      find_field('generic_work_related_work_tokens').value.split(', ').should include(dataset1.pid, dataset2.pid)
       # REMOVING [plain]
       fill_in 'generic_work_related_work_tokens', :with => dataset2.pid
       click_button 'Update Related Works'
