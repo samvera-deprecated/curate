@@ -60,4 +60,10 @@ class Person < ActiveFedora::Base
     persisted? ? User.where(repository_id: pid).first : nil
   end
 
+  def to_solr(solr_doc={}, opts={})
+    super(solr_doc, opts)
+    Solrizer.set_field(solr_doc, 'generic_type', 'Person', :facetable)
+    solr_doc
+  end
+
 end

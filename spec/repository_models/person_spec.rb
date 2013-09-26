@@ -18,4 +18,11 @@ describe Person do
     its(:user) { should be_nil }
   end
 
+  describe 'to_solr' do
+    let(:solr_doc) {subject.to_solr}
+    it "should have a generic_type" do
+      solr_doc['generic_type_sim'].should == ['Person']
+    end
+  end
+
 end
