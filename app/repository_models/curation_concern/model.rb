@@ -46,6 +46,7 @@ module CurationConcern
       super(solr_doc, opts)
       index_collection_pids(solr_doc)
       solr_doc[Solrizer.solr_name('noid', Sufia::GenericFile.noid_indexer)] = noid
+      Solrizer.set_field(solr_doc, 'desc_metadata__resource_type', 'Work', :facetable)
       return solr_doc
     end
 
