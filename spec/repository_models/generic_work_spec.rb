@@ -10,7 +10,7 @@ describe GenericWork do
   it_behaves_like 'has_common_solr_fields'
 
   it { should have_unique_field(:available) }
-  it { should have_unique_field(:archived_object_type) }
+  it { should have_unique_field(:resource_type) }
 
   context '#rights' do
     it 'has a default value' do

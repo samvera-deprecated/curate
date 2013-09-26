@@ -45,7 +45,7 @@ class PersonMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
 
-    map.archived_object_type({in: RDF::DC, to: 'type'}) do |index|
+    map.resource_type({in: RDF::DC, to: 'type'}) do |index|
       index.as :stored_searchable, :facetable
     end
   end
