@@ -3,11 +3,12 @@ require 'spec_helper'
 describe Dataset do
   subject { Dataset.new }
 
-  include_examples 'is_a_curation_concern_model'
-  include_examples 'with_access_rights'
-  include_examples 'with_related_works'
-  include_examples 'is_embargoable'
-  include_examples 'has_dc_metadata'
+  it_behaves_like 'is_a_curation_concern_model'
+  it_behaves_like 'with_access_rights'
+  it_behaves_like 'with_related_works'
+  it_behaves_like 'is_embargoable'
+  it_behaves_like 'has_dc_metadata'
+  it_behaves_like 'has_common_solr_fields'
 
   it { should have_unique_field(:available) }
 
