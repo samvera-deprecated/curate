@@ -24,7 +24,7 @@ module Curate::CatalogHelper
   private
 
     def type_field
-      Solrizer.solr_name("desc_metadata__archived_object_type", :facetable)
+      Solrizer.solr_name("generic_type", :facetable)
     end
 
 end
