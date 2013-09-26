@@ -5,10 +5,20 @@
 
 <% end %>
 
-<h3>Search Results</h3>
+<div class="navbar">
+  <div class="navbar-inner">
+    <ul class="nav">
+      <%= type_tab 'Works', 'Work' %> 
+      <%= type_tab 'Collections', 'Collection' %> 
+      <%= type_tab 'People', 'Person' %> 
+      <%= all_type_tab %>
+    </ul>
+  </div>
+</div>
+
 <div class="alert alert-info search-constraints">
   <i class="icon-search icon-large"></i>
-  You searched for:
+  Limited to:
     <%= render_constraints(params) %>
 </div>
 
@@ -16,12 +26,9 @@
 <%= render :partial => 'facet_selected' %>
 
 <div class="row">
-  <div class="span6">
+  <div class="span9">
     <%= render_pagination_info @response, :entry_name=>'item' %>
     <%= render 'sort_and_per_page' %>
-  </div>
-  <div class="span3 emphatic-action-area">
-    <%= link_to "New Search", catalog_index_path, :id=>"startOverLink", :class=>"btn btn-primary pull-right" %>
   </div>
 </div>
 
