@@ -3,8 +3,9 @@ require 'spec_helper'
 describe Article do
   subject { Article.new }
 
-  include_examples 'with_access_rights'
-  include_examples 'is_embargoable'
+  it_behaves_like 'with_access_rights'
+  it_behaves_like 'is_embargoable'
+  it_behaves_like 'has_common_solr_fields'
 
   it { should have_unique_field(:archived_object_type) }
   it { should have_unique_field(:abstract) }
