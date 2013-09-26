@@ -7,7 +7,9 @@ describe "Collections" do
     login_as(user)
     visit root_path
     click_link "Get Started"
-    click_link "Collections"
+    within 'nav' do
+      click_link "Collections"
+    end
     click_button "Create Collection"
     expect(page).to have_content "Create New Collection"
     fill_in 'Title', with: 'amalgamate members'
