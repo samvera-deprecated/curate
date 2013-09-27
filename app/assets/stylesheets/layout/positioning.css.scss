@@ -63,15 +63,3 @@ dl.stacked {
 legend + .control-group {
   margin-top: 0px;
 }
-
-.thumbnail {
-  border: 2px solid $gray;
-  background-color: $grayLighter;
-  .icon{
-    text-align: center;
-    vertical-align: middle;
-    h3 {
-      margin: 1px;
-    }
-  }
-}
