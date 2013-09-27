@@ -17,6 +17,7 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
 
       describe 'with a file' do
         let(:attributes) {
+          puts "FACtory #{default_work_factory_name}"
           FactoryGirl.attributes_for(default_work_factory_name, visibility: visibility).tap {|a|
             a[:files] = file
           }

@@ -4,6 +4,7 @@ module RDF
   # URL resolves to the DC Term 'contributor'
   class QualifiedDC < Vocabulary("http://purl.org/dc/terms/")
     property "contributor#advisor".to_sym
+    property "publisher#country".to_sym
     property "identifier#doi".to_sym
     property "identifier#issn".to_sym
     property "contributor#repository".to_sym
@@ -15,6 +16,7 @@ module RDF
     property "format#extent".to_sym
     property "description#technical".to_sym
     property "description#abstract".to_sym
+    property "description#note".to_sym
     property "date#digitized".to_sym
     property "coverage#spatial".to_sym
     property "coverage#temporal".to_sym
