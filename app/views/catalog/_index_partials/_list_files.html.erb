@@ -1,46 +1,48 @@
 <% noid = document.noid %>
-
-<tr id="document_<%= noid %>" class="<%= cycle("","zebra") %>">
-  <%- gf = ActiveFedora::Base.load_instance_from_solr(document.id) %>
-  <td>
-    <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
+<%- gf = ActiveFedora::Base.load_instance_from_solr(document.id) %>
+<div id="document_<%= noid %>" class="row">
+  <div class="span1.5">
+    <%= counter + 1 %>
     <%= render :partial => 'catalog/_index_partials/thumbnail_display', :locals => {:document=>document} %>
-    <span class="center"><%= link_to gf, polymorphic_path_for_asset(gf), :id => "src_copy_link_#{noid}" %> <br /></span>
-  </td>
-  <td><%= gf.human_readable_type %></td>
-  <td width="17%"><%= gf.date_uploaded%></td>
-  <td width="5%">
-    <%= link_to_edit_permissions(gf, document) %>
-  </td>
-  <% if current_user -%>
-  <td width="23%" class="inline-item-actions">
-    <%= link_to(
-      raw('<i class="icon-pencil icon-large"></i>'),
-      edit_polymorphic_path_for_asset(gf),
-      :class=> 'itemicon itemedit',
-      :title => 'Edit File'
-    ) if can? :edit, gf %>
-    <%= link_to(
-      raw('<i class="icon-trash icon-large"></i>'),
-      edit_polymorphic_path_for_asset(gf),
-      :class=> 'itemicon itemtrash',
-      :title => %(Delete #{gf.to_s.inspect}),
-      :method => :delete,
-      data: {confirm: "Deleting #{gf.to_s.inspect} from #{t('sufia.product_name')} is permanent. Click OK to delete this from #{t('sufia.product_name')}, or Cancel to cancel this operation"}
-    ) if can? :destroy, gf %>
-  </td>
-  <% end -%>
-</tr>
-<tr class="hide" id="detail_<%= noid %>"> <!--  document detail"> -->
-  <td colspan="6">
-    <dl class="expanded-details">
-      <% index_fields.each do |solr_fname, field| -%>
-        <% if should_render_index_field? document, field %>
-          <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
-          <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document, :field => solr_fname %></dd>
+  </div>
+  <div class="span6">
+    <%= link_to gf, polymorphic_path_for_asset(gf), :id => "src_copy_link_#{noid}" %>
+    <ul style="list-style: none;">
+      <% unless gf.contributor.blank? %>
+        <li><strong>Author(s): </strong><%= render_field_value(gf.contributor) %></li>
+      <% end %>
+      <% unless gf.description.blank? %>
+        <li><strong>Description: </strong><%= truncate(render_field_value(gf.description), length: 150) %></li>
+      <% end %>
+      <% unless gf.publisher.blank? %>
+        <li><strong>Publisher(s): </strong><%= render_field_value gf.publisher %></li>
+      <% end %>
+      <li><%= link_to_edit_permissions(gf, document) %></li>
+    </ul>
+  </div>
+  <div class="span1">
+    <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
+    <% if current_user -%>
+      <%= link_to(
+        raw('<i class="icon-pencil icon-large"></i>'),
+        edit_polymorphic_path_for_asset(gf),
+        :class=> 'itemicon itemedit',
+        :title => 'Edit File'
+      ) if can? :edit, gf %>
+    <% end -%>
+  </div>
+</div>
+<div class="hide" id="detail_<%= noid %>">
+  <div class="row">
+    <div class="span6">
+      <dl class="expanded-details">
+        <% index_fields.each do |solr_fname, field| -%>
+          <% if should_render_index_field? document, field %>
+            <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
+            <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document, :field => solr_fname %></dd>
+          <% end -%>
         <% end -%>
-      <% end -%>
-
-    </dl>
-  </td>
-</tr>
+      </dl>
+    </div>
+  </div>
+</div>
