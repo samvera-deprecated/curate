@@ -7,14 +7,15 @@ FactoryGirl.define do
     before(:create) { |work, evaluator|
       work.apply_depositor_metadata(evaluator.user.user_key)
     }
+
+    factory :public_collection do
+      visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+    end
+
+    factory :private_collection do
+      visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+    end
   end
 
-  factory :public_collection, class: :collection do
-    sequence(:title) {|n| "Title #{n}"}
-    before(:create) { |work, evaluator|
-      work.apply_depositor_metadata(FactoryGirl.create(:user).user_key)
-      work.read_groups = ['public']
-    }
-  end
 end
 

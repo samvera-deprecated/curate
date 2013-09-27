@@ -185,9 +185,9 @@ describe CurationConcern::GenericFilesController do
     it 'does not allow another user to view it' do
       generic_file
       sign_in another_user
-      expect {
-        get :show, id: generic_file.to_param
-      }.to raise_rescue_response_type(:unauthorized)
+      get :show, id: generic_file.to_param
+      expect(response.status).to eq 401
+      response.should render_template(:unauthorized)
     end
   end
 
