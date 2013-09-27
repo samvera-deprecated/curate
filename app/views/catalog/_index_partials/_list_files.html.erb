@@ -1,13 +1,14 @@
 <% noid = document.noid %>
 <%- gf = ActiveFedora::Base.load_instance_from_solr(document.id) %>
-<div id="document_<%= noid %>" class="row">
-  <div class="span1.5">
+<li id="document_<%= noid %>" class="row-fluid search-result">
+  <div class="span3">
     <%= counter + 1 %>
-    <%= render :partial => 'catalog/_index_partials/thumbnail_display', :locals => {:document=>document} %>
+    <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: document} %>
   </div>
-  <div class="span6">
+
+  <div class="span8">
     <%= link_to gf, polymorphic_path_for_asset(gf), :id => "src_copy_link_#{noid}" %>
-    <ul style="list-style: none;">
+    <ul class="attributes">
       <% unless gf.contributor.blank? %>
         <li><strong>Author(s): </strong><%= render_field_value(gf.contributor) %></li>
       <% end %>
@@ -20,6 +21,7 @@
       <li><%= link_to_edit_permissions(gf, document) %></li>
     </ul>
   </div>
+
   <div class="span1">
     <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
     <% if current_user -%>
@@ -31,18 +33,18 @@
       ) if can? :edit, gf %>
     <% end -%>
   </div>
-</div>
-<div class="hide" id="detail_<%= noid %>">
-  <div class="row">
-    <div class="span6">
-      <dl class="expanded-details">
-        <% index_fields.each do |solr_fname, field| -%>
-          <% if should_render_index_field? document, field %>
-            <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
-            <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document, :field => solr_fname %></dd>
-          <% end -%>
-        <% end -%>
-      </dl>
-    </div>
-  </div>
-</div>
+
+</li>
+
+<li id="detail_<%= noid %>" class="row-fluid search-result-details hide">
+
+  <dl class="expanded-details span6 offset3">
+    <% index_fields.each do |solr_fname, field| -%>
+      <% if should_render_index_field? document, field %>
+        <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
+        <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document, :field => solr_fname %></dd>
+      <% end -%>
+    <% end -%>
+  </dl>
+
+</li>

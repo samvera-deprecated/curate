@@ -3,8 +3,8 @@ $(function(){
   $('.show-details').on('click', function(event){
     event.preventDefault();
     $(this)
-      .parents('div')
-      .next('div')
+      .parents('li')
+      .next('li')
       .toggleClass('hide');
   });
 });
