@@ -9,5 +9,12 @@ describe Collection do
     subject.members.should == [another_collection]
   end
 
+  it 'cannot contain itself' do
+    subject.members << subject
+    subject.save
+    subject.reload
+    subject.members.should == []
+  end
+
 end
 
