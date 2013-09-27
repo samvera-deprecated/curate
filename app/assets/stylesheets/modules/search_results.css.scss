@@ -1,0 +1,28 @@
+.search-results-list {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+
+.search-result {
+  border-top: 1px solid $grayLighter;
+  margin-top: 1em;
+  padding-top:.5em;
+
+  .attributes {
+    list-style-type:none;
+  }
+
+  .canonical-image {
+    width:90%;
+  }
+}
+
+.search-result:first-child {
+  border-top:none;
+  margin-top:0;
+  padding-top:0;
+}
+
+.search-result-details {
+}
