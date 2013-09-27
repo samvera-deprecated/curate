@@ -54,3 +54,17 @@ describe 'An existing article' do
   end
 end
 
+describe 'Viewing an Article that is private' do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:work) { FactoryGirl.create(:private_article, title: "Sample work" ) }
+
+  it 'should show a stub indicating we have the work, but it is private' do
+    login_as(user)
+    visit curation_concern_article_path(work)
+    page.should have_content('Unauthorized')
+    page.should have_content('The article you have tried to access is private')
+    page.should have_content("ID: #{work.pid}")
+    page.should_not have_content("Sample work")
+  end
+end
+

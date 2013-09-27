@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Collections" do
+describe "Showing and creating Collections" do
   let(:user) { FactoryGirl.create(:user) }
 
   it "should create them" do
@@ -30,3 +30,18 @@ describe "Collections" do
     expect(page).to have_button('Create Collection')
   end
 end
+
+describe 'Viewing a collection that is private' do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:collection) { FactoryGirl.create(:private_collection, title: "Sample collection" ) }
+
+  it 'should show a stub indicating we have the work, but it is private' do
+    login_as(user)
+    visit collection_path(collection)
+    page.should have_content('Unauthorized')
+    page.should have_content('The collection you have tried to access is private')
+    page.should have_content("ID: #{collection.pid}")
+    page.should_not have_content("Sample collection")
+  end
+end
+

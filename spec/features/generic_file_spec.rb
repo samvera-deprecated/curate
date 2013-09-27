@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Generic File' do
+describe 'Uploading Generic File' do
   let(:user) { FactoryGirl.create(:user) }
   let(:another_user) { FactoryGirl.create(:user) }
 
@@ -54,5 +54,19 @@ describe 'Generic File' do
       click_on("Attach to Generic Work")
     end
   end
-
 end
+
+describe 'Viewing a generic file that is private' do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:work) { FactoryGirl.create(:private_generic_file, title: "Sample file" ) }
+
+  it 'should show a stub indicating we have the work, but it is private' do
+    login_as(user)
+    visit curation_concern_generic_file_path(work)
+    page.should have_content('Unauthorized')
+    page.should have_content('The generic file you have tried to access is private')
+    page.should have_content("ID: #{work.pid}")
+    page.should_not have_content("Sample file")
+  end
+end
+

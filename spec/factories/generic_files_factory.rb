@@ -9,6 +9,10 @@ FactoryGirl.define do
     before(:create) { |file, evaluator|
        file.apply_depositor_metadata(evaluator.user.user_key)
     }
+
+    factory :private_generic_file do
+      visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+    end
   end
 end
 

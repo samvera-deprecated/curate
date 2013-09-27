@@ -27,7 +27,16 @@ module CurationConcern
     self.excluded_actions_for_curation_concern_authorization = [:new, :create]
     before_filter :authorize_curation_concern!, except: excluded_actions_for_curation_concern_authorization
     def authorize_curation_concern!
-      authorize!(action_name_for_authorization, curation_concern) || true
+      if action_name_for_authorization == :show
+        if can?(:show, curation_concern)
+          return true
+        else
+          render 'unauthorized', status: :unauthorized
+          false
+        end
+      else
+        authorize!(action_name_for_authorization, curation_concern) || true
+      end
     end
 
     def action_name_for_authorization
