@@ -8,18 +8,32 @@
 
   <div class="span8">
     <%= link_to gf, polymorphic_path_for_asset(gf), :id => "src_copy_link_#{noid}" %>
-    <ul class="attributes">
+    <dl class="attributes">
       <% unless gf.contributor.blank? %>
-        <li><strong>Author(s): </strong><%= render_field_value(gf.contributor) %></li>
+        <dt>Author(s):</dt>
+        <dd><%= render_field_value(gf.contributor) %></dd>
       <% end %>
+
       <% unless gf.description.blank? %>
-        <li><strong>Description: </strong><%= truncate(render_field_value(gf.description), length: 150) %></li>
+        <dt>Description:</dt>
+        <dd><%= truncate(render_field_value(gf.description), length: 150) %></dd>
       <% end %>
+
       <% unless gf.publisher.blank? %>
-        <li><strong>Publisher(s): </strong><%= render_field_value gf.publisher %></li>
+        <dt>Publisher(s): </dt>
+        <dd><%= render_field_value gf.publisher %></dd>
       <% end %>
-      <li><%= link_to_edit_permissions(gf, document) %></li>
-    </ul>
+    </dl>
+
+    <dl class="extended-attributes hide">
+      <% index_fields.each do |solr_fname, field| -%>
+        <% if should_render_index_field? document, field %>
+          <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
+          <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document, :field => solr_fname %></dd>
+        <% end -%>
+      <% end -%>
+    </dl>
+
   </div>
 
   <div class="span1">
@@ -36,15 +50,3 @@
 
 </li>
 
-<li id="detail_<%= noid %>" class="row-fluid search-result-details hide">
-
-  <dl class="expanded-details span6 offset3">
-    <% index_fields.each do |solr_fname, field| -%>
-      <% if should_render_index_field? document, field %>
-        <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
-        <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document, :field => solr_fname %></dd>
-      <% end -%>
-    <% end -%>
-  </dl>
-
-</li>
