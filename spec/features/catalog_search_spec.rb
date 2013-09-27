@@ -12,7 +12,7 @@ describe 'catalog search', describe_options do
       click_button("Go")
     end
 
-    page.should have_tag('table#documents')
+    page.should have_tag('ul#documents')
     page.should have_tag(".search-constraints", with_text: "You searched for:")
   end
 end
