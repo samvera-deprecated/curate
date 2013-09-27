@@ -7,6 +7,9 @@ class Article < ActiveFedora::Base
 
   has_metadata "descMetadata", type: ArticleMetadataDatastream
 
+  class_attribute :human_readable_short_description
+  self.human_readable_short_description = "Deposit or reference a preprint or published article."
+
   attribute :title,
     datastream: :descMetadata, multiple: false,
     label: "Title of your Article",
@@ -34,7 +37,7 @@ class Article < ActiveFedora::Base
     label: "Collection Name",
     hint: "The name of the collection that is being digitized."
   attribute :abstract,
-    label: "Abstract or Summary of the Artical",
+    label: "Abstract or Summary of the Article",
     datastream: :descMetadata, multiple: false,
     validates: { presence: { message: 'Your Article must have an abstract.' } }
   attribute :resource_type,
