@@ -53,3 +53,18 @@ legend small {
 .control-group input.inline {
   display: inline-block;
 }
+
+.field-choice {
+  padding-bottom:1em;
+  padding-top:1em;
+  text-align:center;
+  font-size:1.3em;
+  line-height:1;
+}
+
+.accept-contributor-agreement {
+  padding-top:1em;
+  input, label {
+    font-size:1.3em;
+  }
+}

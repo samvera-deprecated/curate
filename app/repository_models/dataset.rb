@@ -9,6 +9,9 @@ class Dataset < ActiveFedora::Base
 
   has_metadata "descMetadata", type: GenericWorkRdfDatastream
 
+  class_attribute :human_readable_short_description
+  self.human_readable_short_description = "One or more files related to your research."
+
   attribute :title, datastream: :descMetadata,
             multiple: false,
             validates: {presence: { message: 'Your dataset must have a title.' }}
