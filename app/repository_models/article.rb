@@ -95,4 +95,6 @@ class Article < ActiveFedora::Base
     hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
 
   attribute :linked_resource_url, multiple: true
+
+  alias_method :description, :abstract
 end
