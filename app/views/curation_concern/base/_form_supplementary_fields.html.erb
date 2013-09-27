@@ -1,27 +1,41 @@
 <% unless curation_concern.persisted? %>
-  <div class="row with-headroom">
-      <div class="span6">
-        <fieldset class="required">
-          <legend>
-            Attach Your File
-            <small>A PDF is preferred.</small>
-          </legend>
-          <%= f.input :files, as: :file, label: 'Upload your file' %>
-        <strong>OR</strong>
-          <%= f.input :linked_resource_url, label: "External link", input_html: {class: 'input-xlarge'} %>
-        </fieldset>
+  <fieldset>
+    <div class="row with-headroom">
+      <div class="span12">
+        <legend>
+          Add Your Content
+        </legend>
+
+        <p class="help-block">
+          The subject of your <%= curation_concern.human_readable_type.downcase %> can either be a file <em>or</em> a URL.
+        </p>
       </div>
-  </div>
+    </div>
+
+    <div class="row">
+
+      <fieldset class="span5">
+        <%= f.input :files, as: :file, label: 'Upload a file', hint: 'A PDF is preferred.'%>
+      </fieldset>
+
+      <strong class="span1 field-choice">OR</strong>
+
+      <fieldset class="span6">
+        <%= f.input :linked_resource_url, label: "External link", input_html: {class: 'input-xlarge'} %>
+      </fieldset>
+
+    </div>
+  </fieldset>
 <% end %>
 
 <div class="row with-headroom">
-  <div class="span6">
+  <div class="span12">
     <%= render "form_permission", curation_concern: curation_concern, f: f %>
   </div>
 </div>
 
 <div class="row with-headroom">
-  <div class="span6">
+  <div class="span12">
     <%= render "form_content_license", curation_concern: curation_concern, f: f %>
   </div>
 </div>
