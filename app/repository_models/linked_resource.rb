@@ -9,6 +9,7 @@ class LinkedResource < ActiveFedora::Base
   delegate_to :descMetadata, [ :date_uploaded, :date_modified, :creator], unique: true
 
   validates :batch, presence: true
+  validates :url, presence: true
 
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "An arbitrary single file."
