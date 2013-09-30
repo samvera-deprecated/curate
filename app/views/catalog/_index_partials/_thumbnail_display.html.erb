@@ -1,1 +1,2 @@
 <%= image_tag 'curate/nope.png', class: "canonical-image" %>
+<p class="resource-type"><%= render_index_field_value :document=>document.inner_object.solr_doc, :field => 'desc_metadata__resource_type_tesim' %></p>
