@@ -17,12 +17,13 @@ class HelpRequestsController < ApplicationController
   end
 
   def create
-    help_request.save!
-    respond_with(help_request) do |wants|
-      wants.html { redirect_to catalog_index_path, notice: SUCCESS_NOTICE}
+    if help_request.save
+      respond_with(help_request) do |wants|
+        wants.html { redirect_to catalog_index_path, notice: SUCCESS_NOTICE}
+      end
+    else
+      respond_with(help_request)
     end
-  rescue ActiveRecord::RecordInvalid
-    respond_with(help_request)
   end
 
   private

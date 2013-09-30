@@ -32,12 +32,13 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
 
   def create
     curation_concern.batch = parent
-    actor.create!
-    respond_with([:curation_concern, parent])
-  rescue ActiveFedora::RecordInvalid
-    respond_with([:curation_concern, curation_concern]) { |wants|
-      wants.html { render 'new', status: :unprocessable_entity }
-    }
+    if actor.create
+      respond_with([:curation_concern, parent])
+    else
+      respond_with([:curation_concern, curation_concern]) { |wants|
+        wants.html { render 'new', status: :unprocessable_entity }
+      }
+    end
   end
 
 
@@ -50,12 +51,13 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   def update
-    actor.update!
-    respond_with([:curation_concern, curation_concern])
-  rescue ActiveFedora::RecordInvalid
-    respond_with([:curation_concern, curation_concern]) { |wants|
-      wants.html { render 'edit', status: :unprocessable_entity }
-    }
+    if actor.update
+      respond_with([:curation_concern, curation_concern])
+    else
+      respond_with([:curation_concern, curation_concern]) { |wants|
+        wants.html { render 'edit', status: :unprocessable_entity }
+      }
+    end
   end
 
   def versions
@@ -63,12 +65,13 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   def rollback
-    actor.rollback!
-    respond_with([:curation_concern, curation_concern])
-  rescue ActiveFedora::RecordInvalid
-    respond_with([:curation_concern, curation_concern]) { |wants|
-      wants.html { render 'versions', status: :unprocessable_entity }
-    }
+    if actor.rollback
+      respond_with([:curation_concern, curation_concern])
+    else
+      respond_with([:curation_concern, curation_concern]) { |wants|
+        wants.html { render 'versions', status: :unprocessable_entity }
+      }
+    end
   end
 
   def destroy

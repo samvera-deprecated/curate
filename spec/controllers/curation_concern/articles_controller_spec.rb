@@ -32,7 +32,7 @@ describe CurationConcern::ArticlesController do
   describe "#create" do
     it "should create a work" do
       controller.curation_concern.stub(:persisted?).and_return(true)
-      controller.actor = double(:create! => true)
+      controller.actor = double(:create => true)
       post :create, accept_contributor_agreement: "accept"
       response.should redirect_to curation_concern_article_path(controller.curation_concern)
     end
@@ -41,13 +41,13 @@ describe CurationConcern::ArticlesController do
   describe "#update" do
     let(:article) { FactoryGirl.create(:article, user: user) }
     it "should update the work " do
-      controller.actor = double(:update! => true, :visibility_changed? => false)
+      controller.actor = double(:update => true, :visibility_changed? => false)
       patch :update, id: article
       response.should redirect_to curation_concern_article_path(controller.curation_concern)
     end
     describe "changing rights" do
       it "should prompt to change the files access" do
-        controller.actor = double(:update! => true, :visibility_changed? => true)
+        controller.actor = double(:update => true, :visibility_changed? => true)
         patch :update, id: article
         response.should redirect_to confirm_curation_concern_permission_path(controller.curation_concern)
       end
