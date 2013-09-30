@@ -30,6 +30,7 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, a
         it "should show 401 Unauthorized" do
           get :show, id: a_work
           expect(response.status).to eq 401
+          response.should render_template(:unauthorized)
         end
       end
       context "someone elses public work" do

@@ -22,14 +22,10 @@ describe 'error behavior', describe_options do
 
   let(:curation_concern_type) { :generic_work }
   let(:user) { FactoryGirl.create(:user) }
-  let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
-  let(:curation_concern) {
-    FactoryGirl.create_curation_concern(
-      curation_concern_type, user, {visibility: visibility}
-    )
-  }
+  let(:curation_concern) { FactoryGirl.create(:private_generic_work) }
   it 'handles unauthorized pages'do
-    visit("/concern/#{curation_concern_type.to_s.pluralize}/#{curation_concern.to_param}")
+    login_as user
+    visit edit_curation_concern_generic_work_path(curation_concern)
     expect(page).to have_content("Unauthorized")
     expect(page).to have_content("You are not authorized to access the page.")
   end
