@@ -22,6 +22,14 @@ describe LinkedResource do
     subject.to_s.should == nil
   end
 
+  describe "validating" do
+    subject {LinkedResource.new}
+    it "should not validate and have an error" do
+      subject.should_not be_valid
+      subject.errors[:url].should == ["can't be blank"]
+    end
+  end
+
   describe "sanitizing" do
     context "javascript uri" do
       subject { FactoryGirl.build(:linked_resource, url: "javascript:void(alert('Hello'));") }
