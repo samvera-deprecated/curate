@@ -17,6 +17,7 @@ describe CurationConcern::EtdsController do
       it "should show 401 Unauthorized" do
         get :show, id: etd
         expect(response.status).to eq 401
+        response.should render_template(:unauthorized)
       end
     end
     context "someone elses public work" do

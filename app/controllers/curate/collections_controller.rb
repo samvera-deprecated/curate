@@ -11,6 +11,22 @@ class Curate::CollectionsController < ApplicationController
   before_filter :agreed_to_terms_of_service!
   before_filter :force_update_user_profile!
 
+  rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
+    case exception.action
+    when :show
+      render 'unauthorized'
+    when :edit
+      redirect_to(collections.url_for(action: 'show'), alert: "You do not have sufficient privileges to edit this document")
+    else
+      if current_user and current_user.persisted?
+        redirect_to root_url, alert: exception.message
+      else
+        session["user_return_to"] = request.url
+        redirect_to new_user_session_url, alert: exception.message
+      end
+    end
+  end
+
   # This applies appropriate access controls to all solr queries (the internal method of this is overidden bellow to only include edit files)
   Curate::CollectionsController.solr_search_params_logic += [:add_access_controls_to_solr_params]
   # This filters out objects that you want to exclude from search results, like FileAssets
