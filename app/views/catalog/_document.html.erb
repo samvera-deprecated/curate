@@ -1,19 +1,52 @@
-    <% # container for a single doc -%>
-    <div class="document <%= render_document_class document %>">
+<% noid = document.noid %>
+<li id="document_<%= noid %>" class="row-fluid search-result">
+  <div class="span3">
+    <%= document_counter + 1 %>
+    <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: document} %>
+  </div>
 
-      <% # header bar for doc items in index view -%>
-      <div class="documentHeader">
+  <div class="span8">
+    <%- solr_doc = document.inner_object.solr_doc %>
+    <%-# TODO Minimize Fedora hits by using solr_doc rather than document %>
+    <%= link_to render_index_field_value(document: solr_doc, field: 'desc_metadata__title_tesim'), polymorphic_path_for_asset(document), :id => "src_copy_link_#{noid}" %>
+    <dl class="attributes">
+      <% if solr_doc.has?('desc_metadata__contributor_tesim') %>
+        <dt>Author(s):</dt>
+        <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__contributor_tesim') %></dd>
+      <% end %>
 
-        <% # bookmark/folder functions for items/docs -%>
-        <%= render_index_doc_actions document %>
+      <% if solr_doc.has?('desc_metadata__description_tesim') %>
+        <dt>Description:</dt>
+        <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__description_tesim'), length: 150) %></dd>
+      <% end %>
 
-        <% # main title container for doc partial view -%>
-        <div class="yui-u">
-          <h3 class="index_title"><%= document_counter + 1 + @response.params[:start].to_i %>. <%= link_to_document document, :label=>document_show_link_field, :counter => (document_counter + 1 + @response.params[:start].to_i) %></h3>
-        </div>
-      </div>
+      <% if solr_doc.has?('desc_metadata__publisher_tesim') %>
+        <dt>Publisher(s): </dt>
+        <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__publisher_tesim') %></dd>
+      <% end %>
+    </dl>
 
-      <% # main container for doc partial view -%>
-      <%= render_document_partial document, :index %>
+    <dl class="extended-attributes hide">
+      <% index_fields.each do |solr_fname, field| -%>
+        <% if should_render_index_field? document.inner_object.solr_doc, field %>
+          <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
+          <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document.inner_object.solr_doc, :field => solr_fname %></dd>
+        <% end -%>
+      <% end -%>
+    </dl>
 
-    </div>
+  </div>
+
+  <div class="span1">
+    <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
+    <% if current_user -%>
+      <%= link_to(
+        raw('<i class="icon-pencil icon-large"></i>'),
+        edit_polymorphic_path_for_asset(document),
+        :class=> 'itemicon itemedit',
+        :title => 'Edit File'
+      ) if can? :edit, document %>
+    <% end -%>
+  </div>
+
+</li>
