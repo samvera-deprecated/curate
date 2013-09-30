@@ -1,16 +1,15 @@
 module CurationConcern
   class GenericFileActor < CurationConcern::BaseActor
-    def create!
-      super
-      update_file
+
+    def create
+      super && update_file
     end
 
-    def update!
-      super
-      update_file
+    def update
+      super && update_file
     end
 
-    def rollback!
+    def rollback
       update_version
     end
 
@@ -22,6 +21,8 @@ module CurationConcern
       curation_concern.label = title
       if file
         CurationConcern.attach_file(curation_concern, user, file)
+      else
+        true
       end
     end
 
@@ -35,7 +36,7 @@ module CurationConcern
       options = { label: revision.label, mimeType: mime_type, dsid: 'content' }
       curation_concern.add_file_datastream(revision.content, options)
       curation_concern.record_version_committer(user)
-      curation_concern.save!
+      curation_concern.save
     end
   end
 end

@@ -29,23 +29,15 @@ describe CurationConcern::LinkedResourcesController do
 
   describe '#create' do
     let(:actor) { double('actor') }
-    let(:actors_action) { :create! }
-    let(:invalid_exception) {
-      ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new)
-    }
-    let(:failing_actor) {
-      actor.should_receive(actors_action).and_raise(invalid_exception)
-      actor
-    }
-    let(:successful_actor) {
-      actor.should_receive(actors_action).and_return(true)
-      actor
-    }
+    let(:actors_action) { :create }
+    let(:success) { true }
+    let(:failure) { false }
 
     it 'redirects to the parent work' do
       sign_in(user)
       parent
-      controller.actor = successful_actor
+      actor.should_receive(actors_action).and_return(success)
+      controller.actor = actor
 
       post(:create, parent_id: parent.to_param,
            linked_resource: { url: you_tube_link }
@@ -60,7 +52,8 @@ describe CurationConcern::LinkedResourcesController do
       it 'renders the form' do
         sign_in(user)
         parent
-        controller.actor = failing_actor
+        actor.should_receive(actors_action).and_return(failure)
+        controller.actor = actor
 
         post(:create, parent_id: parent.to_param,
              linked_resource: { url: you_tube_link }

@@ -16,15 +16,16 @@ describe CurationConcern::GenericFileActor do
     CurationConcern::GenericFileActor.new(generic_file, user, attributes)
   }
 
-  describe '#create!' do
+  describe '#create' do
     let(:generic_file) { GenericFile.new.tap {|gf| gf.batch = parent } }
     let(:reloaded_generic_file) {
       generic_file.class.find(generic_file.pid)
     }
     describe 'with a file' do
       it 'succeeds if attributes are given' do
+        return_value = nil
         expect {
-          subject.create!
+          return_value = subject.create
         }.to change {
           parent.class.find(parent.pid).generic_files.count
         }.by(1)
@@ -34,6 +35,7 @@ describe CurationConcern::GenericFileActor do
         reloaded_generic_file.filename.should == File.basename(__FILE__)
 
         expect(reloaded_generic_file.to_solr[Hydra.config[:permissions][:read][:group]]).to eq(['registered'])
+        return_value.should be_true
       end
 
       describe 'failure' do
@@ -43,9 +45,7 @@ describe CurationConcern::GenericFileActor do
 
         it 'fails if no file is provided' do
           expect {
-            expect {
-              subject.create!
-            }.to raise_error(ActiveFedora::RecordInvalid)
+            subject.create
           }.to_not change { GenericFile.count }
         end
       end
@@ -55,31 +55,43 @@ describe CurationConcern::GenericFileActor do
       let(:file) { nil }
       it 'fails if no batch is provided' do
         expect{
-          expect {
-            subject.create!
-          }.to raise_error(ActiveFedora::RecordInvalid)
+          subject.create
         }.to_not change { GenericFile.count }
       end
     end
+
+    it 'failure returns false' do
+      CurationConcern::BaseActor.any_instance.should_receive(:save).and_return(false)
+      subject.stub(:update_file).and_return(true)
+      subject.create.should be_false
+    end
   end
 
-  describe '#update!' do
+  describe '#update' do
     let(:generic_file) {
       FactoryGirl.create_generic_file(parent, user)
     }
+
     it do
       generic_file.title.should_not == title
       generic_file.content.content.should_not == file_content
+      return_value = nil
       expect {
-        subject.update!
+        return_value = subject.update
       }.to change {generic_file.versions.count}.by(1)
       generic_file.title.should == [title]
       generic_file.to_s.should == title
       generic_file.content.content.should == file_content
+      return_value.should be_true
+    end
+
+    it 'failure returns false' do
+      CurationConcern::BaseActor.any_instance.should_receive(:save).and_return(false)
+      subject.update.should be_false
     end
   end
 
-  describe '#rollback!' do
+  describe '#rollback' do
     let(:attributes) {
       { version: version }
     }
@@ -90,12 +102,19 @@ describe CurationConcern::GenericFileActor do
       # I need to make an update
       updated_attributes = { file: new_file}
       actor = CurationConcern::GenericFileActor.new(generic_file, user, updated_attributes)
-      actor.update!
+      actor.update
     end
     it do
+      return_value = nil
       expect {
-        subject.rollback!
+        return_value = subject.rollback
       }.to change {subject.curation_concern.content.mimeType}.from('image/png').to(mime_type)
+      return_value.should be_true
+    end
+
+    it 'failure returns false' do
+      generic_file.should_receive(:save).and_return(false)
+      subject.rollback.should be_false
     end
   end
 end

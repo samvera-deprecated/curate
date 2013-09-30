@@ -15,12 +15,13 @@ class CurationConcern::LinkedResourcesController < CurationConcern::BaseControll
 
   def create
     curation_concern.batch = parent
-    actor.create!
-    respond_with([:curation_concern, parent])
-  rescue ActiveFedora::RecordInvalid
-    respond_with([:curation_concern, curation_concern]) { |wants|
-      wants.html { render 'new', status: :unprocessable_entity }
-    }
+    if actor.create
+      respond_with([:curation_concern, parent])
+    else
+      respond_with([:curation_concern, curation_concern]) { |wants|
+        wants.html { render 'new', status: :unprocessable_entity }
+      }
+    end
   end
 
 
