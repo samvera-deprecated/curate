@@ -2,10 +2,14 @@ class Collection < ActiveFedora::Base
   include Hydra::Collection
   include Sufia::GenericFile::Permissions
   include Sufia::Models::WithAccessRight
+  include Sufia::Noid
 
   has_many :associated_persons, property: :has_profile, class_name: 'Person'
 
   delegate_to :descMetadata, [:resource_type], unique: true
+
+  # Causes resource_type to be set in the metadata
+  before_create :human_readable_type
 
   # Reads from resource_type attribute.
   # Defaults to "Collection", but can be set to something else.
