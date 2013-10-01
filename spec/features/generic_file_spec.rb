@@ -4,6 +4,24 @@ describe 'Uploading Generic File' do
   let(:user) { FactoryGirl.create(:user) }
   let(:another_user) { FactoryGirl.create(:user) }
 
+  context "editing my own work" do
+    let(:work) { FactoryGirl.create(:public_generic_work, user: user) }
+    before do
+      login_as user
+      visit curation_concern_generic_work_path(work)
+    end
+
+    it 'there will be a cancle link on the edit page' do
+      click_link "Edit This Generic Work"
+      expect(page).to have_link('Cancel', curation_concern_generic_work_path(work))
+    end
+    it 'there will be a cancle link on the attach file page' do
+      click_link "Attach a File"
+      expect(page).to have_link('Cancel', curation_concern_generic_work_path(work))
+    end
+
+  end
+
   context 'a public work that contains a public file' do
     let(:public_work) { FactoryGirl.create(:public_generic_work, user: another_user) }
     before { upload_my_file(public_work, 'visibility_open') }
