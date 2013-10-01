@@ -99,5 +99,4 @@ class Article < ActiveFedora::Base
 
   attribute :linked_resource_url, multiple: true
 
-  alias_method :description, :abstract
 end
