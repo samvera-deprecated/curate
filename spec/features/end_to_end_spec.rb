@@ -169,7 +169,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       login_as(user)
       visit('/')
       click_link("Get Started")
-      click_link "Request Help"
+      click_link "Help!"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
         click_on("Let Us Know")
@@ -181,7 +181,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       login_as(user)
       visit('/')
       click_link("Get Started")
-      click_link "Request Help"
+      click_link "Help!"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
         click_on("Let Us Know")
