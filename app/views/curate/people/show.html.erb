@@ -1,21 +1,30 @@
 <% content_for :page_title, "#{person_name_or_stub(@person)} // Curate" %>
 
 <% content_for :page_header do %>
+<hgroup>
   <h1><%= @person.name %></h1>
-  <h3><%= @person.title %> </h3>
-  <p><%= link_to "edit profile", edit_user_registration_path %></p> 
+  <% unless @person.title.blank? %>
+    <h3><%= @person.title %></h3>
+  <% end %>
+</hgroup>
 <% end %>
+
 <table class="table table-striped <%= dom_class(@person) %> attributes">
   <tbody>
-  <tr><th>Campus Phone: </th><td><ul class='tabular'><%= @person.campus_phone_number %></ul></td></tr>
-  <tr><th>Alternate Phone: </th><td><ul class='tabular'><%= @person.alternate_phone_number %></ul></td></tr>
-  <tr><th>Preferred Email: </th><td><ul class='tabular'><%= @person.preferred_email %></ul></td></tr>
-  <tr><th>Alternate Email: </th><td><ul class='tabular'><%= @person.alternate_email %></ul></td></tr>
-  <tr><th>Date of Birth: </th><td><ul class='tabular'><%= @person.date_of_birth %></ul></td></tr>
-  <tr><th>Personal Webpage: </th><td><ul class='tabular'><%= @person.personal_webpage %></ul></td></tr>
-  <tr><th>Blog: </th><td><ul class='tabular'><%= @person.blog %></ul></td></tr>
+    <tr><th>Campus Phone:    </th><td><%= @person.campus_phone_number    %></td></tr>
+    <tr><th>Alternate Phone: </th><td><%= @person.alternate_phone_number %></td></tr>
+    <tr><th>Preferred Email: </th><td><%= @person.preferred_email        %></td></tr>
+    <tr><th>Alternate Email: </th><td><%= @person.alternate_email        %></td></tr>
+    <tr><th>Date of Birth:   </th><td><%= @person.date_of_birth          %></td></tr>
+    <tr><th>Personal Webpage:</th><td><%= @person.personal_webpage       %></td></tr>
+    <tr><th>Blog:            </th><td><%= @person.blog                   %></td></tr>
   </tbody>
 </table>
+<%# TODO: Only render the action area if you have permission to edit the person %>
+<div class="form-action">
+  <%= link_to "Update Personal Information", edit_user_registration_path, class: 'btn btn-primary' %>
+</div>
+
 <div id="person_profile">
   <% if profile_has_contents?(@person) %>
     <h3><%= "Selected Works of #{@person.name}" %> </h3>
