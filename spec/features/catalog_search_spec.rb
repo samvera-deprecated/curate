@@ -6,7 +6,7 @@ if ENV['JS']
 end
 
 describe 'catalog search', describe_options do
-  if ENV['TRAVIS'].empty?
+  unless ENV['TRAVIS']
     it 'renders search results for null search' do
       visit('/')
       within('.search-form') do
