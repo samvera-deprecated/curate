@@ -19,7 +19,7 @@ class WelcomeController < ApplicationController
   private
 
   def show_action_bar?
-    false
+    true
   end
 
   def first_time_login?

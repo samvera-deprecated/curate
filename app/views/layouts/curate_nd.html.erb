@@ -9,21 +9,27 @@
       <div id="title-bar-wrapper">
         <div class="container">
           <div id="title-bar" class="row">
-            <div id="site-title" class="span8">
-              <h1><%= link_to t('sufia.product_name'), root_path, tabindex: :'-1' %></h1>
-            </div>
             <div id="site-search" class="span4">
 
 <%= render 'shared/site_search' if show_site_search? %>
 
             </div>
+
+            <div id="site-title" class="span4">
+              <h1><%= link_to t('sufia.product_name'), root_path, tabindex: :'-1' %></h1>
+            </div>
+
+            <nav id="site-actions" class="span4">
+
+<%= render 'shared/action_bar' if show_action_bar? %>
+
+            </nav>
           </div>
         </div>
       </div>
     </hgroup>
   </header>
 
-<%= render 'shared/action_bar' if show_action_bar? %>
 
 <%= render 'shared/flash_message' %>
 
