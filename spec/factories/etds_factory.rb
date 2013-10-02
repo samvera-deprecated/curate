@@ -8,7 +8,7 @@ FactoryGirl.define do
     rights { Sufia.config.cc_licenses.keys.first }
     date_uploaded { Date.today }
     date_modified { Date.today }
-    visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+    visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
     subject "Emerald Ash Borer"
     country "United States of America"
     advisor "Karin Verschoor"
@@ -21,10 +21,10 @@ FactoryGirl.define do
     }
 
     factory :private_etd do
-      visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
     factory :public_etd do
-      visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
   end
 end

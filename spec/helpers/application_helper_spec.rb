@@ -107,7 +107,7 @@ describe ApplicationHelper do
     let(:embargo_release_date) { nil }
     describe 'with a "registered" access group' do
       let(:expected_label) { t('sufia.institution_name') }
-      let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED } # Can we change this?
+      let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED } # Can we change this?
       let(:access_policy) { 'registered' }
       it 'renders an Institution only label' do
         rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
@@ -122,7 +122,7 @@ describe ApplicationHelper do
       let(:access_policy) { 'public' }
       describe 'without embargo release date' do
         let(:expected_label) { "Open Access" }
-        let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
+        let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
         it 'renders an "Open Access" label' do
           rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
           expect(rendered).to(
@@ -136,7 +136,7 @@ describe ApplicationHelper do
       describe 'with an embargo release date' do
         let(:expected_label) { "Open Access with Embargo" }
         let(:embargo_release_date) { Date.today.to_s }
-        let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
+        let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
         it 'renders an "Open Access with Embargo" label' do
           rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
           expect(rendered).to(
@@ -166,7 +166,7 @@ describe ApplicationHelper do
     describe 'without an access group' do
       let(:expected_label) { "Private" }
       let(:access_policy) { nil }
-      let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+      let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
       it 'renders an "Private" label' do
         rendered = helper.link_to_edit_permissions(curation_concern, solr_document)
         expect(rendered).to(

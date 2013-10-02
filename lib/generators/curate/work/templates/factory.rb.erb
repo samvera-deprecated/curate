@@ -13,7 +13,7 @@ FactoryGirl.define do
     rights { Sufia.config.cc_licenses.keys.first }
     date_uploaded { Date.today }
     date_modified { Date.today }
-    visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+    visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
 
     before(:create) { |work, evaluator|
       work.apply_depositor_metadata(evaluator.user.user_key)
@@ -21,10 +21,10 @@ FactoryGirl.define do
     }
 
     factory :private_<%= singular_table_name %> do
-      visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
     factory :public_<%= singular_table_name %> do
-      visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
 
     factory :<%= singular_table_name %>_with_files do

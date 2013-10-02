@@ -142,7 +142,7 @@ class Account
 
   def apply_deposit_authorization(target)
     target.apply_depositor_metadata(user.user_key)
-    target.read_groups = [Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC]
+    target.read_groups = [Hydra::AccessControls::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC]
     target
   end
 

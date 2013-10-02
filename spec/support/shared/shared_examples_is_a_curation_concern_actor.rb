@@ -13,7 +13,7 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
     let(:curation_concern) { curation_concern_class.new(pid: CurationConcern.mint_a_pid )}
 
     describe 'valid attributes' do
-      let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+      let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
 
       describe 'with a file' do
         let(:attributes) {
