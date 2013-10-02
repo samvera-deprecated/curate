@@ -8,7 +8,7 @@ module CurationConcern
     end
 
     def update!
-      add_to_collections attributes.delete('collection_ids')
+      add_to_collections attributes.delete(:collection_ids)
       super
       attach_files
     end
