@@ -89,10 +89,12 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
           collection1.save # Had to call .save again to make this persist properly!? - MZ Sept 2013
           expect(curation_concern.collections).to eq [collection1]
           subject.update!
-          expect(curation_concern.identifier).to be_blank
-          expect(curation_concern).to be_persisted
-          expect(curation_concern).to be_open_access
-          expect(curation_concern.collections).to eq [collection2]
+
+          reloaded_cc = curation_concern.class.find(curation_concern.pid)
+          expect(reloaded_cc.identifier).to be_blank
+          expect(reloaded_cc).to be_persisted
+          expect(reloaded_cc).to be_open_access
+          expect(reloaded_cc.collections).to eq [collection2]
           expect(subject.visibility_changed?).to be_true
         end
       end
