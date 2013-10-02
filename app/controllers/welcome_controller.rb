@@ -18,7 +18,7 @@ class WelcomeController < ApplicationController
 
   private
 
-  def show_action_bar?
+  def show_site_actions?
     true
   end
 

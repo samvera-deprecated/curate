@@ -5,7 +5,7 @@ module Curate::ThemedLayoutController
     class_attribute :theme
     self.theme = 'curate_nd'
     helper_method :theme
-    helper_method :show_action_bar?
+    helper_method :show_site_actions?
     helper_method :show_site_search?
   end
 
@@ -19,7 +19,7 @@ module Curate::ThemedLayoutController
     end
   end
 
-  def show_action_bar?
+  def show_site_actions?
     true
   end
 

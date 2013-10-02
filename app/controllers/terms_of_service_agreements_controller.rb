@@ -36,7 +36,7 @@ class TermsOfServiceAgreementsController < ApplicationController
 
   private
 
-  def show_action_bar?
+  def show_site_actions?
     false
   end
 
