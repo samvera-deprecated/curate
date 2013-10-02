@@ -3,6 +3,7 @@ class Curate::CollectionsController < ApplicationController
   # Hydra::CollectionsControllerBehavior must come after Blacklight::Catalog
   # so that the update method is overridden.
   include Hydra::CollectionsControllerBehavior
+  include Hydra::AccessControlsEnforcement
   with_themed_layout '1_column'
 
   add_breadcrumb 'Collections', lambda {|controller| controller.request.path }
