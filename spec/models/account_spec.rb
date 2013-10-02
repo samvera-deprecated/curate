@@ -92,12 +92,12 @@ describe Account do
         expect(user.person).to be_persisted
         expect(user.person).to eq(subject.person)
 
-        expect(subject.person.read_groups).to include(Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC)
+        expect(subject.person.read_groups).to include(Hydra::AccessControls::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC)
         expect(subject.person.edit_users).to include(user.user_key)
         expect(subject.person.depositor).to eq user.user_key
         expect(subject.person.name).to eq expected_name
 
-        expect(subject.profile.read_groups).to include(Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC)
+        expect(subject.profile.read_groups).to include(Hydra::AccessControls::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC)
         expect(subject.profile.edit_users).to include(user.user_key)
         expect(subject.profile.depositor).to eq user.user_key
         expect(subject.profile.title).to eq expected_name
