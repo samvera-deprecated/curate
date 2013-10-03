@@ -6,7 +6,7 @@ class LinkedResource < ActiveFedora::Base
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
   has_metadata "descMetadata", type: GenericFileRdfDatastream
 
-  delegate_to :descMetadata, [ :date_uploaded, :date_modified, :creator], unique: true
+  delegate_to :descMetadata, [ :date_uploaded, :date_modified, :creator], multiple: false
 
   validates :batch, presence: true
   validates :url, presence: true

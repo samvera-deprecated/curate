@@ -14,10 +14,10 @@ describe Collection do
   end
   describe "visibility" do
     it "should have visibility accessor" do
-      subject.visibility.should == Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      subject.visibility.should == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
     it "should have visibility writer" do
-      subject.visibility = Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      subject.visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
       subject.should be_open_access
     end
   end

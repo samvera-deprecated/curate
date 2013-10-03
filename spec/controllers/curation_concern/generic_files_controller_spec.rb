@@ -4,7 +4,7 @@ describe CurationConcern::GenericFilesController do
   render_views
   let(:user) { FactoryGirl.create(:user) }
   let(:another_user) { FactoryGirl.create(:user) }
-  let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+  let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
   let(:parent) {
     FactoryGirl.create_curation_concern(:generic_work, user, {visibility: visibility})
   }

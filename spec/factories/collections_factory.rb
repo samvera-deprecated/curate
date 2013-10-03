@@ -9,11 +9,11 @@ FactoryGirl.define do
     }
 
     factory :public_collection do
-      visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
 
     factory :private_collection do
-      visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
   end
 

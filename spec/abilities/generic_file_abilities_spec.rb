@@ -5,7 +5,7 @@ describe "User" do
   describe "Abilities" do
     subject { ability }
     let(:ability) { Ability.new(current_user) }
-    let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+    let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
     let(:generic_work) {
       FactoryGirl.create_curation_concern(:generic_work, creating_user, { visibility: visibility })
     }

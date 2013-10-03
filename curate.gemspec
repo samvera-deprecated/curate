@@ -25,10 +25,10 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.0.0"
   s.add_dependency "breach-mitigation-rails"
-  s.add_dependency 'sufia-models', '~>3.3'
-  s.add_dependency 'hydra-head', '~>6.3.4'
-  s.add_dependency 'blacklight', '~> 4.0', '< 4.4' # blacklight 4.4.1/0 doesn't work with kaminari > 0.14.1
+  s.add_dependency 'sufia-models', '~>3.4.0.rc2'
+  s.add_dependency 'hydra', '6.1.0.rc5'
   s.add_dependency 'hydra-batch-edit', '~> 1.1.1'
+  s.add_dependency 'hydra-collections', '~> 1.2.0.rc1'
   s.add_dependency 'morphine'
   s.add_dependency 'mini_magick'
   s.add_dependency 'simple_form', '3.0.0.rc'
@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.add_dependency "devise-guests", "~> 0.3"
   s.add_dependency 'browser'
   s.add_dependency 'breadcrumbs_on_rails'
-  s.add_dependency 'active_fedora-registered_attributes'
+  s.add_dependency 'active_fedora-registered_attributes', '~> 0.1.0'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "factory_girl_rails"
