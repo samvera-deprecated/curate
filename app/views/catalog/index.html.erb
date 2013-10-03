@@ -1,20 +1,21 @@
 <% content_for :page_title, "#{application_name} Search Results" %>
+<% content_for :page_header do %>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <ul class="nav">
+        <%= type_tab 'Works', 'Work' %> 
+        <%= type_tab 'Collections', 'Collection' %> 
+        <%= type_tab 'People', 'Person' %> 
+        <%= all_type_tab %>
+      </ul>
+    </div>
+  </div>
+<% end %>
 <% content_for :sidebar do %>
 
   <%= render 'facets' %>
 
 <% end %>
-
-<div class="navbar">
-  <div class="navbar-inner">
-    <ul class="nav">
-      <%= type_tab 'Works', 'Work' %> 
-      <%= type_tab 'Collections', 'Collection' %> 
-      <%= type_tab 'People', 'Person' %> 
-      <%= all_type_tab %>
-    </ul>
-  </div>
-</div>
 
 <div class="alert alert-info search-constraints">
   <i class="icon-search icon-large"></i>
