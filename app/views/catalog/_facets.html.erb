@@ -1,15 +1,22 @@
 <h3>Show:</h3>
 <%= form_tag search_action_url, :method => :get, :class => 'search-query-form form-inline clearfix' do %>
-  <%= search_as_hidden_fields(:omit_keys => [:qt, :page]).html_safe %> 
-  <label>
-    <%= radio_button_tag 'works', 'mine', params['works'] == 'mine' %> Only My Works
-  </label><br> 
-  <label>
-    <%= radio_button_tag 'works', 'all', params['works'] != 'mine' %> All Works
-  </label><br>
-  <button type="submit" class="search-submit btn btn-primary" id="aux-search-submit-header">
-    <i class="icon-search icon-white"></i> Go
-  </button>
+  <%= search_as_hidden_fields(:omit_keys => [:qt, :page]).html_safe %>
+
+  <label class="search-scope">
+    <%= radio_button_tag 'works', 'mine', params['works'] == 'mine' %>
+    <span class="label-text">Only My Works</span>
+  </label>
+
+  <label class="search-scope">
+    <%= radio_button_tag 'works', 'all', params['works'] != 'mine' %>
+    <span class="label-text">All Works</span>
+  </label>
+
+  <noscript>
+    <button type="submit" class="search-submit btn btn-primary" id="aux-search-submit-header">
+      Filter by Work Owner
+    </button>
+  </noscript>
 <% end %>
 
 <h3>Filter By:</h3>
