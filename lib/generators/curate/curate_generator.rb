@@ -71,7 +71,7 @@ This generator makes the following changes to your application:
     end
   end
 
-  DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles, :etds]
+  DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles, :etds, :images]
 
   # The engine routes have to come after the devise routes so that /users/sign_in will work
   def inject_routes
