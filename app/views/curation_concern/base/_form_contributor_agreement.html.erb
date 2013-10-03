@@ -8,7 +8,7 @@
 
     <div class="span12">
       <article class="lawyer_readable contributor_agreement wide-text">
-        <%= contributor_agreement.legally_binding_text.html_safe %>
+        <%= render partial: 'legally_binding_text' %>
       </article>
     </div>
 
@@ -21,7 +21,7 @@
             required: :required
           )
         %>
-        I have read and accept the contributor licence agreement
+        I have read and accept the contributor license agreement
       <% end %>
     </div>
   </fieldset>

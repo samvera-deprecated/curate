@@ -239,7 +239,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       fill_out_form_multi_value_for('contributor', with: options['Contributors'])
 
       if options['I Agree']
-        check("I have read and accept the contributor licence agreement")
+        check("I have read and accept the contributor license agreement")
       end
       click_on(options["Button to click"])
     end
