@@ -56,7 +56,7 @@ class Curate::WorkGenerator < Rails::Generators::NamedBase
 
   def create_views
     create_file "app/views/curation_concern/#{plural_file_name}/_#{file_name}.html.erb" do
-      data = "<%-# This is a search result view %>"
+      data = "<%# This is a search result view %>\n"
       data << "<%= render partial: 'catalog/document', locals: {document: #{file_name}, document_counter: #{file_name}_counter } %>\n"
       data
     end
