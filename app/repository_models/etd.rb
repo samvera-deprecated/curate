@@ -9,6 +9,8 @@ class Etd < ActiveFedora::Base
 
   etd_label = 'thesis'
 
+  class_attribute :human_readable_short_description
+  self.human_readable_short_description = "Deposit a senior thesis, master's thesis, or dissertation."
 
   delegate :degree, to: :descMetadata
 
