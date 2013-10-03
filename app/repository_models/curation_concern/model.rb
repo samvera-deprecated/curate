@@ -9,17 +9,16 @@ module CurationConcern
     end
 
     included do
-      include Hydra::ModelMixins::CommonMetadata
       include Sufia::ModelMethods
-      include Sufia::GenericFile::Permissions
+      include Hydra::AccessControls::Permissions
       include Curate::ActiveModelAdaptor
       include Hydra::Collections::Collectible
       
       extend ClassMethods
 
       has_metadata name: "properties", type: PropertiesDatastream, control_group: 'M'
-      delegate_to :properties, [:relative_path, :depositor], unique: true
-      delegate_to :descMetadata, [:resource_type], unique: true
+      delegate_to :properties, [:relative_path, :depositor], multiple: false
+      delegate_to :descMetadata, [:resource_type], multiple: false
       before_save :set_resource_type
 
       class_attribute :human_readable_short_description

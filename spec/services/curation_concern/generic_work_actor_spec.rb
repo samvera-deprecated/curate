@@ -14,7 +14,7 @@ describe CurationConcern::GenericWorkActor do
     let(:curation_concern) { GenericWork.new(pid: CurationConcern.mint_a_pid )}
 
     describe 'valid attributes' do
-      let(:visibility) { Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+      let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
 
       describe 'with a file' do
         let(:attributes) {
@@ -103,7 +103,7 @@ describe CurationConcern::GenericWorkActor do
         let!(:collection2) { FactoryGirl.create(:collection, user: user) }
         let(:attributes) {
           FactoryGirl.attributes_for(:generic_work,
-                                     visibility: Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC,
+                                     visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC,
                                      collection_ids: [collection2.pid])
         }
         before do

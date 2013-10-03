@@ -6,6 +6,12 @@ if ENV['JS']
 end
 
 describe 'catalog search', describe_options do
+  before do
+    Rails.configuration.consider_all_requests_local = true
+  end
+  after do
+    Rails.configuration.consider_all_requests_local = false unless ENV['LOCAL']
+  end
   it 'renders search results for null search' do
     visit('/')
     within('.search-form') do
