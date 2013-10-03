@@ -3,7 +3,7 @@ FactoryGirl.define do
     ignore do
       user {FactoryGirl.create(:user)}
     end
-    visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+    visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
     file "Sample file"
     batch { FactoryGirl.create(:generic_work, user: user) }
     before(:create) { |file, evaluator|
@@ -11,7 +11,7 @@ FactoryGirl.define do
     }
 
     factory :private_generic_file do
-      visibility Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
   end
 end

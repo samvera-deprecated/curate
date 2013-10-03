@@ -7,9 +7,9 @@ describe <%= class_name %> do
   include ActiveFedora::TestSupport
   subject { <%= class_name %>.new }
 
-  include_examples 'is_a_curation_concern_model'
-  include_examples 'with_access_rights'
-  include_examples 'is_embargoable'
-  include_examples 'has_dc_metadata'
+  it_behaves_like 'is_a_curation_concern_model'
+  it_behaves_like 'with_access_rights'
+  it_behaves_like 'is_embargoable'
+  it_behaves_like 'has_dc_metadata'
 
 end

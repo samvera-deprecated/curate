@@ -8,8 +8,8 @@ module CurationConcern
     # being seen until the release date, then is public.
     module VisibilityOverride
       def visibility= value
-        if value == Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
-          super(Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)
+        if value == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
+          super(Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)
         else
           self.embargo_release_date = nil
           super(value)
@@ -17,15 +17,15 @@ module CurationConcern
       end
 
       def visibility
-        if read_groups.include?(Sufia::Models::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC) &&
+        if read_groups.include?(Hydra::AccessControls::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC) &&
           embargo_release_date
-          return Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
+          return Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
         end
         super
       end
     end
     included do
-      include Sufia::Models::WithAccessRight
+      include Hydra::AccessControls::WithAccessRight
       validates :embargo_release_date, future_date: true
       before_save :write_embargo_release_date, prepend: true
       include VisibilityOverride
@@ -33,8 +33,8 @@ module CurationConcern
       require 'morphine'
       include Morphine
       register :embargoable_persistence_container do
-        if ! self.class.included_modules.include?('Sufia::GenericFile::Permissions')
-          self.class.send(:include, Sufia::GenericFile::Permissions)
+        unless self.class.included_modules.include?('Hydra::AccessControls::Permissions')
+          self.class.send(:include, Hydra::AccessControls::Permissions)
         end
         self.datastreams["rightsMetadata"]
       end

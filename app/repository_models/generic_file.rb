@@ -1,11 +1,17 @@
 require File.expand_path("../../../lib/sufia/generic_file/thumbnail", __FILE__)
-require Sufia::Models::Engine.root.join('app/models/generic_file')
 require File.expand_path("../curation_concern/embargoable", __FILE__)
 require File.expand_path("../../repository_datastreams/file_content_datastream", __FILE__)
 
-class GenericFile
-  include CurationConcern::Embargoable
+class GenericFile < ActiveFedora::Base
+  include Sufia::ModelMethods
+  include Hydra::AccessControls::Permissions
+  include CurationConcern::Embargoable # overrides visibility, so must come after Permissions
+  include Sufia::GenericFile::Characterization
   include Curate::ActiveModelAdaptor
+  include Sufia::GenericFile::Metadata
+  include Sufia::GenericFile::Versions
+  include Sufia::GenericFile::Audit
+  include Sufia::GenericFile::MimeTypes
 
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
 

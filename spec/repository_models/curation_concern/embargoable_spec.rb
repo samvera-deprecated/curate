@@ -41,11 +41,11 @@ describe CurationConcern::Embargoable do
   context 'visibility' do
     let(:the_date) { 2.days.from_now }
     it "should return the 'open' value when embargo isn't set" do
-      expect(subject.visibility).to eq Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      expect(subject.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
     it "should return the 'open_with_embargo_release_date' value when embargo is set" do
       subject.embargo_release_date = the_date
-      expect(subject.visibility).to eq Sufia::Models::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
+      expect(subject.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
     end
   end
 
