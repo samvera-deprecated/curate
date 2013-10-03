@@ -18,8 +18,8 @@ class WelcomeController < ApplicationController
 
   private
 
-  def show_action_bar?
-    false
+  def show_site_actions?
+    true
   end
 
   def first_time_login?

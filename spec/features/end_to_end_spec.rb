@@ -24,21 +24,6 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
   let(:updated_title) { "#{prefix} Another Not Quite" }
   let(:updated_file_path) { Rails.root.join('app/controllers/application_controller.rb').to_s }
 
-  def assert_breadcrumb_trail(page, *breadcrumbs)
-    page.assert_selector('.breadcrumb li', count: breadcrumbs.length)
-    within('.breadcrumb') do
-      breadcrumbs.each do |text, path|
-        if String(path).empty?
-          page.has_css?('li', text: text)
-        else
-          page.has_css?("li a[href='#{path}']", text: text)
-        end
-      end
-    end
-  end
-
-
-
   def fill_out_form_multi_value_for(method_name, options={})
     field_name = "generic_work[#{method_name}][]"
     within(".control-group.generic_work_#{method_name}.multi_value") do
@@ -56,22 +41,6 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       end
     end
   end
-
-
-  describe 'breadcrumb' do
-    let(:agreed_to_terms_of_service) { true }
-    it 'renders a breadcrumb' do
-      login_as(user)
-      visit('/')
-      click_link('Get Started')
-      assert_breadcrumb_trail(page, ["Dashboard", '/dashboard'], ["What are you uploading?", nil])
-
-      visit new_curation_concern_generic_work_path
-      assert_breadcrumb_trail(page, ["Dashboard", '/dashboard'], ['New Generic Work', nil])
-    end
-  end
-
-
 
   describe 'terms of service' do
     let(:agreed_to_terms_of_service) { false }
@@ -169,7 +138,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       login_as(user)
       visit('/')
       click_link("Get Started")
-      click_link "Request Help"
+      click_link "Help!"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
         click_on("Let Us Know")
@@ -181,7 +150,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       login_as(user)
       visit('/')
       click_link("Get Started")
-      click_link "Request Help"
+      click_link "Help!"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
         click_on("Let Us Know")

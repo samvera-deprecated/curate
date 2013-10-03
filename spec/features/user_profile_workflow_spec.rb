@@ -71,7 +71,9 @@ describe 'user profile workflow', FeatureSupport.options do
       assert_user_has_not_updated_their_profile_yet(email)
       assert_logout_link_is_visible
 
+      # NOTE: the flow of this is a bit odd.
       visit catalog_index_path
+      agree_to_tos
       assert_logout_link_is_visible
     end
   end
@@ -101,10 +103,7 @@ describe 'user profile workflow', FeatureSupport.options do
 
     click_link("Sign up")
     sign_up_new_user(email, password)
-
-    within('form#terms_of_service') do
-      click_button("I Agree")
-    end
+    agree_to_tos
 
     within('form.edit_user') do
       fill_in("user[email]", with: new_email)
@@ -134,7 +133,7 @@ describe 'user profile workflow', FeatureSupport.options do
   end
 
   def assert_logout_link_is_visible
-    page.should have_link("Log Out", href: destroy_user_session_path)
+    page.should have_selector("#site-actions .log-out")
   end
 
   def assert_user_has_not_updated_their_profile_yet(user_email)
@@ -148,6 +147,12 @@ describe 'user profile workflow', FeatureSupport.options do
       fill_in("user[password]", with: password)
       fill_in("user[password_confirmation]", with: password)
       click_button("Sign up")
+    end
+  end
+
+  def agree_to_tos
+    within('form#terms_of_service') do
+      click_button("I Agree")
     end
   end
 end
