@@ -6,16 +6,14 @@ if ENV['JS']
 end
 
 describe 'catalog search', describe_options do
-  unless ENV['TRAVIS']
-    it 'renders search results for null search' do
-      visit('/')
-      within('.search-form') do
-        click_button("Go")
-      end
-
-      page.should have_tag('ul#documents')
-      page.should have_tag(".search-constraints", with_text: "You searched for:")
+  it 'renders search results for null search' do
+    visit('/')
+    within('.search-form') do
+      click_button("Go")
     end
+
+    page.should have_tag('ul#documents')
+    page.should have_tag(".search-constraints", with_text: "You searched for:")
   end
 end
 
