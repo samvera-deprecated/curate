@@ -25,3 +25,19 @@
     @include border-top-right-radius(15px);
   }
 }
+
+.search-query-form {
+  .search-scope {
+    display:block;
+    line-height:1.5em;
+    margin-bottom:.3em;
+
+    input {
+      margin-top:0;
+    }
+  }
+
+  .label-text {
+    padding-left:.3em;
+  }
+}
