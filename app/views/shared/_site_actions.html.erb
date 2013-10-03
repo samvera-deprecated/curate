@@ -1,0 +1,20 @@
+<% if current_user %>
+  <%= link_to 'Submit a work', new_classify_concern_path, class: 'btn btn-primary new-work' -%>
+  <div class="btn-group my-actions">
+    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+      Me <%# TODO: Make this show the display name of the current user %>
+      <span class="caret"></span>
+    </a>
+    <%# TODO: Get bootstrap JS and turbolinks to play nicely %>
+    <ul class="dropdown-menu" data-no-turbolink="true">
+      <li><%= link_to 'My Collections',  collections_path,                 class: 'my-collection' %></li>
+      <li><%= link_to 'My Account',      person_path(current_user.person), class: 'my-account'    %></li>
+      <li><%= link_to 'Log Out',         destroy_user_session_path,        class: 'log-out'       %></li>
+    </ul>
+  </div>
+  <%= link_to 'Help!', new_help_request_path, class: 'btn btn-primary request-help' %>
+<% else %>
+  <ul class="nav nav-pills" role="menu">
+    <%= bootstrap_navigation_element 'Log In', new_user_session_path, class: 'pull-right' %>
+  </ul>
+<% end %>
