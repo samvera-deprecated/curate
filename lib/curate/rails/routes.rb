@@ -3,7 +3,12 @@ module ActionDispatch::Routing
 
     def curate_for(opts={})
       scope module: 'curate' do
-        resources 'collections'
+        resources 'collections' do
+          collection do
+            get :add_member_form
+            put :add_member
+          end
+        end
         resources 'people', only: :show
       end
       resources :downloads, only: [:show]

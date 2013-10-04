@@ -7,6 +7,7 @@ class CatalogController < ApplicationController
   include Hydra::Controller::ControllerBehavior
   include BreadcrumbsOnRails::ActionController
   include Curate::ThemedLayoutController
+  include Curate::FieldsForAddToCollection
 
   with_themed_layout 'catalog'
 
@@ -22,6 +23,8 @@ class CatalogController < ApplicationController
   skip_before_filter :default_html_head
 
   def index
+    collection_options
+    profile_collection_options
     super
   end
 
