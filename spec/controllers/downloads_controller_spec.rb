@@ -5,6 +5,7 @@ describe DownloadsController do
     let(:user) { FactoryGirl.create(:user) }
     let(:another_user) { FactoryGirl.create(:user) }
     let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+    let(:image_file) { File.open(Rails.root.join('../fixtures/files/image.png')) }
     let(:generic_file) {
       FactoryGirl.create_generic_file(:generic_work, user) {|g|
         g.visibility = visibility
@@ -37,6 +38,14 @@ describe DownloadsController do
       sign_in user
       get :show, id: generic_file.to_param
       response.body.should == generic_file.content.content
+    end
+
+    it 'sends requested datastream content' do
+      generic_file.datastreams['thumbnail'].content = image_file
+      generic_file.save!
+      sign_in user
+      get :show, id: generic_file.to_param, datastream_id: 'thumbnail'
+      response.body.should == generic_file.thumbnail.content
     end
   end
 end
