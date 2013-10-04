@@ -1,7 +1,6 @@
 # Curate
 
-## Application Status
-
+[![Gem Version](https://badge.fury.io/rb/curate.png)](http://badge.fury.io/rb/curate)
 [![Build Status](https://travis-ci.org/ndlib/curate.png)](https://travis-ci.org/ndlib/curate)
 
 ## Installation
