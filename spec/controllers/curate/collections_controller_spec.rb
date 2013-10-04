@@ -54,7 +54,73 @@ describe Curate::CollectionsController do
         expect(flash[:notice]).to eq 'Collection was successfully updated.'
 
         collection.reload.should be_open_access
+      end
+    end
+  end
 
+  describe "Adding an item to a collection: " do
+    let!(:work) { FactoryGirl.create(:generic_work, user: user) }
+    let!(:collection) { FactoryGirl.create(:collection, user: user) }
+
+    describe "#add_member_form" do
+      it "displays the form for adding an item to a collection" do
+        get :add_member_form, collectible_id: work.pid
+        assigns(:collectible).should == work
+        assigns(:collection_options).should == [collection]
+        assigns(:profile_collection_options).should == []
+        expect(response).to render_template('add_member_form')
+      end
+    end
+
+    describe "#add_member_form without read rights" do
+      it "denies access" do
+        another_user = FactoryGirl.create(:user)
+        another_work = FactoryGirl.create(:private_generic_work, user: another_user)
+        get :add_member_form, collectible_id: another_work.pid
+        expect(response).to render_template('unauthorized')
+      end
+    end
+
+    describe "#add_member" do
+      it "adds the item to the collection" do
+        put :add_member, collectible_id: work.pid, collection_id: collection.pid
+        assigns(:collectible).should == work
+        assigns(:collection).should == collection
+        reload = Collection.find(collection.pid)
+        reload.members.should == [work]
+        expect(response).to redirect_to(catalog_index_path)
+      end
+    end
+
+    describe "#add_member without edit rights" do
+      it "denies access" do
+        another_user = FactoryGirl.create(:user)
+        another_collection = FactoryGirl.create(:public_collection, user: another_user)
+
+        put :add_member, collectible_id: work.pid, collection_id: another_collection.pid
+
+        assigns(:collectible).should == work
+        assigns(:collection).should == another_collection
+        reload = Collection.find(another_collection.pid)
+        reload.members.should == []
+        expect(response).to redirect_to(root_url)
+      end
+    end
+
+    describe "#add_member failure" do
+      it "prints fail message" do
+        Collection.any_instance.should_receive(:save).and_return(false)
+        put :add_member, collectible_id: work.pid, collection_id: collection.pid
+        expect(flash[:error]).to eq 'Unable to add item to collection.'
+        expect(response).to redirect_to(catalog_index_path)
+      end
+    end
+
+    describe "#add_member with invalid collection" do
+      it "prints fail message" do
+        put :add_member, collectible_id: work.pid, collection_id: ''
+        expect(flash[:error]).to eq 'Unable to add item to collection.'
+        expect(response).to redirect_to(catalog_index_path)
       end
     end
   end

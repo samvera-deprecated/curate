@@ -31,5 +31,14 @@ describe CatalogController do
         assigns(:document_list).map(&:id).should == [work1.id]
       end
     end
+
+    context "index page" do
+      it "assigns options for adding items to collection" do
+        coll = FactoryGirl.create(:collection, user: user)
+        get 'index'
+        assigns(:collection_options).should == [coll]
+        assigns(:profile_collection_options).should == []
+      end
+    end
   end
 end

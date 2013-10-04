@@ -4,6 +4,7 @@ class Curate::CollectionsController < ApplicationController
   # so that the update method is overridden.
   include Hydra::CollectionsControllerBehavior
   include Hydra::AccessControlsEnforcement
+  include Curate::FieldsForAddToCollection
   with_themed_layout '1_column'
 
   add_breadcrumb 'Collections', lambda {|controller| controller.request.path }
@@ -33,7 +34,52 @@ class Curate::CollectionsController < ApplicationController
   # This filters out objects that you want to exclude from search results, like FileAssets
   Curate::CollectionsController.solr_search_params_logic += [:only_collections]
 
+  skip_load_and_authorize_resource only: [:add_member_form, :add_member]
+  before_filter :load_and_authorize_collectible, only: [:add_member_form, :add_member]
+  before_filter :load_and_authorize_collection, only: [:add_member_form, :add_member]
+
+  def add_member_form
+    collection_options
+    profile_collection_options
+    render 'add_member_form'
+  end
+
+  def add_member
+    if @collection && @collectible
+      @collection.members << @collectible
+      if @collection.save
+        flash[:notice] = "\"#{@collectible}\" has been added to \"#{@collection}\""
+      else
+        flash[:error] = 'Unable to add item to collection.'
+      end
+    else
+      flash[:error] = 'Unable to add item to collection.'
+    end
+    redirect_to catalog_index_path
+  end
+
   private
+
+  def load_and_authorize_collectible
+    id = id_from_params(:collectible_id)
+    return nil unless id
+    @collectible = ActiveFedora::Base.find(id, cast: true)
+    authorize! :show, @collectible
+  end
+
+  def load_and_authorize_collection
+    id = id_from_params(:collection_id)
+    id ||= id_from_params(:profile_collection_id)
+    return nil unless id
+    @collection = Collection.find(id)
+    authorize! :update, @collection
+  end
+
+  def id_from_params(key)
+    if params[key] && !params[key].empty?
+      params[key]
+    end
+  end
 
   def after_create
     respond_to do |format|
