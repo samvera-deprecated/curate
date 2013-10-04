@@ -15,7 +15,7 @@ describe 'Creating a article' do
         fill_in "Abstract", with: "My abstract"
         fill_in "External link", with: "http://www.youtube.com/watch?v=oHg5SJYRHA0"
         select(Sufia.config.cc_licenses.keys.first, from: I18n.translate('sufia.field_label.rights'))
-        check("I have read and accept the contributor licence agreement")
+        check("I have read and accept the contributor license agreement")
         click_button("Create Article")
       end
       expect(page).to have_selector('h1', text: 'Article')
