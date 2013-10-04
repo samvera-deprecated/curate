@@ -15,4 +15,18 @@ describe 'Profile for a Person: ' do
     end
   end
 
+  context "searching" do
+    before do
+      FactoryGirl.create(:account, name: 'Marguerite Scypion' )
+    end
+    it 'is displayed in the results' do
+      visit catalog_index_path
+      fill_in 'Search Curate', with: 'Marguerite'
+      click_button 'Go'
+      within('#documents') do
+        expect(page).to have_link('Marguerite Scypion') #title
+      end
+    end
+  end
+
 end

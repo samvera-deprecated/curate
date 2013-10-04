@@ -63,6 +63,7 @@ class Person < ActiveFedora::Base
   def to_solr(solr_doc={}, opts={})
     super(solr_doc, opts)
     Solrizer.set_field(solr_doc, 'generic_type', 'Person', :facetable)
+    solr_doc['read_access_group_ssim'] = 'public'
     solr_doc
   end
 
