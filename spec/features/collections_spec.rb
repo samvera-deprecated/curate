@@ -18,6 +18,15 @@ describe "Showing and creating Collections" do
     within 'table tbody' do
       expect(page).to have_content 'amalgamate members'
     end
+
+    # then I should find it in the search results.
+    fill_in 'Search Curate', with: 'amalgamate members'
+    click_button 'Go'
+    within('#documents') do
+      expect(page).to have_link('amalgamate members') #title
+      expect(page).to have_selector('dd', text: "I've collected a few related things together")
+      expect(page).to have_selector('dd', text: user.email)
+    end
   end
 
   it 'displays a friendly message if user has no collections yet' do

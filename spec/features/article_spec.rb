@@ -11,8 +11,9 @@ describe 'Creating a article' do
       click_link "Submit a work"
       classify_what_you_are_uploading 'Article'
       within '#new_article' do
-        fill_in "Title", with: "My title"
+        fill_in "Title", with: "craft beer roof party YOLO fashion axe"
         fill_in "Abstract", with: "My abstract"
+        fill_in "Contributor", with: "Test article contributor"
         fill_in "External link", with: "http://www.youtube.com/watch?v=oHg5SJYRHA0"
         select(Sufia.config.cc_licenses.keys.first, from: I18n.translate('sufia.field_label.rights'))
         check("I have read and accept the contributor license agreement")
@@ -22,6 +23,16 @@ describe 'Creating a article' do
       within ('.linked_resource.attributes') do
         expect(page).to have_link('http://www.youtube.com/watch?v=oHg5SJYRHA0', href: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
       end
+
+      # then I should find it in the search results.
+      fill_in 'Search Curate', with: 'roof party'
+      click_button 'Go'
+      within('#documents') do
+        expect(page).to have_link('craft beer roof party YOLO fashion axe') #title
+        expect(page).to have_selector('dd', text: 'My abstract')
+        expect(page).to have_selector('dd', text: 'Test article contributor')
+      end
+
     end
   end
 end
