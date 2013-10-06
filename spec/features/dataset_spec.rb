@@ -11,7 +11,9 @@ describe 'Creating a dataset' do
       click_link "Submit a work"
       classify_what_you_are_uploading 'Dataset'
       within '#new_dataset' do
-        fill_in "Title", with: "My title"
+        fill_in "Title", with: "Banksy fingerstache Polaroid artisan gastropub"
+        fill_in "Contributor", with: "Test dataset contributor"
+        fill_in "Abstract", with: "Test abstract"
         fill_in "External link", with: "http://www.youtube.com/watch?v=oHg5SJYRHA0"
         select(Sufia.config.cc_licenses.keys.first, from: I18n.translate('sufia.field_label.rights'))
         check("I have read and accept the contributor license agreement")
@@ -20,6 +22,15 @@ describe 'Creating a dataset' do
       expect(page).to have_selector('h1', text: 'Dataset')
       within ('.linked_resource.attributes') do
         expect(page).to have_link('http://www.youtube.com/watch?v=oHg5SJYRHA0', href: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
+      end
+
+      # then I should find it in the search results.
+      fill_in 'Search Curate', with: 'fingerstache gastropub'
+      click_button 'Go'
+      within('#documents') do
+        expect(page).to have_link('Banksy fingerstache Polaroid artisan gastropub') #title
+        expect(page).to have_selector('dd', text: 'Test abstract')
+        expect(page).to have_selector('dd', text: 'Test dataset contributor')
       end
     end
   end

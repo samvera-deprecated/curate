@@ -1,3 +1,38 @@
-<%-# This is a search result view %>
-<%= render partial: 'catalog/document', locals: {document: dataset, document_counter: dataset_counter } %>
+<%# This is a search result view %>
+<% noid = dataset.noid %>
+<li id="document_<%= noid %>" class="row-fluid search-result">
+  <div class="span3">
+    <%= dataset_counter + 1 %>
+    <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: dataset} %>
+  </div>
+
+  <div class="span8">
+    <% solr_doc = dataset.inner_object.solr_doc %>
+    <%# Minimize Fedora hits by using solr_doc rather than document %>
+    <%= link_to render_index_field_value(document: solr_doc, field: 'desc_metadata__title_tesim'), curation_concern_dataset_path(dataset), :id => "src_copy_link_#{noid}" %>
+    <dl class="attributes">
+      <% if solr_doc.has?('desc_metadata__contributor_tesim') %>
+        <dt>Contributor(s):</dt>
+        <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__contributor_tesim') %></dd>
+      <% end %>
+
+      <% if solr_doc.has?('desc_metadata__description_tesim') %>
+        <dt>Abstract:</dt>
+        <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__description_tesim'), length: 150) %></dd>
+      <% end %>
+    </dl>
+
+  </div>
+
+  <div class="span1">
+    <% if current_user && can?(:edit, dataset) %>
+      <%= link_to(
+        raw('<i class="icon-pencil icon-large"></i>'),
+        edit_curation_concern_dataset_path(dataset),
+        :class=> 'itemicon itemedit',
+        :title => 'Edit Dataset')%>
+    <% end -%>
+  </div>
+
+</li>
 
