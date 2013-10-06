@@ -1,2 +1,38 @@
-<%-# This is a search result view %>
-<%= render partial: 'catalog/document', locals: {document: collection, document_counter: collection_counter } %>
+<%# This is a search result view %>
+<% noid = collection.noid %>
+<li id="document_<%= noid %>" class="row-fluid search-result">
+  <div class="span3">
+    <%= collection_counter + 1 %>
+    <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: collection} %>
+  </div>
+
+  <div class="span8">
+    <% solr_doc = collection.inner_object.solr_doc %>
+    <%# Minimize Fedora hits by using solr_doc rather than document %>
+    <%= link_to render_index_field_value(document: solr_doc, field: 'desc_metadata__title_tesim'), collection, :id => "src_copy_link_#{noid}" %>
+    <dl class="attributes">
+      <% if solr_doc.has?('desc_metadata__description_tesim') %>
+        <dt>Description:</dt>
+        <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__description_tesim'), length: 150) %></dd>
+      <% end %>
+      <% if solr_doc.has?('edit_access_person_ssim') %>
+        <dt>Owner:</dt>
+        <dd><%= render_index_field_value(document: solr_doc, field: 'edit_access_person_ssim') %></dd>
+      <% end %>
+
+    </dl>
+
+  </div>
+
+  <div class="span1">
+    <% if current_user && can?(:edit, collection) %>
+      <%= link_to(
+        raw('<i class="icon-pencil icon-large"></i>'),
+        edit_collection_path(collection),
+        :class=> 'itemicon itemedit',
+        :title => 'Edit Collection')%>
+    <% end -%>
+  </div>
+
+</li>
+
