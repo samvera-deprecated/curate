@@ -36,15 +36,22 @@ module Curate::CollectionsHelper
   end
 
   def work_line_item(work)
-    link = link_to work.title, polymorphic_path_for_asset(work)
-    contributors = work.contributor.empty? ? '' : "(#{work.contributor.join(', ')})"
-    link + ' ' + contributors
+    link = link_to work.to_s, polymorphic_path_for_asset(work)
+    link + ' ' + contributors(work)
   end
 
   def collection_line_item(collection, terminate)
     list_item = link_to(collection.to_s, collection_path(collection))
     list_item << list_items_in_collection(collection, true) unless terminate  # limit nesting
     list_item
+  end
+
+  def contributors(work)
+    if work.respond_to?(:contributor)
+      work.contributor.empty? ? '' : "(#{work.contributor.join(', ')})"
+    else
+      ''
+    end
   end
 
 end

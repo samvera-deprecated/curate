@@ -14,5 +14,8 @@
     </dl>
   </div>
 
+  <% if current_user -%>
+    <%= render partial: 'add_to_collection_gui', locals: { document: person } %>
+  <% end -%>
 </li>
 
