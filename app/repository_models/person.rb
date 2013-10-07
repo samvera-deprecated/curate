@@ -67,4 +67,8 @@ class Person < ActiveFedora::Base
     solr_doc
   end
 
+  def to_s
+    name || "No Title"
+  end
+
 end
