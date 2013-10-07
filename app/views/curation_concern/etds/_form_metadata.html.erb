@@ -24,7 +24,8 @@
     <div class="span6">
       <%= f.input :creator,
         as: :multi_value,
-        input_html: { class: 'input-xlarge' }
+        input_html: { class: 'input-xlarge' },
+        hint: 'Be sure to add your name because <em>you</em> are a contributor to your own thesis.'.html_safe 
       %>
 
       <%= f.input :subject,
