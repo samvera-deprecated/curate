@@ -34,7 +34,6 @@
         <% end -%>
       <% end -%>
     </dl>
-
   </div>
 
   <div class="span1">
@@ -46,7 +45,9 @@
         :class=> 'itemicon itemedit',
         :title => 'Edit File'
       ) if can? :edit, document %>
-    <% end -%>
-  </div>
 
+      <%= render partial: 'add_to_collection_gui', locals: { document: document } %>
+    <% end -%>
+
+  </div>
 </li>

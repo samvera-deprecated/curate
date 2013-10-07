@@ -32,6 +32,10 @@
         :class=> 'itemicon itemedit',
         :title => 'Edit Article')%>
     <% end -%>
+
+    <% if current_user -%>
+      <%= render partial: 'add_to_collection_gui', locals: { document: article } %>
+    <% end -%>
   </div>
 
 </li>
