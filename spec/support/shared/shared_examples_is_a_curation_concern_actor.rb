@@ -22,7 +22,7 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
           }
         }
         before(:each) do
-          subject.create!
+          subject.create
         end
 
         describe 'authenticated visibility' do
@@ -49,7 +49,7 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
           FactoryGirl.attributes_for(default_work_factory_name, visibility: visibility, linked_resource_url: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
         }
         before(:each) do
-          subject.create!
+          subject.create
         end
 
         describe 'authenticated visibility' do
@@ -88,7 +88,7 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
         it "should add to collections" do
           collection1.save # Had to call .save again to make this persist properly!? - MZ Sept 2013
           expect(curation_concern.collections).to eq [collection1]
-          subject.update!
+          subject.update.should be_true
 
           reloaded_cc = curation_concern.class.find(curation_concern.pid)
           expect(reloaded_cc.identifier).to be_blank

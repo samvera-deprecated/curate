@@ -8,10 +8,9 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   def create
     if verify_acceptance_of_user_agreement!
       self.curation_concern.inner_object.pid = CurationConcern.mint_a_pid
-      begin
-        actor.create!
+      if actor.create
         after_create_response
-      rescue ActiveFedora::RecordInvalid
+      else
         respond_with([:curation_concern, curation_concern]) do |wants|
           wants.html { render 'new', status: :unprocessable_entity }
         end
@@ -51,11 +50,12 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   def update
-    actor.update!
-    after_update_response
-  rescue ActiveFedora::RecordInvalid
-    respond_with([:curation_concern, curation_concern]) do |wants|
-      wants.html { render 'edit', status: :unprocessable_entity }
+    if actor.update
+      after_update_response
+    else
+      respond_with([:curation_concern, curation_concern]) do |wants|
+        wants.html { render 'edit', status: :unprocessable_entity }
+      end
     end
   end
 

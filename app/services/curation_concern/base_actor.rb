@@ -13,23 +13,48 @@ module CurationConcern
     end
 
     def create!
+      apply_creation_data_to_curation_concern
+      save!
+    end
+
+    def create
+      apply_creation_data_to_curation_concern
+      save
+    end
+
+    def apply_creation_data_to_curation_concern
       curation_concern.apply_depositor_metadata(user.user_key)
       curation_concern.creator = user.name
       curation_concern.date_uploaded = Date.today
-      save
     end
+    protected :apply_creation_data_to_curation_concern
 
     def update!
+      save!
+    end
+
+    def update
       save
     end
 
+    def save!
+      apply_save_data_to_curation_concern
+      curation_concern.save!
+    end
+    protected :save!
+
     def save
+      apply_save_data_to_curation_concern
+      curation_concern.save
+    end
+    protected :save
+
+    def apply_save_data_to_curation_concern
       curation_concern.attributes = attributes
       curation_concern.date_modified = Date.today
       #curation_concern.visibility = visibility
-      curation_concern.save!
     end
-    protected :save
+    protected :apply_save_data_to_curation_concern
 
     attr_reader :visibility
     protected :visibility
