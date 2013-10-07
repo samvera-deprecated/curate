@@ -28,6 +28,14 @@
   </fieldset>
 <% end %>
 
+<%- Hydra::RemoteIdentifier.with_registered_remote_service(:doi, curation_concern) do |remote_service| -%>
+  <div class="row with-headroom">
+    <div class="span6">
+      <%= render "form_doi", curation_concern: curation_concern, f: f, remote_service: remote_service %>
+    </div>
+  </div>
+<%- end -%>
+
 <div class="row with-headroom">
   <div class="span12">
     <%= render "form_permission", curation_concern: curation_concern, f: f %>

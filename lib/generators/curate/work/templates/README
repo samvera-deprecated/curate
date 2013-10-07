@@ -6,7 +6,7 @@ After creating your work you may wish to:
 
       Your newly created work's controller extends from
       CurationConcern::GenericWorksController; This means that it will use the
-      views of found in Curate::Engine.root/app/views/curation_concern/generic_works.
+      views found in Curate::Engine.root/app/views/curation_concern/generic_works.
 
   2. Modify the model and datastreams
 

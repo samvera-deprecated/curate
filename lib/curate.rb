@@ -5,6 +5,7 @@ require 'simple_form'
 require 'bootstrap-datepicker-rails'
 require 'hydra-batch-edit'
 require 'active_fedora/registered_attributes'
+require 'hydra/remote_identifier'
 
 module Curate
   extend ActiveSupport::Autoload
