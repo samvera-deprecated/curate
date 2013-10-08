@@ -7,10 +7,18 @@ module CurationConcern
       create_linked_resource
     end
 
+    def create
+      super && attach_files && create_linked_resource
+    end
+
     def update!
       add_to_collections attributes.delete(:collection_ids)
       super
       attach_files
+    end
+
+    def update
+      add_to_collections(attributes.delete(:collection_ids)) && super && attach_files
     end
 
     delegate :visibility_changed?, to: :curation_concern
@@ -23,7 +31,7 @@ module CurationConcern
     end
 
     def attach_files
-      files.each do |file|
+      files.all? do |file|
         attach_file(file)
       end
     end
@@ -33,7 +41,7 @@ module CurationConcern
     # to new collections, but not remove from old collections.
     # This method ensures it's removed from the old collections.
     def add_to_collections(new_collection_ids)
-      return if new_collection_ids.nil?
+      return true if new_collection_ids.nil?
       #remove from old collections
       (curation_concern.collection_ids - new_collection_ids).each do |old_id|
         Collection.find(old_id).members.delete(curation_concern)
@@ -41,6 +49,7 @@ module CurationConcern
 
       #add to new
       curation_concern.collection_ids = new_collection_ids
+      true
     end
 
     def linked_resource
@@ -56,6 +65,9 @@ module CurationConcern
         end
         Sufia::GenericFile::Actions.create_metadata( resouce, user, curation_concern.pid)
       end
+      true
+    rescue ActiveFedora::RecordInvalid
+      false
     end
 
     private

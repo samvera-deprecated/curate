@@ -35,12 +35,9 @@ describe CurationConcern::GenericFilesController do
 
   describe '#create' do
     let(:actor) { double('actor') }
-    let(:actors_action) { :create! }
-    let(:invalid_exception) {
-      ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new)
-    }
+    let(:actors_action) { :create }
     let(:failing_actor) {
-      actor.should_receive(actors_action).and_raise(invalid_exception)
+      actor.should_receive(actors_action).and_return(false)
       actor
     }
     let(:successful_actor) {
@@ -95,12 +92,12 @@ describe CurationConcern::GenericFilesController do
     let(:updated_title) { Time.now.to_s }
     let(:failing_actor) {
       actor.
-      should_receive(:update!).
-      and_raise(ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new))
+      should_receive(:update).
+      and_return(false)
       actor
     }
     let(:successful_actor) {
-      actor.should_receive(:update!).and_return(true)
+      actor.should_receive(:update).and_return(true)
       actor
     }
     let(:actor) { double('actor') }
@@ -115,6 +112,7 @@ describe CurationConcern::GenericFilesController do
 
     it 'redirects to parent when successful' do
       generic_file
+      controller.actor = successful_actor
       sign_in(user)
       put :update, id: generic_file.to_param, generic_file: {title: updated_title}
       response.status.should == 302
@@ -140,13 +138,11 @@ describe CurationConcern::GenericFilesController do
   describe '#rollback' do
     let(:updated_title) { Time.now.to_s }
     let(:failing_actor) {
-      actor.
-      should_receive(:rollback!).
-      and_raise(ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new))
+      actor.should_receive(:rollback).and_return(false)
       actor
     }
     let(:successful_actor) {
-      actor.should_receive(:rollback!).and_return(true)
+      actor.should_receive(:rollback).and_return(true)
       actor
     }
     let(:actor) { double('actor') }

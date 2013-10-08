@@ -18,5 +18,8 @@ module CurationConcern
       'content',
       user
     )
+    true
+  rescue ActiveFedora::RecordInvalid
+    false
   end
 end
