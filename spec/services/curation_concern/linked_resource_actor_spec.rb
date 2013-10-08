@@ -14,12 +14,11 @@ describe CurationConcern::LinkedResourceActor do
     CurationConcern::LinkedResourceActor.new(link, user, url: you_tube_link)
   }
 
-  describe '#create!' do
-
+  describe '#create' do
     describe 'success' do
       it 'adds a linked resource to the parent work' do
         parent.linked_resources.should == []
-        subject.create!
+        subject.create
         reload_resource(parent).linked_resources.should == [link]
         reloaded_link = reload_resource(link)
         reloaded_link.batch.should == parent
@@ -28,14 +27,14 @@ describe CurationConcern::LinkedResourceActor do
     end
 
     describe 'failure' do
-      it 'raises an error' do
+      it 'returns false' do
         link.stub(:valid?).and_return(false)
+        return_value = 'some value'
         expect {
-          expect {
-            subject.create!
-          }.to raise_error(ActiveFedora::RecordInvalid)
+          return_value = subject.create
         }.to_not change { LinkedResource.count }
         reload_resource(parent).linked_resources.should == []
+        return_value.should be_false
       end
     end
   end
