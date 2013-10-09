@@ -4,6 +4,7 @@ class Etd < ActiveFedora::Base
   include CurationConcern::WithLinkedResources
   include CurationConcern::Embargoable
   include ActiveFedora::RegisteredAttributes
+  include CurationConcern::LinkedCreators
 
   has_metadata "descMetadata", type: EtdMetadata
 
@@ -14,12 +15,9 @@ class Etd < ActiveFedora::Base
 
   delegate :degree, to: :descMetadata, multiple: true
 
+  validates_presence_of :creators, message: "Your #{etd_label} must have an author."
+
   with_options datastream: :descMetadata do |ds|
-    ds.attribute :creator,
-      label: "Author",
-      hint: "Author's Name",
-      multiple: true,
-      validates: { presence: { message: "Your #{etd_label} must have an author." } }
     ds.attribute :contributor,
       multiple: true,
       label: "Contributor(s)",
@@ -122,5 +120,12 @@ class Etd < ActiveFedora::Base
   attribute :files,
     multiple: true, form: {as: :file}, label: "Upload Files",
     hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
+
+  def to_solr(solr_doc = {})
+    super
+    # This field is a bit misleading, but the reference is stored in descMetadata
+    solr_doc['desc_metadata__creator_tesim'] = self.creators.map(&:name)
+    solr_doc
+  end
 
 end

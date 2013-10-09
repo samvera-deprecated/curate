@@ -13,6 +13,9 @@
 //
 //= require jquery-ui-1.9.2/jquery.ui.widget
 //= require jquery-ui-1.9.2/jquery.ui.core
+//= require jquery-ui-1.9.2/jquery.ui.menu
+//= require jquery-ui-1.9.2/jquery.ui.position
+//= require jquery-ui-1.9.2/jquery.ui.autocomplete
 //
 //= require blacklight/blacklight
 //
@@ -28,7 +31,9 @@
 //= require help_modal
 //= require jquery.tokeninput
 //= require curate/select_works
+//= require curate/link_users
 //= require curate/facet_mine
+//= require handlebars
 
 $(function(){
   $('abbr').tooltip();
@@ -45,6 +50,7 @@ $(function(){
     }
   });
   $('.multi_value.control-group').manage_fields();
+  $('.link-users').linkUsers();
 
   // Collapse all of the accordion body elements except the first
   // $('.accordion-body').each(function(index){

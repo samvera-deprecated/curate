@@ -9,7 +9,7 @@ module Curate
     end
 
     def noid
-      Sufia::Noid.noidify(self.pid)
+      Sufia::Noid.noidify(pid) if pid
     end
   end
 end
