@@ -56,6 +56,13 @@ describe Account do
         person.profile.reload
         person.profile.title.should == new_name
       end
+
+      it 'if the person name changes, it keeps the user.name in sync' do
+        new_name = 'Meriadoc Brandybuck'
+        subject.update_with_password(current_password: password, name: new_name)
+        person.name.should == new_name
+        person.user.name.should == new_name
+      end
     end
 
     describe 'with invalid attributes' do
