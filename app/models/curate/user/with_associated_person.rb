@@ -5,7 +5,7 @@ module Curate
 
       included do
         person_attributes_not_already_on_base =
-          Person.registered_attribute_names - attribute_names
+          Person.registered_attribute_names - attribute_names_for_account
 
         person_attributes_not_already_on_base.each do |attribute_name|
           delegate attribute_name, to: :person
