@@ -1,0 +1,41 @@
+<div class="control-group required link-users">
+  <span class="control-label">
+    <label class="required" for="<%=f.object.class.to_s.downcase%>_creators_attributes_0_name">
+      <abbr title="" data-original-title="required">*</abbr>Creator
+  </label>
+  </span>
+  <div class="controls">
+    <% prefix = f.object.class.to_s.downcase %> 
+    <script id="entry-template" type="text/x-handlebars-template">
+      <li class="field-wrapper input-append">
+        <input id="<%=prefix %>_creators_attributes_{{index}}_id" name="<%=prefix %>[creators_attributes][{{index}}][id]" type="hidden" value="" /> 
+        <input class="input-xlarge autocomplete-users" data-url="/people" id="<%=prefix %>_creators_attributes_{{index}}_name" name="<%=prefix %>[creators_attributes][{{index}}][name]" type="text" value="" />
+        <span class="field-controls"><button class="btn btn-success add"><i class="icon-white icon-plus"></i><span>Add</span></button></span>
+      </li>
+    </script>
+    <script id="existing-user-template" type="text/x-handlebars-template">
+      <li class="field-wrapper input-append">
+        <span class="linked-user"><a href="/people/{{value}}" target="_new">{{label}}</a></span>
+        <input type="hidden" name="<%=prefix %>[creators_attributes][{{index}}][id]" value="{{value}}">
+        <span class="field-controls"><button class="btn btn-danger remove"><i class="icon-white icon-minus"></i><span>Remove</span></button></span>
+      </li>
+    </script>
+    <ul class="listing">
+    <%= f.fields_for :creators do |cf| %>
+      <li class="field-wrapper input-append">
+        <%= cf.hidden_field :id %> 
+        <%= cf.hidden_field :_destroy %> 
+        <% if cf.object.persisted? %>
+          <span class="linked-user"><%=link_to cf.object.name, cf.object, target: '_new' %></span>
+        <% else %>
+          <%= cf.text_field :name, 
+            class: 'input-xlarge autocomplete-users', 'data-url' => people_path, required: cf.index == 0  %>
+        <% end %>
+
+        <span class="field-controls"></span>
+      </li>
+    <% end %>
+    </ul>
+  </div>
+</div>
+

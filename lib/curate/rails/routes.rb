@@ -9,7 +9,7 @@ module ActionDispatch::Routing
             put :add_member
           end
         end
-        resources 'people', only: :show
+        resources 'people', only: [:show, :index]
       end
       resources :downloads, only: [:show]
 
