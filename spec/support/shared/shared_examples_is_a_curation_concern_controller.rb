@@ -1,4 +1,6 @@
-shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, actions = :all|
+shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, options = {}|
+  actions = options.fetch(:actions, :all)
+
   CurationConcern::FactoryHelpers.load_factories_for(self, curation_concern_class)
 
   def self.optionally_include_specs(actions, action_name)
@@ -15,6 +17,8 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, a
   def path_to_curation_concern
     public_send("curation_concern_#{curation_concern_type_underscore}_path", controller.curation_concern)
   end
+
+  render_views
 
   if optionally_include_specs(actions, :show)
     describe "#show" do
@@ -41,50 +45,107 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, a
         end
       end
     end
-
-    if optionally_include_specs(actions, :create)
-      describe "#create" do
-        it "should create a work" do
-          controller.curation_concern.stub(:persisted?).and_return(true)
-          controller.actor = double(:create => true)
-          post :create, accept_contributor_agreement: "accept"
-          response.should redirect_to path_to_curation_concern
-        end
-      end
-
-      describe "#create failure" do
-        it 'renders the form' do
-          controller.actor = double(:create => false)
-          post :create, accept_contributor_agreement: "accept"
-          expect(response).to render_template('new')
-        end
-      end
-    end
-
-    if optionally_include_specs(actions, :update)
-      describe "#update" do
-        let(:a_work) { FactoryGirl.create(default_work_factory_name, user: user) }
-        it "should update the work " do
-          controller.actor = double(:update => true, :visibility_changed? => false)
-          patch :update, id: a_work
-          response.should redirect_to path_to_curation_concern
-        end
-        describe "changing rights" do
-          it "should prompt to change the files access" do
-            controller.actor = double(:update => true, :visibility_changed? => true)
-            patch :update, id: a_work
-            response.should redirect_to confirm_curation_concern_permission_path(controller.curation_concern)
-          end
-        end
-        describe "failure" do
-          it "renders the form" do
-            controller.actor = double(:update => false, :visibility_changed? => false)
-            patch :update, id: a_work
-            expect(response).to render_template('edit')
-          end
-        end
-      end
-    end
-
   end
+
+  if defined?(Hydra::RemoteIdentifier)
+    Hydra::RemoteIdentifier.with_registered_remote_service(:doi, curation_concern_class) do |remote_service|
+      if optionally_include_specs(actions, :new)
+        context "#new" do
+          it 'work should render DOI portion of the form' do
+            get :new
+            expect(response.body).to have_tag('label') do
+              input_name = "#{curation_concern_class.model_name.singular}[#{remote_service.accessor_name}]"
+              # Not keying on input name as this is assigned dynamically
+              with_tag('input', with: { name: input_name, type: 'hidden', value: "0"})
+              with_tag('input', with: { name: input_name, type: 'checkbox', value: "1" })
+            end
+          end
+        end
+      end
+    end
+  end
+
+  if optionally_include_specs(actions, :new)
+    describe "#new" do
+      context "my work" do
+        it "should show me the page" do
+          get :new
+          expect(response).to be_success
+        end
+      end
+    end
+  end
+
+  if optionally_include_specs(actions, :create)
+    describe "#create" do
+      it "should create a work" do
+        controller.curation_concern.stub(:persisted?).and_return(true)
+        controller.actor = double(:create => true)
+        post :create, accept_contributor_agreement: "accept"
+        response.should redirect_to path_to_curation_concern
+      end
+    end
+
+    describe "#create failure" do
+      it 'renders the form' do
+        controller.actor = double(:create => false)
+        post :create, accept_contributor_agreement: "accept"
+        expect(response).to render_template('new')
+      end
+    end
+  end
+
+  if optionally_include_specs(actions, :edit)
+    describe "#edit" do
+      context "my own private work" do
+        let(:a_work) { FactoryGirl.create(private_work_factory_name, user: user) }
+        it "should show me the page" do
+          get :edit, id: a_work
+          expect(response).to be_success
+        end
+      end
+      context "someone elses private work" do
+        let(:a_work) { FactoryGirl.create(private_work_factory_name) }
+        it "should show 401 Unauthorized" do
+          get :edit, id: a_work
+          expect(response.status).to eq 401
+          response.should render_template('errors/401')
+        end
+      end
+      context "someone elses public work" do
+        let(:a_work) { FactoryGirl.create(public_work_factory_name) }
+        it "should show me the page" do
+          get :edit, id: a_work
+          expect(response.status).to eq 401
+          response.should render_template('errors/401')
+        end
+      end
+    end
+  end
+
+  if optionally_include_specs(actions, :update)
+    describe "#update" do
+      let(:a_work) { FactoryGirl.create(default_work_factory_name, user: user) }
+      it "should update the work " do
+        controller.actor = double(:update => true, :visibility_changed? => false)
+        patch :update, id: a_work
+        response.should redirect_to path_to_curation_concern
+      end
+      describe "changing rights" do
+        it "should prompt to change the files access" do
+          controller.actor = double(:update => true, :visibility_changed? => true)
+          patch :update, id: a_work
+          response.should redirect_to confirm_curation_concern_permission_path(controller.curation_concern)
+        end
+      end
+      describe "failure" do
+        it "renders the form" do
+          controller.actor = double(:update => false, :visibility_changed? => false)
+          patch :update, id: a_work
+          expect(response).to render_template('edit')
+        end
+      end
+    end
+  end
+
 end

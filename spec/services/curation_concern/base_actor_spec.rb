@@ -26,6 +26,7 @@ describe CurationConcern::BaseActor do
 
     describe 'success' do
       it 'returns true' do
+        subject.stub(:assign_remote_identifier_if_applicable).and_return(true)
         subject.create.should be_true
       end
     end

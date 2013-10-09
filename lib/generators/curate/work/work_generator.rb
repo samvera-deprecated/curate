@@ -1,14 +1,29 @@
 # -*- encoding : utf-8 -*-
 require 'rails/generators'
 
+class Rails::Generators::NamedBase
+  private
+  def destroy(what, *args)
+    log :destroy, what
+    argument = args.map {|arg| arg.to_s }.flatten.join(" ")
+
+    in_root {
+      run_ruby_script("bin/rails destroy #{what} #{argument}", verbose: true)
+    }
+  end
+end
+
 class Curate::WorkGenerator < Rails::Generators::NamedBase
   source_root File.expand_path("../templates", __FILE__)
 
+
+  class_option :doi, type: :boolean, default: true, desc: "Should the work provide a means of minting a DOI?"
   argument :attributes, :type => :array, :default => [], :banner => "field:type field:type"
 
   # Why all of these antics with defining individual methods?
   # Because I want the output of Curate::WorkGenerator to include all the processed files.
   def create_model_spec
+    append_doi_initializer if register_doi?
     template "model_spec.rb.erb", "spec/repository_models/#{file_name}_spec.rb"
   end
   def create_model
@@ -66,4 +81,17 @@ class Curate::WorkGenerator < Rails::Generators::NamedBase
     readme 'README'
   end
 
+  private
+  def register_doi?
+    !!options['doi']
+  end
+
+  def append_doi_initializer
+    args = ['curate:work:with_doi', "#{file_name}"]
+    if behavior == :revoke
+      destroy(*args)
+    else
+      generate(*args)
+    end
+  end
 end

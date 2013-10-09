@@ -8,6 +8,7 @@ class CurateGenerator < Rails::Generators::Base
 
   source_root File.expand_path('../templates', __FILE__)
 
+  class_option :with_doi, default: false, type: :boolean
 
   desc """
 This generator makes the following changes to your application:
@@ -38,6 +39,7 @@ This generator makes the following changes to your application:
     remove_dir('app/views/devise')
     generate "hydra:head -f"
     generate "sufia:models:install#{options[:force] ? ' -f' : ''}"
+    generate "hydra:remote_identifier:install#{options[:force] ? ' -f' : ''}"
   end
 
   # Add behaviors to the application controller
@@ -92,6 +94,12 @@ This generator makes the following changes to your application:
       data << "end"
 
       data.join("\n")
+    end
+  end
+
+  def register_remote_identifiers
+    if options.fetch('with_doi', false)
+      generate 'curate:work:with_doi', DEFAULT_CURATION_CONCERNS.collect(&:to_s).join(" ")
     end
   end
 
