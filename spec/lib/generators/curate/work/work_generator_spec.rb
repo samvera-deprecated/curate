@@ -36,18 +36,28 @@ end
 Rails.application.reload_routes!
 load Rails.root.join('config/initializers/curate_config.rb')
 
-begin
-  # Because we are appending to our Hydra::RemoteIdentifier
-  load Rails.root.join('config/initializers/hydra-remote_identifier_config.rb')
-rescue NameError
-  # Not much of a problem…I think; Basically I needed to add the rescue
-  # when running `rake spec` but don't need it when running a local context
-end
-Hydra::RemoteIdentifier.send(:configure!)
 
 spec_filenames.each do |spec_path|
   file_path = spec_path.gsub(/^spec\/(.*)_spec.rb$/, 'app/\1.rb')
   require Rails.root.join(file_path) if file_path != spec_path
+
+  # I may have created a monster.
+  # This is here because we need to make sure that our constants are available.
+  # I'm sure this file could be reworked for better timing.
+  begin
+    # Because we are appending to our Hydra::RemoteIdentifier
+    @loaded_config || load(Rails.root.join('config/initializers/hydra-remote_identifier_config.rb'))
+    @loaded_config = true
+  rescue NameError
+    # Not much of a problem…I think; Basically I needed to add the rescue
+    # when running `rake spec` but don't need it when running a local context
+  end
+  begin
+    @configured || Hydra::RemoteIdentifier.send(:configure!)
+    @configured
+  rescue NameError
+
+  end
   begin
     require Rails.root.join(spec_path)
   rescue FactoryGirl::DuplicateDefinitionError => e
