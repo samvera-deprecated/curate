@@ -4,8 +4,17 @@ require 'spec_helper'
 # It is different in that the generator is being run against the dummy app (i.e. Rails.root in this context).
 # The resulting generated files are then tested as part of this test suite.
 require 'generators/curate/work/work_generator'
-FileUtils.cd(Rails.root)
-response = Curate::WorkGenerator.start(%W(spam --force))
+
+
+# Make sure that we can restore our remote config
+$COPY_OF_REMOTE_CONFIG = Rails.root.join('config/initializers/hydra-remote_identifier_config.rb').read
+at_exit do
+  File.open(Rails.root.join('config/initializers/hydra-remote_identifier_config.rb'), 'w+') do |f|
+    f.puts($COPY_OF_REMOTE_CONFIG)
+  end
+end
+
+response = Curate::WorkGenerator.start(%W(spam --force --doi=true), destination_root: Rails.root)
 
 sleep(2) if ENV['TRAVIS'] # Because the generator is not completing
 
@@ -26,6 +35,15 @@ end
 # (i.e. routes and initializers)
 Rails.application.reload_routes!
 load Rails.root.join('config/initializers/curate_config.rb')
+
+begin
+  # Because we are appending to our Hydra::RemoteIdentifier
+  load Rails.root.join('config/initializers/hydra-remote_identifier_config.rb')
+rescue NameError
+  # Not much of a problem…I think; Basically I needed to add the rescue
+  # when running `rake spec` but don't need it when running a local context
+end
+Hydra::RemoteIdentifier.send(:configure!)
 
 spec_filenames.each do |spec_path|
   file_path = spec_path.gsub(/^spec\/(.*)_spec.rb$/, 'app/\1.rb')

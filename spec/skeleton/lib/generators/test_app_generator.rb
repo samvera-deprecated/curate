@@ -6,7 +6,7 @@ class TestAppGenerator < Rails::Generators::Base
   def run_curate_generator
     say_status("warning", "GENERATING CURATE", :yellow)
 
-    generate 'curate', '-f'
+    generate 'curate', '-f --with-doi'
 
     gsub_file('config/environments/test.rb', /^.*config\.consider_all_requests_local.*$/) do |match|
       match = "  # For end to end specs, I want the exception handler capturing things; Not raising exceptions.\n  config.consider_all_requests_local = ENV['LOCAL'] || false"

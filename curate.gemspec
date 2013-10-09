@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'browser'
   s.add_dependency 'breadcrumbs_on_rails'
   s.add_dependency 'active_fedora-registered_attributes', '~> 0.1.0'
+  s.add_dependency 'hydra-remote_identifier', '~> 0.5'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "factory_girl_rails"

@@ -14,12 +14,12 @@ module CurationConcern
 
     def create!
       apply_creation_data_to_curation_concern
-      save!
+      save! && assign_remote_identifiers_if_applicable
     end
 
     def create
       apply_creation_data_to_curation_concern
-      save
+      save && assign_remote_identifiers_if_applicable
     end
 
     def apply_creation_data_to_curation_concern
@@ -28,6 +28,13 @@ module CurationConcern
       curation_concern.date_uploaded = Date.today
     end
     protected :apply_creation_data_to_curation_concern
+
+    def assign_remote_identifiers_if_applicable
+      Hydra::RemoteIdentifier.requested_remote_identifiers_for(curation_concern) do |remote_service|
+        MintRemoteIdentifierWorker.enqueue(curation_concern.pid, remote_service.name)
+      end
+      true # included to make sure save chaining can occur
+    end
 
     def update!
       save!
@@ -52,7 +59,6 @@ module CurationConcern
     def apply_save_data_to_curation_concern
       curation_concern.attributes = attributes
       curation_concern.date_modified = Date.today
-      #curation_concern.visibility = visibility
     end
     protected :apply_save_data_to_curation_concern
 
