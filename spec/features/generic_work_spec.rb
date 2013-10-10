@@ -8,8 +8,8 @@ describe 'Creating a generic work' do
       login_as(user)
       visit root_path
       click_link "Get Started"
-      click_link "Submit a work"
-      classify_what_you_are_uploading 'Generic Work' 
+      click_link "add-content"
+      classify_what_you_are_uploading 'Generic Work'
       within '#new_generic_work' do
         fill_in "Title", with: "My title"
         fill_in "External link", with: "http://www.youtube.com/watch?v=oHg5SJYRHA0"
@@ -17,7 +17,7 @@ describe 'Creating a generic work' do
         check("I have read and accept the contributor license agreement")
         click_button("Create Generic work")
       end
-      
+
       expect(page).to have_selector('h1', text: 'Generic Work')
       within ('.linked_resource.attributes') do
         expect(page).to have_link('http://www.youtube.com/watch?v=oHg5SJYRHA0', href: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')

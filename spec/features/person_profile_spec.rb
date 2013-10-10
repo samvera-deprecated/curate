@@ -12,19 +12,19 @@ describe 'Profile for a Person: ' do
     # TODO: confirm the intent of this test
     it 'will see a link to their profile in the nav' do
       visit catalog_index_path
-      page.should have_link("My Account", href: person_path(account.person))
+      page.should have_link("My Profile", href: person_path(account.person))
     end
 
     it 'should see their name in the edit view' do
       visit catalog_index_path
-      click_link 'My Account'
+      click_link 'My Profile'
       click_link 'Update Personal Information'
       expect(page).to have_field('Name', with: 'Iron Man')
     end
 
     it 'should update their name and see the updated value' do
       visit catalog_index_path
-      click_link 'My Account'
+      click_link 'My Profile'
       click_link 'Update Personal Information'
       within('form.edit_user') do
         fill_in("user[name]", with: 'Spider Man')
@@ -33,7 +33,7 @@ describe 'Profile for a Person: ' do
       end
 
       visit catalog_index_path
-      click_link 'My Account'
+      click_link 'My Profile'
       page.should have_content('Spider Man')
     end
   end

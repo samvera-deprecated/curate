@@ -7,7 +7,7 @@ describe 'Creating an image' do
     login_as(user)
     visit root_path
     click_link "Get Started"
-    click_link "Submit a work"
+    click_link "add-content"
     classify_what_you_are_uploading 'Image'
     within '#new_image' do
       fill_in "Title", with: "readymade shabby chic paleo ethical"
