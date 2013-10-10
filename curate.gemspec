@@ -28,7 +28,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'sufia-models', '~>3.4.0.rc2'
 #  s.add_dependency 'hydra', '6.1.0.rc8'
   s.add_dependency 'hydra-head', '~> 6.4.0.rc4'
-  s.add_dependency 'active-fedora', '~> 6.6.0'
+  s.add_dependency 'active-fedora'
+  s.add_dependency 'hydra-file_characterization', ">= 0.2.3"
   s.add_dependency 'hydra-batch-edit', '~> 1.1.1'
   s.add_dependency 'hydra-collections', '~> 1.2.0.rc1'
   s.add_dependency 'morphine'
