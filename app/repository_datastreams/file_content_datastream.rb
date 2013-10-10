@@ -1,35 +1,29 @@
 require Sufia::Models::Engine.root.join('app/models/datastreams/file_content_datastream')
-# I really don't want to touch much of Sufia's underworkings. In doing this
-# I'm able to mimic the #super behavior.
-#
-# More on this method at:
-# http://blog.jayfields.com/2006/12/ruby-alias-method-alternative.html
+
 class FileContentDatastream
 
-  # Yes, I could be using super, however that assumes a working knowledge
-  # of how the FileContentDatastream is actually crafted (namely via
-  # ActiveSupport::Concern)
-  sufia_run_fits = self.instance_method(:run_fits!)
-
-  # This is where I chose to insert the anti-virus. My reason being that the
-  # caller of this method is getting the Fedora datastream and writing it to
-  # a temp file for characterization; So to ease the load, I'm piggy backing
-  # on that behavior and first running an Anti-Virus scanner
-  def run_fits!(file_path)
-    anti_virus_scanner.call(file_path)
-    characterization_runner.call(file_path)
+  def extract_metadata
+    return unless has_content?
+    # I want to run Clam first, let that possibly raise exceptions
+    # Then run fits and return that
+    clam, fits = Hydra::FileCharacterization.characterize(content, filename_for_characterization, :clam, :fits) do |config|
+      config[:clam] = antivirus_runner
+      config[:fits] = characterization_runner
+    end
+    fits
   end
 
   protected
-  def anti_virus_scanner
+
+  def antivirus_runner
     AntiVirusScanner.new(self)
   end
 
-  define_method :characterization_runner do
+  def characterization_runner
     if Curate.configuration.characterization_runner.respond_to?(:call)
       Curate.configuration.characterization_runner
     else
-      sufia_run_fits.bind(self)
+      nil
     end
   end
 
