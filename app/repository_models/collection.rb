@@ -6,13 +6,18 @@ class Collection < ActiveFedora::Base
 
   has_many :associated_persons, property: :has_profile, class_name: 'Person'
 
+  delegate_to :descMetadata, [:resource_type], multiple: false
+
+  # Causes resource_type to be set in the metadata
+  before_create :human_readable_type
+
+  # Reads from resource_type attribute. 
   # Defaults to "Collection", but can be set to something else.
-  # Profiles are marked with human_readable_type of "Profile" when they're created by the associated Person object
+  # Profiles are marked with resource_type of "Profile" when they're created by the associated Person object
   # This is used to populate the Object Type Facet
   def human_readable_type
-    @human_readable_type ||= 'Collection'
+    self.resource_type ||= "Collection"
   end
-  attr_writer :human_readable_type
 
   def is_profile?
     !associated_persons.empty?
@@ -25,7 +30,6 @@ class Collection < ActiveFedora::Base
   def to_solr(solr_doc={}, opts={})
     super
     Solrizer.set_field(solr_doc, 'generic_type', 'Collection', :facetable)
-    Solrizer.set_field(solr_doc, 'human_readable_type', human_readable_type, :facetable)
     solr_doc
   end
 
