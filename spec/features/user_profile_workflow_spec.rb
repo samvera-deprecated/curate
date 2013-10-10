@@ -124,7 +124,7 @@ describe 'user profile workflow', FeatureSupport.options do
       fill_in("user[password]", with: password)
       click_button("Sign in")
     end
-    click_link("Submit a work")
+    click_link("add-content")
     assert_on_page_allowing_upload!
   end
 
