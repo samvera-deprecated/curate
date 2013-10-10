@@ -3,6 +3,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   with_themed_layout '1_column'
 
   def new
+    setup_form
   end
 
   def create
@@ -11,6 +12,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
       if actor.create
         after_create_response
       else
+        setup_form
         respond_with([:curation_concern, curation_concern]) do |wants|
           wants.html { render 'new', status: :unprocessable_entity }
         end
@@ -22,6 +24,11 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
     respond_with([:curation_concern, curation_concern])
   end
   protected :after_create_response
+
+  # Override setup_form in concrete controllers to get the form ready for display
+  def setup_form 
+  end
+  protected :setup_form
 
   def verify_acceptance_of_user_agreement!
     if contributor_agreement.is_being_accepted?
@@ -46,6 +53,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   def edit
+    setup_form
     respond_with(curation_concern)
   end
 
@@ -53,6 +61,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
     if actor.update
       after_update_response
     else
+      setup_form
       respond_with([:curation_concern, curation_concern]) do |wants|
         wants.html { render 'edit', status: :unprocessable_entity }
       end
@@ -93,7 +102,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
     if params[:id]
       curation_concern_type.find(params[:id])
     else
-      curation_concern_type.new(params[hash_key_for_curation_concern])
+      curation_concern_type.new
     end
   end
 
