@@ -24,7 +24,8 @@ module CurationConcern
 
     def apply_creation_data_to_curation_concern
       curation_concern.apply_depositor_metadata(user.user_key)
-      curation_concern.creator = user.name
+      # TODO if other more specific actors require this, move it there.
+      #curation_concern.creator = user.name
       curation_concern.date_uploaded = Date.today
     end
     protected :apply_creation_data_to_curation_concern
