@@ -25,19 +25,18 @@ describe Collection do
   describe "to_solr on a saved object" do
     before {subject.save(validate: false)}
     let(:solr_doc) {subject.to_solr}
+
     describe "when profile is set" do
-      before { subject.resource_type = 'Profile' } 
+      before { subject.human_readable_type = 'Profile' } 
       it "should have field" do
-       solr_doc['desc_metadata__resource_type_sim'].should == [subject.human_readable_type]
-       solr_doc['desc_metadata__resource_type_tesim'].should == [subject.human_readable_type]
-       solr_doc['generic_type_sim'].should == ['Collection']
+        solr_doc['human_readable_type_sim'].should == ['Profile']
+        solr_doc['generic_type_sim'].should == ['Collection']
       end
     end
     describe "when profile isn't set" do
       it "should have field" do
-       solr_doc['desc_metadata__resource_type_sim'].should == [subject.human_readable_type]
-       solr_doc['desc_metadata__resource_type_tesim'].should == [subject.human_readable_type]
-       solr_doc['generic_type_sim'].should == ['Collection']
+        solr_doc['human_readable_type_sim'].should == ['Collection']
+        solr_doc['generic_type_sim'].should == ['Collection']
       end
     end
   end

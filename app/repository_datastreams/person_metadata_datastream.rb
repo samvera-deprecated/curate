@@ -44,9 +44,5 @@ class PersonMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     map.preferred_email(to: "account#preferred_email", in: RDF::QualifiedFOAF) do |index|
       index.as :stored_searchable
     end
-
-    map.resource_type({in: RDF::DC, to: 'type'}) do |index|
-      index.as :stored_searchable, :facetable
-    end
   end
 end

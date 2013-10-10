@@ -37,9 +37,6 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
     map.rights(in: RDF::DC) do |index|
       index.as :stored_searchable, :facetable
     end
-    map.resource_type(in: RDF::DC, to: "type") do |index|
-      index.as :stored_searchable, :facetable
-    end
     map.format(in: RDF::QualifiedDC, to: 'format#mimetype')
     map.date_uploaded(to: "dateSubmitted", in: RDF::DC) do |index|
       index.type :date

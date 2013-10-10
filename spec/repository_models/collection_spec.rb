@@ -16,5 +16,10 @@ describe Collection do
     subject.members.should == []
   end
 
+  it '#to_solr' do
+    subject.to_solr['human_readable_type_sim'].should == ['Collection']
+    subject.to_solr['resource_type'].should be_nil
+  end
+
 end
 

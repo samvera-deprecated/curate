@@ -10,11 +10,17 @@ describe GenericWork do
   it_behaves_like 'has_common_solr_fields'
 
   it { should have_unique_field(:available) }
-  it { should have_unique_field(:resource_type) }
+  it { should have_unique_field(:human_readable_type) }
 
   context '#rights' do
     it 'has a default value' do
       GenericWork.new.rights.should == 'All rights reserved'
+    end
+  end
+
+  context '#as_json' do
+    it 'returns the human readable type' do
+      subject.as_json({})[:curation_concern_type].should == subject.human_readable_type
     end
   end
 

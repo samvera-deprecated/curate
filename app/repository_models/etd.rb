@@ -108,9 +108,6 @@ class Etd < ActiveFedora::Base
     ds.attribute :identifier,
       multiple: false,
       editable: false
-    ds.attribute :resource_type,
-      multiple: false,
-      editable: false
     ds.attribute :format,
       multiple: false,
       editable: false

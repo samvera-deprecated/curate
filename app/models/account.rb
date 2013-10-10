@@ -31,7 +31,7 @@ class Account
   end
 
   def profile
-    @profile ||= person.profile || Collection.new(title: profile_title, resource_type: "Profile")
+    @profile ||= person.profile || Collection.new(title: profile_title, human_readable_type: "Profile")
   end
 
   class_attribute :person_attribute_names
