@@ -1,4 +1,3 @@
-require File.expand_path("../../../lib/sufia/generic_file/thumbnail", __FILE__)
 require File.expand_path("../curation_concern/embargoable", __FILE__)
 require File.expand_path("../../repository_datastreams/file_content_datastream", __FILE__)
 
@@ -12,6 +11,8 @@ class GenericFile < ActiveFedora::Base
   include Sufia::GenericFile::Versions
   include Sufia::GenericFile::Audit
   include Sufia::GenericFile::MimeTypes
+  include Sufia::GenericFile::Thumbnail
+  include Sufia::GenericFile::Derivatives
 
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
 
