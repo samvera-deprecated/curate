@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :etd do
     ignore do
-      user {FactoryGirl.create(:user)}
+      person {FactoryGirl.create(:person_with_user)}
     end
     sequence(:title) {|n| "Title #{n}"}
     sequence(:abstract) {|n| "Abstract #{n}"}
@@ -12,12 +12,11 @@ FactoryGirl.define do
     subject "Emerald Ash Borer"
     country "United States of America"
     advisor "Karin Verschoor"
-    creator "Franklin Wright"
 
 
     before(:create) { |work, evaluator|
-      work.apply_depositor_metadata(evaluator.user.user_key)
-      work.creator = evaluator.user.to_s
+      work.apply_depositor_metadata(evaluator.person.user.user_key)
+      work.creators << evaluator.person
     }
 
     factory :private_etd do

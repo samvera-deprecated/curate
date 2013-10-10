@@ -19,9 +19,13 @@ describe Person do
   end
 
   describe 'to_solr' do
+    before do
+      subject.name = "Aura D. Stanton"
+    end
     let(:solr_doc) {subject.to_solr}
-    it "should have a generic_type" do
+    it "should have a generic_type and name" do
       solr_doc['generic_type_sim'].should == ['Person']
+      solr_doc['desc_metadata__name_tesim'].should == ["Aura D. Stanton"]
     end
   end
 
