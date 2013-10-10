@@ -32,9 +32,6 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
     map.rights(in: RDF::DC) do |index|
       index.as :stored_searchable, :facetable
     end
-    map.resource_type(in: RDF::DC, to: "type") do |index|
-      index.as :stored_searchable, :facetable
-    end
     map.note(in: RDF::QualifiedDC, to: 'description#note')
 
     map.format(in: RDF::QualifiedDC, to: 'format#mimetype')
