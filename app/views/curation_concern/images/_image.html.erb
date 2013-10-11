@@ -11,9 +11,9 @@
     <%# Minimize Fedora hits by using solr_doc rather than document %>
     <%= link_to render_index_field_value(document: solr_doc, field: 'desc_metadata__title_tesim'), curation_concern_image_path(image), :id => "src_copy_link_#{noid}" %>
     <dl class="attributes">
-      <% if solr_doc.has?('desc_metadata__creator_tesim') %>
+      <% if solr_doc.has?('desc_metadata__contributor_tesim') %>
         <dt>Creator(s):</dt>
-        <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__creator_tesim') %></dd>
+        <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__contributor_tesim') %></dd>
       <% end %>
 
       <% if solr_doc.has?('desc_metadata__description_tesim') %>

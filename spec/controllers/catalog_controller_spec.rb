@@ -18,7 +18,7 @@ describe CatalogController do
     end
     context "Searching all works" do
       it "should return all the works" do
-        get 'index'
+        get 'index', 'f' => {'generic_type_sim' => 'Work'}
         response.should be_successful
         assigns(:document_list).map(&:id).should == [work1.id, work2.id]
       end

@@ -10,7 +10,7 @@ FactoryGirl.define do
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
     before(:create) { |work, evaluator|
       work.apply_depositor_metadata(evaluator.user.user_key)
-      work.creator = evaluator.user.to_s
+      work.contributors << FactoryGirl.create(:person)
     }
 
     factory :private_dataset do
