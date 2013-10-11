@@ -80,7 +80,7 @@ This generator makes the following changes to your application:
     routing_code = "\n  curate_for containers: #{DEFAULT_CURATION_CONCERNS.inspect}\n"
     sentinel = /devise_for +:users.*$/
     inject_into_file 'config/routes.rb', routing_code, { :after => sentinel, :verbose => false }
-    gsub_file 'config/routes.rb', /^\s+root.+$/, "  root 'welcome#index'"
+    gsub_file 'config/routes.rb', /^\s+root.+$/, "  root 'catalog#index'"
   end
 
   def create_curate_initializer
