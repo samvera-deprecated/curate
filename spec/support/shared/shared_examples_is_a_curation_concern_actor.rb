@@ -14,10 +14,12 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
 
     describe 'valid attributes' do
       let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+      let(:person) { FactoryGirl.create(:person) }
 
       describe 'with a file' do
         let(:attributes) {
           FactoryGirl.attributes_for(default_work_factory_name, visibility: visibility).tap {|a|
+            a[:contributors_attributes] = [{id: person.id}]
             a[:files] = file
           }
         }
@@ -46,7 +48,10 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class|
 
       describe 'with a linked resource' do
         let(:attributes) {
-          FactoryGirl.attributes_for(default_work_factory_name, visibility: visibility, linked_resource_url: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
+          FactoryGirl.attributes_for(default_work_factory_name, visibility: visibility, 
+                                     linked_resource_url: 'http://www.youtube.com/watch?v=oHg5SJYRHA0').tap do |a|
+            a[:contributors_attributes] = [{id: person.id}]
+          end
         }
         before(:each) do
           subject.create

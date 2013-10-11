@@ -6,6 +6,8 @@
                 input_html: { class: 'input-xlarge' }
     %>
 
+    <%= render partial: 'linked_contributors', locals: {f: f} %>
+
     <%= f.input :description,
                 as: :text,
                 hint: 'Please keep your abstract to 300 words or less.',

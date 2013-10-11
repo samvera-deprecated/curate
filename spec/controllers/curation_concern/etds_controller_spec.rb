@@ -1,13 +1,12 @@
 require 'spec_helper'
 
 describe CurationConcern::EtdsController do
-  let(:person) { FactoryGirl.create(:person_with_user) }
-  let(:user) { person.user }
+  let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
 
   describe "#show" do
     context "my own private work" do
-      let(:etd) { FactoryGirl.create(:private_etd, person: person) }
+      let(:etd) { FactoryGirl.create(:private_etd, user: user) }
       it "should show me the page" do
         get :show, id: etd
         expect(response).to be_success
@@ -40,7 +39,7 @@ describe CurationConcern::EtdsController do
   end
 
   describe "#update" do
-    let(:etd) { FactoryGirl.create(:etd, person: person) }
+    let(:etd) { FactoryGirl.create(:etd, user: user) }
     it "should update the work " do
       controller.actor = double(:update => true, :visibility_changed? => false)
       patch :update, id: etd

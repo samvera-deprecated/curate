@@ -3,5 +3,5 @@
 require 'spec_helper'
 
 describe CurationConcern::<%= class_name %>Actor do
-  include_examples 'is_a_curation_concern_actor', <%= class_name %>
+  it_behaves_like 'is_a_curation_concern_actor', <%= class_name %>
 end

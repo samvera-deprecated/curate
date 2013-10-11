@@ -11,9 +11,9 @@ describe CurationConcern::EtdActor do
     let(:attributes) do
       {
         "title"=>"My Etd Title", "alternate_title"=>"", "abstract"=>"Fooba", 
-        "creators_attributes"=>{"0"=>{"id"=>"", "name"=>"Buddy"}, "1"=>{"id"=>"", "name"=>"Jimmy"}}, 
+        "contributors_attributes"=>{"0"=>{"id"=>"", "name"=>"Buddy"}, "1"=>{"id"=>"", "name"=>"Jimmy"}}, 
         "subject"=>["Stuff"], "country"=>"USA", "advisor"=>["Frank"], "language"=>["English", ""], 
-        "contributor"=>[""], "contributor_role"=>[""], "publisher"=>[""], "coverage_temporal"=>[""], 
+        "publisher"=>[""], "coverage_temporal"=>[""], 
         "coverage_spatial"=>[""], 
         "date_created(1i)"=>"2013", "date_created(2i)"=>"10", "date_created(3i)"=>"9", 
         "note"=>"", "embargo_release_date"=>"", "visibility"=>"restricted", "rights"=>"All rights reserved"
@@ -26,8 +26,8 @@ describe CurationConcern::EtdActor do
     it "should have set multiple creators" do
       expect(etd).to be_persisted
       reloaded = Etd.find(etd.pid)
-      expect(reloaded.creators.size).to eq 2
-      expect(reloaded.creators.map(&:name)).to eq ['Buddy', 'Jimmy']
+      expect(reloaded.contributors.size).to eq 2
+      expect(reloaded.contributors.map(&:name)).to eq ['Buddy', 'Jimmy']
     end
     
   end

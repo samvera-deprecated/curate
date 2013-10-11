@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :etd do
     ignore do
-      person {FactoryGirl.create(:person_with_user)}
+      user {FactoryGirl.create(:user)}
     end
     sequence(:title) {|n| "Title #{n}"}
     sequence(:abstract) {|n| "Abstract #{n}"}
@@ -15,8 +15,8 @@ FactoryGirl.define do
 
 
     before(:create) { |work, evaluator|
-      work.apply_depositor_metadata(evaluator.person.user.user_key)
-      work.creators << evaluator.person
+      work.apply_depositor_metadata(evaluator.user.user_key)
+      work.contributors << FactoryGirl.create(:person)
     }
 
     factory :private_etd do
