@@ -2,6 +2,7 @@ class Article < ActiveFedora::Base
   include CurationConcern::Model
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
+  include CurationConcern::WithLinkedContributors
   include CurationConcern::Embargoable
   include ActiveFedora::RegisteredAttributes
 
@@ -10,16 +11,16 @@ class Article < ActiveFedora::Base
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "Deposit or reference a preprint or published article."
 
+  self.indefinite_article = 'an'
+  self.contributor_label = 'Author'
+  validates_presence_of :contributors, message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}."
+
   attribute :title,
     datastream: :descMetadata, multiple: false,
     label: "Title of your Article",
     validates: { presence: { message: 'Your article must have a title.' } }
   attribute :alternate_title,
     datastream: :descMetadata, multiple: true
-  attribute :creator,
-    datastream: :descMetadata, multiple: true,
-    label: "Author",
-    hint: "Enter your preferred name"
   attribute :contributor,
     datastream: :descMetadata, multiple: true,
     label: "Contributing Author(s)",

@@ -1,4 +1,4 @@
-class CreatorsAssociation #< ActiveFedora::Associations::Association TODO when AF 7 is out
+class ContributorsAssociation #< ActiveFedora::Associations::Association TODO when AF 7 is out
 
   instance_methods.each { |m| undef_method m unless m.to_s =~ /^(?:nil\?|send|object_id|to_a|should)$|^__|^respond_to|proxy_/ }
   
@@ -50,7 +50,7 @@ class CreatorsAssociation #< ActiveFedora::Associations::Association TODO when A
 
     def insert_record(record)
       object = RDF::URI.new(record.internal_uri)
-      predicate = owner.config_for_term_or_uri(:creator).predicate
+      predicate = owner.config_for_term_or_uri(field_name).predicate
       owner.graph.insert([owner.rdf_subject, predicate, object ])
       owner.reset_child_cache!
       @target << record

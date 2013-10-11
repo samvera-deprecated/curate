@@ -2,6 +2,7 @@ class Image < ActiveFedora::Base
   include CurationConcern::Model
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
+  include CurationConcern::WithLinkedContributors
   include CurationConcern::Embargoable
   include ActiveFedora::RegisteredAttributes
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Dataset do
-  subject { Dataset.new }
+  subject {  FactoryGirl.build(:dataset) }
 
   it_behaves_like 'is_a_curation_concern_model'
   it_behaves_like 'with_access_rights'
@@ -9,6 +9,7 @@ describe Dataset do
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_dc_metadata'
   it_behaves_like 'has_common_solr_fields'
+  it_behaves_like 'it has linked contributors'
 
   it { should have_unique_field(:available) }
 

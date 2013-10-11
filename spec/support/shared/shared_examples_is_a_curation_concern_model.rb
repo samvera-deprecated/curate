@@ -23,11 +23,5 @@ shared_examples 'is_a_curation_concern_model' do
         FactoryGirl.create(public_work_factory_name).destroy
       }.to_not raise_error
     }
-    it {
-      expect {
-        FactoryGirl.create(default_work_factory_name).destroy
-      }.to_not raise_error
-    }
   end
-
 end
