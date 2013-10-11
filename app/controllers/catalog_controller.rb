@@ -57,7 +57,7 @@ class CatalogController < ApplicationController
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
-    config.add_facet_field solr_name("desc_metadata__resource_type", :facetable), label: "Type of Work", limit: 5
+    config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type of Work", limit: 5
     config.add_facet_field solr_name("desc_metadata__creator", :facetable), label: "Creator", limit: 5
     config.add_facet_field solr_name(:collection, :facetable), label: "Collection",  helper_method: :collection_title_from_pid, limit: 5
     
@@ -88,7 +88,7 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("desc_metadata__date_modified", :stored_searchable, type: :string), label: "Date Modified"
     config.add_index_field solr_name("desc_metadata__date_created", :stored_searchable, type: :string), label: "Date Created"
     config.add_index_field solr_name("desc_metadata__rights", :stored_searchable, type: :string), label: "Rights"
-    config.add_index_field solr_name("desc_metadata__resource_type", :stored_searchable, type: :string), label: "Resource Type"
+    config.add_index_field solr_name("human_readable_type", :stored_searchable, type: :string), label: "Resource Type"
     config.add_index_field solr_name("desc_metadata__format", :stored_searchable, type: :string), label: "File Format"
     config.add_index_field solr_name("desc_metadata__identifier", :stored_searchable, type: :string), label: "Identifier"
 
@@ -107,7 +107,7 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("desc_metadata__date_modified", :stored_searchable, type: :string), label: "Date Modified"
     config.add_show_field solr_name("desc_metadata__date_created", :stored_searchable, type: :string), label: "Date Created"
     config.add_show_field solr_name("desc_metadata__rights", :stored_searchable, type: :string), label: "Rights"
-    config.add_show_field solr_name("desc_metadata__resource_type", :stored_searchable, type: :string), label: "Resource Type"
+    config.add_show_field solr_name("human_readable_type", :stored_searchable, type: :string), label: "Resource Type"
     config.add_show_field solr_name("desc_metadata__format", :stored_searchable, type: :string), label: "File Format"
     config.add_show_field solr_name("desc_metadata__identifier", :stored_searchable, type: :string), label: "Identifier"
 
@@ -237,11 +237,11 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('resource_type') do |field|
+    config.add_search_field('human_readable_type') do |field|
       field.solr_parameters = {
-        :"spellcheck.dictionary" => "resource_type"
+        :"spellcheck.dictionary" => "human_readable_type"
       }
-      solr_name = solr_name("desc_metadata__resource_type", :stored_searchable, type: :string)
+      solr_name = solr_name("human_readable_type", :stored_searchable, type: :string)
       field.solr_local_parameters = {
         :qf => solr_name,
         :pf => solr_name

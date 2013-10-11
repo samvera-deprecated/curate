@@ -24,7 +24,6 @@ class GenericWork < ActiveFedora::Base
   attribute :date_uploaded,  datastream: :descMetadata, multiple: false
   attribute :date_modified,  datastream: :descMetadata, multiple: false
   attribute :available,      datastream: :descMetadata, multiple: false
-  attribute :resource_type,  datastream: :descMetadata, multiple: false
   attribute :creator,        datastream: :descMetadata, multiple: false
   attribute :content_format, datastream: :descMetadata, multiple: false
   attribute :identifier,     datastream: :descMetadata, multiple: false

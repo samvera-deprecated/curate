@@ -34,9 +34,6 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     map.rights(:in => RDF::DC) do |index|
       index.as :stored_searchable, :facetable
     end
-    map.resource_type({in: RDF::DC, to: "type"}) do |index|
-      index.as :stored_searchable, :facetable
-    end
     map.content_format({in: RDF::QualifiedDC, to: 'format#mimetype'})
     map.date_created(:to => "date#created", :in => RDF::QualifiedDC) do |index|
       index.type :date
