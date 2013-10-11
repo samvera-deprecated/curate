@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe GenericWork do
-  subject { GenericWork.new }
+  subject { FactoryGirl.build(:generic_work) }
 
   it_behaves_like 'with_access_rights'
   it_behaves_like 'with_related_works'
@@ -14,7 +14,7 @@ describe GenericWork do
 
   context '#rights' do
     it 'has a default value' do
-      subject.rights.should == 'All rights reserved'
+      GenericWork.new.rights.should == 'All rights reserved'
     end
   end
 

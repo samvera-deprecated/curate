@@ -1,19 +1,21 @@
-module CurationConcern::LinkedCreators
+module CurationConcern::WithLinkedContributors
   extend ActiveSupport::Concern
 
   included do
-    #delegate :creators, to: :descMetadata, multiple: true
-    self.reflections[:creators] = InlineReflection.new(allow_destroy: true)
-
-    accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: :all_blank
+    self.reflections[:contributors] = InlineReflection.new(allow_destroy: true)
+    accepts_nested_attributes_for :contributors, allow_destroy: true, reject_if: :all_blank
+    class_attribute :indefinite_article
+    self.indefinite_article = 'a'
+    class_attribute :contributor_label
+    self.contributor_label = 'Contributor'
   end
 
-  def creators
-    @creators_association ||= CreatorsAssociation.new(self.descMetadata, self.class.reflections[:creators])
+  def contributors
+    @contributors_association ||= ContributorsAssociation.new(self.descMetadata, self.class.reflections[:contributors])
   end
 
-  def creators= people
-    self.creators << people
+  def contributors= people
+    self.contributors << people
   end
 
   def assign_nested_attributes_for_collection_association(association_name, attributes_collection)
@@ -55,5 +57,16 @@ module CurationConcern::LinkedCreators
     end
   end
 
+  def to_solr(solr_doc = {})
+    super
+    # This field is a bit misleading, but the reference is stored in descMetadata
+    solr_doc['desc_metadata__contributor_tesim'] = self.contributors.map(&:name)
+    solr_doc
+  end
 
+  module ClassMethods
+    def label_with_indefinite_article
+      "#{indefinite_article} #{contributor_label.downcase}"
+    end
+  end
 end
