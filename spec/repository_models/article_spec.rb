@@ -8,7 +8,7 @@ describe Article do
   it_behaves_like 'has_common_solr_fields'
   it_behaves_like 'it has linked contributors'
 
-  it { should have_unique_field(:resource_type) }
+  it { should have_unique_field(:human_readable_type) }
   it { should have_unique_field(:abstract) }
   it { should have_unique_field(:title) }
   it { should have_unique_field(:journal_information) }
