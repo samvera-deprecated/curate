@@ -2,20 +2,22 @@ class Etd < ActiveFedora::Base
   include CurationConcern::Model
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
+  include CurationConcern::WithLinkedContributors
   include CurationConcern::Embargoable
   include ActiveFedora::RegisteredAttributes
-  include CurationConcern::LinkedCreators
 
   has_metadata "descMetadata", type: EtdMetadata
 
-  etd_label = 'thesis'
+  etd_label = human_readable_type.downcase
 
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "Deposit a senior thesis, master's thesis, or dissertation."
 
   delegate :degree, to: :descMetadata, multiple: true
 
-  validates_presence_of :creators, message: "Your #{etd_label} must have an author."
+  self.indefinite_article = 'an'
+  self.contributor_label = 'Author'
+  validates_presence_of :contributors, message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}."
 
   with_options datastream: :descMetadata do |ds|
     ds.attribute :contributor,
@@ -120,12 +122,4 @@ class Etd < ActiveFedora::Base
   attribute :files,
     multiple: true, form: {as: :file}, label: "Upload Files",
     hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
-
-  def to_solr(solr_doc = {})
-    super
-    # This field is a bit misleading, but the reference is stored in descMetadata
-    solr_doc['desc_metadata__creator_tesim'] = self.creators.map(&:name)
-    solr_doc
-  end
-
 end

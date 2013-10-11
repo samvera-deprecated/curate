@@ -6,6 +6,7 @@ describe Article do
   it_behaves_like 'with_access_rights'
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_common_solr_fields'
+  it_behaves_like 'it has linked contributors'
 
   it { should have_unique_field(:resource_type) }
   it { should have_unique_field(:abstract) }
@@ -18,7 +19,6 @@ describe Article do
   it { should have_unique_field(:issn) }
 
   it { should have_multivalue_field(:contributor) }
-  it { should have_multivalue_field(:creator) }
   it { should have_multivalue_field(:subject) }
   it { should have_multivalue_field(:publisher) }
   it { should have_multivalue_field(:language) }

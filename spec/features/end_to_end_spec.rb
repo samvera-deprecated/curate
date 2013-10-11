@@ -96,7 +96,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       create_generic_work(
         'Embargo Release Date' => embargo_release_date_formatted,
         'Visibility' => 'visibility_embargo',
-        'Contributors' => ['Dante'],
+        'Contributors' => 'Dante',
         'I Agree' => true
       )
 
@@ -222,7 +222,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     options['Upload a file'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Generic work" 
-    options["Contributors"] ||= ["Dante"]
+    options["Contributors"] ||= "Dante"
     options["Content License"] ||= Sufia.config.cc_licenses.keys.first
 
     # Without accepting agreement
@@ -236,7 +236,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
       select(options['Content License'], from: I18n.translate('sufia.field_label.rights'))
 
-      fill_out_form_multi_value_for('contributor', with: options['Contributors'])
+      fill_in("generic_work_contributors_attributes_0_name", with: options['Contributors'])
 
       if options['I Agree']
         check("I have read and accept the contributor license agreement")

@@ -37,7 +37,7 @@ describe 'Creating a article' do
   end
 end
 
-describe 'An existing article' do
+describe 'An existing article owned by me' do
   let(:user) { FactoryGirl.create(:user) }
   let(:article) { FactoryGirl.create(:article, user: user) }
   let(:you_tube_link) { 'http://www.youtube.com/watch?v=oHg5SJYRHA0' }
