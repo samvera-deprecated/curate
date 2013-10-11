@@ -6,5 +6,11 @@ module Curate
       include Curate::User::Base
       include Curate::User::WithAssociatedPerson
     end
+
+    module ClassMethods
+      def attribute_names_for_account
+        ['name', 'password', 'password_confirmation', 'current_password'] + attribute_names
+      end
+    end
   end
 end

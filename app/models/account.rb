@@ -37,7 +37,7 @@ class Account
   class_attribute :person_attribute_names
   self.person_attribute_names = []
   class_attribute :user_attribute_names
-  self.user_attribute_names = User.attribute_names + ['password', 'password_confirmation', 'current_password']
+  self.user_attribute_names = User.attribute_names_for_account
 
   def self.apply_person_attributes
     Person.editable_attributes.each do |att|
