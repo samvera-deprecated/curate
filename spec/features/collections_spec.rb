@@ -6,7 +6,6 @@ describe "Showing and creating Collections" do
   it "should create them" do
     login_as(user)
     visit root_path
-    click_link "Get Started"
     within 'nav' do
       click_link "Collections"
     end

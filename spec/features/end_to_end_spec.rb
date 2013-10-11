@@ -47,14 +47,12 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     it "only requires me to agree once" do
       login_as(user)
       visit('/')
-      click_link('Get Started')
       agree_to_terms_of_service
       logout
 
       visit('/')
 
       login_as(user)
-      click_link('Get Started')
       page.assert_selector('#terms_of_service', count: 0)
     end
   end
@@ -64,7 +62,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     it "displays the start uploading" do
       login_as(user)
       visit '/'
-      click_link "Get Started"
+      click_link("add-content")
       page.should have_content("What are you uploading?")
     end
 
@@ -137,7 +135,6 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     it "with JS is available for users who are authenticated and agreed to ToS", js: true do
       login_as(user)
       visit('/')
-      click_link("Get Started")
       click_link "Help!"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
@@ -149,7 +146,6 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     it "without JS is available for users who are authenticated and agreed to ToS", js: false do
       login_as(user)
       visit('/')
-      click_link("Get Started")
       click_link "Help!"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
@@ -188,7 +184,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     let(:sign_in_count) { 20 }
     it "displays the terms of service page after authentication" do
       login_as(user)
-      get_started
+      visit('/')
       agree_to_terms_of_service
       classify_what_you_are_uploading('Generic Work')
       create_generic_work('I Agree' => true, 'Visibility' => 'visibility_open')
@@ -206,10 +202,6 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
   end
 
   protected
-  def get_started
-    visit '/'
-    click_link "Get Started"
-  end
 
   def agree_to_terms_of_service
     within('#terms_of_service') do
