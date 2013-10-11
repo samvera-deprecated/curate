@@ -11,7 +11,7 @@ class Collection < ActiveFedora::Base
   # Causes resource_type to be set in the metadata
   before_create :human_readable_type
 
-  # Reads from resource_type attribute.
+  # Reads from resource_type attribute. 
   # Defaults to "Collection", but can be set to something else.
   # Profiles are marked with resource_type of "Profile" when they're created by the associated Person object
   # This is used to populate the Object Type Facet
