@@ -7,11 +7,15 @@ describe CharacterizeJob do
   # push to a queue, so it is the worker that should choke.
   describe '#run' do
     let(:user) { FactoryGirl.create(:user) }
-    let(:curation_concern) {
-      GenericWork.new.tap(&:save)
+    let(:image_file) {
+      Rack::Test::UploadedFile.new(
+        File.expand_path('../../fixtures/files/image.png', __FILE__),
+        'image/png',
+        false
+      )
     }
     let(:generic_file) {
-      FactoryGirl.create_generic_file(curation_concern, user)
+      FactoryGirl.create_generic_file(:generic_work, user, image_file)
     }
     subject { CharacterizeJob.new(generic_file.pid) }
 
@@ -22,5 +26,14 @@ describe CharacterizeJob do
         }.to raise_error(AntiVirusScanner::VirusDetected)
       end
     end
+
+    it 'should create a thumbnail' do
+      GenericFile.any_instance.stub(:image?).and_return(true)
+      GenericFile.any_instance.stub(:mime_type).and_return('image/png')
+      expect {
+        subject.run
+      }.to change { generic_file.reload.datastreams['thumbnail'].mimeType }.from(nil).to('image/png')
+    end
+
   end
 end
