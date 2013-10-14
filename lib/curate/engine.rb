@@ -18,6 +18,7 @@ module Curate
 
     config.autoload_paths += %W(
        #{config.root}/app/repository_models
+       #{config.root}/app/repository_datastreams
        #{config.root}/app/repository_models/concerns
     )
 
@@ -32,6 +33,7 @@ module Curate
       require File.expand_path("../active_model_adaptor", __FILE__)
       require 'curate/rails/routes' 
       require 'sufia/models'
+      # Require instead of autoload so that our classes take precidence over those in sufia-models
       require File.expand_path('../../../app/workers/characterize_job', __FILE__)
       require File.expand_path('../../../app/repository_datastreams/file_content_datastream', __FILE__)
       require File.expand_path('../../../app/repository_models/generic_file', __FILE__)
