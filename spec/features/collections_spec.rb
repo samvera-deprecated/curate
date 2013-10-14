@@ -20,7 +20,7 @@ describe "Showing and creating Collections" do
 
     # then I should find it in the search results.
     fill_in 'Search Curate', with: 'amalgamate members'
-    click_button 'Go'
+    click_button 'keyword-search-submit'
     within('#documents') do
       expect(page).to have_link('amalgamate members') #title
       expect(page).to have_selector('dd', text: "I've collected a few related things together")

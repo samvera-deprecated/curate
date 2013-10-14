@@ -16,7 +16,7 @@ describe 'catalog search', describe_options do
     visit('/')
     within('.search-form') do
       fill_in "Search Curate", with: 'some work'
-      click_button("Go")
+      click_button("keyword-search-submit")
     end
 
     page.should have_tag(".search-constraints", with_text: "Limited to:")
@@ -37,7 +37,7 @@ describe "Search for a work" do
       visit('/')
       within('.search-form') do
         fill_in "Search Curate", with: 'skateboard Cosby'
-        click_button("Go")
+        click_button("keyword-search-submit")
       end
 
       expect(page).to have_selector("#document_#{public_work.noid}")

@@ -20,7 +20,7 @@ describe 'Creating an image' do
 
     # then I should find it in the search results.
     fill_in 'Search Curate', with: 'readymade paleo'
-    click_button 'Go'
+    click_button 'keyword-search-submit'
     within('#documents') do
       expect(page).to have_link('readymade shabby chic paleo ethical') #title
       expect(page).to have_selector('dd', text: '2013-10-04')

@@ -13,6 +13,10 @@ class Etd < ActiveFedora::Base
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "Deposit a senior thesis, master's thesis, or dissertation."
 
+  def self.human_readable_type
+    'ETD'
+  end
+
   delegate :degree, to: :descMetadata, multiple: true
 
   self.indefinite_article = 'an'
