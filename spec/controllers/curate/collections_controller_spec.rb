@@ -5,6 +5,19 @@ describe Curate::CollectionsController do
   let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
 
+  describe "#new" do
+    it 'renders the form' do
+      get :new
+      expect(response).to render_template('new')
+    end
+
+    it 'passes the add_to_profile param' do
+      get :new, add_to_profile: 'true'
+      assigns(:add_to_profile).should == 'true'
+      expect(response).to render_template('new')
+    end
+  end
+
   describe "#index" do
     let(:another_user) { FactoryGirl.create(:user) }
     let!(:collection) { FactoryGirl.create(:collection, user: user) }
@@ -31,6 +44,28 @@ describe Curate::CollectionsController do
     end
   end
 
+  describe "#create with option to add to profile" do
+    let(:reloaded_profile) { Collection.find(user.profile.pid) }
+    it "adds the new collection to the user's profile" do
+      account = FactoryGirl.create(:account, user: user)
+      user.profile.members.should == []
+
+      expect {
+        post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
+      }.to change{Collection.count}.by(1)
+
+      reloaded_profile.members.should == [assigns(:collection)]
+    end
+
+    it "graceful recovery if no profile exists" do
+      user.profile.should be_nil
+      expect {
+        post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
+      }.to change{Collection.count}.by(1)
+      expect(response).to redirect_to collections_path
+    end
+  end
+
   describe "without access" do
     describe "#update" do
       let(:collection) { FactoryGirl.create(:collection) }
@@ -40,7 +75,6 @@ describe Curate::CollectionsController do
         expect(flash[:alert]).to eq 'You are not authorized to access this page.'
 
         collection.reload.should_not be_open_access
-
       end
     end
   end

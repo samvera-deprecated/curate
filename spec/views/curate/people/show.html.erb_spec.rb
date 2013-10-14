@@ -19,6 +19,7 @@ describe 'curate/people/show.html.erb' do
       person.profile.members << [outer_collection, outer_work]
       person.profile.save!
       assign :person, person
+      controller.stub(:current_user).and_return(user)
 
       render
     end
