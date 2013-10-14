@@ -47,20 +47,6 @@ module CurateHelper
     curation_concern.human_readable_type.downcase
   end
 
-  def bootstrap_navigation_element(name, path, options = {})
-    a_tag_options = options.delete(:a_tag_options) || {}
-    path_to_use = path
-    if current_page? path
-      options[:class] ||= ''
-      options[:class] << ' active'
-      a_tag_options[:tabindex] ||= :'-1'
-      path_to_use = '#'
-    end
-    content_tag('li', options) {
-      link_to name, path_to_use, a_tag_options
-    }.html_safe
-  end
-
   def link_to_edit_permissions(curation_concern, solr_document = nil)
     markup = <<-HTML
       <a href="#{edit_polymorphic_path_for_asset(curation_concern)}" id="permission_#{curation_concern.to_param}">
