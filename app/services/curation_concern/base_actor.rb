@@ -8,7 +8,7 @@ module CurationConcern
     def initialize(curation_concern, user, input_attributes)
       @curation_concern = curation_concern
       @user = user
-      @attributes = input_attributes.dup
+      @attributes = input_attributes.dup.with_indifferent_access
       @visibility = attributes[:visibility]
     end
 
@@ -24,8 +24,7 @@ module CurationConcern
 
     def apply_creation_data_to_curation_concern
       curation_concern.apply_depositor_metadata(user.user_key)
-      # TODO if other more specific actors require this, move it there.
-      #curation_concern.creator = user.name
+      curation_concern.owner = attributes.delete('owner') || user.user_key
       curation_concern.date_uploaded = Date.today
     end
     protected :apply_creation_data_to_curation_concern
