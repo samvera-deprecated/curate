@@ -1,32 +1,4 @@
-<% unless curation_concern.persisted? %>
-  <fieldset>
-    <div class="row with-headroom">
-      <div class="span12">
-        <legend>
-          Add Your Content
-        </legend>
-
-        <p class="help-block">
-          The subject of your <%= curation_concern.human_readable_type.downcase %> can either be a file <em>or</em> a URL.
-        </p>
-      </div>
-    </div>
-
-    <div class="row">
-
-      <fieldset class="span5">
-        <%= f.input :files, as: :file, label: 'Upload a file', hint: 'A PDF is preferred.'%>
-      </fieldset>
-
-      <strong class="span1 field-choice">OR</strong>
-
-      <fieldset class="span6">
-        <%= f.input :linked_resource_url, label: "External link", input_html: {class: 'input-xlarge'} %>
-      </fieldset>
-
-    </div>
-  </fieldset>
-<% end %>
+<%= render 'form_files_and_links', curation_concern: curation_concern, f: f %>
 
 <%- Hydra::RemoteIdentifier.with_registered_remote_service(:doi, curation_concern) do |remote_service| -%>
   <div class="row with-headroom">
