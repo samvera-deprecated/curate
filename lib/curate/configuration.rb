@@ -1,4 +1,5 @@
 module Curate
+
   class << self
     attr_accessor :configuration
   end
@@ -19,6 +20,11 @@ module Curate
       }
     end
 
+    # Configure the application root url.
+    attr_writer :application_root_url
+    def application_root_url
+      @application_root_url || (raise RuntimeError.new("Make sure to set your Curate.configuration.application_root_url"))
+    end
 
     # When was this last built/deployed
     attr_writer :build_identifier
