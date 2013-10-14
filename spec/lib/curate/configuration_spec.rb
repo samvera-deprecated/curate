@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 module Curate
   describe Configuration do
     its(:default_antivirus_instance) { should respond_to(:call)}
@@ -9,5 +10,24 @@ module Curate
       }.to change{ subject.registered_curation_concern_types }.from([]).to(['GenericWork'])
 
     end
+
+    context '#application_root_url' do
+      around(:each) do |example|
+        begin
+          old_url = subject.application_root_url
+          subject.application_root_url = nil
+          example.run
+        ensure
+          subject.application_root_url = old_url
+        end
+        it 'should require application_root_url to be configured' do
+          old_value = subject.application_root_url
+          expect {
+            subject.application_root_url
+          }.to raise_error(RuntimeError)
+        end
+      end
+    end
+
   end
 end
