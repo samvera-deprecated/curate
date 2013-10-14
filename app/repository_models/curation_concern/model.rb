@@ -39,6 +39,7 @@ module CurationConcern
       index_collection_pids(solr_doc)
       solr_doc[Solrizer.solr_name('noid', Sufia::GenericFile.noid_indexer)] = noid
       solr_doc[Solrizer.solr_name('human_readable_type',:facetable)] = human_readable_type
+      solr_doc[Solrizer.solr_name('human_readable_type', :stored_searchable)] = human_readable_type
       Solrizer.set_field(solr_doc, 'generic_type', 'Work', :facetable)
       return solr_doc
     end
