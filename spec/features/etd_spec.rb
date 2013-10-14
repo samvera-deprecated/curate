@@ -26,7 +26,7 @@ describe 'Creating an etd' do
 
     # then I should find it in the search results.
     fill_in 'Search Curate', with: 'sartorial umami'
-    click_button 'Go'
+    click_button 'keyword-search-submit'
     within('#documents') do
       expect(page).to have_link('umami sartorial Williamsburg church-key') #title
       expect(page).to have_selector('dd', text: 'Test etd creator')

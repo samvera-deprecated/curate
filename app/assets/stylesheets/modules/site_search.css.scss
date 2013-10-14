@@ -1,4 +1,6 @@
 .search-form {
+  position:relative;
+
   .search-query,
   .search-submit {
     -moz-box-sizing: border-box;
@@ -6,23 +8,19 @@
   }
 
   .search-query {
-    width:80%;
-    padding-top:1em;
-    padding-bottom:1em;
-    @include border-bottom-left-radius(15px);
-    @include border-bottom-right-radius(0);
-    @include border-top-left-radius(15px);
-    @include border-top-right-radius(0);
+    width:100%;
+    padding:1em 12% 1em .6em;
+    @include border-radius($inputBorderRadius);
   }
 
   .search-submit {
-    padding-left:0;
-    width:20%;
+    padding:2px;
+    position:absolute;
+    right:2px;
+    text-align:center;
+    top:2px;
     white-space:nowrap;
-    @include border-bottom-left-radius(0);
-    @include border-bottom-right-radius(15px);
-    @include border-top-left-radius(0);
-    @include border-top-right-radius(15px);
+    width:9%;
   }
 }
 

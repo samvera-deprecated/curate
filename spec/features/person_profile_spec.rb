@@ -45,7 +45,7 @@ describe 'Profile for a Person: ' do
     it 'is displayed in the results' do
       visit catalog_index_path
       fill_in 'Search Curate', with: 'Marguerite'
-      click_button 'Go'
+      click_button 'keyword-search-submit'
       within('#documents') do
         expect(page).to have_link('Marguerite Scypion') #title
       end

@@ -1,6 +1,8 @@
 class Document < GenericWork
   has_metadata "descMetadata", type: DocumentDatastream
 
+  self.human_readable_short_description = "Deposite any text-based document (other than an article)."
+
   def self.valid_types
     [ 'Book',
       'Book Chapter',
@@ -17,7 +19,7 @@ class Document < GenericWork
 
   attribute :type, datastream: :descMetadata,
     multiple: false,
-    validates: { inclusion: { in: Document.valid_types, 
+    validates: { inclusion: { in: Document.valid_types,
                               allow_blank: true } }
 
 end

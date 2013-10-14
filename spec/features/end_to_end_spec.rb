@@ -287,7 +287,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
     within(".search-form") do
       fill_in("q", with: search_term)
-      click_on("Go")
+      click_on("keyword-search-submit")
     end
 
     within('#documents') do
@@ -323,7 +323,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     search_term = "\"#{updated_title}\""
     within(".search-form") do
       fill_in("q", with: search_term)
-      click_on("Go")
+      click_on("keyword-search-submit")
     end
     within('#documents') do
       page.should_not have_content(updated_title)

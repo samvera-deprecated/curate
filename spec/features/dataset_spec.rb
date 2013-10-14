@@ -25,7 +25,7 @@ describe 'Creating a dataset' do
 
       # then I should find it in the search results.
       fill_in 'Search Curate', with: 'fingerstache gastropub'
-      click_button 'Go'
+      click_button 'keyword-search-submit'
       within('#documents') do
         expect(page).to have_link('Banksy fingerstache Polaroid artisan gastropub') #title
         expect(page).to have_selector('dd', text: 'Test abstract')

@@ -25,7 +25,7 @@ describe 'Creating a article' do
 
       # then I should find it in the search results.
       fill_in 'Search Curate', with: 'roof party'
-      click_button 'Go'
+      click_button 'keyword-search-submit'
       within('#documents') do
         expect(page).to have_link('craft beer roof party YOLO fashion axe') #title
         expect(page).to have_selector('dd', text: 'My abstract')
