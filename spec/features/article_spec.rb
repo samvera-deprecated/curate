@@ -8,7 +8,7 @@ describe 'Creating a article' do
       login_as(user)
       visit root_path
       click_link "Get Started"
-      click_link "Submit a work"
+      click_link "add-content"
       classify_what_you_are_uploading 'Article'
       within '#new_article' do
         fill_in "Title", with: "craft beer roof party YOLO fashion axe"
