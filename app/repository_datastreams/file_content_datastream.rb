@@ -6,7 +6,7 @@ class FileContentDatastream
     return unless has_content?
     # I want to run Clam first, let that possibly raise exceptions
     # Then run fits and return that
-    clam, fits = Hydra::FileCharacterization.characterize(content, filename_for_characterization, :clam, :fits) do |config|
+    clam, fits = Hydra::FileCharacterization.characterize(content, filename_for_characterization.join(""), :clam, :fits) do |config|
       config[:clam] = antivirus_runner
       config[:fits] = characterization_runner
     end
