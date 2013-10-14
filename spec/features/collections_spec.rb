@@ -10,7 +10,7 @@ describe "Showing and creating Collections" do
       click_link "Collections"
     end
     click_button "Create Collection"
-    expect(page).to have_content "Create New Collection"
+    expect(page).to have_content "Create a New Collection"
     fill_in 'Title', with: 'amalgamate members'
     fill_in 'Description', with: "I've collected a few related things together"
     click_button "Create Collection"

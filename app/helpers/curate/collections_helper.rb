@@ -7,6 +7,14 @@ module Curate::CollectionsHelper
     render partial: 'button_create_collection', locals:{label:label}
   end
 
+  def title_for_new_form(profile_section)
+    profile_section == 'true' ? 'Add a Section to my Profile' : 'Create a New Collection'
+  end
+
+  def can_edit_profile_collection?(person)
+    person.profile && can?(:edit, person.profile)
+  end
+
   def hidden_collection_members
     _erbout = ''
     if params[:batch_document_ids].present?

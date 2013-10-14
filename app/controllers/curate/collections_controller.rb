@@ -38,6 +38,11 @@ class Curate::CollectionsController < ApplicationController
   before_filter :load_and_authorize_collectible, only: [:add_member_form, :add_member]
   before_filter :load_and_authorize_collection, only: [:add_member_form, :add_member]
 
+  def new
+    @add_to_profile = params.delete(:add_to_profile)
+    super
+  end
+
   def add_member_form
     collection_options
     profile_collection_options
@@ -45,13 +50,8 @@ class Curate::CollectionsController < ApplicationController
   end
 
   def add_member
-    if @collection && @collectible
-      @collection.members << @collectible
-      if @collection.save
-        flash[:notice] = "\"#{@collectible}\" has been added to \"#{@collection}\""
-      else
-        flash[:error] = 'Unable to add item to collection.'
-      end
+    if @collection && @collection.add_member(@collectible)
+      flash[:notice] = "\"#{@collectible}\" has been added to \"#{@collection}\""
     else
       flash[:error] = 'Unable to add item to collection.'
     end
@@ -81,7 +81,15 @@ class Curate::CollectionsController < ApplicationController
     end
   end
 
+  def add_to_profile
+    if current_user && params[:add_to_profile] == 'true'
+      profile = current_user.profile
+      profile.add_member(@collection) if profile
+    end
+  end
+
   def after_create
+    add_to_profile
     respond_to do |format|
       format.html { redirect_to collections_path, notice: 'Collection was successfully created.' }
       format.json { render json: @collection, status: :created, location: @collection }
