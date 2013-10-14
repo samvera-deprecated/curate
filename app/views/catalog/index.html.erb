@@ -17,21 +17,27 @@
 
 <% end %>
 
-<div class="alert alert-info search-constraints">
-  <i class="icon-search icon-large"></i>
-  Limited to:
-    <%= render_constraints(params) %>
-</div>
+<% unless has_search_parameters? %>
+  <%= render 'home' %>
+<% end %>
 
-<%= render :partial => 'did_you_mean' %>
-<%= render :partial => 'facet_selected' %>
-
-<div class="row">
-  <div class="span9">
-    <%= render_pagination_info @response, :entry_name=>'item' %>
-    <%= render 'sort_and_per_page' %>
+<% if has_search_parameters? %>
+  <div class="alert alert-info search-constraints">
+    <i class="icon-search icon-large"></i>
+    Limited to:
+      <%= render_constraints(params) %>
   </div>
-</div>
+
+  <%= render :partial => 'did_you_mean' %>
+  <%= render :partial => 'facet_selected' %>
+
+  <div class="row">
+    <div class="span9">
+      <%= render_pagination_info @response, :entry_name=>'item' %>
+      <%= render 'sort_and_per_page' %>
+    </div>
+  </div>
+<% end %>
 
 <%= render 'results_pagination' %>
 
