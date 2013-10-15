@@ -1,7 +1,6 @@
 .bundle/
 log/*.log
 pkg/
-spec/internal
 jetty
 Gemfile.lock
 .rvmrc
