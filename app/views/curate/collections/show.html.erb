@@ -1,1 +1,8 @@
-<h2> Placeholder for viewing a collection </h2>
+<% content_for :page_title, curation_concern_page_title(@collection) %>
+<% content_for :page_header do %>
+  <h1> <%= @collection.title %> </h1>
+<% end %>
+<p> <%= @collection.description %> </p>
+<div id="documents" class="clear">
+  <%= list_items_in_collection(@collection) %>
+</div>
