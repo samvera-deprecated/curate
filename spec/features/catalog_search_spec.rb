@@ -15,11 +15,12 @@ describe 'catalog search', describe_options do
   it 'renders search results for null search' do
     visit('/')
     within('.search-form') do
+      fill_in "Search Curate", with: 'some work'
       click_button("Go")
     end
 
+    page.should have_tag(".search-constraints", with_text: "Limited to:")
     page.should have_tag('ul#documents')
-    page.should have_tag(".search-constraints", with_text: "You searched for:")
   end
 end
 

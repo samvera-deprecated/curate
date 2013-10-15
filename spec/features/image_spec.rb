@@ -6,7 +6,6 @@ describe 'Creating an image' do
   it "should allow me to attach the link on the create page" do
     login_as(user)
     visit root_path
-    click_link "Get Started"
     click_link "add-content"
     classify_what_you_are_uploading 'Image'
     within '#new_image' do

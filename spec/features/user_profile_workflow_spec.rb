@@ -68,12 +68,9 @@ describe 'user profile workflow', FeatureSupport.options do
       visit new_user_registration_path
       sign_up_new_user(email, password)
 
-      assert_user_has_not_updated_their_profile_yet(email)
-      assert_logout_link_is_visible
-
-      # NOTE: the flow of this is a bit odd.
-      visit catalog_index_path
       agree_to_tos
+      assert_user_has_not_updated_their_profile_yet(email)
+
       assert_logout_link_is_visible
     end
   end
@@ -91,8 +88,8 @@ describe 'user profile workflow', FeatureSupport.options do
   def first_time_login_for(email, password)
     logout
     visit('/')
-    click_link('Get Started')
 
+    click_link("Log In")
     within("form.new_user") do
       fill_in("user[email]", with: email)
       fill_in("user[password]", with: password)
@@ -108,9 +105,9 @@ describe 'user profile workflow', FeatureSupport.options do
     within('form.edit_user') do
       fill_in("user[email]", with: new_email)
       fill_in("user[current_password]", with: password)
-      click_button("Update")
+      click_button("Update My Account")
     end
-    click_link("Get Started")
+    click_link("add-content")
 
     assert_on_page_allowing_upload!
   end
@@ -118,7 +115,7 @@ describe 'user profile workflow', FeatureSupport.options do
   def second_time_login_for(email, password)
     logout
     visit('/')
-    click_link('Get Started')
+    click_link("Log In")
     within("form.new_user") do
       fill_in("user[email]", with: email)
       fill_in("user[password]", with: password)
