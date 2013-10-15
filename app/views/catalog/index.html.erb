@@ -4,9 +4,9 @@
   <div class="navbar">
     <div class="navbar-inner">
       <ul class="nav">
-        <%= type_tab 'Works', 'Work' %> 
-        <%= type_tab 'Collections', 'Collection' %> 
-        <%= type_tab 'People', 'Person' %> 
+        <%= type_tab 'Works', 'Work' %>
+        <%= type_tab 'Collections', 'Collection' %>
+        <%= type_tab 'People', 'Person' %>
         <%= all_type_tab %>
       </ul>
     </div>
@@ -16,10 +16,6 @@
 
   <%= render 'facets' %>
 
-<% end %>
-
-<% unless has_search_parameters? %>
-  <%= render 'home' %>
 <% end %>
 
 <% if has_search_parameters? %>
@@ -38,10 +34,25 @@
       <%= render 'sort_and_per_page' %>
     </div>
   </div>
-<% end %>
 
 <%= render 'results_pagination' %>
 
 <%= render 'document_list' %>
 
 <%= render 'results_pagination' %>
+
+<% else %>
+
+  <% if current_user %>
+
+    <%= render 'results_pagination' %>
+
+    <%= render 'document_list' %>
+
+    <%= render 'results_pagination' %>
+
+  <% else %>
+    <%= render 'home' %>
+  <% end %>
+
+<% end %>

@@ -9,12 +9,22 @@
   margin-top: 1em;
   padding-top:.5em;
 
-  .attributes {
-    list-style-type:none;
+  .canonical-image {
+    width:80%;
+    margin-left:20%;
   }
 
-  .canonical-image {
-    width:90%;
+  .list-number {
+    position: relative;
+  }
+
+  .resource-type {
+    margin-bottom:0;
+    position:absolute;
+    right:0;
+    text-align:center;
+    top:0;
+    width:80%;
   }
 }
 
