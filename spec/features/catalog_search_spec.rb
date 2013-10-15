@@ -43,5 +43,52 @@ describe "Search for a work" do
       expect(page).to have_selector("#document_#{public_work.noid}")
       expect(page).to_not have_selector("#document_#{private_work.noid}")
     end
+
   end
+  context "when logged in" do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:image_title) { "Sample Image" }
+    before do
+      login_as(user)
+    end
+    it "should have 'Add to Collection' link for Images" do
+      create_collection
+      create_image
+      noid = page.current_path.split("/").last
+
+      visit('/')
+      within('.search-form') do
+        fill_in "Search Curate", with: image_title
+        click_button("Go")
+      end
+      href_link = add_member_form_collections_path(collectible_id: "sufia:#{noid}")
+      page.should have_link("Add to Collection", href: href_link)
+    end
+  end
+
+  protected
+  def create_collection
+    visit('/')
+    click_on('Add a Collection')
+    within '#new_collection' do
+      fill_in "Title", with: "Sample Collection"
+      click_button("Create Collection")
+    end
+  end
+
+  def create_image
+    visit('/')
+    click_link "add-content"
+    classify_what_you_are_uploading 'Image'
+    within '#new_image' do
+      fill_in "Title", with: image_title
+      fill_in "Creator", with: user.name
+      fill_in "Date created", with: "2013-10-15"
+      fill_in "Description", with: "Test description"
+      select(Sufia.config.cc_licenses.keys.first, from: I18n.translate('sufia.field_label.rights'))
+      check("I have read and accept the contributor license agreement")
+      click_button("Create Image")
+    end
+  end
+
 end

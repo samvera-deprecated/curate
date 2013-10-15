@@ -29,6 +29,7 @@
 
   </div>
 
+
   <div class="span1">
     <% if current_user && can?(:edit, image) %>
       <%= link_to(
@@ -37,6 +38,10 @@
         :class=> 'itemicon itemedit',
         :title => 'Edit Image')%>
     <% end -%>
+
+    <% if current_user %>
+      <%= render partial: 'add_to_collection_gui', locals: { document: image } %>
+    <% end %>
   </div>
 
 </li>
