@@ -1,10 +1,11 @@
 module Curate
   # User - An Account that is assigned to a human; A User has a one to one relationship with a Person
-  module User
+  module UserBehavior
     extend ActiveSupport::Concern
     included do
-      include Curate::User::Base
-      include Curate::User::WithAssociatedPerson
+      include Curate::UserBehavior::Base
+      include Curate::UserBehavior::WithAssociatedPerson
+      include Curate::UserBehavior::Delegates
     end
 
     module ClassMethods

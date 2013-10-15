@@ -20,6 +20,7 @@
     <tr><th>Blog:            </th><td><%= @person.blog                   %></td></tr>
   </tbody>
 </table>
+
 <%# TODO: Only render the action area if you have permission to edit the person %>
 <div class="form-action">
   <%= link_to "Update Personal Information", edit_user_registration_path, class: 'btn btn-primary' %>

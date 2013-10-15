@@ -32,6 +32,7 @@
 //= require jquery.tokeninput
 //= require curate/select_works
 //= require curate/link_users
+//= require curate/proxy_rights
 //= require curate/facet_mine
 //= require handlebars
 
@@ -51,6 +52,7 @@ $(function(){
   });
   $('.multi_value.control-group').manage_fields();
   $('.link-users').linkUsers();
+  $('.proxy-rights').proxyRights();
 
   // Collapse all of the accordion body elements except the first
   // $('.accordion-body').each(function(index){

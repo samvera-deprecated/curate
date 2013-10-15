@@ -65,7 +65,8 @@ This generator makes the following changes to your application:
       'add_terms_of_service_to_user.rb',
       'add_user_force_update_profile.rb',
       'create_help_requests.rb',
-      'add_repository_id_to_user.rb'
+      'add_repository_id_to_user.rb',
+      'create_curate_proxy_deposit_rights.rb'
     ].each do |file|
       begin
         migration_template "migrations/#{file}", "db/migrate/#{file}"
@@ -127,7 +128,7 @@ This generator makes the following changes to your application:
 
   def inject_curate_user
     inject_into_class 'app/models/user.rb', 'User' do
-      "\n  include Curate::User\n"
+      "\n  include Curate::UserBehavior\n"
     end
   end
 
