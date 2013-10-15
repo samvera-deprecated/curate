@@ -1,5 +1,5 @@
 module Curate
-  module User
+  module UserBehavior
     module Base
       extend ActiveSupport::Concern
       included do
