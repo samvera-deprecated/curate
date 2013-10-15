@@ -13,6 +13,8 @@ class <%= class_name %> < ActiveFedora::Base
 
   has_metadata "descMetadata", type: <%= class_name %>RdfDatastream
 
+  include CurationConcern::DoiAssignable
+
   attribute :title, datastream: :descMetadata,
     multiple: false,
     validates: {presence: { message: 'Your work must have a title.' }}
