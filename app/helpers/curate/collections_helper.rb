@@ -55,8 +55,8 @@ module Curate::CollectionsHelper
   end
 
   def contributors(work)
-    if work.respond_to?(:contributor)
-      work.contributor.empty? ? '' : "(#{work.contributor.join(', ')})"
+    if work.respond_to?(:contributors)
+      "(#{work.contributors.to_a.join(', ')})"
     else
       ''
     end
