@@ -6,7 +6,7 @@ module Curate::Work
     argument :targets, type: :array, required: true, banner: "target, target"
     def append_doi_initializer
       options = targets
-      options << [%(--target='{|o| "http://localhost/concern/\#{o.class.model_name}/\#{o.to_param}" }')]
+      options << [%(--target='{|obj| Curate.permanent_url_for(obj) }')]
       options << [%(--creator=:creator)]
       options << [%(--title=:title)]
       options << [%(--publisher='{|o| Array(o.publisher).join("; ")}')]

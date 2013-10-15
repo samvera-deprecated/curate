@@ -12,16 +12,15 @@ class TestAppGenerator < Rails::Generators::Base
       match = "  # For end to end specs, I want the exception handler capturing things; Not raising exceptions.\n  config.consider_all_requests_local = ENV['LOCAL'] || false"
     end
 
-    initializer 'curate_initializer.rb' do
+    inject_into_file 'config/initializers/curate_config.rb', after: "Curate.configure do |config|\n" do
       <<-EOV
-      Curate.configure do |config|
+        config.application_root_url = 'http://localhost'
         config.default_antivirus_instance = lambda {|file_path|
           AntiVirusScanner::NO_VIRUS_FOUND_RETURN_VALUE
         }
         config.characterization_runner = lambda {|file_path|
           Curate::Engine.root.join('spec/support/files/default_fits_output.xml').read
         }
-      end
       EOV
     end
   end

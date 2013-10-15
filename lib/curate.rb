@@ -12,4 +12,12 @@ require 'contributors_association'
 module Curate
   extend ActiveSupport::Autoload
   autoload :Ability
+
+  delegate :application_root_url, to: :configuration
+
+  module_function
+  def permanent_url_for(object)
+    File.join(Curate.configuration.application_root_url, 'show', object.noid)
+  end
+
 end
