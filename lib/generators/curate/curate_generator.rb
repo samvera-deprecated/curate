@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # -*- encoding : utf-8 -*-
 require 'rails/generators'
 require 'rails/generators/migration'
@@ -83,16 +85,24 @@ This generator makes the following changes to your application:
     gsub_file 'config/routes.rb', /^\s+root.+$/, "  root 'catalog#index'"
   end
 
-  def create_curate_initializer
+  def create_curate_config
     initializer 'curate_config.rb' do
       data = []
-
       data << "Curate.configure do |config|"
-      DEFAULT_CURATION_CONCERNS.each do |curation_concern|
-        data << "  config.register_curation_concern :#{curation_concern.to_s.singularize}"
-      end
+      DEFAULT_CURATION_CONCERNS.each_with_object(data) {|curation_concern, mem|
+        mem << "  config.register_curation_concern :#{curation_concern.to_s.singularize}"
+      }
+      data << "  # # You can override curate's antivirus runner by configuring a lambda \(or"
+      data << "  # # object that responds to call\)"
+      data << "  # config.default_antivirus_instance = lambda {|filename| … }"
+      data << ""
+      data << "  # # Used for constructing permanent URLs"
+      data << "  # config.application_root_url = 'https://repository.higher.edu/'"
+      data << ""
+      data << "  # # Override the file characterization runner that is used"
+      data << "  # config.characterization_runner = lambda {|filename| … }"
       data << "end"
-
+      data << ""
       data.join("\n")
     end
   end
