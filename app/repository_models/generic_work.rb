@@ -10,6 +10,8 @@ class GenericWork < ActiveFedora::Base
 
   has_metadata "descMetadata", type: GenericWorkRdfDatastream
 
+  include CurationConcern::DoiAssignable
+
   attribute :title, datastream: :descMetadata,
     multiple: false,
     validates: {presence: { message: 'Your work must have a title.' }}
@@ -26,7 +28,6 @@ class GenericWork < ActiveFedora::Base
   attribute :available,      datastream: :descMetadata, multiple: false
   attribute :creator,        datastream: :descMetadata, multiple: false
   attribute :content_format, datastream: :descMetadata, multiple: false
-  attribute :identifier,     datastream: :descMetadata, multiple: false
 
   attribute :contributor,            datastream: :descMetadata, multiple: true
   attribute :publisher,              datastream: :descMetadata, multiple: true

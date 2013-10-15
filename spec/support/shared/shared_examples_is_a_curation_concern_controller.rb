@@ -47,30 +47,22 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
     end
   end
 
-  if defined?(Hydra::RemoteIdentifier)
-    Hydra::RemoteIdentifier.with_registered_remote_service(:doi, curation_concern_class) do |remote_service|
-      if optionally_include_specs(actions, :new)
-        context "#new" do
-          it 'work should render DOI portion of the form' do
-            get :new
-            expect(response.body).to have_tag('label') do
-              input_name = "#{curation_concern_class.model_name.singular}[#{remote_service.accessor_name}]"
-              # Not keying on input name as this is assigned dynamically
-              with_tag('input', with: { name: input_name, type: 'hidden', value: "0"})
-              with_tag('input', with: { name: input_name, type: 'checkbox', value: "1" })
-            end
-          end
-        end
-      end
-    end
-  end
-
   if optionally_include_specs(actions, :new)
     describe "#new" do
       context "my work" do
         it "should show me the page" do
           get :new
           expect(response).to be_success
+
+          expect(response.body).to have_tag('.promote-doi .control-group') do
+            input_name = "#{curation_concern_class.model_name.singular}[doi_assignment_strategy]"
+            remote_service = Hydra::RemoteIdentifier.remote_service(:doi)
+            if remote_service.registered?(controller.curation_concern)
+              with_tag('input', with: { name: input_name, type: 'radio', value: remote_service.accessor_name })
+            end
+            with_tag('input', with: { name: input_name, type: 'radio', value: controller.curation_concern.not_now_value_for_doi_assignment } )
+            with_tag('input', with: { name: input_name, type: 'text' } )
+          end
         end
       end
     end
