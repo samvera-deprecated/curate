@@ -19,6 +19,12 @@ class Collection < ActiveFedora::Base
     self.resource_type ||= "Collection"
   end
 
+  def add_member(collectible)
+    return false unless collectible
+    self.members << collectible
+    self.save
+  end
+
   def is_profile?
     !associated_persons.empty?
   end
