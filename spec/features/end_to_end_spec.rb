@@ -26,6 +26,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
   def fill_out_form_multi_value_for(method_name, options={})
     field_name = "generic_work[#{method_name}][]"
+
     within(".control-group.generic_work_#{method_name}.multi_value") do
       elements = [options[:with]].flatten.compact
       if with_javascript?

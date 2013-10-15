@@ -8,6 +8,8 @@ class Etd < ActiveFedora::Base
 
   has_metadata "descMetadata", type: EtdMetadata
 
+  include CurationConcern::DoiAssignable
+
   etd_label = human_readable_type.downcase
 
   class_attribute :human_readable_short_description

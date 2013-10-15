@@ -8,6 +8,8 @@ class Article < ActiveFedora::Base
 
   has_metadata "descMetadata", type: ArticleMetadataDatastream
 
+  include CurationConcern::DoiAssignable
+
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "Deposit or reference a preprint or published article."
 
