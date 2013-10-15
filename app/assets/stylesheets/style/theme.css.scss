@@ -21,11 +21,11 @@
 
 #site-title {
   h1 {
-    color:$blue;
-    //@include text-shadow(#FFF 0 0 1px)
     text-shadow: #fff 0 0 1px;
   }
 
+  a,
+  a:hover,
   a:visited {
     color:$blue;
   }

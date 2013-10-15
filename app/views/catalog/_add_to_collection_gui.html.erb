@@ -15,7 +15,5 @@
     </div>
   </div>
 
-  <div>
-    <%= link_to 'Add to Collection', add_member_form_collections_path(collectible_id: document.pid), data: { toggle: "modal", target: ('#' + modal_id) }, method: :get, class: "pull-right btn add-to-collection", remote: true %>
-  </div>
+  <%= link_to 'Add to Collection', add_member_form_collections_path(collectible_id: document.pid), data: { toggle: "modal", target: ('#' + modal_id) }, method: :get, class: "pull-right btn add-to-collection", remote: true %>
 <% end %>

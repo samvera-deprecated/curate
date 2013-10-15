@@ -1,48 +1,60 @@
 <%# This is a search result view %>
 <% noid = etd.noid %>
-<li id="document_<%= noid %>" class="row-fluid search-result">
-  <div class="span3">
-    <%= etd_counter + 1 %>
-    <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: etd} %>
+<li id="document_<%= noid %>" class="search-result">
+
+  <div class="row-fluid">
+
+    <div class="span2 list-number">
+      <%= etd_counter + 1 %>
+      <%= render :partial => 'catalog/_index_partials/type_display', locals: {document: etd} %>
+    </div>
+
+    <div class="span6">
+      <% solr_doc = etd.inner_object.solr_doc %>
+      <%# Minimize Fedora hits by using solr_doc rather than document %>
+      <%= link_to render_index_field_value(document: solr_doc, field: 'desc_metadata__title_tesim'), curation_concern_etd_path(etd), :id => "src_copy_link_#{noid}" %>
+    </div>
+
+    <div class="span4">
+      <% if current_user -%>
+        <%= render partial: 'add_to_collection_gui', locals: { document: etd } %>
+
+        <%= link_to(
+          raw('<i class="icon-pencil icon-large"></i>'),
+          edit_curation_concern_etd_path(etd),
+            :class=> 'itemicon itemedit btn pull-right',
+            :title => 'Edit ETD'
+          ) if can? :edit, etd %>
+      <% end -%>
+    </div>
+
   </div>
 
-  <div class="span8">
-    <% solr_doc = etd.inner_object.solr_doc %>
-    <%# Minimize Fedora hits by using solr_doc rather than document %>
-    <%= link_to render_index_field_value(document: solr_doc, field: 'desc_metadata__title_tesim'), curation_concern_etd_path(etd), :id => "src_copy_link_#{noid}" %>
-    <dl class="attributes">
-      <% if solr_doc.has?('desc_metadata__contributor_tesim') %>
-        <dt>Creator(s):</dt>
-        <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__contributor_tesim') %></dd>
-      <% end %>
+  <div class="row-fluid">
 
-      <% if solr_doc.has?('desc_metadata__subject_tesim') %>
-        <dt>Subject:</dt>
-        <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__subject_tesim'), length: 150) %></dd>
-      <% end %>
+    <div class="span2">
+      <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: etd} %>
+    </div>
 
-      <% if solr_doc.has?('desc_metadata__date_created_dtsim') %>
-        <dt>Date:</dt>
-        <dd><%= Date.parse(solr_doc['desc_metadata__date_created_dtsim'].first) %></dd>
-      <% end %>
-    </dl>
+    <div class="span10">
+      <dl class="attribute-list">
+        <% if solr_doc.has?('desc_metadata__contributor_tesim') %>
+          <dt>Author(s):</dt>
+          <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__contributor_tesim') %></dd>
+        <% end %>
 
-  </div>
+        <% if solr_doc.has?('desc_metadata__subject_tesim') %>
+          <dt>Subject:</dt>
+          <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__subject_tesim'), length: 150) %></dd>
+        <% end %>
 
-  <div class="span1">
-    <% if current_user && can?(:edit, etd) %>
-      <%= link_to(
-        raw('<i class="icon-pencil icon-large"></i>'),
-        edit_curation_concern_etd_path(etd),
-        :class=> 'itemicon itemedit',
-        :title => 'Edit ETD')%>
-    <% end -%>
+        <% if solr_doc.has?('desc_metadata__date_created_dtsim') %>
+          <dt>Date:</dt>
+          <dd><%= Date.parse(solr_doc['desc_metadata__date_created_dtsim'].first) %></dd>
+        <% end %>
+      </dl>
+    </div>
 
-    <% if current_user %>
-      <%= render partial: 'add_to_collection_gui', locals: { document: etd } %>
-    <% end -%>
   </div>
 
 </li>
-
-
