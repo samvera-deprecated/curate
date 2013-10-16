@@ -1,0 +1,14 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  sufia:
+    field_label:
+      based_near:        "Location"
+      description:       "Abstract or Summary"
+      tag:               "Keyword"
+      date_created:      "Date Created"
+      related_url:       "Related URL"
+      rights:            "Content License"
+      files:             "Upload Files"

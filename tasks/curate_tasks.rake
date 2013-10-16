@@ -64,9 +64,11 @@ gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'" >> #
   puts "Done generating test app"
 end
 
-task :spec => :generate do
+task :spec do
   Bundler.with_clean_env do
     within_test_app do
+      system_with_command_output("bundle install")
+      system_with_command_output("rake db:migrate db:test:prepare")
       Rake::Task['rspec'].invoke
     end
   end
@@ -80,7 +82,7 @@ end
 
 
 desc 'Run specs on travis'
-task :ci => [:clean, :generate] do
+task :ci do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
   Jettywrapper.unzip

@@ -12,6 +12,10 @@ at_exit do
   File.open(Rails.root.join('config/initializers/hydra-remote_identifier_config.rb'), 'w+') do |f|
     f.puts($COPY_OF_REMOTE_CONFIG)
   end
+
+  # Tidying up changes to the spec/internal
+  system("git clean -df spec/internal")
+  system("git checkout -- spec/internal")
 end
 
 response = Curate::WorkGenerator.start(%W(spam --force --doi=true), destination_root: Rails.root)
