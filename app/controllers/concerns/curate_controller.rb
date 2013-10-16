@@ -44,6 +44,7 @@ module CurateController
     raise exception unless ActionDispatch::ExceptionWrapper.rescue_responses[exception.class.name]
 
     wrapper = ActionDispatch::ExceptionWrapper.new(env, exception)
+    logger.warn "Curate caught a registered error: #{exception.class.name}\n\t#{exception.message}\n\tRendering error page: #{wrapper.status_code}"
     render_response_for_error(wrapper)
   end
   protected :exception_handler
@@ -58,7 +59,10 @@ module CurateController
   def render_response_for_error(wrapper)
     capture_exception(wrapper.exception) if respond_to?(:capture_exception)
     set_return_location_from_status_code(wrapper.status_code)
-    render "/errors/#{wrapper.status_code}", status: wrapper.status_code, layout: !request.xhr?
+    respond_to do |format|
+      format.json { render json: {status: "ERROR", code: wrapper.status_code } }
+      format.html { render "/errors/#{wrapper.status_code}", status: wrapper.status_code, layout: !request.xhr? }
+    end
   end
   protected :render_response_for_error
 
