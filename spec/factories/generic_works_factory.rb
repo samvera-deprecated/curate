@@ -10,6 +10,7 @@ FactoryGirl.define do
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
     before(:create) { |work, evaluator|
       work.apply_depositor_metadata(evaluator.user.user_key)
+      work.owner = evaluator.user.user_key
       work.contributors << FactoryGirl.create(:person)
     }
 

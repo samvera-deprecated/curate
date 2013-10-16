@@ -9,6 +9,7 @@ class Curate::PeopleController < ApplicationController
 
   prepend_before_filter :normalize_identifier, only: [:show]
   before_filter :breadcrumb, only: [:show]
+  self.solr_search_params_logic += [:only_users]
 
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
@@ -43,5 +44,16 @@ class Curate::PeopleController < ApplicationController
     add_breadcrumb link_name, person_path(person)
   end
   protected :breadcrumb
+
+  protected
+
+    # Limits search results just to People who have user account is param[:user] is true 
+    # @param solr_parameters the current solr parameters
+    # @param user_parameters the current user-subitted parameters
+    def only_users(solr_parameters, user_parameters)
+      solr_parameters[:fq] ||= []
+      solr_parameters[:fq] << "has_user_bsi:true" if user_parameters[:user]
+      return solr_parameters
+    end
 
 end
