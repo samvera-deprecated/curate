@@ -40,7 +40,7 @@ module Curate
 
     def register_curation_concern(*curation_concern_types)
       Array(curation_concern_types).flatten.compact.each do |cc_type|
-        class_name = cc_type.to_s.classify
+        class_name = ClassifyConcern.normalize_concern_name(cc_type)
         if ! registered_curation_concern_types.include?(class_name)
           self.registered_curation_concern_types << class_name
         end

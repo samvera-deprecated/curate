@@ -4,12 +4,12 @@
     <%= link_to new_classify_concern_path, id: "add-content", class: "btn btn-primary dropdown-toggle", data: { toggle: "dropdown"} do %>
       <span class="icon icon-white icon-plus"></span><span class="visuallyhidden">Add</span>
   <% end %>
-    <ul class="dropdown-menu" data-no-turbolink="true">
+    <ul class="dropdown-menu quick-create" data-no-turbolink="true">
       <li><strong class="menu-heading item-with-options">Add a Work</strong>
-      <ul class="item-options">
-        <li><%= link_to 'New Article',  new_curation_concern_article_path, class: 'item-option new-article',       role: 'menuitem' %></li>
-        <li><%= link_to 'New Dataset',  new_curation_concern_dataset_path, class: 'item-option new-dataset',       role: 'menuitem' %></li>
-        <li><%= link_to 'New Image',    new_curation_concern_image_path,   class: 'item-option new-image',         role: 'menuitem' %></li>
+      <ul class="item-options quick-classify">
+        <% QuickClassificationQuery.each_for(current_user) do |concern| %>
+          <li><%= link_to "New #{concern.human_readable_type}",  polymorphic_path([:curation_concern, concern], action: :new) class: "item-option #{dom_class(concern, 'new').gsub('_', '-')}",       role: 'menuitem' %></li>
+        <% end %>
         <li><%= link_to 'More Options', new_classify_concern_path,         class: 'item-option link-to-full-list', role: 'menuitem' %></li>
       </ul>
       </li>
