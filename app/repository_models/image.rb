@@ -10,6 +10,8 @@ class Image < ActiveFedora::Base
 
   image_label = 'image'
 
+  include CurationConcern::DoiAssignable
+
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "Any image file: art, photograph, poster, etc."
 

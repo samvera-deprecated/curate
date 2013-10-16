@@ -31,14 +31,27 @@
     </p>
 
     <div class="control-group">
-      <%= f.label remote_service.accessor_name, class: 'label label-success label-large label-checkbox' do %>
-        <%= f.check_box remote_service.accessor_name %>
+      <%- remote_service = Hydra::RemoteIdentifier.remote_service(:doi) -%>
+      <%- if remote_service.registered?(curation_concern) -%>
+        <label class="radio">
+          <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" value="<%= remote_service.accessor_name %>" <% if curation_concern.doi_assignment_strategy == remote_service.accessor_name.to_s %> checked="true"<% end %> />
+          <span class="label-text">
+            Yes, I would like to create a <abbr title="Digital Object Identifier">DOI</abbr> for this <%= curation_concern.human_readable_type %>.
+          </span>
+        </label>
+      <%- end -%>
+      <label class="radio">
+        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" <% if ![curation_concern.not_now_value_for_doi_assignment, remote_service.accessor_name.to_s].include?(curation_concern.doi_assignment_strategy) %> checked="true"<% end %> />
         <span class="label-text">
-          Yes, I would like to assign this
-          <%= classify_for_display(curation_concern) %>
-          a <abbr title="Digital Object Identifier">DOI</abbr>.
+          Yes, I already have one that I want to use: <%= f.input :doi_assignment_strategy, wrapper: :inline, value: curation_concern.identifier, input_html: { placeholder: "doi:10.5072/FK2FT8XZZ", class: 'input-small' } %>
         </span>
-      <% end %>
+      </label>
+      <label class="radio">
+        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" value="<%= curation_concern.not_now_value_for_doi_assignment %>" <% if curation_concern.doi_assignment_strategy == curation_concern.not_now_value_for_doi_assignment %> checked="true"<% end %> />
+        <span class="label-text">
+          Not now…<em>but maybe later.</em>
+        </span>
+      </label>
     </div>
   </fieldset>
 <%- end -%>
