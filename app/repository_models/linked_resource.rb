@@ -1,4 +1,5 @@
 class LinkedResource < ActiveFedora::Base
+  include Hydra::AccessControls::Permissions
   include Curate::ActiveModelAdaptor
   include Sufia::ModelMethods
 
