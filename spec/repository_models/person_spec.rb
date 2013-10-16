@@ -32,6 +32,19 @@ describe Person do
     it 'has human_readable_type' do
       solr_doc['human_readable_type_sim'].should == 'Person'
     end
+    it "is_user_ssi should be false" do
+      solr_doc['has_user_bsi'].should be_false
+    end
+
+    describe "when the person has an associated user account" do
+      before do
+        subject.save
+        FactoryGirl.create(:user, repository_id: subject.pid)
+      end
+      it "is_user_ssi should be true" do
+        solr_doc['has_user_bsi'].should be_true
+      end
+    end
   end
 
 end

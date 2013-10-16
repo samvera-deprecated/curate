@@ -1,0 +1,30 @@
+  <div class="proxy-rights">
+
+    <fieldset class="span12">
+      <legend>Authorize Proxy</legend>
+
+      Search <%=text_field_tag :user, '', "data-url"=>"/people" %>
+
+      <table class="table table-condensed" id='authorizedProxies'>
+        <caption>Currently Authorized</caption>
+        <tbody>
+          <% @grantor.user.can_receive_deposits_from.each do |depositor| %>
+            <tr><td><%= depositor.name %></td>
+              <td><%=link_to(person_depositor_path(@grantor, depositor.person), method: :delete, class: "remove-proxy-button") do %>
+                <i class="icon-remove"></i><% end %>
+              </td></tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <script type="text/x-handlebars-template" id="tmpl-proxy-row">
+        <tr><td>{{ name }}</td>
+          <td><a class="remove-proxy-button" data-method="delete" href="/people/rj43kv61h/depositors/{{ id }}" rel="nofollow">
+            <i class="icon-remove"></i>
+          </a>
+        </td></tr>
+      </script>
+    </fieldset>
+
+  </div>
+
