@@ -41,13 +41,13 @@
         </label>
       <%- end -%>
       <label class="radio">
-        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" <% if ![curation_concern.not_now_value_for_doi_assignment, remote_service.accessor_name.to_s].include?(curation_concern.doi_assignment_strategy) %> checked="true"<% end %> />
+        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" value="<%= CurationConcern::DoiAssignable::ALREADY_GOT_ONE %>" <% if curation_concern.doi_assignment_strategy == CurationConcern::DoiAssignable::ALREADY_GOT_ONE %> checked="true"<% end %> />
         <span class="label-text">
-          Yes, I already have one that I want to use: <%= f.input :doi_assignment_strategy, wrapper: :inline, value: curation_concern.identifier, input_html: { placeholder: "doi:10.5072/FK2FT8XZZ", class: 'input-small' } %>
+          Yes, I already have one that I want to use: <%= f.input :existing_identifier, wrapper: :inline, value: curation_concern.identifier, input_html: { placeholder: "doi:10.5072/FK2FT8XZZ", class: 'input-small' } %>
         </span>
       </label>
       <label class="radio">
-        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" value="<%= curation_concern.not_now_value_for_doi_assignment %>" <% if curation_concern.doi_assignment_strategy == curation_concern.not_now_value_for_doi_assignment %> checked="true"<% end %> />
+        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" value="<%= CurationConcern::DoiAssignable::NOT_NOW %>" <% if curation_concern.doi_assignment_strategy == CurationConcern::DoiAssignable::NOT_NOW %> checked="true"<% end %> />
         <span class="label-text">
           Not now…<em>but maybe later.</em>
         </span>
