@@ -60,8 +60,9 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
             if remote_service.registered?(controller.curation_concern)
               with_tag('input', with: { name: input_name, type: 'radio', value: remote_service.accessor_name })
             end
-            with_tag('input', with: { name: input_name, type: 'radio', value: controller.curation_concern.not_now_value_for_doi_assignment } )
-            with_tag('input', with: { name: input_name, type: 'text' } )
+            with_tag('input', with: { name: input_name, type: 'radio', value: CurationConcern::DoiAssignable::NOT_NOW } )
+            with_tag('input', with: { name: input_name, type: 'radio', value: CurationConcern::DoiAssignable::ALREADY_GOT_ONE } )
+            with_tag('input', with: { name: "#{curation_concern_class.model_name.singular}[existing_identifier]", type: 'text' } )
           end
         end
       end
