@@ -29,4 +29,8 @@ describe ClassifyConcern do
       expect(subject.upcoming_concerns).to be_kind_of(Array)
     end
   end
+
+  describe '.normalize_concern_name' do
+    it { expect(described_class.normalize_concern_name(:generic_file)).to eq('GenericFile') }
+  end
 end
