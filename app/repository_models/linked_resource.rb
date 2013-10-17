@@ -9,7 +9,7 @@ class LinkedResource < ActiveFedora::Base
 
   delegate_to :descMetadata, [:date_uploaded, :date_modified, :creator], multiple: false
 
-  has_metadata 'properties', type: PropertiesDatastream
+  has_metadata 'properties', type: Curate::PropertiesDatastream
   delegate_to :properties, [:relative_path, :depositor, :owner], multiple: false
 
   validates :batch, presence: true

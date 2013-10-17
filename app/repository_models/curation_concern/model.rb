@@ -14,7 +14,7 @@ module CurationConcern
       include Curate::ActiveModelAdaptor
       include Hydra::Collections::Collectible
       
-      has_metadata 'properties', type: PropertiesDatastream
+      has_metadata 'properties', type: Curate::PropertiesDatastream
       delegate_to :properties, [:relative_path, :depositor, :owner], multiple: false
       class_attribute :human_readable_short_description
     end
