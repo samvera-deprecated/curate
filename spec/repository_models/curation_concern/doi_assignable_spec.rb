@@ -21,27 +21,30 @@ describe CurationConcern::DoiAssignable do
   context '#doi_assignment_strategy' do
     subject { model.new }
     let(:accessor_name) { 'mint_doi' }
+    let(:existing_identifier) { 'abc' }
     let(:doi_remote_service) { double(accessor_name: accessor_name) }
     before(:each) do
+      subject.existing_identifier = existing_identifier
+      subject.doi_assignment_strategy = doi_assignment_strategy
       subject.doi_remote_service = doi_remote_service
     end
 
     context 'with explicit identifier specified' do
-      let(:doi_assignment_strategy) { 'abc' }
+      let(:doi_assignment_strategy) { described_class::ALREADY_GOT_ONE }
 
       it 'should allow explicit assignment of identifer' do
         expect {
-          subject.doi_assignment_strategy = doi_assignment_strategy
-        }.to change(subject, :identifier).from(nil).to('abc')
+          subject.send(:apply_doi_assignment_strategy)
+        }.to change(subject, :identifier).from(nil).to(existing_identifier)
       end
     end
 
     context 'with not now specified' do
-      let(:doi_assignment_strategy) { subject.not_now_value_for_doi_assignment }
+      let(:doi_assignment_strategy) { described_class::NOT_NOW }
 
-      it 'should allow explicit assignment of identifer' do
+      it 'should not update identifier' do
         expect {
-          subject.doi_assignment_strategy = doi_assignment_strategy
+          subject.send(:apply_doi_assignment_strategy)
         }.to_not change(subject, :identifier).from(nil)
       end
     end
@@ -50,10 +53,9 @@ describe CurationConcern::DoiAssignable do
       let(:doi_assignment_strategy) { accessor_name }
 
       it 'should request a minting' do
-        subject.doi_remote_service = doi_remote_service
         doi_remote_service.should_receive(:mint).with(subject).and_return(true)
         expect {
-          subject.doi_assignment_strategy = doi_assignment_strategy
+          subject.send(:apply_doi_assignment_strategy)
         }.to_not change(subject, :identifier).from(nil)
       end
     end
