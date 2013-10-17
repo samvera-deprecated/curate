@@ -1,7 +1,7 @@
 class Document < GenericWork
   has_metadata "descMetadata", type: DocumentDatastream
 
-  self.human_readable_short_description = "Deposite any text-based document (other than an article)."
+  self.human_readable_short_description = "Deposit any text-based document (other than an article)."
 
   def self.valid_types
     [ 'Book',
