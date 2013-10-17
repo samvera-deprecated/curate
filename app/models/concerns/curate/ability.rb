@@ -11,12 +11,9 @@ module Curate
         p.pid == current_user.repository_id
       end
 
-      can [:show, :read, :update, :destroy], [GenericWork, Article] do |w|
-        puts "TRYING #{w.pid}"
+      can [:show, :read, :update, :destroy], [Curate.configuration.registered_curation_concern_types.map(&:constantize)] do |w|
         u = ::User.find_by_user_key(w.owner)
-
-        vals = u && u.can_receive_deposits_from
-        vals.include?(current_user)
+        u && u.can_receive_deposits_from.include?(current_user)
       end
     end
 
