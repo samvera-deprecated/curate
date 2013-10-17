@@ -7,7 +7,6 @@ class GenericFile < ActiveFedora::Base
   include CurationConcern::Embargoable # overrides visibility, so must come after Permissions
   include Sufia::GenericFile::Characterization
   include Curate::ActiveModelAdaptor
-  include Sufia::GenericFile::Metadata
   include Sufia::GenericFile::Versions
   include Sufia::GenericFile::Audit
   include Sufia::GenericFile::MimeTypes
@@ -19,7 +18,14 @@ class GenericFile < ActiveFedora::Base
   validates :batch, presence: true
   validates :file, presence: true, on: :create
 
-  delegate_to :properties, [:owner], multiple: false
+  has_metadata "descMetadata", type: GenericFileRdfDatastream
+  has_metadata 'properties', type: Curate::PropertiesDatastream
+  has_file_datastream "content", type: FileContentDatastream
+  has_file_datastream "thumbnail"
+  
+  delegate_to :properties, [:owner, :depositor], multiple: false
+  delegate_to :descMetadata, [:date_uploaded, :date_modified], multiple: false 
+  delegate_to :descMetadata, [:creator, :title], multiple: true
 
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "An arbitrary single file."

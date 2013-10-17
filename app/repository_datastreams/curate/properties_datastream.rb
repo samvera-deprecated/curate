@@ -1,5 +1,5 @@
 # properties datastream: catch-all for info that didn't have another home.
-class PropertiesDatastream < ActiveFedora::OmDatastream
+class Curate::PropertiesDatastream < ActiveFedora::OmDatastream
   set_terminology do |t|
     t.root(:path=>"fields" ) 
     # This is where we put the user id of the object depositor
