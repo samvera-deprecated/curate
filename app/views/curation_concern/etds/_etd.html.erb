@@ -48,9 +48,9 @@
           <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__subject_tesim'), length: 150) %></dd>
         <% end %>
 
-        <% if solr_doc.has?('desc_metadata__date_created_dtsim') %>
+        <% if solr_doc.has?('desc_metadata__date_created_tesim') %>
           <dt>Date:</dt>
-          <dd><%= Date.parse(solr_doc['desc_metadata__date_created_dtsim'].first) %></dd>
+          <dd><%= solr_doc['desc_metadata__date_created_tesim'].first %></dd>
         <% end %>
       </dl>
     </div>

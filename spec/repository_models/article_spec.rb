@@ -24,4 +24,15 @@ describe Article do
   it { should have_multivalue_field(:language) }
   it { should have_multivalue_field(:requires) }
   it { should have_multivalue_field(:recommended_citation) }
+
+  describe 'to_solr' do
+    it 'derives dates from date_created fields' do
+      date_string = '2010-4-5'
+      art = FactoryGirl.build(:article, date_created: date_string)
+      solr_doc = art.to_solr
+      solr_doc['desc_metadata__date_created_tesim'].should == [date_string]
+      expected_date = Date.parse(date_string)
+      solr_doc['date_created_derived_dtsim'].first.to_date.should == expected_date
+    end
+  end
 end

@@ -36,7 +36,6 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     end
     map.content_format({in: RDF::QualifiedDC, to: 'format#mimetype'})
     map.date_created(:to => "date#created", :in => RDF::QualifiedDC) do |index|
-      index.type :date
       index.as :stored_searchable
     end
     map.date_digitized(to: "date#digitized", in: RDF::QualifiedDC) do |index|

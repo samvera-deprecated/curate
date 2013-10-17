@@ -15,10 +15,7 @@ describe 'Creating an etd' do
       fill_in "Country", with: "Belgium"
       fill_in "Advisor", with: "Marcy Holmes"
       fill_in "Subject", with: "Paleoethnography"
-      #Date created
-      select "2013", from: "etd[date_created(1i)]"
-      select "October", from: "etd[date_created(2i)]"
-      select "4", from: "etd[date_created(3i)]"
+      fill_in "Date created", with: "2013 October 4"
       select(Sufia.config.cc_licenses.keys.first, from: I18n.translate('sufia.field_label.rights'))
       check("I have read and accept the contributor license agreement")
       click_button("Create Etd")
@@ -31,7 +28,7 @@ describe 'Creating an etd' do
       expect(page).to have_link('umami sartorial Williamsburg church-key') #title
       expect(page).to have_selector('dd', text: 'Test etd creator')
       expect(page).to have_selector('dd', text: 'Paleoethnography')
-      expect(page).to have_selector('dd', text: '2013-10-04')
+      expect(page).to have_selector('dd', text: '2013 October 4')
     end
   end
 end
