@@ -18,7 +18,6 @@
     <div class="span4">
       <% if current_user -%>
         <%= render partial: 'add_to_collection_gui', locals: { document: image } %>
-
         <%= link_to(
           raw('<i class="icon-pencil icon-large"></i>'),
           edit_curation_concern_image_path(image),
@@ -27,7 +26,6 @@
           ) if can? :edit, image %>
       <% end -%>
     </div>
-
   </div>
 
   <div class="row-fluid">
@@ -48,9 +46,9 @@
           <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__description_tesim'), length: 150) %></dd>
         <% end %>
 
-        <% if solr_doc.has?('desc_metadata__date_created_dtsim') %>
+        <% if solr_doc.has?('desc_metadata__date_created_tesim') %>
           <dt>Date:</dt>
-          <dd><%= Date.parse(solr_doc['desc_metadata__date_created_dtsim'].first) %></dd>
+          <dd><%= solr_doc['desc_metadata__date_created_tesim'].first %></dd>
         <% end %>
       </dl>
     </div>

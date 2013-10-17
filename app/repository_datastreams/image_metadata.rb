@@ -11,7 +11,6 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
     end
 
     map.date_created(:to => "date#created", :in => RDF::QualifiedDC) do |index|
-      index.type :date
       index.as :stored_searchable
     end
 
