@@ -31,8 +31,9 @@ module CurateHelper
   end
 
   # options[:include_empty]
-  def curation_concern_attribute_to_html(curation_concern, method_name, label, options = {})
+  def curation_concern_attribute_to_html(curation_concern, method_name, label = nil, options = {})
     markup = ""
+    label ||= derived_label_for(curation_concern, method_name)
     subject = curation_concern.send(method_name)
     return markup if !subject.present? && !options[:include_empty]
     markup << %(<tr><th>#{label}</th>\n<td><ul class='tabular'>)
@@ -42,6 +43,11 @@ module CurateHelper
     markup << %(</ul></td></tr>)
     markup.html_safe
   end
+
+  def derived_label_for(curation_concern, method_name)
+    curation_concern.respond_to?(:label_for) ? curation_concern.label_for(method_name) : method_name.to_s.humanize.titlecase
+  end
+  private :derived_label_for
 
   def classify_for_display(curation_concern)
     curation_concern.human_readable_type.downcase

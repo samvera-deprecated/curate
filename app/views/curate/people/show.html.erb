@@ -10,14 +10,14 @@
 <% end %>
 
 <table class="table table-striped <%= dom_class(@person) %> attributes">
+  <caption class="table-heading"><h2>Attributes</h2></caption>
+  <thead>
+    <tr><th>Attribute Name</th><th>Values</th></tr>
+  </thead>
   <tbody>
-    <tr><th>Campus Phone:    </th><td><%= @person.campus_phone_number    %></td></tr>
-    <tr><th>Alternate Phone: </th><td><%= @person.alternate_phone_number %></td></tr>
-    <tr><th>Preferred Email: </th><td><%= @person.preferred_email        %></td></tr>
-    <tr><th>Alternate Email: </th><td><%= @person.alternate_email        %></td></tr>
-    <tr><th>Date of Birth:   </th><td><%= @person.date_of_birth          %></td></tr>
-    <tr><th>Personal Webpage:</th><td><%= @person.personal_webpage       %></td></tr>
-    <tr><th>Blog:            </th><td><%= @person.blog                   %></td></tr>
+    <%- @person.terms_for_display.each do |attribute_name| -%>
+      <%= curation_concern_attribute_to_html(@person, attribute_name)  %>
+    <%- end -%>
   </tbody>
 </table>
 

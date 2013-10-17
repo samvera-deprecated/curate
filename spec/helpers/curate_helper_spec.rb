@@ -14,57 +14,77 @@ describe ApplicationHelper do
   end
 
   describe '#curation_concern_attribute_to_html' do
+    def render_curation_concern_attribute_html(expected_label, *item_or_collection)
+      collection = Array(item_or_collection).flatten.compact
+      have_tag('tr') do
+        with_tag("th", text: expected_label)
+        with_tag('td ul.tabular') do
+          if collection.present?
+            collection.each do |value|
+              with_tag('li.attribute.things', text: value)
+            end
+          else
+            yield if block_given?
+          end
+        end
+      end
+    end
+
     it 'handles an array by rendering one <dd> per element' do
       collection = ["<h2>", "Johnny Tables"]
       object = double('curation_concern', things: collection)
 
       rendered = helper.curation_concern_attribute_to_html(object, :things, "Weird")
-      rendered.should have_tag('tr') do
-        with_tag("th", text: 'Weird')
-        with_tag('td ul.tabular') do
-          with_tag('li.attribute.things', text: '<h2>')
-          with_tag('li.attribute.things', text: 'Johnny Tables')
-        end
-      end
+      rendered.should render_curation_concern_attribute_html('Weird', collection)
     end
+
     it 'handles a string by rendering one <dd>' do
       collection = "Tim"
       object = double('curation_concern', things: collection)
 
       rendered = helper.curation_concern_attribute_to_html(object, :things, "Weird")
-      rendered.should have_tag('tr') do
-        with_tag("th", text: 'Weird')
-        with_tag('td ul.tabular') do
-          with_tag('li.attribute.things', text: 'Tim')
-        end
-      end
+      rendered.should render_curation_concern_attribute_html('Weird', collection)
     end
+
     it 'returns a '' for a nil value' do
       collection = nil
       object = double('curation_concern', things: collection)
 
-      expect(helper.curation_concern_attribute_to_html(object, :things, "Weird")).to(
-        eq("")
-      )
+      rendered = helper.curation_concern_attribute_to_html(object, :things, "Weird")
+      expect(rendered).to eq("")
     end
+
+    it 'extracts name based on attribute registry' do
+      collection = "Hello World"
+      object = double('curation_concern', things: collection)
+      object.should_receive(:label_for).with(:things).and_return("Bacon")
+
+      rendered = helper.curation_concern_attribute_to_html(object, :things)
+      rendered.should render_curation_concern_attribute_html('Bacon', collection)
+    end
+
+    it 'calculates the label based on method name' do
+      collection = "Hello World"
+      object = double('curation_concern', things: collection)
+
+      rendered = helper.curation_concern_attribute_to_html(object, :things)
+      rendered.should render_curation_concern_attribute_html('Things', collection)
+    end
+
     it 'returns a '' for an empty array' do
       collection = []
       object = double('curation_concern', things: collection)
 
-      expect(helper.curation_concern_attribute_to_html(object, :things, "Weird")).to(
-        eq("")
-      )
+      rendered = helper.curation_concern_attribute_to_html(object, :things)
+      expect(rendered).to eq("")
     end
     it 'returns a string for an empty array if allow_empty is passed' do
       collection = []
       object = double('curation_concern', things: collection)
 
       rendered = helper.curation_concern_attribute_to_html(object, :things, "Weird", include_empty: true)
-      rendered.should have_tag('tr') do
-        with_tag("th", text: 'Weird')
-        with_tag('td ul.tabular') do
-          without_tag('li.attribute.things')
-        end
+      rendered.should render_curation_concern_attribute_html('Weird') do
+        without_tag('li.attribute.things')
       end
     end
   end
