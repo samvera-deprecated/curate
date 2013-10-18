@@ -329,6 +329,19 @@ class CatalogController < ApplicationController
   end
 
   protected
+
+    # Overriding blacklight so that the search results can be displayed in a way compatible with
+    # tokenInput javascript library.  This is used for suggesting "Related Works" to attach.
+    def render_search_results_as_json
+      {"docs" => @response["response"]["docs"].map {|solr_doc| serialize_work_from_solr(solr_doc) }}
+    end
+
+    def serialize_work_from_solr(solr_doc)
+       {
+        pid: solr_doc["id"], title: solr_doc["desc_metadata__title_tesim"].first
+       }
+    end
+
     # show only files with edit permissions in lib/hydra/access_controls_enforcement.rb apply_gated_discovery
     def discovery_permissions
       return ["edit"] if params[:works] == 'mine'
