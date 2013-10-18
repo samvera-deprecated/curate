@@ -13,8 +13,8 @@
         <h3 class="title"><%= klass.human_readable_type %></h3>
         <p class="short-description"><%= klass.human_readable_short_description %></p>
         <%= link_to 'Add New',
-          classify_concerns_path(classify_concern: {"curation_concern_type"=>klass.name}),
-          class: "add-button btn btn-primary #{dom_class(klass, 'add_new')}", method: :post
+          new_polymorphic_path([:curation_concern, klass]),
+          class: "add-button btn btn-primary #{dom_class(klass, 'add_new')}"
         %>
       </li>
     <% end %>
