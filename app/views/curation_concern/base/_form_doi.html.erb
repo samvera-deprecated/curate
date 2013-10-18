@@ -41,13 +41,13 @@
         </label>
       <%- end -%>
       <label class="radio">
-        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" id="<%= f.object_name %>_doi_assignment_strategy_<%= CurationConcern::DoiAssignable::ALREADY_GOT_ONE %>" value="<%= CurationConcern::DoiAssignable::ALREADY_GOT_ONE %>" <% if curation_concern.doi_assignment_strategy == CurationConcern::DoiAssignable::ALREADY_GOT_ONE %> checked="true"<% end %> />
+        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" id="<%= f.object_name %>_doi_assignment_strategy_<%= CurationConcern::RemotelyIdentifiedByDoi::ALREADY_GOT_ONE %>" value="<%= CurationConcern::RemotelyIdentifiedByDoi::ALREADY_GOT_ONE %>" <% if curation_concern.doi_assignment_strategy == CurationConcern::RemotelyIdentifiedByDoi::ALREADY_GOT_ONE %> checked="true"<% end %> />
         <span class="label-text">
           Yes, I already have one that I want to use: <%= f.input :existing_identifier, wrapper: :inline, value: curation_concern.identifier, input_html: { placeholder: "doi:10.5072/FK2FT8XZZ", class: 'input-small' } %>
         </span>
       </label>
       <label class="radio">
-        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" id="<%= f.object_name %>_doi_assignment_strategy_<%= CurationConcern::DoiAssignable::NOT_NOW  %>" value="<%= CurationConcern::DoiAssignable::NOT_NOW %>" <% if curation_concern.doi_assignment_strategy == CurationConcern::DoiAssignable::NOT_NOW %> checked="true"<% end %> />
+        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" id="<%= f.object_name %>_doi_assignment_strategy_<%= CurationConcern::RemotelyIdentifiedByDoi::NOT_NOW  %>" value="<%= CurationConcern::RemotelyIdentifiedByDoi::NOT_NOW %>" <% if curation_concern.doi_assignment_strategy == CurationConcern::RemotelyIdentifiedByDoi::NOT_NOW %> checked="true"<% end %> />
         <span class="label-text">
           Not now&hellip;<em>but maybe later.</em>
         </span>

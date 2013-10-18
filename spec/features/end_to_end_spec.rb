@@ -214,9 +214,9 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     options['Title'] ||= initial_title
     options['Upload a file'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
-    options["Button to click"] ||= "Create Generic work" 
+    options["Button to click"] ||= "Create Generic work"
     options["Contributors"] ||= "Dante"
-    options["DOI Strategy"] ||= CurationConcern::DoiAssignable::NOT_NOW
+    options["DOI Strategy"] ||= CurationConcern::RemotelyIdentifiedByDoi::NOT_NOW
     options["Content License"] ||= Sufia.config.cc_licenses.keys.first.dup
 
     # Without accepting agreement

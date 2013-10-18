@@ -10,7 +10,7 @@ class GenericWork < ActiveFedora::Base
 
   has_metadata "descMetadata", type: GenericWorkRdfDatastream
 
-  include CurationConcern::DoiAssignable
+  include CurationConcern::RemotelyIdentifiedByDoi::Attributes
 
   attribute :title, datastream: :descMetadata,
     multiple: false,

@@ -13,7 +13,7 @@ class <%= class_name %> < ActiveFedora::Base
 
   has_metadata "descMetadata", type: <%= class_name %>RdfDatastream
 
-  include CurationConcern::DoiAssignable
+  include CurationConcern::RemotelyIdentifiedByDoi::Attributes
 
   attribute :title, datastream: :descMetadata,
     multiple: false,
