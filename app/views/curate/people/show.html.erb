@@ -8,8 +8,13 @@
   <% end %>
 </hgroup>
 <% end %>
-<div class="row">
-  <div class="span12">
+<div class="row-fluid">
+  <div class="span3" >
+    <div class="thumbnail">
+      <%= render partial: 'profile_image', locals: {person: @person} %>
+    </div>
+  </div>
+  <div class="span5">
     <dl class="attribute-list <%= dom_class(@person) %>">
     <%# This is where I tell Jeremy I'm sorry. %>
     <% @person.terms_for_display.reject{|name| name == :name}.each do |attribute_name| %>
@@ -22,15 +27,12 @@
     <% end %>
     </dl>
 
-  <% if can? :edit, @person %>
-    <div class="form-action">
-      <%= link_to "Update Personal Information", edit_user_registration_path, class: 'btn btn-primary' %>
-    </div>
-  <% end %>
+    <% if can? :edit, @person %>
+      <div class="form-action">
+        <%= link_to "Update Personal Information", edit_user_registration_path, class: 'btn btn-primary' %>
+      </div>
+    <% end %>
   </div>
-</div>
-
-<div class="row">
   <div id="person_profile" class="span12">
     <% if profile_has_contents?(@person) %>
       <h3><%= "Selected Works of #{@person.name}" %> </h3>
@@ -48,3 +50,4 @@
     <% end %>
   </div>
 </div>
+

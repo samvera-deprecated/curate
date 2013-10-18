@@ -41,6 +41,17 @@
 
   </div>
 
+  <div class="row with-headroom">
+    <div class="span12">
+      <fieldset class="required">
+        <legend>
+          Attach your profile image
+        </legend>
+        <%= f.input :files, as: :file, label: 'Upload your file' %>
+      </fieldset>
+    </div>
+  </div>
+
   <div class="row">
 
     <fieldset class="span12">
@@ -68,6 +79,7 @@
       <%= f.submit class: 'btn btn-primary', value: 'Update My Account' %>
     </div>
   </div>
+
 <% end %>
 
 <h2>Account Deactivation</h2>
