@@ -1,20 +1,8 @@
 module CurationConcern
   class GenericWorkActor < CurationConcern::BaseActor
 
-    def create!
-      super
-      attach_files
-      create_linked_resource
-    end
-
     def create
       super && attach_files && create_linked_resource
-    end
-
-    def update!
-      add_to_collections attributes.delete(:collection_ids)
-      super
-      attach_files
     end
 
     def update
