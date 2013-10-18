@@ -5,10 +5,17 @@ require 'active_fedora/registered_attributes'
 class Person < ActiveFedora::Base
   include ActiveFedora::RegisteredAttributes
   include CurationConcern::Model
+  include Hydra::Derivatives
 
   has_metadata name: "descMetadata", type: PersonMetadataDatastream, control_group: 'M'
+  has_file_datastream :name => "content"
+  has_file_datastream :name => "medium"
+  has_file_datastream :name => "thumbnail"
 
   belongs_to :profile, property: :has_profile, class_name: 'Collection'
+
+  attr_accessor :mime_type
+  makes_derivatives :generate_derivatives
 
   attribute :name,
     datastream: :descMetadata, multiple: false
@@ -70,6 +77,34 @@ class Person < ActiveFedora::Base
 
   def to_s
     name || "No Title"
+  end
+
+  GRAVATAR_URL = "//www.gravatar.com/avatar/"
+
+  def add_profile_image(file)
+    self.content.content = file
+    self.mime_type = file.content_type
+    generate_derivatives
+  end
+
+  def gravatar_link
+    return @gravatar_link unless @gravatar_link.blank?
+    @gravatar_link = File.join(GRAVATAR_URL, email_hash(self.preferred_email || user.email), "?s=300")
+    @gravatar_link += "&d=" + File.join(GRAVATAR_URL, email_hash(self.alternate_email), "?s=300") unless self.alternate_email.blank?
+    @gravatar_link
+  end
+
+  private
+
+  def generate_derivatives
+    case mime_type
+    when 'image/png', 'image/jpeg', 'image/tiff'
+      transform_datastream :content, { medium: {size: "300x300>", datastream: 'medium'}, thumb: {size: "100x100>", datastream: 'thumbnail'} }
+    end
+  end
+
+  def email_hash(gravatar_email)
+    Digest::MD5.hexdigest(gravatar_email.to_s.strip.downcase)
   end
 
 end

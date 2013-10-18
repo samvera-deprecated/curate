@@ -75,7 +75,7 @@ module CurateController
                  :name, :preferred_email, :alternate_email,
                  :date_of_birth, :gender, :title,
                  :campus_phone_number, :alternate_phone_number,
-                 :personal_webpage, :blog]
+                 :personal_webpage, :blog, :files]
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(full_list) }
   end
   protected :configure_permitted_parameters
