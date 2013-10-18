@@ -37,6 +37,21 @@ describe CurationConcern do
       actor.create.should be_true
     end
 
+    context "characterize" do
+      let(:stub_deposit_job) { double }
+      let(:stub_characterize_job) { double }
+      before do
+        Curate::ContentDepositEventJob.should_receive(:new).and_return(stub_deposit_job)
+        CharacterizeJob.should_receive(:new).and_return(stub_characterize_job)
+      end
+      it 'should characterize' do
+        Sufia.queue.should_receive(:push).with(stub_deposit_job).once
+        Sufia.queue.should_receive(:push).with(stub_characterize_job).once
+        actor = CurationConcern.actor(generic_file, user, {batch_id: curation_concern.pid, file: file})
+        actor.create
+      end
+    end
+
     context 'failure' do
       it 'returns false' do
         Sufia::GenericFile::Actions.should_receive(:create_content).and_raise(ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new))
