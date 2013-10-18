@@ -216,6 +216,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Generic work" 
     options["Contributors"] ||= "Dante"
+    options["DOI Strategy"] ||= CurationConcern::DoiAssignable::NOT_NOW
     options["Content License"] ||= Sufia.config.cc_licenses.keys.first
 
     # Without accepting agreement
@@ -230,6 +231,10 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       select(options['Content License'], from: I18n.translate('sufia.field_label.rights'))
 
       fill_in("generic_work_contributors_attributes_0_name", with: options['Contributors'])
+
+      if options['DOI Strategy']
+        choose("generic_work_doi_assignment_strategy_#{options['DOI Strategy']}")
+      end
 
       if options['I Agree']
         check("I have read and accept the contributor license agreement")
