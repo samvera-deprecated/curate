@@ -1,53 +1,69 @@
+<%# This is a search result view %>
 <% noid = document.noid %>
-<li id="document_<%= noid %>" class="row-fluid search-result">
-  <div class="span3">
-    <%= document_counter + 1 %>
-    <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: document} %>
+<li id="document_<%= noid %>" class="search-result">
+  <div class="row-fluid">
+
+    <div class="span3">
+      <span class="result-number"><%= document_counter + 1 %></span>
+      <%= render :partial => 'catalog/_index_partials/type_display', locals: {document: document} %>
+    </div>
+
+    <div class="span6">
+      <% solr_doc = document.inner_object.solr_doc %>
+      <%# Minimize Fedora hits by using solr_doc rather than document %>
+      <%= link_to render_index_field_value(document: solr_doc, field: 'desc_metadata__title_tesim'), polymorphic_path_for_asset(document), :id => "src_copy_link_#{noid}" %>
+    </div>
+
+    <div class="span3">
+      <% if current_user -%>
+        <%= render partial: 'add_to_collection_gui', locals: { document: document } %>
+
+        <%= link_to(
+          raw('<i class="icon-pencil icon-large"></i>'),
+          edit_polymorphic_path_for_asset(document),
+            :class=> 'itemicon itemedit btn pull-right',
+            :title => 'Edit Document'
+          ) if can? :edit, document %>
+      <% end -%>
+    </div>
+
   </div>
 
-  <div class="span8">
-    <% solr_doc = document.inner_object.solr_doc %>
-    <%# Minimize Fedora hits by using solr_doc rather than document %>
-    <%= link_to render_index_field_value(document: solr_doc, field: 'desc_metadata__title_tesim'), polymorphic_path_for_asset(document), :id => "src_copy_link_#{noid}" %>
-    <dl class="attributes">
-      <% if solr_doc.has?('desc_metadata__contributor_tesim') %>
-        <dt>Author(s):</dt>
+  <div class="row-fluid">
+
+    <div class="span3">
+      <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: document} %>
+    </div>
+
+    <div class="span9">
+      <dl class="attribute-list">
+        <% if solr_doc.has?('desc_metadata__contributor_tesim') %>
+          <dt>Author(s):</dt>
         <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__contributor_tesim') %></dd>
       <% end %>
 
-      <% if solr_doc.has?('desc_metadata__description_tesim') %>
-        <dt>Description:</dt>
+        <% if solr_doc.has?('desc_metadata__description_tesim') %>
+          <dt>Description:</dt>
         <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__description_tesim'), length: 150) %></dd>
       <% end %>
 
-      <% if solr_doc.has?('desc_metadata__publisher_tesim') %>
-        <dt>Publisher(s): </dt>
+        <% if solr_doc.has?('desc_metadata__publisher_tesim') %>
+          <dt>Publisher(s): </dt>
         <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__publisher_tesim') %></dd>
       <% end %>
-    </dl>
+      </dl>
 
-    <dl class="extended-attributes hide">
-      <% index_fields.each do |solr_fname, field| -%>
-        <% if should_render_index_field? document.inner_object.solr_doc, field %>
-          <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
-          <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document.inner_object.solr_doc, :field => solr_fname %></dd>
+      <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large show-details"></i></a>&nbsp;
+
+      <dl class="attribute-list extended-attributes hide">
+        <% index_fields.each do |solr_fname, field| -%>
+          <% if should_render_index_field? document.inner_object.solr_doc, field %>
+            <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
+            <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document.inner_object.solr_doc, :field => solr_fname %></dd>
+          <% end -%>
         <% end -%>
-      <% end -%>
-    </dl>
-  </div>
-
-  <div class="span1">
-    <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large fleft show-details"></i></a>&nbsp;
-    <% if current_user -%>
-      <%= link_to(
-        raw('<i class="icon-pencil icon-large"></i>'),
-        edit_polymorphic_path_for_asset(document),
-        :class=> 'itemicon itemedit',
-        :title => 'Edit File'
-      ) if can? :edit, document %>
-
-      <%= render partial: 'add_to_collection_gui', locals: { document: document } %>
-    <% end -%>
+      </dl>
+    </div>
 
   </div>
 </li>
