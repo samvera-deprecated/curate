@@ -1,10 +1,21 @@
 # Curate  [![Version](https://badge.fury.io/rb/curate.png)](http://badge.fury.io/rb/curate) [![Build Status](https://travis-ci.org/ndlib/curate.png?branch=master)](https://travis-ci.org/ndlib/curate) [![Dependency Status](https://gemnasium.com/ndlib/curate.png)](https://gemnasium.com/ndlib/curate)
 
-## Installation
+## Starting a New Curate Base Application
 
-* Add `gem 'curate'` to your Gemfile, then run `bundle`
-* Run the generator: `rails generate curate`
-* Run the following: `rails generate curate:work -h`; You may want to see how to create and register new works.
+When you generate your new Rails application, you can use Curate's application template:
+
+    $ rails new my_curate_application -m https://github.com/ndlib/curate/blob/master/lib/generators/curate/application_template.rb
+
+### Or Install By Hand
+
+Add this line to your application's Gemfile:
+
+    gem 'curate'
+
+And then execute:
+
+    $ bundle
+    $ rails generate curate
 
 ## Curate Developer Notes
 
