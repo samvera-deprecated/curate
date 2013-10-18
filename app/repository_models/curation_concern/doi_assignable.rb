@@ -34,7 +34,9 @@ module CurationConcern
 
     def request_remote_minting_for(value = doi_assignment_strategy)
       return false unless doi_remote_service.accessor_name.to_s == value.to_s
-      doi_remote_service.mint(self)
+      if doi_remote_service.registered?(self)
+        send("#{doi_remote_service.accessor_name}=", '1')
+      end
     end
 
     def update_identifier_locally(value = doi_assignment_strategy)

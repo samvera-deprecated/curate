@@ -52,8 +52,9 @@ describe CurationConcern::DoiAssignable do
     context 'with request for minting' do
       let(:doi_assignment_strategy) { accessor_name }
 
-      it 'should request a minting' do
-        doi_remote_service.should_receive(:mint).with(subject).and_return(true)
+      it 'should update the remote service accessor so we can remotely mint the DOI' do
+        subject.should_receive("#{accessor_name}=").with('1').and_return(true)
+        doi_remote_service.should_receive(:registered?).with(subject).and_return(true)
         expect {
           subject.send(:apply_doi_assignment_strategy)
         }.to_not change(subject, :identifier).from(nil)
