@@ -20,7 +20,7 @@ describe CurationConcern::EtdActor do
       }
     end
     before do
-      subject.create!
+      subject.create
     end
 
     it "should have set multiple creators" do
