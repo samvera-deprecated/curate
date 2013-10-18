@@ -4,7 +4,7 @@
 
 When you generate your new Rails application, you can use Curate's application template:
 
-    $ rails new my_curate_application -m https://github.com/ndlib/curate/blob/master/lib/generators/curate/application_template.rb
+    $ rails new my_curate_application -m https://raw.github.com/ndlib/curate/master/lib/generators/curate/application_template.rb
 
 ### Or Install By Hand
 
