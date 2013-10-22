@@ -5,11 +5,15 @@ class Curate::CollectionsController < ApplicationController
   include Hydra::CollectionsControllerBehavior
   include Hydra::AccessControlsEnforcement
   include Curate::FieldsForAddToCollection
+  include Sufia::Noid
+
+  prepend_before_filter :normalize_identifier, only: [:show]
+
   with_themed_layout '1_column'
 
   add_breadcrumb 'Collections', lambda {|controller| controller.request.path }
 
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: :show
   before_filter :agreed_to_terms_of_service!
   before_filter :force_update_user_profile!
 
@@ -34,7 +38,7 @@ class Curate::CollectionsController < ApplicationController
   # This filters out objects that you want to exclude from search results, like FileAssets
   Curate::CollectionsController.solr_search_params_logic += [:only_collections]
 
-  skip_load_and_authorize_resource only: [:add_member_form, :add_member]
+  skip_load_and_authorize_resource only: [:add_member_form, :add_member, :remove_member]
   before_filter :load_and_authorize_collectible, only: [:add_member_form, :add_member]
   before_filter :load_and_authorize_collection, only: [:add_member_form, :add_member]
 
@@ -56,6 +60,13 @@ class Curate::CollectionsController < ApplicationController
       flash[:error] = 'Unable to add item to collection.'
     end
     redirect_to catalog_index_path
+  end
+
+  def remove_member
+    @collection = Collection.find(params[:id])
+    item = ActiveFedora::Base.find(params[:item_id], cast:true)
+    @collection.remove_member(item)
+    redirect_to collection_path(params[:id])
   end
 
   private
