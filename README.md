@@ -3,19 +3,21 @@
 ## Starting a New Curate Base Application
 
 When you generate your new Rails application, you can use Curate's application template:
-
-    $ rails new my_curate_application -m https://raw.github.com/ndlib/curate/master/lib/generators/curate/application_template.rb
+```bash
+$ rails new my_curate_application -m https://raw.github.com/ndlib/curate/master/lib/generators/curate/application_template.rb
+```
 
 ### Or Install By Hand
 
-Add this line to your application's Gemfile:
+Add the following line to your application's Gemfile:
 
     gem 'curate'
 
 And then execute:
-
-    $ bundle
-    $ rails generate curate
+```bash
+$ bundle
+$ rails generate curate
+```
 
 ## Curate Developer Notes
 
@@ -27,41 +29,51 @@ And then execute:
 
 Install jetty:
 
-        rake jetty:unzip
+```bash
+$ rake jetty:unzip
+```
 
 Start/stop jetty:
 
-        rake jetty:start
-        rake jetty:stop
+```bash
+$ rake jetty:start
+$ rake jetty:stop
+```
 
 Jetty logs:
 
-        tail -f jetty/jettywrapper.log
+```bash
+$ tail -f jetty/jettywrapper.log
+```
 
 ### Running the Specs
 
 To clean & generate a dummy app that the specs will use for testing:
-
-        rake clean
-        rake generate
+```bash
+$ rake clean
+$ rake generate
+```
 
 Make sure jetty is running before you run the specs.
 
 To run the test suite:
-
-        rake spec
+```bash
+$ rake spec
+```
 
 To run a localized spec:
-
-        BUNDLE_GEMFILE=spec/internal/Gemfile bundle exec rspec path/to/spec.rb:LINE
+```bash
+$ BUNDLE_GEMFILE=spec/internal/Gemfile bundle exec rspec path/to/spec.rb:LINE
+```
 
 ### Running a copy of Curate in the curate gem
 
 Given that Curate regenerates (via the `rake clean generate` tasks) you can run a functioning instance of curate in that directory.
 
 From the curate directory:
-
-        rake clean generate
-        rake jetty:start
-        cd ./spec/internal
-        rails server
+```bash
+$ rake clean generate
+$ rake jetty:start
+$ cd ./spec/internal
+$ rails server
+```
