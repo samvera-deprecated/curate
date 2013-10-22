@@ -13,7 +13,7 @@ end
 with_git("Initial commit")
 
 with_git("Adding curate gem") do
-  gem 'curate', "~> 0.4.2"
+  gem 'curate', "~> 0.5.0"
 end
 
 DOI_QUESTION =
