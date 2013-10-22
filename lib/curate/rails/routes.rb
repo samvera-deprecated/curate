@@ -7,6 +7,7 @@ module ActionDispatch::Routing
           collection do
             get :add_member_form
             put :add_member
+            get :remove_member
           end
         end
         resources 'people', only: [:show, :index] do

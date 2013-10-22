@@ -93,5 +93,28 @@ describe Collection do
       reloaded_subject.members.should == []
     end
   end
+
+  describe '#remove_member' do
+    it 'removes the member from the collection and returns true' do
+      work = FactoryGirl.create(:generic_work)
+      subject.add_member(work)
+      subject.members.should == [work]
+
+      subject.remove_member(work).should be true
+      subject.save!
+      reloaded_subject.members.should == []
+    end
+
+    it 'returns false if there is nothing to delete' do
+      subject.remove_member(nil).should be_false
+    end
+
+    it 'returns false when trying to delete a member with does not belong to the collection' do
+      subject.save
+      work = FactoryGirl.create(:generic_work)
+      subject.remove_member(work).should be_false
+      reloaded_subject.members.should == []
+    end
+  end
 end
 
