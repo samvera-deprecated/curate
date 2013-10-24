@@ -52,4 +52,38 @@ describe 'Profile for a Person: ' do
     end
   end
 
+  context 'A person when logged in' do
+    let(:password) { FactoryGirl.attributes_for(:user).fetch(:password) }
+    let(:account) { FactoryGirl.create(:account, display_name: 'Iron Man') }
+    let(:user) { account.user }
+    let(:person) { account.person }
+    let(:image_file){ Rails.root.join('../fixtures/files/image.png') }
+    before do
+      login_as(user)
+    end
+
+    it 'should have a profile image in show view' do
+      create_image(image_file)
+      visit('/')
+      click_link "My Profile"
+      page.should have_css("img[src$='/downloads/#{person.pid}?datastream_id=medium']")
+    end
+
+    it 'should show gravatar image if profile image not uploaded' do
+      visit('/')
+      click_link "My Profile"
+      page.should have_css("img[class$='gravatar']")
+    end
+  end
+
+  def create_image(image_file)
+    visit("/")
+    click_link "My Profile"
+    click_link "Update Personal Information"
+    within('form.edit_user') do
+      attach_file("Upload your file", image_file)
+      fill_in("user[current_password]", with: password)
+      click_button "Update My Account"
+    end
+  end
 end
