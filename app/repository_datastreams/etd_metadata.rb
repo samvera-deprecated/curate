@@ -36,7 +36,6 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
 
     map.format(in: RDF::QualifiedDC, to: 'format#mimetype')
     map.date_created(:to => "date#created", :in => RDF::QualifiedDC) do |index|
-      index.type :date
       index.as :stored_searchable
     end
     map.date_uploaded(to: "dateSubmitted", in: RDF::DC) do |index|

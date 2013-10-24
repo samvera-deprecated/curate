@@ -13,9 +13,7 @@ describe CurationConcern::EtdActor do
         "title"=>"My Etd Title", "alternate_title"=>"", "abstract"=>"Fooba", 
         "contributors_attributes"=>{"0"=>{"id"=>"", "name"=>"Buddy"}, "1"=>{"id"=>"", "name"=>"Jimmy"}}, 
         "subject"=>["Stuff"], "country"=>"USA", "advisor"=>["Frank"], "language"=>["English", ""], 
-        "publisher"=>[""], "coverage_temporal"=>[""], 
-        "coverage_spatial"=>[""], 
-        "date_created(1i)"=>"2013", "date_created(2i)"=>"10", "date_created(3i)"=>"9", 
+        "publisher"=>[""], "coverage_temporal"=>[""], "coverage_spatial"=>[""], "date_created"=>"2013-10-9",
         "note"=>"", "embargo_release_date"=>"", "visibility"=>"restricted", "rights"=>"All rights reserved"
       }
     end
