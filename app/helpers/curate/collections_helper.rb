@@ -26,20 +26,21 @@ module Curate::CollectionsHelper
   end
 
   def has_any_collections?
-    current_user.collections.count > 0
+    current_user.collections.count > 0 if current_user
   end
 
   def list_items_in_collection(collection, terminate=false)
     content_tag :ul do
       collection.members.inject('') do |output, member|
-        output << member_line_item(member, terminate)
+        output << member_line_item(collection, member, terminate)
       end.html_safe
     end
   end
 
-  def member_line_item(member, terminate)
+  def member_line_item(collection, member, terminate)
     content_tag :li do
-      member.respond_to?(:members) ? collection_line_item(member, terminate) : work_line_item(member)
+      data = member.respond_to?(:members) ? collection_line_item(member, terminate) : work_line_item(member)
+      data << remove_line_item(collection, member)
     end
   end
 
@@ -60,6 +61,10 @@ module Curate::CollectionsHelper
     else
       ''
     end
+  end
+
+  def remove_line_item(collection, work)
+    link_to(raw('<i class="icon-white icon-minus"></i>'), remove_member_collections_path(id: collection.to_param, item_id: work.pid), id: work.pid, class: 'btn btn-danger remove', title: 'Remove Item from Collection' ) if can? :edit, work 
   end
 
 end
