@@ -25,6 +25,12 @@ class Collection < ActiveFedora::Base
     self.save
   end
 
+  def remove_member(collectible)
+    return false unless self.members.include?(collectible)
+    self.members.delete(collectible)
+    self.save
+  end
+
   def is_profile?
     !associated_persons.empty?
   end
