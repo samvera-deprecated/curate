@@ -170,6 +170,7 @@ class Account
   end
 
   def extract_user_and_person_attributes_for_update(from_attributes = attributes)
+    person.add_profile_image(from_attributes["files"]) if from_attributes.has_key?("files")
     @user_attributes = {}.with_indifferent_access
     @person_attributes = {}.with_indifferent_access
     from_attributes.each_pair do |key, value|
