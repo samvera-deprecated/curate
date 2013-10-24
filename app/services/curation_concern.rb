@@ -18,6 +18,7 @@ module CurationConcern
       'content',
       user
     )
+    Sufia.queue.push(CharacterizeJob.new(generic_file.pid))
     true
   rescue ActiveFedora::RecordInvalid
     false
