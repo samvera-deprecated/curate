@@ -23,7 +23,7 @@ module CurationConcern
     end
 
     def update
-      save
+      save && assign_remote_identifiers_if_applicable
     end
 
     protected
