@@ -1,0 +1,12 @@
+<% if curation_concern.persisted? && !curation_concern.generic_files.blank? %>
+  <fieldset>
+    <div class="row with-headroom">
+      <div class="span12">
+        <legend>
+          Select a representative file.
+        </legend>
+        <%= f.select( :representative, Hash[ curation_concern.generic_files.map {|file| [file.title.first, file.to_param] } ] ) %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>
