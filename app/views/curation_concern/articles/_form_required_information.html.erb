@@ -1,22 +1,19 @@
-<div class="span6">
-  <fieldset class="required">
-    <legend>Required Information</legend>
+<fieldset class="required">
+  <legend>Required Information</legend>
 
-    <%= f.input :title,
-                input_html: { class: 'input-xlarge' }
-    %>
+  <%= f.input :title,
+              input_html: { class: 'input-xlarge' }
+  %>
 
-    <%= render partial: 'linked_contributors', locals: {f: f} %>
+  <%= render partial: 'linked_contributors', locals: {f: f} %>
 
-    <%= f.input :abstract,
-                as: :text,
-                hint: 'Please keep your abstract to 300 words or less.',
-                input_html: {
-                  class: 'input-xxxlarge',
-                  rows: '14'
-                },
-                label: 'Abstract'
-    %>
-
-  </fieldset>
-</div>
+  <%= f.input :abstract,
+              as: :text,
+              hint: 'Please keep your abstract to 300 words or less.',
+              input_html: {
+                class: 'input-xxxlarge',
+                rows: '14'
+              },
+              label: 'Abstract'
+  %>
+</fieldset>
