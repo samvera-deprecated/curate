@@ -1,5 +1,5 @@
 <% unless current_user.can_make_deposits_for.empty? %>
-  <div class="controls">
+  <div class="controls" id="delegate-actions">
     <%= f.label :owner, 'On Behalf of' %>
     <%= f.select :owner, options_from_collection_for_select(current_user.can_make_deposits_for, 'user_key', 'display_name'), prompt: "Yourself" %>
   </div>
