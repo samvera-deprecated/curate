@@ -78,4 +78,16 @@ describe 'Viewing a generic work that is private' do
   end
 end
 
+describe 'When I click on the link to create a work: ' do
+  let(:account) { FactoryGirl.create(:account, name: 'Iron Man') }
+  let(:user) { account.user }
+  let(:person) { account.person }
+  before { login_as(user) }
+  it 'should have my name set in the creator/contributor list' do
+    visit new_curation_concern_generic_work_path
+    page.should have_css("a[href$='people/#{person.to_param}']")
+    page.should have_tag("a[href$='people/#{person.to_param}']", text: "Iron Man")
+  end
+end
+
 
