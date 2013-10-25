@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.summary     = "A data curation Ruby on Rails engine built on Hydra and Sufia"
   s.description = "A data curation Ruby on Rails engine built on Hydra and Sufia"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib,vendor}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
   s.required_ruby_version     = '>= 1.9.3'
   s.require_paths = ["lib"]
