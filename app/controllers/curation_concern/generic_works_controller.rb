@@ -27,6 +27,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
 
   # Override setup_form in concrete controllers to get the form ready for display
   def setup_form 
+    curation_concern.contributors << current_user.person if curation_concern.contributors.blank?
     curation_concern.contributors << Person.new
   end
   protected :setup_form
