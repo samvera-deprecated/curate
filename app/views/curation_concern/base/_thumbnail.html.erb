@@ -1,5 +1,5 @@
-<%- if generic_file.thumbnail.has_content? -%>
-  <%= image_tag download_path(generic_file.pid, {:datastream_id => 'thumbnail'})  %>
+<%- if generic_file && generic_file.thumbnail.has_content? -%>
+  <%= image_tag download_path(generic_file.pid, {:datastream_id => 'thumbnail'}), class: dom_class_name  %>
 <%- else -%>
   <%= image_tag 'curate/nope.png', class: "canonical-image" %>
 <%- end -%>

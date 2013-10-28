@@ -20,7 +20,7 @@ describe "select representative file for work" do
       click_button "Update Generic work"
 
       reload = GenericWork.find(work1.pid)
-      reload.representative.should == file2.to_param
+      reload.representative.should == file2.pid
     end
   end
 end
