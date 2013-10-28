@@ -1,6 +1,6 @@
 <%- if curation_concern.identifier.present? -%>
   <%# Please forgive this questionably semantic markup -- it should just _look_ the same as a legend/fieldset %>
-  <fieldset>
+  <fieldset id="doi">
     <legend>Digital Object Identifier</legend>
     <p>
       This
@@ -15,7 +15,7 @@
     </p>
   </fieldset>
 <%- else -%>
-  <fieldset class="promote promote-doi">
+  <fieldset class="promote promote-doi" id="set-doi">
     <legend>
       Assign a Digital Object Identifier (DOI)
     </legend>
@@ -49,7 +49,7 @@
       <label class="radio">
         <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" id="<%= f.object_name %>_doi_assignment_strategy_<%= CurationConcern::DoiAssignable::NOT_NOW  %>" value="<%= CurationConcern::DoiAssignable::NOT_NOW %>" <% if curation_concern.doi_assignment_strategy == CurationConcern::DoiAssignable::NOT_NOW %> checked="true"<% end %> />
         <span class="label-text">
-          Not now…<em>but maybe later.</em>
+          Not now&hellip;<em>but maybe later.</em>
         </span>
       </label>
     </div>

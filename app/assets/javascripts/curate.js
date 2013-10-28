@@ -52,7 +52,7 @@ $(function(){
   $('.proxy-rights').proxyRights();
 
 
-  $('#permissions_display .datepicker').datepicker({
+  $('#set-access-controls .datepicker').datepicker({
     format: 'yyyy-mm-dd',
     startDate: '+1d'
   });

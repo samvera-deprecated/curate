@@ -1,15 +1,15 @@
 <% label ||= 'Contributor' %>
-<div class="control-group required link-users">
+<div class="control-group required link-users" id="contributors">
   <span class="control-label">
     <label class="required" for="<%=f.object.class.to_s.downcase%>_contributors_attributes_0_name">
       <abbr title="" data-original-title="required">*</abbr><%= label %>
     </label>
   </span>
   <div class="controls">
-    <% prefix = f.object.class.to_s.downcase %> 
+    <% prefix = f.object.class.to_s.downcase %>
     <script id="entry-template" type="text/x-handlebars-template">
       <li class="field-wrapper input-append">
-        <input id="<%=prefix %>_contributors_attributes_{{index}}_id" name="<%=prefix %>[contributors_attributes][{{index}}][id]" type="hidden" value="" /> 
+        <input id="<%=prefix %>_contributors_attributes_{{index}}_id" name="<%=prefix %>[contributors_attributes][{{index}}][id]" type="hidden" value="" />
         <input class="input-xlarge autocomplete-users" data-url="/people" id="<%=prefix %>_contributors_attributes_{{index}}_name" name="<%=prefix %>[contributors_attributes][{{index}}][name]" type="text" value="" />
         <span class="field-controls"><button class="btn btn-success add"><i class="icon-white icon-plus"></i><span>Add</span></button></span>
       </li>
@@ -24,12 +24,12 @@
     <ul class="listing">
     <%= f.fields_for :contributors do |cf| %>
       <li class="field-wrapper input-append">
-        <%= cf.hidden_field :id %> 
-        <%= cf.hidden_field :_destroy %> 
+        <%= cf.hidden_field :id %>
+        <%= cf.hidden_field :_destroy %>
         <% if cf.object.persisted? %>
           <span class="linked-user"><%=link_to cf.object.name, cf.object, target: '_new' %></span>
         <% else %>
-          <%= cf.text_field :name, 
+          <%= cf.text_field :name,
             class: 'input-xlarge autocomplete-users', 'data-url' => people_path, required: cf.index == 0  %>
         <% end %>
 

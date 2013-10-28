@@ -6,23 +6,16 @@
     </div>
   <% end -%>
 
-  <div class="row">
+  <%= render 'form_descriptive_fields', curation_concern: curation_concern, f: f %>
 
-    <%= render "form_required_information", curation_concern: curation_concern, f: f %>
-    <%= render "form_additional_information", curation_concern: curation_concern, f: f %>
-
-  </div>
-
-  <%= render 'form_representative', curation_concern: curation_concern, f: f %>
-
-  <%= render "form_supplementary_fields", curation_concern: curation_concern, f: f %>
+  <%= render 'form_supplementary_fields', curation_concern: curation_concern, f: f %>
 
   <%= render 'form_contributor_agreement', curation_concern: curation_concern, contributor_agreement: contributor_agreement %>
 
   <div class="row">
     <div class="span12 form-actions">
       <%= f.submit class: 'btn btn-primary' %>
-      <%= link_to 'Cancel', polymorphic_path([:curation_concern, curation_concern]), class: 'btn btn-link' %>
+      <%= link_to 'Cancel', root_path, class: 'btn btn-link' %>
     </div>
   </div>
 
