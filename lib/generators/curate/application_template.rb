@@ -14,6 +14,7 @@ with_git("Initial commit")
 
 with_git("Adding curate gem") do
   gem 'curate', "~> 0.5.0"
+  run 'bundle install'
 end
 
 DOI_QUESTION =
