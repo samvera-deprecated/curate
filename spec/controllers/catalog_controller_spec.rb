@@ -33,10 +33,14 @@ describe CatalogController do
     end
 
     context "index page" do
+      let!(:collection) { FactoryGirl.create(:collection, user: user) }
+      after do
+        collection.destroy
+      end
+
       it "assigns options for adding items to collection" do
-        coll = FactoryGirl.create(:collection, user: user)
         get 'index'
-        assigns(:collection_options).should == [coll]
+        assigns(:collection_options).should == [collection]
         assigns(:profile_collection_options).should == []
       end
 
