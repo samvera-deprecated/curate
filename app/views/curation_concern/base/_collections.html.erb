@@ -13,19 +13,18 @@
       <% curation_concern.collections.each do |collection| %>
         <tr class="collection attributes">
           <td class="attribute title"><%= link_to collection.title, collection %></td>
+          <td><%= link_to(raw('<i class="icon-white icon-minus"></i>'), remove_member_collections_path(id: collection.to_param, item_id: curation_concern.pid, redirect_to: request.original_url), id: curation_concern.pid, class: 'btn btn-danger remove', title: 'Remove Item from Collection' ) if can? :edit, curation_concern  %></td>
         </tr>
       <% end %>
     </tbody>
   <% end %>
 </table>
-
-<%- if has_any_collections? %>
-  <%= form_for [:curation_concern, curation_concern], method: :patch do |f| %>
-    <%= f.select :collection_ids, options_from_collection_for_select(current_user.collections.to_a, :id, :title, curation_concern.collection_ids),{include_hidden: false}, { multiple: true} %>
-    <%= f.submit "Assign to collections", class: 'btn btn-primary' %>
-  <% end %>
-<%- else %>
-  <div class="span12 main-header">
-    <p> You have no collections yet </p>
-  </div>
-<%- end %>
+<%- if current_user %>
+  <%- if has_any_collections? %>
+    <%= render 'add_to_collection_gui', collectible: curation_concern %>
+  <%- else %>
+    <div class="span12 main-header">
+      <p> You have no collections yet. </p>
+    </div>
+  <%- end -%>
+<%- end -%>

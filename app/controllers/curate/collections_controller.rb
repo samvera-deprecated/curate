@@ -59,14 +59,14 @@ class Curate::CollectionsController < ApplicationController
     else
       flash[:error] = 'Unable to add item to collection.'
     end
-    redirect_to catalog_index_path
+    redirect_to params.fetch(:redirect_to) { catalog_index_path }
   end
 
   def remove_member
     @collection = Collection.find(params[:id])
     item = ActiveFedora::Base.find(params[:item_id], cast:true)
     @collection.remove_member(item)
-    redirect_to collection_path(params[:id])
+    redirect_to params.fetch(:redirect_to) { collection_path(params[:id]) }
   end
 
   private
