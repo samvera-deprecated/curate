@@ -19,11 +19,14 @@ module CurationConcern
 
     def create
       apply_creation_data_to_curation_concern
-      save && assign_remote_identifiers_if_applicable
+      apply_save_data_to_curation_concern
+      save
     end
 
     def update
-      save && assign_remote_identifiers_if_applicable
+      apply_update_data_to_curation_concern
+      apply_save_data_to_curation_concern
+      save
     end
 
     protected
@@ -31,6 +34,10 @@ module CurationConcern
       apply_depositor_metadata
       apply_owner_metadata
       apply_deposit_date
+    end
+
+    def apply_update_data_to_curation_concern
+      true
     end
 
     def apply_depositor_metadata
@@ -41,16 +48,11 @@ module CurationConcern
       curation_concern.date_uploaded = Date.today
     end
 
-    def assign_remote_identifiers_if_applicable
-      Hydra::RemoteIdentifier.requested_remote_identifiers_for(curation_concern) do |remote_service|
-        MintRemoteIdentifierWorker.enqueue(curation_concern.pid, remote_service.name)
-      end
-      true # included to make sure save chaining can occur
-    end
-
     def save
-      apply_save_data_to_curation_concern
-      curation_concern.save
+      curation_concern.extend(CurationConcern::RemotelyIdentifiedByDoi::MintingBehavior)
+      curation_concern.apply_doi_assignment_strategy do |*|
+        curation_concern.save
+      end
     end
 
     def apply_save_data_to_curation_concern

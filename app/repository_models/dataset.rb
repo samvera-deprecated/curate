@@ -10,7 +10,7 @@ class Dataset < ActiveFedora::Base
 
   has_metadata "descMetadata", type: GenericWorkRdfDatastream
 
-  include CurationConcern::DoiAssignable
+  include CurationConcern::RemotelyIdentifiedByDoi::Attributes
 
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "One or more files related to your research."

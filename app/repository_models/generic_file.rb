@@ -13,6 +13,8 @@ class GenericFile < ActiveFedora::Base
   include Sufia::GenericFile::Thumbnail
   include Sufia::GenericFile::Derivatives
 
+  include CurationConcern::RemotelyIdentifiedByDoi::Attributes
+
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
 
   validates :batch, presence: true

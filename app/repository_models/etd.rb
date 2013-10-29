@@ -8,7 +8,7 @@ class Etd < ActiveFedora::Base
 
   has_metadata "descMetadata", type: EtdMetadata
 
-  include CurationConcern::DoiAssignable
+  include CurationConcern::RemotelyIdentifiedByDoi::Attributes
 
   etd_label = human_readable_type.downcase
 
