@@ -19,7 +19,7 @@ class Etd < ActiveFedora::Base
     'ETD'
   end
 
-  delegate :degree, to: :descMetadata, multiple: true
+  has_attributes :degree, datastream: :descMetadata, multiple: true
 
   self.indefinite_article = 'an'
   self.contributor_label = 'Author'

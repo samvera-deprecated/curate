@@ -16,7 +16,7 @@ module CurationConcern
       include Solrizer::Common
       
       has_metadata 'properties', type: Curate::PropertiesDatastream
-      delegate_to :properties, [:relative_path, :depositor, :owner, :representative], multiple: false
+      has_attributes:relative_path, :depositor, :owner, :representative, datastream: :properties, multiple: false
       class_attribute :human_readable_short_description
     end
 
