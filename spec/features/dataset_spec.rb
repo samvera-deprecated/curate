@@ -14,7 +14,7 @@ describe 'Creating a dataset' do
         fill_in "Contributor", with: "Test dataset contributor"
         fill_in "Description", with: "This dataset is for testing purposes"
         fill_in "External link", with: "http://www.youtube.com/watch?v=oHg5SJYRHA0"
-        select(Sufia.config.cc_licenses.keys.first, from: I18n.translate('sufia.field_label.rights'))
+        select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
         check("I have read and accept the contributor license agreement")
         click_button("Create Dataset")
       end
