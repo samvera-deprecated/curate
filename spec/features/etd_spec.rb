@@ -16,7 +16,7 @@ describe 'Creating an etd' do
       fill_in "Advisor", with: "Marcy Holmes"
       fill_in "Subject", with: "Paleoethnography"
       fill_in "Date created", with: "2013 October 4"
-      select(Sufia.config.cc_licenses.keys.first, from: I18n.translate('sufia.field_label.rights'))
+      select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
       check("I have read and accept the contributor license agreement")
       click_button("Create Etd")
     end

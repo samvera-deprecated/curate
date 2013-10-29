@@ -217,7 +217,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     options["Button to click"] ||= "Create Generic work" 
     options["Contributors"] ||= "Dante"
     options["DOI Strategy"] ||= CurationConcern::DoiAssignable::NOT_NOW
-    options["Content License"] ||= Sufia.config.cc_licenses.keys.first
+    options["Content License"] ||= Sufia.config.cc_licenses.keys.first.dup
 
     # Without accepting agreement
     within('#new_generic_work') do

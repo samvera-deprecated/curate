@@ -46,7 +46,9 @@ describe CatalogController do
 
       context "when json is requested for autosuggest of related works" do
         let!(:work) { FactoryGirl.create(:generic_work, user: user, title:"All my #{srand}") }
-
+        after do
+          work.destroy
+        end
         it "should return json" do
           xhr :get, :index, format: :json, q: work.title
           json = JSON.parse(response.body)

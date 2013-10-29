@@ -4,7 +4,7 @@ FactoryGirl.define do
       user {FactoryGirl.create(:user)}
     end
     sequence(:title) {|n| "Title #{n}"}
-    rights { Sufia.config.cc_licenses.keys.first }
+    rights { Sufia.config.cc_licenses.keys.first.dup }
     date_uploaded { Date.today }
     date_modified { Date.today }
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED

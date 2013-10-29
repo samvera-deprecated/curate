@@ -5,7 +5,7 @@ FactoryGirl.define do
     end
     sequence(:title) {|n| "Title #{n}"}
     sequence(:abstract) {|n| "Abstract #{n}"}
-    rights { Sufia.config.cc_licenses.keys.first }
+    rights { Sufia.config.cc_licenses.keys.first.dup }
     date_uploaded { Date.today }
     date_modified { Date.today }
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
