@@ -31,6 +31,7 @@
 //= require curate/link_users
 //= require curate/proxy_rights
 //= require curate/facet_mine
+//= require curate/accept_contributor_agreement
 //= require handlebars
 
 $(function(){
