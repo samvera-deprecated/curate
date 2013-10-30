@@ -25,12 +25,11 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.0.0"
   s.add_dependency "breach-mitigation-rails"
-  s.add_dependency 'sufia-models', '~>3.4.0.rc3'
+  s.add_dependency 'sufia-models', '~>3.4.0.rc4'
 #  s.add_dependency 'hydra', '6.1.0.rc8'
-  s.add_dependency 'blacklight', '>= 4.5.0.rc1', '< 4.6'
   s.add_dependency 'hydra-file_characterization', ">= 0.2.3"
   s.add_dependency 'hydra-batch-edit', '~> 1.1.1'
-  s.add_dependency 'hydra-collections', '~> 1.2.0'
+  s.add_dependency 'hydra-collections', '~> 1.3.0'
   s.add_dependency 'morphine'
   s.add_dependency 'mini_magick'
   s.add_dependency 'simple_form', '3.0.0'
@@ -40,7 +39,7 @@ Gem::Specification.new do |s|
   s.add_dependency "devise-guests", "~> 0.3"
   s.add_dependency 'browser'
   s.add_dependency 'breadcrumbs_on_rails'
-  s.add_dependency 'active_fedora-registered_attributes', '~> 0.1.0'
+  s.add_dependency 'active_fedora-registered_attributes', '~> 0.2.0'
   s.add_dependency 'hydra-remote_identifier', '~> 0.6'
   s.add_dependency 'hydra-derivatives', '>= 0.0.7'
   s.add_dependency 'chronic', '>= 0.10.2'

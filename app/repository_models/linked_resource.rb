@@ -7,10 +7,10 @@ class LinkedResource < ActiveFedora::Base
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
   has_metadata "descMetadata", type: GenericFileRdfDatastream
 
-  delegate_to :descMetadata, [:date_uploaded, :date_modified, :creator], multiple: false
+  has_attributes :date_uploaded, :date_modified, :creator, datastream: :descMetadata, multiple: false
 
   has_metadata 'properties', type: Curate::PropertiesDatastream
-  delegate_to :properties, [:relative_path, :depositor, :owner], multiple: false
+  has_attributes :relative_path, :depositor, :owner, datastream: :properties, multiple: false
 
   validates :batch, presence: true
   validates :url, presence: true

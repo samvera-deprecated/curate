@@ -6,7 +6,7 @@ class Collection < ActiveFedora::Base
 
   has_many :associated_persons, property: :has_profile, class_name: 'Person'
 
-  delegate_to :descMetadata, [:resource_type], multiple: false
+  has_attributes :resource_type, datastream: :descMetadata, multiple: false
 
   # Causes resource_type to be set in the metadata
   before_create :human_readable_type

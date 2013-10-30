@@ -25,9 +25,9 @@ class GenericFile < ActiveFedora::Base
   has_file_datastream "content", type: FileContentDatastream
   has_file_datastream "thumbnail"
   
-  delegate_to :properties, [:owner, :depositor], multiple: false
-  delegate_to :descMetadata, [:date_uploaded, :date_modified], multiple: false 
-  delegate_to :descMetadata, [:creator, :title], multiple: true
+  has_attributes :owner, :depositor, datastream: :properties, multiple: false
+  has_attributes :date_uploaded, :date_modified, datastream: :descMetadata, multiple: false 
+  has_attributes :creator, :title, datastream: :descMetadata, multiple: true
 
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "An arbitrary single file."
