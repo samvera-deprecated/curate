@@ -9,7 +9,7 @@
       has a <abbr title="Digital Object Identifier">DOI</abbr>.
     </p>
     <p>
-      <strong><%= link_to curation_concern.identifier, remote_service.remote_uri_for(curation_concern.identifier) %></strong>
+      <strong><%= link_to curation_concern.identifier, remote_service.remote_uri_for(curation_concern.identifier).to_s %></strong>
     </p>
     <p>
       This <abbr title="Digital Object Identifier" data-placement="right">DOI</abbr> link is the best way for others to cite your work.
