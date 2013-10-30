@@ -11,7 +11,6 @@ describe <%= class_name %> do
   it_behaves_like 'with_access_rights'
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_dc_metadata'
-  it_behaves_like 'doi_assignable'
   <%- if register_doi? -%>
   it_behaves_like 'remotely_identified', :doi
   <%- end -%>
