@@ -1,3 +1,4 @@
+
 require 'spec_helper'
 
 describe CurationConcern::RemotelyIdentifiedByDoi do
@@ -27,7 +28,6 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
     it { should respond_to(:existing_identifier=) }
     it { should respond_to(:doi_assignment_strategy=) }
     it { should respond_to(:doi_assignment_strategy) }
-    it_behaves_like 'doi_assignable'
 
   end
 
