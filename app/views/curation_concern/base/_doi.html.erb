@@ -1,0 +1,10 @@
+<% if curation_concern.identifier.present? %>
+  <%- remote_service = Hydra::RemoteIdentifier.remote_service(:doi) -%>
+  <h2>Digital Object Identifier</h2>
+  <p>
+    <strong><%= link_to curation_concern.identifier, remote_service.remote_uri_for(curation_concern.identifier).to_s %></strong>
+  </p>
+  <p>
+    This <abbr title="Digital Object Identifier" data-placement="right">DOI</abbr> is the best way to cite this <%= classify_for_display(curation_concern) %>.
+  </p>
+<% end %>

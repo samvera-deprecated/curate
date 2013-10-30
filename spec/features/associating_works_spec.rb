@@ -63,7 +63,7 @@ describe 'Editing existing works', describe_options do
       page.should have_field("generic_work_related_work_tokens", with: dataset2.pid)
     end
     visit curation_concern_dataset_path(dataset2)
-    within ('table.referenced_by_works') do
+    within ('table.referenced-by-works') do
       expect(page).to have_link(work.title, href: curation_concern_generic_work_path(work))
     end
   end

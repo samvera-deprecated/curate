@@ -45,4 +45,14 @@ describe Image do
       solr_doc['date_created_derived_dtsim'].first.to_date.should == expected_date
     end
   end
+
+  describe 'related_works' do
+    subject { FactoryGirl.create(
+      :image,
+      title: 'My Fancy Photo',
+      description:'I really like this picture I took. That is why I put it in the repository.'
+    )}
+
+    it_behaves_like 'with_related_works'
+  end
 end

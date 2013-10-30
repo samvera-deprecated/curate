@@ -282,10 +282,11 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     end
     return edit_page_path
   end
+
   def view_your_updated_thesis
     page.should have_content("Files")
     page.should have_content(updated_title)
-    click_on("Back to Dashboard")
+    click_on("home-link")
   end
 
   def view_your_dashboard

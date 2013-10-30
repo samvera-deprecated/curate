@@ -1,20 +1,41 @@
-<h2>Related Works</h2>
+<% if can? :edit, curation_concern %>
+  <h2>Related Works</h2>
+  <p>Add works that are rleated to this <%= curation_concern.human_readable_type %>.</p>
+  <%= form_for [:curation_concern, curation_concern], method: :patch, html: {id:"edit_related_works"} do |f| %>
+    <%# NOTE: You can't use a url builder to create the query URL because it will escape it; the JavaScript is already doing this %>
+    <%= f.text_field :related_work_tokens, class:"autocomplete tokens", data: { url: "#{catalog_index_path}?f[generic_type_sim][]=Work", load: curation_concern.related_works.to_json, exclude:"[#{curation_concern.pid.inspect}]" } %>
+    <%= f.submit "Update Related Works", class: 'btn btn-primary' %>
+  <% end %>
+<% elsif curation_concern.related_works.present? %>
+<table class="table table-striped <%= dom_class(curation_concern) %> related-to-works with-headroom">
+  <caption class="table-heading">
+    <h2>Related Works</h2>
+    <p>Works that are rleated to this <%= curation_concern.human_readable_type %>.</p>
+  </caption>
+  <% if curation_concern.related_works.present? %>
+    <thead>
+    <tr>
+      <th>Work Title</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% curation_concern.related_works.each do |related_work| %>
+      <tr class="referenced_by_works attributes">
+        <td class="attribute title"><%= link_to related_work.title, polymorphic_path([:curation_concern, related_work]) %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  <% end %>
+</table>
 
-<p>List works that are related to this one.</p>
-
-<%= form_for [:curation_concern, curation_concern], method: :patch, html: {id:"edit_related_works"} do |f| %>
-  <%#= f.select :related_work_ids, options_from_collection_for_select(curation_concern.related_works, :id, :title, curation_concern.related_work_ids),{include_hidden: false}, { multiple: true, class:"autocomplete chosen-select", "data-source"=>catalog_index_path, "data-exclude"=>"#{curation_concern.pid}", "data-placeholder"=>"Choose works to associate..."} %>
-  <%= f.text_field :related_work_tokens, class:"autocomplete tokens", "data-url"=>catalog_index_path, "data-load"=>curation_concern.related_works.to_json, "data-exclude"=>"[#{curation_concern.pid.inspect}]" %>
-  <%= f.submit "Update Related Works", class: 'btn btn-primary' %>
 <% end %>
 
-
-<table class="table table-striped <%= dom_class(curation_concern) %> referenced_by_works with-headroom">
+<% if curation_concern.referenced_by_works.present? %>
+<table class="table table-striped <%= dom_class(curation_concern) %> referenced-by-works with-headroom">
   <caption class="table-heading">
     <h2>Referenced by</h2>
     <p>Works that list this one in as being related to them.</p>
   </caption>
-  <% if curation_concern.referenced_by_works.present? %>
     <thead>
     <tr>
       <th>Work Title</th>
@@ -27,5 +48,5 @@
       </tr>
     <% end %>
     </tbody>
-  <% end %>
 </table>
+<% end %>

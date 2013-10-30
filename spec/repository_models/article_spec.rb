@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Article do
+
   subject { Article.new }
 
   it_behaves_like 'with_access_rights'
@@ -34,5 +35,15 @@ describe Article do
       expected_date = Date.parse(date_string)
       solr_doc['date_created_derived_dtsim'].first.to_date.should == expected_date
     end
+  end
+
+  describe 'related_works' do
+    subject { FactoryGirl.create(
+      :article,
+      title: 'One Scholarly Paper',
+      abstract:'This paper is really important. That is why I put it in the repository.'
+    )}
+
+    it_behaves_like 'with_related_works'
   end
 end
