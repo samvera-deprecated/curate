@@ -66,6 +66,25 @@ To run a localized spec:
 $ BUNDLE_GEMFILE=spec/internal/Gemfile bundle exec rspec path/to/spec.rb:LINE
 ```
 
+#### Or run via Zeus:
+
+In terminal window #1
+```bash
+$ zeus start
+```
+
+In terminal window #2, once Zeus is loaded:
+
+```bash
+$ zeus rake spec
+```
+
+Or a localized spec:
+
+```bash
+$ zeus test path/to/spec.rb:LINE
+```
+
 ### Running a copy of Curate in the curate gem
 
 Given that Curate regenerates (via the `rake clean generate` tasks) you can run a functioning instance of curate in that directory.
