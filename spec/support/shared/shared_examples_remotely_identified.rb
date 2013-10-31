@@ -1,10 +1,10 @@
 shared_examples 'remotely_identified' do |remote_service_name|
   context "by #{remote_service_name}" do
-    subject { FactoryGirl.create(described_class.name.underscore, attributes) }
-    after(:each) {
-      subject.destroy
-    }
     context 'with valid attributes' do
+      after(:each) {
+        subject.destroy
+      }
+      subject { FactoryGirl.create(described_class.name.underscore, attributes) }
       let(:attributes) { { publisher: 'An Interesting Chap!' } }
       it 'mints!' do
         expect {
@@ -14,6 +14,7 @@ shared_examples 'remotely_identified' do |remote_service_name|
     end
     if remote_service_name == :doi
       context 'with invalid attributes' do
+        subject { FactoryGirl.build(described_class.name.underscore, attributes: attributes) }
         let(:attributes) { { publisher: [] } }
         it 'fails validation' do
           subject.should_receive(:remote_doi_assignment_strategy?).and_return(true)
