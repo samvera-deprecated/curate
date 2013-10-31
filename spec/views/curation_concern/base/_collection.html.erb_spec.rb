@@ -1,0 +1,43 @@
+require 'spec_helper'
+
+describe 'curation_concern/base/_collection.html.erb' do
+  let(:curation_concern) { FactoryGirl.create(:generic_work, user: user) }
+  let(:current_user) { double(display_name: display_name, person: person) }
+  let(:display_name) { 'My Display Name'}
+  let(:person) { FactoryGirl.create(:person_with_user) }
+  let(:user) { person.user }
+  #let(:curation_concern) { FactoryGirl.create(:generic_work, user: user, title: 'Work 1') }
+  let(:collection) { FactoryGirl.create(:collection, user: user, title: 'Collection 1') }
+
+  context 'logged in' do
+    before do
+      curation_concern.collections << collection
+      curation_concern.save!
+      assign :person, person
+      controller.stub(:current_user).and_return(user)
+      render partial: 'collections', curation_concern: curation_concern, locals: { curation_concern: curation_concern }
+    end
+
+    it 'lists all the collections the work is added to' do
+      expect(rendered).to include("Collection 1")
+      expect(rendered).to include("Remove Item from Collection")
+      expect(rendered).to include("Add to Collection")
+    end
+  end
+
+  context 'public view:' do
+    before do
+      curation_concern.collections << collection
+      curation_concern.save!
+      assign :person, person
+      controller.stub(:current_user).and_return(nil)
+      render partial: 'collections', curation_concern: curation_concern, locals: { curation_concern: curation_concern }
+    end
+
+    it 'lists all the collections the work is added to' do
+      expect(rendered).to include("Collection 1")
+      expect(rendered).not_to include("Remove Item from Collection")
+      expect(rendered).not_to include("Add to Collection")
+    end
+  end
+end
