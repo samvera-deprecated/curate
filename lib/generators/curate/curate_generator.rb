@@ -21,20 +21,6 @@ This generator makes the following changes to your application:
  5. Adds a user migration
  6. Adds views for devise
        """
-  # Implement the required interface for Rails::Generators::Migration.
-  # taken from http://github.com/rails/rails/blob/master/activerecord/lib/generators/active_record.rb
-  def self.next_migration_number(path)
-    if @prev_migration_nr
-      @prev_migration_nr += 1
-    else
-      if last_migration = Dir[File.join(path, '*.rb')].sort.last
-        @prev_migration_nr = last_migration.sub(File.join(path, '/'), '').to_i + 1
-      else
-        @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
-      end
-    end
-    @prev_migration_nr.to_s
-  end
 
   def run_required_generators
     generate "blacklight --devise"
@@ -61,19 +47,7 @@ This generator makes the following changes to your application:
 
   # Setup the database migrations
   def copy_migrations
-    [
-      'add_terms_of_service_to_user.rb',
-      'add_user_force_update_profile.rb',
-      'create_help_requests.rb',
-      'add_repository_id_to_user.rb',
-      'create_curate_proxy_deposit_rights.rb'
-    ].each do |file|
-      begin
-        migration_template "migrations/#{file}", "db/migrate/#{file}"
-      rescue Rails::Generators::Error => e
-        say_status("warning", e.message, :yellow)
-      end
-    end
+    rake 'curate_engine:install:migrations'
   end
 
   DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles, :etds, :images, :documents]
