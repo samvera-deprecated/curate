@@ -18,10 +18,28 @@ module CurationConcern
           multiple: false, editable: true, displayable: false
         attribute :existing_identifier,
           multiple: false, editable: true, displayable: false
+
+        # Given that a publisher could be an array or a single entity
+        # Then we need to account for both
+        # Conveniently [].length == 0 and "".length == 0
+        validates :publisher, length: { minimum: 1, message: 'is required for remote DOI minting', if: :remote_doi_assignment_strategy? }
+
+        attr_writer :doi_remote_service
+
+        protected
+
+        def doi_remote_service
+          @doi_remote_service ||= Hydra::RemoteIdentifier.remote_service(:doi)
+        end
+
+        def remote_doi_assignment_strategy?
+          doi_assignment_strategy.to_s == doi_remote_service.accessor_name.to_s
+        end
       end
     end
 
     module MintingBehavior
+
       def apply_doi_assignment_strategy(&perform_persistence_block)
         if respond_to?(:doi_assignment_strategy)
           no_doi_assignment_strategy_given(&perform_persistence_block) ||
@@ -33,16 +51,11 @@ module CurationConcern
         end
       end
 
-      attr_writer :doi_remote_service
 
       private
 
-      def doi_remote_service
-        @doi_remote_service ||= Hydra::RemoteIdentifier.remote_service(:doi)
-      end
-
       def request_remote_minting_for
-        return false unless doi_remote_service.accessor_name.to_s == doi_assignment_strategy.to_s
+        return false unless remote_doi_assignment_strategy?
         # Before we make a potentially expensive call
         # hand off control back to the caller.
         # I'm doing this because I want a chance to persist the object first
@@ -66,6 +79,7 @@ module CurationConcern
         return false unless doi_assignment_strategy.to_s == CurationConcern::RemotelyIdentifiedByDoi::NOT_NOW
         !!yield(self)
       end
+
     end
   end
 end
