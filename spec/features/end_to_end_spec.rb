@@ -189,16 +189,16 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       agree_to_terms_of_service
       classify_what_you_are_uploading('Generic Work')
       create_generic_work('I Agree' => true, 'Visibility' => 'visibility_open')
-      path_to_view_thesis = view_your_new_thesis
-      path_to_edit_thesis = edit_your_thesis
-      view_your_updated_thesis
+      path_to_view_work = view_your_new_work
+      path_to_edit_work = edit_your_work
+      view_your_updated_work
       view_your_dashboard
 
       logout
       login_as(another_user)
-      other_persons_thesis_is_not_in_my_dashboard
-      i_can_see_another_users_open_resource(path_to_view_thesis)
-      i_cannot_edit_to_another_users_resource(path_to_edit_thesis)
+      other_persons_work_is_not_in_my_dashboard
+      i_can_see_another_users_open_resource(path_to_view_work)
+      i_cannot_edit_to_another_users_resource(path_to_edit_work)
     end
   end
 
@@ -261,18 +261,18 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     end
   end
 
-  def view_your_new_thesis
-    path_to_view_thesis  = page.current_path
+  def view_your_new_work
+    path_to_view_work  = page.current_path
     page.should have_content("Files")
     page.should have_content(initial_title)
     within(".generic_file.attributes") do
       page.should have_content(File.basename(initial_file_path))
     end
 
-    return path_to_view_thesis
+    return path_to_view_work
   end
 
-  def edit_your_thesis
+  def edit_your_work
     click_on("Edit This Generic Work")
     edit_page_path = page.current_path
     within('.edit_generic_work') do
@@ -283,7 +283,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     return edit_page_path
   end
 
-  def view_your_updated_thesis
+  def view_your_updated_work
     page.should have_content("Files")
     page.should have_content(updated_title)
     click_on("home-link")
@@ -308,8 +308,9 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       # I call CSS/Dom shenannigans; I can't access 'Creator' link
       # directly and instead must find by CSS selector, validate it
       all('a.accordion-toggle').each do |elem|
-        if elem.text == 'Type'
+        if elem.text =~ /^Type/
           elem.click
+          break
         end
       end
       click_on('Generic Work')
@@ -323,7 +324,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     end
   end
 
-  def other_persons_thesis_is_not_in_my_dashboard
+  def other_persons_work_is_not_in_my_dashboard
     visit "/catalog"
     choose 'works_mine'
     click_on 'aux-search-submit-header'  # this is hidden if javascript is enabled

@@ -41,6 +41,4 @@ class GenericWork < ActiveFedora::Base
   attribute :files, multiple: true, form: {as: :file},
     hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
 
-  attribute :linked_resource_url, multiple: true
-
 end
