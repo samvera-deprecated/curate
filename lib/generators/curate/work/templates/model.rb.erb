@@ -3,7 +3,7 @@
 require 'active_fedora/base'
 require Rails.root.join('app/repository_datastreams/<%= file_name %>_rdf_datastream')
 class <%= class_name %> < ActiveFedora::Base
-  include CurationConcern::Model
+  include CurationConcern::Work
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
   include CurationConcern::WithLinkedContributors

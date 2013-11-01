@@ -4,7 +4,7 @@ require 'active_fedora/registered_attributes'
 #   profile: Each person has a profile which is actually just a collection that is explicitly referenced by the person using a :has_profile relationship.
 class Person < ActiveFedora::Base
   include ActiveFedora::RegisteredAttributes
-  include CurationConcern::Model
+  include CurationConcern::Work
   include Hydra::Derivatives
 
   has_metadata name: "descMetadata", type: PersonMetadataDatastream, control_group: 'M'
