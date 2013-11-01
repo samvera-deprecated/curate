@@ -3,9 +3,6 @@ require 'spec_helper'
 describe CatalogController do
 
   describe "when logged in" do
-    before :all do
-      ActiveFedora::Base.destroy_all
-    end
     let(:user) { FactoryGirl.create(:user) }
     let!(:work1) { FactoryGirl.create(:generic_work, user: user) }
     let!(:work2) { FactoryGirl.create(:generic_work) }
@@ -20,7 +17,9 @@ describe CatalogController do
       it "should return all the works" do
         get 'index', 'f' => {'generic_type_sim' => 'Work'}
         response.should be_successful
-        assigns(:document_list).map(&:id).should == [work1.id, work2.id]
+        ids = assigns(:document_list).map(&:id)
+        expect(ids).to include(work1.id)
+        expect(ids).to include(work2.id)
       end
     end
 
@@ -28,7 +27,9 @@ describe CatalogController do
       it "should return just my works" do
         get 'index', works: 'mine'
         response.should be_successful
-        assigns(:document_list).map(&:id).should == [work1.id]
+        ids = assigns(:document_list).map(&:id)
+        expect(ids).to include(work1.id)
+        expect(ids).to_not include(work2.id)
       end
     end
 
@@ -40,8 +41,8 @@ describe CatalogController do
 
       it "assigns options for adding items to collection" do
         get 'index'
-        assigns(:collection_options).should == [collection]
-        assigns(:profile_collection_options).should == []
+        expect(assigns(:collection_options)).to include(collection)
+        expect(assigns(:profile_collection_options)).to_not include(collection)
       end
     end
 
@@ -53,9 +54,8 @@ describe CatalogController do
       it "should return json" do
         xhr :get, :index, format: :json, q: work.title
         json = JSON.parse(response.body)
-        # Grab the doc corresponding to work and inspect the json
-        work_json = json["docs"].first
-        work_json.should == {"pid"=>work.pid, "title"=>work.title}
+
+        expect(json["docs"]).to include({"pid"=>work.pid, "title"=>work.title})
       end
     end
 
