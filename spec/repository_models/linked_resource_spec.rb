@@ -57,6 +57,13 @@ describe LinkedResource do
     end
   end
 
+  context '#to_solr' do
+    subject { LinkedResource.new(url: 'http://www.youtube.com/watch?v=oHg5SJYRHA0') }
+    it 'should solrize its url' do
+      expect(subject.to_solr.fetch('url_tesim')).to eq(['http://www.youtube.com/watch?v=oHg5SJYRHA0'])
+    end
+  end
+
   describe "with a persisted resource" do
     let!(:resource) { FactoryGirl.create(:linked_resource, url: 'http://www.youtube.com/watch?v=oHg5SJYRHA0') }
     after do

@@ -1,6 +1,6 @@
 <% if can? :edit, curation_concern %>
   <h2>Related Works</h2>
-  <p>Add works that are rleated to this <%= curation_concern.human_readable_type %>.</p>
+  <p>Add works that are related to this <%= curation_concern.human_readable_type %>.</p>
   <%= form_for [:curation_concern, curation_concern], method: :patch, html: {id:"edit_related_works"} do |f| %>
     <%# NOTE: You can't use a url builder to create the query URL because it will escape it; the JavaScript is already doing this %>
     <%= f.text_field :related_work_tokens, class:"autocomplete tokens", data: { url: "#{catalog_index_path}?f[generic_type_sim][]=Work", load: curation_concern.related_works.to_json, exclude:"[#{curation_concern.pid.inspect}]" } %>
@@ -10,7 +10,7 @@
 <table class="table table-striped <%= dom_class(curation_concern) %> related-to-works with-headroom">
   <caption class="table-heading">
     <h2>Related Works</h2>
-    <p>Works that are rleated to this <%= curation_concern.human_readable_type %>.</p>
+    <p>Works that are related to this <%= curation_concern.human_readable_type %>.</p>
   </caption>
   <% if curation_concern.related_works.present? %>
     <thead>

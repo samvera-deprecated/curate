@@ -2,11 +2,13 @@ class LinkedResource < ActiveFedora::Base
   include Hydra::AccessControls::Permissions
   include Sufia::ModelMethods
   include CurationConcern::Model
+  include ActiveFedora::RegisteredAttributes
 
   has_file_datastream "content", control_group: 'E'
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
   has_metadata "descMetadata", type: GenericFileRdfDatastream
 
+  attribute :title, multiple: false, datastream: :descMetadata
   has_attributes :date_uploaded, :date_modified, :creator, datastream: :descMetadata, multiple: false
 
   validates :batch, presence: true
@@ -28,6 +30,13 @@ class LinkedResource < ActiveFedora::Base
   def to_s
     url
   end
+
+  def to_solr(solr_doc={}, opts={})
+    super
+    Solrizer.set_field(solr_doc, 'url', url, :stored_searchable)
+    solr_doc
+  end
+
 
 end
 

@@ -69,7 +69,9 @@ module CurateHelper
   end
 
   def polymorphic_path_args(asset)
-    if (Curate.configuration.registered_curation_concern_types + ["GenericFile"]).include? asset.class.inspect
+    # A better approximation, but we still need one location for this information
+    # either via routes or via the initializer of the application
+    if asset.class.included_modules.include?(CurationConcern::Model)
       return [:curation_concern, asset]
     else
       return asset
