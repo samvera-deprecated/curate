@@ -55,7 +55,7 @@ describe CatalogController do
         json = JSON.parse(response.body)
         # Grab the doc corresponding to work and inspect the json
         work_json = json["docs"].first
-        work_json.should == {"pid"=>work.pid, "title"=>work.title}
+        work_json.should == {"pid"=>work.pid, "title"=> "#{work.title} (#{work.human_readable_type})"}
       end
     end
 

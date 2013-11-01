@@ -337,9 +337,12 @@ class CatalogController < ApplicationController
     end
 
     def serialize_work_from_solr(solr_doc)
-       {
-        pid: solr_doc["id"], title: solr_doc["desc_metadata__title_tesim"].first
-       }
+      title = solr_doc["desc_metadata__title_tesim"].first
+      title << " (#{solr_doc["human_readable_type_tesim"].first})" if solr_doc["human_readable_type_tesim"].present?
+      {
+        pid: solr_doc["id"],
+        title: title
+      }
     end
 
     # show only files with edit permissions in lib/hydra/access_controls_enforcement.rb apply_gated_discovery
