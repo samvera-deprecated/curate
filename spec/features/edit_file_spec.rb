@@ -4,10 +4,6 @@ describe "Editing an attached file" do
   let(:user) { FactoryGirl.create(:user) }
   let(:work) { FactoryGirl.create(:generic_work_with_files, file_count: 1, user: user) }
 
-  after do
-    work.destroy
-  end
-
   it 'should allow me to edit the file' do
     login_as(user)
     visit curation_concern_generic_work_path(work)

@@ -20,10 +20,6 @@ shared_examples 'it has linked contributors' do
         let(:person2) { Person.create}
         before { subject.contributors = [person1] }
 
-        after do
-          person1.destroy
-          person2.destroy
-        end
         it "should attach that person" do
           subject.contributors_attributes = [{id: person2.pid }]
           subject.contributors.should == [person1, person2]
@@ -35,11 +31,6 @@ shared_examples 'it has linked contributors' do
       let(:person1) { FactoryGirl.create(:person) }
       let(:person2) { FactoryGirl.create(:person) }
       before { subject.contributors << person1 << person2 }
-
-      after do
-        person1.destroy
-        person2.destroy
-      end
 
       describe "setting the destroy bit in the contributors_attributes" do
         it "should remove an existing person" do

@@ -59,10 +59,7 @@ describe LinkedResource do
 
   describe "with a persisted resource" do
     let!(:resource) { FactoryGirl.create(:linked_resource, url: 'http://www.youtube.com/watch?v=oHg5SJYRHA0') }
-    after do
-      resource.batch.destroy
-    end
-
+    
     it 'has url as its title to display' do
       expect(resource.to_s).to eq 'http://www.youtube.com/watch?v=oHg5SJYRHA0'
     end

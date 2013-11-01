@@ -3,9 +3,6 @@ require 'spec_helper'
 describe Curate::PeopleController do
   describe "#show" do
     let(:person) { FactoryGirl.create(:person_with_user) }
-    after do
-      person.destroy
-    end
     context 'my own person page' do
       before { sign_in person.user }
 
@@ -19,7 +16,6 @@ describe Curate::PeopleController do
     context 'someone elses person page' do
       let(:user) { FactoryGirl.create(:user) }
       before { sign_in user }
-      after { user.destroy }
 
       it "should show me the page" do
         get :show, id: person.pid
@@ -30,18 +26,11 @@ describe Curate::PeopleController do
 
   describe "searching via json" do
     before(:all) do
-      Person.destroy_all
       @katie = FactoryGirl.create(:person, name: 'Katie F. White-Kopp')
       @alvin = FactoryGirl.create(:person, name: 'A. S. Mitchell')
       @john = FactoryGirl.create(:person_with_user, name: 'John Corcoran III')
     end
 
-
-    after(:all) do
-      @katie.destroy
-      @alvin.destroy
-      @john.destroy
-    end
 
     it "should return results on full first name match" do
       get :index, q: 'Katie', format: :json
