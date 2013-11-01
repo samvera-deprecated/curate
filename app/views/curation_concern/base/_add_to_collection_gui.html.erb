@@ -4,8 +4,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Add item to &hellip;</h4>
+          <button type="button" class="btn pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add <%= "#{collectible}" %> to one of your collections:</h4>
         </div>
         <div class="modal-body">
           <%= render partial: 'form_to_add_collection', locals: { collectible: collectible } %>
@@ -14,5 +14,5 @@
     </div>
   </div>
 
-  <%= link_to 'Add to Collection', add_member_form_collections_path(collectible_id: collectible.pid), data: { toggle: "modal", target: ('#' + modal_id) }, method: :get, class: "btn add-to-collection", remote: true %>
+  <%= link_to 'Add to Collection', add_member_form_collections_path(collectible_id: collectible.pid), data: { toggle: "modal", target: ('#' + modal_id) }, method: :get, class: "btn btn-primary add-to-collection", remote: true %>
 <% end %>

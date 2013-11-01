@@ -1,17 +1,9 @@
 <% if defined?(collectible) %>
-  <p> <%= "Item: #{collectible}" %> </p>
-
-  <div>
-    <%= form_tag add_member_collections_path(redirect_to: request.original_url), method: :put do %>
-      <fieldset class="required">
-        <%= hidden_field_tag :collectible_id, collectible.pid %>
-
-        <div>
-          Collection:
-          <%= select_tag :collection_id, options_from_collection_for_select(current_user.collections.to_a, :id, :title, collectible.collection_ids), include_blank: true %>
-        </div>
-        <%= submit_tag "Add", class: 'btn btn-primary' %>
-      </fieldset>
-    <% end %>
-  </div>
+  <%= form_tag add_member_collections_path(redirect_to: request.original_url), method: :put do %>
+    <fieldset class="required">
+      <%= hidden_field_tag :collectible_id, collectible.pid %>
+      <%= select_tag :collection_id, options_from_collection_for_select(current_user.collections.to_a, :id, :title, collectible.collection_ids), include_blank: true %>
+    </fieldset>
+    <%= submit_tag "Add It!", class: 'btn btn-primary' %>
+  <% end %>
 <% end %>

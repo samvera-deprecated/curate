@@ -3,6 +3,7 @@ class Etd < ActiveFedora::Base
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
   include CurationConcern::WithLinkedContributors
+  include CurationConcern::WithRelatedWorks
   include CurationConcern::Embargoable
   include ActiveFedora::RegisteredAttributes
 

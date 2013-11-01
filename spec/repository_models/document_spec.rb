@@ -3,12 +3,6 @@ require 'spec_helper'
 describe Document do
   subject {  FactoryGirl.build(:document) }
 
-  it 'factory creates a valid document' do
-    doc = FactoryGirl.build(:document)
-    doc.class.should == Document
-    doc.valid?.should be_true
-  end
-
   it { should have_unique_field(:title) }
   it { should have_unique_field(:type) }
 
@@ -18,6 +12,7 @@ describe Document do
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_dc_metadata'
   it_behaves_like 'has_common_solr_fields'
+  it_behaves_like 'it has linked contributors'
 
   describe 'valid types: ' do
     let(:doc) { FactoryGirl.build(:document) }
@@ -25,18 +20,20 @@ describe Document do
     Document.valid_types.each do |type|
       it "type '#{type}' is valid" do
         doc.type = type
-        doc.valid?.should be_true
+        doc.valid?
+        expect(doc.errors[:type]).to_not be_present
       end
     end
 
     it 'non-whitelist types are not valid' do
       doc.type = 'Invalid document type'
-      doc.valid?.should be_false
+      doc.valid?
+      expect(doc.errors[:type]).to be_present
     end
 
     it 'type can be nil' do
       doc.type = nil
-      doc.valid?.should be_true
+      expect(doc.errors[:type]).to_not be_present
     end
   end
 

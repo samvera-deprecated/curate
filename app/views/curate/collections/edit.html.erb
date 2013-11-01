@@ -1,6 +1,4 @@
-<h1><%= @collection %> (collection)</h1>
-
-<%=form_for @collection do |f| %>
-  <%= render partial: 'form_permission', locals: {f: f} %>
-  <%= f.submit class: 'btn btn-primary' %>
+<% content_for :page_header do %>
+  <h1><%= @collection %> (collection)</h1>
 <% end %>
+<%= render 'form' %>

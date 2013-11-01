@@ -8,14 +8,14 @@
   <% end %>
 </hgroup>
 <% end %>
-<div class="row-fluid">
-  <div class="span3" >
-    <div class="thumbnail">
+<div class="row">
+
+  <div class="span3">
+    <div class="profile-picture">
       <%= render partial: 'profile_image', locals: {person: @person} %>
     </div>
-  </div>
-  <div class="span5">
-    <dl class="attribute-list <%= dom_class(@person) %>">
+
+    <dl class="<%= dom_class(@person) %>">
     <%# This is where I tell Jeremy I'm sorry. %>
     <% @person.terms_for_display.reject{|name| name == :name}.each do |attribute_name| %>
       <% if @person.send(attribute_name).present? %>
@@ -33,7 +33,8 @@
       </div>
     <% end %>
   </div>
-  <div id="person_profile" class="span12">
+
+  <div id="person_profile" class="span9">
     <% if profile_has_contents?(@person) %>
       <h3><%= "Selected Works of #{@person.name}" %> </h3>
       <p><%= @person.profile.description %> </p>
@@ -41,6 +42,10 @@
       <div id="documents" class="clear">
         <%= list_items_in_collection(@person.profile) %>
       </div>
+    <% elsif @person == current_user.person %>
+      <p class="center">
+        <em>You have not added any content to your profile.</em>
+      </p>
     <% end %>
 
     <% if can_edit_profile_collection?(@person) %>

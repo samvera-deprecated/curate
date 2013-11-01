@@ -3,6 +3,7 @@ class Image < ActiveFedora::Base
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
   include CurationConcern::WithLinkedContributors
+  include CurationConcern::WithRelatedWorks
   include CurationConcern::Embargoable
   include ActiveFedora::RegisteredAttributes
 
@@ -21,11 +22,13 @@ class Image < ActiveFedora::Base
       hint: "Title of the item.",
       multiple: false,
       validates: { presence: { message: "Your #{image_label} must have a title." } }
+
     ds.attribute :creator,
       label: "Creator",
       hint: " Primary creator/s of the item.",
       multiple: true,
       validates: { presence: { message: "Your #{image_label} must have a creator." } }
+
     ds.attribute :date_created,
       default: Date.today.to_s("%Y-%m-%d"),
       label: "Date",
@@ -35,12 +38,10 @@ class Image < ActiveFedora::Base
 
     ds.attribute :description,
       label: "Description",
-      multiple: true,
-      validates: { presence: { message: "Your #{image_label} must have a description." } }
-
+      multiple: true
 
     ds.attribute :category,
-      label: 'Category', 
+      label: 'Category',
       multiple: true
 
     ds.attribute :location,
@@ -50,57 +51,61 @@ class Image < ActiveFedora::Base
     ds.attribute :measurements,
       label: "The physical size, shape, scale, dimensions, or format of the work or image. Dimensions may include such measurements as volume, weight, area or running time.",
       multiple: true
+
     ds.attribute :material,
-      label: 'Material', 
+      label: 'Material',
       multiple: true
+
     ds.attribute :source,
-      label: 'Source', 
+      label: 'Source',
       multiple: true
+
     ds.attribute :publisher,
-      label: 'publisher', 
+      label: 'publisher',
       multiple: true
 
     ds.attribute :subject,
-      label: 'Subject Keywords', 
+      label: 'Subject Keywords',
       multiple: true
 
     ds.attribute :inscription,
-      label: 'Inscription', 
+      label: 'Inscription',
       multiple: true
+
     ds.attribute :StateEdition,
-      label: 'State Edition', 
+      label: 'State Edition',
       multiple: false
 
     ds.attribute :textref,
-      label: 'Textref', 
+      label: 'Textref',
       multiple: true
 
     ds.attribute :cultural_context,
-      label: 'Cultural context', 
+      label: 'Cultural context',
       multiple: true
 
     ds.attribute :style_period,
-      label: 'Style Period', 
+      label: 'Style Period',
       multiple: true
 
     ds.attribute :technique,
-      label: 'Technique', 
+      label: 'Technique',
       multiple: true
-
 
     ds.attribute :date_uploaded,
       multiple: false
-    ds.attribute :date_modified, 
+
+    ds.attribute :date_modified,
       multiple: false
+
     ds.attribute :rights,
       default: "All rights reserved",
       multiple: false
+
     ds.attribute :identifier,
       multiple: false,
       editable: false
-    # ds.attribute :format,
-    #   multiple: false,
-    #   editable: false
+
     ds.attribute :doi,
       multiple: false,
       editable: false

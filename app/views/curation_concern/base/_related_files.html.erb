@@ -1,3 +1,4 @@
+<% if curation_concern.generic_files.present? %>
 <table class="table table-striped <%= dom_class(curation_concern) %> related_files with-headroom">
   <caption class="table-heading">
     <h2>Files</h2>
@@ -54,3 +55,7 @@
     <% end %>
   </tbody>
 </table>
+<% elsif can? :edit, curation_concern %>
+  <h2>Files</h2>
+  <p class="center"><em>This <%= curation_concern.human_readable_type %> has no files associated with it. You can add one using the "Attach a File" button below.</em></p>
+<% end %>

@@ -59,7 +59,7 @@ describe 'An existing generic work owned by the user' do
       login_as(user)
       Collection.count.should == 0
       visit curation_concern_generic_work_path(work)
-      expect(page).to have_content('You have no collections yet')
+      expect(page).to have_content('You have no collections')
     end
   end
 end

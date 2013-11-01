@@ -4,11 +4,13 @@ shared_examples 'with_related_works' do
   let(:person) { FactoryGirl.create(:person) }
   let(:work) { FactoryGirl.create(:generic_work, user: user, title:"My Fabulous Work") }
   let(:dataset) { FactoryGirl.create(:dataset, user: user, title:"Records from that Kiki") }
+
   before do
     subject.apply_depositor_metadata(user.user_key)
     subject.contributors << person
     subject.save!
   end
+
   it "should track relations to other works" do
     subject.related_works << dataset
     subject.save

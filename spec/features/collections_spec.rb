@@ -33,7 +33,7 @@ describe "Showing and creating Collections" do
     Collection.delete_all  # Delete the user's auto-generated profile
     visit collections_path
 
-    msg = 'You have no collections yet'
+    msg = 'You have no collections'
     expect(page).to have_content(msg)
     expect(page).to have_button('Create Collection')
   end
