@@ -5,10 +5,6 @@ spec_directory = File.expand_path('../../../spec', __FILE__)
 require "rails/test_help"
 require 'rspec/rails'
 require 'rspec-html-matchers'
-
-# Prevent double spec runs under Zeus
-require 'rspec/autorun' unless ENV['RUNNING_VIA_ZEUS']
-
 require 'factory_girl'
 require 'capybara/poltergeist'
 Dir["#{spec_directory}/factories/**/*.rb"].each { |f| require f }

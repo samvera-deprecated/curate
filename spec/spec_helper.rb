@@ -9,7 +9,11 @@ end
 
 require File.expand_path("../internal/config/environment.rb",  __FILE__)
 
+# Prevent double spec runs under Zeus
+require 'rspec/autorun' unless ENV['RUNNING_VIA_ZEUS']
+
 require File.expand_path('../spec_patch', __FILE__)
+
 require 'curate/spec_support'
 require 'database_cleaner'
 
