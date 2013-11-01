@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 class FakeCurationConcern < ActiveFedora::Base
-  include CurationConcern::Model
+  include CurationConcern::Work
 
   def date_uploaded= date
   end

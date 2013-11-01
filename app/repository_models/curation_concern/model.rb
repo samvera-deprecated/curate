@@ -10,23 +10,17 @@ module CurationConcern
 
     included do
       include Sufia::ModelMethods
-      include Hydra::AccessControls::Permissions
       include Curate::ActiveModelAdaptor
       include Hydra::Collections::Collectible
       include Solrizer::Common
-      
+
       has_metadata 'properties', type: Curate::PropertiesDatastream
-      has_attributes:relative_path, :depositor, :owner, :representative, datastream: :properties, multiple: false
+      has_attributes :relative_path, :depositor, :owner, :representative, datastream: :properties, multiple: false
       class_attribute :human_readable_short_description
     end
 
     def human_readable_type
       self.class.human_readable_type
-    end
-
-    # Parses a comma-separated string of tokens, returning an array of ids
-    def self.ids_from_tokens(tokens)
-      tokens.gsub(/\s+/, "").split(',')
     end
 
     def as_json(options)
@@ -39,7 +33,6 @@ module CurationConcern
       solr_doc[Solrizer.solr_name('noid', Sufia::GenericFile.noid_indexer)] = noid
       solr_doc[Solrizer.solr_name('human_readable_type',:facetable)] = human_readable_type
       solr_doc[Solrizer.solr_name('human_readable_type', :stored_searchable)] = human_readable_type
-      Solrizer.set_field(solr_doc, 'generic_type', 'Work', :facetable)
       add_derived_date_created(solr_doc)
       return solr_doc
     end

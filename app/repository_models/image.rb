@@ -1,5 +1,5 @@
 class Image < ActiveFedora::Base
-  include CurationConcern::Model
+  include CurationConcern::Work
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
   include CurationConcern::WithLinkedContributors
