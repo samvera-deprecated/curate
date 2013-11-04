@@ -6,7 +6,6 @@ describe 'curation_concern/base/_collection.html.erb' do
   let(:display_name) { 'My Display Name'}
   let(:person) { FactoryGirl.create(:person_with_user) }
   let(:user) { person.user }
-  #let(:curation_concern) { FactoryGirl.create(:generic_work, user: user, title: 'Work 1') }
   let(:collection) { FactoryGirl.create(:collection, user: user, title: 'Collection 1') }
 
   context 'logged in' do
@@ -20,7 +19,6 @@ describe 'curation_concern/base/_collection.html.erb' do
 
     it 'lists all the collections the work is added to' do
       expect(rendered).to include("Collection 1")
-      expect(rendered).to include("Remove Item from Collection")
       expect(rendered).to include("Add to Collection")
     end
   end
@@ -36,7 +34,6 @@ describe 'curation_concern/base/_collection.html.erb' do
 
     it 'lists all the collections the work is added to' do
       expect(rendered).to include("Collection 1")
-      expect(rendered).not_to include("Remove Item from Collection")
       expect(rendered).not_to include("Add to Collection")
     end
   end

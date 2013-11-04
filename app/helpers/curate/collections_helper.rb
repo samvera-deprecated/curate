@@ -30,7 +30,7 @@ module Curate::CollectionsHelper
   end
 
   def list_items_in_collection(collection, terminate=false)
-    content_tag :ul do
+    content_tag :ul, class: 'collection-listing' do
       collection.members.inject('') do |output, member|
         output << member_line_item(collection, member, terminate)
       end.html_safe
@@ -38,10 +38,21 @@ module Curate::CollectionsHelper
   end
 
   def member_line_item(collection, member, terminate)
-    content_tag :li do
-      data = member.respond_to?(:members) ? collection_line_item(member, terminate) : work_line_item(member)
-      data << remove_line_item(collection, member)
+    content_tag :li, class: line_item_class(collection), data: { noid: member.noid }do
+      markup = member.respond_to?(:members) ? collection_line_item(member, terminate) : work_line_item(member)
+
+      if can? :edit, collection
+        markup << collection_member_actions(collection, member)
+      end
+
+      markup
     end
+  end
+
+  def line_item_class(collection)
+    css_class = 'collection-member'
+    css_class << ' with-controls' if can? :edit, collection
+    css_class
   end
 
   def work_line_item(work)
@@ -50,7 +61,12 @@ module Curate::CollectionsHelper
   end
 
   def collection_line_item(collection, terminate)
-    list_item = link_to(collection.to_s, collection_path(collection))
+    list_item = content_tag :h3, class: 'collection-section-heading' do
+      link_to(collection.to_s, collection_path(collection))
+    end
+    if collection.description.present?
+      list_item << content_tag( :div, collection.description, class: 'collection-section-description')
+    end
     list_item << list_items_in_collection(collection, true) unless terminate  # limit nesting
     list_item
   end
@@ -63,8 +79,12 @@ module Curate::CollectionsHelper
     end
   end
 
-  def remove_line_item(collection, work)
-    link_to(raw('<i class="icon-white icon-minus"></i>'), remove_member_collections_path(id: collection.to_param, item_id: work.pid), id: work.pid, class: 'btn btn-danger remove', title: 'Remove Item from Collection' ) if can? :edit, work 
+  def collection_member_actions(collection, work)
+    content_tag :span, class: 'collection-member-actions' do
+      button_to remove_member_collections_path(id: collection.to_param, item_id: work.pid), confirm: 'Are you sure you want to remove this item from the collection?', method: :put, id: "remove-#{work.noid}", class: 'btn btn-danger', form_class: 'remove-member', remote: true do
+        raw('<i class="icon-white icon-minus"></i> Remove')
+      end
+    end
   end
 
 end

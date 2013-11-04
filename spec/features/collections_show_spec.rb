@@ -4,20 +4,18 @@ describe "Collections show view: " do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:bilbo) { FactoryGirl.create(:person, name: 'Bilbo') }
   let!(:frodo) { FactoryGirl.create(:person, name: 'Frodo') }
-  let!(:work1) { FactoryGirl.create(:generic_work, user: user, contributors: [bilbo, frodo], title: 'Work 1') }
-  let!(:collection) { FactoryGirl.create(:public_collection, user: user, title: 'Collected Stuff', members: [work1]) }
+  let!(:article) { FactoryGirl.create(:generic_work, user: user, contributors: [bilbo, frodo], title: 'An Article') }
+  let!(:collection) { FactoryGirl.create(:public_collection, user: user, title: 'Collected Stuff', members: [article]) }
 
-  context "For logged in members: " do
+  context "For logged in members:" do
     it "remove an item from the collection" do
       login_as(user)
       visit collection_path(collection.pid)
-      page.should have_css("a[id$='#{work1.pid}']")
-      page.should have_css("a[title$='Remove Item from Collection']")
-      click_on 'Remove Item from Collection'
+      page.should have_css(".collection-member[data-noid='#{article.noid}']")
+      click_on "remove-#{article.noid}"
 
       visit collection_path(collection.pid)
-      page.should_not have_css("a[id$='#{work1.pid}']")
-      page.should_not have_css("a[title$='Remove Item from Collection']")
+      page.should_not have_css(".collection-member[data-noid='#{article.noid}']")
     end
   end
 
