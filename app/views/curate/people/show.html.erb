@@ -42,8 +42,8 @@
       <div id="documents" class="clear">
         <%= list_items_in_collection(@person.profile) %>
       </div>
-    <% elsif @person == current_user.person %>
-      <p class="center">
+    <% elsif current_user.respond_to?(:person) && @person == current_user.person %>
+      <p class="center no-documents">
         <em>You have not added any content to your profile.</em>
       </p>
     <% end %>
