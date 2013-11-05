@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Curate::CollectionsController do
-  before(:all) { Collection.destroy_all }
   let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
 

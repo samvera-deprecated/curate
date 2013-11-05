@@ -1,9 +1,6 @@
 shared_examples 'remotely_identified' do |remote_service_name|
   context "by #{remote_service_name}" do
     context 'with valid attributes' do
-      after(:each) {
-        subject.destroy
-      }
       subject { FactoryGirl.create(described_class.name.underscore, attributes) }
       let(:attributes) { { publisher: 'An Interesting Chap!' } }
       it 'mints!' do

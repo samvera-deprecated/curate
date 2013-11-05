@@ -46,7 +46,9 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
-    ActiveFedora::Base.destroy_all
+    class ActiveFedora::Base
+      include ActiveFedora::SpecHelper
+    end
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
   end
@@ -56,6 +58,7 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
+    ActiveFedora::SpecHelper.cleanup!
     DatabaseCleaner.clean
   end
 
