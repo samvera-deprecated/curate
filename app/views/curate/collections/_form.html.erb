@@ -13,19 +13,34 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
+  <%#
+    NOTE: We're just making it _look_ like we're using simple_form here. Refactor at will.
+    ALSO: Title isn't _actually_ required. The form is lying (but it means well and is probably right).
+  %>
+  <div class="control-group string required collection_title">
+    <span class="control-label">
+      <label class="string required" for="collection_title">
+        <abbr title="" data-original-title="required">*</abbr> Title
+      </label>
+    </span>
+    <div class="controls">
+      <%= f.text_field :title, class: 'string required input-xlarge', required: 'required', :'aria-required' => 'true' %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+  <div class="control-group string required collection_description">
+    <span class="control-label">
+      <%= f.label :description %>
+    </span>
+    <div class="controls">
+      <%= f.text_area :description, class: 'text input-xxlarge' %>
+    </div>
   </div>
 
   <%= render partial: 'form_permission', locals: {f: f} %>
 
   <%= hidden_collection_members %>
+
   <%= hidden_field_tag(:add_to_profile, @add_to_profile) %>
 
   <div class="form-actions">

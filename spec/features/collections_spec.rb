@@ -11,8 +11,8 @@ describe "Showing and creating Collections" do
     end
     click_button "Create Collection"
     expect(page).to have_content "Create a New Collection"
-    fill_in 'Title', with: 'amalgamate members'
-    fill_in 'Description', with: "I've collected a few related things together"
+    fill_in 'collection_title', with: 'amalgamate members'
+    fill_in 'collection_description', with: "I've collected a few related things together"
     click_button "Create Collection"
     within 'table tbody' do
       expect(page).to have_content 'amalgamate members'

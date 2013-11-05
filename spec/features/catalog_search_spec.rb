@@ -71,7 +71,7 @@ describe "Search for a work" do
     visit('/')
     click_on('Add a Collection')
     within '#new_collection' do
-      fill_in "Title", with: "Sample Collection"
+      fill_in "collection_title", with: "Sample Collection"
       click_button("Create Collection")
     end
   end

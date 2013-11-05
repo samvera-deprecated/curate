@@ -1,10 +1,32 @@
+<% the_collection_is_my_profile = ( current_user.profile.present? && ( current_user.profile.pid == collection.id )) %>
 <tr>
   <td>
-    <%= render_index_field_value collection, field: 'desc_metadata__title_tesim' %>
+    <% if the_collection_is_my_profile %>
+      <% title = "My Profile" %>
+    <% else %>
+      <% title = render_index_field_value( collection, field: 'desc_metadata__title_tesim') %>
+    <% end %>
+    <%= link_to title, collection_path(collection) %>
   </td>
   <td>
     <% if can? :edit, collection %>
-      <%=link_to "Edit", edit_collection_path(collection) %>
+
+      <% unless the_collection_is_my_profile %>
+        <%= button_to(
+          "Delete",
+          {
+            action: :destroy,
+            controller: :collections,
+            id: collection.id
+          },
+          confirm: 'Are you sure you want to delete this collection?',
+          class: 'btn',
+          form_class: 'button-to pull-right',
+          method: :delete
+        )%>
+      <% end %>
+
+      <%= link_to "Edit", edit_collection_path(collection), class: 'btn pull-right' %>
     <% end %>
   </td>
 </tr>
