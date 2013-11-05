@@ -76,9 +76,9 @@ describe CurationConcern::GenericWorkActor do
         end
       end
 
-      describe 'with a linked resource' do
+      describe 'with linked resources' do
         let(:attributes) {
-          FactoryGirl.attributes_for(:generic_work, visibility: visibility, linked_resource_url: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')
+          FactoryGirl.attributes_for(:generic_work, visibility: visibility, linked_resource_urls: ['http://www.youtube.com/watch?v=oHg5SJYRHA0', "http://google.com"])
         }
 
         describe 'authenticated visibility' do
@@ -90,7 +90,7 @@ describe CurationConcern::GenericWorkActor do
             curation_concern.depositor.should == user.user_key
 
             curation_concern.generic_files.count.should == 0
-            curation_concern.linked_resources.count.should == 1
+            curation_concern.linked_resources.count.should == 2
             # Sanity test to make sure the file we uploaded is stored and has same permission as parent.
             link = curation_concern.linked_resources.first
             expect(link.url).to eq 'http://www.youtube.com/watch?v=oHg5SJYRHA0'

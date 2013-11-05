@@ -29,7 +29,7 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class, curati
             attrs[:contributors_attributes] = [{id: person.id}]
           end
           if with_linked_resources?
-            attrs[:linked_resource_url] = 'http://www.youtube.com/watch?v=oHg5SJYRHA0'
+            attrs[:linked_resource_urls] = 'http://www.youtube.com/watch?v=oHg5SJYRHA0'
           end
         }
       }
