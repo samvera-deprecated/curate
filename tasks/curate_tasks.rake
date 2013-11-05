@@ -42,6 +42,8 @@ gem 'capybara'
 gem 'launchy'
 gem 'factory_girl_rails'
 gem 'timecop'
+gem 'vcr'
+gem 'webmock'
 gem 'rspec-html-matchers'
 gem 'database_cleaner', '< 1.1.0', :group => :test
 gem 'test_after_commit', group: :test
