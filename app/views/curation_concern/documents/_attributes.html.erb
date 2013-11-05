@@ -5,7 +5,6 @@
   </thead>
   <tbody>
   <%= curation_concern_attribute_to_html(curation_concern, :description, 'Abstract') %>
-
   <%= render partial: 'contributors_attribute' %>
   <%= curation_concern_attribute_to_html(curation_concern, :type, "Document Type") %>
   <%= curation_concern_attribute_to_html(curation_concern, :subject, "Subject") %>
@@ -16,9 +15,7 @@
   <tr>
     <th>Access Rights</th>
     <td>
-      <ul class="tabular">
-        <li class="attribute permission"><%= link_to_edit_permissions(curation_concern) %></li>
-      </ul>
+      <%= permission_badge_for(curation_concern) %>
     </td>
   </tr>
   <%= curation_concern_attribute_to_html(curation_concern, :embargo_release_date, "Embargo Release Date") %>
