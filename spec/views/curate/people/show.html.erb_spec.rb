@@ -24,16 +24,38 @@ describe 'curate/people/show.html.erb' do
       render
     end
 
-    it 'lists the items within the outer collection, but not the inner collection' do
-      assert_select '#person_profile #documents' do
-        assert_select 'ul' do
-          assert_select 'a[href=?]', collection_path(outer_collection), text: 'Outer Collection'
-          assert_select 'a[href=?]', collection_path(inner_collection), text: 'Inner Collection'
-          assert_select 'a[href=?]', curation_concern_generic_work_path(outer_work), text: 'Outer Work'
-          assert_select 'a[href=?]', curation_concern_generic_work_path(inner_work), count: 0
+    context 'with logged in user' do
+      it 'lists the items within the outer collection, but not the inner collection' do
+        assert_select '#person_profile #documents' do
+          assert_select 'ul' do
+            assert_select 'a[href=?]', collection_path(outer_collection), text: 'Outer Collection'
+            assert_select 'a[href=?]', collection_path(inner_collection), text: 'Inner Collection'
+            assert_select 'a[href=?]', curation_concern_generic_work_path(outer_work), text: 'Outer Work'
+            assert_select 'a[href=?]', curation_concern_generic_work_path(inner_work), count: 0
+          end
         end
       end
     end
+
   end
+
+  context 'with an empty profile and not logged in' do
+
+    before do
+      assign :person, person
+      controller.stub(:current_user).and_return(user)
+      render
+    end
+
+    let(:user) { nil }
+    it 'should render the person profile section' do
+      assert_select '#person_profile' do
+        assert_select '#documents', count: 0
+        assert_select '#no-documents', count: 0
+        assert_select '.form-action', count: 0
+      end
+    end
+  end
+
 
 end
