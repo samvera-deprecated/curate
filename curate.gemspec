@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "4.0.0"
   s.add_dependency "breach-mitigation-rails"
-  s.add_dependency 'sufia-models', '~>3.4.0.rc4'
+  s.add_dependency 'sufia-models', '~>3.4.0'
 #  s.add_dependency 'hydra', '6.1.0.rc8'
   s.add_dependency 'hydra-file_characterization', ">= 0.2.3"
   s.add_dependency 'hydra-batch-edit', '~> 1.1.1'
