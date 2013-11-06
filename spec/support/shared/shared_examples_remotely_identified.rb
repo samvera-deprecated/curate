@@ -6,7 +6,8 @@ shared_examples 'remotely_identified' do |remote_service_name|
       }
       subject { FactoryGirl.create(described_class.name.underscore, attributes) }
       let(:attributes) { { publisher: 'An Interesting Chap!' } }
-      it 'mints!' do
+
+      it 'mints!', VCR::SpecSupport(cassette_name: "remotely_identified_#{remote_service_name}_mint_#{described_class.name.underscore}") do
         expect {
           Hydra::RemoteIdentifier.mint(remote_service_name, subject)
         }.to change(subject, :identifier).from(nil)
