@@ -72,7 +72,7 @@ module CurateController
 
   def configure_permitted_parameters
     full_list = [:email, :password, :password_confirmation, :current_password,
-                 :name, :preferred_email, :alternate_email,
+                 :name, :email, :alternate_email,
                  :date_of_birth, :gender, :title,
                  :campus_phone_number, :alternate_phone_number,
                  :personal_webpage, :blog, :files]
