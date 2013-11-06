@@ -5,7 +5,7 @@
   <div class="row-fluid">
 
     <div class="span2 list-number">
-      <%= article_counter + 1 %>
+      <%= document_counter_with_offset( article_counter ) %>
       <%= render :partial => 'catalog/_index_partials/type_display', locals: {document: article} %>
     </div>
 
