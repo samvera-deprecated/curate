@@ -1,27 +1,30 @@
-<% if collectible %>
-  <p> <%= "Item: #{collectible}" %> </p>
+<%= form_tag add_member_collections_path, method: :put do %>
+  <fieldset class="required <%= fieldset_class %>">
+    <% if collectible %>
+      <%= hidden_field_tag :collectible_id, collectible.pid %>
+    <% end %>
+
+    <div class="control-group collection_id">
+      <span class="control-label">
+        <%= label_tag :collectible_id, "A Collection:" %>
+      </span>
+      <div class="controls">
+        <%= select_tag :collection_id, options_from_collection_for_select(@collection_options, "pid", "title"), include_blank: true, class: 'input-xlarge' %>
+      </div>
+    </div>
+
+    <div class="control-group collection_id">
+      <span class="control-label">
+        <%= label_tag :profile_collection_id, "Your Profile:" %>
+      </span>
+      <div class="controls">
+        <%= select_tag :profile_collection_id, options_from_collection_for_select(@profile_collection_options, "pid", "title"), include_blank: true, class: 'input-xlarge' %>
+      </div>
+    </div>
+
+  </fieldset>
+  <div class="form-actions">
+    <%= submit_tag "Add It!", class: 'btn btn-primary' %>
+    <%= link_to 'never mind', root_path, class: 'btn btn-link', data: { dismiss: 'modal' } %>
+  </div>
 <% end %>
-
-<div>
-  <%= form_tag add_member_collections_path, method: :put do %>
-    <fieldset class="required">
-      <% if collectible %>
-        <%= hidden_field_tag :collectible_id, collectible.pid %>
-      <% end %>
-
-      <div>
-        Collection:
-        <%= select_tag :collection_id, options_from_collection_for_select(@collection_options, "pid", "title"), include_blank: true %>
-      </div>
-
-      or:
-
-      <div>
-        Profile:
-        <%= select_tag :profile_collection_id, options_from_collection_for_select(@profile_collection_options, "pid", "title"), include_blank: true %>
-      </div>
-
-      <%= submit_tag "Add", class: 'btn btn-primary' %>
-    </fieldset>
-  <% end %>
-</div>

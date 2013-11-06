@@ -4,12 +4,9 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="btn pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Add item to &hellip;</h4>
+          <h4 class="modal-title">Add <%= document %> to:</h4>
         </div>
-        <div class="modal-body">
-          <%= render partial: 'curate/collections/form_to_add_member', locals: { collectible: document } %>
-        </div>
+        <%= render partial: 'curate/collections/form_to_add_member', locals: { collectible: document, fieldset_class: 'with-side-padding with-top-padding' } %>
       </div>
     </div>
   </div>
