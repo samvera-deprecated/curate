@@ -57,4 +57,6 @@ $(function(){
     format: 'yyyy-mm-dd',
     startDate: '+1d'
   });
+
+  $('.remove-member').on('ajax:success', function(){window.location.href = window.location.href});
 });

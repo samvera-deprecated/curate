@@ -36,7 +36,11 @@
 
   <div id="person_profile" class="span9">
     <% if profile_has_contents?(@person) %>
-      <h3><%= "Selected Works of #{@person.name}" %> </h3>
+      <% if @person.profile.title == @person.name %>
+        <h3><%= "Selected Works of #{@person.name}" %></h3>
+      <% else %>
+        <h3><%= @person.profile.title %></h3>
+      <% end %>
       <p><%= @person.profile.description %> </p>
 
       <div id="documents" class="clear">

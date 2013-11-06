@@ -58,11 +58,19 @@ dl.stacked {
   }
 }
 
-.main-header {
-  border-bottom: 1px solid $grayLighter;
+.main-header,
+.page-actions {
   margin-bottom: 30px;
   margin-top: 20px;
   padding-bottom: 9px;
+}
+
+.main-header {
+  border-bottom: 1px solid $grayLighter;
+}
+
+.page-actions {
+  text-align:right;
 }
 
 .search > .row > .main-header {

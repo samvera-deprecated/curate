@@ -5,14 +5,15 @@
   </caption>
   <thead>
     <tr>
-      <th>Collection Title</th>
+      <th>Collections Featuring this <%= curation_concern.human_readable_type %></th>
     </tr>
   </thead>
   <tbody>
     <% curation_concern.collections.each do |collection| %>
       <tr class="collection attributes">
-        <td class="attribute title"><%= link_to collection.title, collection %></td>
-        <td><%= link_to(raw('<i class="icon-white icon-minus"></i>'), remove_member_collections_path(id: collection.to_param, item_id: curation_concern.pid, redirect_to: request.original_url), id: curation_concern.pid, class: 'btn btn-danger remove', title: 'Remove Item from Collection' ) if can? :edit, curation_concern  %></td>
+        <%= content_tag :td, class: 'attribute title', data: { noid: collection.noid } do %>
+          <%= link_to collection.title, collection %>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
