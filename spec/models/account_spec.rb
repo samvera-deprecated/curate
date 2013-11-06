@@ -40,6 +40,26 @@ describe Account do
     let(:alternate_email) { 'somewhere@not-here.com'}
     subject { FactoryGirl.create(:account) }
 
+    context 'without person or profile' do
+
+      let(:password) { 'password' }
+      let(:user) { FactoryGirl.create(:user, password: password, password_confirmation: password) }
+      let(:attributes) { {current_password: password} }
+      subject { Account.new(user) }
+
+      it 'should create a person and profile' do
+        expect(user.profile).to be_nil
+        expect(user.person).to_not be_persisted
+
+        subject.update_with_password(attributes)
+
+        user.reload
+        expect(user.person).to be_persisted
+        expect(user.profile).to be_persisted
+      end
+
+    end
+
     describe 'with valid attributes' do
       it 'should update the user' do
         expect {
@@ -136,7 +156,7 @@ describe Account do
 
     it 'has a default title for the profile' do
       subject.name.should be_nil
-      subject.profile.title.should == 'Profile'
+      subject.profile.title.should == user.name
     end
   end
 

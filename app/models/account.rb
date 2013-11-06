@@ -20,18 +20,10 @@ class Account
 
   attr_reader :user
 
-  def person
-    return @person if @person
-    @person = if user.person
-                user.person
-              else
-                user.person = Person.new(name: user.name)
-              end
-    @person
-  end
+  delegate :person, to: :user
 
   def profile
-    @profile ||= person.profile || Collection.new(title: profile_title, resource_type: "Profile")
+    @profile ||= person.profile || person.build_profile(title: profile_title, resource_type: 'Profile')
   end
 
   class_attribute :person_attribute_names
@@ -61,9 +53,7 @@ class Account
   def create
     if create_user &&
         create_person &&
-        create_profile &&
-        connect_user_to_person &&
-        connect_person_to_profile
+        create_profile
       true
     else
       collect_errors
@@ -88,9 +78,9 @@ class Account
   def update_with_password(initial_params, *options)
     params = normalize_update_params(initial_params)
     extract_user_and_person_attributes_for_update(params)
-    if user.update_with_password(user_attributes, *options) &&
-      user.person.update(person_attributes) &&
-      sync_profile_title_to_name(person_attributes)
+    if update_user(*options) &&
+        update_person &&
+        update_profile
       true
     else
       collect_errors
@@ -126,7 +116,12 @@ class Account
 
   def create_profile
     apply_deposit_authorization(profile)
-    profile.save!
+    profile.save && connect_person_to_profile
+  end
+
+  def update_profile
+    create_profile unless profile.persisted?
+    sync_profile_title_to_name(person_attributes)
   end
 
   def create_user
@@ -134,10 +129,22 @@ class Account
     user.save
   end
 
+  def update_user(*options)
+    user.update_with_password(user_attributes, *options)
+  end
+
   def create_person
     person.attributes = person_attributes
     apply_deposit_authorization(person)
-    person.save
+    person.save && connect_user_to_person
+  end
+
+  def update_person
+    if person.persisted?
+      person.update(person_attributes)
+    else
+      create_person
+    end
   end
 
   def apply_deposit_authorization(target)
