@@ -1,4 +1,4 @@
-# Curate  [![Version](https://badge.fury.io/rb/curate.png)](http://badge.fury.io/rb/curate) [![Build Status](https://travis-ci.org/ndlib/curate.png?branch=master)](https://travis-ci.org/ndlib/curate) [![Dependency Status](https://gemnasium.com/ndlib/curate.png)](https://gemnasium.com/ndlib/curate)
+# Curate  [![Version](https://badge.fury.io/rb/curate.png)](http://badge.fury.io/rb/curate) [![Build Status](https://travis-ci.org/projecthydra/curate.png?branch=master)](https://travis-ci.org/projecthydra/curate)
 
 ## Starting a New Curate Base Application
 
