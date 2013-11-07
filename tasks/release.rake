@@ -1,4 +1,4 @@
-task :release => ['release:update_template']
+task :release => ['release:bump']
 
 namespace :release do
   task :init do
@@ -30,7 +30,17 @@ namespace :release do
   end
 
   desc 'Make sure the application template is updated'
-  task :update_template => [:init, :guard, :prompt_for_next_version] do
+  task :bump => [:init, :guard, :prompt_for_next_version] do
+    version_file_path = Pathname.new(File.expand_path("../../lib/curate/version.rb", __FILE__))
+    version_file_contents = version_file_path.read
+    out = version_file_contents.sub(Curate::VERSION, @next_version)
+
+    File.open(version_file_path.to_s, 'w+') do |file|
+      file.puts out
+    end
+
+    Curate::VERSION = @next_version
+
     application_template_path = Pathname.new(File.expand_path("../../lib/generators/curate/", __FILE__))
     application_template_erb_path = application_template_path.join("application_template.rb.erb")
     application_template_output_path = application_template_path.join("application_template.rb")
@@ -38,13 +48,6 @@ namespace :release do
     buffer = ERB.new(application_template_erb_path.read).result(binding)
     File.open(application_template_output_path.to_s, 'w+') do |file|
       file.puts buffer
-    end
-
-    version_file_path = Pathname.new(File.expand_path("../../lib/curate/version.rb", __FILE__))
-    version_file_contents = version_file_path.read
-    out = version_file_contents.sub(Curate::VERSION, @next_version)
-    File.open(version_file_path.to_s, 'w+') do |file|
-      file.puts out
     end
 
     @gem_helper.commit("Bumping to version #{@next_version}") do |helper|
