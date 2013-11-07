@@ -1,0 +1,33 @@
+<%# This is a search result view %>
+<% solr_doc = linked_resource.inner_object.solr_doc %>
+<li id="document_<%= linked_resource.noid %>" class="search-result">
+
+  <%= render :partial => 'catalog/_index_partials/identifier_and_action', locals: {document: linked_resource, counter: linked_resource_counter} %>
+
+  <div class="row-fluid">
+    <div class="span2">
+      <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: linked_resource} %>
+    </div>
+
+    <div class="span10">
+      <dl class="attribute-list">
+        <% if solr_doc.has?('url_tesim') %>
+          <dt>URL:</dt>
+          <dd><%= solr_doc['url_tesim'] %></dd>
+        <% end %>
+
+        <% if solr_doc.has?('depositor_tesim') %>
+          <dt>Depositor:</dt>
+          <dd><%= render_index_field_value(document: solr_doc, field: 'depositor_tesim') %></dd>
+        <% end %>
+
+        <% if solr_doc.has?('desc_metadata__date_uploaded_dtsi') %>
+          <dt>Date:</dt>
+          <dd><%= solr_doc['desc_metadata__date_uploaded_dtsi'].first %></dd>
+        <% end %>
+      </dl>
+    </div>
+
+  </div>
+
+</li>

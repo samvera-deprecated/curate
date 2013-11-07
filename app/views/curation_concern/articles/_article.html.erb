@@ -1,34 +1,8 @@
 <%# This is a search result view %>
-<% noid = article.noid %>
-<li id="document_<%= noid %>" class="search-result">
+<% solr_doc = article.inner_object.solr_doc %>
+<li id="document_<%= article.noid %>" class="search-result">
 
-  <div class="row-fluid">
-
-    <div class="span2 list-number">
-      <%= document_counter_with_offset( article_counter ) %>
-      <%= render :partial => 'catalog/_index_partials/type_display', locals: {document: article} %>
-    </div>
-
-    <div class="span6">
-      <% solr_doc = article.inner_object.solr_doc %>
-      <%# Minimize Fedora hits by using solr_doc rather than document %>
-      <%= link_to render_index_field_value(document: solr_doc, field: 'desc_metadata__title_tesim'), curation_concern_article_path(article), :id => "src_copy_link_#{noid}" %>
-    </div>
-
-    <div class="span4">
-      <% if current_user %>
-        <%= render partial: 'add_to_collection_gui', locals: { document: article } %>
-
-        <%= link_to(
-          raw('<i class="icon-pencil icon-large"></i>'),
-          edit_curation_concern_article_path(article),
-            :class=> 'itemicon itemedit btn pull-right',
-            :title => 'Edit Article'
-          ) if can? :edit, article %>
-      <% end -%>
-    </div>
-
-  </div>
+  <%= render :partial => 'catalog/_index_partials/identifier_and_action', locals: {document: article, counter: article_counter} %>
 
   <div class="row-fluid">
 

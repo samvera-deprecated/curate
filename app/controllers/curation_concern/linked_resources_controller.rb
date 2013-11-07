@@ -8,7 +8,6 @@ class CurationConcern::LinkedResourcesController < CurationConcern::BaseControll
 
   self.excluded_actions_for_curation_concern_authorization = [:new, :create]
 
-
   def new
     respond_with(curation_concern)
   end
@@ -24,6 +23,26 @@ class CurationConcern::LinkedResourcesController < CurationConcern::BaseControll
     end
   end
 
+  def edit
+    respond_with(curation_concern)
+  end
+
+  def update
+    if actor.update
+      respond_with([:curation_concern, curation_concern])
+    else
+      respond_with([:curation_concern, curation_concern]) { |wants|
+        wants.html { render 'edit', status: :unprocessable_entity }
+      }
+    end
+  end
+
+  def destroy
+    parent = curation_concern.batch
+    flash[:notice] = "Deleted #{curation_concern}"
+    curation_concern.destroy
+    respond_with([:curation_concern, parent])
+  end
 
   def curation_concern
     @curation_concern ||=
@@ -33,7 +52,7 @@ class CurationConcern::LinkedResourcesController < CurationConcern::BaseControll
       LinkedResource.new(params[:linked_resource])
     end
   end
-  protected :curation_concern
+  helper_method :curation_concern
 
   def attach_action_breadcrumb
     add_breadcrumb "#{parent.human_readable_type}", polymorphic_path([:curation_concern, parent])
