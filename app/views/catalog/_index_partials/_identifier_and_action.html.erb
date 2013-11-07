@@ -2,10 +2,7 @@
 <div class="row-fluid identifier-and-action">
   <div class="span2 list-number">
     <%= document_counter_with_offset(counter) if defined?(counter) %>
-    <p class="resource-type">
-      <%= render_index_field_value document: solr_doc, field: 'human_readable_type_tesim' %>
-      <%= render_index_field_value document: solr_doc, field: 'desc_metadata__resource_type_tesim' %>
-    </p>
+    <%= render :partial => 'catalog/_index_partials/type_display', locals: {document: document} %>
   </div>
 
   <div class="span6">
