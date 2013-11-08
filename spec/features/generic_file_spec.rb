@@ -59,6 +59,49 @@ describe 'Uploading Generic File' do
     end
   end
 
+  context 'file roleback' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:curation_concern) { FactoryGirl.create(:generic_work, user: user) }
+    let(:image_file_1) { File.join(fixture_path, 'files/image.png') }
+    let(:image_file_2) { File.join(fixture_path, 'files/image_2.png') }
+
+    before do
+      curation_concern.save!
+      login_as(user)
+    end
+    it 'should change versions correctly' do
+      visit new_curation_concern_generic_file_path(curation_concern)
+
+      within("form.new_generic_file") do
+        fill_in("Title", with: 'Test Image')
+        attach_file("Upload a file", image_file_1)
+        click_on("Attach to Generic Work")
+      end
+      visit curation_concern_generic_work_path(curation_concern)
+      generic_file = curation_concern.generic_files.first
+      visit edit_curation_concern_generic_file_path(generic_file)
+      within("form.edit_generic_file") do
+        attach_file("Upload a file", image_file_2)
+        click_on("Update Attached File")
+      end
+
+      visit curation_concern_generic_work_path(curation_concern)
+      page.should have_link('image_2.png')
+      page.should_not have_link('image.png')
+
+      visit versions_curation_concern_generic_file_path(generic_file)
+      within "form.edit_generic_file" do
+        within '#generic_file_version' do
+          find("option[value='content.0']").select_option
+        end
+        click_on 'Rollback to selected File'
+      end
+
+      visit curation_concern_generic_work_path(curation_concern)
+      page.should_not have_link('image_2.png')
+      page.should have_link('image.png')
+    end
+  end
 
   def upload_my_file(work, visibility)
     login_as another_user
