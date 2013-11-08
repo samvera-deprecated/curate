@@ -14,11 +14,38 @@ with_git("Initial commit")
 
 with_git("Adding curate gem") do
   gem 'curate', "~> <%= Curate::VERSION %>"
+end
+
+HELPFUL_DEVELOPMENT_TOOLS =
+  <<-QUESTION_TO_ASK
+Would you like to include some helfpul development tools? (i.e. better_errors, binding_of_caller, quiet_assets)
+
+http://rubygems.org/gems/better_errors
+http://rubygems.org/gems/quiet_assets
+http://rubygems.org/gems/binding_of_caller
+QUESTION_TO_ASK
+
+if yes_with_banner?(HELPFUL_DEVELOPMENT_TOOLS)
+  with_git("Adding better_errors gem") do
+    gem 'better_errors', group: :development
+  end
+
+  with_git("Adding binding_of_caller gem") do
+    gem 'binding_of_caller', group: :development
+  end
+
+  with_git("Adding quiet_assets gem") do
+    gem 'quiet_assets', group: :development
+  end
+
+end
+
+with_git("Results of `bundle install`") do
   run 'bundle install'
 end
 
 DOI_QUESTION =
-<<-QUESTION_TO_ASK
+  <<-QUESTION_TO_ASK
 Would you like to allow remote minting of Digital Object Identifiers (DOI)s?
 
 More information at http://simple.wikipedia.org/wiki/Doi
@@ -33,7 +60,7 @@ with_git("Install curate gem with#{with_doi_answer ? '' : 'out' } DOI support\n\
 end
 
 JETTY_QUESTION =
-<<-QUESTION_TO_ASK
+  <<-QUESTION_TO_ASK
 Would you like to use jettywrapper for your SOLR and Fedora?
 
 More information at https://github.com/projecthydra/jettywrapper/
