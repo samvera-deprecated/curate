@@ -11,10 +11,12 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
 
-    map.creator(in: RDF::DC)
+    map.creator(in: RDF::DC) do |index|
+      index.as :stored_searchable, :facetable
+    end
 
     map.contributor(in: RDF::DC) do |index|
-      index.as :stored_searchable
+      index.as :stored_searchable, :facetable
     end
     # TODO use marcrels instead
     map.contributor_role(in: RDF::EtdMs, to: 'role')

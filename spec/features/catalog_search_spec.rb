@@ -66,6 +66,25 @@ describe "Search for a work" do
     end
   end
 
+  context "Facet - Cancel bar" do
+    let(:user) { FactoryGirl.create(:user) }
+    let!(:collection) { FactoryGirl.create(:public_collection, user: user, title: 'Collected Stuff') }
+    let!(:work1) { FactoryGirl.create(:generic_work, user: user, title: 'Work 1') }
+    let!(:work2) { FactoryGirl.create(:generic_work, user: user, title: 'Work 2') }
+    before do
+      login_as(user)
+      add_to_collection(work1)
+      add_to_collection(work2)
+    end
+    it "should display collection title and not PID" do
+      visit catalog_index_path
+      within "ul#facets" do
+        click_link "Collected Stuff"
+      end
+      page.should have_content("Collected Stuff X")
+    end
+  end
+
   protected
   def create_collection
     visit('/')
@@ -88,6 +107,17 @@ describe "Search for a work" do
       select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
       check("I have read and accept the contributor license agreement")
       click_button("Create Image")
+    end
+  end
+
+  def add_to_collection(work)
+    visit catalog_index_path
+    within "#document_#{work.noid}" do
+      click_on 'Add to Collection'
+    end
+    within "#main form" do
+      select('Collected Stuff')
+      click_on 'Add'
     end
   end
 
