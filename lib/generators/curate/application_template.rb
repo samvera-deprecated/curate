@@ -13,7 +13,7 @@ end
 with_git("Initial commit")
 
 with_git("Adding curate gem") do
-  gem 'curate', "~> 0.5.2"
+  gem 'curate', "~> 0.5.3"
 end
 
 HELPFUL_DEVELOPMENT_TOOLS =
