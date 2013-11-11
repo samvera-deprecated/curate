@@ -6,7 +6,7 @@ describe Person do
     subject { FactoryGirl.create(:person_with_user) }
     its(:user) { should be_instance_of User }
     it '#profile' do
-      expect(subject.profile).to be_instance_of Collection
+      expect(subject.profile).to be_instance_of Profile
       expect(subject.profile.depositor).to eq subject.user.to_s
       expect(subject.profile.title).to_not be_nil
       expect(subject.profile.read_groups).to eq [Hydra::AccessControls::AccessRight::PERMISSION_TEXT_VALUE_PUBLIC]

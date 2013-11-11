@@ -23,7 +23,7 @@ class Account
   delegate :person, to: :user
 
   def profile
-    @profile ||= person.profile || person.build_profile(title: profile_title, resource_type: 'Profile')
+    @profile ||= person.profile || person.build_profile(title: profile_title)
   end
 
   class_attribute :person_attribute_names

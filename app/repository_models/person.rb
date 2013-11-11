@@ -12,7 +12,7 @@ class Person < ActiveFedora::Base
   has_file_datastream :name => "medium"
   has_file_datastream :name => "thumbnail"
 
-  belongs_to :profile, property: :has_profile, class_name: 'Collection'
+  belongs_to :profile, property: :has_profile, class_name: 'Profile'
 
   attr_accessor :mime_type
   makes_derivatives :generate_derivatives

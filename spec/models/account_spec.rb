@@ -112,7 +112,7 @@ describe Account do
               subject.save
             }.to change(User, :count).by(1)
           }.to change(Person, :count).by(1)
-        }.to change(Collection, :count).by(1)
+        }.to change(Profile, :count).by(1)
 
         user = subject.user.reload
         expect(user.name).to eq(expected_name)
@@ -144,7 +144,7 @@ describe Account do
               subject.save
             }.to_not change(User, :count)
           }.to_not change(Person, :count)
-        }.to_not change(Collection, :count)
+        }.to_not change(Profile, :count)
         expect(subject.errors).to_not be_empty
       end
     end

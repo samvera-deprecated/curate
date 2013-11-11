@@ -3,6 +3,11 @@ require 'spec_helper'
 describe Collection do
   let(:reloaded_subject) { Collection.find(subject.pid) }
 
+  it 'can be part of a collection' do
+    expect(subject.can_be_member_of_collection?(double)).to be_true
+  end
+
+
   it 'can contain another collection' do
     another_collection = FactoryGirl.create(:collection)
     subject.members << another_collection
@@ -38,39 +43,16 @@ describe Collection do
   end
 
   describe "to_solr on a saved object" do
-    before {subject.save(validate: false)}
     let(:solr_doc) {subject.to_solr}
+    it "should have a generic_type_sim" do
+     solr_doc['generic_type_sim'].should == ['Collection']
+    end
 
-    describe "when profile is set" do
-      before { subject.resource_type = 'Profile' }
-      it "should have field" do
-       solr_doc['desc_metadata__resource_type_sim'].should == [subject.human_readable_type]
-       solr_doc['desc_metadata__resource_type_tesim'].should == [subject.human_readable_type]
-       solr_doc['generic_type_sim'].should == ['Collection']
-      end
-    end
-    describe "when profile isn't set" do
-      it "should have field" do
-       solr_doc['desc_metadata__resource_type_sim'].should == [subject.human_readable_type]
-       solr_doc['desc_metadata__resource_type_tesim'].should == [subject.human_readable_type]
-       solr_doc['generic_type_sim'].should == ['Collection']
-      end
-    end
   end
 
   describe '#human_readable_type' do
-    context "when profile is set" do
-      it "indicates profile" do
-        subject.resource_type = 'Profile'
-        subject.save(validate: false)
-        subject.human_readable_type.should == 'Profile'
-      end
-    end
-
-    context "when profile isn't set" do
-      it "indicates collection" do
-        subject.human_readable_type.should == 'Collection'
-      end
+    it "indicates collection" do
+      subject.human_readable_type.should == 'Collection'
     end
   end
 
