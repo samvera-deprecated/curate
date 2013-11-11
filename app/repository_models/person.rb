@@ -89,7 +89,7 @@ class Person < ActiveFedora::Base
 
   def gravatar_link
     return @gravatar_link unless @gravatar_link.blank?
-    @gravatar_link = File.join(GRAVATAR_URL, email_hash(self.email || user.email), "?s=300")
+    @gravatar_link = File.join(GRAVATAR_URL, email_hash(self.email), "?s=300")
     @gravatar_link += "&d=" + File.join(GRAVATAR_URL, email_hash(self.alternate_email), "?s=300") unless self.alternate_email.blank?
     @gravatar_link
   end
