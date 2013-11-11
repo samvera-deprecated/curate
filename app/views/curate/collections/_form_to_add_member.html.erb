@@ -9,7 +9,7 @@
         <%= label_tag :collectible_id, "A Collection:" %>
       </span>
       <div class="controls">
-        <%= select_tag :collection_id, options_from_collection_for_select(@collection_options, "pid", "title"), include_blank: true, class: 'input-xlarge' %>
+        <%= select_tag :collection_id, options_from_collection_for_select(@collection_options.reject {|n| n == collectible}, "pid", "title"), include_blank: true, class: 'input-xlarge' %>
       </div>
     </div>
 
