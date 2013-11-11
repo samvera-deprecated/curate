@@ -63,7 +63,7 @@ class Curate::CollectionsController < ApplicationController
   end
 
   def remove_member
-    @collection = Collection.find(params[:id])
+    @collection = ActiveFedora::Base.find(params[:id], cast: true)
     item = ActiveFedora::Base.find(params[:item_id], cast:true)
     @collection.remove_member(item)
     redirect_to params.fetch(:redirect_to) { collection_path(params[:id]) }
@@ -82,7 +82,7 @@ class Curate::CollectionsController < ApplicationController
     id = id_from_params(:collection_id)
     id ||= id_from_params(:profile_collection_id)
     return nil unless id
-    @collection = Collection.find(id)
+    @collection = ActiveFedora::Base.find(id, cast: true)
     authorize! :update, @collection
   end
 
