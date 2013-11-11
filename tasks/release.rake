@@ -1,6 +1,6 @@
-task :release => ['release:bump']
+task :release_curate => ['release_curate:bump']
 
-namespace :release do
+namespace :release_curate do
   task :init do
     require 'curate/version'
     require 'bundler/gem_helper'
