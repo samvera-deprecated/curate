@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Adding a section to a Profile: ' do
 
   context 'logged in user' do
-    let(:account) { FactoryGirl.create(:account, display_name: 'Bilbo Baggins') }
+    let(:account) { FactoryGirl.create(:account, name: 'Bilbo Baggins') }
     let(:user) { account.user }
     before { login_as(user) }
   

@@ -101,7 +101,7 @@ This generator makes the following changes to your application:
   end
 
   def inject_curate_user
-    inject_into_class 'app/models/user.rb', 'User' do
+    inject_into_file 'app/models/user.rb', after: /include Sufia\:\:User.*$/ do
       "\n  include Curate::UserBehavior\n"
     end
   end
