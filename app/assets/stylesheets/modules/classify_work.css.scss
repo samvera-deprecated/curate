@@ -1,13 +1,55 @@
+@import 'global-variables';
+
+/* Aligning content types by leveraging text-align:justify
+  http://www.barrelny.com/blog/text-align-justify-and-rwd/
+*/
+
 .classify-work {
   list-style-type:none;
+  text-align: justify;
+  font-size: 0.1px;
+  margin:0 0 2em;
 }
 
+/* 2 Column */
 .classify-work > .work-type {
   border:1px solid #EEE;
-  margin-bottom:2em;
+  box-sizing:border-box;
+  display:inline-block;
+  font-size:$baseFontSize;
   padding:.5em;
   position:relative;
   text-align:center;
+  margin:1em 4%;
+  width:40%;
+}
+
+/* 3 Column */
+@media (min-width: 600px){
+  .classify-work > .work-type {
+    margin:1em 2%;
+    width:29%;
+  }
+}
+
+/* 4 Column */
+@media (min-width: 1000px){
+  .classify-work > .work-type {
+    margin:1em 2%;
+    width:21%;
+  }
+}
+
+/* 5 Column */
+@media (min-width: 1200px){
+  .classify-work > .work-type {
+    margin:1em 1%;
+    width:18%;
+  }
+}
+
+.classify-work > .placeholder {
+  border-color:transparent;
 }
 
 .classify-work > .upcoming {
