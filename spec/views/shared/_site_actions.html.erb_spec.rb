@@ -20,8 +20,8 @@ describe 'shared/_site_actions.html.erb' do
 
   context 'logged in' do
     let(:person) { double }
-    let(:display_name) { 'My Display Name' }
-    let(:current_user) { double(display_name: display_name, person: person) }
+    let(:name) { 'My Display Name' }
+    let(:current_user) { double(name: name, person: person) }
     it 'renders a link to create a new user session' do
       expect(rendered).to_not have_login_section
       expect(rendered).to have_add_content_section do
@@ -34,7 +34,7 @@ describe 'shared/_site_actions.html.erb' do
       end
       expect(rendered).to have_my_actions_section do
         with_tag '.my-actions' do
-          with_tag 'a.user-display-name', text: /#{display_name}/
+          with_tag 'a.user-display-name', text: /#{name}/
           with_tag '.dropdown-menu' do
             with_tag 'a.my-works'
             with_tag 'a.my-collections', with: { href: collections_path}

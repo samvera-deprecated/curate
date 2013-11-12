@@ -27,7 +27,7 @@
   </div>
   <div class="btn-group my-actions">
     <a class="btn btn-primary dropdown-toggle user-display-name" data-toggle="dropdown" href="#">
-      <%= current_user.display_name.blank? ? 'Me' : current_user.display_name %>
+      <%= current_user.name.blank? ? 'Me' : current_user.name %>
     <span class="caret"></span>
     </a>
     <ul class="dropdown-menu" data-no-turbolink="true">

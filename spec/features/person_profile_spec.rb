@@ -4,7 +4,7 @@ describe 'Profile for a Person: ' do
 
   context 'logged in user' do
     let(:password) { FactoryGirl.attributes_for(:user).fetch(:password) }
-    let(:account) { FactoryGirl.create(:account, display_name: 'Iron Man') }
+    let(:account) { FactoryGirl.create(:account, name: 'Iron Man') }
     let(:user) { account.user }
     let(:person) { account.person }
     before { login_as(user) }
@@ -54,7 +54,7 @@ describe 'Profile for a Person: ' do
 
   context 'A person when logged in' do
     let(:password) { FactoryGirl.attributes_for(:user).fetch(:password) }
-    let(:account) { FactoryGirl.create(:account, display_name: 'Iron Man') }
+    let(:account) { FactoryGirl.create(:account, name: 'Iron Man') }
     let(:user) { account.user }
     let(:person) { account.person }
     let(:image_file){ Rails.root.join('../fixtures/files/image.png') }

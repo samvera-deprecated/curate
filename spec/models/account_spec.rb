@@ -155,7 +155,7 @@ describe Account do
     subject { Account.new(user) }
 
     it 'has a default title for the profile' do
-      subject.name.should be_nil
+      subject.name.should == user.name
       subject.profile.title.should == user.name
     end
   end

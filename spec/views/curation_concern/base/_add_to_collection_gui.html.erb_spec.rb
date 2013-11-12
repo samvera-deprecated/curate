@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'curation_concern/base/_add_to_collection_gui' do
   let(:curation_concern) { FactoryGirl.create(:generic_work) }
-  let(:current_user) { double(display_name: display_name, person: person) }
-  let(:display_name) { 'My Display Name'}
+  let(:current_user) { double(name: name, person: person) }
+  let(:name) { 'My Display Name'}
   let(:person) { FactoryGirl.create(:person_with_user) }
   let(:user) { person.user }
 

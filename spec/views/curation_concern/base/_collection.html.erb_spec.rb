@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'curation_concern/base/_collection.html.erb' do
   let(:curation_concern) { FactoryGirl.create(:generic_work, user: user) }
-  let(:current_user) { double(display_name: display_name, person: person) }
-  let(:display_name) { 'My Display Name'}
+  let(:current_user) { double(name: name, person: person) }
+  let(:name) { 'My Display Name'}
   let(:person) { FactoryGirl.create(:person_with_user) }
   let(:user) { person.user }
   let(:collection) { FactoryGirl.create(:collection, user: user, title: 'Collection 1') }

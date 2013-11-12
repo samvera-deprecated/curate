@@ -2,9 +2,7 @@ module Curate
   module UserBehavior
     module Base
       extend ActiveSupport::Concern
-      included do
-        alias_attribute :name, :display_name
-      end
+
       def agree_to_terms_of_service!
         update_column(:agreed_to_terms_of_service, true)
       end
@@ -17,6 +15,9 @@ module Curate
         # override
       end
 
+      def name
+        read_attribute(:name) || user_key
+      end
     end
   end
 end
