@@ -61,7 +61,7 @@ describe "Search for a work" do
         fill_in "Search Curate", with: image_title
         click_button("keyword-search-submit")
       end
-      href_link = add_member_form_collections_path(collectible_id: "sufia:#{noid}")
+      href_link = add_member_form_collections_path(collectible_id: "#{Sufia.config.id_namespace}:#{noid}")
       page.should have_link("Add to Collection", href: href_link)
     end
   end
