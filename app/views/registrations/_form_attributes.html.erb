@@ -1,0 +1,41 @@
+<div class="row">
+
+  <fieldset class="span6">
+    <legend>Personal Information</legend>
+
+    <%= f.input :name %>
+    <%= f.input :date_of_birth %>
+    <%= f.input :gender %>
+    <%= f.input :title %>
+    <%= f.input :personal_webpage %>
+    <%= f.input :blog %>
+
+  </fieldset>
+
+  <fieldset class="span6">
+    <legend>Contact Information</legend>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <p><em>Currently waiting confirmation for: <%= resource.unconfirmed_email %></em></p>
+    <% end %>
+
+    <%= f.input :email, as: :email, required: true %>
+    <%= f.input :alternate_email, as: :email %>
+
+    <%= f.input :campus_phone_number,    as: :tel %>
+    <%= f.input :alternate_phone_number, as: :tel %>
+
+  </fieldset>
+
+</div>
+
+<div class="row with-headroom">
+  <div class="span12">
+    <fieldset class="required">
+      <legend>
+        Attach your profile image
+      </legend>
+      <%= f.input :files, as: :file, label: 'Upload your file' %>
+    </fieldset>
+  </div>
+</div>
