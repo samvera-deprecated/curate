@@ -24,14 +24,16 @@ module CurationConcern
         super
       end
     end
+
+    include Hydra::AccessControls::WithAccessRight
+    include VisibilityOverride
+    require 'morphine'
+    include Morphine
+
     included do
-      include Hydra::AccessControls::WithAccessRight
       validates :embargo_release_date, future_date: true
       before_save :write_embargo_release_date, prepend: true
-      include VisibilityOverride
 
-      require 'morphine'
-      include Morphine
       register :embargoable_persistence_container do
         unless self.class.included_modules.include?('Hydra::AccessControls::Permissions')
           self.class.send(:include, Hydra::AccessControls::Permissions)

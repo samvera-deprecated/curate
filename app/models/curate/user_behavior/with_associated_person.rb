@@ -20,10 +20,16 @@ module Curate
 
       def person
         @person ||= if self.repository_id
-                      Person.find(self.repository_id)
-                    else
-                      Person.new(name: name)
-                    end
+          Person.find(self.repository_id)
+        else
+          Person.new(name: name)
+        end
+      end
+
+      module ClassMethods
+        def attribute_names_for_account
+          ['name', 'password', 'password_confirmation', 'current_password'] + attribute_names
+        end
       end
 
     end

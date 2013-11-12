@@ -7,12 +7,10 @@ module CurationConcern
       tokens.gsub(/\s+/, "").split(',')
     end
 
-    included do
-      unless included_modules.include?(CurationConcern::Model)
-        include CurationConcern::Model
-      end
-      include Hydra::AccessControls::Permissions
+    unless included_modules.include?(CurationConcern::Model)
+      include CurationConcern::Model
     end
+    include Hydra::AccessControls::Permissions
 
     def to_solr(solr_doc={}, opts={})
       super(solr_doc, opts)

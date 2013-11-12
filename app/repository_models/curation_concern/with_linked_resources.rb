@@ -2,10 +2,11 @@ module CurationConcern
   module WithLinkedResources
     extend ActiveSupport::Concern
 
+    unless included_modules.include?(ActiveFedora::RegisteredAttributes)
+      include ActiveFedora::RegisteredAttributes
+    end
+
     included do
-      unless included_modules.include?(ActiveFedora::RegisteredAttributes)
-        include ActiveFedora::RegisteredAttributes
-      end
 
       attribute :linked_resource_urls, multiple: true
 
