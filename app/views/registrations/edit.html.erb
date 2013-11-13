@@ -10,69 +10,9 @@
     </div>
   <% end -%>
 
-  <div class="row">
+  <%= render partial: 'form_attributes', locals: {f: f} %>
 
-    <fieldset class="span6">
-      <legend>Personal Information</legend>
-
-      <%= f.input :name %>
-      <%= f.input :date_of_birth %>
-      <%= f.input :gender %>
-      <%= f.input :title %>
-      <%= f.input :personal_webpage %>
-      <%= f.input :blog %>
-
-    </fieldset>
-
-    <fieldset class="span6">
-      <legend>Contact Information</legend>
-
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <p><em>Currently waiting confirmation for: <%= resource.unconfirmed_email %></em></p>
-      <% end %>
-
-      <%= f.input :email, as: :email, required: true %>
-      <%= f.input :alternate_email, as: :email %>
-
-      <%= f.input :campus_phone_number,    as: :tel %>
-      <%= f.input :alternate_phone_number, as: :tel %>
-
-    </fieldset>
-
-  </div>
-
-  <div class="row with-headroom">
-    <div class="span12">
-      <fieldset class="required">
-        <legend>
-          Attach your profile image
-        </legend>
-        <%= f.input :files, as: :file, label: 'Upload your file' %>
-      </fieldset>
-    </div>
-  </div>
-
-  <div class="row">
-
-    <fieldset class="span12">
-      <legend>Change Your Password</legend>
-
-      <%= f.input :password, label: "New password", input_html: { autocomplete: "off" } %>
-      <%= f.input :password_confirmation, label: "Repeat your new password", input_html: { autocomplete: "off" } %>
-    </fieldset>
-
-  </div>
-
-  <div class="row">
-    <fieldset class="span12">
-      <legend>Authorize Your Changes</legend>
-      <p><em>Enter your current password to confirm your changes</em></p>
-
-      <%= f.input :current_password, required: true %>
-
-    </fieldset>
-  </div>
-
+  <%= render partial: 'form_password_management', locals: {f: f} %>
 
   <div class="row">
     <div class="span12 form-actions">
@@ -82,11 +22,4 @@
 
 <% end %>
 
-<h2>Account Deactivation</h2>
-
-<div class="row">
-  <div class="span12 form-actions">
-    <%= button_to "Cancel My Account", cancel_registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %>
-  </div>
-</div>
-
+<%= render partial: 'form_account_deactivation', locals: { resource_name: resource_name } %>
