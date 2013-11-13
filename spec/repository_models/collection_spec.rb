@@ -58,9 +58,13 @@ describe Collection do
 
   describe '#add_member' do
     it 'adds the member to the collection and returns true' do
-      work = FactoryGirl.create(:generic_work)
+      work = FactoryGirl.create(:generic_work, title: 'Work 1')
       subject.add_member(work).should be_true
       reloaded_subject.members.should == [work]
+      
+      reloaded_work = reload_work('Work 1')
+      reloaded_work.collections.should == [subject]
+      reloaded_work.to_solr["collection_sim"].should == [subject.pid]
     end
 
     it 'returns false if there is nothing to add' do
@@ -70,7 +74,7 @@ describe Collection do
     it 'returns false if it failed to save' do
       subject.save
       work = FactoryGirl.create(:generic_work)
-      subject.should_receive(:save).and_return(false)
+      subject.stub(:save).and_return(false)
       subject.add_member(work).should be_false
       reloaded_subject.members.should == []
     end
@@ -78,13 +82,21 @@ describe Collection do
 
   describe '#remove_member' do
     it 'removes the member from the collection and returns true' do
-      work = FactoryGirl.create(:generic_work)
+      work = FactoryGirl.create(:generic_work, title: 'Work 2')
       subject.add_member(work)
       subject.members.should == [work]
+
+      reloaded_work = reload_work('Work 2')
+      reloaded_work.collections.should == [subject]
+      reloaded_work.to_solr["collection_sim"].should == [subject.pid]
 
       subject.remove_member(work).should be true
       subject.save!
       reloaded_subject.members.should == []
+
+      reloaded_work = reload_work('Work 2')
+      reloaded_work.collections.should == []
+      reloaded_work.to_solr["collection_sim"].should == []
     end
 
     it 'returns false if there is nothing to delete' do
@@ -97,6 +109,11 @@ describe Collection do
       subject.remove_member(work).should be_false
       reloaded_subject.members.should == []
     end
+  end
+
+  private
+  def reload_work(title)
+    GenericWork.find(:all).select{|n| n.title == title}.first
   end
 end
 
