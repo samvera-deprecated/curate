@@ -37,7 +37,7 @@ task :generate do
     system_with_command_output('rails new ' + DUMMY_APP)
     puts "Updating gemfile"
 
-    `echo "gem 'curate', :path=>'../../../curate'
+    `echo "gem 'curate', :path=>'../../../#{File.expand_path('../../', __FILE__).split('/').last}'
 gem 'capybara'
 gem 'launchy'
 gem 'factory_girl_rails'
