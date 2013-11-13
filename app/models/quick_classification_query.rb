@@ -11,7 +11,7 @@ class QuickClassificationQuery
   end
 
   def all
-    (registered_curation_concern_names & normalized_curation_concern_names).collect(&:constantize)
+    (registered_curation_concern_names & normalized_curation_concern_names).sort.collect(&:constantize)
   end
 
   private

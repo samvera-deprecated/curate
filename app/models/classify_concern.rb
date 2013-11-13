@@ -16,7 +16,7 @@ class ClassifyConcern
   )
 
   def all_curation_concern_classes
-    registered_curation_concern_types.collect(&:constantize)
+    registered_curation_concern_types.sort.collect(&:constantize)
   end
 
   def possible_curation_concern_types
