@@ -3,7 +3,7 @@ class NotificationMailer < ActionMailer::Base
   def notify(help_request)
     mail(from: sender_email(help_request),
         to: recipients_list,
-        subject: "#{t('sufia.product_name')}: Help Request - #{help_request.id}",
+        subject: "#{t('sufia.product_name')}: Help Request - #{help_request.id} [#{Rails.env}]",
         body: prepare_body(help_request))
   end
 

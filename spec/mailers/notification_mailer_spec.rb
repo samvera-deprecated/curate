@@ -32,7 +32,7 @@ describe NotificationMailer do
   }
 
   let(:subject){
-    "#{I18n.t('sufia.product_name')}: Help Request - #{help_request_id}"
+    "#{I18n.t('sufia.product_name')}: Help Request - #{help_request_id} [#{Rails.env}]"
   }
 
   let(:sender_email_id){
