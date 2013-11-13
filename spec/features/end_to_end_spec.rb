@@ -160,7 +160,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     let(:contributors) { ["D'artagnan", "Porthos", "Athos", 'Aramas'] }
     let(:agreed_to_terms_of_service) { true }
     let(:title) {"Somebody Special's Generic Work" }
-    it 'handles contributor', js: true do
+    xit 'handles contributor', js: true do
       login_as(user)
       visit new_curation_concern_generic_work_path
       create_generic_work(

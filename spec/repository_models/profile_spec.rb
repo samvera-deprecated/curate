@@ -7,4 +7,7 @@ describe Profile do
       subject.can_be_member_of_collection?
     }.to raise_error(NoMethodError)
   end
+
+  it_behaves_like 'a_collection_like_object'
+
 end

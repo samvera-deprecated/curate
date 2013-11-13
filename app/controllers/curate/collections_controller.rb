@@ -1,4 +1,16 @@
 class Curate::CollectionsController < ApplicationController
+  class CollectionsControllerResource < CanCan::ControllerResource
+    def initialize(*args)
+      super
+      if @controller.params['add_to_profile'].present?
+        @options[:class] = 'ProfileSection'
+      end
+    end
+  end
+  def self.cancan_resource_class
+    CollectionsControllerResource
+  end
+
   include Blacklight::Catalog
   # Hydra::CollectionsControllerBehavior must come after Blacklight::Catalog
   # so that the update method is overridden.
@@ -101,9 +113,16 @@ class Curate::CollectionsController < ApplicationController
 
   def after_create
     add_to_profile
-    respond_to do |format|
-      format.html { redirect_to collections_path, notice: 'Collection was successfully created.' }
-      format.json { render json: @collection, status: :created, location: @collection }
+    if @collection.is_a?(ProfileSection)
+      respond_to do |format|
+        format.html { redirect_to person_path(current_user.person), notice: "#{@collection.human_readable_type} was successfully created." }
+        format.json { render json: @collection, status: :created, location: @collection }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to collections_path, notice: "#{@collection.human_readable_type} was successfully created." }
+        format.json { render json: @collection, status: :created, location: @collection }
+      end
     end
   end
 
@@ -129,5 +148,5 @@ class Curate::CollectionsController < ApplicationController
   def collections
     self
   end
-end
 
+end
