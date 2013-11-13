@@ -10,6 +10,8 @@ module CurationConcern
 
     def add_member(collectible)
       if can_add_to_members?(collectible)
+        collectible.collections << self
+        collectible.save
         self.members << collectible
         self.save
       end
@@ -17,6 +19,8 @@ module CurationConcern
 
     def remove_member(collectible)
       return false unless self.members.include?(collectible)
+      collectible.collections.delete(self)
+      collectible.save
       self.members.delete(collectible)
       self.save
     end
