@@ -48,6 +48,7 @@ gem 'rspec-html-matchers'
 gem 'database_cleaner', '< 1.1.0', :group => :test
 gem 'test_after_commit', group: :test
 gem 'poltergeist', group: :test
+gem 'coco', group: :test
 gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'" >> #{DUMMY_APP}/Gemfile`
 
     puts "Copying generator"
@@ -66,7 +67,7 @@ gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'" >> #
   puts "Done generating test app"
 end
 
-task :spec => :generate do
+task :spec do
   Bundler.with_clean_env do
     within_test_app do
       Rake::Task['rspec'].invoke
