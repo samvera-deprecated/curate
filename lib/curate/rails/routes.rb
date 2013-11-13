@@ -3,7 +3,7 @@ module ActionDispatch::Routing
 
     def curate_for(opts={})
       scope module: 'curate' do
-        resources 'collections', 'profiles', controller: 'collections' do
+        resources 'collections', 'profiles', 'profile_sections', controller: 'collections' do
           collection do
             get :add_member_form
             put :add_member

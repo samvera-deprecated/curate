@@ -41,7 +41,7 @@
 
   <%= hidden_collection_members %>
 
-  <%= hidden_field_tag(:add_to_profile, @add_to_profile) %>
+  <%= hidden_field_tag(:add_to_profile, @add_to_profile) if @add_to_profile %>
 
   <div class="form-actions">
     <%= f.submit class: 'btn btn-primary' %>

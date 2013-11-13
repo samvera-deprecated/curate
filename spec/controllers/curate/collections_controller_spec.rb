@@ -51,18 +51,22 @@ describe Curate::CollectionsController do
       user.profile.members.should == []
 
       expect {
-        post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
-      }.to change{Collection.count}.by(1)
+        expect {
+          post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
+        }.to change{ProfileSection.count}.by(1)
+      }.to_not change{Collection.count}
 
       reloaded_profile.members.should == [assigns(:collection)]
     end
 
-    it "graceful recovery if no profile exists" do
+    it "gracefully recovery if no profile exists" do
       user.profile.should be_nil
       expect {
-        post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
-      }.to change{Collection.count}.by(1)
-      expect(response).to redirect_to collections_path
+        expect {
+          post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
+        }.to change{ProfileSection.count}.by(1)
+      }.to_not change{Collection.count}
+      expect(response).to redirect_to person_path(user.person)
     end
   end
 
