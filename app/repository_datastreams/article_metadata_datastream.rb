@@ -9,10 +9,10 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     end
 
     map.creator(in: RDF::DC) do |index|
-      index.as :stored_searchable
+      index.as :stored_searchable, :facetable
     end
     map.contributor(in: RDF::DC) do |index|
-      index.as :stored_searchable
+      index.as :stored_searchable, :facetable
     end
     map.repository_name(to: "contributor#repository", in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable
