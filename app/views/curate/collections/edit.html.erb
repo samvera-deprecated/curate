@@ -1,4 +1,4 @@
 <% content_for :page_header do %>
-  <h1><%= @collection %> (<%= @collection.human_readable_type)%></h1>
+  <h1><%= @collection %> <span class="human_readable_type">(<%= @collection.human_readable_type %>)</span></h1>
 <% end %>
 <%= render 'form' %>
