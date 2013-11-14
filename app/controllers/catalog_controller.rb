@@ -359,6 +359,8 @@ class CatalogController < ApplicationController
       super
       solr_parameters[:fq] ||= []
       solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:GenericFile\""
+      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Profile\""
+      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:ProfileSection\""
       return solr_parameters
     end
 
