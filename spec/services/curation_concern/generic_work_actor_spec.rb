@@ -123,11 +123,10 @@ describe CurationConcern::GenericWorkActor do
         before do
           curation_concern.apply_depositor_metadata(user.user_key)
           curation_concern.save!
-          collection1.members << curation_concern
-          collection1.save
+          collection1.add_member(curation_concern)
         end
+
         it "should add to collections" do
-          collection1.save # Had to call .save again to make this persist properly!? - MZ Sept 2013
           reload = GenericWork.find(curation_concern.pid)
           expect(reload.collections).to eq [collection1]
 

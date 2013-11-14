@@ -16,17 +16,17 @@ shared_examples 'is_a_curation_concern_model' do
   describe 'its test support factories', factory_verification: true do
     it {
       expect {
-        FactoryGirl.create(default_work_factory_name).destroy
+        FactoryGirl.create(default_work_factory_name)
       }.to_not raise_error
     }
     it {
       expect {
-        FactoryGirl.create(private_work_factory_name).destroy
+        FactoryGirl.create(private_work_factory_name)
       }.to_not raise_error
     }
     it {
       expect {
-        FactoryGirl.create(public_work_factory_name).destroy
+        FactoryGirl.create(public_work_factory_name)
       }.to_not raise_error
     }
   end

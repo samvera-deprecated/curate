@@ -30,7 +30,6 @@ describe "Showing and creating Collections" do
 
   it 'displays a friendly message if user has no collections yet' do
     login_as(user)
-    Collection.delete_all  # Delete the user's auto-generated profile
     visit collections_path
 
     msg = 'You have no collections'

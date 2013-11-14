@@ -11,10 +11,11 @@ describe CurationConcern::CollectionModel do
 
   context '.add_member' do
     let(:collectible?) { nil }
-    let(:proposed_collectible) { double }
+    let(:proposed_collectible) { double(collections: []) }
     subject { klass.new }
     before(:each) {
       proposed_collectible.stub(:can_be_member_of_collection?).with(subject).and_return(collectible?)
+      proposed_collectible.stub(:save).and_return(true)
     }
 
     context 'with itself' do

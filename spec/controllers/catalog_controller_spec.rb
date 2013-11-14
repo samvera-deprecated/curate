@@ -3,18 +3,11 @@ require 'spec_helper'
 describe CatalogController do
 
   describe "when logged in" do
-    before :all do
-      ActiveFedora::Base.destroy_all
-    end
     let(:user) { FactoryGirl.create(:user) }
     let!(:work1) { FactoryGirl.create(:generic_work, user: user) }
     let!(:work2) { FactoryGirl.create(:generic_work) }
     before do
       sign_in user
-    end
-    after do
-      work1.destroy
-      work2.destroy
     end
     context "Searching all works" do
       it "should return all the works" do
@@ -34,9 +27,6 @@ describe CatalogController do
 
     context "index page" do
       let!(:collection) { FactoryGirl.create(:collection, user: user) }
-      after do
-        collection.destroy
-      end
 
       it "assigns options for adding items to collection" do
         get 'index'
@@ -47,9 +37,6 @@ describe CatalogController do
 
     context "when json is requested for autosuggest of related works" do
       let!(:work) { FactoryGirl.create(:generic_work, user: user, title:"All my #{srand}") }
-      after do
-        work.destroy
-      end
       it "should return json" do
         xhr :get, :index, format: :json, q: work.title
         json = JSON.parse(response.body)

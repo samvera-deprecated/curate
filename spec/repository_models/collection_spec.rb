@@ -45,7 +45,7 @@ describe Collection do
   describe "to_solr on a saved object" do
     let(:solr_doc) {subject.to_solr}
     it "should have a generic_type_sim" do
-     solr_doc['generic_type_sim'].should == ['Collection']
+      solr_doc['generic_type_sim'].should == ['Collection']
     end
 
   end
@@ -61,10 +61,10 @@ describe Collection do
       work = FactoryGirl.create(:generic_work, title: 'Work 1')
       subject.add_member(work).should be_true
       reloaded_subject.members.should == [work]
-      
-      reloaded_work = reload_work('Work 1')
-      reloaded_work.collections.should == [subject]
-      reloaded_work.to_solr["collection_sim"].should == [subject.pid]
+
+      work.reload
+      work.collections.should == [subject]
+      work.to_solr["collection_sim"].should == [subject.pid]
     end
 
     it 'returns false if there is nothing to add' do
@@ -86,17 +86,17 @@ describe Collection do
       subject.add_member(work)
       subject.members.should == [work]
 
-      reloaded_work = reload_work('Work 2')
-      reloaded_work.collections.should == [subject]
-      reloaded_work.to_solr["collection_sim"].should == [subject.pid]
+      work.reload
+      work.collections.should == [subject]
+      work.to_solr["collection_sim"].should == [subject.pid]
 
       subject.remove_member(work).should be true
       subject.save!
       reloaded_subject.members.should == []
 
-      reloaded_work = reload_work('Work 2')
-      reloaded_work.collections.should == []
-      reloaded_work.to_solr["collection_sim"].should == []
+      work.reload
+      work.collections.should == []
+      work.to_solr["collection_sim"].should == []
     end
 
     it 'returns false if there is nothing to delete' do
@@ -111,9 +111,4 @@ describe Collection do
     end
   end
 
-  private
-  def reload_work(title)
-    GenericWork.find(:all).select{|n| n.title == title}.first
-  end
 end
-

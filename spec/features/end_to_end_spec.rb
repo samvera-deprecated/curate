@@ -6,9 +6,6 @@ if ENV['JS']
 end
 
 describe 'end to end behavior', FeatureSupport.options(describe_options) do
-  before(:all) {
-    ActiveFedora::Base.destroy_all
-  }
   let(:sign_in_count) { 0 }
   let(:user) {
     FactoryGirl.create(

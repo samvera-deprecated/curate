@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Curate::CollectionsController do
-  before(:all) { Collection.destroy_all }
   let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
 
@@ -147,7 +146,12 @@ describe Curate::CollectionsController do
 
     describe "#add_member failure" do
       it "prints fail message" do
-        Collection.any_instance.should_receive(:save).and_return(false)
+        ActiveFedora::Base.stub(:find).and_call_original # Need to do this for cleanup
+        ActiveFedora::Base.stub(:find).with(collection.pid, anything).and_return(collection)
+        ActiveFedora::Base.stub(:find).with(work.pid, anything).and_return(work)
+
+        collection.stub(:save).and_return(false)
+
         put :add_member, collectible_id: work.pid, collection_id: collection.pid
         expect(flash[:error]).to eq 'Unable to add item to collection.'
         expect(response).to redirect_to(catalog_index_path)

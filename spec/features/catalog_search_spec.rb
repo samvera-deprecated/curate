@@ -26,7 +26,6 @@ end
 
 describe "Search for a work" do
   context "when not logged in" do
-    before { GenericWork.delete_all }
     let!(:public_work) { FactoryGirl.create(:public_generic_work,
       title: "McSweeney's Schlitz wolf, gentrify skateboard occupy Godard Cosby " +
       "sweater Carles cornhole swag next level.")}
