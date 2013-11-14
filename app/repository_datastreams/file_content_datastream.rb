@@ -23,7 +23,7 @@ class FileContentDatastream
     if Curate.configuration.characterization_runner.respond_to?(:call)
       Curate.configuration.characterization_runner
     else
-      nil
+      Sufia.config.fits_path
     end
   end
 
