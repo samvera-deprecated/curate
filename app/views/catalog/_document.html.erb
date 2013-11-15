@@ -7,35 +7,38 @@
 
   <div class="row-fluid">
 
-    <div class="span3">
+    <div class="span2">
       <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: document} %>
     </div>
 
-    <div class="span9">
+    <div class="span10">
       <dl class="attribute-list">
         <% if solr_doc.has?('desc_metadata__contributor_tesim') %>
           <dt>Author(s):</dt>
-        <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__contributor_tesim') %></dd>
-      <% end %>
+          <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__contributor_tesim') %></dd>
+        <% end %>
 
         <% if solr_doc.has?('desc_metadata__description_tesim') %>
           <dt>Description:</dt>
-        <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__description_tesim'), length: 150) %></dd>
-      <% end %>
+          <dd><%= truncate(render_index_field_value(document: solr_doc, field: 'desc_metadata__description_tesim'), length: 150) %></dd>
+        <% end %>
 
         <% if solr_doc.has?('desc_metadata__publisher_tesim') %>
           <dt>Publisher(s): </dt>
-        <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__publisher_tesim') %></dd>
-      <% end %>
+          <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__publisher_tesim') %></dd>
+        <% end %>
       </dl>
 
-      <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large show-details"></i></a>&nbsp;
+      <a href="" title="Click for more details"><i id="expand_<%= noid %>" class="icon-plus icon-large show-details"></i></a>
 
       <dl class="attribute-list extended-attributes hide">
         <% index_fields.each do |solr_fname, field| -%>
-          <% if should_render_index_field? document.inner_object.solr_doc, field %>
-            <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label :field => solr_fname %></dt>
-            <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value :document=>document.inner_object.solr_doc, :field => solr_fname %></dd>
+          <%# NOTE: Attribute display shouldn't come to this %>
+          <% unless ['desc_metadata__contributor_tesim', 'desc_metadata__creator_tesim', 'desc_metadata__description_tesim', 'desc_metadata__publisher_tesim', 'desc_metadata__title_tesim',].include? solr_fname %>
+            <% if should_render_index_field? solr_doc, field %>
+              <dt class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_label field: solr_fname %></dt>
+              <dd class="blacklight-<%= solr_fname.parameterize %>"><%= render_index_field_value document: solr_doc, field: solr_fname %></dd>
+            <% end -%>
           <% end -%>
         <% end -%>
       </dl>
