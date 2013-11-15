@@ -41,7 +41,7 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
-      qf: solr_name("desc_metadata__title", :stored_searchable),
+      qf: [solr_name("desc_metadata__title", :stored_searchable), solr_name("desc_metadata__name", :stored_searchable)],
       qt: "search",
       rows: 10
     }
