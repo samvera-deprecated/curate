@@ -81,7 +81,7 @@ module Curate::CollectionsHelper
 
   def collection_member_actions(collection, work)
     content_tag :span, class: 'collection-member-actions' do
-      button_to remove_member_collections_path(id: collection.to_param, item_id: work.pid), confirm: 'Are you sure you want to remove this item from the collection?', method: :put, id: "remove-#{work.noid}", class: 'btn btn-danger', form_class: 'remove-member', remote: true do
+      button_to remove_member_collections_path(id: collection.to_param, item_id: work.pid), data: {confirm: 'Are you sure you want to remove this item from the collection?'}, method: :put, id: "remove-#{work.noid}", class: 'btn btn-danger', form_class: 'remove-member', remote: true do
         raw('<i class="icon-white icon-minus"></i> Remove')
       end
     end
