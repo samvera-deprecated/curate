@@ -1,35 +1,7 @@
 <% content_for :layout_name, 'curate_nd, ' %>
 <% content_for :body do %>
 
-  <header id="banner" role="banner">
-    <hgroup>
-      <div id="brand-bar-wrapper">
-        <%= render 'shared/brand_bar' %>
-      </div>
-      <div id="title-bar-wrapper">
-        <div class="container">
-          <div id="title-bar" class="row">
-            <div id="site-search" class="span4">
-
-<%= render 'shared/site_search' if show_site_search? %>
-
-            </div>
-
-            <div id="site-title" class="span4">
-              <h1><%= link_to t('sufia.product_name'), root_path, id: 'home-link' %></h1>
-            </div>
-
-            <nav id="site-actions" class="span4" role="menu">
-
-<%= render 'shared/site_actions' if show_site_actions? %>
-
-            </nav>
-          </div>
-        </div>
-      </div>
-    </hgroup>
-  </header>
-
+  <%= render 'shared/header' %>
 
 <%= render 'shared/flash_message' %>
 
