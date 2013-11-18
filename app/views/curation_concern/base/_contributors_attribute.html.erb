@@ -2,7 +2,7 @@
     <th>Contributor(s)</th>
     <td><ul class='tabular'>
     <% curation_concern.contributors.each do |c| %>
-      <li class="attribute contributors"><%=c.name %></li>
+      <li class="attribute contributors"><%= link_to c.name, person_path(c) %></li>
     <% end %>
     </ul></td>
   </tr>
