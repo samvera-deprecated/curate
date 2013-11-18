@@ -2,6 +2,11 @@
   .dropdown-menu {
     text-align:left;
   }
+
+  // Overriding default boostrap behavior
+  .btn-group + .btn-group {
+    margin-left:0;
+  }
 }
 
 .dropdown-menu {
