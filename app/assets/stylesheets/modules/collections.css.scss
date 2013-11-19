@@ -13,9 +13,21 @@
 }
 
 .collection-member-actions {
+  float:right;
+  min-width:12em;
   position:absolute;
-  top:0;
   right:0;
+  top:0;
+
+  .btn {
+    margin-right:.3em;
+  }
+
+  .btn,
+  .remove-member {
+    float:right;
+    margin-bottom:0;
+  }
 }
 
 .collection-section-heading {

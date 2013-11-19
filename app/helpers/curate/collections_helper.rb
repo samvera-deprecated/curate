@@ -79,11 +79,29 @@ module Curate::CollectionsHelper
     end
   end
 
-  def collection_member_actions(collection, work)
+  def collection_member_actions(collection, member)
     content_tag :span, class: 'collection-member-actions' do
-      button_to remove_member_collections_path(id: collection.to_param, item_id: work.pid), data: {confirm: 'Are you sure you want to remove this item from the collection?'}, method: :put, id: "remove-#{work.noid}", class: 'btn btn-danger', form_class: 'remove-member', remote: true do
-        raw('<i class="icon-white icon-minus"></i> Remove')
+      if member.respond_to?(:members)
+        markup = actions_for_member(collection, member)
+        markup << actions_for_profile_section(collection, member)
+      else
+        actions_for_member(collection, member)
       end
+    end
+  end
+
+  # NOTE: Profile Sections and Collections are being rendered the same way.
+  def actions_for_profile_section(collection, member)
+    if can? :edit, member
+      link_to edit_collection_path(id: member.to_param), class: 'btn' do
+        raw('<i class="icon-pencil"></i> Edit')
+      end
+    end
+  end
+
+  def actions_for_member(collection, member)
+    button_to remove_member_collections_path(id: collection.to_param, item_id: member.pid), data: { confirm: 'Are you sure you want to remove this item from the collection?' }, method: :put, id: "remove-#{member.noid}", class: 'btn btn-danger', form_class: 'remove-member', remote: true do
+      raw('<i class="icon-white icon-minus"></i> Remove')
     end
   end
 

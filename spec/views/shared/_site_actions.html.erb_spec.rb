@@ -29,7 +29,6 @@ describe 'shared/_site_actions.html.erb' do
           with_tag 'a.link-to-full-list', with: { href: new_classify_concern_path }
           with_tag 'a.contextual-quick-classify', minimum: 3
           with_tag 'a.new-collection', with: { href: new_collection_path }, text: 'Add a Collection'
-          with_tag 'a.new-collection', with: { href: new_collection_path(add_to_profile: true) }, text: 'Add a Section to my Profile'
         end
       end
       expect(rendered).to have_my_actions_section do
