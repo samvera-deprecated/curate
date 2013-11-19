@@ -1,4 +1,4 @@
-<%- if document.representative.present? %>
+<%- if document.respond_to?(:representative) && document.representative.present? %>
   <%= image_tag download_path(document.representative, {:datastream_id => 'thumbnail'}), class: "canonical-image"  %>
 <%- else -%>
   <span class="canonical-image"></span>

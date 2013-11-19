@@ -18,7 +18,7 @@ describe 'display thumbnail' do
     it 'shows thumbnail for all related files' do
       login_as(user)
       visit curation_concern_image_path(curation_concern)
-      page.should have_css("img[src$='#{generic_file2.pid}?datastream_id=thumbnail'][class$='thumbnail']")
+      page.should have_css("img[src$='#{generic_file2.to_param}?datastream_id=thumbnail'][class$='thumbnail']")
     end
   end
 
@@ -37,8 +37,8 @@ describe 'display thumbnail' do
       login_as(user)
       visit curation_concern_image_path(curation_concern)
       page.should have_css("img[src$='#{generic_file1.pid}?datastream_id=thumbnail'][class$='representative_image']")
-      page.should have_css("img[src$='#{generic_file1.pid}?datastream_id=thumbnail'][class$='thumbnail']")
-      page.should have_css("img[src$='#{generic_file2.pid}?datastream_id=thumbnail'][class$='thumbnail']")
+      page.should have_css("img[src$='#{generic_file1.to_param}?datastream_id=thumbnail'][class$='thumbnail']")
+      page.should have_css("img[src$='#{generic_file2.to_param}?datastream_id=thumbnail'][class$='thumbnail']")
       page.should_not have_css("img[src$='#{generic_file2.pid}?datastream_id=thumbnail'][class$='representative_image']")
     end
   end
