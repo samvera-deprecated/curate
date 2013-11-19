@@ -54,4 +54,8 @@ class GenericFile < ActiveFedora::Base
   def human_readable_type
     self.class.to_s.demodulize.titleize
   end
+
+  def representative
+    to_param
+  end
 end

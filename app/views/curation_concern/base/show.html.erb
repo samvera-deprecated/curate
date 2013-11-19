@@ -2,7 +2,7 @@
 <% content_for :page_header do %>
   <h1><%= curation_concern %> <span class="human_readable_type">(<%= curation_concern.human_readable_type %>)</span></h1>
 <% end %>
-<%= render partial: 'thumbnail', locals: {generic_file: curation_concern.representative_generic_file_object, dom_class_name: 'representative_image'} %>
+<%= render partial: 'thumbnail', locals: {thumbnail: curation_concern, dom_class_name: 'representative_image'} %>
 <%= render 'attributes', curation_concern: curation_concern %>
 <%= render 'doi', curation_concern: curation_concern %>
 

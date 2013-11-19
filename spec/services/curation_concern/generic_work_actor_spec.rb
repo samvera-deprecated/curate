@@ -40,6 +40,7 @@ describe CurationConcern::GenericWorkActor do
             curation_concern.date_uploaded.should == Date.today
             curation_concern.date_modified.should == Date.today
             curation_concern.depositor.should == user.user_key
+            expect(curation_concern.representative).to_not be_nil
 
             curation_concern.generic_files.count.should == 1
             # Sanity test to make sure the file we uploaded is stored and has same permission as parent.

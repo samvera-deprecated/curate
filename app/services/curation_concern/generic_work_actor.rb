@@ -2,7 +2,7 @@ module CurationConcern
   class GenericWorkActor < CurationConcern::BaseActor
 
     def create
-      super && attach_files && create_linked_resources
+      super && attach_files && create_linked_resources && assign_representative
     end
 
     def update
@@ -61,6 +61,11 @@ module CurationConcern
       true
     rescue ActiveFedora::RecordInvalid
       false
+    end
+
+    def assign_representative
+      curation_concern.representative = curation_concern.generic_file_ids.first
+      curation_concern.save
     end
 
     private

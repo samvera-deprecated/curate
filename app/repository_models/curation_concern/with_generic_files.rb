@@ -12,10 +12,5 @@ module CurationConcern
       generic_files.each(&:destroy)
     end
 
-    def representative_generic_file_object
-      return nil if self.representative.nil?
-      @representative_generic_file_object ||= GenericFile.find(self.representative)
-    end
-
   end
 end

@@ -25,4 +25,14 @@ describe GenericWork do
     end
   end
 
+  context 'Representative Image' do
+    let!(:work) { FactoryGirl.create(:generic_work, title: 'Work') }
+    it "shows up in the solr document" do
+      work.to_solr["representative"].should == nil
+      work.representative = "123"
+      work.save
+      work.to_solr["representative_tesim"].should == "123"
+    end
+  end
+
 end
