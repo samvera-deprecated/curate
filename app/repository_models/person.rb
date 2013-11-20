@@ -72,7 +72,12 @@ class Person < ActiveFedora::Base
     Solrizer.set_field(solr_doc, 'generic_type', 'Person', :facetable)
     solr_doc['read_access_group_ssim'] = 'public'
     solr_doc['has_user_bsi'] = !!User.exists?(repository_id: pid)
+    solr_doc[Solrizer.solr_name('representative', :stored_searchable)] = self.representative
     solr_doc
+  end
+
+  def representative
+    to_param
   end
 
   def to_s
