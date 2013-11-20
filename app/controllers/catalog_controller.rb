@@ -24,7 +24,6 @@ class CatalogController < ApplicationController
 
   def index
     collection_options
-    profile_collection_options
     super
   end
 

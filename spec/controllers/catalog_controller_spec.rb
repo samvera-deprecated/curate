@@ -31,7 +31,6 @@ describe CatalogController do
       it "assigns options for adding items to collection" do
         get 'index'
         assigns(:collection_options).should == [collection]
-        assigns(:profile_collection_options).should == []
       end
     end
 
