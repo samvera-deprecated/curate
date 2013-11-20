@@ -1,42 +1,7 @@
 <%# TODO: Get bootstrap JS and turbolinks to play nicely %>
 <% if current_user %>
-  <div class="btn-group add-content">
-    <%= link_to new_classify_concern_path, id: "add-content", class: "btn btn-primary dropdown-toggle", data: { toggle: "dropdown"} do %>
-      <span class="icon icon-white icon-plus"></span><span class="visuallyhidden">Add</span>
-    <% end %>
-    <ul class="dropdown-menu quick-create" data-no-turbolink="true">
-      <li><strong class="menu-heading item-with-options">Add a Work</strong>
-      <ul class="item-options quick-classify">
-        <% QuickClassificationQuery.each_for_context(current_user) do |concern| %>
-          <li><%= link_to(
-                    "New #{concern.human_readable_type}",
-                    new_polymorphic_path([:curation_concern, concern]),
-                    class: "item-option contextual-quick-classify #{dom_class(concern, 'new').gsub('_', '-')}",
-                    role: 'menuitem'
-              ) %>
-          </li>
-        <% end %>
-        <li><%= link_to 'More Options', new_classify_concern_path,         class: 'item-option link-to-full-list', role: 'menuitem' %></li>
-      </ul>
-      </li>
-      <li class="divider"></li>
-      <li><%= link_to 'Add a Collection',  new_collection_path, class: 'menu-heading new-collection', role: 'menuitem' %></li>
-    </ul>
-  </div>
-  <div class="btn-group my-actions">
-    <a class="btn btn-primary dropdown-toggle user-display-name" data-toggle="dropdown" href="#">
-      <%= current_user.name.blank? ? 'Me' : current_user.name %>
-    <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu" data-no-turbolink="true">
-      <li><%= link_to 'My Works',        catalog_index_path(:'f[generic_type_sim][]' => 'Work', works: 'mine'), class: 'my-works',       role: 'menuitem' %></li>
-      <li><%= link_to 'My Collections',  collections_path,                                                      class: 'my-collections', role: 'menuitem' %></li>
-      <li><%= link_to 'My Profile',      person_path(current_user.person),                                      class: 'my-account',     role: 'menuitem' %></li>
-      <li><%= link_to 'My Proxies',      person_depositors_path(current_user.person),                           class: 'my-proxies',     role: 'menuitem' %></li>
-      <li class="divider"></li>
-      <li><%= link_to 'Log Out',         destroy_user_session_path,                                             class: 'log-out',        role: 'menuitem' %></li>
-    </ul>
-  </div>
+  <%= render 'shared/add_content' %>
+  <%= render 'shared/my_actions' %>
   <%= link_to 'Help!', new_help_request_path, class: 'btn btn-primary request-help', role: 'menuitem' %>
 <% else %>
   <ul class="nav nav-pills">

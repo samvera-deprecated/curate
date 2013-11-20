@@ -3,7 +3,8 @@ require 'spec_helper'
 describe 'shared/_site_actions.html.erb' do
 
   before(:each) do
-    render partial: 'shared/site_actions.html.erb', locals: {current_user: current_user}
+    view.stub(:current_user).and_return(current_user)
+    render partial: 'shared/site_actions.html.erb'
   end
 
   def have_login_section
