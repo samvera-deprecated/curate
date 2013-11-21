@@ -5,6 +5,7 @@
 
   .listing {
     margin-left:0;
+    max-width:20em;
   }
 
   .field-controls span {
@@ -38,4 +39,9 @@
     background-color: #eaaf51;
     border-color: #d99a36;
   }
+}
+
+// The contributor listing needs some normalization
+#contributors .listing {
+  max-width:20em;
 }
