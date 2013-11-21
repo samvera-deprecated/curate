@@ -6,7 +6,6 @@ describe GenericFile do
   it_behaves_like 'with_access_rights'
   it_behaves_like 'is_embargoable'
 
-  it { should respond_to(:versions) }
   it { should respond_to(:human_readable_type) }
   it { should respond_to(:current_version_id) }
   it { should respond_to(:file=) }
@@ -43,6 +42,14 @@ describe GenericFile do
 
   it 'has file_name as its title to display' do
     expect(persisted_generic_file.to_s).to eq(File.basename(__FILE__))
+  end
+
+  context '#latest_version' do
+    subject { described_class.new.latest_version }
+    it { should respond_to :created_on }
+    it { should respond_to :committer_name }
+    it { should respond_to :formatted_created_on }
+    it { should respond_to :version_id }
   end
 
 end

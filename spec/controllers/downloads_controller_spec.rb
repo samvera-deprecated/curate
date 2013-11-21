@@ -7,7 +7,7 @@ describe DownloadsController do
     let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
     let(:image_file) { File.open(Rails.root.join('../fixtures/files/image.png')) }
     let(:generic_file) {
-      FactoryGirl.create_generic_file(:generic_work, user) {|g|
+      FactoryGirl.create_generic_file(:generic_work, user, curate_fixture_file_upload('files/image.png', 'image/png', false)) {|g|
         g.visibility = visibility
       }
     }
