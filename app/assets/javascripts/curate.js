@@ -34,7 +34,11 @@
 //= require curate/accept_contributor_agreement
 //= require handlebars
 
-$(function(){
+
+
+// Initialize plugins and Bootstrap dropdowns on jQuery's ready event as well as
+// Turbolinks's page change event.
+Blacklight.onLoad(function() {
   $('abbr').tooltip();
 
   $('body').on('keypress', '.multi-text-field', function(event) {
@@ -59,4 +63,6 @@ $(function(){
   });
 
   $('.remove-member').on('ajax:success', function(){window.location.href = window.location.href});
+
+  $("[data-toggle='dropdown']").dropdown();
 });
