@@ -104,7 +104,6 @@ describe Curate::CollectionsController do
         get :add_member_form, collectible_id: work.pid
         assigns(:collectible).should == work
         assigns(:collection_options).should == [collection]
-        assigns(:profile_collection_options).should == []
         expect(response).to render_template('add_member_form')
       end
     end

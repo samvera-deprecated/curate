@@ -6,19 +6,22 @@
 
     <div class="control-group collection_id">
       <span class="control-label">
-        <%= label_tag :collectible_id, "A Collection:" %>
-      </span>
-      <div class="controls">
-        <%= select_tag :collection_id, options_from_collection_for_select(@collection_options.reject {|n| n == collectible}, "pid", "title"), include_blank: true, class: 'input-xlarge' %>
-      </div>
-    </div>
-
-    <div class="control-group collection_id">
-      <span class="control-label">
         <%= label_tag :profile_collection_id, "Your Profile:" %>
       </span>
       <div class="controls">
-        <%= select_tag :profile_collection_id, options_from_collection_for_select(@profile_collection_options, "pid", "title"), include_blank: true, class: 'input-xlarge' %>
+        <% options = "" %>
+        <%- if (collection = @collection_options.reject {|n| n == collectible}).any? -%>
+          <% options << '<optgroup label="Your Collections">'.html_safe %>
+          <% options << options_from_collection_for_select(collection, "pid", "title") %>
+          <% options << '</optgroup>'.html_safe %>
+        <%- end -%>
+        <% options << options_from_collection_for_select(available_profiles, "pid", "title") %>
+        <%- if current_users_profile_sections.any? -%>
+          <% options << '<optgroup label="Profile Sections">'.html_safe %>
+          <% options << options_from_collection_for_select(current_users_profile_sections, "pid", "title") %>
+          <% options << '</optgroup>'.html_safe %>
+        <%- end -%>
+        <%= select_tag :profile_collection_id, options, include_blank: true, class: 'input-xlarge' %>
       </div>
     </div>
 

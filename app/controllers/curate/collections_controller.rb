@@ -61,7 +61,6 @@ class Curate::CollectionsController < ApplicationController
 
   def add_member_form
     collection_options
-    profile_collection_options
     render 'add_member_form'
   end
 
