@@ -29,7 +29,9 @@ module ActiveFedora
 
     def clean
       registry.each do |pid|
-        ActiveFedora::Base.find(pid, cast: false).delete rescue true
+        # By referencing the inner object we can skip any delete callbacks and
+        # SOLR cleaning
+        ActiveFedora::Base.find(pid, cast: false).inner_object.delete rescue true
       end
       if registry.size > 0
         solr = ActiveFedora::SolrService.instance.conn
