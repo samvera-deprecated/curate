@@ -37,6 +37,11 @@ describe 'Uploading Generic File' do
         file = public_work.generic_files.first
         expect(page).to have_link('image.png', curation_concern_generic_file_path(file))
       end
+
+      it 'there should be a link pointing back to parent from generic_file show view' do
+        visit curation_concern_generic_file_path(public_work.generic_files.first)
+        expect(page).to have_link('Back to Generic Work')
+      end
     end
   end
 
