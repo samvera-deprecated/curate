@@ -17,16 +17,13 @@ class GenericFile < ActiveFedora::Base
 
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
 
-  validates :batch, presence: true
-  validates :file, presence: true, on: :create
-
   has_metadata "descMetadata", type: GenericFileRdfDatastream
   has_metadata 'properties', type: Curate::PropertiesDatastream
   has_file_datastream "content", type: FileContentDatastream
   has_file_datastream "thumbnail"
-  
+
   has_attributes :owner, :depositor, datastream: :properties, multiple: false
-  has_attributes :date_uploaded, :date_modified, datastream: :descMetadata, multiple: false 
+  has_attributes :date_uploaded, :date_modified, datastream: :descMetadata, multiple: false
   has_attributes :creator, :title, datastream: :descMetadata, multiple: true
 
   class_attribute :human_readable_short_description
@@ -44,11 +41,16 @@ class GenericFile < ActiveFedora::Base
   end
 
   def versions
-    content.versions
+    return [] unless persisted?
+    @versions ||= content.versions.collect {|version| Curate::ContentVersion.new(content, version)}
+  end
+
+  def latest_version
+    versions.first || Curate::ContentVersion::Null.new(content)
   end
 
   def current_version_id
-    content.latest_version.versionID
+    latest_version.version_id
   end
 
   def human_readable_type

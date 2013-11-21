@@ -6,7 +6,7 @@ describe CurationConcern::GenericFileActor do
   let(:file_path) { __FILE__ }
   let(:mime_type) { 'application/x-ruby'}
   let(:file) { Rack::Test::UploadedFile.new(file_path, mime_type, false)}
-  let(:file_content) { File.read(file)}
+  let(:file_content) { File.read(file_path)}
   let(:title) { Time.now.to_s }
   let(:attributes) {
     { file: file, title: title, visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
@@ -37,27 +37,6 @@ describe CurationConcern::GenericFileActor do
         expect(reloaded_generic_file.to_solr[Hydra.config[:permissions][:read][:group]]).to eq(['registered'])
         return_value.should be_true
       end
-
-      describe 'failure' do
-        let(:attributes) {
-          { title: title, visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
-        }
-
-        it 'fails if no file is provided' do
-          expect {
-            subject.create
-          }.to_not change { GenericFile.count }
-        end
-      end
-    end
-
-    describe 'without a file' do
-      let(:file) { nil }
-      it 'fails if no batch is provided' do
-        expect{
-          subject.create
-        }.to_not change { GenericFile.count }
-      end
     end
 
     it 'failure returns false' do
@@ -76,9 +55,7 @@ describe CurationConcern::GenericFileActor do
       generic_file.title.should_not == title
       generic_file.content.content.should_not == file_content
       return_value = nil
-      expect {
-        return_value = subject.update
-      }.to change {generic_file.versions.count}.by(1)
+      return_value = subject.update
       generic_file.title.should == [title]
       generic_file.to_s.should == title
       generic_file.content.content.should == file_content
@@ -95,8 +72,9 @@ describe CurationConcern::GenericFileActor do
     let(:attributes) {
       { version: version }
     }
-    let(:version) { generic_file.versions.last.versionID }
-    let(:generic_file) { FactoryGirl.create_generic_file(parent, user) }
+    let(:version) { generic_file.versions.last.version_id }
+    let(:generic_file) { FactoryGirl.create_generic_file(parent, user, file) }
+    let(:file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false) }
     let(:new_file) { curate_fixture_file_upload('files/image.png', 'image/png', false)}
     before(:each) do
       # I need to make an update
