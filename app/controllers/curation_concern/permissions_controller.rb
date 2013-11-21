@@ -10,12 +10,7 @@ class CurationConcern::PermissionsController < CurationConcern::BaseController
   end
 
   def curation_concern
-    @curation_concern ||=
-    if params[:id]
-      ActiveFedora::Base.find(params[:id], cast: true)
-    else
-      raise "Missing required parameter `id'"
-    end
+    @curation_concern ||= ActiveFedora::Base.find(params.fetch(:id), cast: true)
   end
 
 end
