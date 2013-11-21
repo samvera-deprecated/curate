@@ -1,4 +1,4 @@
-<% unless @collection_options.empty? && @profile_collection_options.empty? %>
+<% if current_user && (@collection_options.present? || @profile_collection_options.present?) %>
   <% modal_id = "#{document.noid}-modal" %>
   <div class="modal fade" id="<%= modal_id %>">
     <div class="modal-dialog">
