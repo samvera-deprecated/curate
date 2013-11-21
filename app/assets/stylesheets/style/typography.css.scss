@@ -123,14 +123,16 @@ legend {
 }
 
 .wide-text {
-  -webkit-column-count:2;
-  -webkit-column-gap:2em;
-  -moz-column-count:2;
-  -moz-column-gap:2em;
-  column-count:2;
-  column-gap:2em;
-  p {
-    column-break-inside:avoid;
+  @media (min-width: 60em){
+    -webkit-column-count:2;
+    -webkit-column-gap:2em;
+    -moz-column-count:2;
+    -moz-column-gap:2em;
+    column-count:2;
+    column-gap:2em;
+    p {
+      column-break-inside:avoid;
+    }
   }
 }
 
