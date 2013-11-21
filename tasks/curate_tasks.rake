@@ -49,12 +49,14 @@ task :generate do
     gem 'database_cleaner', '< 1.1.0', :group => :test
     gem 'test_after_commit', group: :test
     gem 'poltergeist', group: :test
-    gem 'coco', group: :test, require: false
+    gem 'simplecov', group: :test, require: false
+    gem 'coveralls', group: :test, require: false
     gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'
 EOV
     gemfile_content << "gem 'debugger'" unless ENV['TRAVIS']
 
     `echo "#{gemfile_content}" >> #{DUMMY_APP}/Gemfile`
+
 
     puts "Copying generator"
     system_with_command_output("cp -r spec/skeleton/* #{DUMMY_APP}")
