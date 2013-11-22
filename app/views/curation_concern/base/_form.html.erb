@@ -6,6 +6,8 @@
     </div>
   <% end -%>
 
+  <%= render 'on_behalf_of', curation_concern: curation_concern, f: f %>
+
   <%= render 'form_descriptive_fields', curation_concern: curation_concern, f: f %>
 
   <%= render 'form_supplementary_fields', curation_concern: curation_concern, f: f %>
