@@ -36,7 +36,6 @@ module ActiveFedora
       if registry.size > 0
         solr = ActiveFedora::SolrService.instance.conn
         solr.delete_by_query("*:*", params: {commit: true})
-        solr.commit
       end
     ensure
       @registry = nil
