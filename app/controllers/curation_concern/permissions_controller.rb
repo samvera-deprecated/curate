@@ -9,8 +9,5 @@ class CurationConcern::PermissionsController < CurationConcern::BaseController
     redirect_to polymorphic_path([:curation_concern, curation_concern]), notice: 'Updating file permissions. This may take a few minutes.'
   end
 
-  def curation_concern
-    @curation_concern ||= ActiveFedora::Base.find(params.fetch(:id), cast: true)
-  end
-
+  self.curation_concern_type = ActiveFedora::Base
 end

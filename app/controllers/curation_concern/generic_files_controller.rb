@@ -17,14 +17,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
   protected :action_name_for_authorization
 
-  def curation_concern
-    @curation_concern ||=
-    if params[:id]
-      GenericFile.find(params[:id])
-    else
-      GenericFile.new(params[:generic_file])
-    end
-  end
+  self.curation_concern_type = GenericFile
 
   def new
     respond_with(curation_concern)
@@ -81,7 +74,6 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
     respond_with([:curation_concern, parent])
   end
 
-  include Morphine
   register :actor do
     CurationConcern.actor(curation_concern, current_user, params[:generic_file])
   end
