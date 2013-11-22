@@ -1,6 +1,29 @@
-<% unless current_user.can_make_deposits_for.empty? %>
-  <div class="controls" id="delegate-actions">
-    <%= f.label :owner, 'On Behalf of' %>
-    <%= f.select :owner, options_from_collection_for_select(current_user.can_make_deposits_for, 'user_key', 'name'), prompt: "Yourself" %>
-  </div>
+<% if current_user.can_make_deposits_for.any? %>
+  <% if curation_concern.new_record? %>
+    <fieldset class="row with-footroom">
+      <div class="span12">
+        <legend>
+          Ownership
+          <small>Are you depositing your own <%= curation_concern.human_readable_type %> or depositing it on behalf of someone else?</small>
+        </legend>
+      </div>
+      <div class="controls span12" id="delegate-actions">
+        <%= f.label :owner, "Create this #{curation_concern.human_readable_type} on behalf of:" %>
+        <%= f.select :owner, options_from_collection_for_select(current_user.can_make_deposits_for, 'user_key', 'name'), prompt: 'Myself' %>
+      </div>
+    </fieldset>
+  <% elsif !(curation_concern.owner == current_user.user_key) %>
+    <fieldset class="row with-footroom">
+      <div class="span12">
+        <legend>
+          Ownership
+        </legend>
+      </div>
+      <div class="controls span12" id="delegate-actions">
+        <section class="help-block">
+          This <%= curation_concern.human_readable_type %> is owned by <%= curation_concern.owner %>.
+        </section>
+      </div>
+    </fieldset>
+  <% end %>
 <% end %>
