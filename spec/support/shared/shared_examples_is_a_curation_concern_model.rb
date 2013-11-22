@@ -5,7 +5,14 @@ shared_examples 'is_a_curation_concern_model' do
     expect(Curate.configuration.registered_curation_concern_types).to include(described_class.name)
   end
 
-  describe 'collectibility' do
+  context 'behavior' do
+    subject { FactoryGirl.build(default_work_factory_name) }
+    it 'can be cast as an RDF object' do
+      expect(subject.as_rdf_object).to be_kind_of RDF::URI
+    end
+  end
+
+  context 'collectibility' do
     subject { FactoryGirl.build(default_work_factory_name) }
     let(:collection) { double }
     it '#can_be_member_of_collection?' do
@@ -13,7 +20,7 @@ shared_examples 'is_a_curation_concern_model' do
     end
   end
 
-  describe 'its test support factories', factory_verification: true do
+  context 'its test support factories', factory_verification: true do
     it {
       expect {
         FactoryGirl.create(default_work_factory_name)
