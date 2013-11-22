@@ -42,16 +42,15 @@ class ContributorsAssociation #< ActiveFedora::Associations::Association TODO wh
 
 
   def delete record
-    owner.send(field_name).delete(RDF::URI.new(record.internal_uri))
+    owner.send(field_name).delete(record.as_rdf_object)
     load_target
   end
 
   protected
 
     def insert_record(record)
-      object = RDF::URI.new(record.internal_uri)
       predicate = owner.config_for_term_or_uri(field_name).predicate
-      owner.graph.insert([owner.rdf_subject, predicate, object ])
+      owner.graph.insert([owner.rdf_subject, predicate, record.as_rdf_object ])
       owner.reset_child_cache!
       @target << record
     end

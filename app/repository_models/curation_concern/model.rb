@@ -18,6 +18,10 @@ module CurationConcern
       { pid: pid, title: title, model: self.class.to_s, curation_concern_type: human_readable_type }
     end
 
+    def as_rdf_object
+      RDF::URI.new(internal_uri)
+    end
+
     def to_solr(solr_doc={}, opts={})
       super(solr_doc, opts)
       index_collection_pids(solr_doc)
