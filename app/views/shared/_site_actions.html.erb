@@ -1,10 +1,8 @@
-<%# TODO: Get bootstrap JS and turbolinks to play nicely %>
 <% if current_user %>
   <%= render 'shared/add_content' %>
   <%= render 'shared/my_actions' %>
   <%= link_to 'Help!', new_help_request_path, class: 'btn btn-primary request-help', role: 'menuitem' %>
 <% else %>
-  <ul class="nav nav-pills">
-    <%= link_to 'Log In', new_user_session_path, class: 'btn btn-primary pull-right', role: 'menuitem' %>
-  </ul>
+  <%= link_to 'Log In', new_user_session_path, class: 'btn btn-primary login', role: 'menuitem' %>
 <% end %>
+
