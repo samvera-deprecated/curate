@@ -1,5 +1,6 @@
 module CurationConcern
   class BaseController < ApplicationController
+    include Morphine
     before_filter :attach_action_breadcrumb
     def attach_action_breadcrumb
       case action_name
@@ -44,14 +45,28 @@ module CurationConcern
     end
     protected :action_name_for_authorization
 
-
-    attr_reader :curation_concern
     helper_method :curation_concern
 
     def contributor_agreement
       @contributor_agreement ||= ContributorAgreement.new(curation_concern, current_user, params)
     end
+
     helper_method :contributor_agreement
+
+    class_attribute :curation_concern_type
+    self.curation_concern_type = GenericWork
+
+    register :curation_concern do
+      if params[:id]
+        if curation_concern_type == ActiveFedora::Base
+          curation_concern_type.find(params[:id], cast: true)
+        else
+          curation_concern_type.find(params[:id])
+        end
+      else
+        curation_concern_type.new
+      end
+    end
 
   end
 end

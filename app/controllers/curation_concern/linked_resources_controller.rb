@@ -44,15 +44,7 @@ class CurationConcern::LinkedResourcesController < CurationConcern::BaseControll
     respond_with([:curation_concern, parent])
   end
 
-  def curation_concern
-    @curation_concern ||=
-    if params[:id]
-      LinkedResource.find(params[:id])
-    else
-      LinkedResource.new(params[:linked_resource])
-    end
-  end
-  helper_method :curation_concern
+  self.curation_concern_type = LinkedResource
 
   def attach_action_breadcrumb
     add_breadcrumb "#{parent.human_readable_type}", polymorphic_path([:curation_concern, parent])

@@ -93,19 +93,8 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
   protected :after_destroy_response
 
-  class_attribute :curation_concern_type
-  self.curation_concern_type = GenericWork
-
-  include Morphine
   register :actor do
     CurationConcern.actor(curation_concern, current_user, params[hash_key_for_curation_concern])
-  end
-  register :curation_concern do
-    if params[:id]
-      curation_concern_type.find(params[:id])
-    else
-      curation_concern_type.new
-    end
   end
 
   def hash_key_for_curation_concern
