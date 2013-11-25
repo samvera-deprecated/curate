@@ -23,7 +23,11 @@ $ rails generate curate
 
 ### Initial Setup
 
-* Install imagemagick (or else you will get errors when Bundler tries to compile rmagick)
+Add this line to `config/environments/production.rb`
+
+```ruby
+  config.assets.precompile += %w( modernizr.js )
+```
 
 ### Jetty Commands
 
