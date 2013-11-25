@@ -11,6 +11,13 @@ module Curate
 
     end
 
+    it "has a list of the registered classes" do
+      expect {
+        subject.register_curation_concern(:generic_work)
+        subject.register_curation_concern(:image)
+      }.to change{ subject.curation_concerns }.from([]).to([GenericWork, Image])
+    end
+
     context '#application_root_url' do
       around(:each) do |example|
         begin
@@ -28,6 +35,5 @@ module Curate
         end
       end
     end
-
   end
 end

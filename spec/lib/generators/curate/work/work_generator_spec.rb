@@ -31,10 +31,10 @@ if spec_filenames.size < number_of_expected_spec_files
   raise RuntimeError, message
 end
 
+load Rails.root.join('config/initializers/curate_config.rb')
 # Because we are adding things to stuff that was already initialized
 # (i.e. routes and initializers)
 Rails.application.reload_routes!
-load Rails.root.join('config/initializers/curate_config.rb')
 
 
 spec_filenames.each do |spec_path|
