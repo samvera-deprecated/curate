@@ -1,5 +1,4 @@
 class Curate::UserProfilesController < ApplicationController
-  include Hydra::Controller::ControllerBehavior
 
   before_filter :authenticate_user!
 
