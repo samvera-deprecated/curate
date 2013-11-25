@@ -1,7 +1,9 @@
 module ActionDispatch::Routing
   class Mapper
+    extend Deprecation
 
-    def curate_for(opts={})
+    def curate_for opts=nil
+      Deprecation.warn Mapper, "curate_for no longer accepts any arguments. You provided: #{opts.inspect}" if opts
       scope module: 'curate' do
         resources 'collections', 'profiles', 'profile_sections', controller: 'collections' do
           collection do
@@ -17,7 +19,7 @@ module ActionDispatch::Routing
       resources :downloads, only: [:show]
 
       namespace :curation_concern, path: :concern do
-        opts[:containers].each do |container|
+        Curate.configuration.registered_curation_concern_types.map(&:tableize).each do |container|
           resources container, except: [:index]
         end
         resources( :permissions, only:[]) do

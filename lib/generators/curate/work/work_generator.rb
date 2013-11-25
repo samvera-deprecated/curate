@@ -48,18 +48,6 @@ class Curate::WorkGenerator < Rails::Generators::NamedBase
     template("actor.rb.erb", "app/services/curation_concern/#{file_name}_actor.rb")
   end
 
-  def update_routes
-    reg_exp = /^(\s+curate_for\(? *\{? *:?containers:? *=?\>? *\[)([^\]]*)(\] *\}? *\)?)\s*$/
-    gsub_file 'config/routes.rb', reg_exp do |match|
-      match =~ reg_exp
-      # Don't re-add the route
-      if !$2.include?(plural_table_name)
-        match = $1 << $2 << ", :#{plural_table_name}" << $3
-      end
-      match
-    end
-  end
-
   def register_work
     inject_into_file 'config/initializers/curate_config.rb', after: "Curate.configure do |config|\n" do
       data = ""

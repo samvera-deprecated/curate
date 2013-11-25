@@ -47,8 +47,14 @@ module Curate
       end
     end
 
+    # Returns the class names (strings) of the registered curation concerns
     def registered_curation_concern_types
       @registered_curation_concern_types ||= []
+    end
+
+    # Returns the classes of the registered curation concerns
+    def curation_concerns
+      registered_curation_concern_types.map(&:constantize)
     end
   end
 
