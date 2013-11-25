@@ -11,7 +11,7 @@ module Curate
         p.pid == current_user.repository_id
       end
 
-      can [:show, :read, :update, :destroy], [Curate.configuration.registered_curation_concern_types.map(&:constantize)] do |w|
+      can [:show, :read, :update, :destroy], [Curate.configuration.curation_concerns] do |w|
         u = ::User.find_by_user_key(w.owner)
         u && u.can_receive_deposits_from.include?(current_user)
       end
