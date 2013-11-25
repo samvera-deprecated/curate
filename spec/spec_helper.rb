@@ -2,7 +2,23 @@
 ENV["RAILS_ENV"] ||= 'test'
 
 if ENV['COVERAGE']
-  require 'coco'
+  require 'coveralls'
+  require 'simplecov'
+
+  ENGINE_ROOT = File.expand_path('../..', __FILE__)
+
+  # Out of the box, SimpleCov was looking at file in ENGINE_ROOT/spec/internal;
+  # After all that was where Rails was pointed at.
+  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+  SimpleCov.root(ENGINE_ROOT)
+  SimpleCov.start 'rails' do
+    filters.clear
+    add_filter do |src|
+      src.filename !~ /^#{ENGINE_ROOT}/
+    end
+    add_filter '/spec/'
+  end
+  SimpleCov.command_name "spec"
 end
 
 require File.expand_path("../internal/config/environment.rb",  __FILE__)
