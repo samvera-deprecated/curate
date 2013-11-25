@@ -12,7 +12,7 @@ describe 'Profile for a Person: ' do
     # TODO: confirm the intent of this test
     it 'will see a link to their profile in the nav' do
       visit catalog_index_path
-      page.should have_link("My Profile", href: person_path(account.person))
+      page.should have_link("My Profile", href: user_profile_path)
     end
 
     it 'should see their name in the edit view' do

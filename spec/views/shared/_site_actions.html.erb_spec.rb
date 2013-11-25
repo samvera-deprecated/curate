@@ -38,7 +38,7 @@ describe 'shared/_site_actions.html.erb' do
           with_tag '.dropdown-menu' do
             with_tag 'a.my-works'
             with_tag 'a.my-collections', with: { href: collections_path}
-            with_tag 'a.my-account', with: { href: person_path(person) }
+            with_tag 'a.my-account', with: { href: user_profile_path }
             with_tag 'a.my-proxies', with: { href: person_depositors_path(person) }
             with_tag 'a.log-out', with: { href: destroy_user_session_path }
           end

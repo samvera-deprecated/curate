@@ -13,6 +13,7 @@ module ActionDispatch::Routing
         resources 'people', only: [:show, :index] do
           resources :depositors, only: [:index, :create, :destroy]
         end
+        match 'profile' => 'user_profiles#show', via: :get, as: 'user_profile'
       end
       resources :downloads, only: [:show]
 
