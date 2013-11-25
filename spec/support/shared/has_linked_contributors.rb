@@ -1,11 +1,5 @@
 shared_examples 'it has linked contributors' do
   describe "nested contributors" do
-    describe "without any creator" do
-      it "should have an error" do
-        subject.should_not be_valid
-        subject.errors[:contributors].should == ["Your #{subject.human_readable_type.downcase} must have #{subject.indefinite_article} #{subject.contributor_label.downcase}."]
-      end
-    end
 
     describe "when nested attributes are set" do
       it "should create a new person" do
