@@ -73,6 +73,7 @@ class Person < ActiveFedora::Base
     solr_doc['read_access_group_ssim'] = 'public'
     solr_doc['has_user_bsi'] = !!User.exists?(repository_id: pid)
     solr_doc[Solrizer.solr_name('representative', :stored_searchable)] = self.representative
+    solr_doc[Solrizer.solr_name('representative_image_url', :stored_searchable)] = self.representative_image_url
     solr_doc
   end
 
@@ -99,6 +100,10 @@ class Person < ActiveFedora::Base
     @gravatar_link
   end
 
+  def representative_image_url
+    self.thumbnail.content.present? ? generate_thumbnail_url : gravatar_link
+  end
+
   private
 
   def generate_derivatives
@@ -106,6 +111,10 @@ class Person < ActiveFedora::Base
     when 'image/png', 'image/jpeg', 'image/tiff'
       transform_datastream :content, { medium: {size: "300x300>", datastream: 'medium'}, thumb: {size: "100x100>", datastream: 'thumbnail'} }
     end
+  end
+
+  def generate_thumbnail_url
+    "/downloads/#{self.representative}?datastream_id=thumbnail"
   end
 
   def email_hash(gravatar_email)
