@@ -19,13 +19,3 @@
   </tbody>
 </table>
 <% end %>
-
-<%- if current_user %>
-  <%- if has_any_collections? %>
-    <%= render 'add_to_collection_gui', collectible: curation_concern %>
-  <%- else %>
-    <div class="span12 main-header">
-      <p><em>You have no collections in which to add this <%= curation_concern.human_readable_type %>.</em></p>
-    </div>
-  <%- end -%>
-<%- end -%>

@@ -51,15 +51,6 @@ describe 'An existing generic work owned by the user' do
     click_link 'Add an External Link'
     page.should have_link('Cancel', href: catalog_index_path)
   end
-
-  context 'when the user has no collections yet,' do
-
-    it 'displays a message instead of the widget to add a work to a collection' do
-      login_as(user)
-      visit curation_concern_generic_work_path(work)
-      expect(page).to have_content('You have no collections')
-    end
-  end
 end
 
 describe 'Viewing a generic work that is private' do
@@ -87,5 +78,4 @@ describe 'When I click on the link to create a work: ' do
     page.should have_tag("a[href$='people/#{person.to_param}']", text: "Iron Man")
   end
 end
-
 

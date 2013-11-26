@@ -3,6 +3,7 @@ module Curate::FieldsForAddToCollection
 
   included do
     helper_method :available_profiles
+    helper_method :available_collections
     helper_method :current_users_profile_sections
   end
 
@@ -14,6 +15,14 @@ protected
 
   def current_users_collections
     current_user ? current_user.collections.to_a : []
+  end
+
+  def available_collections(item = nil)
+    if item.present?
+      collection_options.reject {|n| n == item}
+    else
+      collection_options
+    end
   end
 
   def available_profiles
