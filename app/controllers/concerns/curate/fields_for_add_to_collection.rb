@@ -25,7 +25,7 @@ protected
   def current_users_profile_sections
     return [] unless current_user
     return [] unless current_user.profile
-    current_user.profile.members
+    current_user.profile.members.select {|item| item.respond_to?(:members) }
   end
 
 end
