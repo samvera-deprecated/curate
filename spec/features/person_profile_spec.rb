@@ -26,6 +26,7 @@ describe 'Profile for a Person: ' do
       visit catalog_index_path
       click_link 'My Profile'
       click_link 'Update Personal Information'
+      page.should have_link("Cancel", href: person_path(person))
       within('form.edit_user') do
         fill_in("user[name]", with: 'Spider Man')
         fill_in("user[current_password]", with: password)
