@@ -9,7 +9,9 @@
 
   .search-query {
     width:100%;
-    padding:1em 12% 1em .6em;
+    padding-left:.6em;
+    padding-right:12%;
+    height: 2.1em;
     @include border-radius($inputBorderRadius);
   }
 
