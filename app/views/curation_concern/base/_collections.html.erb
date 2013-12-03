@@ -21,7 +21,6 @@
 <% end %>
 
 <%- if current_user %>
-  <h2>Collections</h2>
   <%- if has_any_collections? %>
     <%= render 'add_to_collection_gui', collectible: curation_concern %>
   <%- else %>
