@@ -18,6 +18,11 @@ module Curate
         super
       end
 
+      def person= p
+        @person = p
+        self.repository_id = p.pid
+      end
+
       def person
         @person ||= if self.repository_id
           Person.find(self.repository_id)
