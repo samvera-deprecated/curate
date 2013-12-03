@@ -20,9 +20,9 @@ describe 'shared/_site_actions.html.erb' do
   end
 
   context 'logged in' do
-    let(:repository_noid) { 'abc-123' }
+    let(:person) { double(pid: 'test:1234') }
     let(:name) { 'My Display Name' }
-    let(:current_user) { double(name: name, repository_noid: repository_noid, repository_noid?: true) }
+    let(:current_user) { User.new(name: name, person: person).tap {|u| u.stub(groups: ['registered'])} }
     it 'renders a link to create a new user session' do
       expect(rendered).to_not have_login_section
       expect(rendered).to have_add_content_section do
@@ -39,7 +39,7 @@ describe 'shared/_site_actions.html.erb' do
             with_tag 'a.my-works'
             with_tag 'a.my-collections', with: { href: collections_path}
             with_tag 'a.my-account', with: { href: user_profile_path }
-            with_tag 'a.my-proxies', with: { href: person_depositors_path(repository_noid) }
+            with_tag 'a.my-proxies', with: { href: person_depositors_path('1234') }
             with_tag 'a.log-out', with: { href: destroy_user_session_path }
           end
         end
