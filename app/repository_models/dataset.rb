@@ -20,6 +20,7 @@ class Dataset < ActiveFedora::Base
             validates: {presence: { message: 'Your dataset must have a title.' }}
 
   attribute :rights, datastream: :descMetadata,
+            default: "All rights reserved",
             multiple: false,
             validates: {presence: { message: 'You must select a license for your dataset.' }}
 
