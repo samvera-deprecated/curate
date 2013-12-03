@@ -65,7 +65,7 @@ describe Curate::CollectionsController do
           post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
         }.to change{ProfileSection.count}.by(1)
       }.to_not change{Collection.count}
-      expect(response).to redirect_to person_path(user.person)
+      expect(response).to redirect_to user_profile_path
     end
   end
 
