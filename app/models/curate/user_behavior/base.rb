@@ -3,6 +3,14 @@ module Curate
     module Base
       extend ActiveSupport::Concern
 
+      def repository_noid
+        Sufia::Noid.noidify(repository_id)
+      end
+
+      def repository_noid?
+        repository_id?
+      end
+
       def agree_to_terms_of_service!
         update_column(:agreed_to_terms_of_service, true)
       end

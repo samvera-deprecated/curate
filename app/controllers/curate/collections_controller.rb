@@ -114,7 +114,7 @@ class Curate::CollectionsController < ApplicationController
     add_to_profile
     if @collection.is_a?(ProfileSection)
       respond_to do |format|
-        format.html { redirect_to person_path(current_user.person), notice: "#{@collection.human_readable_type} was successfully created." }
+        format.html { redirect_to user_profile_path, notice: "#{@collection.human_readable_type} was successfully created." }
         format.json { render json: @collection, status: :created, location: @collection }
       end
     else

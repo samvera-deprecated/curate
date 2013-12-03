@@ -7,7 +7,9 @@
     <li><%= link_to 'My Works',       catalog_index_path(:'f[generic_type_sim][]' => 'Work', works: 'mine'), class: 'my-works',       role: 'menuitem' %></li>
     <li><%= link_to 'My Collections', collections_path,                                                      class: 'my-collections', role: 'menuitem' %></li>
     <li><%= link_to 'My Profile',     user_profile_path,                                                     class: 'my-account',     role: 'menuitem' %></li>
-    <li><%= link_to 'My Proxies',     person_depositors_path(current_user.person),                           class: 'my-proxies',     role: 'menuitem' %></li>
+    <% if current_user.repository_noid? %>
+    <li><%= link_to 'My Proxies',     person_depositors_path(current_user.repository_noid),                  class: 'my-proxies',     role: 'menuitem' %></li>
+    <% end %>
     <li class="divider"></li>
     <li><%= link_to 'Log Out',        destroy_user_session_path,                                             class: 'log-out',        role: 'menuitem' %></li>
   </ul>
