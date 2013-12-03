@@ -5,11 +5,8 @@
     <% end %>
 
     <div class="control-group collection_id">
-      <span class="control-label">
-        <%= label_tag :profile_collection_id, "Your Profile:" %>
-      </span>
       <div class="controls">
-        <% options = "" %>
+        <% options = '<option selected="true" disabled="disabled">Make a Selection</option>'.html_safe %>
         <%- if (collection = @collection_options.reject {|n| n == collectible}).any? -%>
           <% options << '<optgroup label="Your Collections">'.html_safe %>
           <% options << options_from_collection_for_select(collection, "pid", "title") %>
