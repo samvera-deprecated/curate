@@ -10,4 +10,12 @@ class Curate::UserProfilesController < ApplicationController
     end
   end
 
+  def show_proxies
+    if current_user.repository_id.present?
+      redirect_to person_depositors_path(current_user.person)
+    else
+      redirect_to edit_user_registration_path
+    end
+  end
+
 end

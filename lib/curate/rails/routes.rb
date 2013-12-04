@@ -16,6 +16,8 @@ module ActionDispatch::Routing
           resources :depositors, only: [:index, :create, :destroy]
         end
         match 'profile' => 'user_profiles#show', via: :get, as: 'user_profile'
+        match 'user/proxies' => 'user_profiles#show_proxies', via: :get, as: 'user_proxies'
+
       end
       resources :downloads, only: [:show]
 

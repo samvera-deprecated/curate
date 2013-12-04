@@ -20,4 +20,17 @@ describe Curate::UserProfilesController do
       end
     end
   end
+
+describe Curate::UserProfilesController do
+  describe "#show_proxies" do
+    context 'Person object is a member of proxy depositors' do
+        let(:person) {FactoryGirl.create(:person_with_user) }
+        before { sign_in person.user }
+        it 'should redirect to proxy depositor page' do
+          get :show_proxies
+          response.should redirect_to person_depositors_path(person)
+        end
+      end
+    end
+  end
 end
