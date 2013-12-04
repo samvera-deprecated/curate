@@ -1,4 +1,3 @@
-require 'spec_helper'
 shared_examples 'with_related_works' do
   let(:user) { FactoryGirl.create(:user) }
   let(:person) { FactoryGirl.create(:person) }
