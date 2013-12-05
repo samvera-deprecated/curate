@@ -1,27 +1,9 @@
 <%# This is a search result view %>
 <% noid = person.noid %>
+<% solr_doc = person.inner_object.solr_doc %>
 <li id="document_<%= noid %>" class="search-result">
 
-  <div class="row-fluid">
-
-    <div class="span2 list-number">
-      <%= document_counter_with_offset( person_counter ) %>
-      <%= render :partial => 'catalog/_index_partials/type_display', locals: {document: person} %>
-    </div>
-
-    <div class="span6">
-      <% solr_doc = person.inner_object.solr_doc %>
-      <%# Minimize Fedora hits by using solr_doc rather than document %>
-      <%= link_to render_index_field_value(document: solr_doc, field: 'desc_metadata__name_tesim'), person, :id => "src_copy_link_#{noid}" %>
-    </div>
-
-    <div class="span4">
-      <% if current_user -%>
-        <%= render partial: 'add_to_collection_gui', locals: { document: person } %>
-      <% end -%>
-    </div>
-
-  </div>
+  <%= render :partial => 'catalog/_index_partials/identifier_and_action', locals: { document: person, counter: person_counter, title_link_target: person, title_link_text: person.name, edit_path: '' } %>
 
   <div class="row-fluid">
 

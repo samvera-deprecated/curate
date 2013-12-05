@@ -17,6 +17,7 @@ module CurationConcern
 
     with_themed_layout
     include Sufia::Noid # for normalize_identifier method
+    include Curate::FieldsForAddToCollection
 
     before_filter :authenticate_user!, :except => [:show]
     before_filter :agreed_to_terms_of_service!

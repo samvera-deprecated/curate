@@ -19,7 +19,6 @@ describe 'curation_concern/base/_collection.html.erb' do
 
     it 'lists all the collections the work is added to' do
       expect(rendered).to include("Collection 1")
-      expect(rendered).to include("Add to Collection")
     end
   end
 
@@ -34,7 +33,6 @@ describe 'curation_concern/base/_collection.html.erb' do
 
     it 'lists all the collections the work is added to' do
       expect(rendered).to include("Collection 1")
-      expect(rendered).not_to include("Add to Collection")
     end
   end
 end
