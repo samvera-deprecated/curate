@@ -63,7 +63,7 @@ protected
       solr_doc[Solrizer.solr_name(:collection)] ||= []
       self.collection_ids.each do |collection_id|
         collection_obj = ActiveFedora::Base.load_instance_from_solr(collection_id)
-        if collection_obj.class == Collection
+        if collection_obj.is_a?(Collection)
           solr_doc[Solrizer.solr_name(:collection, :facetable)] << collection_id
           solr_doc[Solrizer.solr_name(:collection)] << collection_id
         end

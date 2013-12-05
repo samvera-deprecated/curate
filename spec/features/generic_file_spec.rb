@@ -74,7 +74,8 @@ describe 'Uploading Generic File' do
       curation_concern.save!
       login_as(user)
     end
-    it 'should change versions correctly' do
+
+    xit 'should change versions correctly', redundant: true do
       visit new_curation_concern_generic_file_path(curation_concern)
 
       within("form.new_generic_file") do
