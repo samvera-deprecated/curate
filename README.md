@@ -80,7 +80,7 @@ Inside the Curate directory:
 1. Then run `rake spec`; The tests will take quite a while ‡‡
 
 ‡ - A Rails engine requires a Rails application to run.
-The dummy app is an generated application inside Curate in the `./spec/dummy` directory
+The dummy app is an generated application inside Curate in the `./spec/internal` directory
 ‡‡ - Slow tests are a big problem and we are working on speeding them up, but its complicated.
 
 #### Some of Them
@@ -108,17 +108,3 @@ In full Rails applications you can normally run the following `rspec path/to/spe
 
 There is an existing [CONTRIBUTING.md](./CONTRIBUTING.md) document which is currently under review.
 For now, follow those guidelines.
-
-## Running a Curate based application within the Curate gem
-
-Given that Curate regenerates (via the `rake clean generate` tasks) you can run a functioning instance of curate in that directory.
-
-*Presently there is an issue with running the Dummy application. Consider this "broken" at the moment.*
-
-From the curate directory:
-```bash
-$ rake clean generate
-$ rake jetty:start
-$ cd ./spec/internal
-$ rails server
-```
