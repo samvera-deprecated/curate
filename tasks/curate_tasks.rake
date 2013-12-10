@@ -30,6 +30,8 @@ task :clean do
   system_with_command_output("rm -rf #{DUMMY_APP}")
 end
 
+desc 'Rebuild the rails test app'
+task :regenerate => [:clean, :generate]
 
 desc "Create the test rails app"
 task :generate do
@@ -90,7 +92,7 @@ end
 
 
 desc 'Run specs on travis'
-task :ci => [:clean, :generate] do
+task :ci => [:regenerate] do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
   Jettywrapper.unzip
