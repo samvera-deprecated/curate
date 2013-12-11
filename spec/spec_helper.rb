@@ -21,6 +21,8 @@ end
 
 require File.expand_path("../internal/config/environment.rb",  __FILE__)
 
+require File.expand_path('../matchers', __FILE__)
+
 # Prevent double spec runs under Zeus
 require 'rspec/autorun' unless ENV['RUNNING_VIA_ZEUS']
 
