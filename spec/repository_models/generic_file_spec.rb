@@ -52,4 +52,15 @@ describe GenericFile do
     it { should respond_to :version_id }
   end
 
+  context '#copy_permissions_from' do
+    let(:work){ FactoryGirl.create(:public_generic_work) }
+    let(:file) { FactoryGirl.create(:generic_file) }
+
+    it 'should copy permissions from the given work' do
+      file.visibility.should_not == "open"
+      file.copy_permissions_from(work)
+      file.visibility.should == "open"
+    end
+  end
+
 end

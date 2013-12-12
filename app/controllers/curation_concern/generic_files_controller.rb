@@ -20,6 +20,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   self.curation_concern_type = GenericFile
 
   def new
+    curation_concern.copy_permissions_from(parent)
     respond_with(curation_concern)
   end
 
