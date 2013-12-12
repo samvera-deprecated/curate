@@ -60,4 +60,8 @@ class GenericFile < ActiveFedora::Base
   def representative
     to_param
   end
+
+  def copy_permissions_from(obj)
+    self.datastreams['rightsMetadata'].ng_xml = obj.datastreams['rightsMetadata'].ng_xml
+  end
 end
