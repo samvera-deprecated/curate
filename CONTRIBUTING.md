@@ -17,7 +17,7 @@ There are a few guidelines that we need contributors to follow so that we can ha
       * [Valid Transition Commands](#valid-transition-commands)
     * [Hooks into other Subsystems](#hooks-into-other-subsystems)
 * [Reviewing Changes](#reviewing-changes)
-  * [Responsibilities a Reviewer](#responsibilities-a-reviewer)
+  * [Responsibilities of a Reviewer](#responsibilities-of-a-reviewer)
   * [Responsibilities of the Submitter](#responsibilities-of-the-submitter)
 * [Merging Changes](#merging-changes)
 
@@ -179,7 +179,7 @@ This is a way of indicating that you want that Curate contributor to review the 
 
 When you do assign someone to the Pull Request, please make sure to add a comment stating why you assigned it to them.
 
-## Responsibilities a Reviewer
+## Responsibilities of a Reviewer
 
 As a reviewer, it is important that the pull request:
 
