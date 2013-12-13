@@ -5,6 +5,7 @@ There are a few guidelines that we need contributors to follow so that we can ha
   * [What is a well written issue?](#what-is-a-well-written-issue)
 * [Git Flow Branching Strategy](#git-flow-branching-strategy)
   * [Why Git Flow?](#why-git-flow)
+  * [Possible Gotchas](#possible-gotchas)
 * [Making Changes](#making-changes)
   * [Coding Guidelines](#coding-guidelines)
   * [Where to Engage for Help](#where-to-engage-for-help)
@@ -57,6 +58,12 @@ The git-flow process **is encoded in a [Git extension](https://github.com/nvie/g
 And therefore anyone contributing to the project can use the plugin to adhear to the branching procedure.
 
 And best of all, **we don't have to write our own procedure** that would require additional vetting.
+
+## Possible Gotchas
+
+With Git Flow, releases are minted on the master branch.
+It is likely that releases may need to be minted relative to a past release (i.e. need to back port an urgent fix).
+At that point we will need to create a version stable branch to apply urgent fix.
 
 # Making Changes
 
