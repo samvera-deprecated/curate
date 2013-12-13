@@ -11,6 +11,10 @@ There are a few guidelines that we need contributors to follow so that we can ha
   * [As a Developer](#as-a-developer)
     * [Hydra Project Intellectual Property Licensing and Ownership](#hydra-project-intellectual-property-licensing-and-ownership)
   * [As a ProjectHydra Contributor](#as-a-projecthydra-contributor)
+  * [Well Written Commit Messages](#well-written-commit-messages)
+    * [Hooks into JIRA](#hooks-into-jira)
+      * [Valid Transition Commands](#valid-transition-commands)
+    * [Hooks into other Subsystems](#hooks-into-other-subsystems)
 * [Reviewing Changes](#reviewing-changes)
   * [Assigning the Pull Request](#assigning-the-pull-request)
 * [Merging Changes](#merging-changes)
@@ -80,6 +84,44 @@ If the contributor works for an institution, the institution must have a Corpora
 https://wiki.duraspace.org/display/hydra/Hydra+Project+Intellectual+Property+Licensing+and+Ownership
 
 ## As a ProjectHydra Contributor
+
+## Well Written Commit Messages
+
+### Hooks into JIRA
+
+Our [JIRA Scrum Story Tracker at Duraspace](https://jira.duraspace.org/secure/RapidBoard.jspa?rapidView=16) has been setup to interact with GitHub.
+
+First, make sure that [your JIRA Profile's](https://jira.duraspace.org/secure/ViewProfile.jspa) email address is the same as is in your Git config email address – run `git config user.email`
+
+Then when writing your commit message, add the identifiers of any related tasks (i.e. HYDRASIR-12) in the body of the commit message.
+
+You can also transition a JIRA task via your commit message.
+Assume the following was part of the commit message:
+
+```bash
+HYDRASIR-12 #close "Append the quoted text as a comment on the task"
+```
+
+This would:
+
+* Transition, if valid, the HYDRASIR-12 task to the Closed state.
+* Add "Append the quoted text as a comment on the task" as a comment on HYDRASIR-12
+
+#### Valid Transition Commands
+
+* start-work
+* start-review
+* stop-work
+* close
+* reopen
+
+### Hooks into other Subsystems
+
+**[log skip]**: If your commit is not relevant to a change log, you can add `[log skip]` to your commit message.
+Relevance is subjective, though extremely minor changes need not be part of the change log (i.e. spelling correction, decomposing a private method into multiple private methods, etc.)
+
+**[ci skip]**: If your commit does not need to go through the Continuous Integration server, add `[ci skip]` to your commit message.
+This is typically used for updates to the documentation and stylesheet changes.
 
 # Reviewing Changes
 
