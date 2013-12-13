@@ -1,113 +1,103 @@
-# How to Contribute
-
-We want your help to make Project Hydra great.
+We want your help to make Curate great.
 There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things.
 
-## Hydra Project Intellectual Property Licensing and Ownership
+* [Reporting Issues](#reporting-issues)
+  * [What is a well written issue?](#what-is-a-well-written-issue)
+* [Git Flow Branching Strategy](#git-flow-branching-strategy)
+  * [Why Git Flow?](#why-git-flow)
+* [Making Changes](#making-changes)
+  * [Where to Engage for Help](#where-to-engage-for-help)
+* [Submitting Changes](#submitting-changes)
+  * [As a Developer](#as-a-developer)
+    * [Hydra Project Intellectual Property Licensing and Ownership](#hydra-project-intellectual-property-licensing-and-ownership)
+  * [As a ProjectHydra Contributor](#as-a-projecthydra-contributor)
+* [Reviewing Changes](#reviewing-changes)
+  * [Assigning the Pull Request](#assigning-the-pull-request)
+* [Merging Changes](#merging-changes)
+  * [As the Submitter](#as-the-submitter)
+  * [As a Reviewer](#as-a-reviewer)
+  * [As the Person doing the Merge](#as-the-person-doing-the-merge)
 
+# Reporting Issues
+
+Submit a [well written issue](#what-is-a-well-written-issue) to [Github's issue tracker](./issues).
+This will require a [GitHub account](https://github.com/signup/free) *(its free)*.
+
+## What is a well written issue?
+
+* Provide a descriptive summary
+* Reference the Curate gem version in which you encountered the problem
+* Explain the expected behavior
+* Explain the actual behavior
+* Provide steps to reproduce the actual behavior
+
+# Git Flow Branching Strategy
+
+Curate uses [Git Flow](https://github.com/nvie/gitflow) as its branching procedure.
+We acknowledge that this adds additional complexities to the branching process.
+It is our belief that the project's code health is better for these complexities.
+
+## Why Git Flow?
+
+The **master** branch should **always be deployable**…
+And therefore anyone cloning the Curate repository will have a vetted version of Curate to work against.
+
+**Urgent fixes** should be quick to apply…
+And therefore anyone that has adopted Curate can quickly apply those fixes.
+
+**Completed features** should be released as one unit…
+And therefore an adopter does not see portions of an incomplete feature in their latest point release.
+
+The git-flow process **is a well defined procedure**…
+And therefore anyone contributing to the project can reference excellent 3rd party resources on the procedure.
+
+The git-flow process **is encoded in a [Git extension](https://github.com/nvie/gitflow)**…
+And therefore anyone contributing to the project can use the plugin to adhear to the branching procedure.
+
+And best of all, **we don't have to write our own procedure** that would require additional vetting.
+
+# Making Changes
+
+Curate is an open source project, released under the [APACHE 2 license](LICENSE).
+You are free to clone or [fork the repository](https://help.github.com/articles/fork-a-repo) and modify the code as you see fit.
+
+## Coding Guidelines
+
+Will be brought in from [README](README)
+
+## Where to Engage for Help
+
+Curate is part of ProjectHydra, so you can [connect via the usual ProjectHydra channels](https://wiki.duraspace.org/display/hydra/Connect).
+
+# Submitting Changes
+
+## As a Developer
+
+### Hydra Project Intellectual Property Licensing and Ownership
 All code contributors must have an Individual Contributor License Agreement (iCLA) on file with the Hydra Project Steering Group.
 If the contributor works for an institution, the institution must have a Corporate Contributor License Agreement (cCLA) on file.
 
 https://wiki.duraspace.org/display/hydra/Hydra+Project+Intellectual+Property+Licensing+and+Ownership
 
-You should also add yourself to the `CONTRIBUTORS.md` file in the root of the project.
+## As a ProjectHydra Contributor
 
-## Contribution Tasks
+# Reviewing Changes
 
-* Reporting Issues
-* Making Changes
-* Submitting Changes
-* Merging Changes
+*If your changes are languishing without attention please notify [@jeremyf](https://github.com/jeremyf) via a comment on the pull request.*
 
-### Reporting Issues
+## Assigning the Pull Request
 
-* Make sure you have a [GitHub account](https://github.com/signup/free)
-* Submit a [Github issue](./issues) by:
-  * Clearly describing the issue
-    * Provide a descriptive summary
-    * Explain the expected behavior
-    * Explain the actual behavior
-    * Provide steps to reproduce the actual behavior
+As either the submitter or reviewer, feel free to assign the Pull Request to a Curate contributor.
+This is a way of indicating that you want that contributor to review the change.
 
-### Making Changes
+When you do assign someone to the Pull Request, please make sure to add a comment stating why you assigned it to them.
 
-* Fork the repository on GitHub
-* Create a topic branch from where you want to base your work.
-  * This is usually the master branch.
-  * To quickly create a topic branch based on master; `git branch fix/master/my_contribution master`
-  * Then checkout the new branch with `git checkout fix/master/my_contribution`.
-  * Please avoid working directly on the `master` branch.
-  * You may find the [hub suite of commands](https://github.com/defunkt/hub) helpful
-* Make commits of logical units.
-  * Your commit should include a high level description of your work in HISTORY.textile 
-* Check for unnecessary whitespace with `git diff --check` before committing.
-* Make sure your commit messages are [well formed](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
-* If you created an issue, you can close it by including "Closes #issue" in your commit message. See [Github's blog post for more details](https://github.com/blog/1386-closing-issues-via-commit-messages)
+# Merging Changes
 
-```
-    Present tense short summary (50 characters or less)
+*If a pull request has received at least one Thumbs Up, but has still not been merged, please notify [@jeremyf](https://github.com/jeremyf) via a comment on the pull request.*
 
-    More detailed description, if necessary. It should be wrapped to 72
-    characters. Try to be as descriptive as you can, even if you think that
-    the commit content is obvious, it may not be obvious to others. You
-    should add such description also if it's already present in bug tracker,
-    it should not be necessary to visit a webpage to check the history.
+## As the Submitter
 
-    Include Closes #<issue-number> when relavent.
+## As a Reviewer
 
-    Description can have multiple paragraphs and you can use code examples
-    inside, just indent it with 4 spaces:
-
-        class PostsController
-          def index
-            respond_with Post.limit(10)
-          end
-        end
-
-    You can also add bullet points:
-
-    - you can use dashes or asterisks
-
-    - also, try to indent next line of a point for readability, if it's too
-      long to fit in 72 characters
-```
-
-* Make sure you have added the necessary tests for your changes.
-* Run _all_ the tests to assure nothing else was accidentally broken.
-* When you are ready to submit a pull request
-
-### Submitting Changes
-
-[Detailed Walkthrough of One Pull Request per Commit](http://ndlib.github.io/practices/one-commit-per-pull-request/)
-
-* Read the article ["Using Pull Requests"](https://help.github.com/articles/using-pull-requests) on GitHub.
-* Make sure your branch is up to date with its parent branch (i.e. master)
-  * `git checkout master`
-  * `git pull --rebase`
-  * `git checkout <your-branch>`
-  * `git rebase master`
-  * It is likely a good idea to run your tests again.
-* Squash the commits for your branch into one commit
-  * `git rebase --interactive HEAD~<number-of-commits>` ([See Github help](https://help.github.com/articles/interactive-rebase))
-  * To determine the number of commits on your branch: `git log master..<your-branch> --oneline | wc -l`
-  * Squashing your branch's changes into one commit is "good form" and helps the person merging your request to see everything that is going on.
-* Push your changes to a topic branch in your fork of the repository.
-* Submit a pull request from your fork to the project.
-
-### Merging Changes
-
-* It is considered "poor from" to merge your own request.
-* Please take the time to review the changes and get a sense of what is being changed. Things to consider:
-  * Does the commit message explain what is going on?
-  * Does the code changes have tests? _Not all changes need new tests, some changes are refactorings_
-  * Does the commit contain more than it should? Are two separate concerns being addressed in one commit?
-  * Did the Travis tests complete successfully?
-* If you are uncertain, bring other contributors into the conversation by creating a comment that includes their @username.
-* If you like the pull request, but want others to chime in, create a +1 comment and tag a user.
-
-# Additional Resources
-
-* [General GitHub documentation](http://help.github.com/)
-* [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
-* [Pro Git](http://git-scm.com/book) is both a free and excellent book about Git.
-* [A Git Config for Contributing](http://ndlib.github.io/practices/my-typical-per-project-git-config/)
+## As the Person doing the Merge
