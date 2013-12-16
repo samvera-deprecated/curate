@@ -18,6 +18,7 @@ It is released under the [Apache 2 License](./LICENSE)
       * [Writing Your Code](#writing-your-code)
       * [Ruby File Structure](#ruby-file-structure)
     * [Source Control Guidelines](#source-control-guidelines)
+* [Working on Curate while working on my Application](#working-on-curate-while-working-on-my-application)
 * [Standing up your Curate-based Rails application in Production](#standing-up-your-curate-based-rails-application-in-production)
 
 # Starting a New Curate Based Application
@@ -158,6 +159,27 @@ Make sure your JIRA email matches your Git config email (`~/.gitconfig`)
 [2]:https://github.com/bbatsov/ruby-style-guide#naming "Ruby Style Guide - Naming"
 [3]:http://robots.thoughtbot.com/post/50655960596/sandi-metz-rules-for-developers "Sandi Metz' Rules for Developers"
 
+# Working on Curate while working on my Application
+
+Assuming you are wanting to work on your Curate-based application and make modifications to the Curate gem, follow these instructions.
+
+Replace the folliwing line in the Gemfile of your Curate-based application (see [Starting a New Curate Based Application](#starting-a-new-curate-based-application)):
+
+```ruby
+gem 'curate' ...
+```
+
+with
+
+```ruby
+gem 'curate', path: './path/to/my/clone/of/curate'
+```
+
+[More information about Gemfile management at Bundler.io](http://bundler.io/v1.5/gemfile.html)
+
+You can then do concurrent development on both your clone of the Curate gem and your Curate-based application.
+
+**NOTE: Any changes you make in the Curate gem will likely require you to restart your web-server.**
 
 # Standing up your Curate-based Rails application in Production
 
