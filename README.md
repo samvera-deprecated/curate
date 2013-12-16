@@ -40,12 +40,12 @@ $ rails generate curate
 
 You may need to have the following installed ‡
 
-* imagemagick
-* fits.sh
-* ffmpeg
-* Redis
-* rubygems
-* ClamAV
+* imagemagick (http://www.imagemagick.org/script/index.php)
+* fits.sh (https://code.google.com/p/fits/wiki/installing)
+* ffmpeg (optional, http://www.ffmpeg.org/)
+* Redis (http://redis.io/)
+* rubygems (http://rubygems.org/pages/download)
+* ClamAV (http://www.clamav.net/)
 
 ‡ - Why "you may need"? Some of these are only optionally used in development and tests; But production will need it.
 
