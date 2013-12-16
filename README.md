@@ -76,7 +76,7 @@ $ rake jetty:unzip
 
 ## Running the Specs
 
-Inside the Curate directory:
+Inside the Curate directory (i.e. `./path/to/local`):
 
 ### All of Them
 
