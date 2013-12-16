@@ -72,7 +72,7 @@ You are free to clone or [fork the repository](https://help.github.com/articles/
 
 ## Coding Guidelines
 
-Will be brought in from [README](./README)
+Will be brought in from [README](./README.md)
 
 ## Where to Engage for Help
 
@@ -97,7 +97,7 @@ Will be brought in from [README](./README).
 
 It includes:
 
-* Adhearing to coding standards
+* Adhering to coding standards
 * Writing of unit tests to verify you've done it right
 
 ## Well Written Commit Messages
