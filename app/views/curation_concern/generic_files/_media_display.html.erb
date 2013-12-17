@@ -1,1 +1,11 @@
-<%= link_to 'Download', download_path(generic_file.noid),{class: 'btn', title: "Download #{generic_file.to_s.inspect}", :target => "_blank"}%>
+<%- if generic_file.image? -%>
+  <%= image_tag download_path(generic_file, datastream_id: 'thumbnail'), class: 'representative_image' %>
+<% elsif generic_file.audio? %>
+  <audio controls="controls" class="video-js vjs-default-skin" data-setup="{}" preload="auto">
+    <source src="<%= download_path(generic_file, datastream_id: 'ogg') %>" type="audio/ogg" />
+    <source src="<%= download_path(generic_file, datastream_id: 'mp3') %>" type="audio/mpeg" />
+    Your browser does not support the audio tag.
+  </audio>
+<%- else -%>
+  <%= image_tag 'curate/nope.png', class: "canonical-image" %>
+<%- end -%>

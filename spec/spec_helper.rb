@@ -53,6 +53,7 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.include Devise::TestHelpers, type: :controller
+  config.include Devise::TestHelpers, type: :view
   config.include InputSupport, type: :input, example_group: {
     file_path: config.escaped_path(%w[spec inputs])
   }

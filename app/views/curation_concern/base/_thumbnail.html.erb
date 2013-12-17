@@ -1,5 +1,7 @@
-<%- if thumbnail.representative.present? -%>
-  <%= image_tag download_path(thumbnail.representative, {:datastream_id => 'thumbnail'}), class: dom_class_name  %>
-<%- else -%>
-  <%= image_tag 'curate/nope.png', class: "canonical-image" %>
-<%- end -%>
+<% width = 36 if width.blank? %>
+<%  if thumbnail.image? || thumbnail.pdf? || thumbnail.video? %>
+  <% path = download_path(thumbnail, {datastream_id: 'thumbnail'}) %>
+<% else %>
+  <% path = "curate/default.png" %>
+<% end %>
+<%= link_to image_tag(path, width: width, class: 'thumbnail'), curation_concern_generic_file_path(thumbnail.noid), class: 'canonical-image' %>
