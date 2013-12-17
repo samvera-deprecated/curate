@@ -54,6 +54,7 @@ task :generate do
     gem 'simplecov', group: :test, require: false
     gem 'coveralls', group: :test, require: false
     gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'
+    #gem 'omniauth-cas'
 EOV
     gemfile_content << "gem 'debugger'" unless ENV['TRAVIS']
 
