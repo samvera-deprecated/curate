@@ -7,17 +7,13 @@ It is released under the [Apache 2 License](./LICENSE)
   * [or install by hand](#or-install-by-hand)
 * [Developing and contributing for the Curate gem](#developing-and-contributing-for-the-curate-gem)
   * [Prerequisites](#prerequisites)
-  * [Clone the Curate repository](#clone-the-repo)
+  * [Clone the Curate repository](#clone-the-curate-repository)
   * [Jetty](#jetty)
   * [Running the specs](#running-the-specs)
     * [All of them](#all-of-them)
     * [Some of them](#some-of-them)
     * [With Zeus](#with-zeus)
   * [Contributing back](#contributing-back)
-    * [Coding Guidelines](#coding-guidelines)
-      * [Writing Your Code](#writing-your-code)
-      * [Ruby File Structure](#ruby-file-structure)
-    * [Source Control Guidelines](#source-control-guidelines)
 * [Working on Curate while working on my Application](#working-on-curate-while-working-on-my-application)
 * [Standing up your Curate-based Rails application in Production](#standing-up-your-curate-based-rails-application-in-production)
 
@@ -113,51 +109,7 @@ In full Rails applications you can normally run the following `rspec path/to/spe
 
 ## Contributing Back
 
-There is an existing [CONTRIBUTING.md](./CONTRIBUTING.md) document which is currently under review.
-
-### Coding Guidelines
-
-The [Ruby Style Guide][1] is an excellent resource for how to craft your Ruby code, in particular the [Naming section][2].
-
-**Can I break these guidelines?** Yes. But you may need to convince the person merging your changes.
-
-#### Writing Your Code
-
-We are going to do our best to follow [Sandi Metz' Rules for Developers][3]
-
-> Here are the rules:
->
-> * Classes can be no longer than one hundred lines of code.
-> * Methods can be no longer than five lines of code.
-> * Pass no more than four parameters into a method. Hash options are parameters.
-> * Controllers can instantiate only one object. Therefore, views can only know about one instance variable and views should only send messages to that object (@object.collaborator.value is not allowed).
-
-#### Ruby File Structure
-
-* Use soft-tabs with a two space indent.
-* Never leave trailing whitespace (unless it is meaningful in the language)
-* End each file with a blank newline.
-* Please do your best to keep lines to 80 characters or fewer.
-
-### Source Control Guidelines
-
-*This is a placeholder for things to come*
-
-[Processing JIRA issues with commit messages](https://confluence.atlassian.com/display/BITBUCKET/Processing+JIRA+issues+with+commit+messages)
-
-```
-First line is 50 characters or less
-
-Description of work done; wrap at 72 characters.
-
-HYDRASIR-123 #close Any comment to post to JIRA
-```
-
-Make sure your JIRA email matches your Git config email (`~/.gitconfig`)
-
-[1]:https://github.com/bbatsov/ruby-style-guide "Ruby Style Guide"
-[2]:https://github.com/bbatsov/ruby-style-guide#naming "Ruby Style Guide - Naming"
-[3]:http://robots.thoughtbot.com/post/50655960596/sandi-metz-rules-for-developers "Sandi Metz' Rules for Developers"
+If you are interested in helping us make Curate better, please take a look at our [Contributing resources and guidelines](./CONTRIBUTING.md).
 
 # Working on Curate while working on my Application
 
