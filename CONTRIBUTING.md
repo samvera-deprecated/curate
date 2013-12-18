@@ -4,17 +4,18 @@ There are a few guidelines that we need contributors to follow so that we can ha
 * [Reporting Issues](#reporting-issues)
   * [What is a well written issue?](#what-is-a-well-written-issue)
 * [Git Flow Branching Strategy](#git-flow-branching-strategy)
+  * [Git Flow Resources](#git-flow-resources)
   * [Why Git Flow?](#why-git-flow)
   * [Possible Gotchas](#possible-gotchas)
 * [Making Changes](#making-changes)
-  * [Coding Guidelines](#coding-guidelines)
   * [Where to Engage for Help](#where-to-engage-for-help)
 * [Submitting Changes](#submitting-changes)
   * [Contributor License Agreement](#contributor-license-agreement)
-  * [Well Written Code](#well-written-code)
+  * [Coding Guidelines](#coding-guidelines)
+    * [Writing Your Code](#writing-your-code)
+    * [Ruby File Structure](#ruby-file-structure)
   * [Well Written Commit Messages](#well-written-commit-messages)
     * [Hooks into JIRA](#hooks-into-jira)
-      * [Valid Transition Commands](#valid-transition-commands)
     * [Hooks into other Subsystems](#hooks-into-other-subsystems)
 * [Reviewing Changes](#reviewing-changes)
   * [Responsibilities of a Reviewer](#responsibilities-of-a-reviewer)
@@ -39,6 +40,31 @@ This will require a [GitHub account](https://github.com/signup/free) *(its free)
 Curate uses [Git Flow](https://github.com/nvie/gitflow) as its branching procedure.
 We acknowledge that this adds additional complexities to the branching process.
 It is our belief that the project's code health is better for these complexities.
+
+## Preparing My Local Repository
+
+Assuming you are using the [git-flow extension to git command line tools](https://github.com/nvie/gitflow), you will need to append the following to your `.git/config` file in your Curate repository.
+
+```git
+[gitflow "branch"]
+  master = master
+  develop = develop
+[gitflow "prefix"]
+  feature = feature/
+  release = release/
+  hotfix = hotfix/
+  support = support/
+  versiontag = v
+```
+
+The above was generated via `$ git flow init`
+
+## Git Flow Resources
+
+* [Initial proposal for Git Flow at nvie.com's blog](http://nvie.com/posts/a-successful-git-branching-model/)
+* [Install git-flow extension for command line git](https://github.com/nvie/gitflow#installing-git-flow)
+* [git-flow cheatsheet](http://danielkummer.github.io/git-flow-cheatsheet/) - a nice infographic style cheatsheet
+* [Atlassian's SourceTree](http://www.sourcetreeapp.com/) - a free Git GUI that supports git-flow
 
 ## Why Git Flow?
 
@@ -70,10 +96,6 @@ At that point we will need to create a version stable branch to apply urgent fix
 Curate is an open source project, released under the [APACHE 2 license](LICENSE).
 You are free to clone or [fork the repository](https://help.github.com/articles/fork-a-repo) and modify the code as you see fit.
 
-## Coding Guidelines
-
-Will be brought in from [README](./README.md)
-
 ## Where to Engage for Help
 
 Curate is part of ProjectHydra, so you can [connect via the usual ProjectHydra channels](https://wiki.duraspace.org/display/hydra/Connect).
@@ -91,14 +113,29 @@ If the contributor works for an institution, the institution must have a Corpora
 
 [More on the Contributor License Agreements](https://wiki.duraspace.org/display/hydra/Hydra+Project+Intellectual+Property+Licensing+and+Ownership)
 
-## Well Written Code
+## Coding Guidelines
 
-Will be brought in from [README](./README).
+The [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide) is an excellent resource for how to craft your Ruby code, in particular the [Naming section](https://github.com/bbatsov/ruby-style-guide#naming).
 
-It includes:
+**Can I break these guidelines?** Yes. But you may need to convince the person merging your changes.
 
-* Adhering to coding standards
-* Writing of unit tests to verify you've done it right
+### Writing Your Code
+
+We are going to do our best to follow [Sandi Metz' Rules for Developers](http://robots.thoughtbot.com/post/50655960596/sandi-metz-rules-for-developers)
+
+> Here are the rules:
+>
+> * Classes can be no longer than one hundred lines of code.
+> * Methods can be no longer than five lines of code.
+> * Pass no more than four parameters into a method. Hash options are parameters.
+> * Controllers can instantiate only one object. Therefore, views can only know about one instance variable and views should only send messages to that object (@object.collaborator.value is not allowed).
+
+### Ruby File Structure
+
+* Use soft-tabs with a two space indent.
+* Never leave trailing whitespace (unless it is meaningful in the language)
+* End each file with a blank newline.
+* Please do your best to keep lines to 80 characters or fewer.
 
 ## Well Written Commit Messages
 
@@ -130,7 +167,7 @@ It includes:
       long to fit in 72 characters
 ```
 
-> Please squash your commits into a single commit when appropriate.
+> When appropriate, please squash your commits into logical units of work.
 > This simplifies future cherry picks, and also keeps the git log clean.
 
 ### Hooks into JIRA
@@ -153,6 +190,7 @@ This would:
 * Transition, if valid, the HYDRASIR-12 task to the Closed state.
 * Add "Append the quoted text as a comment on the task" as a comment on HYDRASIR-12
 
+
 #### Valid Transition Commands
 
 * start-work
@@ -160,6 +198,8 @@ This would:
 * stop-work
 * close
 * reopen
+
+[Additional information about processing JIRA issues with commit messages](https://confluence.atlassian.com/display/BITBUCKET/Processing+JIRA+issues+with+commit+messages)
 
 ### Hooks into other Subsystems
 
