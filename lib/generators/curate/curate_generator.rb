@@ -91,7 +91,7 @@ This generator makes the following changes to your application:
   # This enables our registrations controller to run the after_update_path_for hook.
   def update_devise_route
     gsub_file 'config/routes.rb', /^\s+devise_for :users\s*$/ do
-      %(    devise_for :users, controllers: { sessions: :sessions, registrations: :registrations}\n\n)
+      %(    devise_for :users, controllers: { sessions: :sessions, registrations: :registrations, omniauth_callbacks: :authentications}\n\n)
     end
   end
 
@@ -103,6 +103,9 @@ This generator makes the following changes to your application:
   def inject_curate_user
     inject_into_file 'app/models/user.rb', after: /include Sufia\:\:User.*$/ do
       "\n  include Curate::UserBehavior\n"
+    end
+    inject_into_file 'app/models/user.rb', after: /devise \:/ do
+      "omniauthable, :"
     end
   end
 

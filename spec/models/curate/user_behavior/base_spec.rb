@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Curate::UserBehavior::Base do
   let(:model) do
     Class.new do
+      def self.has_many(*args)
+      end
       include Curate::UserBehavior::Base
       def initialize(object)
         @object = object

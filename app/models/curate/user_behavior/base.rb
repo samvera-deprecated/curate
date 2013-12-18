@@ -3,6 +3,10 @@ module Curate
     module Base
       extend ActiveSupport::Concern
 
+      included do
+        has_many :authentications, dependent: :destroy
+      end
+
       def repository_noid
         Sufia::Noid.noidify(repository_id)
       end
@@ -25,6 +29,25 @@ module Curate
 
       def name
         read_attribute(:name) || user_key
+      end
+
+      def apply_omniauth(omni)
+        authentication = authentications.build(:provider => omni['provider'],
+             :uid => omni['uid'],
+             :token => omni['credentials'].token,
+             :token_secret => omni['credentials'].secret)
+      end
+
+      def password_required?
+        (authentications.empty? || !password.blank?) && super
+      end
+
+      def update_with_password(params, *options)
+        if encrypted_password.blank?
+          update_attributes(params, *options)
+        else
+          super
+        end
       end
     end
   end
