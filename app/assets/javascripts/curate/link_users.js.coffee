@@ -82,7 +82,7 @@
       $targetElement.autocomplete
         source: (request, response) ->
           $targetElement.data('url')
-          $.getJSON $targetElement.data('url'), { q: request.term}, ( data, status, xhr ) ->
+          $.getJSON $targetElement.data('url'), { q: request.term+"*"}, ( data, status, xhr ) ->
             matches = []
             $.each data.response.docs, (idx, val) ->
               matches.push {label: val['desc_metadata__name_tesim'][0], value: val['id']}
