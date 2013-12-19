@@ -139,7 +139,23 @@ We are going to do our best to follow [Sandi Metz' Rules for Developers](http://
 
 ## Well Written Commit Messages
 
-**TL;DR** - First line is < 50 characters; The message body explains what the code changes are about; Reference any JIRA or Github issues.
+**TL;DR**
+
+* First line is < 50 characters
+* The message body explains what the code changes are about
+* Reference any JIRA or Github issues on new lines.
+
+### Terse Example
+
+```
+    Removing Document title validation
+
+    We thought we wanted title validation but that was too complicated.
+
+    HYDRASIR-12 #close
+```
+
+### Verbose Example
 
 ```
     Present tense short summary (50 characters or less)
