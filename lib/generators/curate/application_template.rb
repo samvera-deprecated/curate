@@ -40,6 +40,20 @@ if yes_with_banner?(HELPFUL_DEVELOPMENT_TOOLS)
 
 end
 
+USE_RUBY_RACER =
+  <<-QUESTION_TO_ASK
+Would you like to include the Ruby Racer gem? (Needed in some Linux environments)
+
+More information at http://github.com/cowboyd/therubyracer
+QUESTION_TO_ASK
+
+if yes_with_banner?(USE_RUBY_RACER)
+  with_git("Adding Ruby Racer gem") do
+    gem 'therubyracer', platforms: :ruby
+  end
+
+end
+
 with_git("Results of `bundle install`") do
   run 'bundle install'
 end
