@@ -1,7 +1,7 @@
 namespace :spec do
   desc 'Show the source location of rspec matchers'
-  task :show_matchers do
-    require 'rails'
+  task :show_matchers => [:generate] do
+    require File.expand_path("../../spec/internal/config/environment.rb",  __FILE__)
 
     $SHOW_MATCHERS = {}
 
