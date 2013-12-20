@@ -12,6 +12,8 @@ There are a few guidelines that we need contributors to follow so that we can ha
 * [Submitting Changes](#submitting-changes)
   * [Contributor License Agreement](#contributor-license-agreement)
   * [Coding Guidelines](#coding-guidelines)
+    * [Writing Your Specs](#writing-your-specs)
+      * [Custom Rspec Matchers](#custom-rspec-matchers)
     * [Writing Your Code](#writing-your-code)
     * [Ruby File Structure](#ruby-file-structure)
   * [Well Written Commit Messages](#well-written-commit-messages)
@@ -117,7 +119,41 @@ If the contributor works for an institution, the institution must have a Corpora
 
 The [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide) is an excellent resource for how to craft your Ruby code, in particular the [Naming section](https://github.com/bbatsov/ruby-style-guide#naming).
 
+Your code changes should include support tests.
+
 **Can I break these guidelines?** Yes. But you may need to convince the person merging your changes.
+
+### Writing Your Specs
+
+Before you begin writing code, think about the test that will verify the code you plan to write.
+A [well written story with Gherkin syntax](http://pivotallabs.com/well-formed-stories/) can help formulate the pre-conditions (Given), invocation (When), and post-conditions (Then).
+
+*This is the first step of Test Driven Development, and something that we strongly encourage.*
+
+Now write that test; It should be your guidepost for any changes you plan on making.
+Ideally the test you just wrote will be executable code.
+However, a well formed Gherkin-syntax story is a suitable proxy; Especially if you are uncomfortable with where to put the executable code.
+
+*Think of your written test as a statement of intent.*
+*The statement of intent can then be used when asking for help or clarity; Either from another developer or a stakeholder.*
+*Someone helping you can then see both what you are trying to do and how you are doing it; And that helper may know of a "better" way to do it.*
+
+#### Custom Rspec Matchers
+
+We encourage the use of [custom rspec matchers](https://www.relishapp.com/rspec/rspec-expectations/v/2-3/docs/custom-matchers/define-matcher) as this helps our specs better convey what is going on.
+
+To find the existin Rspec matchers in the Curate project, you can run `rake spec:show_matchers`.
+Below is the sample output.
+
+```shell
+be                 /path/to/bundled/gem/rspec-expectations-2.14.4/lib/rspec/matchers.rb:221
+be_a               /path/to/bundled/gem/rspec-expectations-2.14.4/lib/rspec/matchers.rb:227
+be_a_kind_of       /path/to/bundled/gem/rspec-expectations-2.14.4/lib/rspec/matchers.rb:253
+be_a_new           /path/to/bundled/gem/rspec-rails-2.14.0/lib/rspec/rails/matchers/be_a_new.rb:73
+be_an              /path/to/bundled/gem/rspec-expectations-2.14.4/lib/rspec/matchers.rb:227
+be_an_instance_of  /path/to/bundled/gem/rspec-expectations-2.14.4/lib/rspec/matchers.rb:240
+...
+```
 
 ### Writing Your Code
 
@@ -240,7 +276,7 @@ When you do assign someone to the Pull Request, please make sure to add a commen
 As a reviewer, it is important that the pull request:
 
 * Has a (well written commit message)[#well-written-commit-messages]
-* Has (well written code)[#well-written-code]
+* Has (well written code)[#coding-guidelines]
 * The test suite successfully builds
 * Any questions regarding the pull request are answered
 * Adjucate if the Pull Request should be squashed into a smaller number of commits
