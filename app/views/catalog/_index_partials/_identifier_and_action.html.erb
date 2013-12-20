@@ -23,8 +23,11 @@
           title: "Edit #{document.human_readable_type}"
         )%>
       <% end %>
-      <% if can? :collect, document %>
-        <%= render 'add_to_collection_gui', collectible: document %>
+
+      <% unless document.respond_to?(:user) %>
+        <% if can? :collect, document %>
+          <%= render 'add_to_collection_gui', collectible: document %>
+        <% end %>
       <% end %>
     <% end %>
   </div>

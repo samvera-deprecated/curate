@@ -104,6 +104,10 @@ class Person < ActiveFedora::Base
     self.thumbnail.content.present? ? generate_thumbnail_url : gravatar_link
   end
 
+  def can_be_member_of_collection?(collection)
+    false
+  end
+
   private
 
   def generate_derivatives

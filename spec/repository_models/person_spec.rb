@@ -18,6 +18,13 @@ describe Person do
     its(:user) { should be_nil }
   end
 
+  describe 'Collection' do
+    it 'should not add a person object to the collection' do
+      person = Person.new
+      expect(person.can_be_member_of_collection?(double)).to be_false
+    end
+  end
+
   describe 'to_solr' do
     before do
       subject.name = "Aura D. Stanton"
