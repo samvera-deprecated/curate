@@ -37,6 +37,7 @@ describe 'Profile for a Person: ' do
       click_link 'My Profile'
       page.should have_content('Spider Man')
     end
+
   end
 
   context "searching" do
@@ -64,7 +65,7 @@ describe 'Profile for a Person: ' do
     end
 
     it 'should have a profile image in show view' do
-      create_image(image_file)
+      update_my_account("image", image_file)
       visit('/')
       click_link "My Profile"
       page.should have_css("img[src$='/downloads/#{person.pid}?datastream_id=medium']")
@@ -75,14 +76,36 @@ describe 'Profile for a Person: ' do
       click_link "My Profile"
       page.should have_css("img[class$='gravatar']")
     end
+
+    it 'should render personal webpage and blog URLs as a-tags' do
+      url_example = 'http://www.google.com/'
+      update_my_account("url", url_example)
+      visit('/')
+      click_link "My Profile"
+      page.should have_link(url_example, href: url_example)
+      url_example = 'https://www.google.com/'
+      update_my_account("url", url_example)
+      visit('/')
+      click_link "My Profile"
+      page.should have_link(url_example, href: url_example)
+      url_example = 'google.com/'
+      update_my_account("url", url_example)
+      visit('/')
+      click_link "My Profile"
+      page.should have_link(url_example, href: 'http://' + url_example)
+    end
   end
 
-  def create_image(image_file)
+  def update_my_account(field_name, field_value)
     visit("/")
     click_link "My Profile"
     click_link "Update Personal Information"
     within('form.edit_user') do
-      attach_file("Upload your file", image_file)
+      if field_name == "image"
+        attach_file("Upload your file", field_value)
+      elsif field_name == "url"
+        fill_in("user[personal_webpage]", with: field_value)
+      end
       fill_in("user[current_password]", with: password)
       click_button "Update My Account"
     end

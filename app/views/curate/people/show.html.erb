@@ -21,7 +21,13 @@
       <% if @person.send(attribute_name).present? %>
         <dt><%="#{derived_label_for( @person, attribute_name) }:" %></dt>
         <% [@person.send(attribute_name)].flatten.compact.each do |value| %>
-        <dd><%= value %></dd>
+          <% if value =~ /(?i)^http(s?):\/\// %>
+            <dd><a href="<%= value %>"><%= value%></a></dd>
+          <% elsif value =~ /^(?i)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ %>
+            <dd><a href="http://<%= value %>"><%= value%></a></dd>
+          <% else %>
+            <dd><%= value %></dd>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>
