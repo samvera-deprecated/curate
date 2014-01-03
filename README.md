@@ -133,6 +133,16 @@ You can then do concurrent development on both your clone of the Curate gem and 
 
 **NOTE: Any changes you make in the Curate gem will likely require you to restart your web-server.**
 
+# Integration with CAS, LDAP, Shibboleth
+
+For integration with CAS, refer: https://github.com/nbudin/devise_cas_authenticatable
+
+For integration with LDAP, refer: https://github.com/cschiewek/devise_ldap_authenticatable
+
+For integration with CAS, refer: https://github.com/jgeorge300/devise_shibboleth_authenticatable
+
+For integration with multiple authentication systems (and for twitter, facebook, etc.), consider using OmniAuth: https://github.com/intridea/omniauth
+
 # Standing up your Curate-based Rails application in Production
 
 We are working on this and have more to come.
