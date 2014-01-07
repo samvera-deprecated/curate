@@ -91,9 +91,10 @@ if yes_with_banner?(JETTY_QUESTION)
   end
 
   with_git("Downloading jettywrapper") do
-    if yes_with_banner?("Would you like to download jetty now?\n\nThis will take quite awhile based on download speeds.")
+    if yes_with_banner?("Would you like to download and unzip jetty now?\n\nThis will take quite awhile based on download speeds.")
       rake "jetty:download"
       rake "jetty:config"
+      rake "jetty:unzip"
     end
   end
 end
