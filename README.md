@@ -100,7 +100,7 @@ In full Rails applications you can normally run the following `rspec path/to/spe
 
 ### With Zeus
 
-> [Zeus](https://github.com/burke/zeus) preloads your Rails app so that your normal development tasks such as console, server, generate, and specs/tests take less than one second. ‡
+> [Zeus](https://github.com/burke/zeus) pre-loads your Rails app so that your normal development tasks such as console, server, generate, and specs/tests take less than one second. ‡
 
 1. In terminal window #1 run `zeus start`
 1. In terminal window #2, once Zeus is started: run `zeus rake spec` for all tests; or `zeus test path/to/spec.rb:LINE` for one
@@ -115,7 +115,7 @@ If you are interested in helping us make Curate better, please take a look at ou
 
 Assuming you are wanting to work on your Curate-based application and make modifications to the Curate gem, follow these instructions.
 
-Replace the folliwing line in the Gemfile of your Curate-based application (see [Starting a New Curate Based Application](#starting-a-new-curate-based-application)):
+Replace the following line in the Gemfile of your Curate-based application (see [Starting a New Curate Based Application](#starting-a-new-curate-based-application)):
 
 ```ruby
 gem 'curate' ...
@@ -139,7 +139,7 @@ For integration with CAS, refer: https://github.com/nbudin/devise_cas_authentica
 
 For integration with LDAP, refer: https://github.com/cschiewek/devise_ldap_authenticatable
 
-For integration with CAS, refer: https://github.com/jgeorge300/devise_shibboleth_authenticatable
+For integration with Shibboleth, refer: https://github.com/jgeorge300/devise_shibboleth_authenticatable
 
 For integration with multiple authentication systems (and for twitter, facebook, etc.), consider using OmniAuth: https://github.com/intridea/omniauth
 
