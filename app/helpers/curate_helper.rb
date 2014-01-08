@@ -114,4 +114,35 @@ module CurateHelper
     return dom_label_class, link_title
   end
   private :extract_dom_label_class_and_link_title
+
+  def person_profile_fields_display(person)
+    markup = ""
+    person.terms_for_display.reject{|name| name == :name}.each do |attribute_name|
+      if person.send(attribute_name).present?
+        markup << %(<dt>#{derived_label_for( person, attribute_name) }: </dt>)
+         [person.send(attribute_name)].flatten.compact.each do |value|
+           if url_match(value)== 'with_protocol'
+             markup << %(<dd><a href="#{value}">#{value}</a></dd>)
+           elsif url_match(value)== 'without_protocol'
+             markup << %(<dd><a href="http://#{value}">#{value}</a></dd>)
+           else
+             markup << %(<dd>#{value}</dd>)
+          end
+        end
+      end
+    end
+    markup.html_safe
+  end
+
+  def url_match(url)
+    match = ''
+    if url =~ /(?i)\Ahttp(s?):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/
+      match = 'with_protocol'
+    elsif url =~ /\A(?i)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/
+      match = 'without_protocol'
+    else
+      match
+    end
+    match
+  end
 end

@@ -36,11 +36,9 @@ describe 'curate/people/show.html.erb' do
         end
       end
     end
-
   end
 
   context 'with an empty profile and not logged in' do
-
     before do
       assign :person, person
       controller.stub(:current_user).and_return(user)
@@ -57,5 +55,32 @@ describe 'curate/people/show.html.erb' do
     end
   end
 
+  context 'A person when logged in' do
+    let(:http_url) { 'http://www.google.com/' }
+    let(:https_url) { 'https://www.google.com/' }
+    let(:no_protocol_url) { 'google.com/' }
+
+    before do
+      assign :person, person
+      controller.stub(:current_user).and_return(user)
+      render
+    end
+
+    it 'should render personal webpage and blog URLs as a-tags' do
+      check_url_link(http_url )
+      check_url_link(https_url)
+      check_url_link(no_protocol_url)
+    end
+  end
+
+  def check_url_link(url_example)
+    person.stub(:personal_webpage).and_return(url_example)
+    render
+    if url_example == no_protocol_url
+      rendered.should have_link(url_example, href: 'http://' + url_example)
+    else
+      rendered.should have_link(url_example, href: url_example)
+    end
+  end
 
 end
