@@ -98,7 +98,9 @@ if yes_with_banner?(JETTY_QUESTION)
   end
 end
 
-with_git("Installing rspec files with curate support") do
-  generate "rspec:install"
-  inject_into_file 'spec/spec_helper.rb', "\nrequire 'curate/spec_support'", :after => "require 'rspec/autorun'"
+with_git("Installing RSpec files with curate support") do
+  if yes_with_banner?("Would you like to include support for RSpec testing?\n\nThis is needed if you want to use spec tests for your custom code.")
+    generate "rspec:install"
+    inject_into_file 'spec/spec_helper.rb', "\nrequire 'curate/spec_support'", :after => "require 'rspec/autorun'"
+  end
 end
