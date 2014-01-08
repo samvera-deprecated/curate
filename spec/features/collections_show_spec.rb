@@ -17,6 +17,13 @@ describe "Collections show view: " do
       visit collection_path(collection.pid)
       page.should_not have_css(".collection-member[data-noid='#{article.noid}']")
     end
+
+    it "should display the delete button" do
+      collection.save!
+      login_as(user)
+      visit collection_path(collection.pid)
+      expect(page).to have_button('Delete')
+    end
   end
 
   context "In public view: " do
@@ -36,3 +43,4 @@ describe "Collections show view: " do
     end
   end
 end
+
