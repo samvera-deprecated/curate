@@ -79,11 +79,11 @@ Inside the Curate directory (i.e. `./path/to/local`):
 
 1. Make sure jetty is running (`rake jetty:start`); It will take a bit to spin up jetty.
 1. Make sure you have a dummy app ‡
-  1. Run `rake regenerate` build the to get a clean app ./spec/dummy
+  1. Run `rake regenerate` to build a clean app in ./spec/dummy
 1. Then run `rake spec`; The tests will take quite a while ‡‡
 
 ‡ - A Rails engine requires a Rails application to run.
-The dummy app is an generated application inside Curate in the `./spec/internal` directory
+The dummy app is a generated application inside Curate in the `./spec/internal` directory
 ‡‡ - Slow tests are a big problem and we are working on speeding them up, but its complicated.
 
 ### Some of Them
@@ -92,7 +92,7 @@ In some cases you want to know the results of a single test. Here's how you do i
 
 1. Make sure jetty is running (`rake jetty:start`); It will take a bit to spin up jetty.
 1. Make sure you have a dummy app ‡
-  1. Run `rake regenerate` build the to get a clean app ./spec/dummy
+  1. Run `rake regenerate` to build a clean app in ./spec/dummy
 1. Then run `BUNDLE_GEMFILE=spec/internal/Gemfile bundle exec rspec path/to/spec.rb:LINE` ‡
 
 ‡ - With Curate being an Engine we need to point to the Dummy Application's Gemfile.
