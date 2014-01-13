@@ -56,10 +56,9 @@ describe 'curate/people/show.html.erb' do
   end
 
   context 'A person when logged in' do
-    let(:http_urls) { ['http://www.google.com/','http://www.google.com/map/12/test'] }
-    let(:https_urls) { ['https://www.google.com/','https://www.google.com/map/12/test'] }
-    let(:no_protocol_urls) { ['google.com/','www.google.com/','www.google.com/map/12/test','jira.duraspace.org'] }
-    let(:bad_urls) {['google', 'ftp://test.com']}
+    let(:http_url) {'http://www.google.com/'}
+    let(:https_url) {'https://www.google.com/'}
+    let(:no_protocol_url) {'google.com/'}
 
     before do
       assign :person, person
@@ -67,42 +66,17 @@ describe 'curate/people/show.html.erb' do
       render
     end
 
-    it 'should match regular expressions' do
-      check_url_regex(http_urls)
-      check_url_regex(https_urls)
-      check_url_regex(no_protocol_urls)
-      check_url_regex(bad_urls)
-    end
-
     it 'should render personal webpage and blog URLs as a-tags' do
-      check_url_link(http_urls[0] )
-      check_url_link(https_urls[0])
-      check_url_link(no_protocol_urls[0])
+      check_url_link(http_url)
+      check_url_link(https_url)
+      check_url_link(no_protocol_url)
     end
-  end
-
-  def check_url_regex(urls)
-    http_url_regex = /(?i)\Ahttp(s?):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/
-    no_protocol_url_regex = /\A(?i)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/
-
-    if urls == http_urls || urls == https_urls
-      urls.each do |http_url_example|
-      http_url_example.should match(http_url_regex)
-      end
-    end
-    urls.each do |no_protocol_url_example|
-      no_protocol_url_example.should match(no_protocol_url_regex)
-    end if urls == no_protocol_urls
-    urls.each do |bad_url_example|
-      bad_url_example.should_not match(http_url_regex)
-      bad_url_example.should_not match(no_protocol_url_regex)
-    end if urls == bad_urls
   end
 
   def check_url_link(url_example)
     person.stub(:personal_webpage).and_return(url_example)
     render
-    if url_example == no_protocol_urls[0]
+    if url_example == no_protocol_url
       rendered.should have_link(url_example, href: 'http://' + url_example)
     else
       rendered.should have_link(url_example, href: url_example)

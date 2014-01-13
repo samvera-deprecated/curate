@@ -208,4 +208,13 @@ describe ApplicationHelper do
       end
     end
   end
+
+  it "should match https://www.google.com as 'with_protocol'" do
+    expect(helper.url_match("https://www.google.com")).to eq('with_protocol')
+  end
+
+  it "should match www.google.com as 'without_protocol'" do
+    expect(helper.url_match("www.google.com")).to eq('without_protocol')
+  end
+
 end
