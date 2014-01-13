@@ -15,6 +15,7 @@ It is released under the [Apache 2 License](./LICENSE)
     * [With Zeus](#with-zeus)
   * [Contributing back](#contributing-back)
 * [Working on Curate while working on my Application](#working-on-curate-while-working-on-my-application)
+* [Integration with CAS, LDAP, Shibboleth](#integration-with-cas-ldap-shibboleth)
 * [Standing up your Curate-based Rails application in Production](#standing-up-your-curate-based-rails-application-in-production)
 
 # Starting a New Curate Based Application
