@@ -82,10 +82,10 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   def destroy
     title = curation_concern.to_s
     curation_concern.destroy
-    after_destroy_response
+    after_destroy_response(title)
   end
 
-  def after_destroy_response
+  def after_destroy_response(title)
     flash[:notice] = "Deleted #{title}"
     respond_with { |wants|
       wants.html { redirect_to catalog_index_path }

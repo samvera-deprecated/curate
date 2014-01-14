@@ -22,6 +22,16 @@
           class: 'itemicon itemedit btn',
           title: "Edit #{document.human_readable_type}"
         )%>
+      <% unless document.is_a?(Collection) %>
+        <%= link_to(
+          raw('<i class="icon-trash icon-large"></i>'),
+            [:curation_concern, document],
+            class: 'itemicon itemtrash btn',
+            confirm: "Delete this #{document.human_readable_type}?",
+            method: :delete,
+            title: "Delete #{document.human_readable_type}"
+          )%>
+      <% end %>
       <% end %>
 
       <% unless document.respond_to?(:user) %>
@@ -32,4 +42,5 @@
     <% end %>
   </div>
 </div>
+
 
