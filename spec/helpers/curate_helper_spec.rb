@@ -208,4 +208,18 @@ describe ApplicationHelper do
       end
     end
   end
+
+  it "should match https://www.google.com as 'with_protocol'" do
+    expect(helper.url_match("https://www.google.com")).to eq('with_protocol')
+  end
+
+  it "should match www.google.com as 'without_protocol'" do
+    expect(helper.url_match("www.google.com")).to eq('without_protocol')
+  end
+
+  it "should match empty or nil string as empty sting" do
+    expect(helper.url_match("")).to eq('')
+    expect(helper.url_match(nil)).to eq('')
+  end
+
 end

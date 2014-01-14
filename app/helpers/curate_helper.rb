@@ -114,4 +114,45 @@ module CurateHelper
     return dom_label_class, link_title
   end
   private :extract_dom_label_class_and_link_title
+
+  def person_profile_fields_display(person)
+    markup = capture do
+      person.terms_for_display.reject{|name| name == :name}.each do |attribute_name|
+        if person.send(attribute_name).present?
+          concat(content_tag(:dt,"#{derived_label_for(person, attribute_name)}: "))
+          [person.send(attribute_name)].flatten.compact.each do |value|
+            url_match_response = url_match(value)
+            if url_match_response == 'with_protocol'
+              concat(content_tag(:dd, link_to("#{value}", value)))
+            elsif url_match_response == 'without_protocol'
+              concat(content_tag(:dd, link_to("#{value}", "http://#{value}")))
+            else
+              concat(content_tag(:dd, value))
+            end
+          end
+        end
+      end
+    end
+   markup
+  end
+
+  def url_match(url)
+    match = ''
+    if url =~ http_url_regex
+      match = 'with_protocol'
+    elsif url =~ no_protocol_url_regex
+      match = 'without_protocol'
+    else
+      match
+    end
+    match
+  end
+
+  def http_url_regex
+    /(?i)\Ahttp(s?):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/
+  end
+
+  def no_protocol_url_regex
+    /\A(?i)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/
+  end
 end

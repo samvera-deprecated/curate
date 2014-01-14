@@ -53,6 +53,7 @@ describe 'Profile for a Person: ' do
     end
   end
 
+
   context 'A person when logged in' do
     let(:password) { FactoryGirl.attributes_for(:user).fetch(:password) }
     let(:account) { FactoryGirl.create(:account, name: 'Iron Man') }
@@ -87,4 +88,5 @@ describe 'Profile for a Person: ' do
       click_button "Update My Account"
     end
   end
+
 end
