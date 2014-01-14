@@ -217,4 +217,9 @@ describe ApplicationHelper do
     expect(helper.url_match("www.google.com")).to eq('without_protocol')
   end
 
+  it "should match empty or nil string as empty sting" do
+    expect(helper.url_match("")).to eq('')
+    expect(helper.url_match(nil)).to eq('')
+  end
+
 end
