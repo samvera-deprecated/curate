@@ -44,6 +44,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'hydra-derivatives', '>= 0.0.7'
   s.add_dependency 'chronic', '>= 0.10.2'
   s.add_dependency 'virtus'
+  s.add_dependency 'rails_autolink'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "factory_girl_rails"
