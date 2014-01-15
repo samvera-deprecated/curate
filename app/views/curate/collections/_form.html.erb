@@ -45,6 +45,11 @@
 
   <div class="form-actions">
     <%= f.submit class: 'btn btn-primary' %>
+    <%- if @collection.persisted? -%>
+      <%= link_to 'Cancel', collection_path(@collection), class: 'btn btn-link' %>
+    <% else %>
+      <%= link_to 'Cancel', root_path, class: 'btn btn-link' %>
+    <% end %>
   </div>
 <% end %>
 </div>
