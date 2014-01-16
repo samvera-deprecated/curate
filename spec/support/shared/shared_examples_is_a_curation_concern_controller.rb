@@ -141,4 +141,14 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
     end
   end
 
+  if optionally_include_specs(actions, :destroy)
+    describe "#destroy" do
+      let(:work_to_be_deleted) { FactoryGirl.create(default_work_factory_name, user: user) }
+      it "should delete the work" do
+        delete :destroy, id: work_to_be_deleted
+        expect { GenericWork.find(work_to_be_deleted.pid) }.to raise_error
+      end
+    end
+  end
+
 end
