@@ -21,7 +21,7 @@
           <% if @person.send(attribute_name).present? %>
             <dt><%="#{derived_label_for( @person, attribute_name) }:" %></dt>
             <% [@person.send(attribute_name)].flatten.compact.each do |value| %>
-              <dd><%= auto_link(value) %></dd>
+              <%= auto_link_without_protocols(value) %>
             <% end %>
         <% end %>
       <% end %>

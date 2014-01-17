@@ -114,4 +114,10 @@ module CurateHelper
     return dom_label_class, link_title
   end
   private :extract_dom_label_class_and_link_title
+
+  def auto_link_without_protocols(url)
+    link = (url =~ /\A(?i)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/) ? 'http://' + url : url
+    auto_link(link, :all)
+  end
+
 end
