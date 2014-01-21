@@ -27,7 +27,9 @@
           raw('<i class="icon-trash icon-large"></i>'),
             [:curation_concern, document],
             class: 'itemicon itemtrash btn',
-            confirm: "Delete this #{document.human_readable_type}?",
+            data: {
+              confirm: "Delete this #{document.human_readable_type}?"
+            },
             method: :delete,
             title: "Delete #{document.human_readable_type}"
           )%>
