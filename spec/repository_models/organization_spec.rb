@@ -6,7 +6,8 @@ describe Organization do
 
 
   it 'should do something' do
+    expect( organization.members ).to eq([])
     organization.add_member(person)
-    expect { organization.members }.to include(person)
+    expect( organization.members ).to include(person)
   end
 end
