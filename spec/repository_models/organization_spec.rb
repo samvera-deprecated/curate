@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Organization do
   let(:organization) { Organization.new}
   let(:person) { FactoryGirl.create(:person)}
+  let(:work) { FactoryGirl.create(:generic_work)}
 
   describe '#human_readable_type' do
     it "indicates organization" do
