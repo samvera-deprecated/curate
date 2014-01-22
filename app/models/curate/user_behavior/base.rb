@@ -19,6 +19,10 @@ module Curate
         Collection.where(Hydra.config[:permissions][:edit][:individual] => user_key)
       end
 
+      def organizations
+        Organization.where(Hydra.config[:permissions][:edit][:individual] => user_key)
+      end
+
       def get_value_from_ldap(attribute)
         # override
       end
