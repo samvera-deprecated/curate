@@ -17,14 +17,18 @@ class Curate::OrganizationsController < ApplicationController
   end
 
   def  create
-    puts "~~~~~~~~~~~~~~"
-    puts params.inspect
-    puts "~~~~~~~~~~~~~~"
-    @organization.title =
+    @organization = Organization.new(params[:organization])
     @organization.apply_depositor_metadata(current_user.user_key)
-    @organization.save
-    puts "@@@@@@@@@"
-    puts @organization.pid
-    redirect_to 'show'
+    if @organization.save
+      flash[:notice] = "Organization has been created."
+      redirect_to organization_path(@organization)
+    else
+      flash[:notice] = "Organization has been created."
+      render action: :new
+    end
+  end
+
+  def show
+
   end
 end
