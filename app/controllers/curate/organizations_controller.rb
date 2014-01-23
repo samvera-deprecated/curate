@@ -16,14 +16,14 @@ class Curate::OrganizationsController < ApplicationController
     @organization = Organization.new
   end
 
-  def  create
+  def create
     @organization = Organization.new(params[:organization])
     @organization.apply_depositor_metadata(current_user.user_key)
     if @organization.save
-      flash[:notice] = "Organization has been created."
+      flash[:notice] = "Organization created successfully."
       redirect_to organization_path(@organization)
     else
-      flash[:notice] = "Organization has been created."
+      flash[:error] = "Organization was not created."
       render action: :new
     end
   end

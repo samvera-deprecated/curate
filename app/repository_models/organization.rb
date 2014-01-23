@@ -2,10 +2,9 @@ class Organization < ActiveFedora::Base
   include Hydra::Collection
 
   def add_member(collectible)
-    if collectible.respond_to?(:user)
-      self.members << collectible
-      self.save
-    end
+    return false unless collectible.respond_to?(:user)
+    self.members << collectible
+    self.save
   end
 
   def remove_member(collectible)
