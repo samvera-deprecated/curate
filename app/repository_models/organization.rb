@@ -17,4 +17,8 @@ class Organization < ActiveFedora::Base
     self.title.present? ? title : "No Title"
   end
 
+  def human_readable_type
+    "Organization"
+  end
+
 end

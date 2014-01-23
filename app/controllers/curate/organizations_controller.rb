@@ -8,6 +8,7 @@ class Curate::OrganizationsController < ApplicationController
 
   add_breadcrumb 'Organizations', lambda {|controller| controller.request.path }
 
+  before_filter :load_and_authorize_organization, only: [:show, :edit, :delete]
   before_filter :authenticate_user!, except: :show
   before_filter :agreed_to_terms_of_service!
   before_filter :force_update_user_profile!
@@ -21,14 +22,23 @@ class Curate::OrganizationsController < ApplicationController
     @organization.apply_depositor_metadata(current_user.user_key)
     if @organization.save
       flash[:notice] = "Organization created successfully."
-      redirect_to organization_path(@organization)
+      redirect_to organization_path(@organization.id)
     else
       flash[:error] = "Organization was not created."
       render action: :new
     end
   end
 
-  def show
+  def load_and_authorize_organization
+    id = id_from_params(:id)
+    return nil unless id
+    @organization = ActiveFedora::Base.find(id, cast: true)
+    authorize! :update, @organization
+  end
 
+  def id_from_params(key)
+    if params[key] && !params[key].empty?
+      params[key]
+    end
   end
 end
