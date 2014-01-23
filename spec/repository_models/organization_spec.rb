@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Organization do
   let(:organization) { Organization.new}
   let(:person) { FactoryGirl.create(:person)}
+  let(:another_person) { FactoryGirl.create(:person)}
   let(:work) { FactoryGirl.create(:generic_work)}
 
   describe '#human_readable_type' do
@@ -28,6 +29,12 @@ describe Organization do
     it 'should handle attempt to add nil' do
       expect( organization.members ).to eq([])
       organization.add_member(nil).should be_false
+      expect( organization.members ).to eq([])
+    end
+
+    it 'should handle attempt to add nil' do
+      expect( organization.members ).to eq([])
+      organization.add_member(nil)
       expect( organization.members ).to eq([])
     end
   end
