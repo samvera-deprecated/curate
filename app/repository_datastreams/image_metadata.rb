@@ -39,11 +39,11 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
     map.format(in: RDF::QualifiedDC, to: 'format#mimetype')
     map.date_uploaded(to: "dateSubmitted", in: RDF::DC) do |index|
       index.type :date
-      index.as :stored_searchable, :sortable
+      index.as :stored_sortable
     end
     map.date_modified(to: "modified", in: RDF::DC) do |index|
       index.type :date
-      index.as :stored_searchable, :sortable
+      index.as :stored_sortable
     end
     map.identifier(in: RDF::DC)
     map.doi(to: "identifier#doi", in: RDF::QualifiedDC)
