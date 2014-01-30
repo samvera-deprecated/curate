@@ -1,6 +1,7 @@
-We want your help to make Curate great.
+We want your help to make our project great.
 There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things.
 
+* [The Hydra Way](#the-hydra-way)
 * [Reporting Issues](#reporting-issues)
   * [What is a well written issue?](#what-is-a-well-written-issue)
 * [Git Flow Branching Strategy](#git-flow-branching-strategy)
@@ -24,6 +25,15 @@ There are a few guidelines that we need contributors to follow so that we can ha
   * [Responsibilities of the Submitter](#responsibilities-of-the-submitter)
 * [Merging Changes](#merging-changes)
 
+# The Hydra Way
+
+We strive to…
+
+* Provide a [harassment-free community experience](https://wiki.duraspace.org/display/hydra/Anti-Harassment+Policy)
+* Adhere to our [Hierarchy of Promises](https://wiki.duraspace.org/display/hydra/Hydra+Stack+-+The+Hierarchy+of+Promises)
+* Operate under [Lazy Consensus](http://rave.apache.org/docs/governance/lazyConsensus.html)
+* Encourage community participation as guided by [our community principles](https://wiki.duraspace.org/display/hydra/Hydra+Community+Principles)
+
 # Reporting Issues
 
 Submit a [well written issue](#what-is-a-well-written-issue) to [Github's issue tracker](./issues).
@@ -32,20 +42,20 @@ This will require a [GitHub account](https://github.com/signup/free) *(its free)
 ## What is a well written issue?
 
 * Provide a descriptive summary
-* Reference the Curate gem version in which you encountered the problem
+* Reference the gem version in which you encountered the problem
 * Explain the expected behavior
 * Explain the actual behavior
 * Provide steps to reproduce the actual behavior
 
 # Git Flow Branching Strategy
 
-Curate uses [Git Flow](https://github.com/nvie/gitflow) as its branching procedure.
+We use [Git Flow](https://github.com/nvie/gitflow) as our branching procedure.
 We acknowledge that this adds additional complexities to the branching process.
 It is our belief that the project's code health is better for these complexities.
 
 ## Preparing My Local Repository
 
-Assuming you are using the [git-flow extension to git command line tools](https://github.com/nvie/gitflow), you will need to append the following to your `.git/config` file in your Curate repository.
+Assuming you are using the [git-flow extension to git command line tools](https://github.com/nvie/gitflow), you will need to append the following to your `.git/config` file in your local repository.
 
 ```git
 [gitflow "branch"]
@@ -71,10 +81,10 @@ The above was generated via `$ git flow init`
 ## Why Git Flow?
 
 The **master** branch should **always be deployable**…
-And therefore anyone cloning the Curate repository will have a vetted version of Curate to work against.
+And therefore anyone cloning the repository will have a vetted version of the project to work against.
 
 **Urgent fixes** should be quick to apply…
-And therefore anyone that has adopted Curate can quickly apply those fixes.
+And therefore anyone that has adopted this repository can quickly apply those fixes.
 
 **Completed features** should be released as one unit…
 And therefore an adopter does not see portions of an incomplete feature in their latest point release.
@@ -95,12 +105,12 @@ At that point we will need to create a version stable branch to apply urgent fix
 
 # Making Changes
 
-Curate is an open source project, released under the [APACHE 2 license](LICENSE).
+Hydra is an open source project, released under the [APACHE 2 license](LICENSE).
 You are free to clone or [fork the repository](https://help.github.com/articles/fork-a-repo) and modify the code as you see fit.
 
 ## Where to Engage for Help
 
-Curate is part of ProjectHydra, so you can [connect via the usual ProjectHydra channels](https://wiki.duraspace.org/display/hydra/Connect).
+This gem is part of ProjectHydra, so you can [connect via the usual ProjectHydra channels](https://wiki.duraspace.org/display/hydra/Connect).
 
 # Submitting Changes
 
@@ -108,7 +118,7 @@ Curate is part of ProjectHydra, so you can [connect via the usual ProjectHydra c
 
 **Note: You can submit a pull request before you've signed the Contributor License Agreement, but we won't merge your changes until we have your CLA on file.**
 
-Before Curate, or any [ProjectHydra project](https://github.com/projecthydra) can accept your contributions into the [canonical Curate repository](https://github.com/projecthydra/curate), we must have a [Contributor License Agreement on file](https://wiki.duraspace.org/display/hydra/Hydra+Project+Intellectual+Property+Licensing+and+Ownership).
+Before any [ProjectHydra project](https://github.com/projecthydra) can accept your contributions we must have a [Contributor License Agreement on file](https://wiki.duraspace.org/display/hydra/Hydra+Project+Intellectual+Property+Licensing+and+Ownership).
 
 All code contributors must have an Individual Contributor License Agreement (iCLA) on file with the Hydra Project Steering Group.
 If the contributor works for an institution, the institution must have a Corporate Contributor License Agreement (cCLA) on file.
@@ -142,7 +152,7 @@ However, a well formed Gherkin-syntax story is a suitable proxy; Especially if y
 
 We encourage the use of [custom rspec matchers](https://www.relishapp.com/rspec/rspec-expectations/v/2-3/docs/custom-matchers/define-matcher) as this helps our specs better convey what is going on.
 
-To find the existin Rspec matchers in the Curate project, you can run `rake spec:show_matchers`.
+To find the existing Rspec matchers in this project, you can run `rake spec:show_matchers`.
 Below is the sample output.
 
 ```shell
@@ -266,8 +276,8 @@ This is typically used for updates to the documentation and stylesheet changes.
 The review process is a conversation between the submitter and the team as a whole.
 Please feel free to bring other people into the conversation as necessary.
 
-As either the submitter or reviewer, feel free to assign the Pull Request to a Curate contributor.
-This is a way of indicating that you want that Curate contributor to review the change.
+As either the submitter or reviewer, feel free to assign the Pull Request to a repository contributor.
+This is a way of indicating that you want that repository contributor to review the change.
 
 When you do assign someone to the Pull Request, please make sure to add a comment stating why you assigned it to them.
 
