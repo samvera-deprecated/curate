@@ -95,6 +95,13 @@ if yes_with_banner?(JETTY_QUESTION)
       rake "jetty:download"
       rake "jetty:config"
       rake "jetty:unzip"
+
+      if yes_with_banner?("Would you like to turn on soft deleting of works?\n\nThis will preserve deleted objects in the Fedora repository while preventing the works from being displayed in the application.")
+        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/active_fedora_soft_delete_monkey_patch.rb', 'config/initializers/active_fedora_soft_delete_monkey_patch.rb'
+        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/deny-d-objects-and-datastreams.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/deny-d-objects-and-datastreams.xml'
+        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/deny-purge.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/deny-purge.xml'
+        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/permit-describerepository.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/permit-describerepository.xml'
+      end
     end
   end
 end
