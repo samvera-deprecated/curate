@@ -3,7 +3,6 @@ require 'spec_helper'
 describe 'curate/people/show.html.erb' do
   let(:person) { FactoryGirl.create(:person_with_user) }
   let(:user) { person.user }
-  let(:link) { 'www.google.com' }
 
   context 'A person who has a collection in their profile' do
     let(:outer_collection) { FactoryGirl.create(:collection, user: user, title: 'Outer Collection') }
@@ -19,7 +18,6 @@ describe 'curate/people/show.html.erb' do
 
       person.profile.members << [outer_collection, outer_work]
       person.profile.save!
-      person.blog = link
       assign :person, person
       controller.stub(:current_user).and_return(user)
 
@@ -36,7 +34,6 @@ describe 'curate/people/show.html.erb' do
             assert_select 'a[href=?]', curation_concern_generic_work_path(inner_work), count: 0
           end
         end
-        rendered.should have_link('www.google.com')
       end
     end
 
@@ -45,7 +42,6 @@ describe 'curate/people/show.html.erb' do
   context 'with an empty profile and not logged in' do
 
     before do
-      person.blog = link
       assign :person, person
       controller.stub(:current_user).and_return(user)
       render
@@ -58,7 +54,6 @@ describe 'curate/people/show.html.erb' do
         assert_select '#no-documents', count: 0
         assert_select '.form-action', count: 0
       end
-      rendered.should have_link('www.google.com')
     end
   end
 

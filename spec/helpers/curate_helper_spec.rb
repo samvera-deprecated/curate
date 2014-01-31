@@ -208,4 +208,8 @@ describe ApplicationHelper do
       end
     end
   end
+
+  it "should have link for google.com" do
+    helper.auto_link_without_protocols("google.com").should have_link("http://google.com")
+  end
 end
