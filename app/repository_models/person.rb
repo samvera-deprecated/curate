@@ -105,6 +105,7 @@ class Person < ActiveFedora::Base
   end
 
   def can_be_member_of_collection?(collection)
+    return true if collection.is_a?(Organization)
     false
   end
 
