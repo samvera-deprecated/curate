@@ -13,7 +13,7 @@ end
 with_git("Initial commit")
 
 with_git("Adding curate gem") do
-  gem 'curate', "~> 0.6.1"
+  gem 'curate', "~> 0.6.4"
 end
 
 HELPFUL_DEVELOPMENT_TOOLS =
@@ -36,6 +36,20 @@ if yes_with_banner?(HELPFUL_DEVELOPMENT_TOOLS)
 
   with_git("Adding quiet_assets gem") do
     gem 'quiet_assets', group: :development
+  end
+
+end
+
+USE_RUBY_RACER =
+  <<-QUESTION_TO_ASK
+Would you like to include the Ruby Racer gem? (Needed in some Linux environments)
+
+More information at http://github.com/cowboyd/therubyracer
+QUESTION_TO_ASK
+
+if yes_with_banner?(USE_RUBY_RACER)
+  with_git("Adding Ruby Racer gem") do
+    gem 'therubyracer', platforms: :ruby
   end
 
 end
@@ -77,9 +91,24 @@ if yes_with_banner?(JETTY_QUESTION)
   end
 
   with_git("Downloading jettywrapper") do
-    if yes_with_banner?("Would you like to download jetty now?\n\nThis will take quite awhile based on download speeds.")
+    if yes_with_banner?("Would you like to download and unzip jetty now?\n\nThis will take quite awhile based on download speeds.")
       rake "jetty:download"
       rake "jetty:config"
+      rake "jetty:unzip"
+
+      if yes_with_banner?("Would you like to turn on soft deleting of works?\n\nThis will preserve deleted objects in the Fedora repository while preventing the works from being displayed in the application.")
+        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/active_fedora_soft_delete_monkey_patch.rb', 'config/initializers/active_fedora_soft_delete_monkey_patch.rb'
+        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/deny-d-objects-and-datastreams.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/deny-d-objects-and-datastreams.xml'
+        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/deny-purge.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/deny-purge.xml'
+        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/permit-describerepository.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/permit-describerepository.xml'
+      end
     end
+  end
+end
+
+with_git("Installing RSpec files with curate support") do
+  if yes_with_banner?("Would you like to include support for RSpec testing?\n\nThis is needed if you want to use spec tests for your custom code.")
+    generate "rspec:install"
+    inject_into_file 'spec/spec_helper.rb', "\nrequire 'curate/spec_support'", :after => "require 'rspec/autorun'"
   end
 end

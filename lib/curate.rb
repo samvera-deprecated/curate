@@ -10,6 +10,7 @@ require 'active_fedora/registered_attributes'
 require 'hydra/remote_identifier'
 require 'inline_reflection'
 require 'contributors_association'
+require 'rails_autolink'
 
 module Curate
   extend ActiveSupport::Autoload

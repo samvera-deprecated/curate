@@ -33,7 +33,7 @@ class CatalogController < ApplicationController
   end
 
   def self.modified_field
-    solr_name('desc_metadata__date_modified', :stored_sortable, type: :date)
+    solr_name('desc_metadata__date_modified', :stored_sortable , type: :date)
   end
 
 
@@ -83,8 +83,8 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("desc_metadata__publisher", :stored_searchable, type: :string), label: "Publisher"
     config.add_index_field solr_name("desc_metadata__based_near", :stored_searchable, type: :string), label: "Location"
     config.add_index_field solr_name("desc_metadata__language", :stored_searchable, type: :string), label: "Language"
-    config.add_index_field solr_name("desc_metadata__date_uploaded", :stored_searchable, type: :string), label: "Date Uploaded"
-    config.add_index_field solr_name("desc_metadata__date_modified", :stored_searchable, type: :string), label: "Date Modified"
+    config.add_index_field solr_name("desc_metadata__date_uploaded", :stored_sortable, type: :string), label: "Date Uploaded"
+    config.add_index_field solr_name("desc_metadata__date_modified", :stored_sortable, type: :string), label: "Date Modified"
     config.add_index_field solr_name("desc_metadata__date_created", :stored_searchable, type: :string), label: "Date Created"
     config.add_index_field solr_name("desc_metadata__rights", :stored_searchable, type: :string), label: "Rights"
     config.add_index_field solr_name("human_readable_type", :stored_searchable, type: :string), label: "Resource Type"
