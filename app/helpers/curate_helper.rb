@@ -1,5 +1,9 @@
 module CurateHelper
 
+  def curation_concern_organization_path(document)
+    organization_path(document)
+  end
+
   # Loads the object and returns its title
   def collection_title_from_pid  value
     begin
