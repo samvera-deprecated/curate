@@ -1,0 +1,27 @@
+<% content_for :page_title, curation_concern_page_title(@organization) %>
+<% content_for :page_header do %>
+  <h1> <%= @organization.title %> </h1>
+<% end %>
+<% if can? :edit, @organization %>
+  <% content_for :page_actions do %>
+
+  <%= button_to(
+    "Delete",
+    {
+      action: :destroy,
+      controller: :organizations,
+      id: @organization.id
+    },
+    data: {confirm: 'Are you sure you want to delete this organization?'},
+    class: 'btn',
+    form_class: 'button-to pull-right',
+    method: :delete
+  )%>
+
+    <%= link_to 'Edit', edit_organization_path(@organization), class: 'btn' %>
+  <% end %>
+<% end %>
+<div class="organization-description">
+  <%= @organization.description %>
+</div>
+
