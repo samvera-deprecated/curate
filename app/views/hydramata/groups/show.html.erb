@@ -1,0 +1,36 @@
+<% content_for :page_title, curation_concern_page_title(@group) %>
+<% content_for :page_header do %>
+  <h1> <%= @group.title %> </h1>
+<% end %>
+<% if can? :edit, @group %>
+  <% content_for :page_actions do %>
+
+  <%= button_to(
+    "Delete",
+    {
+      action: :destroy,
+      controller: "hydramata/groups",
+      id: @group.id
+    },
+    data: {confirm: 'Are you sure you want to delete this group?'},
+    class: 'btn',
+    form_class: 'button-to pull-right',
+    method: :delete
+  )%>
+
+    <%= link_to 'Edit', edit_hydramata_group_path(@group), class: 'btn' %>
+  <% end %>
+<% end %>
+<div class="group-description">
+  <%= @group.description %>
+</div>
+
+<h3> Members of this group: </h3>
+<div class="group-members">
+  <ul class="collection-listing">
+    <% @group.members.each do |member| %>
+      <li class='collection-member'><%= link_to member.name, person_path(member) %></li>
+    <% end %>
+  </ul>
+</div>
+

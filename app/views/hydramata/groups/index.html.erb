@@ -1,0 +1,11 @@
+<%- if has_any_group? %>
+  <%= render_document_index %>
+<%- else %>
+  <div class="span12 main-header">
+    <p>You have no groups yet.</p>
+  </div>
+<%- end %>
+
+<% if can? :create, Hydramata::Group %>
+  <%= button_for_create_new_group %>
+<% end %>
