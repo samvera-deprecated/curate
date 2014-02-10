@@ -1,0 +1,24 @@
+<tr>
+  <td>
+    <%= link_to group.title, hydramata_group_path(group) %>
+  </td>
+  <td>
+    <% if can? :edit, group %>
+
+        <%= button_to(
+                "Delete",
+                {
+                    action: :destroy,
+                    controller: "hydramata/groups",
+                    id: group.id
+                },
+                data: {confirm: 'Are you sure you want to delete this group?'},
+                class: 'btn',
+                form_class: 'button-to pull-right',
+                method: :delete
+            )%>
+
+      <%= link_to "Edit", edit_hydramata_group_path(group), class: 'btn pull-right' %>
+    <% end %>
+  </td>
+</tr>
