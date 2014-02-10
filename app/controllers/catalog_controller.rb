@@ -373,6 +373,7 @@ class CatalogController < ApplicationController
       solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Profile\""
       solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:ProfileSection\""
       solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:LinkedResource\""
+      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Hydramata_Group\""
       return solr_parameters
     end
 
