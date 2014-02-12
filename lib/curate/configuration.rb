@@ -20,6 +20,12 @@ module Curate
       }
     end
 
+    # Configure default search options from config/search_config.yml
+    attr_writer :search_config
+    def search_config
+      @search_config ||= "search_config not set"
+    end
+
     # Configure the application root url.
     attr_writer :application_root_url
     def application_root_url
