@@ -36,13 +36,25 @@ class CatalogController < ApplicationController
     solr_name('desc_metadata__date_modified', :stored_sortable , type: :date)
   end
 
+  def self.search_config
+     # Set parameters to send to SOLR
+     # First inspect contents of the hash from Yaml configuration file
+     # See config/search_config.yml
+     initialized_config = Curate.configuration.search_config['catalog']
+     # If the hash is empty, set reasonable defaults for this search type
+     if initialized_config.nil?
+        Hash['qf' => ['desc_metadata__title_tesim','desc_metadata__name_tesim'],'qt' => 'search','rows' => 10]
+     else
+        initialized_config
+     end
+  end
 
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
-      qf: [solr_name("desc_metadata__title", :stored_searchable), solr_name("desc_metadata__name", :stored_searchable)],
-      qt: "search",
-      rows: 10
+      qf: search_config['qf'],
+      qt: search_config['qt'],
+      rows: search_config['rows']
     }
 
     # solr field configuration for search results/index views
