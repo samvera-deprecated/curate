@@ -27,6 +27,15 @@ module Curate
         # override
       end
 
+      def manager?
+        username = self.respond_to?(:username) ? self.username : self.to_s
+        !!manager_usernames.include?(username)
+      end
+
+      def manager_usernames
+        @manager_usernames ||= YAML.load(ERB.new(Rails.root.join('config/manager_usernames.yml').read).result)[Rails.env]['manager_usernames']
+      end
+
       def name
         read_attribute(:name) || user_key
       end
