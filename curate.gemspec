@@ -47,6 +47,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails_autolink'
   s.add_dependency 'browse-everything'
   s.add_dependency 'rubydora', '~> 1.7.4'
+  s.add_dependency 'browse-everything'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "factory_girl_rails"
