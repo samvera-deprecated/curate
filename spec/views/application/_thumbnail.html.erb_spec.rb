@@ -1,6 +1,6 @@
 require 'spec_helper.rb'
 
-describe 'curation_concern/base/_thumbnail.html.erb' do
+describe 'application/_thumbnail.html.erb' do
   describe 'with an image file' do
     it 'displays a thumbnail' do
       img = stub_model(GenericFile, image?: true, pid: 'curate:foo1')
@@ -23,5 +23,3 @@ describe 'curation_concern/base/_thumbnail.html.erb' do
 
   describe 'with a video file'
 end
-
-
