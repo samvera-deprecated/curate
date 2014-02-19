@@ -117,6 +117,10 @@ This generator makes the following changes to your application:
     create_file('config/recipients_list.yml', "---\n- hello@world.com\n")
   end
 
+  def create_browse_everything_providers
+    create_file('config/browse_everything_providers.yml', "---\nfile_system:\n  :home: /<location for server file drop>\nsky_drive:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\nbox:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\ndrop_box:\n  :app_key: <your client id>\n  :app_secret: <your app secret>\ngoogle_drive:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\n")
+  end
+
   def inject_curate_user
     inject_into_file 'app/models/user.rb', after: /include Sufia\:\:User.*$/ do
       "\n  include Curate::UserBehavior\n"

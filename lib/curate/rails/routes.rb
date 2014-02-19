@@ -1,9 +1,11 @@
 module ActionDispatch::Routing
+
   class Mapper
     extend Deprecation
 
     def curate_for opts=nil
       Deprecation.warn Mapper, "curate_for no longer accepts any arguments. You provided: #{opts.inspect}" if opts
+      mount BrowseEverything::Engine => '/remote_files/browse'
       scope module: 'curate' do
         resources 'collections', 'profiles', 'profile_sections', controller: 'collections' do
           collection do
