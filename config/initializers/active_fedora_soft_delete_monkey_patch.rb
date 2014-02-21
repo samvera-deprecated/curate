@@ -54,7 +54,7 @@ module Rubydora
   end
 
   class Fc3Service
-    include Rubydora::RestApiClient unless included_modules.include?(RestClientApi)
+    include Rubydora::RestApiClient unless included_modules.include?(RestApiClient)
     include Rubydora::RestApiClient::SoftDeleteBehavior
   end
 end
@@ -95,5 +95,6 @@ module ActiveFedora
     end
   end
 end
+
 
 
