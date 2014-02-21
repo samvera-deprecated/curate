@@ -2,7 +2,7 @@ module CurationConcern
   class GenericWorkActor < CurationConcern::BaseActor
 
     def create
-      super && attach_files && create_linked_resources && assign_representative
+      super && attach_files && create_linked_resources && download_create_cloud_resources && assign_representative
     end
 
     def update
@@ -42,6 +42,60 @@ module CurationConcern
 
     def linked_resource_urls
       @linked_resource_urls ||= Array(attributes[:linked_resource_urls]).flatten.compact
+    end
+
+    def cloud_resources_urls
+       logger.debug("Need to download from: #{attributes[:cloud_resource_urls].inspect}")
+      @cloud_resource_urls ||= Array(attributes[:cloud_resource_urls]).split("|").flatten.compact
+    end
+
+    def download_create_cloud_resources
+      logger.debug("Need to download from: #{cloud_resources_urls.inspect}")
+      cloud_resources_urls.all? do |resource_url|
+        attach_cloud_resource(resource_url)
+      end
+    end
+
+    def attach_cloud_resource(download_url)
+      return true if ! download_url.present?
+      logger.debug("Need to download from: #{download_url.inspect}")
+      #TODO Download the file and treat it as a attached file
+       file_path=download_file_from_url(download_url)
+       cloud_resource = File.open(file_path) if File.exists?(file_path)
+      if cloud_resource
+        generic_file = GenericFile.new
+        generic_file.file = cloud_resource
+        generic_file.batch = curation_concern
+        Sufia::GenericFile::Actions.create_metadata(
+            generic_file, user, curation_concern.pid
+        )
+        generic_file.embargo_release_date = curation_concern.embargo_release_date
+        generic_file.visibility = visibility
+        Sufia::GenericFile::Actions.create_content(
+            generic_file,
+            cloud_resource,
+            File.basename(cloud_resource),
+            'content',
+            user
+        )
+        Sufia.queue.push(CharacterizeJob.new(generic_file.pid))
+        File.delete(cloud_resource)
+      end
+    rescue ActiveFedora::RecordInvalid
+      false
+    end
+
+    def download_file_from_url(url)
+      destination_file_full_path = Rails.root.to_s + "/" + url.to_s.split("/").last
+      logger.debug("Downloading to:#{destination_file_full_path}")
+      begin
+        open(destination_file_full_path, 'wb') do |file|
+          file << open(URI.parse(url)).read if URI.parse(url.to_s)
+        end
+      rescue
+        logger.error "Exception occured while downloading from cloud..."
+      end
+      destination_file_full_path
     end
 
     def create_linked_resources
