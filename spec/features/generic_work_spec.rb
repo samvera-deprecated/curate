@@ -6,7 +6,8 @@ if ENV['JS']
 end
 
 describe 'Creating a generic work' do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:person) { FactoryGirl.create(:person_with_user) }
+  let(:user) { person.user }
 
   describe 'with a related link' do
     it "should allow me to attach the link on the create page" do
@@ -60,7 +61,8 @@ describe 'Creating a generic work' do
 end
 
 describe 'An existing generic work owned by the user' do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:person) { FactoryGirl.create(:person_with_user) }
+  let(:user) { person.user }
   let(:work) { FactoryGirl.create(:generic_work, user: user) }
   let(:you_tube_link) { 'http://www.youtube.com/watch?v=oHg5SJYRHA0' }
 
@@ -116,7 +118,8 @@ describe 'An existing generic work owned by the user' do
 end
 
 describe 'Viewing a generic work that is private' do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:person) { FactoryGirl.create(:person_with_user) }
+  let(:user) { person.user }
   let(:work) { FactoryGirl.create(:private_generic_work, title: "Sample work" ) }
 
   it 'should show a stub indicating we have the work, but it is private' do

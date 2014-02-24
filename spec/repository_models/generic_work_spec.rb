@@ -35,4 +35,49 @@ describe GenericWork do
     end
   end
 
+  describe 'Editor' do
+    let(:person) { FactoryGirl.create(:person_with_user) }
+    let(:another_person) { FactoryGirl.create(:person_with_user) }
+    let(:work) { FactoryGirl.create(:generic_work, user: person.user) }
+    let(:collection) { FactoryGirl.create(:collection) }
+    describe '#add_editor' do
+      it 'should add editor' do
+        work.editors.should == []
+
+        work.add_editor(person)
+        work.add_editor(another_person)
+
+        work.reload.editors.should == [person, another_person]
+        work.reload.edit_users.should == [person.depositor, another_person.depositor]
+      end
+
+      it 'should not add non-work objects' do
+        work.editors.should == []
+        work.add_editor(collection)
+        work.reload.editors.should == []
+      end
+    end
+
+    describe '#remove_editor' do
+      it 'should remove editor' do
+        work.editors.should == []
+        work.add_editor(another_person)
+
+        reload_work = GenericWork.find(work.pid)
+        work = reload_work
+
+        work.editors.should == [another_person]
+        work.edit_users.should include(another_person.depositor)
+
+        work.remove_editor(another_person)
+
+        reload_work = GenericWork.find(work.pid)
+        work = reload_work
+
+        work.editors.should == []
+        work.edit_users.should_not include(another_person.depositor)
+      end
+    end
+  end
+
 end

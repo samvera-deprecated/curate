@@ -7,13 +7,14 @@ end
 
 describe 'end to end behavior', FeatureSupport.options(describe_options) do
   let(:sign_in_count) { 0 }
-  let(:user) {
-    FactoryGirl.create(
-      :user,
-      agreed_to_terms_of_service: agreed_to_terms_of_service,
-      sign_in_count: sign_in_count
-    )
-  }
+  let(:person) { FactoryGirl.create(:person_with_user) }
+  let(:user) { person.user }
+  before do
+    user.agreed_to_terms_of_service = agreed_to_terms_of_service
+    user.sign_in_count = sign_in_count
+    user.save
+  end
+
   let(:another_user) { FactoryGirl.create(:user, agreed_to_terms_of_service: true) }
   let(:prefix) { Time.now.strftime("%Y-%m-%d-%H-%M-%S-%L") }
   let(:initial_title) { "#{prefix} Something Special" }
@@ -227,7 +228,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
       select(options['Content License'], from: I18n.translate('sufia.field_label.rights'))
 
-      fill_in("generic_work_contributors_attributes_0_name", with: options['Contributors'])
+      fill_in("generic_work_contributors_attributes_1_name", with: options['Contributors'])
 
       if options['DOI Strategy']
         choose("generic_work_doi_assignment_strategy_#{options['DOI Strategy']}")
