@@ -58,6 +58,16 @@ This generator makes the following changes to your application:
     gsub_file 'config/routes.rb', /^\s+root.+$/, "  root 'catalog#index'"
   end
 
+
+  def create_search_config
+    create_file('config/search_config.yml', "development:\ntest:\nproduction:\n", force: true)
+    search_options = "  catalog:\n  people:\n"
+    inject_into_file 'config/search_config.yml', search_options, after: /development\:\n/, force: true
+    inject_into_file 'config/search_config.yml', search_options, after: /test\:\n/, force: true
+    inject_into_file 'config/search_config.yml', search_options, after: /production\:\n/, force: true
+  end
+
+
   DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles, :etds, :images, :documents]
 
   def create_curate_config
@@ -73,6 +83,10 @@ This generator makes the following changes to your application:
       data << ""
       data << "  # # Used for constructing permanent URLs"
       data << "  # config.application_root_url = 'https://repository.higher.edu/'"
+      data << ""
+      data << "  # # Used to load values for constructing SOLR searches"
+      data << "  search_config_file = File.join(Rails.root, 'config', 'search_config.yml')"
+      data << "  config.search_config = YAML::load(File.open(search_config_file))[Rails.env].with_indifferent_access"
       data << ""
       data << "  # # Override the file characterization runner that is used"
       data << "  # config.characterization_runner = lambda {|filename| … }"
@@ -95,6 +109,9 @@ This generator makes the following changes to your application:
     end
   end
 
+  def create_manager_usernames
+    create_file('config/manager_usernames.yml', "development:\n  manager_usernames:\n  - manager@example.com\ntest:\n  manager_usernames:\n  - manager@example.com\nproduction:\n  manager_usernames:\n  - manager@example.com\n")
+  end
 
   def create_recipients_list
     create_file('config/recipients_list.yml', "---\n- hello@world.com\n")

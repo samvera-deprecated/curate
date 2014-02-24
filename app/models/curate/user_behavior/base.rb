@@ -19,12 +19,17 @@ module Curate
         Collection.where(Hydra.config[:permissions][:edit][:individual] => user_key)
       end
 
-      def organizations
-        Organization.where(Hydra.config[:permissions][:edit][:individual] => user_key)
-      end
-
       def get_value_from_ldap(attribute)
         # override
+      end
+
+      def manager?
+        username = self.respond_to?(:username) ? self.username : self.to_s
+        !!manager_usernames.include?(username)
+      end
+
+      def manager_usernames
+        @manager_usernames ||= YAML.load(ERB.new(Rails.root.join('config/manager_usernames.yml').read).result)[Rails.env]['manager_usernames']
       end
 
       def name

@@ -7,6 +7,14 @@ module Curate
 
     def curate_permissions
       alias_action :confirm, :copy, :to => :update
+      if current_user.manager?
+        can [:edit, :update, :destroy], :all
+        cannot [:edit, :update, :destroy], Person
+        cannot [:edit, :update, :destroy], Profile do |p|
+          p.pid != current_user.profile.pid
+        end
+      end
+
       can :edit, Person do |p|
         p.pid == current_user.repository_id
       end
