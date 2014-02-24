@@ -1,12 +1,12 @@
 <div class="container">
 <%-# This syntax [collections, @collection] tells form_for to use the routes from the engine named collections %>
-<%= form_for @organization do |f| %>
-  <% if @organization.errors.any? %>
+<%= form_for @group do |f| %>
+  <% if @group.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@organization.errors.count, "error") %> prohibited this topic from being saved:</h2>
+      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this topic from being saved:</h2>
 
       <ul>
-      <% @organization.errors.full_messages.each do |msg| %>
+      <% @group.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -17,9 +17,9 @@
     NOTE: We're just making it _look_ like we're using simple_form here. Refactor at will.
     ALSO: Title isn't _actually_ required. The form is lying (but it means well and is probably right).
   %>
-  <div class="control-group string required organization_title">
+  <div class="control-group string required group_title">
     <span class="control-label">
-      <label class="string required" for="organization_title">
+      <label class="string required" for="group_title">
         <abbr title="" data-original-title="required">*</abbr> Title
       </label>
     </span>
@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <div class="control-group string required collection_description">
+  <div class="control-group string required group_description">
     <span class="control-label">
       <%= f.label :description %>
     </span>
@@ -37,10 +37,18 @@
     </div>
   </div>
 
+    <div class="row">
+      <div class="span6" >
+        <fieldset >
+          <%= render partial: 'linked_members', locals: {f: f} %>
+        </fieldset>
+      </div>
+    </div>
+
   <div class="form-actions">
     <%= f.submit class: 'btn btn-primary' %>
-    <%- if @organization.persisted? -%>
-      <%= link_to 'Cancel', organization_path(@organization), class: 'btn btn-link' %>
+    <%- if @group.persisted? -%>
+      <%= link_to 'Cancel', hydramata_group_path(@group), class: 'btn btn-link' %>
     <% else %>
       <%= link_to 'Cancel', root_path, class: 'btn btn-link' %>
     <% end %>
