@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe 'Creating a dataset' do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:person) { FactoryGirl.create(:person_with_user) }
+  let(:user) { person.user }
 
   describe 'with a related link' do
     it "should allow me to attach the link on the create page" do
@@ -11,7 +12,7 @@ describe 'Creating a dataset' do
       classify_what_you_are_uploading 'Dataset'
       within '#new_dataset' do
         fill_in "Title", with: "Banksy fingerstache Polaroid artisan gastropub"
-        fill_in "Contributor", with: "Test dataset contributor"
+        fill_in "dataset_contributors_attributes_1_name", with: "Test dataset contributor"
         fill_in "Description", with: "This dataset is for testing purposes"
         fill_in "External link", with: "http://www.youtube.com/watch?v=oHg5SJYRHA0"
         select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))

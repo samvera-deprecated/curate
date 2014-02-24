@@ -12,6 +12,9 @@ module CurationConcern
       has_metadata 'properties', type: Curate::PropertiesDatastream
       has_attributes :relative_path, :depositor, :owner, :representative, datastream: :properties, multiple: false
       class_attribute :human_readable_short_description
+      
+      has_and_belongs_to_many :editors, class_name: "::Person", property: :has_editor, inverse_of: :is_editor_of
+      accepts_nested_attributes_for :editors, allow_destroy: true, reject_if: :all_blank
     end
 
     def as_json(options)

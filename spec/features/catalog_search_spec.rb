@@ -45,7 +45,8 @@ describe "Search for a work" do
 
   end
   context "when logged in" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:person) { FactoryGirl.create(:person_with_user) }
+    let(:user) { person.user }
     let(:image_title) { "Sample Image" }
     before do
       login_as(user)
@@ -81,7 +82,6 @@ describe "Search for a work" do
     classify_what_you_are_uploading 'Image'
     within '#new_image' do
       fill_in "Title", with: image_title
-      fill_in "Creator", with: user.name
       fill_in "Date created", with: "2013-10-15"
       fill_in "Description", with: "Test description"
       select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
