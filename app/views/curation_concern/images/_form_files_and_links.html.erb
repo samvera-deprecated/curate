@@ -7,6 +7,23 @@
           </legend>
           <%= f.input :files, as: :file, label: 'Upload your file' %>
         </fieldset>
+        <fieldset class="span6">
+          <p>Please click the button below to upload remote files.</p>
+          <%= form_tag('/file', id: 'main_form', method: 'post') do %>
+              <%= button_tag("Browse", type: 'button', class: 'btn btn-large btn-success', id: "browse-btn",
+                             'data-toggle' => 'browse-everything', 'data-route' => browse_everything_engine.root_path,
+                             'data-target' => '#main_form' ) %>
+              <%= button_tag("Submit", type: 'submit', class: 'btn btn-large btn-primary', id: "submit-btn") %>
+          <% end %>
+          <!--this following part is not working yet-->
+          <script>
+              $(document).ready(function() {
+                  $('#browse-btn').browseEverything(browse_everything_engine.root_path)
+                          .done(function(data) { $('#status').html(data.length.toString() + " items selected") })
+                          .cancel(function() { window.alert('Canceled!') });
+              });
+          </script>
+        </fieldset>
       </div>
   </div>
 <% end %>
