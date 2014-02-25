@@ -1,7 +1,8 @@
 module CurationConcern
   module Work
     extend ActiveSupport::Concern
-
+    
+    
     # Parses a comma-separated string of tokens, returning an array of ids
     def self.ids_from_tokens(tokens)
       tokens.gsub(/\s+/, "").split(',')
