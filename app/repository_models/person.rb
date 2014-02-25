@@ -8,6 +8,7 @@ class Person < ActiveFedora::Base
   include Hydra::Derivatives
 
   has_and_belongs_to_many :groups, class_name: "::Hydramata::Group", property: :is_member_of, inverse_of: :has_member
+  has_and_belongs_to_many :works, class_name: "::CurationConcern::Work", property: :is_editor_of, inverse_of: :has_editor
   has_metadata name: "descMetadata", type: PersonMetadataDatastream, control_group: 'M'
   has_file_datastream :name => "content"
   has_file_datastream :name => "medium"
