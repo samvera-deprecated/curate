@@ -33,7 +33,7 @@
 //= require curate/facet_mine
 //= require curate/accept_contributor_agreement
 //= require handlebars
-//= require browse_everything
+//= require browse_everything_implement
 
 
 
