@@ -33,8 +33,7 @@
 //= require curate/facet_mine
 //= require curate/accept_contributor_agreement
 //= require handlebars
-//= require browse_everything
-
+//= require browse_everything_implement
 
 
 // Initialize plugins and Bootstrap dropdowns on jQuery's ready event as well as
@@ -67,3 +66,4 @@ Blacklight.onLoad(function() {
 
   $("[data-toggle='dropdown']").dropdown();
 });
+
