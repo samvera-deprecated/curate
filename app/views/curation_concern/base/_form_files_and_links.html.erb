@@ -33,10 +33,19 @@
                            'data-target' => '#main_form' ) %>
             <%= button_tag("Submit", type: 'submit', class: 'btn btn-large btn-primary', id: "submit-btn") %>
         <% end %>
-       </fieldset>
 
+        <p id="status">0 items selected</p>
+        <script>
+            $(document).ready(function() {
+                $('#browse-btn').browseEverything(browse_everything_engine.root_path)
+                        .done(function(data) { $('#status').html(data.length.toString() + " items selected") })
+                        .cancel(function() { window.alert('Canceled!') });
+            });
+        </script>
+      </fieldset>
     </div>
   </fieldset>
 <% end %>
+
 
 
