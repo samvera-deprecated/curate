@@ -32,7 +32,7 @@
                            'data-target' => '#main_form' ) %>
             <%= button_tag("Submit", type: 'submit', class: 'btn btn-large btn-primary', id: "submit-btn") %>
         <% end %>
-        <!--this following part is not working yet-->
+        <p id="status">0 items selected</p>
         <script>
             $(document).ready(function() {
                 $('#browse-btn').browseEverything(browse_everything_engine.root_path)
