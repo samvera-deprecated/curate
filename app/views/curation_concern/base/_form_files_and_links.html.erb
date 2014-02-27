@@ -23,16 +23,6 @@
       <fieldset class="span6">
         <%= f.input :linked_resource_urls, label: "External link", input_html: {class: 'input-xlarge'} %>
       </fieldset>
-
-       <fieldset class="span6">
-        <p>Please click the button below to upload remote files.</p>
-          <p id="status"></p>
-           <%= form_tag('/file', id: 'main_form', method: 'post') do %>
-              <%= button_tag("Browse!", type: 'button', class: 'btn btn-large btn-success', id: "browse",
-                             'data-toggle' => 'browse-everything', 'data-route' => browse_everything_engine.root_path,
-                             'data-target' => '#main_form' ) %>
-           <% end %>
-      </fieldset>
     </div>
   </fieldset>
 <% end %>

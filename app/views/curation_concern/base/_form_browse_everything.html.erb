@@ -1,0 +1,8 @@
+<fieldset class="span6">
+  <p>Please click the button below to upload remote files.</p>
+  <p id="status"></p>
+  <p id="get_path_from_browse_everything"></p>
+  <%= button_tag("Browse!", type: 'button', class: 'btn btn-large btn-success', id: "browse",
+     'data-toggle' => 'browse-everything', 'data-route' => browse_everything_engine.root_path,
+     'data-target' => '#get_path_from_browse_everything' ) %>
+</fieldset>
