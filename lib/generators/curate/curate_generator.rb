@@ -20,7 +20,6 @@ This generator makes the following changes to your application:
  4. Adds the curate abilities
  5. Adds a user migration
  6. Adds views for devise
- 7. Disables TurboLinks
        """
 
   def run_required_generators
@@ -142,7 +141,6 @@ This generator makes the following changes to your application:
     insert_into_file "app/assets/javascripts/application.js", :before => '//= require_tree .' do
       "//= require curate\n"
     end
-    gsub_file "app/assets/javascripts/application.js", /= +require +turbolinks/, " -- For Hydramata, removed '= require turbolinks' here.--"
   end
 
   def remove_blacklight
