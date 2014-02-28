@@ -19,7 +19,7 @@ class CatalogController < ApplicationController
   CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
 
   before_filter :agreed_to_terms_of_service!
-  
+
   skip_before_filter :default_html_head
 
   def index
@@ -71,7 +71,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type of Work", limit: 5
     config.add_facet_field solr_name(:desc_metadata__creator, :facetable), label: "Creator", helper_method: :creator_name_from_pid, limit: 5
     config.add_facet_field solr_name(:collection, :facetable), label: "Collection",  helper_method: :collection_title_from_pid, limit: 5
-    
+
     config.add_facet_field solr_name("desc_metadata__tag", :facetable), label: "Keyword", limit: 5
     config.add_facet_field solr_name("desc_metadata__subject", :facetable), label: "Subject", limit: 5
     config.add_facet_field solr_name("desc_metadata__language", :facetable), label: "Language", limit: 5
@@ -340,6 +340,14 @@ class CatalogController < ApplicationController
   end
 
   protected
+
+    # Override Hydra::PolicyAwareAccessControlsEnforcement
+    def gated_discovery_filters
+      if current_user and current_user.manager?
+        return []
+      end
+      super
+    end
 
     # Overriding blacklight so that the search results can be displayed in a way compatible with
     # tokenInput javascript library.  This is used for suggesting "Related Works" to attach.
