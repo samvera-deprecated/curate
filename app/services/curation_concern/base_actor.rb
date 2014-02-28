@@ -4,12 +4,13 @@ module CurationConcern
   # * #update
   # * #delete
   class BaseActor
-    attr_reader :curation_concern, :user, :attributes
+    attr_reader :curation_concern, :user, :attributes, :cloud_resources
     def initialize(curation_concern, user, input_attributes)
       @curation_concern = curation_concern
       @user = user
       @attributes = input_attributes.dup.with_indifferent_access
       @visibility = attributes[:visibility]
+      @cloud_resources= attributes.delete(:cloud_resources.to_s)
     end
 
     attr_reader :visibility

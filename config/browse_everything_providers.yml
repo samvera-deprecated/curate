@@ -1,11 +1,11 @@
 ---
 box:
-  :client_id: 6y78xghi2uc1jg6c78aardhu3mubsow9
-  :client_secret: SaernPsOVgnXuSnSLxy5obxlDnLpEtI2
+  :client_id: 3slqp7u7kaqgjyzwbw1n7kjhrl5cgklh
+  :client_secret: Rg0rnqPfeYEhSNQIGcXvFI8CYKAZCpC3
 drop_box:
-  :app_key: go7srjky5fir1iv
-  :app_secret: xga51jmfr8e50ou
+  :app_key: a9ux5k2syk8z6fp
+  :app_secret: uza09ihs9uaxghc
 google_drive:
-  :client_id: AIzaSyBYtDjk8__0gDKVo1NU9ZjqrCoEU9fTtCI
-  :client_secret: NyPx_DYq3pqP1k9a5va2H2kf
+  :client_id: 896165996291.apps.googleusercontent.com
+  :client_secret: JcOyVnl1MUMUJt0tCVAwd4Ag
 
