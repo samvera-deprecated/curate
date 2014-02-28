@@ -45,12 +45,10 @@ module CurationConcern
     end
 
     def cloud_resources_urls
-       logger.debug("Need to download from: #{attributes[:cloud_resource_urls].inspect}")
-      @cloud_resource_urls ||= Array(attributes[:cloud_resource_urls]).split("|").flatten.compact
+      @cloud_resource_urls ||= Array(attributes[:cloud_resource_urls].split("|")).flatten.compact
     end
 
     def download_create_cloud_resources
-      logger.debug("Need to download from: #{cloud_resources_urls.inspect}")
       cloud_resources_urls.all? do |resource_url|
         attach_cloud_resource(resource_url)
       end
@@ -58,7 +56,6 @@ module CurationConcern
 
     def attach_cloud_resource(download_url)
       return true if ! download_url.present?
-      logger.debug("Need to download from: #{download_url.inspect}")
       #TODO Download the file and treat it as a attached file
        file_path=download_file_from_url(download_url)
        cloud_resource = File.open(file_path) if File.exists?(file_path)
@@ -87,7 +84,6 @@ module CurationConcern
 
     def download_file_from_url(url)
       destination_file_full_path = Rails.root.to_s + "/" + url.to_s.split("/").last
-      logger.debug("Downloading to:#{destination_file_full_path}")
       begin
         open(destination_file_full_path, 'wb') do |file|
           file << open(URI.parse(url)).read if URI.parse(url.to_s)
