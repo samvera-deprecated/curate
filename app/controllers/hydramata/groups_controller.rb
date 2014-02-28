@@ -23,14 +23,23 @@ class Hydramata::GroupsController < ApplicationController
 
   def new
     @group = Hydramata::Group.new
+    #add current user as editor of group before building out members to UI
+    @group.members << current_user.person
+    @group.group_edit_membership(current_user.person)
+    @group.members.build
+    respond_with(@group)
   end
 
   def create
     @group = Hydramata::Group.new(params[:hydramata_group])
     @group.apply_depositor_metadata(current_user.user_key)
     if @group.save
-      @group.add_member(current_user.person, 'editor')
-      flash[:notice] = "Group created successfully."
+      group_membership = Hydramata::GroupMembershipForm.new( Hydramata::GroupMembershipActionParser.convert_params(params) )
+      if group_membership.save
+        flash[:notice] = "Group created successfully."
+      else
+        flash[:error] = "Group membership not initialized correctly."
+      end
       redirect_to hydramata_groups_path
     else
       flash[:error] = "Group was not created."
