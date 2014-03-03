@@ -5,6 +5,7 @@ class GenericFile < ActiveFedora::Base
   include Sufia::ModelMethods
   include Hydra::AccessControls::Permissions
   include CurationConcern::Embargoable # overrides visibility, so must come after Permissions
+  include CurationConcern::WithCloudResources
   include Sufia::GenericFile::Characterization
   include Curate::ActiveModelAdaptor
   include Sufia::GenericFile::Versions
