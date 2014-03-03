@@ -36,6 +36,7 @@ describe "User" do
         let(:current_user) { manager_user }
         it {
           should be_able_to(:create, GenericFile.new)
+          should be_able_to(:read, generic_file)
           should be_able_to(:update, generic_file)
           should be_able_to(:destroy, generic_file)
         }

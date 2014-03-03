@@ -42,6 +42,7 @@ describe "User" do
         let(:current_user) { manager_user }
         it {
           should be_able_to(:create, GenericWork.new)
+          should be_able_to(:read, generic_work)
           should be_able_to(:update, generic_work)
           should be_able_to(:destroy, generic_work)
         }
