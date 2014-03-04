@@ -1,0 +1,49 @@
+<% label ||= 'Members' %>
+<div class="control-group required link-users" id="members">
+  <span class="control-label">
+    <label class="required" for="<%=f.object_name.downcase%>_members_attributes_0_name">
+      <%= label %>
+    </label>
+  </span>
+  <div class="controls">
+    <% prefix = f.object_name.downcase %>
+
+    <script id="entry-template" type="text/x-handlebars-template">
+      <li class="field-wrapper input-append">
+        <label class="checkbox inline-checkbox"><%= check_box_tag "group_member[edit_users_ids][]", false %>manager?</label>
+        <input id="<%=prefix %>_members_attributes_{{index}}_id" name="<%=prefix %>[members_attributes][{{index}}][id]" type="hidden" value="" />
+        <input class="input-xlarge autocomplete-users" data-url="/people" id="<%=prefix %>_members_attributes_{{index}}_name" name="<%=prefix %>[members_attributes][{{index}}][name]" type="text" value="" />
+        <span class="field-controls"><button class="btn btn-success add"><i class="icon-white icon-plus"></i><span>Add</span></button></span>
+      </li>
+    </script>
+    <script id="existing-user-template" type="text/x-handlebars-template">
+      <li class="field-wrapper input-append">
+        <label class="checkbox inline-checkbox"><%= check_box_tag "group_member[edit_users_ids][]", "{{value}}", @group.edit_users.include?("{{value}}") %>manager?</label>
+        <span class="linked-user"><a href="/people/{{value}}" target="_new">{{label}}</a></span>
+        <input type="hidden" name="<%=prefix %>[members_attributes][{{index}}][id]" value="{{value}}">
+        <span class="field-controls"><button class="btn btn-danger remove"><i class="icon-white icon-minus"></i><span>Remove</span></button></span>
+      </li>
+    </script>
+
+    <ul class="listing">
+      <% if !@group.nil? && @group.members != [] %>
+       <%= f.fields_for :members do |memberField| %>
+        <li class="field-wrapper input-append">
+        <%= memberField.hidden_field :id %>
+        <%= memberField.hidden_field :_destroy %>
+        <label class="checkbox inline-checkbox"><%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.depositor) %>manager?</label>
+        <% if memberField.object.persisted? %>
+          <span class="linked-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>
+        <% else %>
+          <%= memberField.text_field :name, class: 'input-xlarge autocomplete-users', 'data-url' => people_path, required: memberField.index == 0  %>
+        <% end %>
+
+        <span class="field-controls"></span>
+      </li>
+    <% end %>
+      <% end %>
+
+    </ul>
+
+  </div>
+</div>

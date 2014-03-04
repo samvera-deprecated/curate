@@ -46,6 +46,12 @@ module ActionDispatch::Routing
 
       match "show/:id" => "common_objects#show", via: :get, as: "common_object"
       match "show/stub/:id" => "common_objects#show_stub_information", via: :get, as: "common_object_stub_information"
+
+      #scope module: 'hydramata' do
+      namespace :hydramata do
+        resources 'groups'
+      end
+      
     end
   end
 end

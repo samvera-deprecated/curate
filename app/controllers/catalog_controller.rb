@@ -19,7 +19,7 @@ class CatalogController < ApplicationController
   CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
 
   before_filter :agreed_to_terms_of_service!
-  
+
   skip_before_filter :default_html_head
 
   def index
@@ -36,13 +36,25 @@ class CatalogController < ApplicationController
     solr_name('desc_metadata__date_modified', :stored_sortable , type: :date)
   end
 
+  def self.search_config
+     # Set parameters to send to SOLR
+     # First inspect contents of the hash from Yaml configuration file
+     # See config/search_config.yml
+     initialized_config = Curate.configuration.search_config['catalog']
+     # If the hash is empty, set reasonable defaults for this search type
+     if initialized_config.nil?
+        Hash['qf' => ['desc_metadata__title_tesim','desc_metadata__name_tesim'],'qt' => 'search','rows' => 10]
+     else
+        initialized_config
+     end
+  end
 
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
-      qf: [solr_name("desc_metadata__title", :stored_searchable), solr_name("desc_metadata__name", :stored_searchable)],
-      qt: "search",
-      rows: 10
+      qf: search_config['qf'],
+      qt: search_config['qt'],
+      rows: search_config['rows']
     }
 
     # solr field configuration for search results/index views
@@ -59,7 +71,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type of Work", limit: 5
     config.add_facet_field solr_name(:desc_metadata__creator, :facetable), label: "Creator", helper_method: :creator_name_from_pid, limit: 5
     config.add_facet_field solr_name(:collection, :facetable), label: "Collection",  helper_method: :collection_title_from_pid, limit: 5
-    
+
     config.add_facet_field solr_name("desc_metadata__tag", :facetable), label: "Keyword", limit: 5
     config.add_facet_field solr_name("desc_metadata__subject", :facetable), label: "Subject", limit: 5
     config.add_facet_field solr_name("desc_metadata__language", :facetable), label: "Language", limit: 5
@@ -329,6 +341,14 @@ class CatalogController < ApplicationController
 
   protected
 
+    # Override Hydra::PolicyAwareAccessControlsEnforcement
+    def gated_discovery_filters
+      if current_user and current_user.manager?
+        return []
+      end
+      super
+    end
+
     # Overriding blacklight so that the search results can be displayed in a way compatible with
     # tokenInput javascript library.  This is used for suggesting "Related Works" to attach.
     def render_search_results_as_json
@@ -361,6 +381,7 @@ class CatalogController < ApplicationController
       solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Profile\""
       solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:ProfileSection\""
       solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:LinkedResource\""
+      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Hydramata_Group\""
       return solr_parameters
     end
 

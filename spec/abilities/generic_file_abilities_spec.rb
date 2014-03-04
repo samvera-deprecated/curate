@@ -29,6 +29,19 @@ describe "User" do
         }
       end
 
+      describe 'as a repository manager' do
+        let(:email) { 'manager@example.com' }
+        let(:manager_user) { FactoryGirl.create(:user, email: email) }
+        let(:creating_user) { user }
+        let(:current_user) { manager_user }
+        it {
+          should be_able_to(:create, GenericFile.new)
+          should be_able_to(:read, generic_file)
+          should be_able_to(:update, generic_file)
+          should be_able_to(:destroy, generic_file)
+        }
+      end
+
       describe 'another authenticated user' do
         let(:creating_user) { FactoryGirl.create(:user) }
         let(:current_user) { user }

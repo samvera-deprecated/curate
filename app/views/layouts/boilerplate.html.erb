@@ -11,6 +11,7 @@
     <%= csrf_meta_tag %>
 
     <%= stylesheet_link_tag 'application' %>
+    <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag 'modernizr' %>
     <%= render :partial => '/ga', :formats => [:html] -%>
   </head>
@@ -18,7 +19,6 @@
 
     <%= content_for?(:body) ? yield(:body) : yield %>
 
-    <%= javascript_include_tag 'application' %>
 
     <% unless Rails.env.production? %>
     <!-- Rendered through: <%= yield(:layout_name) %>boilerplate -->
