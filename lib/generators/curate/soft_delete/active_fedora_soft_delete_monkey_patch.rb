@@ -1,5 +1,6 @@
 
 require 'rubydora/repository'
+require 'rubydora/rest_api_client'
 require 'active_fedora/digital_object'
 require 'active_fedora/base'
 
@@ -12,7 +13,7 @@ module Rubydora
     end
   end
 
-  class Repository
+   module RestApiClient
 
     # There is likely a better way of doing this, but the ActiveFedora API doesn't
     # appear to support soft-deletes (i.e. changing the state to 'D')
@@ -22,6 +23,7 @@ module Rubydora
     # the state.
     module SoftDeleteBehavior
       extend ActiveSupport::Concern
+
       included do
         before_purge_object do |options|
           client[object_url(options[:pid],state: ActiveFedora::DELETED_STATE)].put(nil)
@@ -49,7 +51,11 @@ module Rubydora
       end
     end
 
-    include SoftDeleteBehavior
+  end
+
+  class Fc3Service
+    include Rubydora::RestApiClient unless included_modules.include?(RestApiClient)
+    include Rubydora::RestApiClient::SoftDeleteBehavior
   end
 end
 
@@ -87,6 +93,10 @@ module ActiveFedora
         raise ActiveObjectNotFoundError.new(e, *args)
       end
     end
-    extend SoftDeleteBehavior
   end
 end
+
+
+
+
+
