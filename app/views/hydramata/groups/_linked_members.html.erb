@@ -31,14 +31,16 @@
         <li class="field-wrapper input-append">
         <%= memberField.hidden_field :id %>
         <%= memberField.hidden_field :_destroy %>
-        <label class="checkbox inline-checkbox"><%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.depositor) %>manager?</label>
+        <label class="checkbox inline-checkbox" ><%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.depositor), disabled: (current_user.repository_id == memberField.object.id) %>manager?</label>
         <% if memberField.object.persisted? %>
           <span class="linked-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>
         <% else %>
-          <%= memberField.text_field :name, class: 'input-xlarge autocomplete-users', 'data-url' => people_path, required: memberField.index == 0  %>
+          <%= memberField.text_field :name, class: 'input-xlarge autocomplete-users', 'data-url' => people_path, required: memberField.index == 0, disabled: (current_user.repository_id == memberField.object.id)  %>
         <% end %>
 
+        <% if (current_user.repository_id != memberField.object.id) %>
         <span class="field-controls"></span>
+        <% end %>
       </li>
     <% end %>
       <% end %>
