@@ -31,7 +31,14 @@
         <li class="field-wrapper input-append">
         <%= memberField.hidden_field :id %>
         <%= memberField.hidden_field :_destroy %>
-        <label class="checkbox inline-checkbox" ><%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.depositor), disabled: (current_user.repository_id == memberField.object.id) %>manager?</label>
+        <label class="checkbox inline-checkbox" >
+        <% if (current_user.repository_id == memberField.object.id) %>
+          <%= check_box_tag "current_user", 1, disabled: true %>
+        <% else %>
+        <%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.depositor), disabled: (current_user.repository_id == memberField.object.id) %>
+        <% end %>
+        manager?
+        </label>
         <% if memberField.object.persisted? %>
           <span class="linked-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>
         <% else %>
