@@ -1,3 +1,4 @@
+require 'HTTParty'
 module CurationConcern
   class GenericWorkActor < CurationConcern::BaseActor
 
@@ -45,19 +46,22 @@ module CurationConcern
     end
 
     def cloud_resources_urls
-      @cloud_resource_urls ||= Array(attributes[:cloud_resource_urls].split("|")).flatten.compact
+       logger.debug("Need to download from: #{attributes[:cloud_resources].inspect}")
+       @cloud_resource_urls ||= Array(attributes[:cloud_resource_urls].split("|")).flatten.compact
     end
 
     def download_create_cloud_resources
-      cloud_resources_urls.all? do |resource_url|
+      logger.debug("Need to download from: #{cloud_resources.inspect}")
+      cloud_resources.all? do |resource_url|
         attach_cloud_resource(resource_url)
       end
     end
 
-    def attach_cloud_resource(download_url)
-      return true if ! download_url.present?
+    def attach_cloud_resource(cloud_resource)
+      return true if ! cloud_resource.present?
+      logger.debug("Need to download from: #{cloud_resource.inspect}")
       #TODO Download the file and treat it as a attached file
-       file_path=download_file_from_url(download_url)
+       file_path=download_file_from_cloud(cloud_resource)
        cloud_resource = File.open(file_path) if File.exists?(file_path)
       if cloud_resource
         generic_file = GenericFile.new
@@ -82,14 +86,20 @@ module CurationConcern
       false
     end
 
-    def download_file_from_url(url)
-      destination_file_full_path = Rails.root.to_s + "/" + url.to_s.split("/").last
+    def download_file_from_cloud(cloud_resource)
+      logger.debug("need to download from #{cloud_resource.inspect}")
+      url=cloud_resource.download_url
+      destination_file_full_path = Rails.root.to_s + "/" +url.to_s.split("/").last
+      logger.debug("Downloading to:#{destination_file_full_path}")
       begin
+        response = HTTParty.get(url)
+        logger.debug("Response from url: #{response.header}, Code:#{response.code}")
         open(destination_file_full_path, 'wb') do |file|
-          file << open(URI.parse(url)).read if URI.parse(url.to_s)
+           file << response.body #if response.code == '200' #open(URI.parse(url)).read if URI.parse(url.to_s)
         end
-      rescue
-        logger.error "Exception occured while downloading from cloud..."
+      logger.debug("finished writing")
+      rescue Exception => e
+        logger.error "Exception occured while downloading from cloud with exception #{e.inspect}"
       end
       destination_file_full_path
     end
