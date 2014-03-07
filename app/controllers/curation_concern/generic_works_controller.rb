@@ -94,7 +94,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   protected :after_destroy_response
 
   register :actor do
-    CurationConcern.actor(curation_concern, current_user, params[hash_key_for_curation_concern])
+    CurationConcern.actor(curation_concern, current_user, params[hash_key_for_curation_concern],cloud_resources_to_ingest)
   end
 
   def hash_key_for_curation_concern
