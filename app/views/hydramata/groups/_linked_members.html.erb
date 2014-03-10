@@ -32,17 +32,22 @@
         <%= memberField.hidden_field :id %>
         <%= memberField.hidden_field :_destroy %>
         <label class="checkbox inline-checkbox" >
-        <% if (current_user.repository_id == memberField.object.id) %>
-          <%= check_box_tag "current_user", 1, disabled: true %>
-        <% else %>
-        <%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.depositor), disabled: (current_user.repository_id == memberField.object.id) %>
-        <% end %>
-        manager?
+          <% if (current_user.repository_id == memberField.object.id) %>
+            <%= check_box_tag "current_user_disabled", 'checked', true, disabled: true %>
+            <%= hidden_field_tag "group_member[edit_users_ids][]", @group.edit_users.include?(memberField.object.depositor) %>
+          <% else %>
+            <%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.depositor) %>
+          <% end %>
+          manager?
         </label>
         <% if memberField.object.persisted? %>
-          <span class="linked-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>
+          <% if (current_user.repository_id == memberField.object.id) %>
+            <span class="linked-user current-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>
+          <% else %>
+            <span class="linked-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>
+          <% end %>
         <% else %>
-          <%= memberField.text_field :name, class: 'input-xlarge autocomplete-users', 'data-url' => people_path, required: memberField.index == 0, disabled: (current_user.repository_id == memberField.object.id)  %>
+          <%= memberField.text_field :name, class: 'input-xlarge autocomplete-users', 'data-url' => people_path, required: memberField.index == 0 %>
         <% end %>
 
         <% if (current_user.repository_id != memberField.object.id) %>
