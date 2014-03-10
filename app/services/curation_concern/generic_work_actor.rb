@@ -45,63 +45,12 @@ module CurationConcern
       @linked_resource_urls ||= Array(attributes[:linked_resource_urls]).flatten.compact
     end
 
-    def cloud_resources_urls
-       logger.debug("Need to download from: #{attributes[:cloud_resources].inspect}")
-       @cloud_resource_urls ||= Array(attributes[:cloud_resource_urls].split("|")).flatten.compact
-    end
 
     def download_create_cloud_resources
       logger.debug("Need to download from: #{cloud_resources.inspect}")
-      cloud_resources.all? do |resource_url|
-        attach_cloud_resource(resource_url)
+      cloud_resources.all? do |resource|
+        attach_cloud_resource(resource)
       end
-    end
-
-    def attach_cloud_resource(cloud_resource)
-      return true if ! cloud_resource.present?
-      logger.debug("Need to download from: #{cloud_resource.inspect}")
-      #TODO Download the file and treat it as a attached file
-       file_path=download_file_from_cloud(cloud_resource)
-       cloud_resource = File.open(file_path) if File.exists?(file_path)
-      if cloud_resource
-        generic_file = GenericFile.new
-        generic_file.file = cloud_resource
-        generic_file.batch = curation_concern
-        Sufia::GenericFile::Actions.create_metadata(
-            generic_file, user, curation_concern.pid
-        )
-        generic_file.embargo_release_date = curation_concern.embargo_release_date
-        generic_file.visibility = visibility
-        Sufia::GenericFile::Actions.create_content(
-            generic_file,
-            cloud_resource,
-            File.basename(cloud_resource),
-            'content',
-            user
-        )
-        Sufia.queue.push(CharacterizeJob.new(generic_file.pid))
-        File.delete(cloud_resource)
-      end
-    rescue ActiveFedora::RecordInvalid
-      false
-    end
-
-    def download_file_from_cloud(cloud_resource)
-      logger.debug("need to download from #{cloud_resource.inspect}")
-      url=cloud_resource.download_url
-      destination_file_full_path = Rails.root.to_s + "/" +url.to_s.split("/").last
-      logger.debug("Downloading to:#{destination_file_full_path}")
-      begin
-        response = HTTParty.get(url)
-        logger.debug("Response from url: #{response.header}, Code:#{response.code}")
-        open(destination_file_full_path, 'wb') do |file|
-           file << response.body #if response.code == '200' #open(URI.parse(url)).read if URI.parse(url.to_s)
-        end
-      logger.debug("finished writing")
-      rescue Exception => e
-        logger.error "Exception occured while downloading from cloud with exception #{e.inspect}"
-      end
-      destination_file_full_path
     end
 
     def create_linked_resources
@@ -140,5 +89,35 @@ module CurationConcern
       generic_file.visibility = visibility
       CurationConcern.attach_file(generic_file, user, file)
     end
+
+    def attach_cloud_resource(cloud_resource)
+      return true if ! cloud_resource.present?
+      logger.debug("Need to download from: #{cloud_resource.inspect}")
+      file_path=cloud_resource.download_content_from_host
+      if file_path.present? && File.exists?(file_path) && !File.zero?(file_path)
+        cloud_resource = File.open(file_path)
+        generic_file = GenericFile.new
+        generic_file.file = cloud_resource
+        generic_file.batch = curation_concern
+        Sufia::GenericFile::Actions.create_metadata(
+            generic_file, user, curation_concern.pid
+        )
+        generic_file.embargo_release_date = curation_concern.embargo_release_date
+        generic_file.visibility = visibility
+        CurationConcern.attach_file(generic_file, user, cloud_resource,File.basename(cloud_resource))
+        #Sufia::GenericFile::Actions.create_content(
+        #    generic_file,
+        #    cloud_resource,
+        #    File.basename(cloud_resource),
+        #    'content',
+        #    user
+        #)
+        #Sufia.queue.push(CharacterizeJob.new(generic_file.pid))
+        File.delete(cloud_resource)
+      end
+    rescue ActiveFedora::RecordInvalid
+      false
+    end
+
   end
 end
