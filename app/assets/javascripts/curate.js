@@ -29,6 +29,7 @@
 //= require jquery.tokeninput
 //= require curate/select_works
 //= require curate/link_users
+//= require curate/link_groups
 //= require curate/proxy_rights
 //= require curate/facet_mine
 //= require curate/accept_contributor_agreement
@@ -54,6 +55,7 @@ Blacklight.onLoad(function() {
   });
   $('.multi_value.control-group').manage_fields();
   $('.link-users').linkUsers();
+  $('.link-groups').linkGroups();
   $('.proxy-rights').proxyRights();
 
 

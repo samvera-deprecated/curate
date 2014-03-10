@@ -161,16 +161,16 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
 
   def setup_stubs
     curation_concern_type = controller.curation_concern.class.to_s.underscore
-    work_editorship = CurationConcern::WorkEditorship.new
-    CurationConcern::WorkEditorship.any_instance.stub(:save).and_return(true)
+    work_editorship = CurationConcern::WorkPermission.new
+    CurationConcern::WorkPermission.any_instance.stub(:save).and_return(true)
 
     controller.class.any_instance.stub(:add_depositor_as_editor).and_return(true)
     controller.class.any_instance.stub(:get_class_name).and_return(curation_concern_type)
-    controller.class.any_instance.stub(:add_or_update_editors).and_return(work_editorship)
+    controller.class.any_instance.stub(:add_or_update_editors_and_groups).and_return(work_editorship)
   end
 
   def setup_stubs_for_update(work)
-    CurationConcern::WorkEditorshipActionParser.stub(:convert_params).and_return({})
-    CurationConcern::WorkEditorship.stub(:new).and_return(work)
+    CurationConcern::WorkPermissionActionParser.stub(:convert_params).and_return({})
+    CurationConcern::WorkPermission.stub(:new).and_return(work)
   end
 end

@@ -1,6 +1,7 @@
 class Hydramata::GroupsController < ApplicationController
   include Sufia::Noid
   include Blacklight::Catalog
+  include Hydra::Controller::ControllerBehavior
   include Hydra::AccessControlsEnforcement
   include Hydramata::GroupMembershipActionParser
 
@@ -16,6 +17,8 @@ class Hydramata::GroupsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :agreed_to_terms_of_service!
   before_filter :force_update_user_profile!
+
+  self.copy_blacklight_config_from(CatalogController)
 
   def index
     super
@@ -45,8 +48,8 @@ class Hydramata::GroupsController < ApplicationController
   end
 
   def update
-    group_membership = Hydramata::GroupMembershipForm.new( Hydramata::GroupMembershipActionParser.convert_params(params) )
-    if group_membership.save
+    @group_membership = Hydramata::GroupMembershipForm.new( Hydramata::GroupMembershipActionParser.convert_params(params) )
+    if @group_membership.save
       flash[:notice] = "Group updated successfully."
       redirect_to hydramata_group_path( params[:id] )
     else

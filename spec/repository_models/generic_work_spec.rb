@@ -80,4 +80,51 @@ describe GenericWork do
     end
   end
 
+  describe 'EditorGroup' do
+    let(:person) { FactoryGirl.create(:person_with_user) }
+    let(:user) { person.user }
+    let(:group) { FactoryGirl.create(:group, user: user) }
+    let(:work) { FactoryGirl.create(:generic_work, user: person.user) }
+    let(:collection) { FactoryGirl.create(:collection) }
+    describe '#add_editor_group' do
+      it 'should add group' do
+        work.editor_groups.should == []
+
+        work.add_editor_group(group)
+
+        reload_work = GenericWork.find(work.pid)
+        work = reload_work
+
+        work.editor_groups.should == [group]
+        work.edit_groups.should == [group.title]
+      end
+
+      it 'should not add non-group objects' do
+        work.editor_groups.should == []
+        work.add_editor_group(collection)
+        work.reload.editor_groups.should == []
+      end
+    end
+
+    describe '#remove_editor_group' do
+      it 'should remove editor_group' do
+        work.editor_groups.should == []
+        work.add_editor_group(group)
+
+        reload_work = GenericWork.find(work.pid)
+        work = reload_work
+
+        work.editor_groups.should == [group]
+        work.edit_groups.should include(group.title)
+
+        work.remove_editor_group(group)
+
+        reload_work = GenericWork.find(work.pid)
+        work = reload_work
+
+        work.editor_groups.should == []
+        work.edit_groups.should_not include(group.title)
+      end
+    end
+  end
 end

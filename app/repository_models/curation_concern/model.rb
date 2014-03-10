@@ -15,6 +15,8 @@ module CurationConcern
       
       has_and_belongs_to_many :editors, class_name: "::Person", property: :has_editor, inverse_of: :is_editor_of
       accepts_nested_attributes_for :editors, allow_destroy: true, reject_if: :all_blank
+      has_and_belongs_to_many :editor_groups, class_name: "::Hydramata::Group", property: :has_editor_group, inverse_of: :is_editor_group_of
+      accepts_nested_attributes_for :editor_groups, allow_destroy: true, reject_if: :all_blank
     end
 
     def as_json(options)

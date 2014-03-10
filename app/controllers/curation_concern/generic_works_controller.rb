@@ -11,7 +11,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
       self.curation_concern.inner_object.pid = CurationConcern.mint_a_pid
       hash = params.dup
       params[get_class_name].delete("editors_attributes") if params.has_key?(get_class_name)
-      if actor.create && add_depositor_as_editor && add_or_update_editors(hash).save
+      if actor.create && add_depositor_as_editor && add_or_update_editors_and_groups(hash).save
         after_create_response
       else
         setup_form
@@ -33,6 +33,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
     curation_concern.contributors << Person.new
     curation_concern.editors << current_user.person if curation_concern.editors.blank?
     curation_concern.editors.build
+    curation_concern.editor_groups.build
   end
   protected :setup_form
 
@@ -64,7 +65,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   def update
-    if add_or_update_editors(params).save && actor.update
+    if add_or_update_editors_and_groups(params).save && actor.update
       after_update_response
     else
       setup_form
@@ -106,13 +107,14 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   private
-  def add_or_update_editors(hash=params)
+  def add_or_update_editors_and_groups(hash=params)
     class_name = get_class_name
     hash.merge!( { id: curation_concern.pid } ) unless hash.has_key?(:id)
-    req_hash = CurationConcern::WorkEditorshipActionParser.convert_params(class_name, hash)
+    req_hash = CurationConcern::WorkPermissionActionParser.convert_params(class_name, hash)
     req_hash.merge!( {current_user: current_user} )
     params[class_name].delete("editors_attributes") if params.has_key?(class_name) && params[class_name].has_key?("editors_attributes")
-    CurationConcern::WorkEditorship.new(req_hash)
+    params[class_name].delete("editor_groups_attributes") if params.has_key?(class_name) && params[class_name].has_key?("editor_groups_attributes")
+    CurationConcern::WorkPermission.new(req_hash)
   end
 
   def add_depositor_as_editor
