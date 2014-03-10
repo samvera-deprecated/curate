@@ -60,3 +60,5 @@
     :is_crop_of: isCropOf
     :is_editor_of: isEditorOf
     :has_editor: hasEditor
+    :is_editor_group_of: isiEditorGroupOf
+    :has_editor_group: hasEditorGroup

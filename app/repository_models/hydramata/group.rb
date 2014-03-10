@@ -9,10 +9,21 @@ class Hydramata::Group < ActiveFedora::Base
   class_attribute :human_readable_short_description
 
   has_and_belongs_to_many :members, class_name: "::Person", property: :has_member, inverse_of: :is_member_of
+  has_and_belongs_to_many :works, class_name: "::ActiveFedora::Base", property: :is_editor_group_of, inverse_of: :has_editor_group
   has_metadata "descMetadata", type: GroupMetadataDatastream
   accepts_nested_attributes_for :members, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :works, allow_destroy: true, reject_if: :all_blank
 
   has_attributes :title, :date_uploaded, :date_modified, :description, datastream: :descMetadata, multiple: false
+  validate :title_is_unique
+
+  def title_is_unique
+    errors.add(:title, "has already been taken") if is_title_duplicate?
+  end
+
+  def is_title_duplicate?
+    Hydramata::Group.where(desc_metadata__title_tesim: self.title).to_a.reject{|r| r == self}.any?
+  end
 
   def add_member(candidate, role='')
     return if(!candidate.is_a?(Person) or self.members.include?(candidate))
@@ -52,6 +63,8 @@ class Hydramata::Group < ActiveFedora::Base
     self.read_users.delete(candidate.depositor) if self.read_users.include?(candidate.depositor)
     self.permissions_attributes = [{name: candidate.depositor, access: "edit", type: "person"}]
     self.save!
+  rescue ActiveFedora::RecordInvalid => e
+    errors.add(:title, e.message)
   end
 
   def group_read_membership(candidate)

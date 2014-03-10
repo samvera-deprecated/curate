@@ -4,8 +4,12 @@
   </div>
 
 
-  <div class="span5" id="required-information">
+  <div class="span6" id="required-information">
     <%= render "linked_editors", curation_concern: curation_concern, f: f %>
+  </div>
+
+  <div class="span6" id="additional-information">
+    <%= render "linked_groups", curation_concern: curation_concern, f: f %>
   </div>
 
   <div class="span6" id="additional-information">

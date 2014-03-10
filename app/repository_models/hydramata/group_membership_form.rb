@@ -10,6 +10,15 @@ class Hydramata::GroupMembershipForm
   attribute :description, String
   attribute :members, Array
   validates :group_id, presence: true
+  validate :title_is_unique
+
+  def title_is_unique
+    errors.add(:title, "has already been taken") if is_title_duplicate?
+  end
+  
+  def is_title_duplicate?
+    Hydramata::Group.where(desc_metadata__title_tesim: self.title).to_a.reject{|r| r == self}.any?
+  end
 
   def group
     @group ||= Hydramata::Group.find(group_id) 
