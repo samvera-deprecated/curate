@@ -67,7 +67,6 @@ This generator makes the following changes to your application:
     inject_into_file 'config/search_config.yml', search_options, after: /production\:\n/, force: true
   end
 
-
   DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles, :etds, :images, :documents]
 
   def create_curate_config
@@ -155,4 +154,7 @@ This generator makes the following changes to your application:
     readme 'README.md'
   end
 
+  def create_predicate_mapping
+    copy_file Rails.root.join("../../lib/generators/curate/predicate_mapping/predicate_mappings.yml"), Rails.root.join("config/predicate_mappings.yml"), force: true 
+  end
 end
