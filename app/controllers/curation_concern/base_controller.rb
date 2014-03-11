@@ -55,7 +55,7 @@ module CurationConcern
     helper_method :contributor_agreement
 
     def cloud_resources_to_ingest
-      @cloud_resources_to_ingest ||= CloudResource.new(curation_concern, current_user, params)
+      @cloud_resources_to_ingest ||= CloudResource.new(curation_concern, current_user, params).resources_to_ingest
     end
 
     helper_method :cloud_resources_to_ingest

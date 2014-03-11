@@ -45,14 +45,15 @@ module CurationConcern
       @linked_resource_urls ||= Array(attributes[:linked_resource_urls]).flatten.compact
     end
 
+    def cloud_resources
+      @cloud_resources ||= Array(@cloud_resources).flatten.compact
+    end
 
     def download_create_cloud_resources
-      logger.debug("Need to download from: #{cloud_resources.inspect}")
       cloud_resources.all? do |resource|
         attach_cloud_resource(resource)
       end
     end
-
     def create_linked_resources
       linked_resource_urls.all? do |link_resource_url|
         create_linked_resource(link_resource_url)
@@ -105,14 +106,6 @@ module CurationConcern
         generic_file.embargo_release_date = curation_concern.embargo_release_date
         generic_file.visibility = visibility
         CurationConcern.attach_file(generic_file, user, cloud_resource,File.basename(cloud_resource))
-        #Sufia::GenericFile::Actions.create_content(
-        #    generic_file,
-        #    cloud_resource,
-        #    File.basename(cloud_resource),
-        #    'content',
-        #    user
-        #)
-        #Sufia.queue.push(CharacterizeJob.new(generic_file.pid))
         File.delete(cloud_resource)
       end
     rescue ActiveFedora::RecordInvalid

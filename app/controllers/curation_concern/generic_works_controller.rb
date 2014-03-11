@@ -94,7 +94,12 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   protected :after_destroy_response
 
   register :actor do
-    CurationConcern.actor(curation_concern, current_user, params[hash_key_for_curation_concern],cloud_resources_to_ingest)
+    CurationConcern.actor(curation_concern, current_user, attributes_for_actor)
+  end
+
+  def attributes_for_actor
+    return params[hash_key_for_curation_concern] if cloud_resources_to_ingest.nil?
+    params[hash_key_for_curation_concern].merge!(:cloud_resources=>cloud_resources_to_ingest)
   end
 
   def hash_key_for_curation_concern
