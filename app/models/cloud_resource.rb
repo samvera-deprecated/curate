@@ -43,6 +43,11 @@ class CloudResource
       return {:headers => {"Authorization"=>authorize_key}}
     end
 
+    def filename(uri)
+      filename=uri.path.split("/").last
+      filename.gsub(File.extname(filename),"")
+    end
+
     def download_content_from_host
       uri=URI.parse(download_url)
       case uri.scheme
@@ -52,7 +57,7 @@ class CloudResource
           logger.debug("Code from url:#{response.code}, URL:#{download_url}")
           if response.code == 200
             extn=MIME::Types[response.content_type].first.extensions.first
-            @downloaded_content_path = Rails.root.to_s + "/tmp/" +uri.path.split("/").last+".#{extn}"
+            @downloaded_content_path = Rails.root.to_s + "/tmp/" +filename(uri)+".#{extn}"
             logger.debug("Writing to #{@downloaded_content_path.inspect}")
             File.open(@downloaded_content_path, "wb"){|f| f.write(response.parsed_response)}
           end
