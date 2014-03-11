@@ -152,7 +152,7 @@ However, a well formed Gherkin-syntax story is a suitable proxy; Especially if y
 
 We encourage the use of [custom rspec matchers](https://www.relishapp.com/rspec/rspec-expectations/v/2-3/docs/custom-matchers/define-matcher) as this helps our specs better convey what is going on.
 
-To find the existing Rspec matchers in this project, you can run `rake spec:show_matchers`.
+To find the existing Rspec matchers in this project, you can run `rake yenta`.
 Below is the sample output.
 
 ```shell

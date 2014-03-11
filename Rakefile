@@ -24,4 +24,13 @@ Dir.glob('tasks/*.rake').each { |r| import r }
 
 Bundler::GemHelper.install_tasks
 
+if !ENV['TRAVIS']
+  require 'rspec/yenta'
+  RSpec::Yenta.load_tasks do
+    require File.expand_path("../spec/internal/config/environment.rb",  __FILE__)
+    require File.expand_path('../spec/matchers', __FILE__)
+  end
+  task :yenta => 'generate'
+end
+
 task :default => 'ci'
