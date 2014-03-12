@@ -63,6 +63,15 @@ module CurationConcern
     class_attribute :curation_concern_type
     self.curation_concern_type = GenericWork
 
+    def attributes_for_actor
+      return params[hash_key_for_curation_concern] if cloud_resources_to_ingest.nil?
+      params[hash_key_for_curation_concern].merge!(:cloud_resources=>cloud_resources_to_ingest)
+    end
+
+    def hash_key_for_curation_concern
+      curation_concern_type.name.underscore.to_sym
+    end
+
     register :curation_concern do
       if params[:id]
         if curation_concern_type == ActiveFedora::Base
@@ -74,6 +83,8 @@ module CurationConcern
         curation_concern_type.new
       end
     end
+
+
 
   end
 end

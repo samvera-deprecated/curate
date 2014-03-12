@@ -93,9 +93,8 @@ module CurationConcern
 
     def attach_cloud_resource(cloud_resource)
       return true if ! cloud_resource.present?
-      logger.debug("Need to download from: #{cloud_resource.inspect}")
       file_path=cloud_resource.download_content_from_host
-      if file_path.present? && File.exists?(file_path) && !File.zero?(file_path)
+      if  valid_file?(file_path)
         cloud_resource = File.open(file_path)
         generic_file = GenericFile.new
         generic_file.file = cloud_resource
@@ -110,6 +109,10 @@ module CurationConcern
       end
     rescue ActiveFedora::RecordInvalid
       false
+    end
+
+    def valid_file?(file_path)
+      return file_path.present? && File.exists?(file_path) && !File.zero?(file_path)
     end
 
   end
