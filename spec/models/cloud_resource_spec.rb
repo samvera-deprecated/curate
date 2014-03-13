@@ -1,67 +1,47 @@
 require 'spec_helper'
 
-describe Cloud_Resource do
+describe CloudResource do
+  subject { CloudResource.new(curation_concern, user, params)}
 
-  let(:download_url)
-  let(:auth_header)
-  let(:expiration)
-  let(:curation_concern)
-  let(:user)
-  let(:param_value)
-  let(:resources_to_ingest)
+  let(:curation_concern) { GenericWork.new }
+  let(:user) { User.new }
+  let(:params)  { {} }
 
-  describe 'class methods' do
+  it 'has param key' do
+    subject.param_key.should == :selected_files
+  end
 
-    describe 'download_url'
-
-      describe 'initialize' do
-      end
-
-      describe 'url_key' do
-      end
-
-      describe 'expire_key' do
-      end
-    end
-
-    describe 'authorize_key' do
-
-      describe 'authorize_key' do
-      end
-
-      describe 'file' do
-      end
-
-      describe 'web' do
-      end
-
-      describe 'assign_headers' do
-      end
-
-      def 'filename' do
-      end
-
-      describe 'download_content_from_host' do
-      end
-    end
-
-    describe 'curation_concern' do
-
-      describe 'initialize' do
-      end
-
-      describe 'param_key' do
-      end
-
-    end
-
-    describe 'param_value' do
-
-      describe 'process_cloud_resource' do
-      end
-
-    end
+  describe 'process cloud resource' do
 
   end
+
+  describe CloudResource::DownloadResource do
+    subject { CloudResource::DownloadResource.new(specification)}
+    let(:file) { curate_fixture_file_upload('files/image.png', 'image/png') }
+    let(:provider) {"https://dl.dropboxusercontent.com"}
+    let(:specification) { {"url"=>"https://dl.dropboxusercontent.com/1/view/ndhjx597auktpnz/Week%203%20Notes.pdf", "expires"=>"nil"} }
+
+    it 'has url_key' do
+      subject.url_key.should == :url
+    end
+
+    it 'has header_key' do
+      subject.header_key.should == :auth_header
+    end
+
+    it 'has expire_key' do
+      subject.expire_key.should == :expires
+    end
+
+    describe '#download_content_from_host' do
+      it 'create download path for a local file' do
+      end
+
+      it 'create download path for a cloud file' do
+        expect(subject.download_content_from_host).to be_kind_of(String)
+      end
+    end
+  end
+
 end
 
