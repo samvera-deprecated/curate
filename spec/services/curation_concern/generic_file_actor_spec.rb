@@ -11,7 +11,6 @@ describe CurationConcern::GenericFileActor do
   let(:cloud_resource_url){ {"selected_files"=>{"0"=>{"url"=>"file://#{file_path}", "expires"=>"nil"}}}}
   let(:curation_concern) { GenericWork.new(pid: CurationConcern.mint_a_pid )}
   let (:cloud_resource) { CloudResource.new(curation_concern, user, cloud_resource_url)}
-  let(:cloud_file) { curate_fixture_file_upload('files/image.png', 'image/png') }
 
   let(:attributes) {
     { file: file, title: title, visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
@@ -25,10 +24,6 @@ describe CurationConcern::GenericFileActor do
     let(:generic_file) { GenericFile.new.tap {|gf| gf.batch = parent } }
     let(:reloaded_generic_file) {
       generic_file.class.find(generic_file.pid)
-    }
-
-    let(:reloaded_cloud_resource) {
-      cloud_resource.class.find(cloud_resource.pid)
     }
 
     describe 'with a file' do
@@ -49,20 +44,26 @@ describe CurationConcern::GenericFileActor do
       end
     end
 
+
+
     describe 'with a cloud file' do
+
+      let(:attributes) {
+        { cloud_resources: cloud_resource.resources_to_ingest, title: title, visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+      }
       it 'succeeds if attributes are given' do
         return_value = nil
         expect {
           return_value = subject.create
         }.to change {
-          parent.class.find(parent.pid).cloud_resource.count
+          parent.class.find(parent.pid).generic_files.count
         }.by(1)
 
-        reloaded_cloud_resource.batch.should == parent
-        reloaded_cloud_resource.to_s.should == title
-        reloaded_cloud_resource.filename.should == File.basename(__FILE__)
+        reloaded_generic_file.batch.should == parent
+        reloaded_generic_file.to_s.should == title
+        reloaded_generic_file.filename.should == File.basename(__FILE__)
 
-        expect(reloaded_cloud_resource.to_solr[Hydra.config[:permissions][:read][:group]]).to eq(['registered'])
+        expect(reloaded_generic_file.to_solr[Hydra.config[:permissions][:read][:group]]).to eq(['registered'])
         return_value.should be_true
       end
     end
@@ -93,14 +94,17 @@ describe CurationConcern::GenericFileActor do
     end
 
     describe 'with a cloud file' do
+      let(:attributes) {
+        { cloud_resources: cloud_resource.resources_to_ingest, title: title, visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
+      }
       it 'succeeds if attributes are given' do
-        cloud_resource.title.should_not == title
-        cloud_resource.content.content.should_not == file_content
+        generic_file.title.should_not == title
+        generic_file.content.content.should_not == file_content
         return_value = nil
         return_value = subject.update
-        cloud_resource.title.should == [title]
-        cloud_resouce.to_s.should == title
-        cloud_resource.content.content.should == file_content
+        generic_file.title.should == [title]
+        generic_file.to_s.should == title
+        generic_file.content.content.should == file_content
         return_value.should be_true
       end
     end
@@ -139,4 +143,5 @@ describe CurationConcern::GenericFileActor do
     end
   end
 end
+
 
