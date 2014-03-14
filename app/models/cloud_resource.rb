@@ -3,7 +3,6 @@ class CloudResource
   class DownloadResource
     attr_reader :download_url, :auth_header, :expiration
     def initialize(specification)
-      puts "Processing Specification:#{specification.inspect}"
       @download_url = specification[url_key.to_sym] || specification[url_key.to_s]
       @auth_header  = specification[header_key.to_sym] || specification[header_key.to_s]
       @expiration   = specification[expire_key.to_sym] || specification[expire_key.to_s]
