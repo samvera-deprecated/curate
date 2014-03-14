@@ -35,6 +35,10 @@ module Curate
       def name
         read_attribute(:name) || user_key
       end
+
+      def groups
+        self.person.group_names
+      end
     end
   end
 end

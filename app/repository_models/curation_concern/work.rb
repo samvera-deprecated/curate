@@ -18,6 +18,24 @@ module CurationConcern
       return solr_doc
     end
 
+    def add_editor_group(group)
+      return unless group.is_a?(Hydramata::Group)
+      self.editor_groups << group
+      self.permissions_attributes = [{name: group.title, access: "edit", type: "group"}]
+      self.save!
+      group.works << self
+      group.save!
+    end
+
+    def remove_editor_group(group)
+      return unless self.edit_groups.include?(group.title)
+      self.editor_groups.delete(group)
+      self.edit_groups = self.edit_groups - [group.title] 
+      self.save!
+      group.works.delete(self)
+      group.save!
+    end
+
     def add_editor(editor)
       return unless editor.is_a?(Person)
       self.editors << editor

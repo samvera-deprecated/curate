@@ -118,6 +118,10 @@ class Person < ActiveFedora::Base
     name || "No Title"
   end
 
+  def group_names
+    @group_names ||= self.groups.collect{|g| g.title }
+  end
+
   GRAVATAR_URL = "//www.gravatar.com/avatar/"
 
   def add_profile_image(file)
