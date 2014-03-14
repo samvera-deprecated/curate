@@ -78,15 +78,4 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   register :actor do
     CurationConcern.actor(curation_concern, current_user, attributes_for_actor)
   end
-
-  def hash_key_for_curation_concern
-    curation_concern_type.name.underscore.to_sym
-  end
-
-  def attributes_for_actor
-    return params[hash_key_for_curation_concern] if cloud_resources_to_ingest.nil?
-    params[hash_key_for_curation_concern].merge!(:cloud_resources=>cloud_resources_to_ingest)
-  end
-
-
 end
