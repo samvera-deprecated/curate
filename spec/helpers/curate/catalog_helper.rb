@@ -44,4 +44,33 @@ describe Curate::CatalogHelper do
       end
     end
   end
+  describe "show section type for my assets" do
+    describe "works catalog" do
+      before { params[:f] = {field => ['Work']}}
+      it "should display Works in the 'Show' section" do
+        helper.catalog_type.should == "Works"
+      end
+    end
+
+    describe "collections catalog" do
+      before { params[:f] = {field => ['Collection']}}
+      it "should display Collections in the 'Show' section" do
+        helper.catalog_type.should == "Collections"
+      end
+    end
+
+    describe "people catalog" do
+      before { params[:f] = {field => ['Person']}}
+      it "should display Profile in the 'Show' section" do
+        helper.catalog_type.should == "Profile"
+      end
+    end
+
+    describe "everything" do
+      before { params[:f] = {field => ['All']}}
+      it "should display Content in the 'Show' section" do
+        helper.catalog_type.should == "Content"
+      end
+    end
+  end
 end
