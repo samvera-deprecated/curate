@@ -52,13 +52,10 @@ class CloudResource
       uri=URI.parse(download_url)
       case uri.scheme
         when 'http', 'https'
-          logger.debug("Header:#{assign_headers.inspect}")
           response = HTTParty.get(download_url,assign_headers )
-          logger.debug("Code from url:#{response.code}, URL:#{download_url}")
           if response.code == 200
             extn=MIME::Types[response.content_type].first.extensions.first
             @downloaded_content_path = Rails.root.to_s + "/tmp/" +filename(uri)+".#{extn}"
-            logger.debug("Writing to #{@downloaded_content_path.inspect}")
             File.open(@downloaded_content_path, "wb"){|f| f.write(response.parsed_response)}
           end
         when file
@@ -70,7 +67,6 @@ class CloudResource
           @downloaded_content_path=nil
          logger.error("Unknown provider")
       end
-      logger.debug("Downloaded to path:#{@downloaded_content_path.inspect}")
       downloaded_content_path
     end
   end
@@ -91,7 +87,6 @@ class CloudResource
 
   def process_cloud_resource
     return nil if param_value.nil?
-    puts "need to process param_value:#{param_value.inspect}"
     param_value.collect{|index,resource| DownloadResource.new(resource)}
   end
 
