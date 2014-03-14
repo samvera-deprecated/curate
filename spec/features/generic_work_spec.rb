@@ -85,6 +85,34 @@ describe 'An existing generic work owned by the user' do
     click_link 'Add an External Link'
     page.should have_link('Cancel', href: catalog_index_path)
   end
+
+  describe 'with a cloud resource' , js: true do
+    it 'should allow me to attach a cloud resource' do
+      login_as(user)
+      visit curation_concern_generic_work_path(work)
+      click_link 'Attach a File'
+
+      within '#new_generic_file' do
+        fill_in "Title", with: "My title"
+        click_button("Browse!")
+      end
+      find("div#browse-everything").should be_visible
+      within('#browse-everything') do
+        page.should have_tag("a[href$='/remote_files/browse/file_system']", text: "File System")
+        click_link 'File System'
+        click_link 'features.rb'
+        click_button ("Submit")
+      end
+      within '#new_generic_file' do
+        page.should have_tag("#status", text: "1 item(s) selected")
+        click_button("Attach to Generic Work")
+      end
+      within ('.generic_file.attributes') do
+        expect(page).to have_selector('.attribute.filename a', text: 'features.rb')
+      end
+    end
+  end
+
 end
 
 describe 'Viewing a generic work that is private' do
