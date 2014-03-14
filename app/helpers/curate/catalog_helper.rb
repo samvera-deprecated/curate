@@ -21,6 +21,20 @@ module Curate::CatalogHelper
     end
   end
 
+  def catalog_type
+    if params[:f] && params[:f][type_field]
+      if params[:f][type_field].first == "All"
+        "Content"
+      elsif params[:f][type_field].first == "Person"
+        "Profile"
+      else
+        params[:f][type_field].first.pluralize
+      end
+    else
+      "Content"
+    end
+  end
+
   private
 
     def type_field
