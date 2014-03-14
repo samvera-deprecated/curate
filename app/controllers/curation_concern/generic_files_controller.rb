@@ -9,6 +9,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   before_filter :parent
+  before_filter :cloud_resources_valid?, only: :create
   before_filter :authorize_edit_parent_rights!, except: [:show]
 
   self.excluded_actions_for_curation_concern_authorization = [:new, :create]
@@ -16,6 +17,20 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
     (action_name == 'versions' || action_name == 'rollback') ? :edit : super
   end
   protected :action_name_for_authorization
+
+  def cloud_resources_valid?
+    if params.has_key?(:selected_files) && params[:selected_files].length>1
+      respond_with([:curation_concern, curation_concern]) do |wants|
+        wants.html {
+          flash.now[:error] = "Please select one cloud resource at a time."
+          render 'new', status: :unprocessable_entity
+        }
+      end
+      return false
+    end
+  end
+
+  protected :cloud_resources_valid?
 
   self.curation_concern_type = GenericFile
 
