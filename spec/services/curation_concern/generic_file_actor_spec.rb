@@ -8,6 +8,11 @@ describe CurationConcern::GenericFileActor do
   let(:file) { Rack::Test::UploadedFile.new(file_path, mime_type, false)}
   let(:file_content) { File.read(file_path)}
   let(:title) { Time.now.to_s }
+  let(:cloud_resource_url){ {"selected_files"=>{"0"=>{"url"=>"file://#{file_path}", "expires"=>"nil"}}}}
+  let(:curation_concern) { GenericWork.new(pid: CurationConcern.mint_a_pid )}
+  let (:cloud_resource) { CloudResource.new(curation_concern, user, cloud_resource_url)}
+  let(:cloud_file) { curate_fixture_file_upload('files/image.png', 'image/png') }
+
   let(:attributes) {
     { file: file, title: title, visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
   }
@@ -21,6 +26,11 @@ describe CurationConcern::GenericFileActor do
     let(:reloaded_generic_file) {
       generic_file.class.find(generic_file.pid)
     }
+
+    let(:reloaded_cloud_resource) {
+      cloud_resource.class.find(cloud_resource.pid)
+    }
+
     describe 'with a file' do
       it 'succeeds if attributes are given' do
         return_value = nil
@@ -39,6 +49,24 @@ describe CurationConcern::GenericFileActor do
       end
     end
 
+    describe 'with a cloud file' do
+      it 'succeeds if attributes are given' do
+        return_value = nil
+        expect {
+          return_value = subject.create
+        }.to change {
+          parent.class.find(parent.pid).cloud_resource.count
+        }.by(1)
+
+        reloaded_cloud_resource.batch.should == parent
+        reloaded_cloud_resource.to_s.should == title
+        reloaded_cloud_resource.filename.should == File.basename(__FILE__)
+
+        expect(reloaded_cloud_resource.to_solr[Hydra.config[:permissions][:read][:group]]).to eq(['registered'])
+        return_value.should be_true
+      end
+    end
+
     it 'failure returns false' do
       CurationConcern::BaseActor.any_instance.should_receive(:save).and_return(false)
       subject.stub(:update_file).and_return(true)
@@ -51,7 +79,8 @@ describe CurationConcern::GenericFileActor do
       FactoryGirl.create_generic_file(parent, user)
     }
 
-    it do
+    describe 'with a file' do
+      it 'succeeds if attributes are given' do
       generic_file.title.should_not == title
       generic_file.content.content.should_not == file_content
       return_value = nil
@@ -60,6 +89,20 @@ describe CurationConcern::GenericFileActor do
       generic_file.to_s.should == title
       generic_file.content.content.should == file_content
       return_value.should be_true
+      end
+    end
+
+    describe 'with a cloud file' do
+      it 'succeeds if attributes are given' do
+        cloud_resource.title.should_not == title
+        cloud_resource.content.content.should_not == file_content
+        return_value = nil
+        return_value = subject.update
+        cloud_resource.title.should == [title]
+        cloud_resouce.to_s.should == title
+        cloud_resource.content.content.should == file_content
+        return_value.should be_true
+      end
     end
 
     it 'failure returns false' do
@@ -96,3 +139,4 @@ describe CurationConcern::GenericFileActor do
     end
   end
 end
+
