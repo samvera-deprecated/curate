@@ -24,6 +24,23 @@ describe 'catalog search', describe_options do
   end
 end
 
+describe 'Clear limits from search' do
+  it 'has a button to clear limits' do
+    visit '/'
+    click_link 'Collections'
+  
+    expect( page ).to have_link( 'Clear limits' )
+  end
+
+  it 'returns the user to the all works view' do
+    visit '/'
+    click_link 'Collections'
+    click_link 'Clear limits'
+  
+    expect( current_path ).to eq( root_path )
+  end
+end
+
 describe "Search for a work" do
   context "when not logged in" do
     let!(:public_work) { FactoryGirl.create(:public_generic_work,
