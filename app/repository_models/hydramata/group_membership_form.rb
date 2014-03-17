@@ -17,7 +17,7 @@ class Hydramata::GroupMembershipForm
   end
   
   def is_title_duplicate?
-    Hydramata::Group.where(desc_metadata__title_tesim: self.title).to_a.reject{|r| r == self}.any?
+    Hydramata::Group.where(desc_metadata__title_tesim: self.title).to_a.reject{|r| r == self.group}.any?
   end
 
   def group
