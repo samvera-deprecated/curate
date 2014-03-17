@@ -30,7 +30,7 @@ describe 'Profile for a Person: ' do
       within('form.edit_user') do
         fill_in("user[name]", with: 'Spider Man')
         fill_in("user[current_password]", with: password)
-        click_button "Update My Account"
+        click_button "Update Account"
       end
 
       visit catalog_index_path
@@ -82,9 +82,9 @@ describe 'Profile for a Person: ' do
     click_link "My Profile"
     click_link "Update Personal Information"
     within('form.edit_user') do
-      attach_file("Upload your file", image_file)
+      attach_file("Upload the file", image_file)
       fill_in("user[current_password]", with: password)
-      click_button "Update My Account"
+      click_button "Update Account"
     end
   end
 end

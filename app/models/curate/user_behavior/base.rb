@@ -29,7 +29,8 @@ module Curate
       end
 
       def manager_usernames
-        @manager_usernames ||= YAML.load(ERB.new(Rails.root.join('config/manager_usernames.yml').read).result)[Rails.env]['manager_usernames']
+        manager_config = 'config/manager_usernames.yml'
+        File.exist?(manager_config) ? @manager_usernames ||= YAML.load(ERB.new(Rails.root.join(manager_config).read).result)[Rails.env]['manager_usernames'] : @manager_usernames = ''
       end
 
       def name

@@ -88,6 +88,19 @@ class Account
     end
   end
 
+  def update_without_password(initial_params, *options)
+    params = normalize_update_params(initial_params)
+    extract_user_and_person_attributes_for_update(params)
+    if update_user_without_password(*options) &&
+        update_person &&
+        update_profile
+      true
+    else
+      collect_errors
+      false
+    end
+  end
+
   delegate :persisted?, :to_param, :to_key, :new_record?, to: :user
 
   def method_missing(method_name, *args, &block)
@@ -131,6 +144,10 @@ class Account
 
   def update_user(*options)
     user.update_with_password(user_attributes, *options)
+  end
+
+  def update_user_without_password(*options)
+    user.update_attributes(user_attributes, *options)
   end
 
   def create_person
