@@ -119,7 +119,9 @@ This generator makes the following changes to your application:
   end
 
   def create_browse_everything_providers
-    create_file('config/browse_everything_providers.yml', "---\nfile_system:\n  :home: /<location for server file drop>\nsky_drive:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\nbox:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\ndrop_box:\n  :app_key: <your client id>\n  :app_secret: <your app secret>\ngoogle_drive:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\n")
+    create_file('config/browse_everything_providers.yml', "---\nfile_system:\n  :home: \nsky_drive:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\nbox:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\ndrop_box:\n  :app_key: <your client id>\n  :app_secret: <your app secret>\ngoogle_drive:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\n")
+    default_file_system = "#{File.expand_path('../support', Rails.root)}"
+    inject_into_file 'config/browse_everything_providers.yml', default_file_system, after: /\:home\: /, force: true
   end
 
   def inject_curate_user
