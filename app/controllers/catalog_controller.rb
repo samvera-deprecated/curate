@@ -27,6 +27,16 @@ class CatalogController < ApplicationController
     super
   end
 
+  def self.human_readable_type_hash
+    { :article_facet => { :label => 'Articles', :fq => "active_fedora_model_ssi:Article" },
+      :dataset_facet => { :label => 'Datasets', :fq => "active_fedora_model_ssi:Dataset" },
+      :document_facet=> { :label => 'Document', :fq => "active_fedora_model_ssi:Document" },
+      :etd_facet=> { :label => 'ETD', :fq => "active_fedora_model_ssi:Etd" },
+      :generic_file_facet=> { :label => 'Generic Files', :fq => "active_fedora_model_ssi:GenericFile" },
+      :generic_work_facet=> { :label => 'Generic Works', :fq => "active_fedora_model_ssi:GenericWork" },
+      :image_facet => { :label => 'Images', :fq => "active_fedora_model_ssi:Image"}}
+  end
+
   def self.uploaded_field
     #  system_create_dtsi
     solr_name('desc_metadata__date_uploaded', :stored_sortable, type: :date)
@@ -68,7 +78,7 @@ class CatalogController < ApplicationController
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
-    config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type of Work", limit: 5
+    config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type of Work", :query => human_readable_type_hash, limit: 5
     config.add_facet_field solr_name(:desc_metadata__creator, :facetable), label: "Creator", helper_method: :creator_name_from_pid, limit: 5
     config.add_facet_field solr_name(:collection, :facetable), label: "Collection",  helper_method: :collection_title_from_pid, limit: 5
 
