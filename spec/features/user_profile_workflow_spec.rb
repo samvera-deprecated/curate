@@ -105,7 +105,7 @@ describe 'user profile workflow', FeatureSupport.options do
     within('form.edit_user') do
       fill_in("user[email]", with: new_email)
       fill_in("user[current_password]", with: password)
-      click_button("Update My Account")
+      click_button("Update Account")
     end
     click_link("add-content")
 
