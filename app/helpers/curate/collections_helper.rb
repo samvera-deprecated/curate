@@ -61,7 +61,8 @@ module Curate::CollectionsHelper
   end
 
   def collection_line_item(collection, terminate)
-    list_item = content_tag :h3, class: 'collection-section-heading' do
+    headertag = terminate ? :p : :h3
+    list_item = content_tag headertag, class: 'collection-section-heading' do
       link_to(collection.to_s, collection_path(collection))
     end
     if collection.description.present?

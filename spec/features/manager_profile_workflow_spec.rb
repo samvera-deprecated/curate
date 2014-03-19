@@ -17,8 +17,6 @@ describe 'manager profile workflow', FeatureSupport.options do
       new_name = 'Frodo Baggins'
       new_pref = 'pref@example.com'
       new_alt = 'alt@example.com'
-      new_dob = '1/2/1980'
-      new_gender = 'female'
       new_title = 'student'
       new_phone = '12345'
       new_alt_phone = '67890'
@@ -29,8 +27,6 @@ describe 'manager profile workflow', FeatureSupport.options do
         fill_in("user[name]", with: new_name)
         fill_in("user[email]", with: new_pref)
         fill_in("user[alternate_email]", with: new_alt)
-        fill_in("user[date_of_birth]", with: new_dob)
-        fill_in("user[gender]", with: new_gender)
         fill_in("user[title]", with: new_title)
         fill_in("user[campus_phone_number]", with: new_phone)
         fill_in("user[alternate_phone_number]", with: new_alt_phone)
@@ -50,8 +46,6 @@ describe 'manager profile workflow', FeatureSupport.options do
       user.name.should == new_name
       user.email.should == new_pref
       user.alternate_email.should == new_alt
-      user.date_of_birth.should == new_dob
-      user.gender.should == new_gender
       user.title.should == new_title
       user.campus_phone_number.should == new_phone
       user.alternate_phone_number.should == new_alt_phone
