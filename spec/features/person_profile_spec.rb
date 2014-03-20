@@ -73,7 +73,7 @@ describe 'Profile for a Person: ' do
     it 'should show gravatar image if profile image not uploaded' do
       visit('/')
       click_link "My Profile"
-      page.should have_css("img[class$='gravatar']")
+      page.should have_css("img[contains(gravatar)]")
     end
   end
 
