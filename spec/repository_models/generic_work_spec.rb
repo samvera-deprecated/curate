@@ -35,6 +35,29 @@ describe GenericWork do
     end
   end
 
+  context 'Embargo testing' do
+    let!(:work) { FactoryGirl.create(:generic_work, title: 'Embargo Work') }
+     
+    it "should not be under embargo by default" do
+      work.under_embargo?.should be_false
+     end
+    
+    it "should be under embargo when embargo is set" do
+      #set embargo to 1 day from now
+      work.embargo_release_date = (Time.now + 1.day).strftime("%Y-%m-%d")
+      work.save
+      work.under_embargo?.should be_true
+    end
+
+    it "should successfully get released from embargo" do
+      #set embargo to 1 day ago
+      work.embargo_release_date = (Time.now - 1.day).strftime("%Y-%m-%d")
+      work.save
+      work.under_embargo?.should be_false
+    end
+
+  end
+
   describe 'Editor' do
     let(:person) { FactoryGirl.create(:person_with_user) }
     let(:another_person) { FactoryGirl.create(:person_with_user) }
