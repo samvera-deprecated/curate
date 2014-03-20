@@ -1,11 +1,12 @@
 require 'HTTParty'
 class CloudResource
   class DownloadResource
-    attr_reader :download_url, :auth_header, :expiration
+    attr_reader :download_url, :auth_header, :expiration, :file_name
     def initialize(specification)
       @download_url = specification[url_key.to_sym] || specification[url_key.to_s]
       @auth_header  = specification[header_key.to_sym] || specification[header_key.to_s]
       @expiration   = specification[expire_key.to_sym] || specification[expire_key.to_s]
+      @file_name   = specification[filename.to_sym] || specification[filename.to_s]
     end
 
     def url_key
@@ -20,13 +21,21 @@ class CloudResource
       :expires
     end
 
+    def filename
+      :file_name
+    end
+
     attr_reader :downloaded_content_path
 
     attr_reader :authorize_key
 
     def authorize_key
       return nil if auth_header.nil?
-      return CGI::unescape(auth_header["Authorization"])
+      return cgi_escape(auth_header["Authorization"])
+    end
+
+    def cgi_escape(string)
+      CGI::unescape(string)
     end
 
     def file
@@ -42,9 +51,10 @@ class CloudResource
       return {:headers => {"Authorization"=>authorize_key}}
     end
 
-    def filename(uri)
-      filename=uri.path.split("/").last
-      filename.gsub(File.extname(filename),"")
+    def get_filename(uri)
+      filename= file_name || uri.path.split("/").last
+      logger.debug("Filename:#{cgi_escape(filename)}")
+      cgi_escape(filename.gsub(File.extname(filename),""))
     end
 
     def download_content_from_host
@@ -54,7 +64,7 @@ class CloudResource
           response = HTTParty.get(download_url,assign_headers )
           if response.code == 200
             extn=MIME::Types[response.content_type].first.extensions.first
-            @downloaded_content_path = Rails.root.to_s + "/tmp/" +filename(uri)+".#{extn}"
+            @downloaded_content_path = Rails.root.to_s + "/tmp/" +get_filename(uri)+".#{extn}"
             File.open(@downloaded_content_path, "wb"){|f| f.write(response.parsed_response)}
           end
         when file
