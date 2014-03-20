@@ -40,7 +40,7 @@ module Hydramata::SolrHelper
       
     # not logged-in
     else
-      embargo_query = "(*:* NOT embargo_release_date_dtsi:[NOW TO *])"
+      embargo_query = "NOT embargo_release_date_dtsi:[NOW TO *]"
     end
 
     solr_parameters[:fq] << embargo_query
