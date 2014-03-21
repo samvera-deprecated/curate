@@ -22,7 +22,7 @@
       <p><%= @person.profile.description %> </p>
 
       <div id="documents" class="clear">
-        <%= list_items_in_collection(@person.profile) %>
+        <%= list_items_in_collection(@person.profile, terminate=false, options={:display_contributors=>false}) %>
       </div>
     <% elsif current_user.respond_to?(:person) && @person == current_user.person %>
       <p class="center no-documents">
@@ -37,7 +37,7 @@
     <% end %>
   </div>
 
-  <div id="profile_details" class="span4">
+  <div id="profile_details" class="span4, profile-details">
     <div class="profile-picture">
       <%= render partial: 'profile_image', locals: {person: @person} %>
     </div>
