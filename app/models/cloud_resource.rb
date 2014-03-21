@@ -12,7 +12,6 @@ class CloudResource
     def url_key
       :url
     end
-s
     def header_key
       :auth_header
     end
