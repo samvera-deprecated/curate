@@ -20,3 +20,9 @@ branches:
   only:
     - master
     - develop
+    - feature/travis-split-environment
+
+env:
+  matrix:
+    - FEATURE_SPEC=1
+    - FEATURE_SPEC=0
