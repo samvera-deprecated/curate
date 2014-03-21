@@ -7,8 +7,8 @@ module Curate
 
     def curate_permissions
       alias_action :confirm, :copy, :to => :update
-      if current_user.manager?
-        can [:discover, :show, :read, :edit, :update, :destroy], :all
+      can [:discover, :show, :read, :edit, :update, :destroy], :all do |p|
+        current_user && current_user.manager?
       end
 
       can :edit, Person do |p|

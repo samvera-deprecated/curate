@@ -101,12 +101,11 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
         ".embargo_release_date.attribute",
         text: embargo_release_date_formatted
       )
-      page.assert_selector(
-        ".permission.attribute",
-        text: "Open Access"
-      )
+
+      page.assert_selector(".permission.attribute .label", text: "Open Access with Embargo")
       noid = page.current_path.split("/").last
       logout
+
       visit("/show/#{noid}")
 
       page.assert_selector('.contributor.attribute', text: 'Dante', count: 0)
