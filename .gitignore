@@ -11,4 +11,3 @@ tmp/*
 .sass-cache
 .idea/
 coverage
-spec/fixtures/cassettes/*
