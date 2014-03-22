@@ -64,7 +64,7 @@ module Curate::CollectionsHelper
 
   def work_line_item(work, options={})
     link = link_to work.to_s, polymorphic_path_for_asset(work)
-    link = link + ' ' + contributors(work) unless !options[:display_contributors].nil? && !options[:display_contributors]
+    link = link + ' ' + contributors(work) if options.fetch(:display_contributors, true)
     link
   end
 
