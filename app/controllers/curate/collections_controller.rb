@@ -80,6 +80,26 @@ class Curate::CollectionsController < ApplicationController
     redirect_to params.fetch(:redirect_to) { collection_path(params[:id]) }
   end
 
+  def create
+    if params[ :collection ][ :file ]
+      @collection.add_profile_image( params[ :collection ][ :file ] ) 
+      @collection.save!
+    end
+    super
+  end
+
+  def update
+    if params[ :collection ][ :file ]
+      @collection.add_profile_image( params[ :collection ][ :file ] ) 
+      @collection.save!
+    end
+    super
+  end
+
+  def index
+    redirect_to "?f[generic_type_sim][]=Collection&works=mine"
+  end
+
   private
 
   def load_and_authorize_collectible
