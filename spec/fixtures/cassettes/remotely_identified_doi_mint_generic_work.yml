@@ -44,4 +44,49 @@ http_interactions:
       string: 'success: doi:10.5072/FK2HX1QVR | ark:/b5072/fk2hx1qvr'
     http_version: 
   recorded_at: Tue, 05 Nov 2013 21:27:52 GMT
+- request:
+    method: post
+    uri: https://apitest:apitest@n2t.net/ezid/shoulder/doi:10.5072/FK2
+    body:
+      encoding: UTF-8
+      string: "_target: http://localhost/show/3t94g081v\ndatacite.creator: \ndatacite.title:
+        A Title\ndatacite.publisher: An Interesting Chap!\ndatacite.publicationyear:
+        2013"
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - text/plain
+      Content-Length:
+      - '155'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Date:
+      - Tue, 25 Mar 2014 19:47:10 GMT
+      Server:
+      - Apache/2.2.22 (Unix) mod_ssl/2.2.22 OpenSSL/0.9.7m
+      Content-Length:
+      - '231'
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>403 Forbidden</title>
+        </head><body>
+        <h1>Forbidden</h1>
+        <p>You don't have permission to access /ezid/shoulder/doi:10.5072/FK2
+        on this server.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Tue, 25 Mar 2014 19:47:11 GMT
 recorded_with: VCR 2.8.0
