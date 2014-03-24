@@ -1,5 +1,8 @@
 <% content_for :page_title, curation_concern_page_title(@collection) %>
 <% content_for :page_header do %>
+<% unless @collection.thumbnail.empty? %>
+  <%= image_tag download_path(@collection, {:datastream_id => 'thumbnail'}), class: "canonical-image"  %>
+<% end %>
   <h1> <%= @collection.title %> </h1>
 <% end %>
 <% if can? :edit, @collection %>
