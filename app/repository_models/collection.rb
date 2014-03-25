@@ -13,14 +13,18 @@ class Collection < ActiveFedora::Base
 
   makes_derivatives :generate_derivatives
 
+  before_save :add_profile_image, :only => [ :create, :update ]
+
   def can_be_member_of_collection?(collection)
     collection == self ? false : true
   end
 
-  def add_profile_image(file)
-    self.content.content = file
-    self.mime_type = file.content_type
-    generate_derivatives
+  def add_profile_image
+    if file
+      self.content.content = file
+      self.mime_type = file.content_type
+      generate_derivatives
+    end
   end
 
   def representative_image_url

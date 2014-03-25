@@ -81,22 +81,17 @@ class Curate::CollectionsController < ApplicationController
   end
 
   def create
-    if params[ :collection ][ :file ]
-      @collection.add_profile_image( params[ :collection ][ :file ] ) 
-      @collection.save!
-    end
+    @collection.file = params[ :collection ][ :file ] if params[ :collection ][ :file ]
     super
   end
 
   def update
-    if params[ :collection ][ :file ]
-      @collection.add_profile_image( params[ :collection ][ :file ] ) 
-      @collection.save!
-    end
+    @collection.file = params[ :collection ][ :file ] if params[ :collection ][ :file ]
     super
   end
 
   def index
+    super
     redirect_to "?f[generic_type_sim][]=Collection&works=mine"
   end
 
