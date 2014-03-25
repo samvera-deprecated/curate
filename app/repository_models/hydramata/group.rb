@@ -15,6 +15,7 @@ class Hydramata::Group < ActiveFedora::Base
   accepts_nested_attributes_for :works, allow_destroy: true, reject_if: :all_blank
 
   has_attributes :title, :date_uploaded, :date_modified, :description, datastream: :descMetadata, multiple: false
+  validates :title, presence: true
   validate :title_is_unique
 
   def title_is_unique

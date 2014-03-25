@@ -26,13 +26,12 @@ class Hydramata::GroupsController < ApplicationController
 
   def new
     @group = Hydramata::Group.new
+    setup_form
   end
 
   def create
-    @group = Hydramata::Group.new(params[:hydramata_group])
-    @group.apply_depositor_metadata(current_user.user_key)
-    if @group.save
-      @group.add_member(current_user.person, 'editor')
+    @group_membership = Hydramata::GroupMembershipForm.new( Hydramata::GroupMembershipActionParser.convert_params(params, current_user) )
+    if @group_membership.save
       flash[:notice] = "Group created successfully."
       redirect_to hydramata_groups_path
     else
@@ -43,12 +42,12 @@ class Hydramata::GroupsController < ApplicationController
 
   def edit
     @group = Hydramata::Group.find( params[:id] )
-    @group.members.build
+    setup_form
     respond_with(@group)
   end
 
   def update
-    @group_membership = Hydramata::GroupMembershipForm.new( Hydramata::GroupMembershipActionParser.convert_params(params) )
+    @group_membership = Hydramata::GroupMembershipForm.new( Hydramata::GroupMembershipActionParser.convert_params(params, current_user) )
     if @group_membership.save
       flash[:notice] = "Group updated successfully."
       redirect_to hydramata_group_path( params[:id] )
@@ -63,6 +62,13 @@ class Hydramata::GroupsController < ApplicationController
     @group.destroy
     after_destroy_response(title)
   end
+
+  def setup_form 
+    @group.members << current_user.person if @group.members.blank?
+    @group.members.build
+  end
+
+  protected :setup_form
 
   def after_destroy_response(title)
     flash[:notice] = "Deleted #{title}"

@@ -4,10 +4,10 @@
 
 module Hydramata::GroupMembershipActionParser
 
-  def self.convert_params(params)
+  def self.convert_params(params, current_user)
 
      action = self.decide_membership_action(params)
-     self.build_params(params, action) 
+     self.build_params(params, action, current_user) 
     
   end
 
@@ -47,7 +47,7 @@ module Hydramata::GroupMembershipActionParser
   end
   
   # Build the param hash to be used by GroupMembershipForm 
-  def self.build_params(params, action)
+  def self.build_params(params, action, current_user)
     new_params_aggregate = []
     
     action.each_with_index do |member_action, index|
@@ -58,7 +58,7 @@ module Hydramata::GroupMembershipActionParser
         new_params_aggregate << new_params_hash
       end
     end
-    { group_id: params[:id], title: params["hydramata_group"]["title"], description: params["hydramata_group"]["description"], members: new_params_aggregate }
+    { group_id: params[:id], current_user: current_user, title: params["hydramata_group"]["title"], description: params["hydramata_group"]["description"], members: new_params_aggregate }
   end
   
 
