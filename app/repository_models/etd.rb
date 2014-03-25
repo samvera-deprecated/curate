@@ -24,7 +24,6 @@ class Etd < ActiveFedora::Base
 
   self.indefinite_article = 'an'
   self.contributor_label = 'Author'
-  validates_presence_of :contributors, message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}."
 
   with_options datastream: :descMetadata do |ds|
     ds.attribute :contributor,

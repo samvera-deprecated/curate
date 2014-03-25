@@ -2,7 +2,7 @@ shared_examples 'remotely_identified' do |remote_service_name|
   context "by #{remote_service_name}" do
     context 'with valid attributes' do
       subject { FactoryGirl.create(described_class.name.underscore, attributes) }
-      let(:attributes) { { publisher: 'An Interesting Chap!' } }
+      let(:attributes) { { publisher: 'An Interesting Chap!', contributors: [FactoryGirl.create(:person)] } }
 
       it 'mints!', VCR::SpecSupport(cassette_name: "remotely_identified_#{remote_service_name}_mint_#{described_class.name.underscore}") do
         expect {
@@ -15,9 +15,10 @@ shared_examples 'remotely_identified' do |remote_service_name|
         subject { FactoryGirl.build(described_class.name.underscore, attributes: attributes) }
         let(:attributes) { { publisher: [] } }
         it 'fails validation' do
-          subject.should_receive(:remote_doi_assignment_strategy?).and_return(true)
+          subject.stub(:remote_doi_assignment_strategy?).and_return(true)
           expect(subject).to_not be_valid
           expect(subject.errors[:publisher]).to eq(["is required for remote DOI minting"])
+          expect(subject.errors[:contributor]).to eq(["is required for remote DOI minting"])
         end
       end
     end

@@ -16,7 +16,6 @@ class Article < ActiveFedora::Base
 
   self.indefinite_article = 'an'
   self.contributor_label = 'Author'
-  validates_presence_of :contributors, message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}."
 
   attribute :title,
     datastream: :descMetadata, multiple: false,

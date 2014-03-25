@@ -24,8 +24,6 @@ class Dataset < ActiveFedora::Base
             multiple: false,
             validates: {presence: { message: 'You must select a license for your dataset.' }}
 
-  validates_presence_of :contributors, message: "Your dataset must have a contributor."
-
   attribute :created,                datastream: :descMetadata, multiple: false
   attribute :description,            datastream: :descMetadata, multiple: false
   attribute :date_uploaded,          datastream: :descMetadata, multiple: false

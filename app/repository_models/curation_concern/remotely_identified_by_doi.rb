@@ -19,14 +19,25 @@ module CurationConcern
         attribute :existing_identifier,
           multiple: false, editable: true, displayable: false
 
-        # Given that a publisher could be an array or a single entity
-        # Then we need to account for both
-        # Conveniently [].length == 0 and "".length == 0
-        validates :publisher, length: { minimum: 1, message: 'is required for remote DOI minting', if: :remote_doi_assignment_strategy? }
+        validate :validate_doi_payload, if: :remote_doi_assignment_strategy?
 
         attr_writer :doi_remote_service
 
         protected
+
+        def validate_doi_payload
+          validation_failed = false
+          validation_failed = true unless validate_doi_attribute(:publisher)
+          validation_failed = true unless validate_doi_attribute(:contributor)
+          validation_failed
+        end
+
+        def validate_doi_attribute(attribute_name)
+          collection = Array(send(attribute_name)).flatten.compact
+          return true if collection.present? && collection.all?(&:present)
+          errors.add(attribute_name, 'is required for remote DOI minting')
+          false
+        end
 
         def doi_remote_service
           @doi_remote_service ||= Hydra::RemoteIdentifier.remote_service(:doi)
