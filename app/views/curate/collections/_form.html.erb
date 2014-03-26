@@ -37,6 +37,16 @@
     </div>
   </div>
 
+  <div class="control-group string required collection_description">
+    <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: @collection} %>
+    <span class="control-label">
+      <%= f.label :avatar %>
+    </span>
+    <div class="controls">
+      <%= f.file_field :file, label: 'Upload the file' %>
+    </div>
+  </div>
+
   <%= render partial: 'form_permission', locals: {f: f} %>
 
   <%= hidden_collection_members %>

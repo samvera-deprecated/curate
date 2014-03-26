@@ -6,15 +6,12 @@ describe "Showing and creating Collections" do
   it "should create them" do
     login_as(user)
     visit root_path
-    within 'nav' do
-      click_link "Collections"
-    end
-    click_button "Create Collection"
+    click_link "Add a Collection"
     expect(page).to have_content "Create a New Collection"
     fill_in 'collection_title', with: 'amalgamate members'
     fill_in 'collection_description', with: "I've collected a few related things together"
     click_button "Create Collection"
-    within 'table tbody' do
+    within '.search-result' do
       expect(page).to have_content 'amalgamate members'
     end
 
@@ -26,15 +23,36 @@ describe "Showing and creating Collections" do
       expect(page).to have_selector('dd', text: "I've collected a few related things together")
       expect(page).to have_selector('dd', text: user.email)
     end
+
   end
+
+  it "should accept and display an optional image" do
+    login_as(user)
+    visit root_path
+    click_link "Add a Collection"
+    fill_in 'collection_title', with: 'amalgamate members'
+    fill_in 'collection_description', with: "I've collected a few related things together"
+    attach_file( 'collection_file', Rails.root.join('../fixtures/files/image.png') )
+    click_button "Create Collection"
+    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}?datastream_id=thumbnail']" )
+
+    visit collection_path( user.collections.first )
+    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}?datastream_id=thumbnail']" )
+
+    visit edit_collection_path( user.collections.first )
+    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}?datastream_id=thumbnail']" )
+
+    visit root_path
+    expect( page ).to have_css( "img[src$='/downloads/#{user.collections.first.pid}?datastream_id=thumbnail']" )
+  end
+
 
   it 'displays a friendly message if user has no collections yet' do
     login_as(user)
     visit collections_path
 
-    msg = 'You have no collections'
+    msg = 'No items found'
     expect(page).to have_content(msg)
-    expect(page).to have_button('Create Collection')
   end
 end
 
