@@ -1,0 +1,46 @@
+/*
+ * This file contains special styles for use on the detailed profile page of
+ * a user.  See app/views/curate/people for uses.
+ */
+
+#person_profile .collection-listing .collection-listing {
+  list-style-type:disc;
+  margin:0 0 1em;
+
+  .with-controls {
+    line-height:2;
+  }
+}
+
+#person_profile .collection-listing .collection-listing .collection-member {
+  padding-bottom:.5em;
+  margin-left:2em;
+}
+
+#profile_details table th {
+  width:50%;
+  vertical-align:top;
+  text-align:right;
+  padding:0.1em 0.3em 0 0;
+}
+
+#profile_details table td {
+  width:50%;
+  vertical-align:bottom;
+}
+
+#profile_details table {
+  margin-bottom:2em;
+}
+
+.framed-picture  {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2em 2em 2.5em 2em;
+}
+
+.profile-details {
+  background-color: aliceblue;
+}
+
