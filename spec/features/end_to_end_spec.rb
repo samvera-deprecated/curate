@@ -202,7 +202,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
   protected
 
-  def agree_to_terms_of_service
+  def agreed_to_terms_of_service
     within('#terms_of_service') do
       click_on("I Agree")
     end
