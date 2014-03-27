@@ -55,8 +55,23 @@ class Curate::CollectionsController < ApplicationController
   before_filter :load_and_authorize_collection, only: [:add_member_form, :add_member]
 
   def new
-    @add_to_profile = params.delete(:add_to_profile)
     super
+    @add_to_profile = params.delete(:add_to_profile)
+  end
+
+  def create
+    super
+    @collection.file = params[ :collection ][ :file ] if params[ :collection ][ :file ]
+  end
+
+  def update
+    super
+    @collection.file = params[ :collection ][ :file ] if params[ :collection ][ :file ]
+  end
+
+  def index
+    super
+    redirect_to catalog_index_path(:'f[generic_type_sim][]' => 'Collection', works: 'mine')
   end
 
   def add_member_form
