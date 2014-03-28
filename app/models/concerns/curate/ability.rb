@@ -32,7 +32,7 @@ module Curate
       end 
 
       can [:edit, :update, :destroy], ActiveFedora::Base do |obj|
-        test_edit(obj.pid, obj)
+        test_edit(obj)
       end
    
       can :edit, SolrDocument do |obj|
@@ -49,7 +49,7 @@ module Curate
       
       # Had to add obj to params because test_read needs to check embargo
       can :read, ActiveFedora::Base do |obj|
-        test_read(obj.pid, obj)
+        test_read(obj)
       end 
       
       can :read, SolrDocument do |obj|
@@ -57,50 +57,93 @@ module Curate
         test_read(obj.id)
       end 
     end
+    
+    def test_read(obj)
+      if obj.is_a? ActiveFedora::Base
+        test_read_fedora_object(obj)
+      else
+        test_read_solr(obj)
+      end
+    end
 
-    # Overriding the test_edit method from hydra-access-control's ability.rb to enforce embargo for work objects
-    def test_edit(pid, fedora_object)
-      logger.debug("[CANCAN] Checking edit permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
+    def test_edit(obj)
+      if obj.is_a? ActiveFedora::Base
+        test_edit_fedora_object(obj)
+      else
+        test_read_solr(obj)
+      end
+    end
+
+    # Need a custom method to enforce embargo when a Fedora object is input, like on the CanCan authorize checks.
+    def test_read_fedora_object(fedora_object)
+      logger.debug("[CANCAN] Checking read permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
       
-      # Under embargo and the current user is the owner of the fedora object
-      if fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && current_user.user_key == fedora_object.owner
+      # Get the user's groups
+      group_intersection = user_groups & read_groups(fedora_object.pid)
+      
+      # Don't use public and registered groups when enforcing embargo
+      embargo_group_intersection = group_intersection - ["public", "registered"]
+      
+      # Under embargo and the current user has read permissions
+      if fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && (read_persons(fedora_object.pid).include?(current_user.user_key) || !embargo_group_intersection.empty?)
         result = true
 
-      # Under embargo and the current user isn't the owner of the fedora object
-      elsif fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && current_user.user_key != fedora_object.owner
+      # Under embargo and the current user doesn't have read permissions
+      elsif fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && (!read_persons(fedora_object.pid).include?(current_user.user_key) && embargo_group_intersection.empty?)
+        result = false
+     
+      # Not under embargo, using the default hydra-acess-controls check
+      else
+        result = !group_intersection.empty? && read_persons(fedora_object.pid).include?(current_user.user_key)
+      end
+      
+      logger.debug("[CANCAN] decision: #{result}")
+      result
+    end 
+
+    # Need a custom method to enforce embargo when a Fedora object is input, like on the CanCan authorize checks.
+    def test_edit_fedora_object(fedora_object)
+      logger.debug("[CANCAN] Checking edit permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
+      
+      # Get the user's groups
+      group_intersection = user_groups & edit_groups(fedora_object.pid)
+      
+      # Don't use public and registered groups when enforcing embargo
+      embargo_group_intersection = group_intersection - ["public", "registered"]
+      
+      # Under embargo and the current user has edit permissions
+      if fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && (edit_persons(fedora_object.pid).include?(current_user.user_key) || !embargo_group_intersection.empty?)
+        result = true
+
+      # Under embargo and the current user doesn't have edit permissions
+      elsif fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && (!edit_persons(fedora_object.pid).include?(current_user.user_key) && embargo_group_intersection.empty?)
         result = false
       
       # Not under embargo, using the default hydra-acess-controls check
       else
-        group_intersection = user_groups & edit_groups(pid)
-        result = !group_intersection.empty? || edit_persons(pid).include?(current_user.user_key)
+        result = !group_intersection.empty? || edit_persons(fedora_object.pid).include?(current_user.user_key)
       end
 
       logger.debug("[CANCAN] decision: #{result}")
       result
     end   
 
-    # Overriding the test_read method from hydra-access-control's ability.rb to enforce embargo for work objects
-    def test_read(pid, fedora_object)
+    # Copied this method hydra-access-controls ability.rb#test_read. Embargo is already enforced on Solr search so it's not enforced here.
+    def test_read_solr(pid)
       logger.debug("[CANCAN] Checking read permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
-      
-      # Under embargo and the current user is the owner of the fedora object
-      if fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && current_user.user_key == fedora_object.owner
-        result = true
-      
-      # Under embargo and the current user isn't the owner of the fedora object
-      elsif fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && current_user.user_key != fedora_object.owner
-        result = false
-      
-      # Not under embargo, using the default hydra-acess-controls check
-      else
-        group_intersection = user_groups & read_groups(pid)
-        result = !group_intersection.empty? && read_persons(pid).include?(current_user.user_key)
-      end
-      
-      logger.debug("[CANCAN] decision: #{result}")
+      group_intersection = user_groups & read_groups(pid)
+      result = !group_intersection.empty? || read_persons(pid).include?(current_user.user_key)
       result
     end 
+
+    # Copied this method hydra-access-controls ability.rb#test_edit. Embargo is already enforced on Solr search so it's not enforced here.
+    def test_edit_solr(pid)
+      logger.debug("[CANCAN] Checking edit permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
+      group_intersection = user_groups & edit_groups(pid)
+      result = !group_intersection.empty? || edit_persons(pid).include?(current_user.user_key)
+      logger.debug("[CANCAN] decision: #{result}")
+      result
+    end   
 
   end
 end
