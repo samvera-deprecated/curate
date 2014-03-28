@@ -29,7 +29,7 @@ class CurationConcern::LinkedResourcesController < CurationConcern::BaseControll
 
   def update
     if actor.update
-      respond_with([:curation_concern, curation_concern])
+      respond_with([:curation_concern, curation_concern.batch])
     else
       respond_with([:curation_concern, curation_concern]) { |wants|
         wants.html { render 'edit', status: :unprocessable_entity }

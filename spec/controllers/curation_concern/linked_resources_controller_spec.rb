@@ -106,7 +106,7 @@ describe CurationConcern::LinkedResourcesController do
         expect(response.status).to eq(302)
         expect(response).to(
           redirect_to(
-            controller.polymorphic_path([:curation_concern, linked_resource])
+            controller.polymorphic_path([:curation_concern, linked_resource.batch])
           )
         )
       end
