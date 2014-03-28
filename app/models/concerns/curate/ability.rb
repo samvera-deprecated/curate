@@ -26,6 +26,22 @@ module Curate
     end
 
     # Overriding hydra-access-controls in order to enforce embargo
+    def edit_permissions  
+      can [:edit, :update, :destroy], String do |pid|
+        test_edit(pid)
+      end 
+
+      can [:edit, :update, :destroy], ActiveFedora::Base do |obj|
+        test_edit(obj.pid, obj)
+      end
+   
+      can :edit, SolrDocument do |obj|
+        cache.put(obj.id, obj)
+        test_edit(obj.id)
+      end       
+    end
+
+    # Overriding hydra-access-controls in order to enforce embargo
     def read_permissions
       can :read, String do |pid|
         test_read(pid)
@@ -42,9 +58,31 @@ module Curate
       end 
     end
 
+    # Overriding the test_edit method from hydra-access-control's ability.rb
+    def test_edit(pid, work)
+      logger.debug("[CANCAN] Checking edit permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
+      
+      # Under embargo and the current user is the owner of the work
+      if work.under_embargo? && current_user.user_key == work.owner
+        result = true
+
+      # Under embargo and the current user isn't the owner of the work
+      elsif work.under_embargo? && current_user.user_key != work.owner
+        result = false
+      
+      # Not under embargo, using the default hydra-acess-controls check
+      else
+        group_intersection = user_groups & edit_groups(pid)
+        result = !group_intersection.empty? || edit_persons(pid).include?(current_user.user_key)
+      end
+
+      logger.debug("[CANCAN] decision: #{result}")
+      result
+    end   
+
     # Overriding the test_read method from hydra-access-control's ability.rb
     def test_read(pid, work)
-      logger.debug("TEST [CANCAN] Checking read permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
+      logger.debug("[CANCAN] Checking read permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
       
       # Under embargo and the current user is the owner of the work
       if work.under_embargo? && current_user.user_key == work.owner
@@ -59,7 +97,8 @@ module Curate
         group_intersection = user_groups & read_groups(pid)
         result = !group_intersection.empty? && read_persons(pid).include?(current_user.user_key)
       end
-
+      
+      logger.debug("[CANCAN] decision: #{result}")
       result
     end 
 
