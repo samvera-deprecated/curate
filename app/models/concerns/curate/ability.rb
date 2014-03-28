@@ -58,16 +58,16 @@ module Curate
       end 
     end
 
-    # Overriding the test_edit method from hydra-access-control's ability.rb
-    def test_edit(pid, work)
+    # Overriding the test_edit method from hydra-access-control's ability.rb to enforce embargo for work objects
+    def test_edit(pid, fedora_object)
       logger.debug("[CANCAN] Checking edit permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
       
-      # Under embargo and the current user is the owner of the work
-      if work.under_embargo? && current_user.user_key == work.owner
+      # Under embargo and the current user is the owner of the fedora object
+      if fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && current_user.user_key == fedora_object.owner
         result = true
 
-      # Under embargo and the current user isn't the owner of the work
-      elsif work.under_embargo? && current_user.user_key != work.owner
+      # Under embargo and the current user isn't the owner of the fedora object
+      elsif fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && current_user.user_key != fedora_object.owner
         result = false
       
       # Not under embargo, using the default hydra-acess-controls check
@@ -80,16 +80,16 @@ module Curate
       result
     end   
 
-    # Overriding the test_read method from hydra-access-control's ability.rb
-    def test_read(pid, work)
+    # Overriding the test_read method from hydra-access-control's ability.rb to enforce embargo for work objects
+    def test_read(pid, fedora_object)
       logger.debug("[CANCAN] Checking read permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
       
-      # Under embargo and the current user is the owner of the work
-      if work.under_embargo? && current_user.user_key == work.owner
+      # Under embargo and the current user is the owner of the fedora object
+      if fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && current_user.user_key == fedora_object.owner
         result = true
       
-      # Under embargo and the current user isn't the owner of the work
-      elsif work.under_embargo? && current_user.user_key != work.owner
+      # Under embargo and the current user isn't the owner of the fedora object
+      elsif fedora_object.respond_to?(:under_embargo?) && fedora_object.under_embargo? && current_user.user_key != fedora_object.owner
         result = false
       
       # Not under embargo, using the default hydra-acess-controls check
