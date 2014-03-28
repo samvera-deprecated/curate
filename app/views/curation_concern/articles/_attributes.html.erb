@@ -5,7 +5,7 @@
   </thead>
   <tbody>
   <%= curation_concern_attribute_to_html(curation_concern, :abstract, 'Abstract') %>
-  <%= render partial: 'contributors_attribute' %>
+  <%= curation_concern_attribute_to_html(curation_concern, :contributor, 'Contributors') %>
   <%= curation_concern_attribute_to_html(curation_concern, :subject, "Subject") %>
   <%= curation_concern_attribute_to_html(curation_concern, :publisher, "Publisher") %>
   <%= curation_concern_attribute_to_html(curation_concern, :recommended_citation, "Bibliographic Citation") %>

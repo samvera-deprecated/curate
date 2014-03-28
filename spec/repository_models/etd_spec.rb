@@ -7,7 +7,6 @@ describe Etd do
   it_behaves_like 'with_related_works'
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_common_solr_fields'
-  it_behaves_like 'it has linked contributors'
 
   it { should have_unique_field(:human_readable_type) }
   it { should have_unique_field(:abstract) }

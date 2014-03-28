@@ -101,6 +101,7 @@ describe "Search for a work" do
       fill_in "Title", with: image_title
       fill_in "Date created", with: "2013-10-15"
       fill_in "Description", with: "Test description"
+      fill_in "Creator", with: "Freddie Mercury"
       select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
       check("I have read and accept the contributor license agreement")
       click_button("Create Image")
