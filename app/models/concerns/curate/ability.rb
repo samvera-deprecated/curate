@@ -18,7 +18,7 @@ module Curate
       can [:show, :read, :update, :destroy], [Curate.configuration.curation_concerns] do |w|
         u = ::User.find_by_user_key(w.owner)
         u && u.can_receive_deposits_from.include?(current_user)
-        end
+      end
     end
 
     def collection_permissions
@@ -44,14 +44,17 @@ module Curate
 
     # Overriding the test_read method from hydra-access-control's ability.rb
     def test_read(pid, work)
-      byebug
       logger.debug("TEST [CANCAN] Checking read permissions for user: #{current_user.user_key} with groups: #{user_groups.inspect}")
+      
+      # Under embargo and the current user is the owner of the work
       if work.under_embargo? && current_user.user_key == work.owner
-        #only owner has read access
         result = true
+      
+      # Under embargo and the current user isn't the owner of the work
       elsif work.under_embargo? && current_user.user_key != work.owner
         result = false
-      # not under embargo
+      
+      # Not under embargo, using the default hydra-acess-controls check
       else
         group_intersection = user_groups & read_groups(pid)
         result = !group_intersection.empty? && read_persons(pid).include?(current_user.user_key)
