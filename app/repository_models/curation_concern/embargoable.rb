@@ -9,9 +9,9 @@ module CurationConcern
     module VisibilityOverride
       def visibility= value
         if value == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
+          @embargoed = true
           super(Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC)
         else
-          self.embargo_release_date = nil
           super(value)
         end
       end
@@ -44,9 +44,7 @@ module CurationConcern
 
 
     def write_embargo_release_date
-      if defined?(@embargo_release_date)
-        embargoable_persistence_container.embargo_release_date = @embargo_release_date
-      end
+      embargoable_persistence_container.embargo_release_date = @embargoed ? @embargo_release_date : nil
       true
     end
     protected :write_embargo_release_date
