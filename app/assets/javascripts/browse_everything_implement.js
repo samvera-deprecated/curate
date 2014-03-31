@@ -6,7 +6,11 @@
 				$('#status').html(data.length.toString() + " item(s) selected")
 			})
 		};
-
+	if (typeof Turbolinks !== "undefined") {
+		$(document).on('page:load', function() {
+			browse_everything_test();
+		});
+	}
 	$(document).ready(function() {
 		browse_everything_test();
 	});

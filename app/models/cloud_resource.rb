@@ -1,4 +1,4 @@
-require 'HTTParty'
+require 'httparty'
 class CloudResource
   class DownloadResource
     attr_reader :download_url, :auth_header, :expiration, :file_name
