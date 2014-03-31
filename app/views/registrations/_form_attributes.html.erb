@@ -4,9 +4,7 @@
     <legend>Personal Information</legend>
 
     <%= f.input :name %>
-    <%= f.input :date_of_birth %>
-    <%= f.input :gender %>
-    <%= f.input :title %>
+    <%= f.input :title, label: 'Job Title' %>
     <%= f.input :personal_webpage %>
     <%= f.input :blog %>
 
@@ -33,9 +31,9 @@
   <div class="span12">
     <fieldset class="required">
       <legend>
-        Attach your profile image
+        Attach <%= current_user.manager? ? User.find(params[:id]).name + "'s" : 'your' %> profile image
       </legend>
-      <%= f.input :files, as: :file, label: 'Upload your file' %>
+      <%= f.input :files, as: :file, label: 'Upload the file' %>
     </fieldset>
   </div>
 </div>

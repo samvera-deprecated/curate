@@ -8,6 +8,7 @@ class Person < ActiveFedora::Base
   include Hydra::Derivatives
 
   has_and_belongs_to_many :groups, class_name: "::Hydramata::Group", property: :is_member_of, inverse_of: :has_member
+  has_and_belongs_to_many :works, class_name: "::ActiveFedora::Base", property: :is_editor_of, inverse_of: :has_editor
   has_metadata name: "descMetadata", type: PersonMetadataDatastream, control_group: 'M'
   has_file_datastream :name => "content"
   has_file_datastream :name => "medium"
@@ -48,6 +49,37 @@ class Person < ActiveFedora::Base
   attribute :gender,
     datastream: :descMetadata, multiple: false
 
+  def validate_work(work)
+    !work.is_a?(Person) && !work.is_a?(Collection) && work.is_a?(CurationConcern::Work)
+  end
+
+  def add_work(work)
+    return unless validate_work(work)
+    self.works << work
+    self.save!
+    work.editors << self
+    work.permissions_attributes = [{name: self.depositor, access: "edit", type: "person"}] unless work.depositor == self.depositor
+    work.save!
+  end
+
+  def remove_work(work)
+    if( ( work.depositor != self.depositor ) && ( self.works.include?( work ) ) )
+      self.works.delete(work)
+      self.save!
+      work.editors.delete(self)
+      work.edit_users = work.edit_users - [self.depositor]
+      work.save!
+    end
+  end
+
+  def add_editor(obj)
+    false
+  end
+
+  def remove_editor(obj)
+    false
+  end
+
   def date_uploaded
     Time.new(create_date).strftime("%Y-%m-%d")
   end
@@ -84,6 +116,10 @@ class Person < ActiveFedora::Base
 
   def to_s
     name || "No Title"
+  end
+
+  def group_names
+    @group_names ||= self.groups.collect{|g| g.title }
   end
 
   GRAVATAR_URL = "//www.gravatar.com/avatar/"

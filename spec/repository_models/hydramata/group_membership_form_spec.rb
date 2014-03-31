@@ -14,11 +14,11 @@ describe Hydramata::GroupMembershipForm do
   }
 
   let(:params_2) {
-    { group_id: group.pid, title: "Title 1", description: "Description for Title 1", members: members_to_remove }
+    { group_id: group.pid, title: "Title 2", description: "Description for Title 2", members: members_to_remove }
   }
 
   let(:params_3) {
-    { group_id: group.pid, title: "Title 1", description: "Description for Title 1", members: members_with_changed_permission }
+    { group_id: group.pid, title: "Title 2", description: "Description for Title 2", members: members_with_changed_permission }
   }
 
   let(:members_to_add) {

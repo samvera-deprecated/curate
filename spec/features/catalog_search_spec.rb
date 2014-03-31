@@ -24,6 +24,23 @@ describe 'catalog search', describe_options do
   end
 end
 
+describe 'Clear limits from search' do
+  it 'has a button to clear limits' do
+    visit '/'
+    click_link 'Collections'
+  
+    expect( page ).to have_link( 'Clear limits' )
+  end
+
+  it 'returns the user to the all works view' do
+    visit '/'
+    click_link 'Collections'
+    click_link 'Clear limits'
+  
+    expect( current_path ).to eq( root_path )
+  end
+end
+
 describe "Search for a work" do
   context "when not logged in" do
     let!(:public_work) { FactoryGirl.create(:public_generic_work,
@@ -45,7 +62,8 @@ describe "Search for a work" do
 
   end
   context "when logged in" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:person) { FactoryGirl.create(:person_with_user) }
+    let(:user) { person.user }
     let(:image_title) { "Sample Image" }
     before do
       login_as(user)
@@ -81,7 +99,6 @@ describe "Search for a work" do
     classify_what_you_are_uploading 'Image'
     within '#new_image' do
       fill_in "Title", with: image_title
-      fill_in "Creator", with: user.name
       fill_in "Date created", with: "2013-10-15"
       fill_in "Description", with: "Test description"
       select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))

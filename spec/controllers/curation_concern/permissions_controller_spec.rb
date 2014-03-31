@@ -22,7 +22,7 @@ describe CurationConcern::PermissionsController do
       Sufia.queue.should_receive(:push).with(worker)
       post :copy, id: generic_work
       expect(response).to redirect_to controller.polymorphic_path([:curation_concern, generic_work])
-      expect(flash[:notice]).to eq 'Updating file permissions. This may take a few minutes.'
+      expect(flash[:notice]).to eq 'Updating file permissions. This may take a few minutes. You may want to refresh your browser or return to this record later to see the updated file permissions.'
     end
   end
 

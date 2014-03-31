@@ -14,3 +14,6 @@ gemspec
 
 gem 'coveralls', require: false
 gem 'simplecov', require: false
+if !ENV['TRAVIS']
+  gem 'rspec-yenta'
+end

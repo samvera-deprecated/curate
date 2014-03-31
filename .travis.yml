@@ -20,3 +20,9 @@ branches:
   only:
     - master
     - develop
+
+env:
+  matrix:
+    - SPEC_GROUP=2
+    - SPEC_GROUP=1
+    - SPEC_GROUP=0

@@ -25,6 +25,50 @@ describe Person do
     end
   end
 
+  describe 'Work' do
+    let(:person) { FactoryGirl.create(:person_with_user) }
+    let(:another_person) { FactoryGirl.create(:person_with_user) }
+    let(:work) { FactoryGirl.create(:generic_work, user: person.user) }
+    let(:collection) { FactoryGirl.create(:collection) }
+    describe '#add_work' do
+      it 'should add work' do
+        person.works.should == []
+        work.reload.edit_users.should == [person.depositor]
+
+        person.add_work(work)
+        another_person.add_work(work)
+
+        person.reload.works.should == [work]
+        work.reload.edit_users.should == [person.depositor, another_person.depositor]
+      end
+
+      it 'should not add non-work objects' do
+        person.works.should == []
+        person.add_work(collection)
+        person.reload.works.should == []
+      end
+    end
+
+    describe '#remove_work' do
+      it 'should remove work' do
+        another_person.works.should == []
+
+        another_person.add_work(work)
+
+        reload_another_person = Person.find(another_person.pid)
+        another_person = reload_another_person
+
+        another_person.works.should == [work]
+        work.reload.edit_users.should include(another_person.depositor)
+
+        another_person.remove_work(work)
+
+        another_person.reload.works.should == []
+        work.reload.edit_users.should_not include(another_person.depositor)
+      end
+    end
+  end
+
   describe 'to_solr' do
     before do
       subject.name = "Aura D. Stanton"

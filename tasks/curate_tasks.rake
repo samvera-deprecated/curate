@@ -86,7 +86,19 @@ end
 
 desc "Run specs"
 RSpec::Core::RakeTask.new(:rspec) do |t|
-  t.pattern = '../**/*_spec.rb'
+  if ENV['TRAVIS']
+    case ENV['SPEC_GROUP'].to_s
+    when '1'
+      t.pattern = '../../spec/features/**/*_spec.rb'
+    when '2'
+      t.pattern = '../../spec/controllers/**/*_spec.rb'
+    else
+      pattern = FileList['../../spec/*/'].exclude(/\/(features|controllers)\//).map { |f| f << '**/*_spec.rb' }
+      t.pattern = pattern
+    end
+  else
+    t.pattern = '../**/*_spec.rb'
+  end
   t.rspec_opts = ["--colour -I ../", '--tag ~js:true', '--backtrace', '--profile 20']
 end
 

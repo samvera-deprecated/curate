@@ -9,20 +9,29 @@ class Hydramata::GroupMembershipForm
   attribute :title, String
   attribute :description, String
   attribute :members, Array
-  validates :group_id, presence: true
+  validate :title_is_unique
+
+  delegate :add_member, to: :group
+  def title_is_unique
+    errors.add(:title, "has already been taken") if is_title_duplicate?
+  end
+  
+  def is_title_duplicate?
+    Hydramata::Group.where(desc_metadata__title_tesim: self.title).to_a.reject{|r| r == self.group}.any?
+  end
 
   def group
-    @group ||= Hydramata::Group.find(group_id) 
-  rescue ActiveFedora::ObjectNotFoundError
-    Hydramata::Group.new
+    if self.group_id
+      @group = Hydramata::Group.find(self.group_id) if( @group.nil? || @group.pid.blank? )
+    else
+      create_new_group_and_add_member
+      self.group_id = @group.pid
+    end
+    @group
   end
 
   def person(person_id)
     @person = Person.find(person_id)
-  end
-
-  def add_member(role)
-    group.add_member(person, role)
   end
 
   def remove_member
@@ -34,22 +43,30 @@ class Hydramata::GroupMembershipForm
   end
 
   private
+
+  def create_new_group_and_add_member
+    @group = Hydramata::Group.new(title: self.title, description: self.description)
+    @group.apply_depositor_metadata(current_user.user_key)
+    @group.save
+    @group.add_member(self.current_user.person, 'editor')
+  end
+
   def persist
-    group.title = self.title
-    group.description = self.description
+    self.group.title = self.title
+    self.group.description = self.description
     self.members.each do |member|
       if member[:action] == 'create'
-        group.add_member( person( member[:person_id] ), member[:role] )
+        self.group.add_member( person( member[:person_id] ), member[:role] )
       elsif member[:action] == 'destroy'
-        group.remove_member( person( member[:person_id] ) )
+        self.group.remove_member( person( member[:person_id] ) )
       elsif member[:action] == 'none'
         if member[:role] == 'manager'
-          group.group_edit_membership( person( member[:person_id] ) )
+          self.group.group_edit_membership( person( member[:person_id] ) )
         elsif !member[:person_id].blank?
-          group.group_read_membership( person( member[:person_id] ) )
+          self.group.group_read_membership( person( member[:person_id] ) )
         end
       end
     end
-    group.save
+    self.group.save
   end
 end

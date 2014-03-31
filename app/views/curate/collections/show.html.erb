@@ -1,5 +1,6 @@
 <% content_for :page_title, curation_concern_page_title(@collection) %>
 <% content_for :page_header do %>
+  <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: @collection} %>
   <h1> <%= @collection.title %> </h1>
 <% end %>
 <% if can? :edit, @collection %>

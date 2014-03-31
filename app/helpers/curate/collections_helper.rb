@@ -29,17 +29,24 @@ module Curate::CollectionsHelper
     current_user.collections.count > 0 if current_user
   end
 
-  def list_items_in_collection(collection, terminate=false)
+  # 'terminate' indicates whether to drill down and display the content of collections within the given collection
+  # (i.e. recurse by calling list_items_in_collection on collections within the given collection).
+  #
+  # 'options' hash may include the following:
+  #   :display_contributors - boolean - Indicates whether to display a list of contributors next to the work/collection title.
+  #     Default is true.  When omitted from options hash or present and set to true, the contributors will be listed.
+  #     When set to false, the contributors are not listed.
+  def list_items_in_collection(collection, terminate=false, options={})
     content_tag :ul, class: 'collection-listing' do
       collection.members.inject('') do |output, member|
-        output << member_line_item(collection, member, terminate)
+        output << member_line_item(collection, member, terminate, options)
       end.html_safe
     end
   end
 
-  def member_line_item(collection, member, terminate)
+  def member_line_item(collection, member, terminate, options={})
     content_tag :li, class: line_item_class(collection), data: { noid: member.noid }do
-      markup = member.respond_to?(:members) ? collection_line_item(member, terminate) : work_line_item(member)
+      markup = member.respond_to?(:members) ? collection_line_item(member, terminate, options) : work_line_item(member, options)
 
       if can? :edit, collection
         markup << collection_member_actions(collection, member)
@@ -55,19 +62,23 @@ module Curate::CollectionsHelper
     css_class
   end
 
-  def work_line_item(work)
+  def work_line_item(work, options={})
     link = link_to work.to_s, polymorphic_path_for_asset(work)
-    link + ' ' + contributors(work)
+    link = link + ' ' + contributors(work) if options.fetch(:display_contributors, true)
+    link
   end
 
-  def collection_line_item(collection, terminate)
-    list_item = content_tag :h3, class: 'collection-section-heading' do
+  def collection_line_item(collection, terminate, options={})
+    # A collection listed as a terminal (terminate is true) member of another collection gets a
+    # normal-sized (<p>) font versus a collection heading-sized (<h3>) font.
+    headertag = terminate ? :p : :h3
+    list_item = content_tag headertag, class: 'collection-section-heading' do
       link_to(collection.to_s, collection_path(collection))
     end
     if collection.description.present?
       list_item << content_tag( :div, collection.description, class: 'collection-section-description')
     end
-    list_item << list_items_in_collection(collection, true) unless terminate  # limit nesting
+    list_item << list_items_in_collection(collection, true, options) unless terminate  # limit nesting
     list_item
   end
 

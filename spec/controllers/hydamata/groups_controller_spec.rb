@@ -14,9 +14,20 @@ describe Hydramata::GroupsController do
   end
 
   describe "#create" do
+    let(:hydramata_group) { 
+       { "title" => "New Group", "description" => "New Desc", 
+         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""}, 
+                                   "1" => { "id" => "", "_destroy" => "", "name" => ""}
+                                 }
+       }
+    }
+    let(:group_member) {
+        { "edit_users_ids" => [ person.pid ] }
+    }
+
     it "should be successful" do
       expect {
-        post :create, hydramata_group:  { title: 'test title', description: 'test desc'}
+        post :create, hydramata_group: hydramata_group, group_member: group_member
       }.to change{Hydramata::Group.count}.by(1)
       expect(response).to redirect_to hydramata_groups_path
       expect(flash[:notice]).to eq 'Group created successfully.'
@@ -55,10 +66,10 @@ describe Hydramata::GroupsController do
 
     it "updates title and description of the Group" do
       reload_group = Hydramata::Group.find(group.pid)
-      reload_group.title.should_not == hydramata_group[:title]
-      reload_group.description.should_not == hydramata_group[:description]
+      reload_group.title.should_not == hydramata_group["title"]
+      reload_group.description.should_not == hydramata_group["description"]
 
-      put :update, id: group.id, hydramata_group: hydramata_group, group_member: group_member
+      put :update, id: group.pid, hydramata_group: hydramata_group, group_member: group_member
       expect(response).to redirect_to(hydramata_group_path(group))
       expect(flash[:notice]).to eq 'Group updated successfully.'
 

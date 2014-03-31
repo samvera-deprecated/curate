@@ -1,5 +1,5 @@
 <%- if person.medium.has_content? -%>
-  <%= image_tag download_path( person.pid, { datastream_id: 'medium' } )  %>
+  <%= image_tag download_path( person.pid, { datastream_id: 'medium' } ), class: 'framed-picture'  %>
 <%- else -%>
-  <%= image_tag person.gravatar_link, class: 'gravatar' %>
+  <%= image_tag person.gravatar_link, class: 'gravatar, framed-picture' %>
 <%- end -%>
