@@ -17,6 +17,10 @@
   margin-left:2em;
 }
 
+#profile_details {
+  max-width: 350px;
+}
+
 #profile_details table th {
   width:50%;
   vertical-align:top;
@@ -27,6 +31,7 @@
 #profile_details table td {
   width:50%;
   vertical-align:bottom;
+  padding:0.1em 0.3em 0 0;
 }
 
 #profile_details table {
