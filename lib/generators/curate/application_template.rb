@@ -9,12 +9,21 @@ end
 def yes_with_banner?(message, banner = "*" * 80)
   yes?("\n#{banner}\n\n#{message}\n#{banner}\nType y(es) to confirm:")
 end
+def source_paths
+  Array(super) +
+      [File.join(File.expand_path(File.dirname(__FILE__)),'predicate_mapping')]
+end
+
 
 with_git("Initial commit")
 
 with_git("Adding curate gem") do
   gem 'curate', "~> 0.6.5"
 end
+
+
+copy_file 'predicate_mappings.yml', 'config/predicate_mappings.yml'
+
 
 HELPFUL_DEVELOPMENT_TOOLS =
   <<-QUESTION_TO_ASK
@@ -93,17 +102,17 @@ if yes_with_banner?(JETTY_QUESTION)
   with_git("Downloading jettywrapper") do
     if yes_with_banner?("Would you like to download and unzip jetty now?\n\nThis will take quite awhile based on download speeds.")
       rake "jetty:download"
-      rake "jetty:config"
       rake "jetty:unzip"
-
-      if yes_with_banner?("Would you like to turn on soft deleting of works?\n\nThis will preserve deleted objects in the Fedora repository while preventing the works from being displayed in the application.")
-        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/active_fedora_soft_delete_monkey_patch.rb', 'config/initializers/active_fedora_soft_delete_monkey_patch.rb'
-        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/deny-d-objects-and-datastreams.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/deny-d-objects-and-datastreams.xml'
-        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/deny-purge.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/deny-purge.xml'
-        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/permit-describerepository.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/permit-describerepository.xml'
-      end
+      rake "jetty:config"
     end
   end
+end
+
+if yes_with_banner?("Would you like to turn on soft deleting of works?\n\nThis will preserve deleted objects in the Fedora repository while preventing the works from being displayed in the application.")
+  get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/active_fedora_soft_delete_monkey_patch.rb', 'config/initializers/active_fedora_soft_delete_monkey_patch.rb'
+  get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/deny-d-objects-and-datastreams.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/deny-d-objects-and-datastreams.xml'
+  get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/deny-purge.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/deny-purge.xml'
+  get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/permit-describerepository.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/permit-describerepository.xml'
 end
 
 with_git("Installing RSpec files with curate support") do
