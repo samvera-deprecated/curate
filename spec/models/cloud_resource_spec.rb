@@ -38,7 +38,7 @@ describe CloudResource do
         # An object used for stubbing the HTTParty get method's return.
         response = Net::HTTPResponse.new("1.1", 200, "OK")
         response.content_type="image/jpeg"
-        HTTParty.stub(:get).with(subject.download_url, subject.assign_headers) {response}
+        HTTParty.stub(:get).and_return(response)
         # Mock the file open and read, too
         file = mock(File)
         File.stub(:open).and_return(file)
