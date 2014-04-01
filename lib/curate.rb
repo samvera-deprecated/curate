@@ -11,6 +11,7 @@ require 'hydra/remote_identifier'
 require 'inline_reflection'
 require 'contributors_association'
 require 'rails_autolink'
+require 'browse-everything'
 
 module Curate
   extend ActiveSupport::Autoload

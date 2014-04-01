@@ -54,8 +54,23 @@ module CurationConcern
 
     helper_method :contributor_agreement
 
+    def cloud_resources_to_ingest
+      @cloud_resources_to_ingest ||= CloudResource.new(curation_concern, current_user, params).resources_to_ingest
+    end
+
+    helper_method :cloud_resources_to_ingest
+
     class_attribute :curation_concern_type
     self.curation_concern_type = GenericWork
+
+    def attributes_for_actor
+      return params[hash_key_for_curation_concern] if cloud_resources_to_ingest.nil?
+      params[hash_key_for_curation_concern].merge!(:cloud_resources=>cloud_resources_to_ingest)
+    end
+
+    def hash_key_for_curation_concern
+      curation_concern_type.name.underscore.to_sym
+    end
 
     register :curation_concern do
       if params[:id]
@@ -68,6 +83,8 @@ module CurationConcern
         curation_concern_type.new
       end
     end
+
+
 
   end
 end
