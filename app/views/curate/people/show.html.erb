@@ -14,12 +14,17 @@
   <div id="person_profile" class="span8">
 
     <% if profile_has_contents?(@person) %>
+      <section class="profile-title">
       <% if @person.profile.title == @person.name %>
-        <h3>Selected Works</h3>
+        <h3><%= t('sufia.profile.default_title') %></h3>
       <% else %>
         <h3><%= @person.profile.title %></h3>
       <% end %>
-      <p><%= @person.profile.description %> </p>
+
+      <% if @person.profile.description.present? %>
+        <p><%= @person.profile.description %></p>
+      <% end %>
+    </section>
 
       <div id="documents" class="clear">
         <%= list_items_in_collection(@person.profile, terminate=false, options={:display_contributors=>false}) %>
