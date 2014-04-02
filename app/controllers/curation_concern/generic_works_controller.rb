@@ -28,8 +28,10 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   protected :after_create_response
 
   # Override setup_form in concrete controllers to get the form ready for display
-  def setup_form 
-    curation_concern.contributors << current_user.person if curation_concern.contributors.blank?
+  def setup_form
+    # Contributors list is automatically populated with the current user if there are no contributors (i.e. a new work)
+    # and if the current user is NOT a proxy for anyone.
+    curation_concern.contributors << current_user.person if curation_concern.contributors.blank? && !current_user.can_make_deposits_for.any?
     curation_concern.contributors << Person.new
     curation_concern.editors << current_user.person if curation_concern.editors.blank?
     curation_concern.editors.build
