@@ -30,21 +30,26 @@
   max-width: 350px;
 }
 
-#profile_details table th {
-  width:50%;
-  vertical-align:top;
+#profile_details .person-attribtues {
+  float:left;
+  width:100%;
+  padding:1em;
+}
+
+#profile_details .attribute,
+#profile_details .value {
+  display:inline-block;
+  float:left;
+}
+
+#profile_details .attribute {
+  width: 6em;
   text-align:right;
-  padding:0.1em 0.3em 0 0;
+  clear:both;
 }
 
-#profile_details table td {
-  width:50%;
-  vertical-align:bottom;
-  padding:0.1em 0.3em 0 0;
-}
-
-#profile_details table {
-  margin-bottom:2em;
+#profile_details .value + #profile_details .value {
+  padding-left:6em;
 }
 
 .framed-picture  {

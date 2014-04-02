@@ -47,22 +47,18 @@
       <%= render partial: 'profile_image', locals: {person: @person} %>
     </div>
 
-    <table class="<%= dom_class(@person) %>">
+    <dl class="person-attribtues <%= dom_class(@person) %>">
 
-      <% @person.terms_for_display.reject{|name| name == :name}.each do |attribute_name| %>
+      <% @person.terms_for_display.reject{|attribute| (attribute == :name) || (attribute == :title)}.each do |attribute_name| %>
         <% if @person.send(attribute_name).present? %>
-        <tr>
-          <th scope="row"><%="#{derived_label_for( @person, attribute_name) }:" %></th>
-          <td>
-            <% [@person.send(attribute_name)].flatten.compact.each do |value| %>
-              <%= auto_link_without_protocols(value) %>
-            <% end %>
-          </td>
-        </tr>
+          <dt class="attribute"><%= derived_label_for( @person, attribute_name) %>:</dt>
+          <% [@person.send(attribute_name)].flatten.compact.each do |value| %>
+            <dd class="value"><%= auto_link_without_protocols(value) %></dd>
+          <% end %>
         <% end %>
       <% end %>
 
-    </table>
+    </dl>
 
     <% if can? :edit, @person %>
       <div class="form-action">
