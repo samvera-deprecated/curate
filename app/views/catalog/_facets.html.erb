@@ -4,7 +4,9 @@
 
   <label class="search-scope">
     <%= radio_button_tag 'works', 'all', params['works'] != 'mine' %>
-    <span class="label-text">All Works</span>
+    <span class="label-text">All
+      <%= catalog_type %>
+    </span>
   </label>
 
   <label class="search-scope">
