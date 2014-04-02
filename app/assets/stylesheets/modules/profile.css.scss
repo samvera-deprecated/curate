@@ -17,6 +17,15 @@
   margin-left:2em;
 }
 
+#person_profile .collection-member .collection-listing {
+  padding-top:1em;
+  border-top: 1px solid $grayLighter;
+}
+
+#person_profile .profile-title {
+  border-bottom: 1px solid $grayLighter;
+}
+
 #profile_details {
   max-width: 350px;
 }
