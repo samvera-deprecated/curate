@@ -32,8 +32,8 @@
 
 #profile_details .person-attribtues {
   float:left;
-  width:100%;
-  padding:1em;
+  width:92%;
+  margin:0 4% 4%;
 }
 
 #profile_details .attribute,
@@ -52,14 +52,15 @@
   padding-left:6em;
 }
 
-.framed-picture  {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.profile-picture {
   padding: 2em 2em 2.5em 2em;
 }
 
+.framed-picture  {
+  width:100%;
+}
+
 .profile-details {
-  background-color: aliceblue;
+  background-color: $blueLight;
 }
 
