@@ -15,6 +15,12 @@ describe 'curation_concern/base/_form.html.erb' do
     it 'should have Cancel link which takes to root page' do
       expect(rendered).to have_link('Cancel', href: root_path)
     end
+    it 'should have groups in their own fieldset' do
+      expect(rendered).to have_selector('fieldset#set-groups div#groups')
+    end
+    it 'should have editor in its own fieldset' do
+      expect(rendered).to have_selector('fieldset#set-editors div#editors')
+    end
   end
 
   context 'Edit Work' do
