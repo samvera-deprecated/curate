@@ -1,17 +1,19 @@
-<h3>Show:</h3>
+<h3><%= t('sufia.search_facets.label') %></h3>
 <%= form_tag search_action_url, :method => :get, :class => 'search-query-form form-inline clearfix' do %>
   <%= search_as_hidden_fields(:omit_keys => [:qt, :page]).html_safe %>
 
   <label class="search-scope">
-    <%= radio_button_tag 'works', 'mine', params['works'] == 'mine' %>
-    <span class="label-text">Only My 
+    <%= radio_button_tag 'works', 'all', params['works'] != 'mine' %>
+    <span class="label-text">All
       <%= catalog_type %>
     </span>
   </label>
 
   <label class="search-scope">
-    <%= radio_button_tag 'works', 'all', params['works'] != 'mine' %>
-    <span class="label-text">All Works</span>
+    <%= radio_button_tag 'works', 'mine', params['works'] == 'mine' %>
+    <span class="label-text">My
+      <%= catalog_type %>
+    </span>
   </label>
 
   <noscript>
@@ -20,8 +22,6 @@
     </button>
   </noscript>
 <% end %>
-
-<h3>Filter By:</h3>
 
 <ul class="nav nav-list slide-list" id="facets">
  <%= render_facet_partials %>

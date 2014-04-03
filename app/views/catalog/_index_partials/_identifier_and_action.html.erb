@@ -8,12 +8,12 @@
     <%= render :partial => 'catalog/_index_partials/type_display', locals: {document: document} %>
   </div>
 
-  <div class="span6 search-result-link">
+  <div class="span7 search-result-link">
     <%# Minimize Fedora hits by using solr_doc rather than document %>
     <%= link_to title_link_text, title_link_target, :id => "src_copy_link_#{solr_doc.noid}" %>
   </div>
 
-  <div class="span4 search-result-actions">
+  <div class="span3 search-result-actions">
     <% if current_user -%>
       <% if can?( :edit, document ) && edit_path.present? %>
       <%= link_to(
