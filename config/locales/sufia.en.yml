@@ -10,3 +10,5 @@ en:
         q:
           label:        "Search Curate"
           placeholder:  "Type keywords in here"
+    search_facets:
+      label:            "View:"
