@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'application/add_to_collection_gui' do
-  let(:document)        { double(title: 'A Document',        pid: 'sufia:vwxyz', noid: 'vwxyz') }
-  let(:profile)         { double(title: 'Your Profile',      pid: 'sufia:abcde', noid: 'abcde') }
-  let(:collection)      { double(title: 'A Collection',      pid: 'sufia:12345', noid: '12345') }
-  let(:profile_section) { double(title: 'A Profile Section', pid: 'sufia:56789', noid: '56789') }
+  let(:document)        { double(title: 'A Document',        pid: 'sufia:vwxyz', noid: 'vwxyz', human_readable_type: 'Document'  ) }
+  let(:profile)         { double(title: 'Your Profile',      pid: 'sufia:abcde', noid: 'abcde', human_readable_type: 'Profile'   ) }
+  let(:collection)      { double(title: 'A Collection',      pid: 'sufia:12345', noid: '12345', human_readable_type: 'Collection') }
+  let(:profile_section) { double(title: 'A Profile Section', pid: 'sufia:56789', noid: '56789', human_readable_type: 'Collection') }
 
   context 'with collections and no profile sections' do
     before do
@@ -19,7 +19,7 @@ describe 'application/add_to_collection_gui' do
       expect(rendered).to include('Your Collections')
       expect(rendered).to include(collection.pid)
       expect(rendered).to_not include('Profile Sections')
-      expect(rendered).to have_link('Add to Collection', add_member_form_collections_path(collectible_id: document.pid))
+      expect(rendered).to have_link("Add #{document.human_readable_type} to Collection", add_member_form_collections_path(collectible_id: document.pid))
     end
   end
 
@@ -37,7 +37,7 @@ describe 'application/add_to_collection_gui' do
       expect(rendered).to include(profile.pid)
       expect(rendered).to include('Profile Sections')
       expect(rendered).to include(profile_section.pid)
-      expect(rendered).to have_link('Add to Collection', add_member_form_collections_path(collectible_id: document.pid))
+      expect(rendered).to have_link("Add #{document.human_readable_type} to Collection", add_member_form_collections_path(collectible_id: document.pid))
     end
   end
 
@@ -53,7 +53,7 @@ describe 'application/add_to_collection_gui' do
     it 'displays add link; includes no profile or collections' do
       expect(rendered).to_not include('Your Collections')
       expect(rendered).to_not include('Profile Sections')
-      expect(rendered).to have_link('Add to Collection', add_member_form_collections_path(collectible_id: document.pid))
+      expect(rendered).to have_link("Add #{document.human_readable_type} to Collection", add_member_form_collections_path(collectible_id: document.pid))
     end
   end
 end

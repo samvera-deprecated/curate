@@ -79,7 +79,7 @@ describe "Search for a work" do
         click_button("keyword-search-submit")
       end
       href_link = add_member_form_collections_path(collectible_id: "#{Sufia.config.id_namespace}:#{noid}")
-      page.should have_link("Add to Collection", href: href_link)
+      page.should have_link("Add Image to Collection", href: href_link)
     end
   end
 

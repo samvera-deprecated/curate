@@ -15,5 +15,7 @@
   </div>
 </div>
 
-<%= link_to 'Add to Collection', add_member_form_collections_path(collectible_id: collectible.pid), data: { toggle: "modal", target: ('#' + modal_id) }, method: :get, class: "add-to-collection #{button_class}", remote: true %>
+<%= link_to add_member_form_collections_path(collectible_id: collectible.pid), data: { toggle: "modal", target: ('#' + modal_id) }, method: :get, class: "add-to-collection #{button_class}", remote: true, title: "Add #{collectible.human_readable_type} to Collection"  do %>
+  <span class="icon icon-folder-open"></span>
+<% end %>
 
