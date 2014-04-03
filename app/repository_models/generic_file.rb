@@ -64,4 +64,10 @@ class GenericFile < ActiveFedora::Base
   def copy_permissions_from(obj)
     self.datastreams['rightsMetadata'].ng_xml = obj.datastreams['rightsMetadata'].ng_xml
   end
+
+  def update_parent_representative_if_empty(obj)
+    return unless obj.representative.blank?
+    obj.representative = self.pid
+    obj.save
+  end
 end
