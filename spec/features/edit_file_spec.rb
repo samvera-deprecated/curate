@@ -13,9 +13,6 @@ describe "Editing an attached file" do
     fill_in "Title", with: 'Test title'
     click_button "Update Attached File"
 
-    expect(page).to have_selector('table.attributes tbody tr:first td', text: 'Test title')
-    click_link "Edit this File"
-
-    find_field('Title').value.should eq 'Test title'
+    expect(page).to have_selector('.related_files .attribute.title', text: /Test title/)
   end
 end
