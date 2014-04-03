@@ -57,6 +57,7 @@ class Account
       true
     else
       collect_errors
+      false
     end
   end
   # Create is indicative of what is happening, however Devise calls #save
