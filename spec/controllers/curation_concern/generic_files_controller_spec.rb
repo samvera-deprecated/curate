@@ -118,7 +118,7 @@ describe CurationConcern::GenericFilesController do
       response.status.should == 302
       expect(response).to(
         redirect_to(
-          controller.polymorphic_path([:curation_concern, generic_file])
+          controller.polymorphic_path([:curation_concern, parent])
         )
       )
     end
