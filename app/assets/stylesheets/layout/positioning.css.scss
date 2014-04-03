@@ -26,9 +26,14 @@ body {
   text-align:right;
 }
 
-#footer .row {
+#footer {
+  margin-top:2em;
   margin-bottom:1em;
-  margin-top:3em;
+
+  .footer-text {
+    margin-top:1em;
+    padding-top:1.5em;
+  }
 }
 
 .page-search {
