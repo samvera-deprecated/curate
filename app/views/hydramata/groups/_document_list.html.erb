@@ -6,6 +6,6 @@
   </tr>
   </thead>
   <tbody>
-  <%= render documents, :as => :document %>
+    <%= render documents.collect{|a| a.to_model}, :as => :document %>
   </tbody>
 </table>
