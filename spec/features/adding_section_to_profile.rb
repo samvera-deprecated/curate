@@ -10,11 +10,14 @@ describe 'Adding a section to a Profile: ' do
     it 'adds a section to their profile' do
       visit person_path(user.person)
       click_on 'Add a Section to my Profile'
+      page.should_not have_selector('#collection_file')
       within('#new_profile_section') do
         fill_in('profile_section_title', with: 'New Collection on Bilbo')
         click_on 'Create Profile section'
       end
       page.should have_content('New Collection on Bilbo')
+      click_on 'Edit'
+      page.should_not have_selector('#collection_file')
     end
   end
 
