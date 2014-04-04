@@ -119,7 +119,7 @@ describe GenericWork do
         work = reload_work
 
         work.editor_groups.should == [group]
-        work.edit_groups.should == [group.title]
+        work.edit_groups.should == [group.pid]
       end
 
       it 'should not add non-group objects' do
@@ -138,7 +138,7 @@ describe GenericWork do
         work = reload_work
 
         work.editor_groups.should == [group]
-        work.edit_groups.should include(group.title)
+        work.edit_groups.should include(group.pid)
 
         work.remove_editor_group(group)
 
@@ -146,7 +146,7 @@ describe GenericWork do
         work = reload_work
 
         work.editor_groups.should == []
-        work.edit_groups.should_not include(group.title)
+        work.edit_groups.should_not include(group.pid)
       end
     end
   end
