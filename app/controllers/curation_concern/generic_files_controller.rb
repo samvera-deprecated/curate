@@ -61,7 +61,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
 
   def update
     if actor.update
-      respond_with([:curation_concern, curation_concern])
+      respond_with([:curation_concern, parent])
     else
       respond_with([:curation_concern, curation_concern]) { |wants|
         wants.html { render 'edit', status: :unprocessable_entity }
