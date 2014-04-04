@@ -18,7 +18,7 @@ end
 with_git("Initial commit")
 
 with_git("Adding curate gem") do
-  gem 'curate', "~> 0.6.5"
+  gem 'curate', "~> 0.6.6"
 end
 
 
@@ -105,10 +105,7 @@ if yes_with_banner?(JETTY_QUESTION)
       rake "jetty:unzip"
       rake "jetty:config"
       if yes_with_banner?("Would you like to turn on soft deleting of works?\n\nThis will preserve deleted objects in the Fedora repository while preventing the works from being displayed in the application.")
-        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/active_fedora_soft_delete_monkey_patch.rb', 'config/initializers/active_fedora_soft_delete_monkey_patch.rb'
-        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/deny-d-objects-and-datastreams.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/deny-d-objects-and-datastreams.xml'
-        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/deny-purge.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/deny-purge.xml'
-        get 'https://raw.github.com/projecthydra/curate/master/lib/generators/curate/soft_delete/permit-describerepository.xml', 'jetty/fedora/default/data/fedora-xacml-policies/repository-policies/permit-describerepository.xml'
+        generate "curate:soft_delete"
       end
     end
   end
