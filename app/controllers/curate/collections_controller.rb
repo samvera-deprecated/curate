@@ -61,12 +61,12 @@ class Curate::CollectionsController < ApplicationController
 
   def create
     super
-    @collection.file = params[ :collection ][ :file ] if params[ :collection ][ :file ]
+    extract_file_parameter
   end
 
   def update
     super
-    @collection.file = params[ :collection ][ :file ] if params[ :collection ][ :file ]
+    extract_file_parameter
   end
 
   def index
@@ -107,6 +107,7 @@ class Curate::CollectionsController < ApplicationController
   def load_and_authorize_collection
     id = id_from_params(:collection_id)
     id ||= id_from_params(:profile_collection_id)
+    id ||= id_from_params(:profile_section_id)
     return nil unless id
     @collection = ActiveFedora::Base.find(id, cast: true)
     authorize! :update, @collection
@@ -116,6 +117,13 @@ class Curate::CollectionsController < ApplicationController
     if params[key] && !params[key].empty?
       params[key]
     end
+  end
+
+  def extract_file_parameter
+    # Because the collection, profile_collection, and profile_section are not
+    # proper citizens
+    container = params[:collection] || params[:profile_collection] || params[:profile_section]
+    @collection.file = container[:file] if container.has_key?(:file)
   end
 
   def add_to_profile
