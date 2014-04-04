@@ -41,22 +41,26 @@ task :generate do
 
     gemfile_content = <<-EOV
     gem 'curate', :path=>'../../../#{File.expand_path('../../', __FILE__).split('/').last}'
-    gem 'capybara'
-    gem 'launchy'
-    gem 'factory_girl_rails'
-    gem 'timecop'
-    gem 'vcr'
-    gem 'webmock'
-    gem 'rspec-html-matchers'
-    gem 'database_cleaner', '< 1.1.0', :group => :test
-    gem 'test_after_commit', group: :test
-    gem 'poltergeist', group: :test
-    gem 'simplecov', group: :test, require: false
-    gem 'coveralls', group: :test, require: false
     gem 'kaminari', github: 'harai/kaminari', branch: 'route_prefix_prototype'
     gem 'browse-everything'
-EOV
-    gemfile_content << "gem 'debugger'" unless ENV['TRAVIS']
+
+    group :test do
+      gem 'capybara'
+      gem 'coveralls', require: false
+      gem 'database_cleaner', '< 1.1.0'
+      gem 'factory_girl_rails'
+      gem 'launchy'
+      gem 'poltergeist'
+      gem 'rspec-html-matchers'
+      gem 'simplecov', require: false
+      gem 'test_after_commit'
+      gem 'timecop'
+      gem 'vcr'
+      gem 'webmock'
+    end
+    EOV
+
+    gemfile_content << "gem 'byebug'" unless ENV['TRAVIS']
 
     `echo "#{gemfile_content}" >> #{DUMMY_APP}/Gemfile`
 
