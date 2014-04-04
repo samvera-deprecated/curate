@@ -58,7 +58,9 @@ task :generate do
       gem 'vcr'
       gem 'webmock'
     end
-    gemfile_content << "gem 'debugger'" unless ENV['TRAVIS']
+    EOV
+
+    gemfile_content << "gem 'byebug'" unless ENV['TRAVIS']
 
     `echo "#{gemfile_content}" >> #{DUMMY_APP}/Gemfile`
 
