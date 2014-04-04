@@ -42,6 +42,7 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   def create
     curation_concern.batch = parent
     if actor.create
+      curation_concern.update_parent_representative_if_empty(parent)
       respond_with([:curation_concern, parent])
     else
       respond_with([:curation_concern, curation_concern]) { |wants|
