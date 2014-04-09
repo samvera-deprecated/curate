@@ -1,3 +1,9 @@
+<h2>My Groups &nbsp;
+  <% if can? :create, Hydramata::Group %>
+      <%= button_for_create_new_group %>
+  <% end %>
+</h2>
+<br/>
 <%- if has_any_group? %>
   <%= render_document_index %>
 <%- else %>
@@ -6,6 +12,4 @@
   </div>
 <%- end %>
 
-<% if can? :create, Hydramata::Group %>
-  <%= button_for_create_new_group %>
-<% end %>
+
