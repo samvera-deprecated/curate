@@ -31,7 +31,7 @@
   <div class="span12">
     <fieldset class="required">
       <legend>
-        Attach <%= current_user.manager? ? User.find(params[:id]).name + "'s" : 'your' %> profile image
+        Attach <%= current_user.manager? ? "#{f.object.name}'s" : 'your' %> profile image
       </legend>
       <%= f.input :files, as: :file, label: 'Upload the file' %>
     </fieldset>
