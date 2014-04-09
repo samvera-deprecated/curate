@@ -79,6 +79,26 @@ describe 'user profile workflow', FeatureSupport.options do
     end
   end
 
+  describe 'when typing an invalid password' do
+    let(:email) { 'badpasswordtest@gmail.com' }
+    #this password is too short
+    let(:password) { 'bad' }
+    it do
+      bad_login_for(email, password)
+    end
+  end
+
+  def bad_login_for(email, password)
+    logout
+    visit('/')
+
+    click_link("Log In")
+    click_link("Sign up")
+    sign_up_new_user(email, password)
+    #Before HYDRASIR-381, the user would still get logged in (partially) when signing up with a bad password.
+    page.assert_no_selector(".alert", "Welcome! You have signed up successfully.")
+  end
+
   def first_time_login_for(email, password)
     logout
     visit('/')
