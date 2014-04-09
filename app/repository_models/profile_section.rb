@@ -6,4 +6,8 @@ class ProfileSection < ActiveFedora::Base
   def can_be_member_of_collection?(collection)
     collection.is_a?(Profile)
   end
+
+  def visibility
+    return Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+  end
 end

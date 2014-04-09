@@ -11,6 +11,7 @@ describe 'Adding a section to a Profile: ' do
       visit person_path(user.person)
       click_on 'Add a Section to my Profile'
       page.should_not have_selector('#collection_file')
+      page.should_not have_content "Access Rights"
       within('#new_profile_section') do
         fill_in('profile_section_title', with: 'New Collection on Bilbo')
         click_on 'Create Profile section'
@@ -18,6 +19,7 @@ describe 'Adding a section to a Profile: ' do
       page.should have_content('New Collection on Bilbo')
       click_on 'Edit'
       page.should_not have_selector('#collection_file')
+      page.should_not have_content "Access Rights"
     end
   end
 

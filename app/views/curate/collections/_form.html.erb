@@ -37,10 +37,9 @@
     </div>
   </div>
 
-  <%# We do not want to display the avatar control if this collection is a profile section. %>
-  <%# There are 2 situations where this partial is rendered, 1) when the section is created %>
-  <%# 2) when the section is edited.  We must check for both those situations: 1) is_a? and %>
-  <%# 2) include?, respectively.                                                            %>
+  <%# We want to display neither the avatar control nor the access permission controls if this collection is a profile section. %>
+  <%# There are 2 situations where this partial is rendered, 1) when the section is created 2) when the section is edited.      %>
+  <%# We must check for both those situations: 1) is_a? and 2) include?, respectively.                                          %>
   <% if !@collection.is_a?(ProfileSection) && !ActiveFedora::ContentModel.known_models_for(@collection).include?(ProfileSection) %>
     <div class="control-group string required collection_description">
       <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: @collection} %>
@@ -51,9 +50,9 @@
         <%= f.file_field :file, label: 'Upload the file' %>
       </div>
     </div>
-  <% end %>
 
-  <%= render partial: 'form_permission', locals: {f: f} %>
+    <%= render partial: 'form_permission', locals: {f: f} %>
+  <% end %>
 
   <%= hidden_collection_members %>
 
