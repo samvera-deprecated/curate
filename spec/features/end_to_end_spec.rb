@@ -103,6 +103,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       page.assert_selector(".embargo_release_date.attribute", text: embargo_release_date_formatted)
       page.assert_selector(".permission.attribute", text: "Open Access")
 
+
       noid = page.current_path.split("/").last
       logout
       
@@ -228,7 +229,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
       select(options['Content License'], from: I18n.translate('sufia.field_label.rights'))
 
-      fill_in("generic_work_contributors_attributes_1_name", with: options['Contributors'])
+      fill_in("generic_work_contributor", with: options['Contributors'])
 
       if options['DOI Strategy']
         choose("generic_work_doi_assignment_strategy_#{options['DOI Strategy']}")

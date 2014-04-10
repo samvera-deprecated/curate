@@ -40,7 +40,7 @@ describe CloudResource do
         response.content_type="image/jpeg"
         HTTParty.stub(:get).and_return(response)
         # Mock the file open and read, too
-        file = mock(File)
+        file = double(File)
         File.stub(:open).and_return(file)
         expect(subject.download_content_from_host).to be_instance_of(String)
       end
@@ -54,7 +54,7 @@ describe CloudResource do
 
       it 'createss a download path for a local file' do
         # Mock the file methods
-        file = mock(File)
+        file = double(File)
         File.stub(:new).and_return(file)
         File.stub(:open).and_return(file)
         file.stub(:close)
@@ -70,7 +70,7 @@ describe CloudResource do
 
       it 'does not create a download path for a file' do
         # Mock the file methods
-        file = mock(File)
+        file = double(File)
         File.stub(:new).and_return(file)
         File.stub(:open).and_return(file)
         expect(subject.download_content_from_host).to be_nil

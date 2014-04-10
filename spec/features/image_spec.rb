@@ -11,7 +11,7 @@ describe 'Creating an image' do
     classify_what_you_are_uploading 'Image'
     within '#new_image' do
       fill_in "Title", with: "readymade shabby chic paleo ethical"
-      fill_in "image_contributors_attributes_1_name", with: "Test image creator"
+      fill_in "image_creator", with: "Test image creator"
       fill_in "Date created", with: "2013-10-04"
       fill_in "Description", with: "Test description"
       select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))

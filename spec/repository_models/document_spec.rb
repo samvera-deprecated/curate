@@ -12,7 +12,6 @@ describe Document do
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_dc_metadata'
   it_behaves_like 'has_common_solr_fields'
-  it_behaves_like 'it has linked contributors'
 
   describe 'valid types: ' do
     let(:doc) { FactoryGirl.build(:document) }

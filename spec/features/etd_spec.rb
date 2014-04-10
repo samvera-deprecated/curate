@@ -11,7 +11,6 @@ describe 'Creating an etd' do
     classify_what_you_are_uploading 'Etd'
     within '#new_etd' do
       fill_in "Title", with: "umami sartorial Williamsburg church-key"
-      fill_in "etd_contributors_attributes_1_name", with: "Test etd creator"
       fill_in "Abstract", with: "Some stuff"
       fill_in "Country", with: "Belgium"
       fill_in "Advisor", with: "Marcy Holmes"
@@ -27,7 +26,6 @@ describe 'Creating an etd' do
     click_button 'keyword-search-submit'
     within('#documents') do
       expect(page).to have_link('umami sartorial Williamsburg church-key') #title
-      expect(page).to have_selector('dd', text: 'Test etd creator')
       expect(page).to have_selector('dd', text: 'Paleoethnography')
       expect(page).to have_selector('dd', text: '2013 October 4')
     end
