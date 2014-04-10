@@ -38,7 +38,7 @@ module Curate
       end
 
       def groups
-        self.person.group_names
+        self.person.group_pids
       end
     end
   end

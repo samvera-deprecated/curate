@@ -24,13 +24,13 @@ class Etd < ActiveFedora::Base
 
   self.indefinite_article = 'an'
   self.contributor_label = 'Author'
-  validates_presence_of :contributors, message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}."
 
   with_options datastream: :descMetadata do |ds|
     ds.attribute :contributor,
       multiple: true,
       label: "Contributor(s)",
-      hint: "Who else played a non-primary role in the creation of your #{etd_label}."
+      hint: "Who else played a non-primary role in the creation of your #{etd_label}.",
+      validates: { presence: { message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}." } }
     ds.attribute :contributor_role,
       multiple: true,
       label: "Contributor role(s)",

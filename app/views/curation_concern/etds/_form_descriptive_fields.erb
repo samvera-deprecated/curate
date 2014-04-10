@@ -22,7 +22,6 @@
     </div>
 
     <div class="span6">
-      <%= render partial: 'linked_contributors', locals: {f: f, label: 'Creator'} %>
       <%= render partial: 'linked_editors', locals: {f: f, curation_concern: curation_concern, label: 'Editor'} %>
       <%= render partial: 'linked_groups', locals: {f: f, curation_concern: curation_concern, label: "Editor Group"} %>
 

@@ -61,6 +61,31 @@ describe CurationConcern::GenericFilesController do
       )
     end
 
+    it 'should set represetative for parent' do
+
+      CurationConcern::BaseActor.any_instance.stub(:apply_creation_data_to_curation_concern).and_return(true)
+      CurationConcern::BaseActor.any_instance.stub(:apply_save_data_to_curation_concern).and_return(true)
+      CurationConcern::GenericFileActor.any_instance.stub(:update_file).and_return(true)
+
+      sign_in(user)
+      parent
+      parent.representative.should == nil
+
+      image_file = File.expand_path('../../fixtures/files/image.png', __FILE__)
+      post(
+        :create,
+        parent_id: parent.to_param,
+        generic_file: { title: "Title", file: image_file }
+      )
+
+      expect(response).to(
+        redirect_to(controller.polymorphic_path([:curation_concern, parent]))
+      )
+
+      reloaded_parent = GenericWork.find(parent.pid)
+      reloaded_parent.representative.should_not == nil
+    end
+
     it 'renders form when unsuccessful' do
       sign_in(user)
       parent
@@ -118,7 +143,7 @@ describe CurationConcern::GenericFilesController do
       response.status.should == 302
       expect(response).to(
         redirect_to(
-          controller.polymorphic_path([:curation_concern, generic_file])
+          controller.polymorphic_path([:curation_concern, parent])
         )
       )
     end

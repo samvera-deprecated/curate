@@ -8,7 +8,7 @@
           input_html: { class: 'input-xlarge' }
         %>
 
-        <%= render partial: 'linked_contributors', locals: {f: f, label: 'Creator'} %>
+        <%= f.input :creator,  as: :multi_value, input_html: { class: 'input-xlarge' } %>
         <%= render partial: 'linked_editors', locals: {f: f, curation_concern: curation_concern, label: 'Editor'} %>
         <%= render partial: 'linked_groups', locals: {f: f, curation_concern: curation_concern, label: "Editor Group"} %>
 

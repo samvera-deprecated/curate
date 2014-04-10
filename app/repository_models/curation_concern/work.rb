@@ -21,16 +21,16 @@ module CurationConcern
     def add_editor_group(group)
       return unless group.is_a?(Hydramata::Group)
       self.editor_groups << group
-      self.permissions_attributes = [{name: group.title, access: "edit", type: "group"}]
+      self.permissions_attributes = [{name: group.pid, access: "edit", type: "group"}]
       self.save!
       group.works << self
       group.save!
     end
 
     def remove_editor_group(group)
-      return unless self.edit_groups.include?(group.title)
+      return unless self.edit_groups.include?(group.pid)
       self.editor_groups.delete(group)
-      self.edit_groups = self.edit_groups - [group.title] 
+      self.edit_groups = self.edit_groups - [group.pid] 
       self.save!
       group.works.delete(self)
       group.save!

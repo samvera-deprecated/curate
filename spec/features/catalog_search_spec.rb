@@ -79,7 +79,7 @@ describe "Search for a work" do
         click_button("keyword-search-submit")
       end
       href_link = add_member_form_collections_path(collectible_id: "#{Sufia.config.id_namespace}:#{noid}")
-      page.should have_link("Add to Collection", href: href_link)
+      page.should have_link("Add Image to Collection", href: href_link)
     end
   end
 
@@ -101,6 +101,7 @@ describe "Search for a work" do
       fill_in "Title", with: image_title
       fill_in "Date created", with: "2013-10-15"
       fill_in "Description", with: "Test description"
+      fill_in "Creator", with: "Freddie Mercury"
       select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
       check("I have read and accept the contributor license agreement")
       click_button("Create Image")

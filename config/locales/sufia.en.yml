@@ -10,6 +10,10 @@ en:
         q:
           label:        "Search Curate"
           placeholder:  "Type keywords in here"
+    search_facets:
+      label:            "View:"
+    profile:
+      default_title:    "Selected Works:"
     work:
       editor:
         legend:         "Content Editors"

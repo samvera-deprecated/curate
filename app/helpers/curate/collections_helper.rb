@@ -73,7 +73,7 @@ module Curate::CollectionsHelper
     # normal-sized (<p>) font versus a collection heading-sized (<h3>) font.
     headertag = terminate ? :p : :h3
     list_item = content_tag headertag, class: 'collection-section-heading' do
-      link_to(collection.to_s, collection_path(collection))
+      collection.to_s
     end
     if collection.description.present?
       list_item << content_tag( :div, collection.description, class: 'collection-section-description')
@@ -83,8 +83,8 @@ module Curate::CollectionsHelper
   end
 
   def contributors(work)
-    if work.respond_to?(:contributors)
-      "(#{work.contributors.to_a.join(', ')})"
+    if work.respond_to?(:contributor)
+      "(#{work.contributor.to_a.join(', ')})"
     else
       ''
     end
@@ -111,8 +111,8 @@ module Curate::CollectionsHelper
   end
 
   def actions_for_member(collection, member)
-    button_to remove_member_collections_path(id: collection.to_param, item_id: member.pid), data: { confirm: 'Are you sure you want to remove this item from the collection?' }, method: :put, id: "remove-#{member.noid}", class: 'btn btn-danger', form_class: 'remove-member', remote: true do
-      raw('<i class="icon-white icon-minus"></i> Remove')
+    button_to remove_member_collections_path(id: collection.to_param, item_id: member.pid), data: { confirm: 'Are you sure you want to remove this item from the collection?' }, method: :put, id: "remove-#{member.noid}", class: 'btn', form_class: 'remove-member', remote: true do
+      raw('<i class="icon-minus"></i> Remove')
     end
   end
 

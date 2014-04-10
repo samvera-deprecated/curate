@@ -28,9 +28,10 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   protected :after_create_response
 
   # Override setup_form in concrete controllers to get the form ready for display
-  def setup_form 
-    curation_concern.contributors << current_user.person if curation_concern.contributors.blank?
-    curation_concern.contributors << Person.new
+  def setup_form
+    if curation_concern.respond_to?(:contributor)
+      curation_concern.contributor << current_user.name if curation_concern.contributor.empty?
+    end
     curation_concern.editors << current_user.person if curation_concern.editors.blank?
     curation_concern.editors.build
     curation_concern.editor_groups.build
@@ -99,7 +100,12 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   protected :after_destroy_response
 
   register :actor do
-    CurationConcern.actor(curation_concern, current_user, params[hash_key_for_curation_concern])
+    CurationConcern.actor(curation_concern, current_user, attributes_for_actor)
+  end
+
+  def attributes_for_actor
+    return params[hash_key_for_curation_concern] if cloud_resources_to_ingest.nil?
+    params[hash_key_for_curation_concern].merge!(:cloud_resources=>cloud_resources_to_ingest)
   end
 
   def hash_key_for_curation_concern

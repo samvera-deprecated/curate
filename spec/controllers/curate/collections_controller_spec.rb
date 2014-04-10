@@ -56,6 +56,7 @@ describe Curate::CollectionsController do
       }.to_not change{Collection.count}
 
       reloaded_profile.members.should == [assigns(:collection)]
+      assigns(:collection).visibility.should == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
 
     it "gracefully recovery if no profile exists" do

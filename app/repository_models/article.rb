@@ -16,7 +16,6 @@ class Article < ActiveFedora::Base
 
   self.indefinite_article = 'an'
   self.contributor_label = 'Author'
-  validates_presence_of :contributors, message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}."
 
   attribute :title,
     datastream: :descMetadata, multiple: false,
@@ -27,7 +26,8 @@ class Article < ActiveFedora::Base
   attribute :contributor,
     datastream: :descMetadata, multiple: true,
     label: "Contributing Author(s)",
-    hint: "Who else played a non-primary role in the creation of your Article."
+    hint: "Who else played a non-primary role in the creation of your Article.",
+    validates: { presence: { message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}." }}
   attribute :repository_name,
     datastream: :descMetadata, multiple: false,
     label: "Repository Name",

@@ -13,7 +13,7 @@ describe 'Creating a article' do
       within '#new_article' do
         fill_in "Title", with: "craft beer roof party YOLO fashion axe"
         fill_in "Abstract", with: "My abstract"
-        fill_in "article_contributors_attributes_1_name", with: "Test article contributor"
+        fill_in "article_contributor", with: "Test article contributor"
         fill_in "External link", with: "http://www.youtube.com/watch?v=oHg5SJYRHA0"
         select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
         check("I have read and accept the contributor license agreement")

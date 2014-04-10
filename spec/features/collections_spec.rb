@@ -10,6 +10,7 @@ describe "Showing and creating Collections" do
     expect(page).to have_content "Create a New Collection"
     fill_in 'collection_title', with: 'amalgamate members'
     fill_in 'collection_description', with: "I've collected a few related things together"
+    expect(page).to have_content "Access Rights"
     click_button "Create Collection"
     within '.search-result' do
       expect(page).to have_content 'amalgamate members'

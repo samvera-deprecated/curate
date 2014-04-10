@@ -20,7 +20,8 @@ class Person < ActiveFedora::Base
   makes_derivatives :generate_derivatives
 
   attribute :name,
-    datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false,
+    label: "Name"
 
   attribute :email,
     datastream: :descMetadata, multiple: false
@@ -35,13 +36,16 @@ class Person < ActiveFedora::Base
     datastream: :descMetadata, multiple: false
 
   attribute :campus_phone_number,
-    datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false,
+    label: "Work Phone"
 
   attribute :alternate_phone_number,
-    datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false,
+    label: "Alternate Phone"
 
   attribute :personal_webpage,
-    datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false,
+    label: "Webpage"
 
   attribute :blog,
     datastream: :descMetadata, multiple: false
@@ -118,8 +122,8 @@ class Person < ActiveFedora::Base
     name || "No Title"
   end
 
-  def group_names
-    @group_names ||= self.groups.collect{|g| g.title }
+  def group_pids
+    @group_pids ||= self.groups.collect{|g| g.pid }
   end
 
   GRAVATAR_URL = "//www.gravatar.com/avatar/"

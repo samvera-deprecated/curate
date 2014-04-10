@@ -1,11 +1,48 @@
-<table class="table table-striped">
-  <caption class="accessible-hidden">List of collections</caption>
-  <thead>
-  <tr>
-    <th>Title</th>
-  </tr>
-  </thead>
-  <tbody>
-  <%= render documents, :as => :document %>
-  </tbody>
-</table>
+<%
+   managed_groups = documents.collect{|a| a.to_model};
+   managed_groups.each do |gr|
+     if !(can? :edit, gr)
+       managed_groups.delete(gr)
+     end
+   end
+   non_managed_groups = documents.collect{|a| a.to_model};
+   non_managed_groups.each do |gr|
+     if (can? :edit, gr)
+       non_managed_groups.delete(gr)
+     end
+   end
+%>
+
+<% if (managed_groups.any?) %>
+    <h4>Manage</h4>
+    <table class="table table-striped">
+      <caption class="accessible-hidden">List of groups</caption>
+      <thead>
+      <tr>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <%=
+            render managed_groups, :as => :document
+        %>
+      </tbody>
+    </table>
+<% end %>
+
+<% if (non_managed_groups.any?) %>
+    <h4>View</h4>
+    <table class="table table-striped">
+      <caption class="accessible-hidden">List of groups</caption>
+      <thead>
+      <tr>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <%=
+          render non_managed_groups, :as => :document
+      %>
+      </tbody>
+    </table>
+<% end %>

@@ -2,7 +2,7 @@ module CurationConcern
   class GenericWorkActor < CurationConcern::BaseActor
 
     def create
-      super && attach_files && create_linked_resources && assign_representative
+      super && attach_files && create_linked_resources && download_create_cloud_resources && assign_representative
     end
 
     def update
@@ -44,6 +44,15 @@ module CurationConcern
       @linked_resource_urls ||= Array(attributes[:linked_resource_urls]).flatten.compact
     end
 
+    def cloud_resources
+      @cloud_resources ||= Array(@cloud_resources).flatten.compact
+    end
+
+    def download_create_cloud_resources
+      cloud_resources.all? do |resource|
+        attach_cloud_resource(resource)
+      end
+    end
     def create_linked_resources
       linked_resource_urls.all? do |link_resource_url|
         create_linked_resource(link_resource_url)
@@ -80,5 +89,30 @@ module CurationConcern
       generic_file.visibility = visibility
       CurationConcern.attach_file(generic_file, user, file)
     end
+
+    def attach_cloud_resource(cloud_resource)
+      return true if ! cloud_resource.present?
+      file_path=cloud_resource.download_content_from_host
+      if  valid_file?(file_path)
+        cloud_resource = File.open(file_path)
+        generic_file = GenericFile.new
+        generic_file.file = cloud_resource
+        generic_file.batch = curation_concern
+        Sufia::GenericFile::Actions.create_metadata(
+            generic_file, user, curation_concern.pid
+        )
+        generic_file.embargo_release_date = curation_concern.embargo_release_date
+        generic_file.visibility = visibility
+        CurationConcern.attach_file(generic_file, user, cloud_resource,File.basename(cloud_resource))
+        File.delete(cloud_resource)
+      end
+    rescue ActiveFedora::RecordInvalid
+      false
+    end
+
+    def valid_file?(file_path)
+      return file_path.present? && File.exists?(file_path) && !File.zero?(file_path)
+    end
+
   end
 end
