@@ -44,15 +44,48 @@ module Curate::CollectionsHelper
     end
   end
 
-  def member_line_item(collection, member, terminate, options={})
-    content_tag :li, class: line_item_class(collection), data: { noid: member.noid }do
-      markup = member.respond_to?(:members) ? collection_line_item(member, terminate, options) : work_line_item(member, options)
-
-      if can? :edit, collection
-        markup << collection_member_actions(collection, member)
+  def list_items_in_profile_section(collection, terminate=false, options={})
+    prof_sec, items = collection.members.partition {|x| x.is_a?(ProfileSection) }
+    content_tag :ul, class: 'collection-listing' do
+      list1 = items.each.inject('') do |output, member|
+        output << list_collections_in_profile(collection, member, options)
       end
+      list1 = "" if list1.blank?
+      list2 = prof_sec.each.inject('') do |output, member|
+        output << member_line_item(collection, member, terminate, options)
+      end
+      list2 = "" if list2.blank?
+      list1.concat(list2).html_safe
+    end
+  end
 
-      markup
+  def list_collections_in_profile(collection, member, options)
+    if can? :read, member
+      content_tag :li, class: line_item_class(collection), data: { noid: member.noid }do
+        markup = work_line_item(member, options)
+        if can? :edit, member
+          markup << collection_member_actions(collection, member)
+        end
+        markup
+      end
+    else
+      ""
+    end
+  end
+
+  def member_line_item(collection, member, terminate, options={})
+    if can? :read, member
+      content_tag :li, class: line_item_class(collection), data: { noid: member.noid }do
+        markup = member.respond_to?(:members) ? collection_line_item(member, terminate, options) : work_line_item(member, options)
+
+        if can? :edit, collection
+          markup << collection_member_actions(collection, member)
+        end
+
+        markup
+      end
+    else
+      ""
     end
   end
 
@@ -73,7 +106,11 @@ module Curate::CollectionsHelper
     # normal-sized (<p>) font versus a collection heading-sized (<h3>) font.
     headertag = terminate ? :p : :h3
     list_item = content_tag headertag, class: 'collection-section-heading' do
-      collection.to_s
+      if collection.is_a?(ProfileSection)
+        collection.to_s
+      else
+        link_to collection.to_s, collection_path(collection)
+      end
     end
     if collection.description.present?
       list_item << content_tag( :div, collection.description, class: 'collection-section-description')
