@@ -30,7 +30,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   # Override setup_form in concrete controllers to get the form ready for display
   def setup_form
     if curation_concern.respond_to?(:contributor)
-      curation_concern.contributor << current_user.name if curation_concern.contributor.empty?
+      curation_concern.contributor << current_user.name if curation_concern.contributor.empty? && !current_user.can_make_deposits_for.any?
     end
     curation_concern.editors << current_user.person if curation_concern.editors.blank?
     curation_concern.editors.build
