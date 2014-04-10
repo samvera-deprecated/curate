@@ -10,3 +10,13 @@ en:
         q:
           label:        "Search Curate"
           placeholder:  "Type keywords in here"
+    work:
+      editor:
+        legend:         "Content Editors"
+        caption:        "Who should be able to make changes to this work?"
+        individual:
+          name:         "Individual"
+          help:         "At least one person should be able to edit this work"
+        group:
+          name:         "Group"
+          help:         "Add groups to allow others to collaboratively edit this work."
