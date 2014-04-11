@@ -107,6 +107,28 @@ module CurateHelper
     return edit_polymorphic_path(polymorphic_path_args(asset))
   end
 
+  # This converts a collection of objects to a 2 dimensional array having keys accessed via the key_method on the objects
+  # and the values accessed via the value_method on the objects.
+  # key_method and value_method are strings which are the names of the methods or accessors or attributes by
+  # which the value of the key and the value of the array value can be acquired for each of the objects.  These
+  # values for the key and the value are placed into the returned array.
+  # EXAMPLE:  Oh is class which has methods a, b, c, d, e on it (Oh.a, Oh.b, etc.).  You want an array of
+  #           a collection of Ohs.  The array would contain the value of b as the key and the value of e as the corresponding value.
+  #           The collection of Ohs is in the variable ohList.
+  #           ohArray = objects_to_array(ohList, 'b', 'e')
+  def objects_to_array(collection, key_method, value_method)
+    returnArray = collection.map do |element|
+      [get_value_for(element, key_method), get_value_for(element, value_method)]
+    end
+  end
+
+  # This is a private helper method which given an item (an object), retrieves the value of some member on it by way of
+  # what is specified in the by_means_of parameter.  by_means_of is the string name of a method, an accessor, an
+  # attribute, or other mechanism which can access that information on the item.
+  def get_value_for(item, by_means_of)
+    by_means_of.respond_to?(:call) ? by_means_of.call(item) : item.send(by_means_of)
+  end
+  private :get_value_for
 
   def extract_dom_label_class_and_link_title(document)
     hash = document.stringify_keys

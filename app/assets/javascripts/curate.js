@@ -33,6 +33,7 @@
 //= require curate/proxy_rights
 //= require curate/facet_mine
 //= require curate/accept_contributor_agreement
+//= require curate/proxy_submission
 //= require handlebars
 //= require browse_everything_implement
 
