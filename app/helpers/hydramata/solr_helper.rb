@@ -20,13 +20,13 @@ module Hydramata::SolrHelper
 
         # Used to build the group access portion of the query
         current_user.person.groups.each_with_index {|group, index|
-          group.pid.gsub!(" ", "\\\\ ")
+          escaped_pid = group.pid.gsub(":", "\\:")
 
           if index != 0
             group_query << "OR "
           end
 
-          group_query << "discover_access_group_ssim:#{group.pid.gsub(":", "\\:")} OR read_access_group_ssim:#{group.pid.gsub(":", "\\:")} OR edit_access_group_ssim:#{group.pid.gsub(":", "\\:")} "
+          group_query << "discover_access_group_ssim:#{escaped_pid} OR read_access_group_ssim:#{escaped_pid} OR edit_access_group_ssim:#{escaped_pid} "
 
         }
 
