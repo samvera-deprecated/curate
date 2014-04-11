@@ -26,7 +26,7 @@ module Hydramata::SolrHelper
             group_query << "OR "
           end
 
-          group_query << "discover_access_group_ssim:#{group.pid} OR read_access_group_ssim:#{group.pid} OR edit_access_group_ssim:#{group.pid} "
+          group_query << "discover_access_group_ssim:#{group.pid.gsub(":", "\\:")} OR read_access_group_ssim:#{group.pid.gsub(":", "\\:")} OR edit_access_group_ssim:#{group.pid.gsub(":", "\\:")} "
 
         }
 
