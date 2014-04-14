@@ -11,7 +11,7 @@ describe Article do
   it { should have_unique_field(:human_readable_type) }
   it { should have_unique_field(:abstract) }
   it { should have_unique_field(:title) }
-  it { should have_unique_field(:journal_information) }
+  it { should have_unique_field(:source) }
   it { should have_unique_field(:date_uploaded) }
   it { should have_unique_field(:date_modified) }
   it { should have_unique_field(:date_digitized) }
