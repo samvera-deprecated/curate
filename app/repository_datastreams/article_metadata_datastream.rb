@@ -4,14 +4,13 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     map.title(in: RDF::DC) do |index|
       index.as :stored_searchable
     end
-    map.alternate_title(to: "title#alternate", in: RDF::QualifiedDC) do |index|
+    map.alternate_title(to: 'alternative', in: RDF::DC) do |index|
       index.as :stored_searchable
     end
-
-    map.creator(in: RDF::DC) do |index|
+    map.creator(to: 'creator#author', in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable, :facetable
     end
-    map.contributor(in: RDF::DC) do |index|
+    map.contributor(to: 'contributor#author', in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable, :facetable
     end
     map.repository_name(to: "contributor#repository", in: RDF::QualifiedDC) do |index|
@@ -24,7 +23,7 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
 
-    map.abstract(to: "description#abstract", in: RDF::QualifiedDC) do |index|
+    map.abstract(to: 'abstract', in: RDF::DC) do |index|
       index.as :stored_searchable
     end
 
@@ -35,12 +34,8 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
     map.content_format({in: RDF::QualifiedDC, to: 'format#mimetype'})
-    map.date_created(:to => "date#created", :in => RDF::QualifiedDC) do |index|
+    map.date_created(:to => 'created', :in => RDF::DC) do |index|
       index.as :stored_searchable
-    end
-    map.date_digitized(to: "date#digitized", in: RDF::QualifiedDC) do |index|
-      index.type :date
-      index.as :stored_searchable, :sortable
     end
     map.date_uploaded(to: "dateSubmitted", in: RDF::DC) do |index|
       index.type :date
@@ -52,32 +47,33 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     end
     map.recommended_citation({in: RDF::DC, to: 'bibliographicCitation'})
 
-    map.permissions({in: RDF::DC, to: 'accessRights'})
+    map.permissions({in: RDF::QualifiedDC, to: 'rights#permission'})
     map.language({in: RDF::DC}) do |index|
       index.as :stored_searchable, :facetable
     end
 
-    map.coverage_spatial({to: "coverage#spatial", in: RDF::QualifiedDC}) do |index|
+    map.coverage_spatial({to: "spatial", in: RDF::DC}) do |index|
       index.as :stored_searchable, :facetable
     end
-    map.coverage_temporal({to: "coverage#temporal", in: RDF::QualifiedDC}) do |index|
-      index.as :stored_searchable, :facetable
-    end
-    map.digitizing_equipment({to: "description#technical", in: RDF::QualifiedDC}) do |index|
+    map.coverage_temporal({to: "temporal", in: RDF::DC}) do |index|
       index.as :stored_searchable, :facetable
     end
     map.requires({in: RDF::DC})
     map.size({to: "format#extent", in: RDF::QualifiedDC})
-    map.identifier({in: RDF::DC})
-    map.doi({to: "identifier#doi", in: RDF::QualifiedDC})
-    map.issn({to: "identifier#issn", in: RDF::QualifiedDC})
+    map.identifier({to: 'identifier#doi', in: RDF::QualifiedDC})
+    map.issn({to: 'identifier#issn', in: RDF::QualifiedDC})
 
 
-    map.journal_information(to: "source", in: RDF::DC) do |index|
+    map.source(to: 'source', in: RDF::DC) do |index|
       index.type :text
       index.as :stored_searchable
     end
-    map.subject(in: RDF::DC) do |index|
+    map.subject(to: 'subject', in: RDF::DC) do |index|
+      index.type :text
+      index.as :stored_searchable
+    end
+
+    map.type(in: RDF::DC) do |index|
       index.type :text
       index.as :stored_searchable
     end
