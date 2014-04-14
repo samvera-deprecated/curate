@@ -63,7 +63,6 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     map.identifier({to: 'identifier#doi', in: RDF::QualifiedDC})
     map.issn({to: 'identifier#issn', in: RDF::QualifiedDC})
 
-
     map.source(to: 'source', in: RDF::DC) do |index|
       index.type :text
       index.as :stored_searchable
