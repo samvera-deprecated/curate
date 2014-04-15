@@ -9,14 +9,14 @@ class DownloadsController < ApplicationController
 
   def render_404
     if params.has_key?(:datastream_id) and params[:datastream_id] == "thumbnail"
-      send_default_image
+      respond_with_default_thumbnail_image
     else
       super
     end
   end
 
   # Send default thumbnail image
-  def send_default_image
+  def respond_with_default_thumbnail_image
     image= ActionController::Base.helpers.asset_path("curate/default.png", type: :image)
     redirect_to image
   end
