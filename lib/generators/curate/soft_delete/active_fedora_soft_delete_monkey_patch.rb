@@ -93,6 +93,8 @@ module ActiveFedora
         raise ActiveObjectNotFoundError.new(e, *args)
       end
     end
+
+    extend SoftDeleteBehavior
   end
 end
 
