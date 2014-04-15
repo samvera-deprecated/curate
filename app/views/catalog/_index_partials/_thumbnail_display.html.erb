@@ -2,6 +2,8 @@
   <%= image_tag document.representative_image_url, class: "canonical-image"  %>
 <%- elsif document.respond_to?(:representative) && document.representative.present? %>
   <%= image_tag download_path(document.representative, {:datastream_id => 'thumbnail'}), class: "canonical-image"  %>
+<%- elsif document.persisted? -%>
+  <%= image_tag download_path(document, {:datastream_id => 'thumbnail'}), class: "canonical-image" %>
 <%- else -%>
-    <%= image_tag download_path(document, {:datastream_id => 'thumbnail'}), class: "canonical-image" %>
+  <span class="canonical-image"></span>
 <%- end -%>
