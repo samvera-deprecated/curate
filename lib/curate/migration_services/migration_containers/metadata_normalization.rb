@@ -2,7 +2,12 @@ module Curate
   module MigrationServices
     module MigrationContainers
       module MetadataNormalization
+
         class BaseMigrator < Curate::MigrationServices::BaseMigrator
+          attr_writer :transformer
+          def transformer
+            @transformer ||= Curate::MigrationServices::Transformer::MetadataTransformer
+          end
         end
 
         class WorkMigrator < BaseMigrator
@@ -15,20 +20,12 @@ module Curate
             super
           end
           def migrate_desc_metadata(ds_name, ds_object)
-            content = ds_object.content.dup
-            modified_content = content.split("\n").collect do |line|
-              tansform(ds_object, line)
-            end.join("\n")
-
+            content = ds_object.content
+            modified_content = transformer.call(ds_object.pid, content)
             if content != modified_content
               ds_object.content = modified_content
               ds_object.save
             end
-          end
-          def transform(ds_object, line)
-            return line
-            # prefix = %(<info:fedora/#{ds_object.pid}> <http://purl.org/dc/terms/creator>)
-            # regexp = /^#{Regexp.escape(prefix)} \<info:fedora\/([^\>]*)\> \.$/
           end
         end
 
