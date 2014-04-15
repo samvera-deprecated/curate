@@ -5,10 +5,21 @@ class DownloadsController < ApplicationController
   include Hydra::Controller::DownloadBehavior
   prepend_before_filter :normalize_identifier, except: [:index, :new, :create]
 
+  def datastream_to_show
+    super
+  rescue Exception => e
+    if params[:datastream_id] == 'thumbnail'
+      respond_with_default_thumbnail_image
+      return false
+    else
+      raise e
+    end
+  end
+
   protected
 
   def render_404
-    if params.has_key?(:datastream_id) and params[:datastream_id] == "thumbnail"
+    if params[:datastream_id] == 'thumbnail'
       respond_with_default_thumbnail_image
     else
       super
