@@ -4,11 +4,10 @@ module Curate::ThumbnailHelper
     begin
       if document.is_a?(Collection) or  document.is_a?(Person)
         return document.representative_image_url
+      elsif document.respond_to?(:representative)
+        return download_path(document.representative, {:datastream_id => 'thumbnail'})
       else
-        path = document.respond_to?(:representative) ?
-                    download_path(document.representative, {:datastream_id => 'thumbnail'})
-                  : download_path(document, {:datastream_id => 'thumbnail'})
-        return path
+        return download_path(document, {:datastream_id => 'thumbnail'})
       end
     rescue
       return download_path(document, {:datastream_id => 'thumbnail'})
