@@ -129,5 +129,11 @@ describe Hydramata::GroupsController do
 
       reload_group.members.should == [ person ]
     end
+
+    it 'should have atleast one editor' do
+      put :update, id: group.id, hydramata_group: another_hydramata_group, group_member: {}
+      expect(response).to render_template(:edit)
+      expect(flash[:error]).to eq 'Group was not updated.'
+    end
   end
 end
