@@ -32,12 +32,12 @@ class RegistrationsController < Devise::RegistrationsController
     user = send(:"current_#{resource_name}").to_key
     self.resource = resource_class.to_adapter.get!(user)
     update_status = resource.update_with_password(account_update_params)
-    handle_update_response(successful_update: update_status, skip_signin: false, &block)
+    handle_update_response(update_status: update_status, skip_signin: false, &block)
   end
 
   def handle_update_response(options = {}, &block)
     skip_signin = options.fetch(:skip_signin) { false }
-    successful_update = options.fetch(:successful_update)
+    successful_update = options.fetch(:update_status)
     if successful_update
       yield(resource) if block_given?
       if is_navigational_format?
