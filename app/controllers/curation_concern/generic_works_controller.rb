@@ -11,6 +11,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
       self.curation_concern.inner_object.pid = CurationConcern.mint_a_pid
       hash = params.dup
       params[get_class_name].delete("editors_attributes") if params.has_key?(get_class_name)
+      params[get_class_name].delete("editor_groups_attributes") if params.has_key?(get_class_name)
       if actor.create && add_depositor_as_editor && add_or_update_editors_and_groups(hash).save
         after_create_response
       else
