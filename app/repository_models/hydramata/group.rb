@@ -28,7 +28,8 @@ class Hydramata::Group < ActiveFedora::Base
   end
 
   def remove_member(candidate)
-    return unless(self.members.include?(candidate) && (self.depositor != candidate.depositor))
+    return if !self.members.include?(candidate)
+    return if( ( self.edit_users.include?(candidate.depositor) ) && ( self.edit_users.size == 1 ) )
     candidate.remove_relationship(:is_member_of, self)
     candidate.save!
     self.remove_relationship(:has_member, candidate)
@@ -53,6 +54,9 @@ class Hydramata::Group < ActiveFedora::Base
   end
 
   def group_edit_membership(candidate)
+    if( ( self.edit_users.include?(candidate.depositor) ) && ( self.edit_users.size == 1 ) )
+      return
+    end
     self.read_users.delete(candidate.depositor) if self.read_users.include?(candidate.depositor)
     self.permissions_attributes = [{name: candidate.depositor, access: "edit", type: "person"}]
     self.save!
@@ -61,19 +65,21 @@ class Hydramata::Group < ActiveFedora::Base
   end
 
   def group_read_membership(candidate)
-    unless self.depositor == candidate.depositor
-      self.edit_users.delete(candidate.depositor) if self.edit_users.include?(candidate.depositor)
-      self.permissions_attributes = [{name: candidate.depositor, access: "read", type: "person"}]
-      self.save!
+    if( ( self.edit_users.include?(candidate.depositor) ) && ( self.edit_users.size == 1 ) )
+      return
     end
+    self.edit_users.delete(candidate.depositor) if self.edit_users.include?(candidate.depositor)
+    self.permissions_attributes = [{name: candidate.depositor, access: "read", type: "person"}]
+    self.save!
   end
 
   def remove_member_privileges(candidate)
-    unless self.depositor == candidate.depositor
-      self.edit_users = self.edit_users - [candidate.depositor] if self.edit_users.include?(candidate.depositor)
-      self.read_users = self.read_users - [candidate.depositor] if self.read_users.include?(candidate.depositor)
-      self.save!
+    if( ( self.edit_users.include?(candidate.depositor) ) && ( self.edit_users.size == 1 ) )
+      return
     end
+    self.edit_users = self.edit_users - [candidate.depositor] if self.edit_users.include?(candidate.depositor)
+    self.read_users = self.read_users - [candidate.depositor] if self.read_users.include?(candidate.depositor)
+    self.save!
   end
 
   private

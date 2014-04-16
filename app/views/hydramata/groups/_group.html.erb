@@ -3,7 +3,7 @@
     <%= link_to group.title, hydramata_group_path(group) %>
   </td>
   <td>
-    <% if can? :edit, group %>
+    <% if can? :edit, group.to_model %>
 
         <%= link_to(
                     raw('<i class="icon-trash icon-large"></i>'),

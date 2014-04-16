@@ -21,6 +21,10 @@ describe Hydramata::GroupMembershipForm do
     { group_id: group.pid, title: "Title 2", description: "Description for Title 2", members: members_with_changed_permission }
   }
 
+  let(:params_4) {
+    { group_id: group.pid, title: "Title 2", description: "Description for Title 2", members: members_with_no_editors, no_editors: true }
+  }
+
   let(:members_to_add) {
     [
       { person_id: person_1.pid, action: "create", role: "manager" },
@@ -40,6 +44,12 @@ describe Hydramata::GroupMembershipForm do
     ]
   }
 
+  let(:members_with_no_editors) {
+    [
+      { person_id: person_1.pid, action: "create", role: "member" },
+      { person_id: person_2.pid, action: "none", role: "member" }
+    ]
+  }
   context '#save' do
 
     before(:each) do
@@ -80,6 +90,11 @@ describe Hydramata::GroupMembershipForm do
       group.read_users.size.should == 0
 
       @gmf.group.pid.should == @gmf_change_perm.group.pid
+    end
+
+    it 'should have atleast one editor' do
+      @gmf = Hydramata::GroupMembershipForm.new(params_4)
+      @gmf.save.should == false
     end
   end
 
