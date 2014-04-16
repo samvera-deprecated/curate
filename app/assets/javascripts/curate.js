@@ -35,7 +35,9 @@
 //= require curate/accept_contributor_agreement
 //= require curate/proxy_submission
 //= require handlebars
-//= require browse_everything_implement
+//= require browse_everything
+//= require curate/browse_everything_implement
+
 
 
 // Initialize plugins and Bootstrap dropdowns on jQuery's ready event as well as
@@ -68,5 +70,6 @@ Blacklight.onLoad(function() {
   $('.remove-member').on('ajax:success', function(){window.location.href = window.location.href});
 
   $("[data-toggle='dropdown']").dropdown();
+
 });
 
