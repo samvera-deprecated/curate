@@ -47,6 +47,11 @@ module Curate
           person_pid = $1
           return line unless person_pid
 
+          name = extract_name_for(person_pid)
+          transform_triple_for(prefix, name)
+        end
+
+        def extract_name_for(person_pid)
           person = ::Person.find(person_pid)
           name = ""
           if person.name.present?
@@ -56,7 +61,9 @@ module Curate
           else
             name = user.email
           end
+        end
 
+        def transform_triple_for(prefix, name)
           if name.present?
             return "#{prefix} \"#{name}\" ."
           else
