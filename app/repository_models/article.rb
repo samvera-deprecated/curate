@@ -47,10 +47,6 @@ class Article < ActiveFedora::Base
   attribute :content_format,
     label: "Content Format",
     datastream: :descMetadata, multiple: false
-  attribute :date_digitized,
-    label: "Digitized Date",
-    datastream: :descMetadata, multiple: false,
-    hint: "The date the materials were digitized."
   attribute :recommended_citation,
     label: "Recommended Citation",
     datastream: :descMetadata, multiple: true
@@ -85,6 +81,8 @@ class Article < ActiveFedora::Base
   attribute :issn,
     datastream: :descMetadata, multiple: true,
     editable: true
+  attribute :doi,
+    datastream: :descMetadata, editable: true
   attribute :rights,
     datastream: :descMetadata, multiple: false,
     default: "All rights reserved",
