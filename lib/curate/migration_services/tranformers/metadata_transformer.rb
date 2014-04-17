@@ -31,13 +31,7 @@ module Curate
           private
 
           def simple_predicate_map
-            [
-              ['<http://purl.org/dc/terms/title#alternate>', '<http://purl.org/dc/terms/alternative>'],
-              ['<http://purl.org/dc/terms/description#abstract>', '<http://purl.org/dc/terms/abstract>'],
-              ['<http://purl.org/dc/terms/date#created>', '<http://purl.org/dc/terms/created>'],
-              ['<http://purl.org/dc/terms/coverage#temporal>', '<http://purl.org/dc/terms/temporal>'],
-              ['<http://purl.org/dc/terms/coverage#spatial>', '<http://purl.org/dc/terms/spatial>'],
-            ]
+            []
           end
 
           def transform(line)
@@ -96,6 +90,17 @@ module Curate
         end
 
         class ArticleModel < BaseModel
+          def simple_predicate_map
+            [
+              ['<http://purl.org/dc/terms/title#alternate>', '<http://purl.org/dc/terms/alternative>'],
+              ['<http://purl.org/dc/terms/contributor>', '<http://purl.org/dc/terms/contributor#author>'],
+              ['<http://purl.org/dc/terms/description#abstract>', '<http://purl.org/dc/terms/abstract>'],
+              ['<http://purl.org/dc/terms/date#created>', '<http://purl.org/dc/terms/created>'],
+              ['<http://purl.org/dc/terms/coverage#temporal>', '<http://purl.org/dc/terms/temporal>'],
+              ['<http://purl.org/dc/terms/coverage#spatial>', '<http://purl.org/dc/terms/spatial>'],
+            ]
+          end
+
           def transform_creator_triple_for(prefix, name)
             if name.present?
               return "#{prefix.sub(/\/creator/, '/creator#author')} \"#{name}\" ."
