@@ -12,7 +12,7 @@ FactoryGirl.define do
 
     before(:create) { |work, evaluator|
       work.apply_depositor_metadata(evaluator.user.user_key)
-      work.contributor << "Some Body"
+      work.creator << "Some Body"
     }
 
     factory :private_article do
