@@ -1,17 +1,4 @@
-<%
-   managed_groups = documents.collect{|a| a.to_model};
-   managed_groups.each do |gr|
-     if !(can? :edit, gr)
-       managed_groups.delete(gr)
-     end
-   end
-   non_managed_groups = documents.collect{|a| a.to_model};
-   non_managed_groups.each do |gr|
-     if (can? :edit, gr)
-       non_managed_groups.delete(gr)
-     end
-   end
-%>
+<% managed_groups, non_managed_groups = documents.partition{|item| can? :edit, item.to_model} %>
 
 <% if (managed_groups.any?) %>
     <h4>Manage</h4>

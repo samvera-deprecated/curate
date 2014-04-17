@@ -9,6 +9,7 @@ class Hydramata::GroupMembershipForm
   attribute :title, String
   attribute :description, String
   attribute :members, Array
+  attribute :no_editors, Boolean
 
   delegate :add_member, to: :group
 
@@ -31,7 +32,12 @@ class Hydramata::GroupMembershipForm
   end
 
   def save
-    valid? ? persist : false
+    if no_editors
+      errors.add(:no_editors, "The Group needs atleast one editor")
+      false
+    else
+      valid? ? persist : false
+    end
   end
 
   private

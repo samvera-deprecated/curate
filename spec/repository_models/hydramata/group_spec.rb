@@ -72,6 +72,22 @@ describe Group do
       person.groups.count.should eq 1
 
     end
+
+    it 'should not remove member, who is the only editor' do
+      test_group_3.add_member(person, 'manager')
+
+      test_group_3.reload
+      test_group_3.members.should == [person]
+
+      test_group_3.edit_users.should == [person.depositor]
+      test_group_3.edit_users.size.should == 1
+
+      test_group_3.remove_member(person)
+      
+      test_group_3.reload
+      test_group_3.edit_users.should == [person.depositor]
+      test_group_3.edit_users.size.should == 1
+    end
   end
 
   describe 'cannot add' do
