@@ -24,7 +24,7 @@ class RegistrationsController < Devise::RegistrationsController
       update_status = resource.update_without_password(account_update_params)
       handle_update_response(update_status: update_status, skip_signin: true, &block)
     else
-      curruent_user_is_updating_their_user_registration(&block)
+      current_user_is_updating_their_user_registration(&block)
     end
   end
 
