@@ -22,6 +22,12 @@ class CatalogController < ApplicationController
   CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
   CatalogController.solr_search_params_logic += [:show_only_works]
   before_filter :agreed_to_terms_of_service!
+  before_filter :force_update_user_profile!
+
+  def force_update_user_profile!
+    return true unless current_user
+    super
+  end
 
   skip_before_filter :default_html_head
 

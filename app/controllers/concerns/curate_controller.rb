@@ -88,6 +88,7 @@ module CurateController
     if current_user.user_does_not_require_profile_update?
       return true
     else
+      flash[:warning] = 'Please update your profile.'
       redirect_to edit_user_registration_path
       return false
     end
