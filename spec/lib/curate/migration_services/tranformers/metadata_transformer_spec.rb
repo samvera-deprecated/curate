@@ -54,37 +54,10 @@ module Curate::MigrationServices::Transformers
           %(<info:fedora/#{pid}> <http://purl.org/dc/terms/identifier> "doi:1234" .),
         ].join("\n")
       }
-      let(:output) { described_class.call(pid, content) }
+      let(:output) { described_class.call('Article', pid, content) }
 
       it 'should convert as expected' do
         expect(output).to eq(expected_output)
-      end
-
-      it 'should convert :contributor predicate to :contributor#author'
-
-      it 'should convert :title#alternate predicate to :alternative' do
-        expect(output).to_not include(%(<info:fedora/#{pid}> <http://purl.org/dc/terms/title#alternate> "The Alternate Title" .))
-        expect(output).to include(%(<info:fedora/#{pid}> <http://purl.org/dc/terms/alternative> "The Alternate Title" .))
-      end
-
-      it 'should convert :description#abstract predicate to :abstract' do
-        expect(output).to_not include(%(<info:fedora/#{pid}> <http://purl.org/dc/terms/description#abstract> "The Abstract" .))
-        expect(output).to include(%(<info:fedora/#{pid}> <http://purl.org/dc/terms/abstract> "The Abstract" .))
-      end
-
-      it 'should convert :date#created predicate to :created' do
-        expect(output).to_not include(%(<info:fedora/#{pid}> <http://purl.org/dc/terms/date#created> "2014-04-15" .))
-        expect(output).to include(%(<info:fedora/#{pid}> <http://purl.org/dc/terms/created> "2014-04-15" .))
-      end
-
-      it 'should convert :coverage#temporal predicate to :temporal' do
-        expect(output).to_not include(%(<info:fedora/#{pid}> <http://purl.org/dc/terms/coverage#temporal> "Somewhen" .))
-        expect(output).to include(%(<info:fedora/#{pid}> <http://purl.org/dc/terms/temporal> "Somewhen" .))
-      end
-
-      it 'should convert :coverage#spatial predicate to :spatial' do
-        expect(output).to_not include(%(<info:fedora/#{pid}> <http://purl.org/dc/terms/coverage#spatial> "Somewhere" .))
-        expect(output).to include(%(<info:fedora/#{pid}> <http://purl.org/dc/terms/spatial> "Somewhere" .))
       end
 
     end

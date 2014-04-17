@@ -21,7 +21,7 @@ module Curate
           end
           def migrate_desc_metadata(ds_name, ds_object)
             content = ds_object.content
-            modified_content = transformer.call(ds_object.pid, content)
+            modified_content = transformer.call(content_model_name, ds_object.pid, content)
             if content != modified_content
               ds_object.content = modified_content
               ds_object.save

@@ -100,7 +100,7 @@ module Curate
       end
 
       def content_model_name
-        Curate::MigrationServices.determine_best_active_fedora_model(active_fedora_object).to_s
+        @content_model_name ||= Curate::MigrationServices.determine_best_active_fedora_model(active_fedora_object).to_s
       end
 
       protected
