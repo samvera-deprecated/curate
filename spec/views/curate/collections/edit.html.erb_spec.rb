@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'curate/collections/edit.html.erb' do
   let(:collection) { FactoryGirl.build(:collection) }
-  let(:work) { FactoryGirl.create(:generic_work, title: 'Title of Work') }
+  let(:work) { FactoryGirl.create(:public_generic_work, title: 'Title of Work') }
   before(:each) do
     collection.add_member(work)
     assign(:collection, collection)

@@ -4,8 +4,8 @@
  */
 
 #person_profile .collection-listing .collection-listing {
-  list-style-type:disc;
-  margin:0 0 1em;
+  list-style-type:none;
+  margin:0;
 
   .with-controls {
     line-height:2;
@@ -14,7 +14,7 @@
 
 #person_profile .collection-listing .collection-listing .collection-member {
   padding-bottom:.5em;
-  margin-left:2em;
+  margin-left:0;
 }
 
 #person_profile .collection-member .collection-listing {
