@@ -148,6 +148,29 @@ describe GenericWork do
         work.editor_groups.should == []
         work.edit_groups.should_not include(group.pid)
       end
+
+      let(:new_work) { FactoryGirl.create(:generic_work, user: person.user) }
+      it 'should delete relationship when related object is deleted' do
+        new_work.edit_groups.should == []
+        new_work.add_editor_group(group)
+
+        reload_new_work = GenericWork.find(new_work.pid)
+        new_work = reload_new_work
+
+        new_work.editor_groups.should == [group]
+        new_work.edit_groups.should include(group.pid)
+        new_work.datastreams['RELS-EXT'].content.to_s.should include(group.pid)
+
+        group_pid = group.pid
+        group.destroy
+
+        reload_new_work = GenericWork.find(new_work.pid)
+        new_work = reload_new_work
+
+        new_work.editor_groups.should == []
+        new_work.edit_groups.should_not include(group_pid)
+        new_work.datastreams['RELS-EXT'].content.to_s.should_not include(group_pid)
+      end
     end
   end
 end
