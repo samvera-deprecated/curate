@@ -5,6 +5,7 @@
 </h2>
 <br/>
 <%- if has_any_group? %>
+  <%= render_pagination_info @response, :entry_name=>'item' %>
   <%= render_document_index %>
 <%- else %>
   <div class="span12 main-header">
