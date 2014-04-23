@@ -10,7 +10,7 @@ class Hydramata::Group < ActiveFedora::Base
 
   has_and_belongs_to_many :members, class_name: "::Person", property: :has_member, inverse_of: :is_member_of
   has_and_belongs_to_many :works, class_name: "::ActiveFedora::Base", property: :is_editor_group_of, inverse_of: :has_editor_group
-  before_destroy :remove_privileges
+  before_destroy :remove_associations
   has_metadata "descMetadata", type: GroupMetadataDatastream
   accepts_nested_attributes_for :members, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :works, allow_destroy: true, reject_if: :all_blank
@@ -30,6 +30,10 @@ class Hydramata::Group < ActiveFedora::Base
   def remove_member(candidate)
     return if !self.members.include?(candidate)
     return if( ( self.edit_users.include?(candidate.depositor) ) && ( self.edit_users.size == 1 ) )
+    remove_candidate_member(candidate)
+  end
+
+  def remove_candidate_member(candidate)
     candidate.remove_relationship(:is_member_of, self)
     candidate.save!
     self.remove_relationship(:has_member, candidate)
@@ -83,10 +87,29 @@ class Hydramata::Group < ActiveFedora::Base
   end
 
   private
+
+  def remove_associations
+    remove_members
+    remove_works
+    remove_privileges
+  end
+
   def remove_privileges_on_work(work)
     work.edit_groups = work.edit_groups - [self.pid] if work.edit_groups.include?(self.pid)
     work.read_groups = work.read_groups - [self.pid] if work.read_groups.include?(self.pid)
     work.save!
+  end
+
+  def remove_members
+    self.members.each do |member|
+      self.remove_candidate_member(member)
+    end
+  end
+
+  def remove_works
+    self.works.each do |work|
+      work.remove_editor_group(self)
+    end
   end
 
   def remove_privileges
