@@ -25,6 +25,10 @@ describe Hydramata::GroupMembershipForm do
     { group_id: group.pid, title: "Title 2", description: "Description for Title 2", members: members_with_no_editors, no_editors: true }
   }
 
+  let(:params_5) {
+    { group_id: group.pid, title: "Title 1", description: "Description for Title 1", members: remove_member_and_add_them_back }
+  }
+
   let(:members_to_add) {
     [
       { person_id: person_1.pid, action: "create", role: "manager" },
@@ -34,6 +38,7 @@ describe Hydramata::GroupMembershipForm do
 
   let(:members_to_remove) {
     [
+      { person_id: person_1.pid, action: "none", role: "manager" },
       { person_id: person_2.pid, action: "destroy", role: "member" }
     ]
   }
@@ -48,6 +53,14 @@ describe Hydramata::GroupMembershipForm do
     [
       { person_id: person_1.pid, action: "create", role: "member" },
       { person_id: person_2.pid, action: "none", role: "member" }
+    ]
+  }
+
+  let(:remove_member_and_add_them_back) {
+    [
+      { person_id: person_2.pid, action: "destroy", role: "member" },
+      { person_id: person_1.pid, action: "none", role: "manager" },
+      { person_id: person_2.pid, action: "create", role: "member" }
     ]
   }
   context '#save' do
@@ -95,6 +108,20 @@ describe Hydramata::GroupMembershipForm do
     it 'should have atleast one editor' do
       @gmf = Hydramata::GroupMembershipForm.new(params_4)
       @gmf.save.should == false 
+    end
+
+    it 'should add back member which was deleted in the same update' do
+      @gmf.save
+      group = Hydramata::Group.find(@gmf.group.pid)
+      group.members.should == [person_1, person_2]
+
+      @gmf_update = Hydramata::GroupMembershipForm.new(params_5)
+      @gmf_update.save
+
+      group = Hydramata::Group.find(@gmf_update.group.pid)
+
+      group.members.should == [person_1, person_2]
+      @gmf.group.pid.should == @gmf_update.group.pid
     end
   end
 
