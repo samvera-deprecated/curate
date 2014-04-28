@@ -81,7 +81,7 @@
               <label class="checkbox inline-checkbox">
                 <% if ( @group.edit_users.include?(memberField.object.depositor) && ( @group.edit_users.size == 1 ) ) %>
                   <%= check_box_tag "current_user_disabled", 'checked', true, disabled: true %>
-                  <%= hidden_field_tag "group_member[edit_users_ids][]", @group.edit_users.include?(memberField.object.depositor) %>
+                  <%= hidden_field_tag "group_member[edit_users_ids][]", memberField.object.pid %>
                 <% else %>
                   <%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.depositor) %>
                 <% end %>
