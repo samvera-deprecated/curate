@@ -53,10 +53,10 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     end
 
     map.coverage_spatial({to: "spatial", in: RDF::DC}) do |index|
-      index.as :stored_searchable, :facetable
+      index.as :stored_searchable
     end
     map.coverage_temporal({to: "temporal", in: RDF::DC}) do |index|
-      index.as :stored_searchable, :facetable
+      index.as :stored_searchable
     end
     map.requires({in: RDF::DC})
     map.size({to: "format#extent", in: RDF::QualifiedDC})
