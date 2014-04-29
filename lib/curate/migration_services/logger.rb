@@ -21,21 +21,24 @@ module Curate
         end
       end
 
-      def success(pid)
+      def success(pid, model_name)
         @successes += 1
-        info("PID=#{pid.inspect}\tSuccess")
+        info("#{preamble(pid, model_name)}\tSuccess")
       end
 
-      def failure(pid)
+      def failure(pid, model_name)
         @failures += 1
-        error("PID=#{pid.inspect}\tFailure\tfailed but no exception was thrown.")
+        error("#{preamble(pid, model_name)}\tFailure\tfailed but no exception was thrown.")
       end
 
-      def exception(pid, exception)
+      def exception(pid, model_name, exception)
         @failures += 1
-        error("PID=#{pid.inspect}\tFailure with Exception\tfailed with the following exception: #{exception}.")
+        error("#{preamble(pid, model_name)}\tFailure with Exception\tfailed with the following exception: #{exception}.")
       end
       private
+      def preamble(pid, model_name)
+        "PID=#{pid.inspect}\tMODEL=#{model_name}"
+      end
       def start(context)
         info("#{Time.now}\tStart #{context}")
       end

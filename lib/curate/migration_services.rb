@@ -61,14 +61,15 @@ module Curate
           ActiveFedora::Base.send(:connections).each do |connection|
             results = connection.search("pid~#{id_namespace}:*")
             results.each do |rubydora_object|
+              model_name = Curate::MigrationServices.determine_best_active_fedora_model(active_fedora_object)
               begin
                 if build(rubydora_object).migrate
-                  handler.success(rubydora_object.pid)
+                  handler.success(rubydora_object.pid, model_name)
                 else
-                  handler.failure(rubydora_object.pid)
+                  handler.failure(rubydora_object.pid, model_name)
                 end
               rescue Exception => e
-                handler.exception(rubydora_object.pid, e)
+                handler.exception(rubydora_object.pid, model_name, e)
               end
             end
           end
