@@ -1,7 +1,14 @@
 module Curate
   module MigrationServices
-    module_function
-    def determine_best_active_fedora_model(active_fedora_object)
+    class UnsavedDigitalObject < ActiveFedora::UnsavedDigitalObject
+      attr_reader :repository
+      def initialize(repository, *args, &block)
+        @repository = repository
+        super(*args, &block)
+      end
+    end
+
+    def self.determine_best_active_fedora_model(active_fedora_object)
       best_model_match = active_fedora_object.class unless active_fedora_object.instance_of? ActiveFedora::Base
       ActiveFedora::ContentModel.known_models_for(active_fedora_object).each do |model_value|
         # If this is of type ActiveFedora::Base, then set to the first found :has_model.
@@ -15,28 +22,31 @@ module Curate
       best_model_match
     end
 
-    def run(*args)
-      Runner.enqueue(*args)
+
+    def self.enqueue(options = {})
+      Sufia.enqueue(Runner.new(options))
+    end
+
+    def self.run(*args)
+      enqueue(*args)
+    end
+
+    def queue_name
+      :migration_services
     end
 
     class Runner
-
-      def self.enqueue(*args)
-        Sufia.queue.push(self.new(*args))
-      end
-
-      def queue_name
-        :migrator
-      end
-
-      attr_reader :id_namespace
+      attr_reader :id_namespace, :migration_container_module_name
       def initialize(config = {})
-        @container_namespace = config.fetch(:container_namespace) { '::Curate::MigrationServices::MigrationContainers::DisplayName' }
+        @migration_container_module_name = config.fetch(:migration_container_module_name)
         @id_namespace = config.fetch(:id_namespace) { Sufia.config.id_namespace }
       end
 
       def container_namespace
-        @container_namespace.constantize
+        @container_namespace ||= begin
+          require 'curate/migration_services/migration_containers'
+          ::Curate::MigrationServices::MigrationContainers.const_get(migration_container_module_name)
+        end
       end
 
       def logger
@@ -52,7 +62,7 @@ module Curate
             results = connection.search("pid~#{id_namespace}:*")
             results.each do |rubydora_object|
               begin
-                if build(rubydora_object, container_namespace).migrate
+                if build(rubydora_object).migrate
                   handler.success(rubydora_object.pid)
                 else
                   handler.failure(rubydora_object.pid)
@@ -66,8 +76,7 @@ module Curate
       end
 
       private
-
-      def build(rubydora_object, container_namespace)
+      def build(rubydora_object)
         active_fedora_object = ActiveFedora::Base.find(rubydora_object.pid, cast: false)
         best_model_match = Curate::MigrationServices.determine_best_active_fedora_model(active_fedora_object)
 
@@ -78,56 +87,6 @@ module Curate
           container_namespace.const_get('BaseMigrator').new(rubydora_object, active_fedora_object)
         end
       end
-
     end
-
-    class BaseMigrator
-      attr_reader :rubydora_object, :active_fedora_object
-
-      def initialize(rubydora_object, active_fedora_object)
-        @rubydora_object = rubydora_object
-        @active_fedora_object = active_fedora_object
-      end
-
-      def migrate
-        load_datastreams &&
-          update_index &&
-          visit
-      end
-
-      def inspect
-        "#<#{self.class.inspect} content_model_name:#{content_model_name.inspect} pid:#{rubydora_object.pid.inspect}>"
-      end
-
-      def content_model_name
-        @content_model_name ||= Curate::MigrationServices.determine_best_active_fedora_model(active_fedora_object).to_s
-      end
-
-      protected
-
-      def build_unsaved_digital_object
-        Curate::MigrationServices::UnsavedDigitalObject.new(rubydora_object.repository, active_fedora_object.class, 'und', rubydora_object.pid)
-      end
-
-      def load_datastreams
-        # A rudimentary check to see if the object's datastreams can be loaded
-        model_object.datastreams.each {|ds_name, ds_object| ds_object.inspect }
-      end
-
-      def update_index
-        model_object.update_index
-      end
-
-      def model_object
-        @model_object = ActiveFedora::Base.find(rubydora_object.pid, cast: true)
-      end
-
-      def visit
-        true
-      end
-    end
-
   end
 end
-
-require 'curate/migration_services/migration_containers'
