@@ -24,7 +24,7 @@ module Curate
 
 
     def self.enqueue(options = {})
-      Sufia.enqueue(Runner.new(options))
+      Sufia.queue.push(Runner.new(options))
     end
 
     def self.run(*args)
