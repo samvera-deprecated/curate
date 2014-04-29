@@ -39,22 +39,6 @@ class Image < ActiveFedora::Base
       label: "Description",
       multiple: true
 
-    ds.attribute :category,
-      label: 'Category',
-      multiple: true
-
-    ds.attribute :location,
-      label: "The geographic location and/or name of the repository, building, site, or other entity whose boundaries include the Work or Image",
-      multiple: true
-
-    ds.attribute :measurements,
-      label: "The physical size, shape, scale, dimensions, or format of the work or image. Dimensions may include such measurements as volume, weight, area or running time.",
-      multiple: true
-
-    ds.attribute :material,
-      label: 'Material',
-      multiple: true
-
     ds.attribute :source,
       label: 'Source',
       multiple: true
@@ -65,30 +49,6 @@ class Image < ActiveFedora::Base
 
     ds.attribute :subject,
       label: 'Subject Keywords',
-      multiple: true
-
-    ds.attribute :inscription,
-      label: 'Inscription',
-      multiple: true
-
-    ds.attribute :StateEdition,
-      label: 'State Edition',
-      multiple: false
-
-    ds.attribute :textref,
-      label: 'Textref',
-      multiple: true
-
-    ds.attribute :cultural_context,
-      label: 'Cultural context',
-      multiple: true
-
-    ds.attribute :style_period,
-      label: 'Style Period',
-      multiple: true
-
-    ds.attribute :technique,
-      label: 'Technique',
       multiple: true
 
     ds.attribute :date_uploaded,
