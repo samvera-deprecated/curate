@@ -156,8 +156,8 @@ class Curate::CollectionsController < ApplicationController
 
   def only_collections(solr_parameters, user_parameters)
     solr_parameters[:fq] ||= []
-    solr_parameters[:fq] << "has_model_ssim:\"info:fedora/afmodel:Collection\""
-    return solr_parameters
+    solr_parameters[:fq] << ActiveFedora::SolrService.
+      construct_query_for_rel(has_model: Collection.to_class_uri)
   end
 
   # show only files with edit permissions in lib/hydra/access_controls_enforcement.rb apply_gated_discovery
