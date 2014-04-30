@@ -5,6 +5,7 @@ class Dataset < ActiveFedora::Base
   include CurationConcern::WithLinkedContributors
   include CurationConcern::WithRelatedWorks
   include CurationConcern::Embargoable
+  include CurationConcern::WithEditors
 
   include ActiveFedora::RegisteredAttributes
 

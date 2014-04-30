@@ -4,6 +4,8 @@ class Image < ActiveFedora::Base
   include CurationConcern::WithLinkedResources
   include CurationConcern::WithRelatedWorks
   include CurationConcern::Embargoable
+  include CurationConcern::WithEditors
+
   include ActiveFedora::RegisteredAttributes
 
   has_metadata "descMetadata", type: ImageMetadata

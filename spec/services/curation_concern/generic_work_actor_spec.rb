@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CurationConcern::GenericWorkActor do
   include ActionDispatch::TestProcess
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:person_with_user).user }
   let(:file) { curate_fixture_file_upload('files/image.png', 'image/png') }
   let(:file_path) { __FILE__}
   let(:file_content) { File.read(file_path)}
@@ -17,7 +17,7 @@ describe CurationConcern::GenericWorkActor do
     let (:cloud_resource) { CloudResource.new(curation_concern, user, cloud_resource_url)}
 
     describe 'failure' do
-    let(:attributes) {{}}
+      let(:attributes) { {} }
 
       it 'returns false' do
         CurationConcern::BaseActor.any_instance.should_receive(:save).and_return(false)
@@ -32,8 +32,15 @@ describe CurationConcern::GenericWorkActor do
 
       describe 'with a file' do
         let(:attributes) {
+          user.person.save!
           FactoryGirl.attributes_for(:generic_work, visibility: visibility).tap {|a|
             a[:files] = file
+            a[:editors_attributes] = { '0' => { 'id' => user.person.pid,
+                                                '_destroy' => ''},
+                                       '1' => { 'id' => '', '_destroy' => '',
+                                                'name' => '' } }
+            a[:editor_groups_attributes] = { '0' => { 'id' => '',
+                                                      '_destroy' => '' } }
           }
         }
 
@@ -44,6 +51,7 @@ describe CurationConcern::GenericWorkActor do
             curation_concern.date_uploaded.should == Date.today
             curation_concern.date_modified.should == Date.today
             curation_concern.depositor.should == user.user_key
+            expect(curation_concern.edit_users).to eq [user.user_key]
             expect(curation_concern.representative).to_not be_nil
 
             curation_concern.generic_files.count.should == 1
