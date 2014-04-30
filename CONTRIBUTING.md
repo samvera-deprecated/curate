@@ -127,13 +127,23 @@ If the contributor works for an institution, the institution must have a Corpora
 
 ## Coding Guidelines
 
-The [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide) is an excellent resource for how to craft your Ruby code, in particular the [Naming section](https://github.com/bbatsov/ruby-style-guide#naming).
+This project is using [HoundCI](https://houndci.com) to help support our agreed upon style guide.
+The style guide is a work in progress, and is declared in the project's `./hound.yml` file.
 
-Your code changes should include support tests.
+Hound is a Github integration tool that essentially runs [rubocop](http://rubygems.org/gems/rubocop).
 
+> Automatic Ruby code style checking tool. Aims to enforce the community-driven Ruby Style Guide.
+
+If you want to run `rubocop` with our style guide, first `gem install rubocop` then inside the project:
+
+```bash
+$ rubocop ./path/to/file ./or/path/to/directory -c ./.hound.yml
+```
 **Can I break these guidelines?** Yes. But you may need to convince the person merging your changes.
 
 ### Writing Your Specs
+
+Your code changes should include support tests.
 
 Before you begin writing code, think about the test that will verify the code you plan to write.
 A [well written story with Gherkin syntax](http://pivotallabs.com/well-formed-stories/) can help formulate the pre-conditions (Given), invocation (When), and post-conditions (Then).
@@ -285,8 +295,8 @@ When you do assign someone to the Pull Request, please make sure to add a commen
 
 As a reviewer, it is important that the pull request:
 
-* Has a (well written commit message)[#well-written-commit-messages]
-* Has (well written code)[#coding-guidelines]
+* Has a [well written commit message](#well-written-commit-messages)
+* Has [well written code](#coding-guidelines)
 * The test suite successfully builds
 * Any questions regarding the pull request are answered
 * Adjucate if the Pull Request should be squashed into a smaller number of commits
