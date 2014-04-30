@@ -21,6 +21,7 @@ class Hydramata::GroupsController < ApplicationController
   self.copy_blacklight_config_from(CatalogController)
 
   def index
+    params[:per_page] ||= 50
     super
   end
 

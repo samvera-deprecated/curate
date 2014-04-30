@@ -55,7 +55,7 @@ module Hydramata::GroupMembershipActionParser
     end
     action.each_with_index do |member_action, index|
       person_id = params["hydramata_group"]["members_attributes"][index.to_s]["id"]
-      if person_id
+      if person_id.present?
         role = params["group_member"]["edit_users_ids"].include?(person_id) ? "manager" : "member"
         new_params_hash = Hash[person_id: person_id, action: member_action, role: role]
         new_params_aggregate << new_params_hash
