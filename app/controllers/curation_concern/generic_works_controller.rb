@@ -117,7 +117,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   def add_or_update_editors_and_groups(hash=params)
     class_name = get_class_name
     hash.merge!( { id: curation_concern.pid } ) unless hash.has_key?(:id)
-    req_hash = CurationConcern::WorkPermissionActionParser.convert_params(class_name, hash)
+    req_hash = CurationConcern::WorkPermissionActionParser.convert_params(get_class_name_downcase, hash)
     req_hash.merge!( {current_user: current_user} )
     params[class_name].delete("editors_attributes") if params.has_key?(class_name) && params[class_name].has_key?("editors_attributes")
     params[class_name].delete("editor_groups_attributes") if params.has_key?(class_name) && params[class_name].has_key?("editor_groups_attributes")
@@ -128,6 +128,9 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
     curation_concern.add_editor(current_user.person)
   end
 
+  def get_class_name_downcase
+    curation_concern.class.to_s.downcase
+  end
   def get_class_name
     curation_concern.class.to_s.underscore
   end

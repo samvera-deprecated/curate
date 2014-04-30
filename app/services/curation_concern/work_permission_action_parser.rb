@@ -17,7 +17,7 @@ module CurationConcern::WorkPermissionActionParser
   def self.decide_editorship_action( class_name, params )
     
     editor_action=[]
-    if !params[class_name]["editors_attributes"].nil?
+    if params.has_key?(class_name) && !params[class_name]["editors_attributes"].nil?
       
       params[class_name]["editors_attributes"].each do |key, value|
         params_action(key, value, editor_action, params)
@@ -25,7 +25,7 @@ module CurationConcern::WorkPermissionActionParser
     end  
 
     group_action=[]
-    if !params[class_name]["editor_groups_attributes"].nil?
+    if params.has_key?(class_name) && !params[class_name]["editor_groups_attributes"].nil?
       params[class_name]["editor_groups_attributes"].each do |key, value|
         params_action(key, value, group_action, params)
       end
