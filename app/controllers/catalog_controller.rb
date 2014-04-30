@@ -379,12 +379,10 @@ class CatalogController < ApplicationController
     def exclude_unwanted_models(solr_parameters, user_parameters)
       super
       solr_parameters[:fq] ||= []
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:GenericFile\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Profile\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:ProfileSection\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:LinkedResource\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Hydramata_Group\""
-      return solr_parameters
+      [GenericFile, Profile, ProfileSection, LinkedResource,
+       Hydramata::Group].each do |klass|
+        solr_parameters[:fq] << exclude_class_filter(klass)
+      end
     end
 
     #Excludes collection and person only when trying to filter by work.
@@ -406,5 +404,8 @@ class CatalogController < ApplicationController
       "#{Solrizer.solr_name('system_create', :sortable)} desc"
     end
 
-
+    def exclude_class_filter(klass)
+      '-' + ActiveFedora::SolrService.construct_query_for_rel(has_model:
+                                                        klass.to_class_uri)
+    end
 end
