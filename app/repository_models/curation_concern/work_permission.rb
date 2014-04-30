@@ -1,54 +1,62 @@
-require 'virtus'
 class CurationConcern::WorkPermission
-  include Virtus.model
-  include ActiveModel::Validations
-  extend ActiveModel::Naming
-
-  attribute :current_user, User
-  attribute :work_id, String
-  attribute :editors, Array
-  attribute :editor_groups, Array
-
-  def work
-    @work ||= ActiveFedora::Base.find(work_id, cast: true) 
-  end
-
-  def person(person_id)
-    @person = Person.find(person_id)
-  end
-
-  def editor_group(group_id)
-    @group = Hydramata::Group.find(group_id)
-  end
-
-  def save
-    valid? ? persist : false
+  def self.create(work, action, editors, groups)
+    update_editors(work, editors, action)
+    update_groups(work, groups, action)
+    true
   end
 
   private
-  def persist
-    update_editors
-    update_groups
-    work.save
-  end
 
-  def update_editors
-    self.editors.each do |editor|
-      if editor[:action] == 'create'
-        work.add_editor( person( editor[:person_id] ) )
-      elsif editor[:action] == 'destroy'
-        work.remove_editor( person( editor[:person_id] ) )
+    def self.decide_editorship_action(attributes_collection, action_type)
+      sorted = { remove: [], create: [] }
+      return sorted unless attributes_collection
+      if attributes_collection.is_a? Hash
+        keys = attributes_collection.keys
+        attributes_collection = if keys.include?('id') || keys.include?(:id)
+          Array(attributes_collection)
+        else
+          attributes_collection.sort_by { |i, _| i.to_i }.map { |_, attributes| attributes }
+        end
       end
-    end
-  end
 
-  def update_groups
-    self.editor_groups.each do |grp|
-      if grp[:action] == 'create'
-        work.add_editor_group( editor_group( grp[:group_id] ) )
-      elsif grp[:action] == 'destroy'
-        work.remove_editor_group( editor_group( grp[:group_id] ) )
+      attributes_collection.each do |attributes|
+        if attributes['id'].present?
+          if has_destroy_flag?(attributes)
+            sorted[:remove] << attributes['id']
+          elsif action_type == :create
+            sorted[:create] << attributes['id']
+          end
+        end
       end
+
+      sorted
     end
-  end
+
+    private
+    def self.has_destroy_flag?(hash)
+      ["1", "true"].include?(hash['_destroy'].to_s)
+    end
+
+
+    def self.user(person_id)
+      ::User.find_by_repository_id(person_id)
+    end
+
+    def self.editor_group(group_id)
+      Hydramata::Group.find(group_id)
+    end
+
+
+    def self.update_editors(work, editors, action)
+      collection = decide_editorship_action(editors, action)
+      work.remove_editors(collection[:remove].map { |u| user(u) })
+      work.add_editors(collection[:create].map { |u| user(u) })
+    end
+
+    # This is extremely expensive because add_editor_group causes a save each time.
+    def self.update_groups(work, editor_groups, action)
+      collection = decide_editorship_action(editor_groups, action)
+      work.remove_editor_groups(collection[:remove].map { |grp| editor_group(grp) })
+      work.add_editor_groups(collection[:create].map { |grp| editor_group(grp) })
+    end
 end

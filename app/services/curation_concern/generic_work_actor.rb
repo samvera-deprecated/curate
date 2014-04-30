@@ -2,16 +2,40 @@ module CurationConcern
   class GenericWorkActor < CurationConcern::BaseActor
 
     def create
-      super && attach_files && create_linked_resources && download_create_cloud_resources && assign_representative
+      editors = attributes.delete('editors_attributes')
+      groups = attributes.delete('editor_groups_attributes')
+
+      assign_pid && super && attach_files && create_linked_resources &&
+        download_create_cloud_resources && assign_representative &&
+        add_depositor_as_editor &&
+        add_or_update_editors_and_groups(editors, groups, :create)
     end
 
     def update
-      add_to_collections(attributes.delete(:collection_ids)) && super && attach_files && create_linked_resources
+      editors = attributes.delete('editors_attributes')
+      groups = attributes.delete('editor_groups_attributes')
+      add_or_update_editors_and_groups(editors, groups, :update) &&
+        add_to_collections(attributes.delete(:collection_ids)) &&
+        super && attach_files && create_linked_resources
     end
 
     delegate :visibility_changed?, to: :curation_concern
 
     protected
+
+    def assign_pid
+      curation_concern.inner_object.pid = CurationConcern.mint_a_pid
+    end
+
+    def add_or_update_editors_and_groups(editors, groups, action)
+      CurationConcern::WorkPermission.create(curation_concern, action, editors,
+                                             groups)
+    end
+
+    def add_depositor_as_editor
+      curation_concern.add_editor(user)
+      true
+    end
 
     def files
       return @files if defined?(@files)

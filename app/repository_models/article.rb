@@ -5,6 +5,8 @@ class Article < ActiveFedora::Base
   include CurationConcern::WithLinkedContributors
   include CurationConcern::WithRelatedWorks
   include CurationConcern::Embargoable
+  include CurationConcern::WithEditors
+
   include ActiveFedora::RegisteredAttributes
 
   has_metadata "descMetadata", type: ArticleMetadataDatastream
