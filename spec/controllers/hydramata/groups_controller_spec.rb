@@ -14,9 +14,9 @@ describe Hydramata::GroupsController do
   end
 
   describe "#create" do
-    let(:hydramata_group) { 
-       { "title" => "New Group", "description" => "New Desc", 
-         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""}, 
+    let(:hydramata_group) {
+       { "title" => "New Group", "description" => "New Desc",
+         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""},
                                    "1" => { "id" => "", "_destroy" => "", "name" => ""}
                                  }
        }
@@ -49,9 +49,9 @@ describe Hydramata::GroupsController do
   end
 
   describe "#update" do
-    let(:hydramata_group) { 
-       { "title" => "Group - 1", "description" => "Desc - 1", 
-         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""}, 
+    let(:hydramata_group) {
+       { "title" => "Group - 1", "description" => "Desc - 1",
+         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""},
                                    "1" => { "id" => "", "_destroy" => "", "name" => ""}
                                  }
        }
@@ -78,9 +78,9 @@ describe Hydramata::GroupsController do
       reload_group.description.should == hydramata_group["description"]
     end
 
-    let(:another_hydramata_group) { 
-       { "title" => "Group - 1", "description" => "Desc - 1", 
-         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""}, 
+    let(:another_hydramata_group) {
+       { "title" => "Group - 1", "description" => "Desc - 1",
+         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""},
                                    "1" => { "id" => another_person.pid},
                                    "2" => { "id" => "", "_destroy" => "", "name" => ""}
                                  }
@@ -103,9 +103,9 @@ describe Hydramata::GroupsController do
       reload_group.members.should == [ person, another_person ]
     end
 
-    let(:delete_a_member) { 
-       { "title" => "Group - 1", "description" => "Desc - 1", 
-         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""}, 
+    let(:delete_a_member) {
+       { "title" => "Group - 1", "description" => "Desc - 1",
+         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""},
                                    "1" => { "id" => another_person.pid, "_destroy" => "true"},
                                    "2" => { "id" => "", "_destroy" => "", "name" => ""}
                                  }
