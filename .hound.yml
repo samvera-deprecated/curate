@@ -1,4 +1,15 @@
 ################################################################################
+## Releasing the hounds in your local environment.
+##
+## Setup:
+## $ gem install rubocop
+##
+## Run:
+## $ rubocop ./path/to/file ./or/path/to/directory -c ./.hound.yml
+##
+################################################################################
+
+################################################################################
 ##
 ## Custom options for Curate
 ## These options were plucked from below and modified accordingly.
