@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe ClassifyConcernsController do
-  render_views
   let(:user) { FactoryGirl.create(:user) }
 
   describe '#new' do
