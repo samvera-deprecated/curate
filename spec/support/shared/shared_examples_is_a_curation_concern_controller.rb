@@ -19,8 +19,6 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
     public_send("curation_concern_#{curation_concern_type_underscore}_path", controller.curation_concern)
   end
 
-  render_views
-
   if optionally_include_specs(actions, :show)
     describe "#show" do
       context "my own private work" do
@@ -51,6 +49,9 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
   if optionally_include_specs(actions, :new)
     describe "#new" do
       context "my work" do
+
+        render_views
+
         it "should show me the page" do
           get :new
           expect(response).to be_success
