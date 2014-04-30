@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe HelpRequestsController do
-  render_views
   describe 'GET #new' do
     let(:user) { FactoryGirl.create(:user) }
     it 'is disallowed when not logged in' do
