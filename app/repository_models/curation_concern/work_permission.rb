@@ -23,7 +23,7 @@ class CurationConcern::WorkPermission
         if attributes['id'].present?
           if has_destroy_flag?(attributes)
             sorted[:remove] << attributes['id']
-          elsif action_type == :create
+          elsif action_type == :create || action_type == :update
             sorted[:create] << attributes['id']
           end
         end
