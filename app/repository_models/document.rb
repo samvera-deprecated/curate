@@ -27,4 +27,17 @@ class Document < GenericWork
     validates: { inclusion: { in: Document.valid_types,
                               allow_blank: true } }
 
+  attribute :alternate_title,            datastream: :descMetadata, multiple: false
+  attribute :contributor_institution,    datastream: :descMetadata, multiple: true
+  attribute :abstract,                   datastream: :descMetadata, multiple: false
+  attribute :repository_name,            datastream: :descMetadata, multiple: false
+  attribute :collection_name,            datastream: :descMetadata, multiple: false
+  attribute :coverage_temporal,          datastream: :descMetadata, multiple: false
+  attribute :coverage_spatial,           datastream: :descMetadata, multiple: false
+  attribute :permissions,                datastream: :descMetadata, multiple: false
+  attribute :size,                       datastream: :descMetadata, multiple: false
+  attribute :format,                     datastream: :descMetadata, multiple: false
+  attribute :recommended_citation,       datastream: :descMetadata, multiple: true
+  attribute :identifier,                 datastream: :descMetadata, multiple: false
+  attribute :doi,                        datastream: :descMetadata, multiple: false
 end

@@ -109,6 +109,39 @@ module Curate
             end
           end
         end
+        class DatasetModel < BaseModel
+          def simple_predicate_map
+            [
+              ['<http://purl.org/dc/terms/contributor>', '<http://purl.org/dc/terms/contributor#author>'],
+              ['<http://purl.org/dc/terms/date#created>', '<http://purl.org/dc/terms/created>'],
+            ]
+          end
+
+          def transform_creator_triple_for(prefix, name)
+            if name.present?
+              return "#{prefix.sub(/\/creator/, '/creator#author')} \"#{name}\" ."
+            else
+              return nil
+            end
+          end
+        end
+        class DocumentModel < BaseModel
+          def simple_predicate_map
+            [
+              ['<http://purl.org/dc/terms/contributor>', '<http://purl.org/dc/terms/contributor#author>'],
+              ['<http://purl.org/dc/terms/description>', '<http://purl.org/dc/terms/abstract>'],
+              ['<http://purl.org/dc/terms/date#created>', '<http://purl.org/dc/terms/created>'],
+            ]
+          end
+
+          def transform_creator_triple_for(prefix, name)
+            if name.present?
+              return "#{prefix.sub(/\/creator/, '/creator#author')} \"#{name}\" ."
+            else
+              return nil
+            end
+          end
+        end
       end
     end
   end
