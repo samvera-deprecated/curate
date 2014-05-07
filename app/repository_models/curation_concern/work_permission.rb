@@ -23,7 +23,7 @@ class CurationConcern::WorkPermission
         if attributes['id'].present?
           if has_destroy_flag?(attributes)
             sorted[:remove] << attributes['id']
-          elsif action_type == :create
+          elsif action_type == :create || action_type == :update
             sorted[:create] << attributes['id']
           end
         end
@@ -36,6 +36,7 @@ class CurationConcern::WorkPermission
     def self.has_destroy_flag?(hash)
       ["1", "true"].include?(hash['_destroy'].to_s)
     end
+<<<<<<< HEAD
 
 
     def self.user(person_id)
@@ -46,6 +47,18 @@ class CurationConcern::WorkPermission
       Hydramata::Group.find(group_id)
     end
 
+=======
+    
+
+    def self.user(person_id)
+      ::User.find_by_repository_id(person_id)
+    end
+
+    def self.editor_group(group_id)
+      Hydramata::Group.find(group_id)
+    end
+
+>>>>>>> develop
 
     def self.update_editors(work, editors, action)
       collection = decide_editorship_action(editors, action)
