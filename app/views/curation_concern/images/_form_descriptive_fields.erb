@@ -22,31 +22,39 @@
             class: 'input-xlarge'
           }
         %>
-        <%= f.collection_check_boxes :category,
-          [['Poster'], ['Visual Art'], ['Photograph'], ['Painting'],
-          ['Map/chart'], ['Cartoon/comic']],
-          :first, :first
-        %>
 
-        <%= f.input :location,
-          as: :multi_value,
-          input_html: { class: 'input-xlarge' }
-        %>
-
-        <%= f.input :measurements,
-                    as: :multi_value,
-                    input_html: { class: 'input-xlarge' }
-        %>
-
-        <%= f.input :material,
-                    as: :multi_value,
-                    input_html: { class: 'input-xlarge' }
-        %>
-
+      <%= f.input :coverage_temporal,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :coverage_spatial,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :date_digitized,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :digitizing_equipment,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
     </div>
 
     <div class="span6">
 
+      <%= f.input :alternate_title,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :contributor,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :contributor_institution,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
       <%= f.input :source,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
@@ -61,33 +69,27 @@
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :inscription,
+      <%= f.input :recommended_citation,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :StateEdition,
-                  as: :string,
-                  input_html: { class: 'input-xlarge' }
-      %>
-
-      <%= f.input :textref,
+      <%= f.input :repository_name,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :cultural_context,
+      <%= f.input :collection_name,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :style_period,
+      <%= f.input :language,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :technique,
+      <%= f.input :size,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :requires,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>

@@ -28,33 +28,31 @@ class Dataset < ActiveFedora::Base
             multiple: true,
             validates: {presence: { message: "Your dataset must have a contributor."} }
 
-  attribute :date_created,            datastream: :descMetadata, multiple: false
-  #attribute :created,                datastream: :descMetadata, multiple: false
+  attribute :date_created,            datastream: :descMetadata, multiple: true, default: Date.today.to_s("%Y-%m-%d")
+  attribute :date_uploaded,           datastream: :descMetadata, multiple: false
+  attribute :date_modified,           datastream: :descMetadata, multiple: false
   attribute :description,             datastream: :descMetadata, multiple: false
   attribute :methodology,             datastream: :descMetadata, multiple: false
   attribute :data_processing,         datastream: :descMetadata, multiple: false
   attribute :file_structure,          datastream: :descMetadata, multiple: false
   attribute :variable_list,           datastream: :descMetadata, multiple: false
   attribute :code_list,               datastream: :descMetadata, multiple: false
-  attribute :temporal_coverage,       datastream: :descMetadata, multiple: false
-  attribute :spatial_coverage,        datastream: :descMetadata, multiple: false
-  attribute :creator,                 datastream: :descMetadata, multiple: false
+  attribute :coverage_temporal,       datastream: :descMetadata, multiple: true
+  attribute :coverage_spatial,        datastream: :descMetadata, multiple: true
+  attribute :creator,                 datastream: :descMetadata, multiple: true
   attribute :identifier,              datastream: :descMetadata, multiple: false
   attribute :doi,                     datastream: :descMetadata, multiple: false
-  attribute :permissions,             datastream: :descMetadata, multiple: false
+  attribute :permission,              datastream: :descMetadata, multiple: false
   attribute :publisher,               datastream: :descMetadata, multiple: true
   attribute :contributor_institution, datastream: :descMetadata, multiple: true
   attribute :source,                  datastream: :descMetadata, multiple: true
   attribute :language,                datastream: :descMetadata, multiple: true
   attribute :subject,                 datastream: :descMetadata, multiple: true
   attribute :recommended_citation,    datastream: :descMetadata, multiple: true
-  #attribute :bibliographic_citation, datastream: :descMetadata, multiple: true
-  #attribute :extent,                 datastream: :descMetadata, multiple: true
-  #attribute :requires,               datastream: :descMetadata, multiple: true
-  #attribute :date_uploaded,          datastream: :descMetadata, multiple: false
-  #attribute :date_modified,          datastream: :descMetadata, multiple: false
-  #attribute :available,              datastream: :descMetadata, multiple: false
-  #attribute :content_format,         datastream: :descMetadata, multiple: false
+  attribute :repository_name,         datastream: :descMetadata, multiple: true
+  attribute :collection_name,         datastream: :descMetadata, multiple: true
+  attribute :size,                    datastream: :descMetadata, multiple: true
+  attribute :requires,                datastream: :descMetadata, multiple: true
 
   attribute :files, multiple: true, form: {as: :file},
             hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."

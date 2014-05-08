@@ -41,12 +41,64 @@ class Image < ActiveFedora::Base
       label: "Description",
       multiple: true
 
+    ds.attribute :alternate_title,
+      label: "Alternate Title",
+      multiple: true
+
+    ds.attribute :contributor,
+      label: "Contributor",
+      multiple: true
+
+    ds.attribute :contributor_institution,
+      label: "Contributor Institution",
+      multiple: true
+
     ds.attribute :source,
       label: 'Source',
       multiple: true
 
     ds.attribute :publisher,
       label: 'publisher',
+      multiple: true
+
+    ds.attribute :date_digitized,
+      label: 'Date Digitized',
+      multiple: true
+
+    ds.attribute :recommended_citation,
+      label: 'Recommended Citation',
+      multiple: true
+
+    ds.attribute :repository_name,
+      label: 'Repository Name',
+      multiple: true
+
+    ds.attribute :collection_name,
+      label: 'Collection Name',
+      multiple: true
+
+    ds.attribute :coverage_temporal,
+      label: 'Temporal Coverage',
+      multiple: true
+
+    ds.attribute :coverage_spatial,
+      label: 'Spatial Coverage',
+      multiple: true
+
+    ds.attribute :digitizing_equipment,
+      label: 'Digitizing Equipment',
+      multiple: true
+
+    ds.attribute :language,
+      label: 'Language',
+      multiple: true
+
+    ds.attribute :size,
+      label: 'Size',
+      multiple: true
+
+    ds.attribute :requires,
+      label: 'Requires',
       multiple: true
 
     ds.attribute :subject,

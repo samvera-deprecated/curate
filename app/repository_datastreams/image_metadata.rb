@@ -91,6 +91,7 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
     map.contributor_institution(to: "contributor#institution", in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable
     end
+    map.requires({in: RDF::DC})
 
   end
 end
