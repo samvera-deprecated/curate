@@ -26,16 +26,20 @@ class Document < GenericWork
     multiple: false,
     validates: { inclusion: { in: Document.valid_types,
                               allow_blank: true } }
-
-  attribute :alternate_title,            datastream: :descMetadata, multiple: false
+ 
+  attribute :date_created,               datastream: :descMetadata, multiple: true, default: Date.today.to_s("%Y-%m-%d")
+  attribute :date_uploaded,              datastream: :descMetadata, multiple: false
+  attribute :date_modified,              datastream: :descMetadata, multiple: false
+  attribute :alternate_title,            datastream: :descMetadata, multiple: true
+  attribute :creator,                    datastream: :descMetadata, multiple: true
   attribute :contributor_institution,    datastream: :descMetadata, multiple: true
   attribute :abstract,                   datastream: :descMetadata, multiple: false
-  attribute :repository_name,            datastream: :descMetadata, multiple: false
-  attribute :collection_name,            datastream: :descMetadata, multiple: false
-  attribute :coverage_temporal,          datastream: :descMetadata, multiple: false
-  attribute :coverage_spatial,           datastream: :descMetadata, multiple: false
-  attribute :permissions,                datastream: :descMetadata, multiple: false
-  attribute :size,                       datastream: :descMetadata, multiple: false
+  attribute :repository_name,            datastream: :descMetadata, multiple: true
+  attribute :collection_name,            datastream: :descMetadata, multiple: true
+  attribute :coverage_temporal,          datastream: :descMetadata, multiple: true
+  attribute :coverage_spatial,           datastream: :descMetadata, multiple: true
+  attribute :permission,                 datastream: :descMetadata, multiple: false
+  attribute :size,                       datastream: :descMetadata, multiple: true
   attribute :format,                     datastream: :descMetadata, multiple: false
   attribute :recommended_citation,       datastream: :descMetadata, multiple: true
   attribute :identifier,                 datastream: :descMetadata, multiple: false

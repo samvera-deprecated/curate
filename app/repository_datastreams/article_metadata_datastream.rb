@@ -47,7 +47,7 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     end
     map.recommended_citation({in: RDF::DC, to: 'bibliographicCitation'})
 
-    map.permissions({in: RDF::QualifiedDC, to: 'rights#permission'})
+    map.permission({in: RDF::QualifiedDC, to: 'rights#permissions'})
     map.language({in: RDF::DC}) do |index|
       index.as :stored_searchable, :facetable
     end

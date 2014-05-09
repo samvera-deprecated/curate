@@ -10,6 +10,4 @@ describe Dataset do
   it_behaves_like 'has_dc_metadata'
   it_behaves_like 'has_common_solr_fields'
 
-  it { should have_unique_field(:available) }
-
 end
