@@ -73,9 +73,9 @@ class Article < ActiveFedora::Base
     datastream: :descMetadata, multiple: true
   attribute :publisher,
     datastream: :descMetadata, multiple: true
-  attribute :coverage_spatial,
+  attribute :spatial_coverage,
     datastream: :descMetadata, multiple: false
-  attribute :coverage_temporal,
+  attribute :temporal_coverage,
     datastream: :descMetadata, multiple: false
   attribute :identifier,
     datastream: :descMetadata, multiple: false,

@@ -37,8 +37,8 @@ class Dataset < ActiveFedora::Base
   attribute :file_structure,          datastream: :descMetadata, multiple: false
   attribute :variable_list,           datastream: :descMetadata, multiple: false
   attribute :code_list,               datastream: :descMetadata, multiple: false
-  attribute :coverage_temporal,       datastream: :descMetadata, multiple: true
-  attribute :coverage_spatial,        datastream: :descMetadata, multiple: true
+  attribute :temporal_coverage,       datastream: :descMetadata, multiple: true
+  attribute :spatial_coverage,        datastream: :descMetadata, multiple: true
   attribute :creator,                 datastream: :descMetadata, multiple: true
   attribute :identifier,              datastream: :descMetadata, multiple: false
   attribute :doi,                     datastream: :descMetadata, multiple: false

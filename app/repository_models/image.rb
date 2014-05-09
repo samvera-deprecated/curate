@@ -77,11 +77,11 @@ class Image < ActiveFedora::Base
       label: 'Collection Name',
       multiple: true
 
-    ds.attribute :coverage_temporal,
+    ds.attribute :temporal_coverage,
       label: 'Temporal Coverage',
       multiple: true
 
-    ds.attribute :coverage_spatial,
+    ds.attribute :spatial_coverage,
       label: 'Spatial Coverage',
       multiple: true
 

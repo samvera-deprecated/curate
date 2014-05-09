@@ -36,8 +36,8 @@ class Document < GenericWork
   attribute :abstract,                   datastream: :descMetadata, multiple: false
   attribute :repository_name,            datastream: :descMetadata, multiple: true
   attribute :collection_name,            datastream: :descMetadata, multiple: true
-  attribute :coverage_temporal,          datastream: :descMetadata, multiple: true
-  attribute :coverage_spatial,           datastream: :descMetadata, multiple: true
+  attribute :temporal_coverage,          datastream: :descMetadata, multiple: true
+  attribute :spatial_coverage,           datastream: :descMetadata, multiple: true
   attribute :permission,                 datastream: :descMetadata, multiple: false
   attribute :size,                       datastream: :descMetadata, multiple: true
   attribute :format,                     datastream: :descMetadata, multiple: false

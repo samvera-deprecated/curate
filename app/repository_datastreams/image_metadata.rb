@@ -72,11 +72,11 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
 
-    map.coverage_spatial({to: "spatial", in: RDF::DC}) do |index|
+    map.spatial_coverage({to: "spatial", in: RDF::DC}) do |index|
       index.as :stored_searchable
     end
 
-    map.coverage_temporal({to: "temporal", in: RDF::DC}) do |index|
+    map.temporal_coverage({to: "temporal", in: RDF::DC}) do |index|
       index.as :stored_searchable
     end
 

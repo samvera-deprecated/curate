@@ -34,9 +34,9 @@ class DatasetMetadataDatastream < GenericWorkRdfDatastream
 
     map.recommended_citation({in: RDF::DC, to: 'bibliographicCitation'})
 
-    map.coverage_temporal({in: RDF::DC, to: 'temporal'})
+    map.temporal_coverage({in: RDF::DC, to: 'temporal'})
 
-    map.coverage_spatial({in: RDF::DC, to: 'spatial'})
+    map.spatial_coverage({in: RDF::DC, to: 'spatial'})
 
     map.contributor_institution(to: 'contributor#institution', in: RDF::QualifiedDC)
 
