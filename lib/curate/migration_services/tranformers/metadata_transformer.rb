@@ -98,6 +98,7 @@ module Curate
               ['<http://purl.org/dc/terms/date#created>', '<http://purl.org/dc/terms/created>'],
               ['<http://purl.org/dc/terms/coverage#temporal>', '<http://purl.org/dc/terms/temporal>'],
               ['<http://purl.org/dc/terms/coverage#spatial>', '<http://purl.org/dc/terms/spatial>'],
+              ['<http://purl.org/dc/terms/rights#permission>', '<http://purl.org/dc/terms/rights#permissions>'],
             ]
           end
 
