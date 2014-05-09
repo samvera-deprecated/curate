@@ -33,7 +33,7 @@ module Curate
 
       def exception(pid, model_name, exception)
         @failures += 1
-        error("#{preamble(pid, model_name)}\tFailure with Exception\tfailed with the following exception: #{exception}.")
+        error("#{preamble(pid, model_name)}\tFailure with Exception\tfailed with the following exception: #{exception}.\n#{exception.backtrace.inspect}")
       end
       private
       def preamble(pid, model_name)
