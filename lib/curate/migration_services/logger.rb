@@ -13,7 +13,7 @@ module Curate
           yield(self)
           stop(context)
         rescue Exception => e
-          error("Unable to finish #{context}. Encountered #{e}")
+          error("Unable to finish #{context}. Encountered #{e}\n#{e.backtrace}")
           raise e
         ensure
           finalize(context)
