@@ -1,3 +1,4 @@
+require 'curate/migration_services/base_migrator'
 module Curate
   module MigrationServices
     module MigrationContainers
@@ -6,7 +7,10 @@ module Curate
         class BaseMigrator < Curate::MigrationServices::BaseMigrator
           attr_writer :transformer
           def transformer
-            @transformer ||= Curate::MigrationServices::Transformers::MetadataTransformer
+            @transformer ||= begin
+              require 'curate/migration_services/transformers/metadata_transformer'
+              Curate::MigrationServices::Transformers::MetadataTransformer
+            end
           end
         end
 
@@ -29,12 +33,13 @@ module Curate
           end
         end
 
-        (Curate.configuration.registered_curation_concern_types + ['GenericFile']).each do |work_type|
-          # Pardon the crime against security. I can manually add these. But I'm
-          # lazy.
-          class_eval("class #{work_type}Migrator < WorkMigrator\nend")
+        if Curate.respond_to?(:configuration)
+          (Curate.configuration.registered_curation_concern_types + ['GenericFile']).each do |work_type|
+            # Pardon the crime against security. I can manually add these. But I'm
+            # lazy.
+            class_eval("class #{work_type}Migrator < WorkMigrator\nend")
+          end
         end
-
       end
     end
   end
