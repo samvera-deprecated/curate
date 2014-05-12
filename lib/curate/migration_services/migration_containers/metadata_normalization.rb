@@ -6,7 +6,7 @@ module Curate
         class BaseMigrator < Curate::MigrationServices::BaseMigrator
           attr_writer :transformer
           def transformer
-            @transformer ||= Curate::MigrationServices::Transformer::MetadataTransformer
+            @transformer ||= Curate::MigrationServices::Transformers::MetadataTransformer
           end
         end
 
