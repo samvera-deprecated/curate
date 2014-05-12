@@ -19,6 +19,17 @@ describe GenericWork do
     end
   end
 
+  context 'solrize doi' do
+    let!(:work) { FactoryGirl.create(:generic_work, title: 'Work') }
+    it 'should solrize doi' do
+      work.to_solr.keys.should_not include('desc_metadata__identifier_tesim')
+      work.identifier = 'doi:10.5072/FK2'
+      work.save!
+    
+      work.to_solr.keys.should include('desc_metadata__identifier_tesim')
+    end
+  end
+
   context '#as_json' do
     it 'returns the human readable type' do
       subject.as_json({})[:curation_concern_type].should == subject.human_readable_type

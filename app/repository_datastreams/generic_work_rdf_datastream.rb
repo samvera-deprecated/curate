@@ -53,7 +53,9 @@ class GenericWorkRdfDatastream < ActiveFedora::NtriplesRDFDatastream
     map.content_format({in: RDF::DC, to: 'format'})
     map.extent({in: RDF::DC})
     map.requires({in: RDF::DC})
-    map.identifier({in: RDF::DC})
+    map.identifier({in: RDF::DC}) do |index|
+      index.as :stored_searchable
+    end
 
     map.part(:to => "hasPart", in: RDF::DC)
   end
