@@ -9,7 +9,14 @@ module Curate
     end
 
     def self.determine_best_active_fedora_model(active_fedora_object)
-      best_model_match = active_fedora_object.class unless active_fedora_object.instance_of? ActiveFedora::Base
+      if active_fedora_object.is_a?(ActiveFedora::Base)
+        if ! active_fedora_object.instance_of? ActiveFedora::Base
+          best_model_match = active_fedora_object.class
+        end
+      else
+        active_fedora_object = ActiveFedora::Base.find(active_fedora_object.pid, cast: false)
+      end
+
       ActiveFedora::ContentModel.known_models_for(active_fedora_object).each do |model_value|
         # If this is of type ActiveFedora::Base, then set to the first found :has_model.
         best_model_match ||= model_value
@@ -61,9 +68,10 @@ module Curate
           ActiveFedora::Base.send(:connections).each do |connection|
             results = connection.search("pid~#{id_namespace}:*")
             results.each do |rubydora_object|
-              model_name = Curate::MigrationServices.determine_best_active_fedora_model(rubydora_object)
+              active_fedora_object = ActiveFedora::Base.find(rubydora_object.pid, cast: false)
+              model_name = Curate::MigrationServices.determine_best_active_fedora_model(active_fedora_object)
               begin
-                if build(rubydora_object).migrate
+                if build(rubydora_object, active_fedora_object, model_name).migrate
                   handler.success(rubydora_object.pid, model_name)
                 else
                   handler.failure(rubydora_object.pid, model_name)
@@ -77,11 +85,8 @@ module Curate
       end
 
       private
-      def build(rubydora_object)
-        active_fedora_object = ActiveFedora::Base.find(rubydora_object.pid, cast: false)
-        best_model_match = Curate::MigrationServices.determine_best_active_fedora_model(active_fedora_object)
-
-        migrator_name = "#{best_model_match.to_s.gsub("::", "")}Migrator"
+      def build(rubydora_object, active_fedora_object, model_name)
+        migrator_name = "#{model_name.to_s.gsub("::", "")}Migrator"
         if container_namespace.const_defined?(migrator_name)
           container_namespace.const_get(migrator_name).new(rubydora_object, active_fedora_object)
         else
