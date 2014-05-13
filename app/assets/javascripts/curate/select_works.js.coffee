@@ -1,4 +1,4 @@
-jQuery ->
+$(document).on 'page:change', ->
   $('.autocomplete').each( (index, el) ->
     $targetElement = $(el)
     $targetElement.tokenInput $targetElement.data("url"), {
