@@ -16,6 +16,7 @@ class GenericFile < ActiveFedora::Base
   include CurationConcern::RemotelyIdentifiedByDoi::Attributes
 
   belongs_to :batch, property: :is_part_of, class_name: 'ActiveFedora::Base'
+  before_destroy :check_and_clear_parent_representative
 
   has_metadata "descMetadata", type: GenericFileRdfDatastream
   has_metadata 'properties', type: Curate::PropertiesDatastream
@@ -69,5 +70,13 @@ class GenericFile < ActiveFedora::Base
     return unless obj.representative.blank?
     obj.representative = self.pid
     obj.save
+  end
+
+  private
+  def check_and_clear_parent_representative
+    if batch.representative == self.pid
+      batch.representative = batch.generic_file_ids.select{|i| i if i != self.pid}.first
+      batch.save!
+    end
   end
 end
