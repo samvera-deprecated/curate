@@ -10,10 +10,18 @@ require Blacklight::Engine.root.join('app/helpers/facets_helper')
 
 require Blacklight::Engine.root.join('app/helpers/blacklight/blacklight_helper_behavior')
 
+require Blacklight::Engine.root.join('app/helpers/blacklight/catalog_helper_behavior')
+
 module BlacklightHelper
   include Blacklight::BlacklightHelperBehavior
+  include Blacklight::CatalogHelperBehavior
 
   def application_name
     t('sufia.product_name')
   end
+
+  def has_search_parameters?
+    !params[:q].blank? or !params[:f].blank?
+  end
+
 end
