@@ -3,7 +3,6 @@ require 'spec_helper'
 describe GenericWork do
   subject { FactoryGirl.build(:generic_work) }
 
-  it_behaves_like 'with_access_rights'
   it_behaves_like 'with_related_works'
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_dc_metadata'
@@ -36,7 +35,7 @@ describe GenericWork do
   end
 
   describe 'Embargo' do
-    let!(:work) { FactoryGirl.create(:generic_work, title: 'Embargo Work') }
+    let!(:work) { FactoryGirl.create(:generic_work, title: 'Embargo Work', visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO) }
      
     it "should not be under embargo by default" do
       expect(work).to_not be_under_embargo
@@ -160,4 +159,11 @@ describe GenericWork do
       end
     end
   end
+end
+
+describe GenericWork do
+  subject { GenericWork.new }
+
+  it_behaves_like 'with_access_rights'
+
 end
