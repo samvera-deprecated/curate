@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Etd do
   subject { FactoryGirl.build(:etd) }
 
-  it_behaves_like 'with_access_rights'
   it_behaves_like 'with_related_works'
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_common_solr_fields'
@@ -18,5 +17,12 @@ describe Etd do
   it { should have_multivalue_field(:subject) }
   it { should have_multivalue_field(:publisher) }
   it { should have_multivalue_field(:language) }
+
+end
+
+describe Etd do
+  subject { Etd.new }
+
+  it_behaves_like 'with_access_rights'
 
 end
