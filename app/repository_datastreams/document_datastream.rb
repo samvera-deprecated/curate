@@ -35,7 +35,9 @@ class DocumentDatastream < GenericWorkRdfDatastream
     map.size({to: "format#extent", in: RDF::QualifiedDC})
     map.format({in: RDF::QualifiedDC, to: 'format#mimetype'})
     map.recommended_citation({in: RDF::DC, to: 'bibliographicCitation'})
-    map.identifier({to: 'identifier#doi', in: RDF::QualifiedDC})
+    map.identifier({to: 'identifier#doi', in: RDF::QualifiedDC}) do |index|
+      index.as :stored_searchable
+    end
     map.doi({to: 'identifier#doi', in: RDF::QualifiedDC})
     map.date_created(to: 'created', in: RDF::DC)
     map.date_uploaded(to: "dateSubmitted", in: RDF::DC) do |index|

@@ -60,7 +60,9 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
     end
     map.requires({in: RDF::DC})
     map.size({to: "format#extent", in: RDF::QualifiedDC})
-    map.identifier({to: 'identifier#doi', in: RDF::QualifiedDC})
+    map.identifier({to: 'identifier#doi', in: RDF::QualifiedDC}) do |index|
+      index.as :stored_searchable
+    end
     map.issn({to: 'identifier#issn', in: RDF::QualifiedDC})
     map.doi({to: 'identifier#doi', in: RDF::QualifiedDC})
 
