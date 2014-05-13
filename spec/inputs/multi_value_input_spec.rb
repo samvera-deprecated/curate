@@ -14,12 +14,7 @@ describe 'MultiValueInput' do
   let(:bar) { ["bar1", "bar2"] }
   subject {
     foo.bar = bar
-    input_for(foo, :bar,
-              {
-                as: :multi_value,
-                required: true
-              }
-              )
+    input_for(foo, :bar, { as: :multi_value, required: true } )
   }
 
   describe 'happy case' do
@@ -40,6 +35,27 @@ describe 'MultiValueInput' do
             end
             with_tag('li.field-wrapper') do
               with_tag('input.foo_bar.multi-text-field', with: {name: 'foo[bar][]', value: ''}, without: {required: 'required'})
+            end
+          end
+        end
+      end
+    end
+  end
+
+  describe 'unhappy case' do
+    let(:bar) { nil }
+
+    it 'renders multi-value given a nil object' do
+      expect(subject).to have_tag('.control-group.foo_bar.multi_value') do
+        with_tag('.control-label') do
+          with_tag('label.multi_value.required', text: '* Bar', with: {for: 'foo_bar'}) do
+            with_tag("abbr")
+          end
+        end
+        with_tag('.controls') do
+          with_tag('ul.listing') do
+            with_tag('li.field-wrapper') do
+              with_tag('input.foo_bar.required.multi-text-field#foo_bar', with: {name: 'foo[bar][]', value: '', required: 'required'})
             end
           end
         end

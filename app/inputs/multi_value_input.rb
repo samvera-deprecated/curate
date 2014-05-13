@@ -61,7 +61,7 @@ class MultiValueInput < SimpleForm::Inputs::CollectionInput
 
   def collection
     @collection ||= begin
-      object.send(attribute_name)
+      Array.wrap(object.send(attribute_name))
     end
   end
 
