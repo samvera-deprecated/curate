@@ -1,20 +1,24 @@
-$(document).on 'page:change', ->
-  $('.autocomplete').each( (index, el) ->
-    $targetElement = $(el)
-    $targetElement.tokenInput $targetElement.data("url"), {
-      theme: 'facebook'
-      prePopulate: $('.autocomplete').data('load')
-      jsonContainer: "docs"
-      propertyToSearch: "title"
-      preventDuplicates: true
-      tokenValue: "pid"
-      onResult: (results) ->
-        pidsToFilter = $targetElement.data('exclude')
-        $.each(results.docs, (index, value) ->
-          # Filter out anything listed in data-exclude.  ie. the current object.
-          if (pidsToFilter.indexOf(value.pid) > -1)
-            results.docs.splice(index, 1)
-        )
-        return results
-    }
-  )
+jQuery ($) ->
+  ready = ->
+    $('.autocomplete').each( (index, el) ->
+      $targetElement = $(el)
+      $targetElement.tokenInput $targetElement.data("url"), {
+        theme: 'facebook'
+        prePopulate: $('.autocomplete').data('load')
+        jsonContainer: "docs"
+        propertyToSearch: "title"
+        preventDuplicates: true
+        tokenValue: "pid"
+        onResult: (results) ->
+          pidsToFilter = $targetElement.data('exclude')
+          $.each(results.docs, (index, value) ->
+            # Filter out anything listed in data-exclude.  ie. the current object.
+            if (pidsToFilter.indexOf(value.pid) > -1)
+              results.docs.splice(index, 1)
+          )
+          return results
+      }
+    )
+
+  $(document).ready(ready)
+  $(document).on('page:load', ready)
