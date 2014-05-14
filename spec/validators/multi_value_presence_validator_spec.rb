@@ -1,6 +1,4 @@
-require 'active_model'
-require 'active_support/core_ext/array/wrap'
-require 'app/validators/multi_value_presence_validator'
+require 'spec_helper'
 
 describe MultiValuePresenceValidator do
   let(:validatable) do
