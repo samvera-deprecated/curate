@@ -5,13 +5,13 @@ class FutureDateValidator < ActiveModel::EachValidator
       begin
         if date = value.to_date
           if date <= Date.today
-            record.errors[:embargo_release_date] << "Must be a future date"
+            record.errors[attribute] << "Must be a future date"
           end
         else
-          record.errors[:embargo_release_date] << "Invalid Date Format"
+          record.errors[attribute] << "Invalid Date Format"
         end
-      rescue ArgumentError, NoMethodError
-        record.errors[:embargo_release_date] << "Invalid Date Format"
+      rescue ArgumentError, NoMethodError => e
+        record.errors[attribute] << "Invalid Date Format"
       end
     end
   end
