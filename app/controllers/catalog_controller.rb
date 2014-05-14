@@ -46,7 +46,7 @@ class CatalogController < ApplicationController
      initialized_config = Curate.configuration.search_config['catalog']
      # If the hash is empty, set reasonable defaults for this search type
      if initialized_config.nil?
-        Hash['qf' => ['desc_metadata__title_tesim','desc_metadata__name_tesim','desc_metadata__identifier_tesim'],'qt' => 'search','rows' => 10]
+        Hash['qf' => ['desc_metadata__title_tesim','desc_metadata__name_tesim'],'qt' => 'search','rows' => 10]
      else
         initialized_config
      end
@@ -145,8 +145,16 @@ class CatalogController < ApplicationController
       title_name = solr_name("desc_metadata__title", :stored_searchable, type: :string)
       label_name = solr_name("desc_metadata__title", :stored_searchable, type: :string)
       contributor_name = solr_name("desc_metadata__contributor", :stored_searchable, type: :string)
+      description_name = solr_name("desc_metadata__description", :stored_searchable, type: :string)
+      creator_name = solr_name("desc_metadata__creator", :stored_searchable)
+      publisher_name = solr_name("desc_metadata__publisher", :stored_searchable, type: :string)
+      language_name = solr_name("desc_metadata__language", :stored_searchable, type: :string)
+      collection_name = solr_name("desc_metadata__collection_name", :stored_searchable, type: :string)
+      contributor_institution_name = solr_name("desc_metadata__contributor_institution", :stored_searchable, type: :string)
+      subject_name = solr_name("desc_metadata__subject", :stored_searchable, type: :string)
+      identifier_name = solr_name("desc_metadata__identifier", :stored_searchable, type: :string)
       field.solr_parameters = {
-        :qf => "#{title_name} noid_tsi #{label_name} file_format_tesim #{contributor_name}",
+        :qf => "#{title_name} noid_tsi file_format_tesim #{contributor_name} #{description_name} #{creator_name} #{publisher_name} #{language_name} #{collection_name} #{contributor_institution_name} #{subject_name} #{identifier_name}",
         :pf => "#{title_name}"
       }
     end
