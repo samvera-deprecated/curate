@@ -10,14 +10,14 @@ describe 'MultiValueInput' do
     attr_accessor :bar
   end
 
-
-  describe 'happy case' do
+  context 'happy case' do
     let(:foo) { Foo.new }
     let(:bar) { ["bar1", "bar2"] }
-    subject {
+    subject do
       foo.bar = bar
       input_for(foo, :bar, { as: :multi_value, required: true } )
-    }
+    end
+
     it 'renders multi-value' do
       expect(subject).to have_tag('.control-group.foo_bar.multi_value') do
         with_tag('.control-label') do
@@ -42,14 +42,13 @@ describe 'MultiValueInput' do
     end
   end
 
-  describe 'unhappy case' do
+  context 'unhappy case' do
     let(:foo) { Foo.new }
     let(:bar) { nil }
-    subject {
+    subject do
       foo.bar = bar
       input_for(foo, :bar, { as: :multi_value, required: true } )
-    }
-
+    end
 
     it 'renders multi-value given a nil object' do
       expect(subject).to have_tag('.control-group.foo_bar.multi_value') do
