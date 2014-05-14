@@ -19,10 +19,7 @@ module CurationConcern
         attribute :existing_identifier,
           multiple: false, editable: true, displayable: false
 
-        # Given that a publisher could be an array or a single entity
-        # Then we need to account for both
-        # Conveniently [].length == 0 and "".length == 0
-        validates :publisher, length: { minimum: 1, message: 'is required for remote DOI minting', if: :remote_doi_assignment_strategy? }
+        validates :publisher, multi_value_presence: { message: 'is required for remote DOI minting', if: :remote_doi_assignment_strategy? }
 
         attr_writer :doi_remote_service
 
