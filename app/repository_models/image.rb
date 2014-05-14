@@ -28,7 +28,7 @@ class Image < ActiveFedora::Base
       label: "Creator",
       hint: " Primary creator/s of the item.",
       multiple: true,
-      validates: { presence: { message: "Your #{image_label} must have a creator." } }
+      validates: { multi_value_presence: { message: "Your #{image_label} must have a creator." } }
 
     ds.attribute :date_created,
       default: Date.today.to_s("%Y-%m-%d"),

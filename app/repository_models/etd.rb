@@ -32,7 +32,7 @@ class Etd < ActiveFedora::Base
       multiple: true,
       label: "Contributor(s)",
       hint: "Who else played a non-primary role in the creation of your #{etd_label}.",
-      validates: { presence: { message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}." } }
+      validates: { multi_value_presence: { message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}." } }
     ds.attribute :contributor_role,
       multiple: true,
       label: "Contributor role(s)",

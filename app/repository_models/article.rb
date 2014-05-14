@@ -25,7 +25,7 @@ class Article < ActiveFedora::Base
     validates: { presence: { message: 'Your article must have a title.' } }
   attribute :alternate_title,
     datastream: :descMetadata, multiple: true
-  attribute :creator, datastream: :descMetadata, multiple: true, validates: { presence: true }
+  attribute :creator, datastream: :descMetadata, multiple: true, validates: { multi_value_presence: true }
   attribute :contributor,
     datastream: :descMetadata, multiple: true,
     label: "Contributing Author(s)",
