@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'breadcrumbs_on_rails'
   s.add_dependency 'active_fedora-registered_attributes', '~> 0.2.0'
   s.add_dependency 'hydra-remote_identifier', '~> 0.6'
-  s.add_dependency 'hydra-derivatives', '>= 0.0.7'
+  s.add_dependency 'hydra-derivatives', '~> 0.0.7'
   s.add_dependency 'chronic', '>= 0.10.2'
   s.add_dependency 'virtus'
   s.add_dependency 'rails_autolink'
