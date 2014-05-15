@@ -9,10 +9,14 @@
         <caption>Currently Authorized</caption>
         <tbody>
           <% @grantor.user.can_receive_deposits_from.each do |depositor| %>
+            <% begin %>
             <tr><td><%= depositor.name %></td>
               <td><%=link_to(person_depositor_path(@grantor, depositor.person), method: :delete, class: "remove-proxy-button") do %>
                 <i class="icon-remove"></i><% end %>
               </td></tr>
+            <% rescue ActiveFedora::ObjectNotFoundError %>
+              <!-- Depositor's person object was deleted !-->
+            <% end %>
           <% end %>
         </tbody>
       </table>
