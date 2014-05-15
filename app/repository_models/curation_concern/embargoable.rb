@@ -52,12 +52,10 @@ module CurationConcern
     protected :write_embargo_release_date
 
     def embargo_release_date=(value)
-      unless defined?(@embargo_release_date) && @embargo_release_date.nil?
-        @embargo_release_date = begin
-          value.present? ? value.to_date : nil
-        rescue NoMethodError, ArgumentError
-          value
-        end
+      @embargo_release_date = begin
+        value.present? ? value.to_date : nil
+      rescue NoMethodError, ArgumentError
+        value
       end
     end
 
