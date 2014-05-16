@@ -30,7 +30,6 @@ class Article < ActiveFedora::Base
     datastream: :descMetadata, multiple: true,
     label: "Contributing Author(s)",
     hint: "Who else played a non-primary role in the creation of your Article.",
-    validates: { multi_value_presence: { message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}." }}
   attribute :repository_name,
     datastream: :descMetadata, multiple: true,
     label: "Repository Name",
