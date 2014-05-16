@@ -29,7 +29,7 @@ class Article < ActiveFedora::Base
   attribute :contributor,
     datastream: :descMetadata, multiple: true,
     label: "Contributing Author(s)",
-    hint: "Who else played a non-primary role in the creation of your Article.",
+    hint: "Who else played a non-primary role in the creation of your Article."
   attribute :repository_name,
     datastream: :descMetadata, multiple: true,
     label: "Repository Name",
