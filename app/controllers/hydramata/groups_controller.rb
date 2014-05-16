@@ -36,6 +36,8 @@ class Hydramata::GroupsController < ApplicationController
       flash[:notice] = "Group created successfully."
       redirect_to hydramata_groups_path
     else
+      @group = Hydramata::Group.new
+      setup_form
       flash[:error] = "Group was not created."
       render action: :new
     end
@@ -56,6 +58,8 @@ class Hydramata::GroupsController < ApplicationController
         redirect_to hydramata_groups_path, notice: "Group updated successfully. You are no longer a member of the Group: #{@group_membership.title}"
       end
     else
+      @group = Hydramata::Group.find(params[:id])
+      setup_form
       flash[:error] = "Group was not updated."
       render action: :edit
     end
