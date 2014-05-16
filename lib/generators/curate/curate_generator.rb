@@ -161,6 +161,6 @@ This generator makes the following changes to your application:
   end
 
   def create_predicate_mapping
-    copy_file Rails.root.join("../../lib/generators/curate/predicate_mapping/predicate_mappings.yml"), Rails.root.join("config/predicate_mappings.yml"), force: true 
+    template 'predicate_mappings.yml', 'config/predicate_mappings.yml'
   end
 end
