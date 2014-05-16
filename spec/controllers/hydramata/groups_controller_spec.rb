@@ -32,6 +32,14 @@ describe Hydramata::GroupsController do
       expect(response).to redirect_to hydramata_groups_path
       expect(flash[:notice]).to eq 'Group created successfully.'
     end
+
+    it "should handle failure" do
+      expect {
+        post :create, hydramata_group: hydramata_group, group_member: {}
+      }.to change{Hydramata::Group.count}.by(0)
+      expect(assigns(:group)).to be_an_instance_of Hydramata::Group
+      expect(response).to render_template('new')
+    end
   end
 
   let(:group) { FactoryGirl.create(:group, user: user, title: "Title 1", description: "Description 1") }
@@ -76,6 +84,14 @@ describe Hydramata::GroupsController do
       reload_group = Hydramata::Group.find(group.pid)
       reload_group.title.should == hydramata_group["title"]
       reload_group.description.should == hydramata_group["description"]
+    end
+
+    it "handles failure" do
+      reload_group = Hydramata::Group.find(group.pid)
+      put :update, id: group.pid, hydramata_group: hydramata_group, group_member: {}
+      expect(assigns(:group)).to be_an_instance_of Hydramata::Group
+      expect(response).to render_template('edit')
+      expect(flash[:error]).to eq 'Group was not updated.'
     end
 
     let(:another_hydramata_group) {
