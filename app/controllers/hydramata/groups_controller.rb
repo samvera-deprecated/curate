@@ -72,7 +72,7 @@ class Hydramata::GroupsController < ApplicationController
   end
 
   def setup_form 
-    @group.permissions_attributes = [{name: current_user.email, access: "edit", type: "person"}] if @group.members.blank?
+    @group.permissions_attributes = [{name: current_user.user_key, access: "edit", type: "person"}] if @group.members.blank?
     @group.members << current_user.person if @group.members.blank?
     @group.members.build
   end
