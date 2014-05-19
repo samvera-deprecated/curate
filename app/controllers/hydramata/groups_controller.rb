@@ -117,9 +117,8 @@ class Hydramata::GroupsController < ApplicationController
   end
 
   def only_groups(solr_parameters, user_parameters)
-    solr_parameters[:fq] ||= []
-    solr_parameters[:fq] << ActiveFedora::SolrService.
-      construct_query_for_rel(has_model: Hydramata::Group.to_class_uri)
+    solr_parameters[:fq] = [ActiveFedora::SolrService.
+      construct_query_for_rel(has_model: Hydramata::Group.to_class_uri)]
   end
 
   def is_current_user_a_member_of_this_group?(group)
