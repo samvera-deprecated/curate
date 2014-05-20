@@ -11,7 +11,7 @@
       </label>
     </span>
     <div class="controls">
-      <% prefix = f.object.class.to_s.downcase %>
+      <% prefix = ActiveModel::Naming.singular_route_key(f.object.class) %>
 
       <script id="entry-template" type="text/x-handlebars-template">
         <li class="field-wrapper input-append">
@@ -28,7 +28,7 @@
         </li>
       </script>
       <ul class="listing">
-      
+
       <%= f.fields_for :editors do |editor| %>
         <li class="field-wrapper input-append">
           <%= editor.hidden_field :id %>
@@ -43,7 +43,7 @@
           <span class="field-controls"></span>
         </li>
       <% end %>
-      
+
       </ul>
     </div>
   </div>

@@ -37,6 +37,9 @@ describe 'curation_concern/base/_form.html.erb' do
     it 'should have group help text' do
       expect(rendered).to have_text(t('sufia.work.editor.group.help'))
     end
+    it 'should have a valid prefix for editor name fields' do
+      expect(rendered).to have_text('generic_work_editors_attributes_{{index}}_id')
+    end
   end
 
   context 'Edit Work' do
