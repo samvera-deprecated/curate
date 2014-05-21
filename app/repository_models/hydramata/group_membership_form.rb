@@ -48,7 +48,7 @@ class Hydramata::GroupMembershipForm
     @group = Hydramata::Group.new(title: self.title, description: self.description)
     @group.apply_depositor_metadata(current_user.user_key)
     @group.save
-    @group.add_member(self.current_user.person, 'editor')
+    @group.add_member(self.current_user.person, 'manager')
   end
 
   def atleast_one_manager_present?
