@@ -15,6 +15,7 @@ class Person < ActiveFedora::Base
   has_file_datastream :name => "thumbnail"
 
   belongs_to :profile, property: :has_profile, class_name: 'Profile'
+  delegate :user_key, to: :user
 
   attr_accessor :mime_type
   makes_derivatives :generate_derivatives
@@ -62,16 +63,16 @@ class Person < ActiveFedora::Base
     self.works << work
     self.save!
     work.editors << self
-    work.permissions_attributes = [{name: self.depositor, access: "edit", type: "person"}] unless work.depositor == self.depositor
+    work.permissions_attributes = [{name: self.user_key, access: "edit", type: "person"}] unless work.depositor == self.user_key
     work.save!
   end
 
   def remove_work(work)
-    if( ( work.depositor != self.depositor ) && ( self.works.include?( work ) ) )
+    if( ( work.depositor != self.user_key ) && ( self.works.include?( work ) ) )
       self.works.delete(work)
       self.save!
       work.editors.delete(self)
-      work.edit_users = work.edit_users - [self.depositor]
+      work.edit_users = work.edit_users - [self.user_key]
       work.save!
     end
   end

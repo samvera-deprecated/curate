@@ -113,8 +113,8 @@ describe Hydramata::GroupsController do
       expect(flash[:notice]).to eq 'Group updated successfully.'
 
       reload_group = Hydramata::Group.find(group.pid)
-      reload_group.edit_users.should == [ person.depositor ]
-      reload_group.read_users.should == [ another_person.depositor ]
+      reload_group.edit_users.should == [ person.user_key ]
+      reload_group.read_users.should == [ another_person.user_key ]
 
       reload_group.members.should == [ person, another_person ]
     end
@@ -131,8 +131,8 @@ describe Hydramata::GroupsController do
     it "removes a member from the group" do
       group.add_member(another_person, "member")
 
-      group.reload.edit_users.should == [ person.depositor ]
-      group.reload.read_users.should == [ another_person.depositor ]
+      group.reload.edit_users.should == [ person.user_key ]
+      group.reload.read_users.should == [ another_person.user_key ]
       group.reload.members.should == [ person, another_person ]
 
       put :update, id: group.id, hydramata_group: delete_a_member, group_member: another_group_member
@@ -140,7 +140,7 @@ describe Hydramata::GroupsController do
       expect(flash[:notice]).to eq 'Group updated successfully.'
 
       reload_group = Hydramata::Group.find(group.pid)
-      reload_group.edit_users.should == [ person.depositor ]
+      reload_group.edit_users.should == [ person.user_key ]
       reload_group.read_users.should == []
 
       reload_group.members.should == [ person ]
