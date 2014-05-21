@@ -6,7 +6,6 @@ class Document < GenericWork
 
   self.indefinite_article = 'an'
   self.contributor_label = 'Author'
-  validates_presence_of :contributor, message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}."
 
   def self.valid_types
     [ 'Book',

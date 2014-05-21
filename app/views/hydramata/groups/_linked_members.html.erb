@@ -65,7 +65,7 @@
             <%= memberField.hidden_field :_destroy %>
             <div class="span4">
               <% if memberField.object.persisted? %>
-                <% if ( @group.edit_users.include?(memberField.object.depositor) && @group.edit_users.size == 1 ) %>
+                <% if ( @group.edit_users.include?(memberField.object.user_key) && @group.edit_users.size == 1 ) %>
                   <span class="linked-user current-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>
                 <% else %>
                   <span class="linked-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>

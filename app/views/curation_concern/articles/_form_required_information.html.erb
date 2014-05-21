@@ -3,7 +3,7 @@
 
   <%= f.input :title, input_html: { class: 'input-xlarge' } %>
 
-  <%= f.input :creator, as: :multi_value, input_html: { class: 'input-xlarge' } %>
+  <%= f.input :creator, as: :multi_value, required: true, input_html: { class: 'input-xlarge' } %>
 
   <%= f.input :abstract,
               as: :text,
