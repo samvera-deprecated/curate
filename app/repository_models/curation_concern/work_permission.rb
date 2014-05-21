@@ -36,7 +36,6 @@ class CurationConcern::WorkPermission
     def self.has_destroy_flag?(hash)
       ["1", "true"].include?(hash['_destroy'].to_s)
     end
-    
 
     def self.user(person_id)
       ::User.find_by_repository_id(person_id)
@@ -46,11 +45,11 @@ class CurationConcern::WorkPermission
       Hydramata::Group.find(group_id)
     end
 
-
     def self.update_editors(work, editors, action)
       collection = decide_editorship_action(editors, action)
       work.remove_editors(collection[:remove].map { |u| user(u) })
       work.add_editors(collection[:create].map { |u| user(u) })
+      work.save!
     end
 
     # This is extremely expensive because add_editor_group causes a save each time.
