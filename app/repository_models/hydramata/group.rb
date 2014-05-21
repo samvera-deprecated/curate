@@ -58,7 +58,7 @@ class Hydramata::Group < ActiveFedora::Base
   end
 
   def group_edit_membership(candidate)
-    if( ( self.edit_users.include?(candidate.user_key) ) && ( self.edit_users.size == 1 ) )
+    if self.edit_users.include?(candidate.user_key)
       return
     end
     self.read_users.delete(candidate.user_key) if self.read_users.include?(candidate.user_key)
