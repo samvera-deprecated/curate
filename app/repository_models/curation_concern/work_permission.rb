@@ -49,6 +49,7 @@ class CurationConcern::WorkPermission
       collection = decide_editorship_action(editors, action)
       work.remove_editors(collection[:remove].map { |u| user(u) })
       work.add_editors(collection[:create].map { |u| user(u) })
+      work.save!
     end
 
     # This is extremely expensive because add_editor_group causes a save each time.
