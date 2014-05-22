@@ -15,7 +15,6 @@ class Person < ActiveFedora::Base
   has_file_datastream :name => "thumbnail"
 
   belongs_to :profile, property: :has_profile, class_name: 'Profile'
-  delegate :user_key, to: :user
 
   attr_accessor :mime_type
   makes_derivatives :generate_derivatives
@@ -101,8 +100,20 @@ class Person < ActiveFedora::Base
     Namae.parse(self.name).first
   end
 
+  def user_key
+    if user
+      user.user_key
+    else
+      nil
+    end
+  end
+
   def user
-    persisted? ? User.where(repository_id: pid).first : nil
+    if persisted?
+      @user ||= User.where(repository_id: pid).first
+    else
+      nil
+    end
   end
 
   def to_solr(solr_doc={}, opts={})
