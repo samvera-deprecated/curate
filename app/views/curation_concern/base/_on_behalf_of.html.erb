@@ -14,7 +14,7 @@
           <%= f.input :owner,
                       as: :select,
                       collection: objects_to_array(current_user.can_make_deposits_for, 'name', 'user_key').unshift(['Myself', current_user.user_key]),
-                      input_html: { class: 'input-xxlarge', onChange: 'updateContributors();' },
+                      input_html: { class: 'input-xxlarge', onChange: 'updateCreators();' },
                       label: "Create this #{curation_concern.human_readable_type} on behalf of:",
                       required: true
           %>
