@@ -31,6 +31,7 @@ describe CurationConcern::GenericFilesController do
     end
   end
 
+
   describe '#create' do
     let(:actor) { double('actor') }
     let(:actors_action) { :create }
@@ -42,6 +43,8 @@ describe CurationConcern::GenericFilesController do
       actor.should_receive(actors_action).and_return(true)
       actor
     }
+
+    let(:client) { ClamAV.instance }
 
     it 'redirects to parent when successful' do
       sign_in(user)
@@ -96,6 +99,13 @@ describe CurationConcern::GenericFilesController do
       response.status.should == 422
     end
 
+    it "should call virus check" do
+      GenericFile.stub(:create).and_return({})
+      test_file = File.expand_path('../../fixtures/files/image.png', __FILE__)
+      client.loaddb()
+      client.scanfile(test_file).should be_a_kind_of(Fixnum)
+    end
+
   end
 
   describe '#edit' do
@@ -139,6 +149,7 @@ describe CurationConcern::GenericFilesController do
         )
       )
     end
+
   end
 
 
