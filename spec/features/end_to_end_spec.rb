@@ -80,13 +80,13 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
       visit new_curation_concern_generic_work_path
       create_generic_work(
-        'Visibility' => 'visibility_restricted',
+        'Visibility' => 'visibility_open',
         'I Agree' => true,
         'Title' => ''
       )
 
-      expect(page).to have_checked_field('visibility_restricted')
-      expect(page).to_not have_checked_field('visibility_open')
+      expect(page).to have_checked_field('visibility_open')
+      expect(page).to_not have_checked_field('visibility_restricted')
     end
 
     it "a public item with future embargo is not visible today but is in the future" do

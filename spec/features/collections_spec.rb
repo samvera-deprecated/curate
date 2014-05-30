@@ -3,6 +3,12 @@ require 'spec_helper'
 describe "Showing and creating Collections" do
   let(:user) { FactoryGirl.create(:user) }
 
+  it 'defaults to open visibility' do
+    login_as(user)
+    visit new_collection_path
+    expect(page).to have_checked_field('visibility_open')
+  end
+
   it "should create them" do
     login_as(user)
     visit root_path
