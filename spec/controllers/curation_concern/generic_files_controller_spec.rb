@@ -31,6 +31,7 @@ describe CurationConcern::GenericFilesController do
     end
   end
 
+
   describe '#create' do
     let(:actor) { double('actor') }
     let(:actors_action) { :create }
@@ -43,6 +44,8 @@ describe CurationConcern::GenericFilesController do
       actor
     }
 
+    let(:client) { ClamAV.instance }
+
     it 'redirects to parent when successful' do
       sign_in(user)
       controller.actor = successful_actor
@@ -52,7 +55,6 @@ describe CurationConcern::GenericFilesController do
         parent_id: parent.to_param,
         generic_file: { title: "Title", file: file }
       )
-
       expect(response).to(
         redirect_to(controller.polymorphic_path([:curation_concern, parent]))
       )
@@ -71,7 +73,7 @@ describe CurationConcern::GenericFilesController do
       post(
         :create,
         parent_id: parent.to_param,
-        generic_file: { title: "Title", file: image_file }
+        generic_file: { title: "Title", file: file }
       )
 
       expect(response).to(
@@ -94,6 +96,13 @@ describe CurationConcern::GenericFilesController do
 
       expect(response).to render_template('new')
       response.status.should == 422
+    end
+
+    it "should call virus check" do
+      GenericFile.stub(:create).and_return({})
+      test_file = File.expand_path('../../fixtures/files/image.png', __FILE__)
+      client.loaddb()
+      client.scanfile(test_file).should be_a_kind_of(Fixnum)
     end
 
   end
@@ -123,7 +132,7 @@ describe CurationConcern::GenericFilesController do
     it 'renders form when unsuccessful' do
       controller.actor = failing_actor
       sign_in(user)
-      put :update, id: generic_file.to_param, generic_file: {title: updated_title}
+      put :update, id: generic_file.to_param, generic_file: {title: updated_title, file: file}
       expect(response).to render_template('edit')
       response.status.should == 422
     end
@@ -131,7 +140,7 @@ describe CurationConcern::GenericFilesController do
     it 'redirects to parent when successful' do
       controller.actor = successful_actor
       sign_in(user)
-      put :update, id: generic_file.to_param, generic_file: {title: updated_title}
+      put :update, id: generic_file.to_param, generic_file: {title: updated_title, file: file}
       response.status.should == 302
       expect(response).to(
         redirect_to(
@@ -139,6 +148,7 @@ describe CurationConcern::GenericFilesController do
         )
       )
     end
+
   end
 
 
