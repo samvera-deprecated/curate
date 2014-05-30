@@ -21,7 +21,7 @@
           <div class="span4">
             <input class="input-xlarge autocomplete-users" data-url="/people" id="<%=prefix %>_members_attributes_{{index}}_name" name="<%=prefix %>[members_attributes][{{index}}][name]" type="text" value="" />
             <span class="field-controls">
-              <button class="btn btn-success add">
+              <button type="button" class="btn btn-success add">
                 <i class="icon-white icon-plus"></i>
                 <span>Add</span>
               </button>
@@ -43,7 +43,7 @@
             </span>
             <input type="hidden" name="<%=prefix %>[members_attributes][{{index}}][id]" value="{{value}}">
             <span class="field-controls">
-              <button class="btn btn-danger remove">
+              <button type="button" class="btn btn-danger remove">
                 <i class="icon-white icon-minus"></i>
                 <span>Remove</span>
               </button>
@@ -99,3 +99,4 @@
     </ul>
   </div>
 </div>
+

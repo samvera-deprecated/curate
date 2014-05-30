@@ -15,18 +15,18 @@
         <li class="field-wrapper input-append">
           <input id="<%=prefix %>_editor_groups_attributes_{{index}}_id" name="<%=prefix %>[editor_groups_attributes][{{index}}][id]" type="hidden" value="" />
           <input class="input-xlarge autocomplete-groups" data-url="/hydramata/groups" id="<%=prefix %>_editor_groups_attributes_{{index}}_title" name="<%=prefix %>[editor_groups_attributes][{{index}}][title]" type="text" value="" />
-          <span class="field-controls"><button class="btn btn-success add"><i class="icon-white icon-plus"></i><span>Add</span></button></span>
+          <span class="field-controls"><button type="button" class="btn btn-success add"><i class="icon-white icon-plus"></i><span>Add</span></button></span>
         </li>
       </script>
       <script id="existing-group-template" type="text/x-handlebars-template">
         <li class="field-wrapper input-append">
           <span class="linked-group"><a href="/hydramata/groups/{{value}}" target="_new">{{label}}</a></span>
           <input type="hidden" name="<%=prefix %>[editor_groups_attributes][{{index}}][id]" value="{{value}}">
-          <span class="field-controls"><button class="btn btn-danger remove"><i class="icon-white icon-minus"></i><span>Remove</span></button></span>
+          <span class="field-controls"><button type="button" class="btn btn-danger remove"><i class="icon-white icon-minus"></i><span>Remove</span></button></span>
         </li>
       </script>
       <ul class="listing">
-      
+
       <%= f.fields_for :editor_groups do |group| %>
         <li class="field-wrapper input-append">
           <%= group.hidden_field :id %>
@@ -40,8 +40,9 @@
           <span class="field-controls"></span>
         </li>
       <% end %>
-      
+
       </ul>
     </div>
   </div>
 </fieldset>
+
