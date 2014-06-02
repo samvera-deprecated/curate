@@ -22,7 +22,7 @@ It is released under the [Apache 2 License](./LICENSE)
 
 When you generate your new Rails application, you can use Curate's application template:
 ```bash
-$ rails new my_curate_application -m https://raw.github.com/projecthydra/curate/master/lib/generators/curate/application_template.rb
+$ rails new my_curate_application -m https://raw.github.com/projecthydra-labs/curate/develop/lib/generators/curate/application_template.rb
 ```
 
 ## Or Install By Hand
