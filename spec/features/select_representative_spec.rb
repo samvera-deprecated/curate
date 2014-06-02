@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe "select representative file for work" do
-  let!(:user) { FactoryGirl.create(:user) }
+  let!(:person) { FactoryGirl.create(:person_with_user) }
+  let(:user) { person.user }
   let!(:file1){ FactoryGirl.create(:generic_file, title: ["Sample file 1"] ) }
   let!(:file2){ FactoryGirl.create(:generic_file, title: ["Sample file 2"] ) }
   let!(:work1) { FactoryGirl.create(:generic_work, user: user, title: 'Work 1' ) }

@@ -116,6 +116,12 @@ This generator makes the following changes to your application:
     create_file('config/recipients_list.yml', "---\n- hello@world.com\n")
   end
 
+  def create_browse_everything_providers
+    create_file('config/browse_everything_providers.yml', "---\nfile_system:\n  :home: \nbox:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\ndrop_box:\n  :app_key: <your client id>\n  :app_secret: <your app secret>\ngoogle_drive:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\n")
+    default_file_system = "#{File.expand_path('../support', Rails.root)}"
+    inject_into_file 'config/browse_everything_providers.yml', default_file_system, after: /\:home\: /, force: true
+  end
+
   def inject_curate_user
     inject_into_file 'app/models/user.rb', after: /include Sufia\:\:User.*$/ do
       "\n  include Curate::UserBehavior\n"
@@ -155,6 +161,6 @@ This generator makes the following changes to your application:
   end
 
   def create_predicate_mapping
-    copy_file Rails.root.join("../../lib/generators/curate/predicate_mapping/predicate_mappings.yml"), Rails.root.join("config/predicate_mappings.yml"), force: true 
+    template 'predicate_mappings.yml', 'config/predicate_mappings.yml'
   end
 end

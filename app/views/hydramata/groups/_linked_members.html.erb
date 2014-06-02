@@ -65,25 +65,30 @@
             <%= memberField.hidden_field :_destroy %>
             <div class="span4">
               <% if memberField.object.persisted? %>
-                <% if (current_user.repository_id == memberField.object.id) %>
+                <% if ( @group.edit_users.include?(memberField.object.user_key) && @group.edit_users.size == 1 ) %>
                   <span class="linked-user current-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>
                 <% else %>
                   <span class="linked-user"><%=link_to memberField.object.name, memberField.object, target: '_new' %></span>
                 <% end %>
+                <% unless ( @group.edit_users.include?(memberField.object.user_key) && @group.edit_users.size == 1 ) %>
+                  <span class="field-controls"></span>
+                <% end %>
               <% else %>
                 <%= memberField.text_field :name, class: 'input-xlarge autocomplete-users', 'data-url' => people_path, required: memberField.index == 0  %>
-              <% end %>
-              <% if (current_user.repository_id != memberField.object.id) %>
                 <span class="field-controls"></span>
               <% end %>
             </div>
             <div class="span2 text-center">
               <label class="checkbox inline-checkbox">
-                <% if (current_user.repository_id == memberField.object.id) %>
-                  <%= check_box_tag "current_user_disabled", 'checked', true, disabled: true %>
-                  <%= hidden_field_tag "group_member[edit_users_ids][]", @group.edit_users.include?(memberField.object.depositor) %>
+                <% if memberField.object.persisted? %>
+                  <% if ( @group.edit_users.include?(memberField.object.user_key) && ( @group.edit_users.size == 1 ) ) %>
+                    <%= check_box_tag "current_user_disabled", 'checked', true, disabled: true %>
+                    <%= hidden_field_tag "group_member[edit_users_ids][]", memberField.object.pid %>
+                  <% else %>
+                    <%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.user_key) %>
+                  <% end %>
                 <% else %>
-                  <%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, @group.edit_users.include?(memberField.object.depositor) %>
+                  <%= check_box_tag "group_member[edit_users_ids][]", memberField.object.id, false %>
                 <% end %>
               </label>
             </div>

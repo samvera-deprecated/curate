@@ -5,6 +5,8 @@ class Article < ActiveFedora::Base
   include CurationConcern::WithLinkedContributors
   include CurationConcern::WithRelatedWorks
   include CurationConcern::Embargoable
+  include CurationConcern::WithEditors
+
   include ActiveFedora::RegisteredAttributes
 
   has_metadata "descMetadata", type: ArticleMetadataDatastream
@@ -16,7 +18,6 @@ class Article < ActiveFedora::Base
 
   self.indefinite_article = 'an'
   self.contributor_label = 'Author'
-  validates_presence_of :contributors, message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}."
 
   attribute :title,
     datastream: :descMetadata, multiple: false,
@@ -27,7 +28,8 @@ class Article < ActiveFedora::Base
   attribute :contributor,
     datastream: :descMetadata, multiple: true,
     label: "Contributing Author(s)",
-    hint: "Who else played a non-primary role in the creation of your Article."
+    hint: "Who else played a non-primary role in the creation of your Article.",
+    validates: { multi_value_presence: { message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}." }}
   attribute :repository_name,
     datastream: :descMetadata, multiple: false,
     label: "Repository Name",

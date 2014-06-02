@@ -25,15 +25,11 @@ describe 'curate/people/show.html.erb' do
     end
 
     context 'with logged in user' do
-      it 'lists the items within the outer collection, but not the inner collection' do
-        assert_select '#person_profile #documents' do
-          assert_select 'ul' do
-            assert_select 'a[href=?]', collection_path(outer_collection), text: 'Outer Collection'
-            assert_select 'a[href=?]', collection_path(inner_collection), text: 'Inner Collection'
-            assert_select 'a[href=?]', curation_concern_generic_work_path(outer_work), text: 'Outer Work'
-            assert_select 'a[href=?]', curation_concern_generic_work_path(inner_work), count: 0
-          end
-        end
+      it 'display collections/work and not nested collections or work within a collection' do
+        expect(rendered).to have_content('Outer Collection')
+        expect(rendered).to have_content('Outer Work')
+        expect(rendered).to_not have_content('Inner Collection')
+        expect(rendered).to_not have_content('Inner Work')
       end
     end
 

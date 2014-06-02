@@ -8,6 +8,7 @@ class CatalogController < ApplicationController
   include BreadcrumbsOnRails::ActionController
   include Curate::ThemedLayoutController
   include Curate::FieldsForAddToCollection
+  include Hydramata::SolrHelper
 
   with_themed_layout 'catalog'
 
@@ -15,9 +16,11 @@ class CatalogController < ApplicationController
   before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
   CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
+  # Enforce embargo on all Solr queries
+  CatalogController.solr_search_params_logic += [:enforce_embargo]
   # This filters out objects that you want to exclude from search results, like FileAssets
   CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
-
+  CatalogController.solr_search_params_logic += [:show_only_works]
   before_filter :agreed_to_terms_of_service!
 
   skip_before_filter :default_html_head
@@ -25,16 +28,6 @@ class CatalogController < ApplicationController
   def index
     collection_options
     super
-  end
-
-  def self.human_readable_type_hash
-    { :article_facet => { :label => 'Articles', :fq => "active_fedora_model_ssi:Article" },
-      :dataset_facet => { :label => 'Datasets', :fq => "active_fedora_model_ssi:Dataset" },
-      :document_facet=> { :label => 'Document', :fq => "active_fedora_model_ssi:Document" },
-      :etd_facet=> { :label => 'ETD', :fq => "active_fedora_model_ssi:Etd" },
-      :generic_file_facet=> { :label => 'Generic Files', :fq => "active_fedora_model_ssi:GenericFile" },
-      :generic_work_facet=> { :label => 'Generic Works', :fq => "active_fedora_model_ssi:GenericWork" },
-      :image_facet => { :label => 'Images', :fq => "active_fedora_model_ssi:Image"}}
   end
 
   def self.uploaded_field
@@ -78,7 +71,7 @@ class CatalogController < ApplicationController
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
-    config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type of Work", :query => human_readable_type_hash, limit: 5
+    config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type of Work", limit: 5
     config.add_facet_field solr_name(:desc_metadata__creator, :facetable), label: "Creator", helper_method: :creator_name_from_pid, limit: 5
 
     config.add_facet_field solr_name("desc_metadata__tag", :facetable), label: "Keyword", limit: 5
@@ -386,12 +379,20 @@ class CatalogController < ApplicationController
     def exclude_unwanted_models(solr_parameters, user_parameters)
       super
       solr_parameters[:fq] ||= []
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:GenericFile\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Profile\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:ProfileSection\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:LinkedResource\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Hydramata_Group\""
-      return solr_parameters
+      [GenericFile, Profile, ProfileSection, LinkedResource,
+       Hydramata::Group].each do |klass|
+        solr_parameters[:fq] << exclude_class_filter(klass)
+      end
+    end
+
+    #Excludes collection and person only when trying to filter by work.
+    # This is included as part of blacklight search solr params logic
+    def show_only_works(solr_parameters, user_parameters)
+      if params.has_key?(:f) and params[:f].to_a.flatten == ["generic_type_sim","Work"]
+        solr_parameters[:fq] ||= []
+        solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Collection\""
+        solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Person\""
+      end
     end
 
     def depositor
@@ -403,5 +404,8 @@ class CatalogController < ApplicationController
       "#{Solrizer.solr_name('system_create', :sortable)} desc"
     end
 
-
+    def exclude_class_filter(klass)
+      '-' + ActiveFedora::SolrService.construct_query_for_rel(has_model:
+                                                        klass.to_class_uri)
+    end
 end

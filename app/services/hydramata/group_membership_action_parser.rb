@@ -50,15 +50,18 @@ module Hydramata::GroupMembershipActionParser
   def self.build_params(params, action, current_user)
     new_params_aggregate = []
     
+    if !params.has_key?("group_member") || !params["group_member"].has_key?("edit_users_ids")
+      return { group_id: params[:id], current_user: current_user, title: params["hydramata_group"]["title"], description: params["hydramata_group"]["description"], members: [], no_editors: true }
+    end
     action.each_with_index do |member_action, index|
       person_id = params["hydramata_group"]["members_attributes"][index.to_s]["id"]
-      if person_id
+      if person_id.present?
         role = params["group_member"]["edit_users_ids"].include?(person_id) ? "manager" : "member"
         new_params_hash = Hash[person_id: person_id, action: member_action, role: role]
         new_params_aggregate << new_params_hash
       end
     end
-    { group_id: params[:id], current_user: current_user, title: params["hydramata_group"]["title"], description: params["hydramata_group"]["description"], members: new_params_aggregate }
+    { group_id: params[:id], current_user: current_user, title: params["hydramata_group"]["title"], description: params["hydramata_group"]["description"], members: new_params_aggregate, no_editors: false }
   end
   
 

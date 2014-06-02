@@ -16,10 +16,10 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
   before { sign_in user }
 
   def path_to_curation_concern
+    # This fails with a ActionController::UrlGenerationError if the
+    # curation_concern didn't save
     public_send("curation_concern_#{curation_concern_type_underscore}_path", controller.curation_concern)
   end
-
-  render_views
 
   if optionally_include_specs(actions, :show)
     describe "#show" do
@@ -51,6 +51,9 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
   if optionally_include_specs(actions, :new)
     describe "#new" do
       context "my work" do
+
+        render_views
+
         it "should show me the page" do
           get :new
           expect(response).to be_success
@@ -74,12 +77,10 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
     describe "#create" do
       it "should create a work" do
         controller.curation_concern.stub(:persisted?).and_return(true)
+        controller.curation_concern.inner_object.pid = 'test:123'
         controller.actor = double(:create => true)
 
-        setup_stubs
-
         post :create, accept_contributor_agreement: "accept"
-
         response.should redirect_to path_to_curation_concern
       end
     end
@@ -126,14 +127,12 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
       let(:a_work) { FactoryGirl.create(default_work_factory_name, user: user) }
       it "should update the work " do
         controller.actor = double(:update => true, :visibility_changed? => false)
-        setup_stubs_for_update(a_work)
         patch :update, id: a_work
         response.should redirect_to path_to_curation_concern
       end
       describe "changing rights" do
         it "should prompt to change the files access" do
           controller.actor = double(:update => true, :visibility_changed? => true)
-          setup_stubs_for_update(a_work)
           patch :update, id: a_work
           response.should redirect_to confirm_curation_concern_permission_path(controller.curation_concern)
         end
@@ -141,7 +140,6 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
       describe "failure" do
         it "renders the form" do
           controller.actor = double(:update => false, :visibility_changed? => false)
-          setup_stubs_for_update(a_work)
           patch :update, id: a_work
           expect(response).to render_template('edit')
         end
@@ -159,18 +157,4 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
     end
   end
 
-  def setup_stubs
-    curation_concern_type = controller.curation_concern.class.to_s.underscore
-    work_editorship = CurationConcern::WorkPermission.new
-    CurationConcern::WorkPermission.any_instance.stub(:save).and_return(true)
-
-    controller.class.any_instance.stub(:add_depositor_as_editor).and_return(true)
-    controller.class.any_instance.stub(:get_class_name).and_return(curation_concern_type)
-    controller.class.any_instance.stub(:add_or_update_editors_and_groups).and_return(work_editorship)
-  end
-
-  def setup_stubs_for_update(work)
-    CurationConcern::WorkPermissionActionParser.stub(:convert_params).and_return({})
-    CurationConcern::WorkPermission.stub(:new).and_return(work)
-  end
 end

@@ -9,16 +9,11 @@ class Hydramata::GroupMembershipForm
   attribute :title, String
   attribute :description, String
   attribute :members, Array
-  validate :title_is_unique
+  attribute :no_editors, Boolean
 
   delegate :add_member, to: :group
-  def title_is_unique
-    errors.add(:title, "has already been taken") if is_title_duplicate?
-  end
-  
-  def is_title_duplicate?
-    Hydramata::Group.where(desc_metadata__title_tesim: self.title).to_a.reject{|r| r == self.group}.any?
-  end
+  delegate :group_read_membership, to: :group
+  delegate :group_edit_membership, to: :group
 
   def group
     if self.group_id
@@ -39,7 +34,12 @@ class Hydramata::GroupMembershipForm
   end
 
   def save
-    valid? ? persist : false
+    if no_editors || !atleast_one_manager_present?
+      errors.add(:no_editors, "The Group needs atleast one editor")
+      false
+    else
+      valid? ? persist : false
+    end
   end
 
   private
@@ -48,25 +48,41 @@ class Hydramata::GroupMembershipForm
     @group = Hydramata::Group.new(title: self.title, description: self.description)
     @group.apply_depositor_metadata(current_user.user_key)
     @group.save
-    @group.add_member(self.current_user.person, 'editor')
+    @group.add_member(self.current_user.person, 'manager')
   end
 
+  def atleast_one_manager_present?
+    managers.select{|manager| manager if manager[:action] != "destroy"}.size >= 1
+  end
+
+  def managers
+    members.select{|mem| mem if mem[:role] == "manager" }
+  end
+
+  #TODO
+  # The Group object is maintaining stale value for some reason.
+  # The object has to be reloaded everytime to get the consistent result.
+  # I dont like this either. Hope this will get refactored when curate goes through refactoring.
+  # Scenario where I found this: 
+  # When a member is removed from the group and immediately added back in the same update, then
+  # the member is removed but not added back (even though it was added back).
   def persist
-    self.group.title = self.title
-    self.group.description = self.description
+    group.title = self.title
+    group.description = self.description
+    group.save
     self.members.each do |member|
+      group.reload
       if member[:action] == 'create'
-        self.group.add_member( person( member[:person_id] ), member[:role] )
+        add_member( person( member[:person_id] ), member[:role] )
       elsif member[:action] == 'destroy'
-        self.group.remove_member( person( member[:person_id] ) )
+        group.remove_member( person( member[:person_id] ) )
       elsif member[:action] == 'none'
         if member[:role] == 'manager'
-          self.group.group_edit_membership( person( member[:person_id] ) )
+          group_edit_membership( person( member[:person_id] ) )
         elsif !member[:person_id].blank?
-          self.group.group_read_membership( person( member[:person_id] ) )
+          group_read_membership( person( member[:person_id] ) )
         end
       end
     end
-    self.group.save
   end
 end

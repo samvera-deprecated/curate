@@ -2,32 +2,54 @@ class RegistrationsController < Devise::RegistrationsController
   include Curate::ThemedLayoutController
   with_themed_layout '1_column'
 
-  def update
+  # @TODO - Instead of updating user accounts via the registration controller,
+  #         expose a resource for updating an account. It is possible that the
+  #         resource would only be available for repository managers.
+  def update(&block)
     if current_user.manager?
-      self.resource = resource_class.to_adapter.get!(User.find(params[:user][:id]))
+      manager_is_updating_a_user_registration(&block)
     else
-      self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+      current_user_is_updating_their_user_registration(&block)
     end
-    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+  end
 
-    if current_user.manager?
-      if account_update_params[:password].blank?
-        account_update_params.delete("password")
-        account_update_params.delete("password_confirmation")
-      end
-      successfully_updated = resource.update_without_password(account_update_params)
+  protected
+
+  def manager_is_updating_a_user_registration(&block)
+    manager_is_editing_another_user = params.fetch(:user, {}).fetch(:id, nil)
+    if manager_is_editing_another_user
+      user = User.find(params[:user][:id])
+      self.resource = resource_class.to_adapter.get!(user)
+      scrub_password_parameters_for_manager!
+      update_status = resource.update_without_password(account_update_params)
+      handle_update_response(update_status: update_status, skip_signin: true, &block)
     else
-      successfully_updated = update_resource(resource, account_update_params)
+      current_user_is_updating_their_user_registration(&block)
     end
+  end
 
-    if successfully_updated
-      yield resource if block_given?
-      if is_flashing_format?
-        flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
-          :update_needs_confirmation : :updated
+  def current_user_is_updating_their_user_registration(&block)
+    user = send(:"current_#{resource_name}").to_key
+    self.resource = resource_class.to_adapter.get!(user)
+    update_status = resource.update_with_password(account_update_params)
+    handle_update_response(update_status: update_status, skip_signin: false, &block)
+  end
+
+  def handle_update_response(options = {}, &block)
+    skip_signin = options.fetch(:skip_signin) { false }
+    successful_update = options.fetch(:update_status)
+    if successful_update
+      yield(resource) if block_given?
+      if is_navigational_format?
+        flash_key =
+        if update_needs_confirmation?(resource, prev_unconfirmed_email)
+          :update_needs_confirmation
+        else
+          :updated
+        end
         set_flash_message :notice, flash_key
       end
-      sign_in resource_name, resource, bypass: true unless current_user.manager?
+      sign_in resource_name, resource, bypass: true unless skip_signin
       respond_with resource, location: after_update_path_for(resource)
     else
       clean_up_passwords resource
@@ -35,11 +57,24 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  protected
-
   def after_update_path_for(resource)
     resource.update_column(:user_does_not_require_profile_update, true)
     super
+  end
+
+  def scrub_password_parameters_for_manager!
+    if account_update_params[:password].blank?
+      account_update_params.delete('password')
+      account_update_params.delete('password_confirmation')
+    end
+  end
+
+  def prev_unconfirmed_email
+    if resource.respond_to?(:unconfirmed_email)
+      resource.unconfirmed_email
+    else
+      nil
+    end
   end
 
   def resource_class

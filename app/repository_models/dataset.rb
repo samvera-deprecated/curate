@@ -5,6 +5,7 @@ class Dataset < ActiveFedora::Base
   include CurationConcern::WithLinkedContributors
   include CurationConcern::WithRelatedWorks
   include CurationConcern::Embargoable
+  include CurationConcern::WithEditors
 
   include ActiveFedora::RegisteredAttributes
 
@@ -23,8 +24,9 @@ class Dataset < ActiveFedora::Base
             default: "All rights reserved",
             multiple: false,
             validates: {presence: { message: 'You must select a license for your dataset.' }}
-
-  validates_presence_of :contributors, message: "Your dataset must have a contributor."
+  attribute :contributor, datastream: :descMetadata,
+            multiple: true,
+            validates: {multi_value_presence: { message: "Your dataset must have a contributor."} }
 
   attribute :created,                datastream: :descMetadata, multiple: false
   attribute :description,            datastream: :descMetadata, multiple: false

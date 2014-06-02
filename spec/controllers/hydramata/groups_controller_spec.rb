@@ -32,6 +32,14 @@ describe Hydramata::GroupsController do
       expect(response).to redirect_to hydramata_groups_path
       expect(flash[:notice]).to eq 'Group created successfully.'
     end
+
+    it "should handle failure" do
+      expect {
+        post :create, hydramata_group: hydramata_group, group_member: {}
+      }.to change{Hydramata::Group.count}.by(0)
+      expect(assigns(:group)).to be_an_instance_of Hydramata::Group
+      expect(response).to render_template('new')
+    end
   end
 
   let(:group) { FactoryGirl.create(:group, user: user, title: "Title 1", description: "Description 1") }
@@ -78,9 +86,17 @@ describe Hydramata::GroupsController do
       reload_group.description.should == hydramata_group["description"]
     end
 
-    let(:another_hydramata_group) { 
-       { "title" => "Group - 1", "description" => "Desc - 1", 
-         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""}, 
+    it "handles failure" do
+      reload_group = Hydramata::Group.find(group.pid)
+      put :update, id: group.pid, hydramata_group: hydramata_group, group_member: {}
+      expect(assigns(:group)).to be_an_instance_of Hydramata::Group
+      expect(response).to render_template('edit')
+      expect(flash[:error]).to eq 'Group was not updated.'
+    end
+
+    let(:another_hydramata_group) {
+       { "title" => "Group - 1", "description" => "Desc - 1",
+         "members_attributes" => { "0" => { "id" => person.pid, "_destroy" => ""},
                                    "1" => { "id" => another_person.pid},
                                    "2" => { "id" => "", "_destroy" => "", "name" => ""}
                                  }
@@ -97,8 +113,8 @@ describe Hydramata::GroupsController do
       expect(flash[:notice]).to eq 'Group updated successfully.'
 
       reload_group = Hydramata::Group.find(group.pid)
-      reload_group.edit_users.should == [ person.depositor ]
-      reload_group.read_users.should == [ another_person.depositor ]
+      reload_group.edit_users.should == [ person.user_key ]
+      reload_group.read_users.should == [ another_person.user_key ]
 
       reload_group.members.should == [ person, another_person ]
     end
@@ -115,8 +131,8 @@ describe Hydramata::GroupsController do
     it "removes a member from the group" do
       group.add_member(another_person, "member")
 
-      group.reload.edit_users.should == [ person.depositor ]
-      group.reload.read_users.should == [ another_person.depositor ]
+      group.reload.edit_users.should == [ person.user_key ]
+      group.reload.read_users.should == [ another_person.user_key ]
       group.reload.members.should == [ person, another_person ]
 
       put :update, id: group.id, hydramata_group: delete_a_member, group_member: another_group_member
@@ -124,10 +140,16 @@ describe Hydramata::GroupsController do
       expect(flash[:notice]).to eq 'Group updated successfully.'
 
       reload_group = Hydramata::Group.find(group.pid)
-      reload_group.edit_users.should == [ person.depositor ]
+      reload_group.edit_users.should == [ person.user_key ]
       reload_group.read_users.should == []
 
       reload_group.members.should == [ person ]
+    end
+
+    it 'should have atleast one editor' do
+      put :update, id: group.id, hydramata_group: another_hydramata_group, group_member: {}
+      expect(response).to render_template(:edit)
+      expect(flash[:error]).to eq 'Group was not updated.'
     end
   end
 end

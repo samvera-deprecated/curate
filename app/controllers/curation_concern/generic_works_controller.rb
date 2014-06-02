@@ -7,17 +7,13 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   def create
-    if verify_acceptance_of_user_agreement!
-      self.curation_concern.inner_object.pid = CurationConcern.mint_a_pid
-      hash = params.dup
-      params[get_class_name].delete("editors_attributes") if params.has_key?(get_class_name)
-      if actor.create && add_depositor_as_editor && add_or_update_editors_and_groups(hash).save
-        after_create_response
-      else
-        setup_form
-        respond_with([:curation_concern, curation_concern]) do |wants|
-          wants.html { render 'new', status: :unprocessable_entity }
-        end
+    return unless verify_acceptance_of_user_agreement!
+    if actor.create
+      after_create_response
+    else
+      setup_form
+      respond_with([:curation_concern, curation_concern]) do |wants|
+        wants.html { render 'new', status: :unprocessable_entity }
       end
     end
   end
@@ -28,9 +24,10 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   protected :after_create_response
 
   # Override setup_form in concrete controllers to get the form ready for display
-  def setup_form 
-    curation_concern.contributors << current_user.person if curation_concern.contributors.blank?
-    curation_concern.contributors << Person.new
+  def setup_form
+    if curation_concern.respond_to?(:contributor)
+      curation_concern.contributor << current_user.name if curation_concern.contributor.empty? && !current_user.can_make_deposits_for.any?
+    end
     curation_concern.editors << current_user.person if curation_concern.editors.blank?
     curation_concern.editors.build
     curation_concern.editor_groups.build
@@ -65,7 +62,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   end
 
   def update
-    if add_or_update_editors_and_groups(params).save && actor.update
+    if actor.update
       after_update_response
     else
       setup_form
@@ -99,29 +96,15 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
   protected :after_destroy_response
 
   register :actor do
-    CurationConcern.actor(curation_concern, current_user, params[hash_key_for_curation_concern])
+    CurationConcern.actor(curation_concern, current_user, attributes_for_actor)
+  end
+
+  def attributes_for_actor
+    return params[hash_key_for_curation_concern] if cloud_resources_to_ingest.nil?
+    params[hash_key_for_curation_concern].merge!(:cloud_resources=>cloud_resources_to_ingest)
   end
 
   def hash_key_for_curation_concern
     curation_concern_type.name.underscore.to_sym
-  end
-
-  private
-  def add_or_update_editors_and_groups(hash=params)
-    class_name = get_class_name
-    hash.merge!( { id: curation_concern.pid } ) unless hash.has_key?(:id)
-    req_hash = CurationConcern::WorkPermissionActionParser.convert_params(class_name, hash)
-    req_hash.merge!( {current_user: current_user} )
-    params[class_name].delete("editors_attributes") if params.has_key?(class_name) && params[class_name].has_key?("editors_attributes")
-    params[class_name].delete("editor_groups_attributes") if params.has_key?(class_name) && params[class_name].has_key?("editor_groups_attributes")
-    CurationConcern::WorkPermission.new(req_hash)
-  end
-
-  def add_depositor_as_editor
-    curation_concern.add_editor(current_user.person)
-  end
-
-  def get_class_name
-    curation_concern.class.to_s.underscore
   end
 end

@@ -21,6 +21,7 @@ class Hydramata::GroupsController < ApplicationController
   self.copy_blacklight_config_from(CatalogController)
 
   def index
+    params[:per_page] ||= 50
     super
   end
 
@@ -35,6 +36,8 @@ class Hydramata::GroupsController < ApplicationController
       flash[:notice] = "Group created successfully."
       redirect_to hydramata_groups_path
     else
+      @group = Hydramata::Group.new
+      setup_form
       flash[:error] = "Group was not created."
       render action: :new
     end
@@ -49,9 +52,14 @@ class Hydramata::GroupsController < ApplicationController
   def update
     @group_membership = Hydramata::GroupMembershipForm.new( Hydramata::GroupMembershipActionParser.convert_params(params, current_user) )
     if @group_membership.save
-      flash[:notice] = "Group updated successfully."
-      redirect_to hydramata_group_path( params[:id] )
+      if is_current_user_a_member_of_this_group?(@group_membership.group)
+        redirect_to hydramata_group_path( params[:id] ), notice: "Group updated successfully."
+      else
+        redirect_to hydramata_groups_path, notice: "Group updated successfully. You are no longer a member of the Group: #{@group_membership.title}"
+      end
     else
+      @group = Hydramata::Group.find(params[:id])
+      setup_form
       flash[:error] = "Group was not updated."
       render action: :edit
     end
@@ -64,6 +72,7 @@ class Hydramata::GroupsController < ApplicationController
   end
 
   def setup_form 
+    @group.permissions_attributes = [{name: current_user.user_key, access: "edit", type: "person"}] if @group.members.blank?
     @group.members << current_user.person if @group.members.blank?
     @group.members.build
   end
@@ -112,8 +121,12 @@ class Hydramata::GroupsController < ApplicationController
   end
 
   def only_groups(solr_parameters, user_parameters)
-    solr_parameters[:fq] ||= []
-    solr_parameters[:fq] << "has_model_ssim:\"info:fedora/afmodel:Hydramata_Group\""
-    return solr_parameters
+    solr_parameters[:fq] = [ActiveFedora::SolrService.
+      construct_query_for_rel(has_model: Hydramata::Group.to_class_uri)]
+  end
+
+  def is_current_user_a_member_of_this_group?(group)
+    reload_group = Hydramata::Group.find(group.pid)
+    reload_group.members.include?(current_user.person)
   end
 end

@@ -2,9 +2,10 @@ class Image < ActiveFedora::Base
   include CurationConcern::Work
   include CurationConcern::WithGenericFiles
   include CurationConcern::WithLinkedResources
-  include CurationConcern::WithLinkedContributors
   include CurationConcern::WithRelatedWorks
   include CurationConcern::Embargoable
+  include CurationConcern::WithEditors
+
   include ActiveFedora::RegisteredAttributes
 
   has_metadata "descMetadata", type: ImageMetadata
@@ -27,7 +28,7 @@ class Image < ActiveFedora::Base
       label: "Creator",
       hint: " Primary creator/s of the item.",
       multiple: true,
-      validates: { presence: { message: "Your #{image_label} must have a creator." } }
+      validates: { multi_value_presence: { message: "Your #{image_label} must have a creator." } }
 
     ds.attribute :date_created,
       default: Date.today.to_s("%Y-%m-%d"),

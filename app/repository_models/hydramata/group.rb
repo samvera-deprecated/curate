@@ -10,21 +10,13 @@ class Hydramata::Group < ActiveFedora::Base
 
   has_and_belongs_to_many :members, class_name: "::Person", property: :has_member, inverse_of: :is_member_of
   has_and_belongs_to_many :works, class_name: "::ActiveFedora::Base", property: :is_editor_group_of, inverse_of: :has_editor_group
+  before_destroy :remove_associations
   has_metadata "descMetadata", type: GroupMetadataDatastream
   accepts_nested_attributes_for :members, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :works, allow_destroy: true, reject_if: :all_blank
 
   has_attributes :title, :date_uploaded, :date_modified, :description, datastream: :descMetadata, multiple: false
   validates :title, presence: true
-  validate :title_is_unique
-
-  def title_is_unique
-    errors.add(:title, "has already been taken") if is_title_duplicate?
-  end
-
-  def is_title_duplicate?
-    Hydramata::Group.where(desc_metadata__title_tesim: self.title).to_a.reject{|r| r == self}.any?
-  end
 
   def add_member(candidate, role='')
     return if(!candidate.is_a?(Person) or self.members.include?(candidate))
@@ -36,7 +28,12 @@ class Hydramata::Group < ActiveFedora::Base
   end
 
   def remove_member(candidate)
-    return unless(self.members.include?(candidate) && (self.depositor != candidate.depositor))
+    return if !self.members.include?(candidate)
+    return if( ( self.edit_users.include?(candidate.user_key) ) && ( self.edit_users.size == 1 ) )
+    remove_candidate_member(candidate)
+  end
+
+  def remove_candidate_member(candidate)
     candidate.remove_relationship(:is_member_of, self)
     candidate.save!
     self.remove_relationship(:has_member, candidate)
@@ -61,27 +58,63 @@ class Hydramata::Group < ActiveFedora::Base
   end
 
   def group_edit_membership(candidate)
-    self.read_users.delete(candidate.depositor) if self.read_users.include?(candidate.depositor)
-    self.permissions_attributes = [{name: candidate.depositor, access: "edit", type: "person"}]
+    if self.edit_users.include?(candidate.user_key)
+      return
+    end
+    self.read_users.delete(candidate.user_key) if self.read_users.include?(candidate.user_key)
+    self.permissions_attributes = [{name: candidate.user_key, access: "edit", type: "person"}]
     self.save!
   rescue ActiveFedora::RecordInvalid => e
     errors.add(:title, e.message)
   end
 
   def group_read_membership(candidate)
-    unless self.depositor == candidate.depositor
-      self.edit_users.delete(candidate.depositor) if self.edit_users.include?(candidate.depositor)
-      self.permissions_attributes = [{name: candidate.depositor, access: "read", type: "person"}]
-      self.save!
+    if( ( self.edit_users.include?(candidate.user_key) ) && ( self.edit_users.size == 1 ) )
+      return
     end
+    self.edit_users.delete(candidate.user_key) if self.edit_users.include?(candidate.user_key)
+    self.permissions_attributes = [{name: candidate.user_key, access: "read", type: "person"}]
+    self.save!
   end
 
   def remove_member_privileges(candidate)
-    unless self.depositor == candidate.depositor
-      self.edit_users = self.edit_users - [candidate.depositor] if self.edit_users.include?(candidate.depositor)
-      self.read_users = self.read_users - [candidate.depositor] if self.read_users.include?(candidate.depositor)
-      self.save!
+    if( ( self.edit_users.include?(candidate.user_key) ) && ( self.edit_users.size == 1 ) )
+      return
+    end
+    self.edit_users = self.edit_users - [candidate.user_key] if self.edit_users.include?(candidate.user_key)
+    self.read_users = self.read_users - [candidate.user_key] if self.read_users.include?(candidate.user_key)
+    self.save!
+  end
+
+  private
+
+  def remove_associations
+    remove_members
+    remove_works
+    remove_privileges
+  end
+
+  def remove_privileges_on_work(work)
+    work.edit_groups = work.edit_groups - [self.pid] if work.edit_groups.include?(self.pid)
+    work.read_groups = work.read_groups - [self.pid] if work.read_groups.include?(self.pid)
+    work.save!
+  end
+
+  def remove_members
+    self.members.each do |member|
+      self.remove_candidate_member(member)
     end
   end
 
+  def remove_works
+    self.works.each do |work|
+      work.remove_editor_group(self)
+    end
+  end
+
+  def remove_privileges
+    self.works.each do |work|
+      remove_privileges_on_work(work)
+    end
+  end
 end

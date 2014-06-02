@@ -24,13 +24,11 @@ module Curate
       end
 
       def manager?
-        username = self.respond_to?(:username) ? self.username : self.to_s
-        !!manager_usernames.include?(username)
+        manager_usernames.include?(user_key)
       end
 
       def manager_usernames
-        manager_config = 'config/manager_usernames.yml'
-        File.exist?(manager_config) ? @manager_usernames ||= YAML.load(ERB.new(Rails.root.join(manager_config).read).result)[Rails.env]['manager_usernames'] : @manager_usernames = ''
+        @manager_usernames ||= load_managers
       end
 
       def name
@@ -38,8 +36,22 @@ module Curate
       end
 
       def groups
-        self.person.group_names
+        person.group_pids
       end
+
+      private
+
+        def load_managers
+          manager_config = "#{::Rails.root}/config/manager_usernames.yml"
+          if File.exist?(manager_config)
+            content = IO.read(manager_config)
+            YAML.load(ERB.new(content).result).fetch(Rails.env).
+              fetch('manager_usernames')
+          else
+            logger.warn "Unable to find managers file: #{manager_config}"
+            []
+          end
+        end
     end
   end
 end

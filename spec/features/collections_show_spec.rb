@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe "Collections show view: " do
   let!(:user) { FactoryGirl.create(:user) }
-  let!(:bilbo) { FactoryGirl.create(:person, name: 'Bilbo') }
-  let!(:frodo) { FactoryGirl.create(:person, name: 'Frodo') }
-  let!(:article) { FactoryGirl.create(:generic_work, user: user, contributors: [bilbo, frodo], title: 'An Article') }
+  let!(:bilbo) { 'Bilbo' }
+  let!(:frodo) { 'Frodo' }
+  let!(:article) { FactoryGirl.create(:public_generic_work, user: user, contributor: [bilbo, frodo], title: 'An Article') }
   let!(:collection) { FactoryGirl.create(:public_collection, user: user, title: 'Collected Stuff', members: [article]) }
 
   context "For logged in members:" do

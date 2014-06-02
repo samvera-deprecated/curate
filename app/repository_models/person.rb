@@ -20,7 +20,8 @@ class Person < ActiveFedora::Base
   makes_derivatives :generate_derivatives
 
   attribute :name,
-    datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false,
+    label: "Name"
 
   attribute :email,
     datastream: :descMetadata, multiple: false
@@ -35,13 +36,16 @@ class Person < ActiveFedora::Base
     datastream: :descMetadata, multiple: false
 
   attribute :campus_phone_number,
-    datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false,
+    label: "Work Phone"
 
   attribute :alternate_phone_number,
-    datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false,
+    label: "Alternate Phone"
 
   attribute :personal_webpage,
-    datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false,
+    label: "Webpage"
 
   attribute :blog,
     datastream: :descMetadata, multiple: false
@@ -58,16 +62,16 @@ class Person < ActiveFedora::Base
     self.works << work
     self.save!
     work.editors << self
-    work.permissions_attributes = [{name: self.depositor, access: "edit", type: "person"}] unless work.depositor == self.depositor
+    work.permissions_attributes = [{name: self.user_key, access: "edit", type: "person"}] unless work.depositor == self.user_key
     work.save!
   end
 
   def remove_work(work)
-    if( ( work.depositor != self.depositor ) && ( self.works.include?( work ) ) )
+    if( ( work.depositor != self.user_key ) && ( self.works.include?( work ) ) )
       self.works.delete(work)
       self.save!
       work.editors.delete(self)
-      work.edit_users = work.edit_users - [self.depositor]
+      work.edit_users = work.edit_users - [self.user_key]
       work.save!
     end
   end
@@ -96,8 +100,20 @@ class Person < ActiveFedora::Base
     Namae.parse(self.name).first
   end
 
+  def user_key
+    if user
+      user.user_key
+    else
+      nil
+    end
+  end
+
   def user
-    persisted? ? User.where(repository_id: pid).first : nil
+    if persisted?
+      @user ||= User.where(repository_id: pid).first
+    else
+      nil
+    end
   end
 
   def to_solr(solr_doc={}, opts={})
@@ -118,8 +134,8 @@ class Person < ActiveFedora::Base
     name || "No Title"
   end
 
-  def group_names
-    @group_names ||= self.groups.collect{|g| g.title }
+  def group_pids
+    @group_pids ||= self.groups.collect{|g| g.pid }
   end
 
   GRAVATAR_URL = "//www.gravatar.com/avatar/"
