@@ -4,6 +4,12 @@ describe 'Creating an etd' do
   let(:person) { FactoryGirl.create(:person_with_user) }
   let(:user) { person.user }
 
+  it 'defaults to open visibility' do
+    login_as(user)
+    visit new_curation_concern_etd_path
+    expect(page).to have_checked_field('visibility_open')
+  end
+
   it "should allow me to attach the link on the create page" do
     login_as(user)
     visit root_path
