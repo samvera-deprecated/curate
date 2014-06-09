@@ -11,7 +11,7 @@ def yes_with_banner?(message, banner = "*" * 80)
 end
 def source_paths
   Array(super) +
-      [File.join(File.expand_path(File.dirname(__FILE__)),'predicate_mapping')]
+      [File.join(File.expand_path(File.dirname(__FILE__)))]
 end
 
 
@@ -22,7 +22,7 @@ with_git("Adding curate gem") do
 end
 
 
-copy_file 'predicate_mappings.yml', 'config/predicate_mappings.yml'
+copy_file 'templates/predicate_mappings.yml', 'config/predicate_mappings.yml'
 
 
 HELPFUL_DEVELOPMENT_TOOLS =
