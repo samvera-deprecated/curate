@@ -11,6 +11,7 @@ FactoryGirl.define do
     before(:create) { |work, evaluator|
       work.apply_depositor_metadata(evaluator.user.user_key)
       work.contributor << "Some Body"
+      work.creator << "A Creator"
     }
 
     factory :private_dataset do
