@@ -8,17 +8,20 @@ class Document < GenericWork
   self.contributor_label = 'Author'
 
   def self.valid_types
-    [ 'Book',
+    [
+      'Book',
       'Book Chapter',
-      'Document',
-      'Report',
-      'Pamphlet',
       'Brochure',
-      'Manuscript',
+      'Document',
       'Letter',
+      'Manuscript',
       'Newsletter',
+      'Pamphlet',
+      'Presentation',
       'Press Release',
-      'White Paper' ]
+      'Report',
+      'White Paper'
+    ]
   end
 
   attribute :type, datastream: :descMetadata,
