@@ -25,7 +25,6 @@
       A <abbr title="Digital Object Identifier" data-placement="right">DOI</abbr> is a permanent link to your
       <%= classify_for_display(curation_concern) %>.
       It&rsquo;s an easy way for other people to cite your work.
-      <em>Please note that it could take up to an hour for your DOI to be available.</em>
     </p>
     <p>
       Want more information on <abbr title="Digital Object Identifier">DOI</abbr>s?
@@ -38,6 +37,7 @@
           <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" id="<%= f.object_name %>_doi_assignment_strategy_<%= remote_service.accessor_name %>" value="<%= remote_service.accessor_name %>" <% if curation_concern.doi_assignment_strategy == remote_service.accessor_name.to_s %> checked="true"<% end %> />
           <span class="label-text">
             Yes, I would like to create a <abbr title="Digital Object Identifier">DOI</abbr> for this <%= curation_concern.human_readable_type %>.
+            <br /><em><strong>Please note that it could take up to an hour for your DOI to be available.</strong></em>
           </span>
         </label>
       <%- end -%>
