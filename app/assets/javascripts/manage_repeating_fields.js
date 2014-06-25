@@ -15,8 +15,8 @@
       $('.field-wrapper', this.element).addClass("input-append");
 
       this.controls = $("<span class=\"field-controls\">");
-      this.remover  = $("<button class=\"btn btn-danger remove\"><i class=\"icon-white icon-minus\"></i><span>Remove</span></button>");
-      this.adder    = $("<button class=\"btn btn-success add\"><i class=\"icon-white icon-plus\"></i><span>Add</span></button>");
+      this.remover  = $("<button type=\"button\" class=\"btn btn-danger remove\"><i class=\"icon-white icon-minus\"></i><span>Remove</span></button>");
+      this.adder    = $("<button type=\"button\" class=\"btn btn-success add\"><i class=\"icon-white icon-plus\"></i><span>Add</span></button>");
 
       $('.field-wrapper', this.element).append(this.controls);
       $('.field-wrapper:not(:last-child) .field-controls', this.element).append(this.remover);
@@ -72,3 +72,4 @@
     }
   });
 })(jQuery);
+
