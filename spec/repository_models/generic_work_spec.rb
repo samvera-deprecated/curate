@@ -67,7 +67,7 @@ describe GenericWork do
     let(:person) { FactoryGirl.create(:person_with_user) }
     let(:another_person) { FactoryGirl.create(:person_with_user) }
     let(:work) { FactoryGirl.create(:generic_work, user: person.user) }
-    let(:collection) { FactoryGirl.create(:collection) }
+    let(:collections) { FactoryGirl.create(:collections) }
     describe '#add_editor' do
       it 'should add editor' do
         work.editors.should == []
@@ -111,7 +111,7 @@ describe GenericWork do
     let(:user) { person.user }
     let(:group) { FactoryGirl.create(:group, user: user) }
     let(:work) { FactoryGirl.create(:generic_work, user: person.user) }
-    let(:collection) { FactoryGirl.create(:collection) }
+    let(:collections) { FactoryGirl.create(:collections) }
     describe '#add_editor_group' do
       it 'should add group' do
         work.editor_groups.should == []

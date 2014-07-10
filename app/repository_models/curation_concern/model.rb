@@ -64,13 +64,13 @@ protected
     end
 
     def index_collection_pids(solr_doc)
-      solr_doc[Solrizer.solr_name(:collection, :facetable)] ||= []
-      solr_doc[Solrizer.solr_name(:collection)] ||= []
+      solr_doc[Solrizer.solr_name(:collections, :facetable)] ||= []
+      solr_doc[Solrizer.solr_name(:collections)] ||= []
       self.collection_ids.each do |collection_id|
         collection_obj = ActiveFedora::Base.load_instance_from_solr(collection_id)
         if collection_obj.is_a?(Collection)
-          solr_doc[Solrizer.solr_name(:collection, :facetable)] << collection_id
-          solr_doc[Solrizer.solr_name(:collection)] << collection_id
+          solr_doc[Solrizer.solr_name(:collections, :facetable)] << collection_id
+          solr_doc[Solrizer.solr_name(:collections)] << collection_id
         end
       end
       solr_doc

@@ -19,8 +19,8 @@ describe Curate::CollectionsController do
 
   describe "#index" do
     let(:another_user) { FactoryGirl.create(:user) }
-    let!(:collection) { FactoryGirl.create(:collection, user: user) }
-    let!(:another_collection) { FactoryGirl.create(:collection, user: another_user) }
+    let!(:collections) { FactoryGirl.create(:collections, user: user) }
+    let!(:another_collection) { FactoryGirl.create(:collections, user: another_user) }
     let!(:public_collection) { FactoryGirl.create(:public_collection)}
     let!(:generic_work) { FactoryGirl.create(:generic_work, user: user) }
     it "should show a list of my collections" do
@@ -36,7 +36,7 @@ describe Curate::CollectionsController do
   describe "#create" do
     it "should be successful" do
       expect {
-        post :create, collection:  { title: 'test title', description: 'test desc'}
+        post :create, collections:  { title: 'test title', description: 'test desc'}
       }.to change{Collection.count}.by(1)
       expect(response).to redirect_to collections_path
       expect(flash[:notice]).to eq 'Collection was successfully created.'
@@ -51,19 +51,19 @@ describe Curate::CollectionsController do
 
       expect {
         expect {
-          post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
+          post :create, collections:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
         }.to change{ProfileSection.count}.by(1)
       }.to_not change{Collection.count}
 
-      reloaded_profile.members.should == [assigns(:collection)]
-      assigns(:collection).visibility.should == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      reloaded_profile.members.should == [assigns(:collections)]
+      assigns(:collections).visibility.should == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
 
     it "gracefully recovery if no profile exists" do
       user.profile.should be_nil
       expect {
         expect {
-          post :create, collection:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
+          post :create, collections:  { title: 'test title', description: 'test desc'}, add_to_profile: 'true'
         }.to change{ProfileSection.count}.by(1)
       }.to_not change{Collection.count}
       expect(response).to redirect_to user_profile_path
@@ -72,7 +72,7 @@ describe Curate::CollectionsController do
 
   describe "without access" do
     describe "#update" do
-      let(:collection) { FactoryGirl.create(:collection) }
+      let(:collections) { FactoryGirl.create(:collections) }
       it "should be able to update permissions" do
         patch :update, id: collection.id, visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
         expect(response).to redirect_to root_path
@@ -85,9 +85,9 @@ describe Curate::CollectionsController do
 
   describe "with access" do
     describe "#update" do
-      let(:collection) { FactoryGirl.create(:collection, user: user) }
+      let(:collections) { FactoryGirl.create(:collections, user: user) }
       it "should be able to update permissions" do
-        patch :update, id: collection.id, collection: {visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
+        patch :update, id: collection.id, collections: {visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC}
         expect(response).to redirect_to collection_path(collection)
         expect(flash[:notice]).to eq 'Collection was successfully updated.'
 
@@ -98,7 +98,7 @@ describe Curate::CollectionsController do
 
   describe "Adding an item to a collection: " do
     let!(:work) { FactoryGirl.create(:generic_work, user: user) }
-    let!(:collection) { FactoryGirl.create(:collection, user: user) }
+    let!(:collections) { FactoryGirl.create(:collections, user: user) }
 
     describe "#add_member_form" do
       it "displays the form for adding an item to a collection" do
@@ -122,7 +122,7 @@ describe Curate::CollectionsController do
       it "adds the item to the collection" do
         put :add_member, collectible_id: work.pid, collection_id: collection.pid
         assigns(:collectible).should == work
-        assigns(:collection).should == collection
+        assigns(:collections).should == collection
         reload = Collection.find(collection.pid)
         reload.members.should == [work]
         expect(response).to redirect_to(catalog_index_path)
@@ -137,7 +137,7 @@ describe Curate::CollectionsController do
         put :add_member, collectible_id: work.pid, collection_id: another_collection.pid
 
         assigns(:collectible).should == work
-        assigns(:collection).should == another_collection
+        assigns(:collections).should == another_collection
         reload = Collection.find(another_collection.pid)
         reload.members.should == []
         expect(response).to redirect_to(root_url)

@@ -26,7 +26,7 @@ describe CatalogController do
     end
 
     context "index page" do
-      let!(:collection) { FactoryGirl.create(:collection, user: user) }
+      let!(:collections) { FactoryGirl.create(:collections, user: user) }
 
       it "assigns options for adding items to collection" do
         get 'index'

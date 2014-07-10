@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe 'curate/collections/edit.html.erb' do
-  let(:collection) { FactoryGirl.build(:collection) }
+  let(:collections) { FactoryGirl.build(:collections) }
   let(:work) { FactoryGirl.create(:public_generic_work, title: 'Title of Work') }
   before(:each) do
     collection.add_member(work)
-    assign(:collection, collection)
+    assign(:collections, collection)
     render
   end
   it 'renders page header' do

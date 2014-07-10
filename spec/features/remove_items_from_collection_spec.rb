@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Remove member from collection" do
   let(:user) { FactoryGirl.create(:user) }
   let(:article) { FactoryGirl.create(:generic_work, user: user, title: 'A Scholarly Paper') }
-  let(:collection) { FactoryGirl.create(:public_collection, user: user, title: 'Articles of Great Import', members: [article]) }
+  let(:collections) { FactoryGirl.create(:public_collection, user: user, title: 'Articles of Great Import', members: [article]) }
 
   context "If a user alredy has a collection with content in it" do
     it "should be easy to remove a member from a collection" do

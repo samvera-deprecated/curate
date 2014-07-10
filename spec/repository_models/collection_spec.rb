@@ -9,7 +9,7 @@ describe Collection do
 
 
   it 'can contain another collection' do
-    another_collection = FactoryGirl.create(:collection)
+    another_collection = FactoryGirl.create(:collections)
     subject.members << another_collection
     subject.members.should == [another_collection]
   end

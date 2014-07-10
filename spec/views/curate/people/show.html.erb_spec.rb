@@ -5,8 +5,8 @@ describe 'curate/people/show.html.erb' do
   let(:user) { person.user }
 
   context 'A person who has a collection in their profile' do
-    let(:outer_collection) { FactoryGirl.create(:collection, user: user, title: 'Outer Collection') }
-    let(:inner_collection) { FactoryGirl.create(:collection, user: user, title: 'Inner Collection') }
+    let(:outer_collection) { FactoryGirl.create(:collections, user: user, title: 'Outer Collection') }
+    let(:inner_collection) { FactoryGirl.create(:collections, user: user, title: 'Inner Collection') }
     let(:outer_work) { FactoryGirl.create(:generic_work, user: user, title: 'Outer Work') }
     let(:inner_work) { FactoryGirl.create(:generic_work, user: user, title: 'Inner Work') }
 

@@ -14,7 +14,7 @@ shared_examples 'is_a_curation_concern_model' do
 
   context 'collectibility' do
     subject { FactoryGirl.build(default_work_factory_name) }
-    let(:collection) { double }
+    let(:collections) { double }
     it '#can_be_member_of_collection?' do
       expect(subject.can_be_member_of_collection?(collection)).to eq(true)
     end

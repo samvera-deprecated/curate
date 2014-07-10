@@ -6,7 +6,7 @@ describe 'curation_concern/base/_collection.html.erb' do
   let(:name) { 'My Display Name'}
   let(:person) { FactoryGirl.create(:person_with_user) }
   let(:user) { person.user }
-  let(:collection) { FactoryGirl.create(:collection, user: user, title: 'Collection 1') }
+  let(:collections) { FactoryGirl.create(:collections, user: user, title: 'Collection 1') }
 
   context 'logged in' do
     before do

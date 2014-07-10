@@ -57,7 +57,7 @@ end
 
 describe 'Viewing a collection that is private' do
   let(:user) { FactoryGirl.create(:user) }
-  let(:collection) { FactoryGirl.create(:private_collection, title: "Sample collection" ) }
+  let(:collections) { FactoryGirl.create(:private_collection, title: "Sample collection" ) }
 
   it 'should show a stub indicating we have the work, but it is private' do
     login_as(user)

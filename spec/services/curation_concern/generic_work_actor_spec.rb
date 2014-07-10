@@ -152,8 +152,8 @@ describe CurationConcern::GenericWorkActor do
       end
 
       describe 'adding to collections' do
-        let!(:collection1) { FactoryGirl.create(:collection, user: user) }
-        let!(:collection2) { FactoryGirl.create(:collection, user: user) }
+        let!(:collection1) { FactoryGirl.create(:collections, user: user) }
+        let!(:collection2) { FactoryGirl.create(:collections, user: user) }
         let(:attributes) {
           FactoryGirl.attributes_for(:generic_work,
                                      visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC,

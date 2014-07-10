@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :collection do
+  factory :collections do
     ignore do
       user {FactoryGirl.create(:user)}
     end

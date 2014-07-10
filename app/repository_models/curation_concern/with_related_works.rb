@@ -12,7 +12,11 @@ module CurationConcern
       accepts_nested_attributes_for :related_works, :allow_destroy => true
 
       def related_work_tokens=(tokens)
-        self.related_work_ids = CurationConcern::Work.ids_from_tokens(tokens)
+        self.related_work_ids = remove_invalid_pids(CurationConcern::Work.ids_from_tokens(tokens))
+      end
+
+      def remove_invalid_pids(related_work_ids)
+        related_work_ids.delete_if {|pid| !self.class.exists?(pid) }
       end
 
       def related_work_tokens

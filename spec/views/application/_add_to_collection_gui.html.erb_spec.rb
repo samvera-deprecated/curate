@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'application/add_to_collection_gui' do
   let(:document)        { double(title: 'A Document',        pid: 'sufia:vwxyz', noid: 'vwxyz', human_readable_type: 'Document'  ) }
   let(:profile)         { double(title: 'Your Profile',      pid: 'sufia:abcde', noid: 'abcde', human_readable_type: 'Profile'   ) }
-  let(:collection)      { double(title: 'A Collection',      pid: 'sufia:12345', noid: '12345', human_readable_type: 'Collection') }
+  let(:collections)      { double(title: 'A Collection',      pid: 'sufia:12345', noid: '12345', human_readable_type: 'Collection') }
   let(:profile_section) { double(title: 'A Profile Section', pid: 'sufia:56789', noid: '56789', human_readable_type: 'Collection') }
 
   context 'with collections and no profile sections' do

@@ -4,7 +4,7 @@ describe ApplicationHelper do
 
   context '#collection_title_from_pid' do
     let(:value) { 'abc' }
-    let(:collection) { double(title: 'Title') }
+    let(:collections) { double(title: 'Title') }
     it 'should load the value and return the title' do
       Collection.should_receive(:load_instance_from_solr).with(value).and_return(collection)
       expect(helper.collection_title_from_pid(value)).to eq(collection.title)
@@ -17,7 +17,7 @@ describe ApplicationHelper do
 
   context '#creator_name_from_pid' do
     let(:value) { 'abc' }
-    let(:collection) { double(name: 'Name') }
+    let(:collections) { double(name: 'Name') }
     it 'should load the value and return the name' do
       Person.should_receive(:load_instance_from_solr).with(value).and_return(collection)
       expect(helper.creator_name_from_pid(value)).to eq(collection.name)

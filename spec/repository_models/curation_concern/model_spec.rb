@@ -5,7 +5,7 @@ describe CurationConcern::Model do
     let(:work){FactoryGirl.create(:generic_work, title: 'Work') }
     let(:reloaded_work) { GenericWork.find(work.pid) }
 
-    let(:collection){ FactoryGirl.create(:collection) }
+    let(:collections){ FactoryGirl.create(:collections) }
     let(:reloaded_collection) { Collection.find(collection.pid) }
 
     let(:user) { FactoryGirl.create(:person_with_user) }

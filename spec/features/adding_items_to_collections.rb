@@ -8,7 +8,7 @@ describe "Collections: " do
   end
 
   describe "Adding items to collections: " do
-    let!(:collection) { FactoryGirl.create(:public_collection, user: user, title: 'Collected Stuff') }
+    let!(:collections) { FactoryGirl.create(:public_collection, user: user, title: 'Collected Stuff') }
     let!(:work1) { FactoryGirl.create(:generic_work, user: user, title: 'Work 1') }
     let!(:work2) { FactoryGirl.create(:generic_work, user: user, title: 'Work 2') }
 

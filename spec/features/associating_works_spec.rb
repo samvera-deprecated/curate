@@ -67,4 +67,20 @@ describe 'Editing existing works', describe_options do
       expect(page).to have_link(work.title, href: curation_concern_generic_work_path(work))
     end
   end
+
+  it "should gracefully fail when invalid pid is given" do
+    login_as(user)
+    visit curation_concern_generic_work_path(work)
+    page.should have_field("generic_work_related_work_tokens", with: "")
+    fill_in 'generic_work_related_work_tokens', :with => "boguspid"
+    click_button 'Update Related Works'
+    page.should have_field("generic_work_related_work_tokens", with: "")
+    fill_in 'generic_work_related_work_tokens', :with => "boguspid,onemoreboguspid,#{dataset2.pid}"
+    click_button 'Update Related Works'
+    page.should have_field("generic_work_related_work_tokens", with: dataset2.pid)
+    visit curation_concern_dataset_path(dataset2)
+    within ('table.referenced-by-works') do
+      expect(page).to have_link(work.title, href: curation_concern_generic_work_path(work))
+    end
+  end
 end

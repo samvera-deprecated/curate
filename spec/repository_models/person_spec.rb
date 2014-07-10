@@ -29,7 +29,7 @@ describe Person do
     let(:person) { FactoryGirl.create(:person_with_user) }
     let(:another_person) { FactoryGirl.create(:person_with_user) }
     let(:work) { FactoryGirl.create(:generic_work, user: person.user) }
-    let(:collection) { FactoryGirl.create(:collection) }
+    let(:collections) { FactoryGirl.create(:collections) }
     describe '#add_work' do
       it 'should add work' do
         person.works.should == []

@@ -122,7 +122,7 @@ class Curate::CollectionsController < ApplicationController
   def extract_file_parameter
     # Because the collection, profile_collection, and profile_section are not
     # proper citizens
-    container = params[:collection] || params[:profile_collection] || params[:profile_section]
+    container = params[:collections] || params[:profile_collection] || params[:profile_section]
     @collection.file = container[:file] if container.has_key?(:file)
   end
 

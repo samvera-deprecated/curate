@@ -66,8 +66,8 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class, curati
     describe '#update' do
       let(:curation_concern) { FactoryGirl.create(default_work_factory_name, user: user)}
       describe 'adding to collections' do
-        let!(:collection1) { FactoryGirl.create(:collection, user: user) }
-        let!(:collection2) { FactoryGirl.create(:collection, user: user) }
+        let!(:collection1) { FactoryGirl.create(:collections, user: user) }
+        let!(:collection2) { FactoryGirl.create(:collections, user: user) }
         let(:attributes) {
           FactoryGirl.attributes_for(public_work_factory_name, collection_ids: [collection2.pid])
         }

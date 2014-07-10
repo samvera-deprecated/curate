@@ -5,7 +5,7 @@ describe "Collections show view: " do
   let!(:bilbo) { 'Bilbo' }
   let!(:frodo) { 'Frodo' }
   let!(:article) { FactoryGirl.create(:public_generic_work, user: user, contributor: [bilbo, frodo], title: 'An Article') }
-  let!(:collection) { FactoryGirl.create(:public_collection, user: user, title: 'Collected Stuff', members: [article]) }
+  let!(:collections) { FactoryGirl.create(:public_collection, user: user, title: 'Collected Stuff', members: [article]) }
 
   context "For logged in members:" do
     it "remove an item from the collection" do
