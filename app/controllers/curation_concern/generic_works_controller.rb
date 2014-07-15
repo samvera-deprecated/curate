@@ -24,7 +24,7 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
       if viral_files.any?
         flash[:error] = "The following virus #{scan_result} was found in the file (#{file_name}) you attempted to upload.  The file was not uploaded, but the work was created."
         content["files"]=nil
-       end    
+      end    
     end
   end
 
