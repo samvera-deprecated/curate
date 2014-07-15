@@ -112,6 +112,10 @@ This generator makes the following changes to your application:
     create_file('config/manager_usernames.yml', "development:\n  manager_usernames:\n  - manager@example.com\ntest:\n  manager_usernames:\n  - manager@example.com\nproduction:\n  manager_usernames:\n  - manager@example.com\n")
   end
 
+  def create_clamav_initializer
+    create_file('config/initializers/clamav.rb', "ClamAV.instance.loaddb()")
+  end
+
   def create_recipients_list
     create_file('config/recipients_list.yml', "---\n- hello@world.com\n")
   end
