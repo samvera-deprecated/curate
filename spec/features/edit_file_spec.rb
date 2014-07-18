@@ -12,7 +12,6 @@ describe "Editing an attached file" do
     end
     fill_in "Title", with: 'Test title'
     click_button "Update Attached File"
-
     expect(page).to have_selector('.related_files .attribute.title', text: /Test title/)
   end
 end
