@@ -29,7 +29,11 @@ class Article < ActiveFedora::Base
     datastream: :descMetadata, multiple: true,
     label: "Contributing Author(s)",
     hint: "Who else played a non-primary role in the creation of your Article.",
-    validates: { multi_value_presence: { message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}." }}
+  attribute :creator,
+    datastream: :descMetadata, multiple: true,
+    label: "Author",
+    hint: "Primary creator/s of the article.",
+    validates: { multi_value_presence: { message: "Your article must have a creator." } }
   attribute :repository_name,
     datastream: :descMetadata, multiple: false,
     label: "Repository Name",
