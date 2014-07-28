@@ -14,7 +14,7 @@ at_exit do
   end
 end
 
-response = Curate::WorkGenerator.start(%W(spam --force), destination_root: Rails.root)
+response = Curate::WorkGenerator.start(%W(spam --force --doi=false), destination_root: Rails.root)
 
 sleep(2) if ENV['TRAVIS'] # Because the generator is not completing
 
