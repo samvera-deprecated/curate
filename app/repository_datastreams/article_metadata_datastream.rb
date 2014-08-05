@@ -63,6 +63,7 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
     map.type({in: RDF::DC}) ## indexing?
+
 =begin
     map.collection_name(to: "relation#ispartof", in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable
@@ -81,5 +82,6 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
 =end
+
   end
 end

@@ -17,23 +17,82 @@ class Article < ActiveFedora::Base
   self.human_readable_short_description = "Deposit or reference a preprint or published article."
 
   self.indefinite_article = 'an'
-  self.contributor_label = 'Author'
+  self.creator_label = 'Author'
 
-  attribute :title,
+  attribute :abstract,
+    label: "Abstract or Summary of the Article",
     datastream: :descMetadata, multiple: false,
-    label: "Title of your Article",
-    validates: { presence: { message: 'Your article must have a title.' } }
+    validates: { presence: { message: 'Your Article must have an abstract.' } }
   attribute :alternate_title,
+    datastream: :descMetadata, multiple: true
+  attribute :bibliographic_citation
+    label: "Recommended Citation",
     datastream: :descMetadata, multiple: true
   attribute :contributor,
     datastream: :descMetadata, multiple: true,
     label: "Contributing Author(s)",
     hint: "Who else played a non-primary role in the creation of your Article."
+  attribute :coverage_spatial,
+    datastream: :descMetadata, multiple: false
+  attribute :coverage_temporal,
+    datastream: :descMetadata, multiple: false
   attribute :creator,
     datastream: :descMetadata, multiple: true,
     label: "Author",
     hint: "Primary creator/s of the article.",
-    validates: { multi_value_presence: { message: "Your article must have a creator." } }
+    validates: { multi_value_presence: { message: "Your article must have an author." } }
+  attribute :date_created,
+    default: Date.today.to_s("%Y-%m-%d"),
+    label: "When did your finish your Article",
+    hint: "This does not need to be exact, but your best guess.",
+    datastream: :descMetadata, multiple: false
+  attribute :date_modified, 
+    datastream: :descMetadata, multiple: false
+  attribute :date_uploaded,
+    datastream: :descMetadata, multiple: false
+  ## doi
+  ## extent
+  attribute :content_format,
+    label: "Content Format",
+    datastream: :descMetadata, multiple: false
+  attribute :identifier,
+    datastream: :descMetadata, multiple: false,
+    editable: false
+  attribute :issn,
+    datastream: :descMetadata, multiple: false,
+    editable: true
+  attribute :journal_title,
+    label: "Journal Title",
+    datastream: :descMetadata, multiple: false
+  attribute :language,
+    hint: "What is the language(s) in which you wrote your work?",
+    default: ['English'],
+    datastream: :descMetadata, multiple: true
+  ## note
+  ## permissions
+  attribute :publisher,
+    datastream: :descMetadata, multiple: true
+  ## publisher_digital
+  attribute :requires,
+    datastream: :descMetadata, multiple: true
+  attribute :rights,
+    datastream: :descMetadata, multiple: false,
+    default: "All rights reserved",
+    validates: { presence: { message: 'You must select a license for your work.' } }
+  attribute :subject,
+    label: "Keyword(s) or phrase(s)",
+    hint: "What words or phrases would be helpful for someone searching for your Article",
+    datastream: :descMetadata, multiple: true
+  attribute :title,
+    datastream: :descMetadata, multiple: false,
+    label: "Title of your Article",
+    validates: { presence: { message: 'Your article must have a title.' } }
+
+  attribute :files,
+    multiple: true, form: {as: :file}, label: "Upload Files",
+    hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
+
+=begin
   attribute :repository_name,
     datastream: :descMetadata, multiple: false,
     label: "Repository Name",
@@ -46,62 +105,10 @@ class Article < ActiveFedora::Base
     datastream: :descMetadata, multiple: false,
     label: "Collection Name",
     hint: "The name of the collection that is being digitized."
-  attribute :abstract,
-    label: "Abstract or Summary of the Article",
-    datastream: :descMetadata, multiple: false,
-    validates: { presence: { message: 'Your Article must have an abstract.' } }
-  attribute :content_format,
-    label: "Content Format",
-    datastream: :descMetadata, multiple: false
   attribute :date_digitized,
     label: "Digitized Date",
     datastream: :descMetadata, multiple: false,
     hint: "The date the materials were digitized."
-  attribute :recommended_citation,
-    label: "Recommended Citation",
-    datastream: :descMetadata, multiple: true
-  attribute :date_created,
-    default: Date.today.to_s("%Y-%m-%d"),
-    label: "When did your finish your Article",
-    hint: "This does not need to be exact, but your best guess.",
-    datastream: :descMetadata, multiple: false
-  attribute :date_uploaded,
-    datastream: :descMetadata, multiple: false
-  attribute :date_modified, 
-    datastream: :descMetadata, multiple: false
-  attribute :journal_information,
-    label: "Journal Information",
-    datastream: :descMetadata, multiple: false
-  attribute :subject,
-    label: "Keyword(s) or phrase(s)",
-    hint: "What words or phrases would be helpful for someone searching for your Article",
-    datastream: :descMetadata, multiple: true
-  attribute :language,
-    hint: "What is the language(s) in which you wrote your work?",
-    default: ['English'],
-    datastream: :descMetadata, multiple: true
-  attribute :publisher,
-    datastream: :descMetadata, multiple: true
-  attribute :coverage_spatial,
-    datastream: :descMetadata, multiple: false
-  attribute :coverage_temporal,
-    datastream: :descMetadata, multiple: false
-  attribute :identifier,
-    datastream: :descMetadata, multiple: false,
-    editable: false
-  attribute :issn,
-    datastream: :descMetadata, multiple: false,
-    editable: true
-  attribute :rights,
-    datastream: :descMetadata, multiple: false,
-    default: "All rights reserved",
-    validates: { presence: { message: 'You must select a license for your work.' } }
-
-  attribute :requires,
-    datastream: :descMetadata, multiple: true
-
-  attribute :files,
-    multiple: true, form: {as: :file}, label: "Upload Files",
-    hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
+=end
 
 end
