@@ -8,22 +8,30 @@ describe Article do
   it_behaves_like 'is_embargoable'
   it_behaves_like 'has_common_solr_fields'
 
-  it { should have_unique_field(:human_readable_type) }
   it { should have_unique_field(:abstract) }
-  it { should have_unique_field(:title) }
-  it { should have_unique_field(:journal_information) }
-  it { should have_unique_field(:date_uploaded) }
-  it { should have_unique_field(:date_modified) }
-  it { should have_unique_field(:date_digitized) }
-  it { should have_unique_field(:identifier) }
-  it { should have_unique_field(:issn) }
-
+  it { should have_multivalue_field(:alternate_title) }
+  it { should have_unique_field(:bibliographic_citation) }
   it { should have_multivalue_field(:contributor) }
-  it { should have_multivalue_field(:subject) }
-  it { should have_multivalue_field(:publisher) }
+  it { should have_multivalue_field(:coverage_spatial) }
+  it { should have_multivalue_field(:coverage_temporal) }
+  it { should have_unique_field(:creator) }
+  it { should have_unique_field(:date_created) }
+  it { should have_unique_field(:date_modified) }
+  it { should have_unique_field(:date_uploaded) }
+  it { should have_unique_field(:doi) }
+  it { should have_multivalue_field(:identifier) }
+  it { should have_unique_field(:issn) }
+  it { should have_unique_field(:journal_title) }
   it { should have_multivalue_field(:language) }
-  it { should have_multivalue_field(:requires) }
-  it { should have_multivalue_field(:recommended_citation) }
+  it { should have_unique_field(:note) }
+  it { should have_unique_field(:publisher) }
+  it { should have_unique_field(:publisher_digital) }
+  it { should have_unique_field(:requires) }
+  it { should have_unique_field(:rights) }
+  it { should have_multivalue_field(:subject) }
+  it { should have_unique_field(:title) }
+
+  it { should have_unique_field(:human_readable_type) }
 
   describe 'to_solr' do
     it 'derives dates from date_created fields' do

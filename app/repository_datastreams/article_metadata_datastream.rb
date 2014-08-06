@@ -32,10 +32,10 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_sortable
     end
     map.doi({to: "identifier#doi", in: RDF::QualifiedDC})
-    map.extent({to: "format#extent", in: RDF::QualifiedDC})
-    map.format({in: RDF::QualifiedDC, to: 'format#mimetype'})
+    ## map.extent({to: "format#extent", in: RDF::QualifiedDC}) ## this should belong to the files
+    ## map.format({in: RDF::QualifiedDC, to: 'format#mimetype'}) ## this should belong to the files
     map.identifier({in: RDF::DC})
-    map.issn({to: "identifier#issn", in: RDF::QualifiedDC}) ## the term for this is a problem
+    map.issn({to: "identifier#issn", in: RDF::QualifiedDC}) ## is the term for this is a problem?
     map.journal_title(to: "source", in: RDF::DC) do |index|
       index.type :text
       index.as :stored_searchable
