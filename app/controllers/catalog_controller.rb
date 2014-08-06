@@ -143,7 +143,7 @@ class CatalogController < ApplicationController
     # since we aren't specifying it otherwise.
     config.add_search_field('all_fields', label: 'All Fields', :include_in_advanced_search => false) do |field|
       title_name = solr_name("desc_metadata__title", :stored_searchable, type: :string)
-      label_name = solr_name("desc_metadata__title", :stored_searchable, type: :string)
+      label_name = solr_name("desc_metadata__name", :stored_searchable, type: :string)
       contributor_name = solr_name("desc_metadata__contributor", :stored_searchable, type: :string)
       description_name = solr_name("desc_metadata__description", :stored_searchable, type: :string)
       abstract_name = solr_name("desc_metadata__abstract", :stored_searchable, type: :string)
@@ -155,7 +155,7 @@ class CatalogController < ApplicationController
       subject_name = solr_name("desc_metadata__subject", :stored_searchable, type: :string)
       identifier_name = solr_name("desc_metadata__identifier", :stored_searchable, type: :string)
       field.solr_parameters = {
-        :qf => "#{title_name} noid_tsi file_format_tesim #{contributor_name} #{abstract_name} #{description_name} #{creator_name} #{publisher_name} #{language_name} #{collection_name} #{contributor_institution_name} #{subject_name} #{identifier_name}",
+        :qf => "#{title_name} #{label_name} noid_tsi file_format_tesim #{contributor_name} #{abstract_name} #{description_name} #{creator_name} #{publisher_name} #{language_name} #{collection_name} #{contributor_institution_name} #{subject_name} #{identifier_name}",
         :pf => "#{title_name}"
       }
     end
