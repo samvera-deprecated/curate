@@ -52,6 +52,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-rails", '~> 2.14'
   s.add_development_dependency "factory_girl_rails"
   s.add_development_dependency 'rspec-html-matchers', '~> 0.4'
+  s.add_development_dependency 'rspec-html-matchers', '~>0.4', '< 0.6'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'timecop'
   s.add_development_dependency 'jettywrapper'

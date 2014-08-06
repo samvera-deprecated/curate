@@ -16,11 +16,6 @@ bundler_args: --without headless
 before_install:
   - gem install bundler
 
-branches:
-  only:
-    - master
-    - develop
-
 env:
   matrix:
     - SPEC_GROUP=2
