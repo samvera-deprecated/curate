@@ -65,8 +65,8 @@ describe Group do
 
       test_group_2.reload
       puts test_group_2.members.class
-      test_group_2.members.should include(person)
-      test_group_2.members.should_not include(another_person)
+      expect(test_group_2.members.include?(person)).to be_truthy
+      expect(test_group_2.members.include?(another_person)).to be_falsey
       test_group_2.members.count.should eq 1
 
       another_person.groups.count.should eq 0

@@ -54,7 +54,7 @@ describe CloudResource do
 
       it 'createss a download path for a local file' do
         # Mock the file methods
-        file = double(File)
+        file = 'file'
         File.stub(:new).and_return(file)
         File.stub(:open).and_return(file)
         file.stub(:close)
@@ -70,7 +70,7 @@ describe CloudResource do
 
       it 'does not create a download path for a file' do
         # Mock the file methods
-        file = double(File)
+        file = 'file'
         File.stub(:new).and_return(file)
         File.stub(:open).and_return(file)
         expect(subject.download_content_from_host).to be_nil

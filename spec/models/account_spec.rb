@@ -54,8 +54,8 @@ describe Account do
         subject.update_with_password(attributes)
 
         user.reload
-        expect(user.person).to be_persisted
-        expect(user.profile).to be_persisted
+        expect(user.person.persisted?).to be_truthy
+        expect(user.profile.persisted?).to be_truthy
       end
 
     end

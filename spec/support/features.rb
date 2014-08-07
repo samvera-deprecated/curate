@@ -1,5 +1,4 @@
 require File.expand_path('../features/session_helpers', __FILE__)
-require File.expand_path('../features/javascript', __FILE__)
 require File.expand_path('../features/create_works', __FILE__)
 require File.expand_path('../curate_fixture_file_upload', __FILE__)
 
@@ -33,7 +32,6 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   config.include Warden::Test::Helpers, type: :feature
   config.include Features::SessionHelpers, type: :feature
-  config.include Features::Javascript, type: :feature
   config.include Features::CreateWorks, type: :feature
 
   config.before(:each, type: :feature) do
