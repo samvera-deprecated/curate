@@ -79,14 +79,14 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class, curati
         it "should add to collections" do
           collection1.save # Had to call .save again to make this persist properly!? - MZ Sept 2013
           expect(curation_concern.collections).to eq [collection1]
-          subject.update.should be_true
+          subject.update.should be_truthy
 
           reloaded_cc = curation_concern.class.find(curation_concern.pid)
           expect(reloaded_cc.identifier).to be_blank
           expect(reloaded_cc).to be_persisted
           expect(reloaded_cc).to be_open_access
           expect(reloaded_cc.collections).to eq [collection2]
-          expect(subject.visibility_changed?).to be_true
+          expect(subject.visibility_changed?).to be_truthy
         end
       end
     end

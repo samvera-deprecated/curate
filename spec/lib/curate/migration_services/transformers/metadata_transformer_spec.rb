@@ -1,4 +1,4 @@
-require File.expand_path('../../../../../../lib/curate/migration_services/tranformers/metadata_transformer', __FILE__)
+require File.expand_path('../../../../../../lib/curate/migration_services/transformers/metadata_transformer', __FILE__)
 require 'spec_helper'
 
 module Curate::MigrationServices::Transformers

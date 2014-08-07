@@ -64,6 +64,7 @@ describe Group do
       test_group_2.save!
 
       test_group_2.reload
+      puts test_group_2.members.class
       test_group_2.members.should include(person)
       test_group_2.members.should_not include(another_person)
       test_group_2.members.count.should eq 1
@@ -100,7 +101,7 @@ describe Group do
   describe '.can_be_member_of_collection' do
     it 'should indicate a group cannot be added to a collection' do
       group = Hydramata::Group.new
-      expect(group.can_be_member_of_collection?(Collection.new)).to be_false
+      expect(group.can_be_member_of_collection?(Collection.new)).to be_falsey
     end
   end
 

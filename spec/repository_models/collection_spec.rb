@@ -4,7 +4,7 @@ describe Collection do
   let(:reloaded_subject) { Collection.find(subject.pid) }
 
   it 'can be part of a collection' do
-    expect(subject.can_be_member_of_collection?(double)).to be_true
+    expect(subject.can_be_member_of_collection?(double)).to be_truthy
   end
 
 
@@ -59,7 +59,7 @@ describe Collection do
   describe '#add_member' do
     it 'adds the member to the collection and returns true' do
       work = FactoryGirl.create(:generic_work, title: 'Work 1')
-      subject.add_member(work).should be_true
+      subject.add_member(work).should be_truthy
       reloaded_subject.members.should == [work]
 
       work.reload
@@ -68,14 +68,14 @@ describe Collection do
     end
 
     it 'returns false if there is nothing to add' do
-      subject.add_member(nil).should be_false
+      subject.add_member(nil).should be_falsey
     end
 
     it 'returns false if it failed to save' do
       subject.save
       work = FactoryGirl.create(:generic_work)
       subject.stub(:save).and_return(false)
-      subject.add_member(work).should be_false
+      subject.add_member(work).should be_falsey
       reloaded_subject.members.should == []
     end
   end
@@ -100,13 +100,13 @@ describe Collection do
     end
 
     it 'returns false if there is nothing to delete' do
-      subject.remove_member(nil).should be_false
+      subject.remove_member(nil).should be_falsey
     end
 
     it 'returns false when trying to delete a member with does not belong to the collection' do
       subject.save
       work = FactoryGirl.create(:generic_work)
-      subject.remove_member(work).should be_false
+      subject.remove_member(work).should be_falsey
       reloaded_subject.members.should == []
     end
   end

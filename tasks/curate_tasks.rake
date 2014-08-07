@@ -53,6 +53,7 @@ task :generate do
       gem 'poltergeist'
       gem 'rspec-html-matchers'
       gem 'rspec-its'
+      gem 'rspec-activemodel-mocks'
       gem 'simplecov', require: false
       gem 'test_after_commit'
       gem 'timecop'
@@ -110,7 +111,8 @@ end
 
 
 desc 'Run specs on travis'
-task :ci => [:regenerate] do
+task :ci do
+# task :ci => [:regenerate] do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
   Jettywrapper.unzip
