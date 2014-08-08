@@ -7,7 +7,7 @@ http_interactions:
       encoding: UTF-8
       string: |-
         _target: http://localhost/show/3t94g081v
-        datacite.creator: info:fedora/sufia:3t94g080k
+        datacite.creator: The Creator
         datacite.title: A Title
         datacite.publisher: An Interesting Chap!
         datacite.publicationyear: 2013
