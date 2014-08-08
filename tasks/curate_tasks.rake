@@ -111,8 +111,7 @@ end
 
 
 desc 'Run specs on travis'
-task :ci do
-# task :ci => [:regenerate] do
+task :ci => [:regenerate] do
   ENV['RAILS_ENV'] = 'test'
   ENV['TRAVIS'] = '1'
   Jettywrapper.unzip
