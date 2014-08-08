@@ -64,7 +64,6 @@ describe Group do
       test_group_2.save!
 
       test_group_2.reload
-      puts test_group_2.members.class
       expect(test_group_2.members.include?(person)).to be_truthy
       expect(test_group_2.members.include?(another_person)).to be_falsey
       test_group_2.members.count.should eq 1
