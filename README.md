@@ -143,7 +143,3 @@ For integration with LDAP, refer: https://github.com/cschiewek/devise_ldap_authe
 For integration with Shibboleth, refer: https://github.com/jgeorge300/devise_shibboleth_authenticatable
 
 For integration with multiple authentication systems (and for twitter, facebook, etc.), consider using OmniAuth: https://github.com/intridea/omniauth
-
-# Standing up your Curate-based Rails application in Production
-
-We are working on this and have more to come.
