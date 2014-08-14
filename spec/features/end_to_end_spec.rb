@@ -75,7 +75,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       page.assert_selector('.main-header h2', "Describe Your Work")
     end
 
-    it 'remembers generic_work inputs when data was invalid' do
+    it 'sends generic_work error alert when data was invalid' do
       login_as(user)
 
       visit new_curation_concern_generic_work_path
@@ -85,8 +85,12 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
         'Title' => ''
       )
 
-      expect(page).to have_checked_field('visibility_open')
-      expect(page).to_not have_checked_field('visibility_restricted')
+      within('.alert.error') do
+        page.should have_content('A virus/error was found in one of the uploaded files.')
+      end
+
+#      expect(page).to have_checked_field('visibility_open')
+#      expect(page).to_not have_checked_field('visibility_restricted')
     end
 
     it "a public item with future embargo is not visible today but is in the future" do
