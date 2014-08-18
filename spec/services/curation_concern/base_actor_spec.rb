@@ -65,14 +65,14 @@ describe CurationConcern::BaseActor do
     describe 'success' do
       it 'returns true' do
         subject.stub(:assign_remote_identifier_if_applicable).and_return(true)
-        subject.create.should be_true
+        subject.create.should be_truthy
       end
     end
 
     describe 'failure' do
       it 'returns false' do
         curation_concern.should_receive(:valid?).and_return(false)
-        subject.create.should be_false
+        subject.create.should be_falsey
       end
     end
   end
@@ -84,14 +84,14 @@ describe CurationConcern::BaseActor do
 
     describe 'success' do
       it 'returns true' do
-        subject.update.should be_true
+        subject.update.should be_truthy
       end
     end
 
     describe 'failure' do
       it 'returns false' do
         curation_concern.should_receive(:valid?).and_return(false)
-        subject.update.should be_false
+        subject.update.should be_falsey
       end
     end
   end

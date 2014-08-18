@@ -8,7 +8,8 @@ shared_examples 'remotely_identified' do |remote_service_name|
           pid: "#{Sufia.config.id_namespace}:3t94g081v",
           date_uploaded: Date.parse('2013-01-30'),
           date_modified: Date.parse('2013-01-30'),
-          title: "A Title"
+          title: "A Title",
+          creator: 'The Creator'
         }
       }
 

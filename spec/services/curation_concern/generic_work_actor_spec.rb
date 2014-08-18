@@ -23,7 +23,7 @@ describe CurationConcern::GenericWorkActor do
         CurationConcern::BaseActor.any_instance.should_receive(:save).and_return(false)
         subject.stub(:attach_files).and_return(true)
         subject.stub(:create_linked_resource).and_return(true)
-        subject.create.should be_false
+        subject.create.should be_falsey
       end
     end
 
@@ -46,7 +46,7 @@ describe CurationConcern::GenericWorkActor do
 
         describe 'authenticated visibility' do
           it 'should stamp each file with the access rights' do
-            subject.create.should be_true
+            subject.create.should be_truthy
             expect(curation_concern).to be_persisted
             curation_concern.date_uploaded.should == Date.today
             curation_concern.date_modified.should == Date.today
@@ -75,7 +75,7 @@ describe CurationConcern::GenericWorkActor do
 
         describe 'authenticated visibility' do
           it 'should stamp each file with the access rights' do
-            subject.create.should be_true
+            subject.create.should be_truthy
             expect(curation_concern).to be_persisted
             curation_concern.date_uploaded.should == Date.today
             curation_concern.date_modified.should == Date.today
@@ -96,7 +96,7 @@ describe CurationConcern::GenericWorkActor do
 
         describe 'authenticated visibility' do
           it 'should stamp each link with the access rights' do
-            subject.create.should be_true
+            subject.create.should be_truthy
             expect(curation_concern).to be_persisted
             curation_concern.date_uploaded.should == Date.today
             curation_concern.date_modified.should == Date.today
@@ -120,7 +120,7 @@ describe CurationConcern::GenericWorkActor do
 
         describe 'authenticated visibility' do
           it 'should attach the files from cloud' do
-            subject.create.should be_true
+            subject.create.should be_truthy
             expect(curation_concern).to be_persisted
             curation_concern.date_uploaded.should == Date.today
             curation_concern.date_modified.should == Date.today
@@ -147,7 +147,7 @@ describe CurationConcern::GenericWorkActor do
 
         it 'returns false' do
           CurationConcern::BaseActor.any_instance.should_receive(:save).and_return(false)
-          subject.update.should be_false
+          subject.update.should be_falsey
         end
       end
 
@@ -169,7 +169,7 @@ describe CurationConcern::GenericWorkActor do
           reload = GenericWork.find(curation_concern.pid)
           expect(reload.collections).to eq [collection1]
 
-          subject.update.should be_true
+          subject.update.should be_truthy
 
           reload = GenericWork.find(curation_concern.pid)
           expect(reload.identifier).to be_blank
@@ -177,7 +177,7 @@ describe CurationConcern::GenericWorkActor do
           expect(reload).to be_open_access
           expect(reload.collections.count).to eq 1
           expect(reload.collections).to eq [collection2]
-          expect(subject.visibility_changed?).to be_true
+          expect(subject.visibility_changed?).to be_truthy
         end
       end
     end

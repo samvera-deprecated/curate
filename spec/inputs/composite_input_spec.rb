@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'CompositeInput' do
+describe 'CompositeInput', type: :input do
 
   class Foo
     extend ActiveModel::Naming

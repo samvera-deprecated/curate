@@ -51,7 +51,9 @@ task :generate do
       gem 'factory_girl_rails'
       gem 'launchy'
       gem 'poltergeist'
-      gem 'rspec-html-matchers', '~>0.4'
+      gem 'rspec-html-matchers'
+      gem 'rspec-its'
+      gem 'rspec-activemodel-mocks'
       gem 'simplecov', require: false
       gem 'test_after_commit'
       gem 'timecop'

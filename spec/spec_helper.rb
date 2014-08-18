@@ -29,6 +29,7 @@ require 'rspec/autorun' unless ENV['RUNNING_VIA_ZEUS']
 require File.expand_path('../spec_patch', __FILE__)
 
 require 'curate/spec_support'
+require 'rspec/active_model/mocks'
 require 'database_cleaner'
 
 require 'curate/internal/factories'
@@ -51,6 +52,8 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = 'random'
+
+  config.infer_spec_type_from_file_location!
 
   config.include Devise::TestHelpers, type: :controller
   config.include Devise::TestHelpers, type: :view

@@ -40,7 +40,7 @@ describe CurationConcern::GenericFileActor do
         reloaded_generic_file.filename.should == File.basename(__FILE__)
 
         expect(reloaded_generic_file.to_solr[Hydra.config[:permissions][:read][:group]]).to eq(['registered'])
-        return_value.should be_true
+        return_value.should be_truthy
       end
     end
 
@@ -64,14 +64,14 @@ describe CurationConcern::GenericFileActor do
         reloaded_generic_file.filename.should == File.basename(__FILE__)
 
         expect(reloaded_generic_file.to_solr[Hydra.config[:permissions][:read][:group]]).to eq(['registered'])
-        return_value.should be_true
+        return_value.should be_truthy
       end
     end
 
     it 'failure returns false' do
       CurationConcern::BaseActor.any_instance.should_receive(:save).and_return(false)
       subject.stub(:update_file).and_return(true)
-      subject.create.should be_false
+      subject.create.should be_falsey
     end
   end
 
@@ -89,7 +89,7 @@ describe CurationConcern::GenericFileActor do
       generic_file.title.should == [title]
       generic_file.to_s.should == title
       generic_file.content.content.should == file_content
-      return_value.should be_true
+      return_value.should be_truthy
       end
     end
 
@@ -105,13 +105,13 @@ describe CurationConcern::GenericFileActor do
         generic_file.title.should == [title]
         generic_file.to_s.should == title
         generic_file.content.content.should == file_content
-        return_value.should be_true
+        return_value.should be_truthy
       end
     end
 
     it 'failure returns false' do
       CurationConcern::BaseActor.any_instance.should_receive(:save).and_return(false)
-      subject.update.should be_false
+      subject.update.should be_falsey
     end
   end
 
@@ -134,12 +134,12 @@ describe CurationConcern::GenericFileActor do
       expect {
         return_value = subject.rollback
       }.to change {subject.curation_concern.content.mimeType}.from('image/png').to(mime_type)
-      return_value.should be_true
+      return_value.should be_truthy
     end
 
     it 'failure returns false' do
       generic_file.should_receive(:save).and_return(false)
-      subject.rollback.should be_false
+      subject.rollback.should be_falsey
     end
   end
 end
