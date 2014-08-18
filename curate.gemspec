@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'simple_form', '~> 3.0.1'
   s.add_dependency 'active_attr'
   s.add_dependency 'bootstrap-datepicker-rails'
-  s.add_dependency 'devise', '~> 3.2.4'
+  s.add_dependency 'devise'
   s.add_dependency "devise-guests", "~> 0.3"
   s.add_dependency 'browser'
   s.add_dependency 'breadcrumbs_on_rails'
