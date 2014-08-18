@@ -37,6 +37,7 @@
 //= require handlebars
 //= require browse_everything
 //= require curate/browse_everything_implement
+//= require curate/validate_doi
 
 
 

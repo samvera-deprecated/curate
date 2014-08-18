@@ -63,10 +63,7 @@
     </div>
 
     <div class="span6">
-      <%= f.input :publisher,
-        as: :multi_value,
-        input_html: { class: 'input-xlarge' }
-      %>
+      <%= f.input :publisher,               as: :multi_value, label: "Publisher (Required for DOI)", input_html: { class: 'input-xlarge', id: 'publisher' } %>
 
       <%= f.input :coverage_temporal,
         as: :multi_value,
