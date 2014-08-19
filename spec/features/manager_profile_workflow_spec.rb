@@ -35,7 +35,7 @@ describe 'manager profile workflow', FeatureSupport.options do
         click_button("Update")
       end
 
-      msg = 'You updated your account successfully'
+      msg = 'Your account has been updated successfully'
       expect(page).to have_content msg
 
       # Reload models

@@ -65,7 +65,7 @@ describe Hydramata::SolrHelper do
       user.stub(:manager?).and_return(true)
       subject.stub(:current_user).and_return(user)
       subject.enforce_embargo(@solr_parameters, @user_parameters)
-      @solr_parameters[:fq].reject(&:empty?).empty?.should be_true
+      @solr_parameters[:fq].reject(&:empty?).empty?.should be_truthy
     end
 
     it "user not logged in include only embargo filter" do

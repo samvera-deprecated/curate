@@ -1,4 +1,4 @@
-# Curate  [![Version](https://badge.fury.io/rb/curate.png)](http://badge.fury.io/rb/curate) [![Build Status](https://travis-ci.org/projecthydra/curate.png?branch=master)](https://travis-ci.org/projecthydra/curate) [![Coverage Status](https://coveralls.io/repos/projecthydra/curate/badge.png)](https://coveralls.io/r/projecthydra/curate)
+# Curate  [![Version](https://badge.fury.io/rb/curate.png)](http://badge.fury.io/rb/curate) [![Build Status](https://travis-ci.org/ndlib/curate.png?branch=master)](https://travis-ci.org/ndlib/curate) [![Coverage Status](https://coveralls.io/repos/ndlib/curate/badge.png)](https://coveralls.io/r/ndlib/curate)
 
 Curate is a [Rails engine](http://edgeguides.rubyonrails.org/engines.html) leveraging [ProjectHydra](http://projecthydra.org) and [ProjectBlacklight](http://projectblacklight.org/) components to deliver a foundation for an Institutional Repositories.
 It is released under the [Apache 2 License](./LICENSE)
