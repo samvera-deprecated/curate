@@ -61,7 +61,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'database_cleaner', '< 1.1.0'
   s.add_development_dependency 'poltergeist'
   s.add_development_dependency 'vcr'
-  s.add_development_dependency 'devise'
   s.add_development_dependency 'webmock'
   s.add_development_dependency 'test_after_commit'
 end
