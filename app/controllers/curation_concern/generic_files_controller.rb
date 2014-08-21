@@ -65,14 +65,15 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
 
   def create
     curation_concern.batch = parent
-    if attributes_for_actor["file"]
+    if attributes_for_actor["file"] || attributes_for_actor["cloud_resources"] 
       if actor.create
         curation_concern.update_parent_representative_if_empty(parent)
         respond_with([:curation_concern, parent])
       else
+        flash[:error] = "The file that you attempted to upload had a  virus.  Please select another file."
         respond_with([:curation_concern, curation_concern]) { |wants|
           wants.html { render 'new', status: :unprocessable_entity }
-        }
+         }
       end
     else
       respond_with([:curation_concern, curation_concern]) { |wants|
