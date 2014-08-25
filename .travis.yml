@@ -20,6 +20,8 @@ branches:
   only:
     - master
     - develop
+    - release
+    - sandbox
 
 env:
   matrix:
