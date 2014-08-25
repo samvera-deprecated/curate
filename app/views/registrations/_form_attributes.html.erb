@@ -14,7 +14,7 @@
     <legend>Contact Information</legend>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <p><em>Currently waiting confirmation for: <%= resource.unconfirmed_email %></em></p>
+    <p><em>Currently waiting confirmation for: <%= resource.unconfirmed_email %></em></p>
     <% end %>
 
     <%= f.input :email, as: :email, required: true %>
@@ -23,6 +23,13 @@
     <%= f.input :campus_phone_number,    as: :tel %>
     <%= f.input :alternate_phone_number, as: :tel %>
 
+  </fieldset>
+
+  <fieldset class="span12 research-ids">
+    <legend>Researcher Identification Information</legend>
+    <%= f.input :orcid_id, label: "ORCID", input_html: { maxlength: 20 } %>
+    <%= f.input :researcher_id, label: "ResearcherID", input_html: { maxlength: 20 } %>
+    <%= f.input :scopus_id, label: "Scopus ID", input_html: { maxlength: 20 } %>
   </fieldset>
 
 </div>
