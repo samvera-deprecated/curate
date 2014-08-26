@@ -9,7 +9,7 @@ describe Dataset do
   it_behaves_like 'has_dc_metadata'
   it_behaves_like 'has_common_solr_fields'
 
-  it { should have_unique_field(:available) }
+  ## it { should have_unique_field(:available) }
 
   it { should have_multivalue_field(:alternate_title) }
   it { should have_unique_field(:bibliographic_citation) }
