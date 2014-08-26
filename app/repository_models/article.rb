@@ -29,7 +29,7 @@ class Article < ActiveFedora::Base
     datastream: :descMetadata, multiple: false
 
   attribute :contributor,
-    datastream: :descMetadata, multiple: true,
+    datastream: :descMetadata, multiple: true
 
   attribute :coverage_spatial,
     datastream: :descMetadata, multiple: true
@@ -98,6 +98,5 @@ class Article < ActiveFedora::Base
     validates: { presence: { message: 'Your article must have a title.' } }
 
   attribute :files,
-    multiple: true, form: {as: :file}, label: "Upload Files",
-
+    multiple: true, form: {as: :file}, label: "Upload Files"
 end

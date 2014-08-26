@@ -5,11 +5,10 @@
               input_html: { class: 'input-xlarge' }
   %>
 
-  <%= f.input :creator, as: :multi_value, label: 'Author(s)', required: true, input_html: { class: 'input-xlarge' } %>
+  <%= f.input :creator, as: :multi_value, label: 'Author', required: true, input_html: { class: 'input-xlarge' } %>
 
   <%= f.input :abstract,
               as: :text,
-              hint: 'Please keep your abstract to 300 words or less.',
               input_html: {
                 class: 'input-xxxlarge',
                 rows: '14'
