@@ -24,7 +24,7 @@
         <%= link_to "Add an External Link", new_curation_concern_linked_resource_path(curation_concern), class: 'btn btn-primary' %>
       <% end %>
       <% if collector %>
-        <%= render 'add_to_collection_gui', collectible: curation_concern, button_class: 'btn btn-primary' %>
+        <%= render partial: 'add_to_collection_gui', locals: { collectible: curation_concern, button_class: 'btn btn-primary', use_text: true } %>
       <% end %>
     </div>
   <% end %>
