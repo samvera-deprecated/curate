@@ -98,8 +98,8 @@ describe "Search for a work" do
     click_link "add-content"
     classify_what_you_are_uploading 'Image'
     within '#new_image' do
-      fill_in "Title", with: image_title
-      fill_in "Date created", with: "2013-10-15"
+      fill_in "* Title", with: image_title
+      fill_in "* Date Created", with: "2013-10-15"
       fill_in "Description", with: "Test description"
       fill_in "Creator", with: "Freddie Mercury"
       select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))

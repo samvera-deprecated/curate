@@ -19,7 +19,7 @@ describe 'Proxy Deposit' do
       expect(page).to have_selector('#article_owner', text: "")
       expect(page).to have_selector('#article_owner', text: "Myself")
       expect(page).to have_selector('#article_owner', text: user.name)
-      expect(page).to have_selector("input[id$=_contributor]", text: "")
+      expect(page).to have_selector("input[id$=_creator]", text: "")
     end
   end
 

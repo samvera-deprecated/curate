@@ -5,24 +5,36 @@
       <div class="span6">
 
         <%= f.input :title,
-          input_html: { class: 'input-xlarge' }
+          input_html: { class: 'input-xlarge' },
+          label: "Title"
         %>
 
-        <%= f.input :creator,  as: :multi_value, input_html: { class: 'input-xlarge' } %>
+        <%= f.input :alternate_title,
+          as: :multi_value,
+          input_html: { class: 'input-xlarge' },
+          label: "Alternate Title"
+        %>
+
+        <%= f.input :creator,  as: :multi_value, input_html: { class: 'input-xlarge' }, label: "Creator" %>
         <%= render partial: 'linked_editors', locals: {f: f, curation_concern: curation_concern, label: 'Editor'} %>
         <%= render partial: 'linked_groups', locals: {f: f, curation_concern: curation_concern, label: "Editor Group"} %>
 
         <%= f.input :date_created,
-          as: :multi_value
+          as: :multi_value,
+          label: "Date Created"
         %>
 
         <%= f.input :description,
           as: :multi_value,
           input_html: {
             class: 'input-xlarge'
-          }
+          },
+          label: "Description"
         %>
-        <%= f.collection_check_boxes :category,
+   
+        Type: </br></br>
+
+        <%= f.collection_check_boxes :type,
           [['Poster'], ['Visual Art'], ['Photograph'], ['Painting'],
           ['Map/chart'], ['Cartoon/comic']],
           :first, :first
@@ -30,18 +42,41 @@
 
         <%= f.input :location,
           as: :multi_value,
-          input_html: { class: 'input-xlarge' }
+          input_html: { class: 'input-xlarge' },
+          label: "Geographic Location"
         %>
+
+        <%= f.input :coverage_spatial,
+          as: :multi_value,
+          input_html: { class: 'input-xlarge' },
+          label: "Geographic Subject"
+        %>
+
+        <%= f.input :coverage_temporal,
+          as: :multi_value,
+          input_html: { class: 'input-xlarge' },
+          label: "Time Period"
+        %>
+
 
         <%= f.input :measurements,
                     as: :multi_value,
-                    input_html: { class: 'input-xlarge' }
+                    input_html: { class: 'input-xlarge' },
+                    label: "Measurements"
         %>
 
         <%= f.input :material,
                     as: :multi_value,
-                    input_html: { class: 'input-xlarge' }
+                    input_html: { class: 'input-xlarge' },
+                    label: "Material"
         %>
+
+        <%= f.input :requires,
+                    as: :multi_value,
+                    input_html: { class: 'input-xlarge' },
+                    label: "Required Software"
+        %>
+
 
     </div>
 
@@ -49,48 +84,51 @@
 
       <%= f.input :source,
                   as: :multi_value,
-                  input_html: { class: 'input-xlarge' }
+                  input_html: { class: 'input-xlarge' },
+                  label: "Source"
       %>
+
+      <%= f.input :date_photographed,
+          as: :multi_value,
+          label: "View Date"
+      %>
+
 
       <%= f.input :publisher,
                   as: :multi_value,
-                  input_html: { class: 'input-xlarge' }
+                  input_html: { class: 'input-xlarge' },
+                  label: "Publisher"
       %>
 
       <%= f.input :subject,
                   as: :multi_value,
-                  input_html: { class: 'input-xlarge' }
+                  input_html: { class: 'input-xlarge' },
+                  label: "Subject"
+      %>
+
+      <%= f.input :bibliographic_citation,
+                  input_html: { class: 'input-xlarge' },
+                  label: "Citation"
       %>
 
       <%= f.input :inscription,
                   as: :multi_value,
-                  input_html: { class: 'input-xlarge' }
-      %>
-
-      <%= f.input :StateEdition,
-                  as: :string,
-                  input_html: { class: 'input-xlarge' }
-      %>
-
-      <%= f.input :textref,
-                  as: :multi_value,
-                  input_html: { class: 'input-xlarge' }
+                  input_html: { class: 'input-xlarge' },
+                  label: "Inscription"
       %>
 
       <%= f.input :cultural_context,
                   as: :multi_value,
-                  input_html: { class: 'input-xlarge' }
+                  input_html: { class: 'input-xlarge' },
+                  label: "Culture"
       %>
 
-      <%= f.input :style_period,
+      <%= f.input :note,
                   as: :multi_value,
-                  input_html: { class: 'input-xlarge' }
+                  input_html: { class: 'input-xlarge' },
+                  label: "Note"
       %>
 
-      <%= f.input :technique,
-                  as: :multi_value,
-                  input_html: { class: 'input-xlarge' }
-      %>
     </div>
   </div>
 </fieldset>
