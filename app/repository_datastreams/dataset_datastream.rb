@@ -60,9 +60,13 @@ class DatasetDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
 
+    map.requires({in: RDF::DC}) ## indexing?
+
     map.rights(:in => RDF::DC) do |index| ## how is this different from permissions?
       index.as :stored_searchable, :facetable
     end
+
+    map.source({in: RDF::DC})
 
     map.subject(in: RDF::DC) do |index|
       index.type :text

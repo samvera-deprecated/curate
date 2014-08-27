@@ -2,21 +2,28 @@
   <legend>Required Information</legend>
 
   <%= f.input :title,
-    input_html: { class: 'input-xlarge' }
+    input_html: { class: 'input-xlarge' },
+    required: true
   %>
 
   <%= f.input :creator,
     as: :multi_value,
-    label: 'Author(s)',
     required: true,
     input_html: { class: 'input-xlarge' }
   %>
 
-  <%= f.input :abstract,
-    as: :text,
-    hint: 'Please keep your abstract to 300 words or less.',
-    input_html: { class: 'input-xxxlarge', rows: '14' },
-    label: 'Abstract'
+  <%= f.input :requires,
+    input_html: { class: 'input-xlarge' },
+    required: true,
+    label: "Required software",
+    hint: "Special software needed to open the Dataset"
   %>
+
+  <%= f.input :description,
+    as: :text,
+    required: true,
+    input_html: { class: 'input-xxxlarge', rows: '14' }
+  %>
+
 
 </fieldset>

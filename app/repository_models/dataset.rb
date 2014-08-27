@@ -45,7 +45,7 @@ class Dataset < ActiveFedora::Base
     datastream: :descMetadata, multiple: false
 
   attribute :description,
-    datastream: :descMetadata, multiple: true
+    datastream: :descMetadata, multiple: false
 
   attribute :doi,
     datastream: :descMetadata, multiple: false,
@@ -56,7 +56,6 @@ class Dataset < ActiveFedora::Base
     editable: false
 
   attribute :language,
-    hint: "What is the language(s) in which you wrote your work?",
     default: ['English'],
     datastream: :descMetadata, multiple: true
 
@@ -73,22 +72,24 @@ class Dataset < ActiveFedora::Base
     editable: true
 
   attribute :requires,
-    datastream: :descMetadata, multiple: false
+    datastream: :descMetadata, multiple: false,
+    editable: true
 
   attribute :rights,
     datastream: :descMetadata, multiple: false,
     default: "All rights reserved",
     validates: { presence: { message: 'You must select a license for your work.' } }
 
+  attribute :source,
+    datastream: :descMetadata, multiple: false
+
   attribute :subject,
-    hint: "What words or phrases would be helpful for someone searching for your Article",
     datastream: :descMetadata, multiple: true
 
   attribute :title,
     datastream: :descMetadata, multiple: false,
     validates: { presence: { message: 'Your article must have a title.' } }
 
-  attribute :files, multiple: true, form: {as: :file},
-            hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
+  attribute :files, multiple: true, form: {as: :file}
 
 end
