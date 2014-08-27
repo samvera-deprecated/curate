@@ -23,7 +23,7 @@ class Dataset < ActiveFedora::Base
     datastream: :descMetadata, multiple: false
 
   attribute :contributor,
-    datastream: :descMetadata, multiple: true,
+    datastream: :descMetadata, multiple: true
 
   attribute :coverage_spatial,
     datastream: :descMetadata, multiple: true
@@ -35,6 +35,9 @@ class Dataset < ActiveFedora::Base
     default: Date.today.to_s("%Y-%m-%d"),
     datastream: :descMetadata, multiple: false
 
+  attribute :creator,
+    datastream: :descMetadata, multiple: true
+  
   attribute :date_modified, 
     datastream: :descMetadata, multiple: false
 
