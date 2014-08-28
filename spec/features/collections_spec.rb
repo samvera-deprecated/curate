@@ -22,7 +22,7 @@ describe "Showing and creating Collections" do
     within('#documents') do
       expect(page).to have_link('amalgamate members') #title
       expect(page).to have_selector('dd', text: "I've collected a few related things together")
-      expect(page).to have_selector('dd', text: user.email)
+      expect(page).to have_selector('dd', text: user.user_key)
     end
   end
 

@@ -43,7 +43,7 @@ describe 'user profile workflow', FeatureSupport.options do
 
       # Verify that everything got updated
       user.name.should == new_name
-      user.email.should == new_pref
+      user.user_key.should == new_pref
       user.alternate_email.should == new_alt
       user.title.should == new_title
       user.campus_phone_number.should == new_phone

@@ -66,7 +66,7 @@ module Curate
             elsif user = ::User.where(repository_id: person_pid).first
               name = user.name
             else
-              name = user.email
+              name = user.user_key
             end
           end
 
