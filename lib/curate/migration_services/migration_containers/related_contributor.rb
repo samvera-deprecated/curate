@@ -41,7 +41,7 @@ module Curate
               elsif user = User.where(repository_id: pid).first
                 name = user.name
               else
-                name = user.email
+                name = user.user_key
               end
               if name.present?
                 # For some reason the UI attribute for :contributor is being
