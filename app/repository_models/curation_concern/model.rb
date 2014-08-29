@@ -10,7 +10,7 @@ module CurationConcern
 
     included do
       has_metadata 'properties', type: Curate::PropertiesDatastream
-      has_attributes :relative_path, :depositor, :owner, :representative, datastream: :properties, multiple: false
+      has_attributes :relative_path, :depositor, :owner, :representative, :license, :type_of_license, datastream: :properties, multiple: false
       class_attribute :human_readable_short_description
       
       has_and_belongs_to_many :editors, class_name: "::Person", property: :has_editor, inverse_of: :is_editor_of

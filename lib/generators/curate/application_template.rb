@@ -23,6 +23,7 @@ end
 
 
 copy_file 'predicate_mappings.yml', 'config/predicate_mappings.yml'
+copy_file 'licensing_permissions.yml', 'config/licensing_permissions.yml'
 
 
 HELPFUL_DEVELOPMENT_TOOLS =

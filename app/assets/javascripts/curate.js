@@ -34,6 +34,7 @@
 //= require curate/facet_mine
 //= require curate/accept_contributor_agreement
 //= require curate/proxy_submission
+//= require curate/content_submission
 //= require handlebars
 //= require browse_everything
 //= require curate/browse_everything_implement
