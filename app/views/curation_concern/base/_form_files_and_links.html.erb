@@ -9,12 +9,17 @@
         <p class="help-block">
           The subject of your <%= curation_concern.human_readable_type.downcase %> can either be a file <em>or</em> a URL.
         </p>
+
+
       </div>
     </div>
 
     <div class="row">
 
       <fieldset class="span5">
+        <p class="help-block">
+          *Note - Files larger than 50MB are currently not supported by <%=t('sufia.product_name')%>. Please contact curate@nd.edu for assistance.
+        </p>
         <%= f.input :files, as: :file, label: 'Upload a file', hint: 'A PDF is preferred.'%>
       </fieldset>
 
