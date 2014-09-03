@@ -3,7 +3,8 @@
       <div class="span12">
         <fieldset class="required">
           <legend>
-            Attach Your File
+            Attach Your File.
+            <strong>Note - Files larger than <%= t('sufia.supported_file_upload_size') %> are currently not supported by <%=t('sufia.product_name')%>. Please contact <%= mail_to t('sufia.help_email') %> for assistance.</strong>
           </legend>
           <%= f.input :files, as: :file, label: 'Upload your file' %>
         </fieldset>
