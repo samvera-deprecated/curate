@@ -20,5 +20,8 @@
   </tr>
   <%= curation_concern_attribute_to_html(curation_concern, :embargo_release_date, "Embargo Release Date") %>
   <%= curation_concern_attribute_to_html(curation_concern, :rights, "Content License") %>
+  <% if curation_concern.type_of_license == "Independently Licensed" %>
+    <%= curation_concern_attribute_to_html(curation_concern, :license, "License Agreement") %>
+  <% end %>
   </tbody>
 </table>

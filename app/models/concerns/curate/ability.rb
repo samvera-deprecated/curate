@@ -2,7 +2,7 @@ module Curate
   module Ability
     extend ActiveSupport::Concern
     included do
-      self.ability_logic += [:curate_permissions, :collection_permissions]
+      self.ability_logic += [:curate_permissions, :collection_permissions, :licensing_permissions]
     end
 
     def curate_permissions
@@ -18,6 +18,14 @@ module Curate
       can [:show, :read, :update, :destroy], [Curate.configuration.curation_concerns] do |w|
         u = ::User.find_by_user_key(w.owner)
         u && u.can_receive_deposits_from.include?(current_user)
+      end
+    end
+
+    def licensing_permissions(licensing_permission = ContentLicense.new(current_user))
+      if licensing_permission.is_permitted?
+        can :edit, ContentLicense
+      else
+        cannot :edit, ContentLicense
       end
     end
 

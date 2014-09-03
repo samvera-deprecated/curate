@@ -27,6 +27,7 @@ module CurationConcern
     def update
       apply_update_data_to_curation_concern
       apply_save_data_to_curation_concern
+      reset_license
       save
     end
 
@@ -85,6 +86,10 @@ module CurationConcern
 
     def candidate_owner
       attributes.has_key?('owner') && User.find_by_user_key(attributes.delete('owner'))
+    end
+
+    def reset_license
+      curation_concern.license = nil if( ( curation_concern.respond_to?( :type_of_license ) ) && ( curation_concern.type_of_license == "Self Deposit" ) )
     end
   end
 end
