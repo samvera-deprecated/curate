@@ -13,11 +13,11 @@ function showHideLicenseText()
    if($license_text == "Independently Licensed"){
       $("#self_deposit").hide();
       $("#independent_license").show();
-      $("#article_license").attr('required', 'true');
+      $("[id$=license]").attr('required', 'true');
     }else{
       $("#independent_license").hide();
       $("#self_deposit").show();
-      $("#article_license").removeAttr('required');
+      $("[id$=license]").removeAttr('required');
     }
 
 }
