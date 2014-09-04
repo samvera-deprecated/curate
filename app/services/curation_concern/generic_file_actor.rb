@@ -2,8 +2,8 @@ module CurationConcern
   class GenericFileActor < CurationConcern::BaseActor
 
     def create
-      super && update_file  && download_create_cloud_resources
-    end
+       download_create_cloud_resources && update_file && super 
+   end
 
     def update
       super && update_file  && download_create_cloud_resources
@@ -52,7 +52,9 @@ module CurationConcern
     def update_cloud_resource(cloud_resource)
       return true if ! cloud_resource.present?
       file_path=cloud_resource.download_content_from_host
-      if file_path.present? && File.exists?(file_path) && !File.zero?(file_path)
+      clam = ClamAV.instance
+      scan_result = clam.scanfile(file_path)
+      if (scan_result.is_a? Fixnum) && file_path.present? && File.exists?(file_path) && !File.zero?(file_path)
         cloud_resource = File.open(file_path)
         title = attributes[:title]
         title ||= File.basename(cloud_resource)

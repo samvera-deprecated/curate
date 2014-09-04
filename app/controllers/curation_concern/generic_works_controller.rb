@@ -38,8 +38,9 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
       after_create_response
     else
       setup_form
+      flash[:error] = "A virus/error was found in one of the uploaded files.  The file was not uploaded, but the work was created."
       respond_with([:curation_concern, curation_concern]) do |wants|
-        wants.html { render 'new', status: :unprocessable_entity }
+        wants.html { render 'show', status: :unprocessable_entity }
       end
     end
   end
