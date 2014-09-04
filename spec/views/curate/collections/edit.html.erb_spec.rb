@@ -9,7 +9,7 @@ describe 'curate/collections/edit.html.erb' do
     render
   end
   it 'renders page header' do
-    expect(view.content_for(:page_header)).to have_tag('h1 .human_readable_type')
+    expect(view.content_for(:page_header)).to have_tag('h1 + .human_readable_type')
     expect(rendered).to have_content('Title of Work')
   end
 end

@@ -46,7 +46,7 @@ module CurateHelper
   def curation_concern_attribute_to_html(curation_concern, method_name, label = nil, options = {})
     markup = ""
     label ||= derived_label_for(curation_concern, method_name)
-    subject = curation_concern.send(method_name)
+    subject = curation_concern.public_send(method_name)
     return markup if !subject.present? && !options[:include_empty]
     markup << %(<tr><th>#{label}</th>\n<td><ul class='tabular'>)
     [subject].flatten.compact.each do |value|
@@ -64,6 +64,19 @@ module CurateHelper
       end
     end
     markup << %(</ul></td></tr>)
+    markup.html_safe
+  end
+
+  def curation_concern_attribute_to_formatted_text(curation_concern, method_name, label = nil, options = { class: 'descriptive-text' })
+    markup = ""
+    label ||= derived_label_for(curation_concern, method_name)
+    subject = curation_concern.public_send(method_name)
+    return markup if subject.blank?
+    markup << %(<h2 class="#{method_name}-label">#{label}</h2>\n<section class="#{method_name}-list">\n)
+    [subject].flatten.compact.each do |value|
+      markup << %(<article class="#{method_name} #{options[:class]}">\n#{richly_formatted_text(value)}\n</article>\n)
+    end
+    markup << %(</section>)
     markup.html_safe
   end
 
@@ -153,4 +166,8 @@ module CurateHelper
     auto_link(link, :all)
   end
 
+  def richly_formatted_text(text)
+    markup = Curate::TextFormatter.call(text: text)
+    markup.html_safe
+  end
 end
