@@ -50,7 +50,7 @@ class DatasetDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :searchable, :facetable
     end
 
-    map.note({to: 'description', in: RDF::DC})
+    map.note({to: 'description#note', in: RDF::QualifiedDC})
 
     map.publisher({in: RDF::DC}) do |index|
       index.as :stored_searchable, :facetable

@@ -5,7 +5,7 @@
               input_html: { class: 'input-xlarge' }
   %>
 
-  <%= f.input :creator, as: :multi_value, label: 'Author', required: true, input_html: { class: 'input-xlarge' } %>
+  <%= f.input :creator, as: :multi_value, label: 'Author', required: true, input_html: { value: "@current_user.name" } %>
 
   <%= f.input :abstract,
               as: :text,
