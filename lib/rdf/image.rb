@@ -6,11 +6,8 @@ module RDF
     property :material
     property :source
     property :inscription
-    property :StateEdition
-    property :TEXTREF
     property :cultural_context
-    property :style_period
-    property :technique
+    property :date_photographed
   end
 end
 

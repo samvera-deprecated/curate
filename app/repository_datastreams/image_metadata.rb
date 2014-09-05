@@ -19,16 +19,12 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
     end
 
     map.location(in: RDF::Image)
-    map.category(in: RDF::Image)
     map.measurements(in: RDF::Image)
     map.material(in: RDF::Image)
     map.source(in: RDF::Image)
     map.inscription(in: RDF::Image)
-    map.StateEdition(in: RDF::Image)
-    map.textref(to: 'TEXTREF', in: RDF::Image)
     map.cultural_context(in: RDF::Image)
-    map.style_period(in: RDF::Image)
-    map.technique(in: RDF::Image)
+    map.date_photographed(in: RDF::Image)
 
     map.publisher(in: RDF::DC) do |index|
       index.as :stored_searchable, :facetable
@@ -46,11 +42,40 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_sortable
     end
     map.identifier(in: RDF::DC)
-    map.doi(to: "identifier#doi", in: RDF::QualifiedDC)
 
     map.subject(in: RDF::DC) do |index|
       index.as :stored_searchable
     end
+
+    map.alternate_title(to: "title#alternate", in: RDF::QualifiedDC) do |index|
+      index.as :stored_searchable
+    end
+
+    map.bibliographic_citation({in: RDF::DC, to: 'bibliographicCitation'})
+   
+    map.contributor(in: RDF::DC) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
+    map.coverage_spatial({to: "coverage#spatial", in: RDF::QualifiedDC}) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
+    map.coverage_temporal({to: "coverage#temporal", in: RDF::QualifiedDC}) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
+    map.doi({to: "identifier#doi", in: RDF::QualifiedDC})
+
+    map.note({to: 'description#note', in: RDF::QualifiedDC})
+
+    map.publisher_digital({to:"publisher#digital", in: RDF::QualifiedDC}) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
+    map.requires({in: RDF::DC})
+
+    map.type({in: RDF::DC})
 
   end
 end

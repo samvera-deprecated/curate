@@ -10,24 +10,24 @@ describe Image do
   it { should have_unique_field(:title) }
   it { should have_unique_field(:date_uploaded) }
   it { should have_unique_field(:date_modified) }
+  it { should have_unique_field(:date_photographed) }
   it { should have_unique_field(:identifier) }
-  it { should have_unique_field(:StateEdition) }
   it { should have_unique_field(:rights) }
+  it { should have_unique_field(:requires) }
+  it { should have_unique_field(:publisher_digital) }
+  it { should have_unique_field(:publisher) }
+  it { should have_unique_field(:note) }
 
   it { should have_multivalue_field(:location) }
-  it { should have_multivalue_field(:category) }
+  it { should have_multivalue_field(:type) }
   it { should have_multivalue_field(:measurements) }
   it { should have_multivalue_field(:material) }
   it { should have_multivalue_field(:source) }
   it { should have_multivalue_field(:inscription) }
-  it { should have_multivalue_field(:textref) }
   it { should have_multivalue_field(:cultural_context) }
-  it { should have_multivalue_field(:style_period) }
-  it { should have_multivalue_field(:technique) }
 
   it { should have_multivalue_field(:creator) }
   it { should have_multivalue_field(:subject) }
-  it { should have_multivalue_field(:publisher) }
   it { should have_multivalue_field(:description) }
   it { should have_multivalue_field(:date_created) }
 
