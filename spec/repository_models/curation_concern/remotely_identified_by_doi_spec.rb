@@ -34,10 +34,12 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
   describe 'MintingBehavior' do
     shared_examples 'minting behavior returning value' do
       it 'should return the returning value' do
+        DoiMintingWorker.any_instance.stub(:new).and_return(true)
+        DoiMintingWorker.any_instance.stub(:run).and_return(true)
         expect(subject.apply_doi_assignment_strategy(&perform_persistence_block)).to eq(!!returning_value)
       end
     end
-    subject { model.new.tap {|m| m.extend CurationConcern::RemotelyIdentifiedByDoi::MintingBehavior } }
+    subject { model.new(pid: CurationConcern.mint_a_pid).tap {|m| m.extend CurationConcern::RemotelyIdentifiedByDoi::MintingBehavior } }
     let(:returning_value) { true }
     let(:perform_persistence_block) { lambda {|*| returning_value } }
 
@@ -94,12 +96,10 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
 
           let(:doi_assignment_strategy) { accessor_name }
           context 'with valid save' do
-            before(:each) do
-              doi_remote_service.should_receive(:mint).with(subject).and_return(true)
-            end
             it_behaves_like 'minting behavior returning value'
             let(:returning_value) { true }
             it 'should request a minting' do
+              DoiMintingWorker.any_instance.stub(:run).and_return(true)
               expect {
                 subject.apply_doi_assignment_strategy(&perform_persistence_block)
               }.to_not change(subject, :identifier).from(nil)

@@ -49,9 +49,12 @@ http_interactions:
     uri: https://apitest:apitest@ezid.lib.purdue.edu/shoulder/doi:10.5072/FK2
     body:
       encoding: UTF-8
-      string: "_target: http://localhost/show/3t94g081v\ndatacite.creator: \ndatacite.title:
-        A Title\ndatacite.publisher: An Interesting Chap!\ndatacite.publicationyear:
-        2013"
+      string: |-
+        _target: http://localhost/show/3t94g081v
+        datacite.creator: The Creator
+        datacite.title: A Title
+        datacite.publisher: An Interesting Chap!
+        datacite.publicationyear: 2013
     headers:
       Accept:
       - '*/*; q=0.5, application/xml'
@@ -60,31 +63,29 @@ http_interactions:
       Content-Type:
       - text/plain
       Content-Length:
-      - '155'
+      - '166'
       User-Agent:
       - Ruby
   response:
     status:
-      code: 400
-      message: BAD REQUEST
+      code: 201
+      message: CREATED
     headers:
       Date:
-      - Wed, 06 Aug 2014 15:58:14 GMT
+      - Wed, 17 Sep 2014 19:45:03 GMT
       Server:
       - Apache/2.2.17 (Unix) mod_ssl/2.2.17 OpenSSL/1.0.1h mod_wsgi/3.3 Python/2.7.6
       Vary:
       - Cookie
       Set-Cookie:
-      - sessionid=jfarcuzzxrgxbw21uxbm5a4rdrkr9dq4; httponly; Path=/
+      - sessionid=40xnql64mlflkwj5u588obu9kp9v3e7t; httponly; Path=/
       Content-Length:
-      - '72'
-      Connection:
-      - close
+      - '55'
       Content-Type:
       - text/plain; charset=UTF-8
     body:
       encoding: UTF-8
-      string: 'error: bad request - DOI metadata requirements not satisfied: no creator'
+      string: 'success: doi:10.5072/FK2M904838 | ark:/b5072/fk2m904838'
     http_version: 
-  recorded_at: Wed, 06 Aug 2014 15:58:15 GMT
-recorded_with: VCR 2.9.2
+  recorded_at: Wed, 17 Sep 2014 19:45:06 GMT
+recorded_with: VCR 2.9.3
