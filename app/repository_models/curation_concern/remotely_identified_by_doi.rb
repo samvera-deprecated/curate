@@ -31,11 +31,15 @@ module CurationConcern
         end
 
         def doi_remote_service
-          @doi_remote_service ||= Hydra::RemoteIdentifier.remote_service(:doi)
+          @doi_remote_service ||= doi_minting_worker.doi_remote_service
         end
 
         def remote_doi_assignment_strategy?
           doi_assignment_strategy.to_s == doi_remote_service.accessor_name.to_s
+        end
+
+        def doi_minting_worker
+          @doi_minting_worker ||= DoiMintingWorker.new(self.pid)
         end
       end
     end
@@ -61,7 +65,11 @@ module CurationConcern
         # Before we make a potentially expensive call
         # hand off control back to the caller.
         # I'm doing this because I want a chance to persist the object first
-        !!yield(self) && doi_remote_service.mint(self)
+        !!yield(self) && send_doi_minting_request
+      end
+
+      def send_doi_minting_request
+        Sufia.queue.push(doi_minting_worker)
       end
 
       def update_identifier_locally
