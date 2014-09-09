@@ -36,7 +36,7 @@ task :regenerate => [:clean, :generate]
 desc "Create the test rails app"
 task :generate do
   unless File.exists?(DUMMY_APP + '/Rakefile')
-    system_with_command_output('rails new ' + DUMMY_APP)
+    system_with_command_output('rails new ' + DUMMY_APP + ' --skip-test-unit')
     puts "Updating gemfile"
 
     gemfile_content = <<-EOV
@@ -100,13 +100,13 @@ RSpec::Core::RakeTask.new(:rspec) do |t|
     when '2'
       t.pattern = '../../spec/controllers/**/*_spec.rb'
     else
-      pattern = FileList['../../spec/*/'].exclude(/\/(features|controllers)\//).map { |f| f << '**/*_spec.rb' }
+      pattern = FileList['../../spec/*/'].exclude(/\/(features|controllers)\//).map { |f| f << '**/*_spec.rb' }.to_a
       t.pattern = pattern
     end
   else
-    t.pattern = '../**/*_spec.rb'
+    t.pattern = '**/*_spec.rb'
   end
-  t.rspec_opts = ["--colour -I ../", '--tag ~js:true', '--backtrace', '--profile 20']
+  t.rspec_opts = ["--colour --default-path #{File.expand_path('../../spec', __FILE__)} -I #{File.expand_path('../../spec', __FILE__)}", '--tag ~js:true', '--backtrace', '--profile 20']
 end
 
 
