@@ -18,7 +18,19 @@ class HelpRequest < ActiveRecord::Base
   end
 
   def sender_email
-    self.user.email
+    if user
+      user.email || I18n.t('sufia.help_email')
+    else
+      I18n.t('sufia.help_email')
+    end
+  end
+
+  def user_name
+    if user
+      user.user_key || 'Unknown'
+    else
+      'Unknown'
+    end
   end
 
   private
