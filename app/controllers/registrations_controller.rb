@@ -13,6 +13,12 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  # Temporarily disable new account registration
+  def new
+    flash[:error] = "Scholar@UC is in a Beta/Early Adopter testing phase.  Contact scholar@uc.edu for more information."
+    redirect_to new_user_session_path
+  end
+
   protected
 
   def manager_is_updating_a_user_registration(&block)
