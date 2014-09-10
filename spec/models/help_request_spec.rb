@@ -17,8 +17,8 @@ describe HelpRequest do
     end
 
     it 'return curate help email and unknown' do
-      subject.sender_email.should == 'help@curate.org'
-      subject.user_name.should == 'unknown'
+      subject.sender_email.should == 'scholar@uc.edu'
+      subject.user_name.should == 'Unknown'
     end
   end
 end
