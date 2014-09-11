@@ -1,0 +1,10 @@
+<div class="btn-group help-actions">
+  <a class="btn btn-primary dropdown-toggle " data-toggle="dropdown" href="#">
+    Help!
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li><%= link_to "FAQ's", "/faqs", class: 'help-faqs',       role: 'menuitem' %></li>
+    <li><%= link_to 'Report a Problem', new_help_request_path, class: 'help-report-a-problem request-help', role: 'menuitem' %></li>
+  </ul>
+</div>
