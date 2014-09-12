@@ -3,6 +3,7 @@ require 'chronic'
 require "curate/engine"
 require "curate/configuration"
 require "curate/date_formatter"
+require "curate/text_formatter"
 require 'simple_form'
 require 'bootstrap-datepicker-rails'
 require 'hydra-batch-edit'

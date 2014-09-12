@@ -1,4 +1,5 @@
 <% content_for :page_header do %>
-  <h1><%= @group %> <span class="human_readable_type">(<%= @group.human_readable_type %>)</span></h1>
+  <h1><%= @group %></h1>
+  <span class="human_readable_type"><%= @group.human_readable_type %></span>
 <% end %>
 <%= render 'form' %>

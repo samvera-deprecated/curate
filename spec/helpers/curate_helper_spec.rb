@@ -116,6 +116,57 @@ describe ApplicationHelper do
     end
   end
 
+  describe '#curation_concern_attribute_to_html' do
+    it 'returns a "" for a nil value' do
+      collection = nil
+      object = double('curation_concern', things: collection)
+
+      rendered = helper.curation_concern_attribute_to_formatted_text(object, :things)
+      expect(rendered).to eq('')
+    end
+
+    it 'returns a "" for an empty array' do
+      collection = []
+      object = double('curation_concern', things: collection)
+
+      rendered = helper.curation_concern_attribute_to_formatted_text(object, :things)
+      expect(rendered).to eq('')
+    end
+
+    it 'calculates the label based on method name' do
+      collection = 'Hello World'
+      object = double('curation_concern', things: collection)
+
+      rendered = helper.curation_concern_attribute_to_formatted_text(object, :things)
+      rendered.should have_tag('h2', text: 'Things')
+    end
+
+    it 'handles an array by rendering one <article> per element' do
+      collection = ['Unexpected', 'ALL THE THINGS']
+      object = double('curation_concern', things: collection)
+
+      rendered = helper.curation_concern_attribute_to_formatted_text(object, :things)
+      rendered.should have_tag('article', count: 2)
+    end
+
+    it 'handles a string by rendering one <article> per element' do
+      collection = 'There is no strange thing.'
+      object = double('curation_concern', things: collection)
+
+      rendered = helper.curation_concern_attribute_to_formatted_text(object, :things)
+      rendered.should have_tag('article', count: 1)
+    end
+
+    it 'allows a custom class to be set on blocks of text' do
+      collection = 'The final countdown.'
+      object = double('curation_concern', things: collection)
+
+      rendered = helper.curation_concern_attribute_to_formatted_text(object, :things, nil, { class: 'custom-class' })
+      rendered.should_not have_tag('article', with: { class: 'descriptive-text' })
+      rendered.should have_tag('article', with: { class: 'custom-class' })
+    end
+  end
+
   it 'has #classify_for_display' do
     expect(helper.classify_for_display(GenericWork.new)).to eq('generic work')
   end
@@ -206,6 +257,17 @@ describe ApplicationHelper do
           }
         )
       end
+    end
+  end
+
+  describe '#richly_formatted_text' do
+    # This is a token test. Curate::TextFormatter is tested elsewhere.
+    let(:text) { "This text should be returned in two paragraphs.\n\nYes no?" }
+    it 'parses basic text formatting' do
+      rendered = helper.richly_formatted_text(text)
+      expect(rendered).to(
+        have_tag('p', count: 2)
+      )
     end
   end
 

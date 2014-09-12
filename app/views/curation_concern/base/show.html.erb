@@ -1,6 +1,7 @@
 <% content_for :page_title, curation_concern_page_title(curation_concern) %>
 <% content_for :page_header do %>
-  <h1><%= curation_concern %> <span class="human_readable_type">(<%= curation_concern.human_readable_type %>)</span></h1>
+  <h1><%= richly_formatted_text(curation_concern.to_s) %></h1>
+  <span class="human_readable_type"><%= curation_concern.human_readable_type %></span>
 <% end %>
 <%= render partial: 'representative_media', locals: {work: curation_concern} %>
 

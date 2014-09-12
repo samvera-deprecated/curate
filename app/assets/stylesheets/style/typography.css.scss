@@ -46,11 +46,10 @@
     font-weight:normal;
     text-rendering: optimizeLegibility;
   }
-  h1 {
-    .human_readable_type {
-      font-size:.66em;
-      padding-left:1em;
-    }
+  .human_readable_type {
+    font-size:1em;
+    letter-spacing:.15em;
+    text-transform:uppercase;
   }
 }
 
