@@ -49,6 +49,8 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
 
     map.doi({to: "identifier#doi", in: RDF::QualifiedDC})
 
+    map.identifier({in: RDF::DC})
+
     map.inscription(in: RDF::Image)
 
     map.location(in: RDF::Image)
