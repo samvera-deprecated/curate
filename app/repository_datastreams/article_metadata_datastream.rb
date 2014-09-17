@@ -41,9 +41,7 @@ class ArticleMetadataDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_sortable
     end
 
-    map.doi({to: "identifier#doi", in: RDF::QualifiedDC})
-
-    map.identifier({in: RDF::DC})
+    map.identifier({to: "identifier#doi", in: RDF::QualifiedDC})
 
     map.issn({to: "identifier#issn", in: RDF::QualifiedDC})
 

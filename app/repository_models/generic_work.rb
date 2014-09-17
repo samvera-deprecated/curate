@@ -47,10 +47,6 @@ class GenericWork < ActiveFedora::Base
   attribute :description,
     datastream: :descMetadata, multiple: false
 
-  attribute :doi,
-    datastream: :descMetadata, multiple: false,
-    editable: false
-
   attribute :identifier,
     datastream: :descMetadata, multiple: true,
     editable: false

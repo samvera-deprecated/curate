@@ -42,9 +42,7 @@ class DatasetDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
 
-    map.doi({to: "identifier#doi", in: RDF::QualifiedDC})
-
-    map.identifier({in: RDF::DC})
+    map.identifier({to: "identifier#doi", in: RDF::QualifiedDC})
 
     map.language({in: RDF::DC}) do |index|
       index.as :searchable, :facetable

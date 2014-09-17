@@ -47,9 +47,7 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
 
-    map.doi({to: "identifier#doi", in: RDF::QualifiedDC})
-
-    map.identifier({in: RDF::DC})
+    map.identifier({to: "identifier#doi", in: RDF::QualifiedDC})
 
     map.inscription(in: RDF::Image)
 
