@@ -222,7 +222,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     it "without JS is available for users who are authenticated and agreed to ToS", js: false do
       login_as(user)
       visit('/')
-      click_link "Help!"
+      click_link "Report a Problem"
       within("#new_help_request") do
         fill_in('How can we help you', with: "I'm trapped in a fortune cookie factory!")
         click_on("Let Us Know")

@@ -1,3 +1,17 @@
+<% if curation_concern.with_empty_contents? %>
+  <div class="alert">
+    <strong>Hey!</strong> It looks like there is a problem with some of your files:
+    <ul>
+      <% curation_concern.generic_files.each do |generic_file| %>
+        <% if generic_file.with_empty_content? %>
+          <li>File Upload Failure.  <%= link_to "Click here to resolve this problem", edit_polymorphic_path([:curation_concern, generic_file])%></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
 <% if curation_concern.persisted? && curation_concern.generic_files.present? %>
   <div class="row">
     <div class="span12">

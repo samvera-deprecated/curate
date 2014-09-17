@@ -1,6 +1,8 @@
 <% width = 36 if width.blank? %>
 <%  if thumbnail.image? || thumbnail.pdf? || thumbnail.video? %>
   <% path = download_path(thumbnail, {datastream_id: 'thumbnail'}) %>
+<% elsif thumbnail.with_empty_content? %>
+  <% path = "curate/missing-file-icon.png" %>
 <% else %>
   <% path = "curate/default.png" %>
 <% end %>

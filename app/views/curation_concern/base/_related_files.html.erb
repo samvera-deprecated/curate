@@ -2,6 +2,9 @@
 <table class="table table-striped <%= dom_class(curation_concern) %> related_files with-headroom">
   <caption class="table-heading">
     <h2>Files</h2>
+    <% if curation_concern.with_empty_contents? %>
+      <div class="alert"><strong>Hey!</strong> It looks like there is a problem with one of these files.</div>
+    <% end %>
   </caption>
   <thead>
     <tr>
@@ -14,7 +17,7 @@
   </thead>
   <tbody>
     <% curation_concern.generic_files.each do |generic_file| %>
-      <tr class="<%= dom_class(generic_file) %> attributes">
+      <tr class="<%= dom_class(generic_file) %> attributes <%= alert_class(generic_file) %> ">
         <td class="attribute title">
           <%= render partial: 'thumbnail', locals: {thumbnail: generic_file, dom_class_name: 'thumbnail'} %>
           <%= generic_file_title(generic_file) %>
@@ -22,21 +25,17 @@
         <td class="attribute filename"><%= link_to(generic_file_link_name(generic_file), curation_concern_generic_file_path(generic_file)) %></td>
         <td class="attribute date_uploaded"><%= generic_file.date_uploaded %></td>
         <td class="attribute permission"><%= permission_badge_for(generic_file) %></td>
-        <td>
+        <td class="generic_file_actions">
           <%- if with_actions -%>
-            <%- if can?(:edit, generic_file) -%>
-              <%= link_to(
-                'Edit',
-                edit_polymorphic_path([:curation_concern, generic_file]),
-                { class: 'btn', title: "Edit #{generic_file}" }
-              ) %>
-            <%- end -%>
+            <% if can?(:edit, generic_file) -%>
+              <%= actions_for_edit_button(generic_file)%>
+            <% end -%>
             <%- if can?(:edit, generic_file) -%>
               <%= link_to(
                 'Rollback',
                 versions_curation_concern_generic_file_path(generic_file),
-                { class: 'btn', title: "Rollback to previous version" }
-              ) %>
+                { class: "btn #{"disabled" if generic_file.with_empty_content?}", title: "Rollback to previous version" }
+              )%>
             <%- end -%>
             <%- if can?(:destroy, generic_file) -%>
               <%= link_to(
@@ -48,7 +47,7 @@
             <%- end -%>
           <%- end -%>
           <%- if can?(:read, generic_file) -%>
-            <%= link_to 'Download', download_path(generic_file.noid),{class: 'btn', title: "Download #{generic_file.to_s.inspect}", :target => "_blank"}%>
+            <%= link_to "Download", download_path(generic_file.noid),{class: "btn #{"disabled" if generic_file.with_empty_content?}", title: "Download #{generic_file.to_s.inspect}", :target => "_blank"}%>
           <%- end -%>
         </td>
       </tr>

@@ -22,7 +22,6 @@ describe 'Creating a generic work' do
         check("I have read and accept the contributor license agreement")
         click_button("Create Generic work")
       end
-
       expect(page).to have_selector('h1', text: 'Generic Work')
       within ('.linked_resource.attributes') do
         expect(page).to have_link('http://www.youtube.com/watch?v=oHg5SJYRHA0', href: 'http://www.youtube.com/watch?v=oHg5SJYRHA0')

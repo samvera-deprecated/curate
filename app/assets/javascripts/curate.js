@@ -73,5 +73,9 @@ Blacklight.onLoad(function() {
 
   $("[data-toggle='dropdown']").dropdown();
 
+	$('.generic_file_actions').on('click', '.disabled', function(event) {
+		event.preventDefault();
+	});
+
 });
 

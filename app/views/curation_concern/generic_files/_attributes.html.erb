@@ -32,30 +32,32 @@
     <tr>
       <th>Characterization</th>
       <td>
-        <%= "not yet characterized" if curation_concern.characterization_terms.values.flatten.map(&:empty?).reduce(true) { |sum, value| sum && value } %>
-        <% curation_concern.characterization_terms.each_pair do |term, values| %>
-        <div>
-          <% label = term.to_s %>
-          <% if label == "format_label" %>
-             <% label = "File Format"  %>
-             <% values = curation_concern.file_format %>
-          <% end %>
-          <% label = label.humanize %>
-          <% if values.is_a? Array %>
-            <% length = values.length %>
-            <% length = Sufia.config.fits_message_length-1  if term == :status_message && values.length > Sufia.config.fits_message_length-1  %>
-            <% values[0..length].each_with_index do |value, idx| %>
-              <% next if value.empty? %>
-              <%= "#{label}: #{value.truncate(250)}" %>
-              <%= "<br />".html_safe unless idx == length %>
+        <%= generic_file_characterization(curation_concern)%>
+        <% if show_characterization %>
+          <% curation_concern.characterization_terms.each_pair do |term, values| %>
+          <div>
+            <% label = term.to_s %>
+            <% if label == "format_label" %>
+               <% label = "File Format"  %>
+               <% values = curation_concern.file_format %>
             <% end %>
-            <% if length != values.length %>
-               <%= render :partial => "generic_files/extra_fields_modal", :locals=>{:name=>term, :values=> values, :start=>Sufia.config.fits_message_length}%>
+            <% label = label.humanize %>
+            <% if values.is_a? Array %>
+              <% length = values.length %>
+              <% length = Sufia.config.fits_message_length-1  if term == :status_message && values.length > Sufia.config.fits_message_length-1  %>
+              <% values[0..length].each_with_index do |value, idx| %>
+                <% next if value.empty? %>
+                <%= "#{label}: #{value.truncate(250)}" %>
+                <%= "<br />".html_safe unless idx == length %>
+              <% end %>
+              <% if length != values.length %>
+                 <%= render :partial => "generic_files/extra_fields_modal", :locals=>{:name=>term, :values=> values, :start=>Sufia.config.fits_message_length}%>
+              <% end %>
+            <% else %>
+              <%= "#{label}: #{values.truncate(250)}" %><br />
             <% end %>
-          <% else %>
-            <%= "#{label}: #{values.truncate(250)}" %><br />
+          </div>
           <% end %>
-        </div>
         <% end %>
       </td>
     </tr>

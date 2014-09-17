@@ -11,6 +11,10 @@ module CurationConcern
       generic_files.each(&:destroy)
     end
 
+    def with_empty_contents?
+      generic_files.any? {|gf| gf.with_empty_content?}
+    end
+
   end
 end
 
