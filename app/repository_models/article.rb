@@ -79,6 +79,7 @@ class Article < ActiveFedora::Base
     editable: true
 
   attribute :publisher_digital,
+    default: "University of Cincinnati",
     datastream: :descMetadata, multiple: false,
     editable: true
 

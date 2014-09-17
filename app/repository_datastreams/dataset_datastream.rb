@@ -77,6 +77,9 @@ class DatasetDatastream < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
 
+    map.type(in: RDF::DC) do |index|
+      index.as :stored_searchable, :facetable
+    end
   end
 end
 
