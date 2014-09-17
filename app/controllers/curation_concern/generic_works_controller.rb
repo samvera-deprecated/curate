@@ -55,6 +55,10 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
     if curation_concern.respond_to?(:contributor)
       curation_concern.contributor << current_user.name if curation_concern.contributor.empty? && !current_user.can_make_deposits_for.any?
     end
+    if curation_concern.respond_to?(:creator)
+      curation_concern.creator << current_user.name if curation_concern.creator.empty? && !current_user.can_make_deposits_for.any?
+    end
+
     curation_concern.editors << current_user.person if curation_concern.editors.blank?
     curation_concern.editors.build
     curation_concern.editor_groups.build
