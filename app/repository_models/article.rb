@@ -38,7 +38,7 @@ class Article < ActiveFedora::Base
     datastream: :descMetadata, multiple: true
 
   attribute :creator,
-    datastream: :descMetadata, multiple: false,
+    datastream: :descMetadata, multiple: true,
     validates: { multi_value_presence: { message: "Your article must have an author." } }
 
   attribute :date_created,
