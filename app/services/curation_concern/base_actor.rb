@@ -18,17 +18,17 @@ module CurationConcern
 
     delegate :visibility_changed?, to: :curation_concern
 
-    def create
+    def create(&block)
       apply_creation_data_to_curation_concern
       apply_save_data_to_curation_concern
-      save
+      save(&block)
     end
 
-    def update
+    def update(&block)
       apply_update_data_to_curation_concern
       apply_save_data_to_curation_concern
       reset_license
-      save
+      save(&block)
     end
 
     protected
@@ -54,6 +54,7 @@ module CurationConcern
       curation_concern.extend(CurationConcern::RemotelyIdentifiedByDoi::MintingBehavior)
       curation_concern.apply_doi_assignment_strategy do |*|
         curation_concern.save
+        block_given? ? yield : true
       end
     end
 

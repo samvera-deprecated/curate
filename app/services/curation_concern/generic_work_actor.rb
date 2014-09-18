@@ -5,10 +5,12 @@ module CurationConcern
       editors = attributes.delete('editors_attributes')
       groups = attributes.delete('editor_groups_attributes')
 
-      assign_pid && super && attach_files && create_linked_resources &&
+      assign_pid && super {
+        attach_files && create_linked_resources &&
         download_create_cloud_resources && assign_representative &&
         add_depositor_as_editor &&
         add_or_update_editors_and_groups(editors, groups, :create)
+      }
     end
 
     def update
@@ -16,7 +18,7 @@ module CurationConcern
       groups = attributes.delete('editor_groups_attributes')
       add_or_update_editors_and_groups(editors, groups, :update) &&
         add_to_collections(attributes.delete(:collection_ids)) &&
-        super && attach_files && create_linked_resources
+        super { attach_files && create_linked_resources }
     end
 
     delegate :visibility_changed?, to: :curation_concern
