@@ -83,10 +83,6 @@ class Image < ActiveFedora::Base
       multiple: false,
       editable: false
 
-    ds.attribute :doi,
-      multiple: false,
-      editable: false
-
     ds.attribute :contributor,
       multiple: true
 

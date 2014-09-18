@@ -51,12 +51,8 @@ class Article < ActiveFedora::Base
   attribute :date_uploaded,
     datastream: :descMetadata, multiple: false
 
-  attribute :doi,
-    datastream: :descMetadata, multiple: false,
-    editable: false
-
   attribute :identifier,
-    datastream: :descMetadata, multiple: true,
+    datastream: :descMetadata, multiple: false,
     editable: false
 
   attribute :issn,
@@ -79,6 +75,7 @@ class Article < ActiveFedora::Base
     editable: true
 
   attribute :publisher_digital,
+    default: "University of Cincinnati",
     datastream: :descMetadata, multiple: false,
     editable: true
 

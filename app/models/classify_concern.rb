@@ -1,6 +1,6 @@
 require 'active_attr'
 class ClassifyConcern
-  UPCOMING_CONCERNS = []
+  UPCOMING_CONCERNS = ['ETD']
 
   def self.normalize_concern_name(name)
     name.to_s.classify

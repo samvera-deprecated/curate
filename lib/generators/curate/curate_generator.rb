@@ -67,7 +67,7 @@ This generator makes the following changes to your application:
     inject_into_file 'config/search_config.yml', search_options, after: /production\:\n/, force: true
   end
 
-  DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles, :etds, :images, :documents]
+  DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles, :images, :documents]
 
   def create_curate_config
     initializer 'curate_config.rb' do

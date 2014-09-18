@@ -47,12 +47,8 @@ class Dataset < ActiveFedora::Base
   attribute :description,
     datastream: :descMetadata, multiple: false
 
-  attribute :doi,
-    datastream: :descMetadata, multiple: false,
-    editable: false
-
   attribute :identifier,
-    datastream: :descMetadata, multiple: true,
+    datastream: :descMetadata, multiple: false,
     editable: false
 
   attribute :language,
