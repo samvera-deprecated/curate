@@ -48,7 +48,7 @@ class GenericWork < ActiveFedora::Base
     datastream: :descMetadata, multiple: false
 
   attribute :identifier,
-    datastream: :descMetadata, multiple: true,
+    datastream: :descMetadata, multiple: false,
     editable: false
 
   attribute :language,
