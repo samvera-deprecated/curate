@@ -16,7 +16,7 @@ end
 require 'vcr'
 
 def VCR::SpecSupport(options={})
-  {vcr: {record: :new_episodes}.merge(options)}
+  {vcr: {record: :none}.merge(options)}
 end
 
 VCR.configure do |config|

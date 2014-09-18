@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://apitest:apitest@ezid.lib.purdue.edu/ezid/shoulder/doi:10.5072/FK2
+    uri: https://apitest:apitest@ezid.lib.purdue.edu/shoulder/doi:10.5072/FK2
     body:
       encoding: UTF-8
       string: |-
@@ -87,4 +87,4 @@ http_interactions:
       string: 'error: bad request - DOI metadata requirements not satisfied: no creator'
     http_version: 
   recorded_at: Wed, 06 Aug 2014 15:58:15 GMT
-recorded_with: VCR 2.9.2
+recorded_with: VCR 2.9.3
