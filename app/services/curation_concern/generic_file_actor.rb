@@ -2,11 +2,11 @@ module CurationConcern
   class GenericFileActor < CurationConcern::BaseActor
 
     def create
-      super && update_file  && download_create_cloud_resources
+      super { update_file  && download_create_cloud_resources }
     end
 
     def update
-      super && update_file  && download_create_cloud_resources
+      super { update_file  && download_create_cloud_resources }
     end
 
     def rollback

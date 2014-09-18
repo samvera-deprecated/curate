@@ -21,14 +21,14 @@ module CurationConcern
     def create
       apply_creation_data_to_curation_concern
       apply_save_data_to_curation_concern
-      save
+      save { block_given? ? yield : true }
     end
 
-    def update
+    def update(&block)
       apply_update_data_to_curation_concern
       apply_save_data_to_curation_concern
       reset_license
-      save
+      save { block_given? ? yield : true }
     end
 
     protected
@@ -53,7 +53,7 @@ module CurationConcern
     def save
       curation_concern.extend(CurationConcern::RemotelyIdentifiedByDoi::MintingBehavior)
       curation_concern.apply_doi_assignment_strategy do |*|
-        curation_concern.save
+        curation_concern.save && (block_given? ? yield : true)
       end
     end
 
