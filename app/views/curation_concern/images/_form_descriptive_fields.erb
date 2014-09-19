@@ -8,7 +8,9 @@
           input_html: { class: 'input-xlarge' }
         %>
 
-        <%= render partial: 'linked_contributors', locals: {f: f, label: 'Creator'} %>
+        <%= f.input :creator,  as: :multi_value, required: true, input_html: { class: 'input-xlarge' } %>
+        <%= render partial: 'linked_editors', locals: {f: f, curation_concern: curation_concern, label: 'Editor'} %>
+        <%= render partial: 'linked_groups', locals: {f: f, curation_concern: curation_concern, label: "Editor Group"} %>
 
         <%= f.input :date_created,
           as: :multi_value
@@ -20,72 +22,71 @@
             class: 'input-xlarge'
           }
         %>
-        <%= f.collection_check_boxes :category,
-          [['Poster'], ['Visual Art'], ['Photograph'], ['Painting'],
-          ['Map/chart'], ['Cartoon/comic']],
-          :first, :first
-        %>
 
-        <%= f.input :location,
-          as: :multi_value,
-          input_html: { class: 'input-xlarge' }
-        %>
-
-        <%= f.input :measurements,
-                    as: :multi_value,
-                    input_html: { class: 'input-xlarge' }
-        %>
-
-        <%= f.input :material,
-                    as: :multi_value,
-                    input_html: { class: 'input-xlarge' }
-        %>
-
+      <%= f.input :temporal_coverage,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :spatial_coverage,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :date_digitized,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :digitizing_equipment,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
     </div>
 
     <div class="span6">
 
+      <%= f.input :alternate_title,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :contributor,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :contributor_institution,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
       <%= f.input :source,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
 
-      <%= f.input :publisher,
-                  as: :multi_value,
-                  input_html: { class: 'input-xlarge' }
-      %>
+      <%= f.input :publisher,               as: :multi_value, label: "Publisher (Required for DOI)", input_html: { class: 'input-xlarge', id: 'publisher' } %>
 
       <%= f.input :subject,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :inscription,
+      <%= f.input :recommended_citation,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :StateEdition,
-                  as: :string,
-                  input_html: { class: 'input-xlarge' }
-      %>
-
-      <%= f.input :textref,
+      <%= f.input :repository_name,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :cultural_context,
+      <%= f.input :collection_name,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :style_period,
+      <%= f.input :language,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>
-
-      <%= f.input :technique,
+      <%= f.input :size,
+                  as: :multi_value,
+                  input_html: { class: 'input-xlarge' }
+      %>
+      <%= f.input :requires,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' }
       %>

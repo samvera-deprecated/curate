@@ -5,10 +5,11 @@
               input_html: { class: 'input-xlarge' }
   %>
 
-  <%= render partial: 'linked_contributors', locals: {f: f} %>
+  <%= f.input :creator, as: :multi_value, required: true, input_html: { class: 'input-xlarge' } %>
 
   <%= f.input :description,
               as: :text,
+              required: true,
               hint: 'Please keep your description to 300 words or less.',
               input_html: {
                 class: 'input-xxxlarge',

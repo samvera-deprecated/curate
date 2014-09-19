@@ -1,0 +1,35 @@
+<% managed_groups, non_managed_groups = documents.partition{|item| can? :edit, item.to_model} %>
+
+<% if (managed_groups.any?) %>
+    <h4>Manage</h4>
+    <table class="table table-striped">
+      <caption class="accessible-hidden">List of groups</caption>
+      <thead>
+      <tr>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <%=
+            render managed_groups, :as => :document
+        %>
+      </tbody>
+    </table>
+<% end %>
+
+<% if (non_managed_groups.any?) %>
+    <h4>View</h4>
+    <table class="table table-striped">
+      <caption class="accessible-hidden">List of groups</caption>
+      <thead>
+      <tr>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <%=
+          render non_managed_groups, :as => :document
+      %>
+      </tbody>
+    </table>
+<% end %>

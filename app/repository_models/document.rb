@@ -6,25 +6,44 @@ class Document < GenericWork
 
   self.indefinite_article = 'an'
   self.contributor_label = 'Author'
-  validates_presence_of :contributors, message: "Your #{human_readable_type.downcase} must have #{label_with_indefinite_article}."
 
   def self.valid_types
-    [ 'Book',
+    [
+      'Book',
       'Book Chapter',
-      'Document',
-      'Report',
-      'Pamphlet',
       'Brochure',
-      'Manuscript',
+      'Document',
       'Letter',
+      'Manuscript',
       'Newsletter',
+      'Pamphlet',
+      'Presentation',
       'Press Release',
-      'White Paper' ]
+      'Report',
+      'White Paper'
+    ]
   end
 
   attribute :type, datastream: :descMetadata,
     multiple: false,
     validates: { inclusion: { in: Document.valid_types,
                               allow_blank: true } }
-
+ 
+  attribute :date_created,               datastream: :descMetadata, multiple: true, default: Date.today.to_s("%Y-%m-%d")
+  attribute :date_uploaded,              datastream: :descMetadata, multiple: false
+  attribute :date_modified,              datastream: :descMetadata, multiple: false
+  attribute :alternate_title,            datastream: :descMetadata, multiple: true
+  attribute :creator,                    datastream: :descMetadata, multiple: true
+  attribute :contributor_institution,    datastream: :descMetadata, multiple: true
+  attribute :abstract,                   datastream: :descMetadata, multiple: false
+  attribute :repository_name,            datastream: :descMetadata, multiple: true
+  attribute :collection_name,            datastream: :descMetadata, multiple: true
+  attribute :temporal_coverage,          datastream: :descMetadata, multiple: true
+  attribute :spatial_coverage,           datastream: :descMetadata, multiple: true
+  attribute :permission,                 datastream: :descMetadata, multiple: false
+  attribute :size,                       datastream: :descMetadata, multiple: true
+  attribute :format,                     datastream: :descMetadata, multiple: false
+  attribute :recommended_citation,       datastream: :descMetadata, multiple: true
+  attribute :identifier,                 datastream: :descMetadata, multiple: false
+  attribute :doi,                        datastream: :descMetadata, multiple: false
 end

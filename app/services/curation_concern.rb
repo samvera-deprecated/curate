@@ -10,11 +10,11 @@ module CurationConcern
     klass.new(curation_concern, *args)
   end
 
-  def attach_file(generic_file, user, file_to_attach)
+  def attach_file(generic_file, user, file_to_attach, name=file_to_attach.original_filename)
     Sufia::GenericFile::Actions.create_content(
       generic_file,
       file_to_attach,
-      file_to_attach.original_filename,
+      name,
       'content',
       user
     )

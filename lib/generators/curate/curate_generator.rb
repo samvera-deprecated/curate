@@ -58,6 +58,15 @@ This generator makes the following changes to your application:
     gsub_file 'config/routes.rb', /^\s+root.+$/, "  root 'catalog#index'"
   end
 
+
+  def create_search_config
+    create_file('config/search_config.yml', "development:\ntest:\nproduction:\n", force: true)
+    search_options = "  catalog:\n  people:\n"
+    inject_into_file 'config/search_config.yml', search_options, after: /development\:\n/, force: true
+    inject_into_file 'config/search_config.yml', search_options, after: /test\:\n/, force: true
+    inject_into_file 'config/search_config.yml', search_options, after: /production\:\n/, force: true
+  end
+
   DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles, :etds, :images, :documents]
 
   def create_curate_config
@@ -73,6 +82,10 @@ This generator makes the following changes to your application:
       data << ""
       data << "  # # Used for constructing permanent URLs"
       data << "  # config.application_root_url = 'https://repository.higher.edu/'"
+      data << ""
+      data << "  # # Used to load values for constructing SOLR searches"
+      data << "  search_config_file = File.join(Rails.root, 'config', 'search_config.yml')"
+      data << "  config.search_config = YAML::load(File.open(search_config_file))[Rails.env].with_indifferent_access"
       data << ""
       data << "  # # Override the file characterization runner that is used"
       data << "  # config.characterization_runner = lambda {|filename| … }"
@@ -95,9 +108,18 @@ This generator makes the following changes to your application:
     end
   end
 
+  def create_manager_usernames
+    create_file('config/manager_usernames.yml', "development:\n  manager_usernames:\n  - manager@example.com\ntest:\n  manager_usernames:\n  - manager@example.com\nproduction:\n  manager_usernames:\n  - manager@example.com\n")
+  end
 
   def create_recipients_list
     create_file('config/recipients_list.yml', "---\n- hello@world.com\n")
+  end
+
+  def create_browse_everything_providers
+    create_file('config/browse_everything_providers.yml', "---\nfile_system:\n  :home: \nbox:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\ndrop_box:\n  :app_key: <your client id>\n  :app_secret: <your app secret>\ngoogle_drive:\n  :client_id: <your client id>\n  :client_secret: <your client secret>\n")
+    default_file_system = "#{File.expand_path('../support', Rails.root)}"
+    inject_into_file 'config/browse_everything_providers.yml', default_file_system, after: /\:home\: /, force: true
   end
 
   def inject_curate_user
@@ -138,4 +160,10 @@ This generator makes the following changes to your application:
     readme 'README.md'
   end
 
+  def create_predicate_mapping
+    template 'predicate_mappings.yml', 'config/predicate_mappings.yml'
+  end
+  def create_licensing_permissions
+    template 'licensing_permissions.yml', 'config/licensing_permissions.yml'
+  end
 end

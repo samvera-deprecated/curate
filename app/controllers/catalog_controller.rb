@@ -8,6 +8,7 @@ class CatalogController < ApplicationController
   include BreadcrumbsOnRails::ActionController
   include Curate::ThemedLayoutController
   include Curate::FieldsForAddToCollection
+  include Hydramata::SolrHelper
 
   with_themed_layout 'catalog'
 
@@ -15,11 +16,13 @@ class CatalogController < ApplicationController
   before_filter :enforce_show_permissions, :only=>:show
   # This applies appropriate access controls to all solr queries
   CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
+  # Enforce embargo on all Solr queries
+  CatalogController.solr_search_params_logic += [:enforce_embargo]
   # This filters out objects that you want to exclude from search results, like FileAssets
   CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
-
+  CatalogController.solr_search_params_logic += [:show_only_works]
   before_filter :agreed_to_terms_of_service!
-  
+
   skip_before_filter :default_html_head
 
   def index
@@ -33,16 +36,28 @@ class CatalogController < ApplicationController
   end
 
   def self.modified_field
-    solr_name('desc_metadata__date_modified', :stored_sortable, type: :date)
+    solr_name('desc_metadata__date_modified', :stored_sortable , type: :date)
   end
 
+  def self.search_config
+     # Set parameters to send to SOLR
+     # First inspect contents of the hash from Yaml configuration file
+     # See config/search_config.yml
+     initialized_config = Curate.configuration.search_config['catalog']
+     # If the hash is empty, set reasonable defaults for this search type
+     if initialized_config.nil?
+        Hash['qf' => ['desc_metadata__title_tesim','desc_metadata__name_tesim'],'qt' => 'search','rows' => 10]
+     else
+        initialized_config
+     end
+  end
 
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
-      qf: [solr_name("desc_metadata__title", :stored_searchable), solr_name("desc_metadata__name", :stored_searchable)],
-      qt: "search",
-      rows: 10
+      qf: search_config['qf'],
+      qt: search_config['qt'],
+      rows: search_config['rows']
     }
 
     # solr field configuration for search results/index views
@@ -58,8 +73,7 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     config.add_facet_field solr_name("human_readable_type", :facetable), label: "Type of Work", limit: 5
     config.add_facet_field solr_name(:desc_metadata__creator, :facetable), label: "Creator", helper_method: :creator_name_from_pid, limit: 5
-    config.add_facet_field solr_name(:collection, :facetable), label: "Collection",  helper_method: :collection_title_from_pid, limit: 5
-    
+
     config.add_facet_field solr_name("desc_metadata__tag", :facetable), label: "Keyword", limit: 5
     config.add_facet_field solr_name("desc_metadata__subject", :facetable), label: "Subject", limit: 5
     config.add_facet_field solr_name("desc_metadata__language", :facetable), label: "Language", limit: 5
@@ -83,8 +97,8 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("desc_metadata__publisher", :stored_searchable, type: :string), label: "Publisher"
     config.add_index_field solr_name("desc_metadata__based_near", :stored_searchable, type: :string), label: "Location"
     config.add_index_field solr_name("desc_metadata__language", :stored_searchable, type: :string), label: "Language"
-    config.add_index_field solr_name("desc_metadata__date_uploaded", :stored_searchable, type: :string), label: "Date Uploaded"
-    config.add_index_field solr_name("desc_metadata__date_modified", :stored_searchable, type: :string), label: "Date Modified"
+    config.add_index_field solr_name("desc_metadata__date_uploaded", :stored_sortable, type: :string), label: "Date Uploaded"
+    config.add_index_field solr_name("desc_metadata__date_modified", :stored_sortable, type: :string), label: "Date Modified"
     config.add_index_field solr_name("desc_metadata__date_created", :stored_searchable, type: :string), label: "Date Created"
     config.add_index_field solr_name("desc_metadata__rights", :stored_searchable, type: :string), label: "Rights"
     config.add_index_field solr_name("human_readable_type", :stored_searchable, type: :string), label: "Resource Type"
@@ -129,10 +143,19 @@ class CatalogController < ApplicationController
     # since we aren't specifying it otherwise.
     config.add_search_field('all_fields', label: 'All Fields', :include_in_advanced_search => false) do |field|
       title_name = solr_name("desc_metadata__title", :stored_searchable, type: :string)
-      label_name = solr_name("desc_metadata__title", :stored_searchable, type: :string)
+      label_name = solr_name("desc_metadata__name", :stored_searchable, type: :string)
       contributor_name = solr_name("desc_metadata__contributor", :stored_searchable, type: :string)
+      description_name = solr_name("desc_metadata__description", :stored_searchable, type: :string)
+      abstract_name = solr_name("desc_metadata__abstract", :stored_searchable, type: :string)
+      creator_name = solr_name("desc_metadata__creator", :stored_searchable)
+      publisher_name = solr_name("desc_metadata__publisher", :stored_searchable, type: :string)
+      language_name = solr_name("desc_metadata__language", :stored_searchable, type: :string)
+      collection_name = solr_name("desc_metadata__collection_name", :stored_searchable, type: :string)
+      contributor_institution_name = solr_name("desc_metadata__contributor_institution", :stored_searchable, type: :string)
+      subject_name = solr_name("desc_metadata__subject", :stored_searchable, type: :string)
+      identifier_name = solr_name("desc_metadata__identifier", :stored_searchable, type: :string)
       field.solr_parameters = {
-        :qf => "#{title_name} noid_tsi #{label_name} file_format_tesim #{contributor_name}",
+        :qf => "#{title_name} #{label_name} noid_tsi file_format_tesim #{contributor_name} #{abstract_name} #{description_name} #{creator_name} #{publisher_name} #{language_name} #{collection_name} #{contributor_institution_name} #{subject_name} #{identifier_name}",
         :pf => "#{title_name}"
       }
     end
@@ -181,11 +204,23 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('description') do |field|
-      field.label = "Abstract or Summary"
+      field.label = "Description or Summary"
       field.solr_parameters = {
         :"spellcheck.dictionary" => "description"
       }
       solr_name = solr_name("desc_metadata__description", :stored_searchable, type: :string)
+      field.solr_local_parameters = {
+        :qf => solr_name,
+        :pf => solr_name
+      }
+    end
+
+    config.add_search_field('abstract') do |field|
+      field.label = "Abstract or Summary"
+      field.solr_parameters = {
+        :"spellcheck.dictionary" => "abstract"
+      }
+      solr_name = solr_name("desc_metadata__abstract", :stored_searchable, type: :string)
       field.solr_local_parameters = {
         :qf => solr_name,
         :pf => solr_name
@@ -329,6 +364,14 @@ class CatalogController < ApplicationController
 
   protected
 
+    # Override Hydra::PolicyAwareAccessControlsEnforcement
+    def gated_discovery_filters
+      if current_user and current_user.manager?
+        return []
+      end
+      super
+    end
+
     # Overriding blacklight so that the search results can be displayed in a way compatible with
     # tokenInput javascript library.  This is used for suggesting "Related Works" to attach.
     def render_search_results_as_json
@@ -357,11 +400,20 @@ class CatalogController < ApplicationController
     def exclude_unwanted_models(solr_parameters, user_parameters)
       super
       solr_parameters[:fq] ||= []
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:GenericFile\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Profile\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:ProfileSection\""
-      solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:LinkedResource\""
-      return solr_parameters
+      [GenericFile, Profile, ProfileSection, LinkedResource,
+       Hydramata::Group].each do |klass|
+        solr_parameters[:fq] << exclude_class_filter(klass)
+      end
+    end
+
+    #Excludes collection and person only when trying to filter by work.
+    # This is included as part of blacklight search solr params logic
+    def show_only_works(solr_parameters, user_parameters)
+      if params.has_key?(:f) and params[:f].to_a.flatten == ["generic_type_sim","Work"]
+        solr_parameters[:fq] ||= []
+        solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Collection\""
+        solr_parameters[:fq] << "-has_model_ssim:\"info:fedora/afmodel:Person\""
+      end
     end
 
     def depositor
@@ -373,5 +425,8 @@ class CatalogController < ApplicationController
       "#{Solrizer.solr_name('system_create', :sortable)} desc"
     end
 
-
+    def exclude_class_filter(klass)
+      '-' + ActiveFedora::SolrService.construct_query_for_rel(has_model:
+                                                        klass.to_class_uri)
+    end
 end

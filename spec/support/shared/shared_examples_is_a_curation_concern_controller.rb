@@ -11,14 +11,15 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
   end
   its(:curation_concern_type) { should eq curation_concern_class }
 
-  let(:user) { FactoryGirl.create(:user) }
+  let(:person) { FactoryGirl.create(:person_with_user) }
+  let(:user) { person.user }
   before { sign_in user }
 
   def path_to_curation_concern
+    # This fails with a ActionController::UrlGenerationError if the
+    # curation_concern didn't save
     public_send("curation_concern_#{curation_concern_type_underscore}_path", controller.curation_concern)
   end
-
-  render_views
 
   if optionally_include_specs(actions, :show)
     describe "#show" do
@@ -50,6 +51,9 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
   if optionally_include_specs(actions, :new)
     describe "#new" do
       context "my work" do
+
+        render_views
+
         it "should show me the page" do
           get :new
           expect(response).to be_success
@@ -73,7 +77,9 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
     describe "#create" do
       it "should create a work" do
         controller.curation_concern.stub(:persisted?).and_return(true)
+        controller.curation_concern.inner_object.pid = 'test:123'
         controller.actor = double(:create => true)
+
         post :create, accept_contributor_agreement: "accept"
         response.should redirect_to path_to_curation_concern
       end
@@ -137,6 +143,16 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
           patch :update, id: a_work
           expect(response).to render_template('edit')
         end
+      end
+    end
+  end
+
+  if optionally_include_specs(actions, :destroy)
+    describe "#destroy" do
+      let(:work_to_be_deleted) { FactoryGirl.create(default_work_factory_name, user: user) }
+      it "should delete the work" do
+        delete :destroy, id: work_to_be_deleted
+        expect { GenericWork.find(work_to_be_deleted.pid) }.to raise_error
       end
     end
   end

@@ -1,5 +1,5 @@
 shared_examples 'is_a_curation_concern_actor' do |curation_concern_class, curation_concern_actor_options = {}|
-  let(:with_linked_contributors?) { !curation_concern_actor_options.fetch(:without_linked_contributors, false) }
+  let(:with_contributors?) { !curation_concern_actor_options.fetch(:without_contributors, false) }
   let(:with_linked_resources?) { !curation_concern_actor_options.fetch(:without_linked_resources, false) }
 
   CurationConcern::FactoryHelpers.load_factories_for(self, curation_concern_class)
@@ -15,7 +15,7 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class, curati
   }
 
   describe '#create' do
-
+    let(:contributors) { ["Mark Twain"] }
     let(:curation_concern) { curation_concern_class.new(pid: CurationConcern.mint_a_pid )}
 
     context 'valid attributes' do
@@ -25,8 +25,8 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class, curati
           default_work_factory_name,
           files: [file]
         ).tap {|attrs|
-          if with_linked_contributors?
-            attrs[:contributors_attributes] = [{id: person.id}]
+          if with_contributors?
+            attrs[:contributor] = contributors
           end
           if with_linked_resources?
             attrs[:linked_resource_urls] = 'http://www.youtube.com/watch?v=oHg5SJYRHA0'
@@ -51,8 +51,8 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class, curati
         expect(curation_concern).to be_authenticated_only_access
         expect(generic_file).to be_authenticated_only_access
 
-        if with_linked_contributors?
-          expect(curation_concern.contributors).to eq([person])
+        if with_contributors?
+          expect(curation_concern.contributor).to eq(contributors)
         end
 
         if with_linked_resources?
@@ -79,14 +79,14 @@ shared_examples 'is_a_curation_concern_actor' do |curation_concern_class, curati
         it "should add to collections" do
           collection1.save # Had to call .save again to make this persist properly!? - MZ Sept 2013
           expect(curation_concern.collections).to eq [collection1]
-          subject.update.should be_true
+          subject.update.should be_truthy
 
           reloaded_cc = curation_concern.class.find(curation_concern.pid)
           expect(reloaded_cc.identifier).to be_blank
           expect(reloaded_cc).to be_persisted
           expect(reloaded_cc).to be_open_access
           expect(reloaded_cc.collections).to eq [collection2]
-          expect(subject.visibility_changed?).to be_true
+          expect(subject.visibility_changed?).to be_truthy
         end
       end
     end

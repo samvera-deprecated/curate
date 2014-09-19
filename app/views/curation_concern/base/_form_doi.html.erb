@@ -34,14 +34,15 @@
     <div class="control-group">
       <%- if remote_service.registered?(curation_concern) -%>
         <label class="radio">
-          <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" id="<%= f.object_name %>_doi_assignment_strategy_<%= remote_service.accessor_name %>" value="<%= remote_service.accessor_name %>" <% if curation_concern.doi_assignment_strategy == remote_service.accessor_name.to_s %> checked="true"<% end %> />
+          <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" id="mint-doi" value="<%= remote_service.accessor_name %>" <% if curation_concern.doi_assignment_strategy == remote_service.accessor_name.to_s %> checked="true"<% end %> />
           <span class="label-text">
-            Yes, I would like to create a <abbr title="Digital Object Identifier">DOI</abbr> for this <%= curation_concern.human_readable_type %>.
+            Yes, I would like to create a <abbr title="Digital Object Identifier">DOI</abbr> for this <%= curation_concern.human_readable_type %>. (Publisher information is required)
+            <br /><em><strong>Please note that it could take up to an hour for your DOI to be available.</strong></em>
           </span>
         </label>
       <%- end -%>
       <label class="radio">
-        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" id="<%= f.object_name %>_doi_assignment_strategy_<%= CurationConcern::RemotelyIdentifiedByDoi::ALREADY_GOT_ONE %>" value="<%= CurationConcern::RemotelyIdentifiedByDoi::ALREADY_GOT_ONE %>" <% if curation_concern.doi_assignment_strategy == CurationConcern::RemotelyIdentifiedByDoi::ALREADY_GOT_ONE %> checked="true"<% end %> />
+        <input type="radio" name="<%= f.object_name %>[doi_assignment_strategy]" id="no-doi" value="<%= CurationConcern::RemotelyIdentifiedByDoi::ALREADY_GOT_ONE %>" <% if curation_concern.doi_assignment_strategy == CurationConcern::RemotelyIdentifiedByDoi::ALREADY_GOT_ONE %> checked="true"<% end %> />
         <span class="label-text">
           Yes, I already have one that I want to use: <%= f.input :existing_identifier, wrapper: :inline, value: curation_concern.identifier, input_html: { placeholder: "doi:10.5072/FK2FT8XZZ", class: 'input-small' } %>
         </span>

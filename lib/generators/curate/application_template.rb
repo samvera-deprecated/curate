@@ -9,12 +9,22 @@ end
 def yes_with_banner?(message, banner = "*" * 80)
   yes?("\n#{banner}\n\n#{message}\n#{banner}\nType y(es) to confirm:")
 end
+def source_paths
+  Array(super) +
+      [File.join(File.expand_path(File.dirname(__FILE__)),'predicate_mapping')]
+end
+
 
 with_git("Initial commit")
 
 with_git("Adding curate gem") do
-  gem 'curate', "~> 0.6.1"
+  gem 'curate', "~> 0.6.6"
 end
+
+
+copy_file 'predicate_mappings.yml', 'config/predicate_mappings.yml'
+copy_file 'licensing_permissions.yml', 'config/licensing_permissions.yml'
+
 
 HELPFUL_DEVELOPMENT_TOOLS =
   <<-QUESTION_TO_ASK
@@ -36,6 +46,20 @@ if yes_with_banner?(HELPFUL_DEVELOPMENT_TOOLS)
 
   with_git("Adding quiet_assets gem") do
     gem 'quiet_assets', group: :development
+  end
+
+end
+
+USE_RUBY_RACER =
+  <<-QUESTION_TO_ASK
+Would you like to include the Ruby Racer gem? (Needed in some Linux environments)
+
+More information at http://github.com/cowboyd/therubyracer
+QUESTION_TO_ASK
+
+if yes_with_banner?(USE_RUBY_RACER)
+  with_git("Adding Ruby Racer gem") do
+    gem 'therubyracer', platforms: :ruby
   end
 
 end
@@ -77,9 +101,20 @@ if yes_with_banner?(JETTY_QUESTION)
   end
 
   with_git("Downloading jettywrapper") do
-    if yes_with_banner?("Would you like to download jetty now?\n\nThis will take quite awhile based on download speeds.")
+    if yes_with_banner?("Would you like to download and unzip jetty now?\n\nThis will take quite awhile based on download speeds.")
       rake "jetty:download"
+      rake "jetty:unzip"
       rake "jetty:config"
+      if yes_with_banner?("Would you like to turn on soft deleting of works?\n\nThis will preserve deleted objects in the Fedora repository while preventing the works from being displayed in the application.")
+        generate "curate:soft_delete"
+      end
     end
+  end
+end
+
+with_git("Installing RSpec files with curate support") do
+  if yes_with_banner?("Would you like to include support for RSpec testing?\n\nThis is needed if you want to use spec tests for your custom code.")
+    generate "rspec:install"
+    inject_into_file 'spec/spec_helper.rb', "\nrequire 'curate/spec_support'", :after => "require 'rspec/autorun'"
   end
 end

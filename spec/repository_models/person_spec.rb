@@ -18,6 +18,57 @@ describe Person do
     its(:user) { should be_nil }
   end
 
+  describe 'Collection' do
+    it 'should not add a person object to the collection' do
+      person = Person.new
+      expect(person.can_be_member_of_collection?(double)).to be_falsey
+    end
+  end
+
+  describe 'Work' do
+    let(:person) { FactoryGirl.create(:person_with_user) }
+    let(:another_person) { FactoryGirl.create(:person_with_user) }
+    let(:work) { FactoryGirl.create(:generic_work, user: person.user) }
+    let(:collection) { FactoryGirl.create(:collection) }
+    describe '#add_work' do
+      it 'should add work' do
+        person.works.should == []
+        work.reload.edit_users.should == [person.depositor]
+
+        person.add_work(work)
+        another_person.add_work(work)
+
+        person.reload.works.should == [work]
+        work.reload.edit_users.should == [person.depositor, another_person.depositor]
+      end
+
+      it 'should not add non-work objects' do
+        person.works.should == []
+        person.add_work(collection)
+        person.reload.works.should == []
+      end
+    end
+
+    describe '#remove_work' do
+      it 'should remove work' do
+        another_person.works.should == []
+
+        another_person.add_work(work)
+
+        reload_another_person = Person.find(another_person.pid)
+        another_person = reload_another_person
+
+        another_person.works.should == [work]
+        work.reload.edit_users.should include(another_person.depositor)
+
+        another_person.remove_work(work)
+
+        another_person.reload.works.should == []
+        work.reload.edit_users.should_not include(another_person.depositor)
+      end
+    end
+  end
+
   describe 'to_solr' do
     before do
       subject.name = "Aura D. Stanton"
@@ -33,7 +84,7 @@ describe Person do
       solr_doc['human_readable_type_sim'].should == 'Person'
     end
     it "is_user_ssi should be false" do
-      solr_doc['has_user_bsi'].should be_false
+      solr_doc['has_user_bsi'].should be_falsey
     end
 
     describe "when the person has an associated user account" do
@@ -42,7 +93,7 @@ describe Person do
         FactoryGirl.create(:user, repository_id: subject.pid)
       end
       it "is_user_ssi should be true" do
-        solr_doc['has_user_bsi'].should be_true
+        solr_doc['has_user_bsi'].should be_truthy
       end
     end
   end

@@ -46,4 +46,35 @@ describe CatalogController do
     end
 
   end
+
+  describe "when logged in as a repository manager" do
+    let(:creating_user) { FactoryGirl.create(:user) }
+    let(:email) { 'manager@example.com' }
+    let(:manager_user) { FactoryGirl.create(:user, email: email) }
+    let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+    let!(:work1) {
+      FactoryGirl.create_curation_concern(:generic_work, creating_user, { visibility: visibility })
+    }
+    let(:embargo) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
+    let(:embargo_release_date) { Date.tomorrow.to_s }
+    let!(:work2) {
+      FactoryGirl.create_curation_concern(:generic_work, creating_user, { visibility: embargo, embargo_release_date: embargo_release_date })
+    }
+    before do
+      sign_in manager_user
+    end
+    context "searching all works" do
+      it "should return other users' private works" do
+        get 'index', 'f' => {'generic_type_sim' => 'Work'}
+        response.should be_successful
+        assigns(:document_list).map(&:id).should include(work1.id)
+      end
+      it "should return other users' embargoed works" do
+        get 'index', 'f' => {'generic_type_sim' => 'Work'}
+        response.should be_successful
+        assigns(:document_list).map(&:id).should include(work2.id)
+      end
+    end
+
+  end
 end

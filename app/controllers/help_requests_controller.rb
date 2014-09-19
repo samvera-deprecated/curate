@@ -1,7 +1,6 @@
 class HelpRequestsController < ApplicationController
   SUCCESS_NOTICE = "Thank you for your input!"
   with_themed_layout
-  before_filter :authenticate_user!
   before_filter :agreed_to_terms_of_service!
 
   add_breadcrumb 'Help Request', lambda {|controller| controller.request.path }
@@ -44,7 +43,9 @@ class HelpRequestsController < ApplicationController
 
     help_request.user_agent  ||= user_agent_from_request
     help_request.release_version = Curate.configuration.build_identifier
-    help_request.user = current_user
+    if current_user
+      help_request.user = current_user
+    end
     help_request
   end
 

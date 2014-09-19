@@ -46,13 +46,37 @@ module CurateHelper
   def curation_concern_attribute_to_html(curation_concern, method_name, label = nil, options = {})
     markup = ""
     label ||= derived_label_for(curation_concern, method_name)
-    subject = curation_concern.send(method_name)
+    subject = curation_concern.public_send(method_name)
     return markup if !subject.present? && !options[:include_empty]
     markup << %(<tr><th>#{label}</th>\n<td><ul class='tabular'>)
     [subject].flatten.compact.each do |value|
-      markup << %(<li class="attribute #{method_name}">#{h(value)}</li>\n)
+      if method_name == :rights
+        # Special treatment for license/rights.  A URL from the Sufia gem's config/sufia.rb is stored in the descMetadata of the
+        # curation_concern.  If that URL is valid in form, then it is used as a link.  If it is not valid, it is used as plain text.
+        parsedUri = URI.parse(value) rescue nil
+        if parsedUri.nil?
+          markup << %(<li class="attribute #{method_name}">#{h(value)}</li>\n)
+        else
+          markup << %(<li class="attribute #{method_name}"><a href=#{h(value)} target="_blank"> #{h(Sufia.config.cc_licenses_reverse[value])}</a></li>\n)
+        end
+      else
+        markup << %(<li class="attribute #{method_name}">#{h(value)}</li>\n)
+      end
     end
     markup << %(</ul></td></tr>)
+    markup.html_safe
+  end
+
+  def curation_concern_attribute_to_formatted_text(curation_concern, method_name, label = nil, options = { class: 'descriptive-text' })
+    markup = ""
+    label ||= derived_label_for(curation_concern, method_name)
+    subject = curation_concern.public_send(method_name)
+    return markup if subject.blank?
+    markup << %(<h2 class="#{method_name}-label">#{label}</h2>\n<section class="#{method_name}-list">\n)
+    [subject].flatten.compact.each do |value|
+      markup << %(<article class="#{method_name} #{options[:class]}">\n#{richly_formatted_text(value)}\n</article>\n)
+    end
+    markup << %(</section>)
     markup.html_safe
   end
 
@@ -96,6 +120,28 @@ module CurateHelper
     return edit_polymorphic_path(polymorphic_path_args(asset))
   end
 
+  # This converts a collection of objects to a 2 dimensional array having keys accessed via the key_method on the objects
+  # and the values accessed via the value_method on the objects.
+  # key_method and value_method are strings which are the names of the methods or accessors or attributes by
+  # which the value of the key and the value of the array value can be acquired for each of the objects.  These
+  # values for the key and the value are placed into the returned array.
+  # EXAMPLE:  Oh is class which has methods a, b, c, d, e on it (Oh.a, Oh.b, etc.).  You want an array of
+  #           a collection of Ohs.  The array would contain the value of b as the key and the value of e as the corresponding value.
+  #           The collection of Ohs is in the variable ohList.
+  #           ohArray = objects_to_array(ohList, 'b', 'e')
+  def objects_to_array(collection, key_method, value_method)
+    returnArray = collection.map do |element|
+      [get_value_for(element, key_method), get_value_for(element, value_method)]
+    end
+  end
+
+  # This is a private helper method which given an item (an object), retrieves the value of some member on it by way of
+  # what is specified in the by_means_of parameter.  by_means_of is the string name of a method, an accessor, an
+  # attribute, or other mechanism which can access that information on the item.
+  def get_value_for(item, by_means_of)
+    by_means_of.respond_to?(:call) ? by_means_of.call(item) : item.send(by_means_of)
+  end
+  private :get_value_for
 
   def extract_dom_label_class_and_link_title(document)
     hash = document.stringify_keys
@@ -114,4 +160,14 @@ module CurateHelper
     return dom_label_class, link_title
   end
   private :extract_dom_label_class_and_link_title
+
+  def auto_link_without_protocols(url)
+    link = (url =~ /\A(?i)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/) ? 'http://' + url : url
+    auto_link(link, :all)
+  end
+
+  def richly_formatted_text(text)
+    markup = Curate::TextFormatter.call(text: text)
+    markup.html_safe
+  end
 end

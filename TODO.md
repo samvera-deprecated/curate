@@ -9,3 +9,4 @@
 * Inject in application.js the `//= curate` message
 * Remove brand-bar image
 * Remove reference to Hesburgh Library
+* Remove `//= turbolinks` from Curate_Vanilla `app/assets/javascripts/application.js`

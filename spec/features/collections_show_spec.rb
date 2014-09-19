@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe "Collections show view: " do
   let!(:user) { FactoryGirl.create(:user) }
-  let!(:bilbo) { FactoryGirl.create(:person, name: 'Bilbo') }
-  let!(:frodo) { FactoryGirl.create(:person, name: 'Frodo') }
-  let!(:article) { FactoryGirl.create(:generic_work, user: user, contributors: [bilbo, frodo], title: 'An Article') }
+  let!(:bilbo) { 'Bilbo' }
+  let!(:frodo) { 'Frodo' }
+  let!(:article) { FactoryGirl.create(:public_generic_work, user: user, contributor: [bilbo, frodo], title: 'An Article') }
   let!(:collection) { FactoryGirl.create(:public_collection, user: user, title: 'Collected Stuff', members: [article]) }
 
   context "For logged in members:" do
@@ -16,6 +16,13 @@ describe "Collections show view: " do
 
       visit collection_path(collection.pid)
       page.should_not have_css(".collection-member[data-noid='#{article.noid}']")
+    end
+
+    it "should display the delete button" do
+      collection.save!
+      login_as(user)
+      visit collection_path(collection.pid)
+      expect(page).to have_button('Delete')
     end
   end
 
@@ -36,3 +43,4 @@ describe "Collections show view: " do
     end
   end
 end
+

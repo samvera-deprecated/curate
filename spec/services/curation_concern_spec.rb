@@ -34,7 +34,7 @@ describe CurationConcern do
 
     it 'success returns true' do
       actor = CurationConcern.actor(generic_file, user, {batch_id: curation_concern.pid, file: file})
-      actor.create.should be_true
+      actor.create.should be_truthy
     end
 
     context "characterize" do
@@ -56,7 +56,7 @@ describe CurationConcern do
       it 'returns false' do
         Sufia::GenericFile::Actions.should_receive(:create_content).and_raise(ActiveFedora::RecordInvalid.new(ActiveFedora::Base.new))
         actor = CurationConcern.actor(generic_file, user, {batch_id: curation_concern.pid, file: file})
-        actor.create.should be_false
+        actor.create.should be_falsey
       end
     end
   end

@@ -46,10 +46,11 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
 
       context '#apply_doi_assignment_strategy' do
         let(:accessor_name) { 'mint_doi' }
-        let(:existing_identifier) { 'abc' }
+        let(:input_existing_identifier) { 'doi: 10.6017/ital.v28i2.3177' }
+        let(:expected_existing_identifier) { 'doi:10.6017/ital.v28i2.3177' }
         let(:doi_remote_service) { double(accessor_name: accessor_name) }
         before(:each) do
-          subject.existing_identifier = existing_identifier
+          subject.existing_identifier = input_existing_identifier
           subject.doi_assignment_strategy = doi_assignment_strategy
           subject.doi_remote_service = doi_remote_service
         end
@@ -61,7 +62,7 @@ describe CurationConcern::RemotelyIdentifiedByDoi do
           it 'should allow explicit assignment of identifer' do
             expect {
               subject.apply_doi_assignment_strategy(&perform_persistence_block)
-            }.to change(subject, :identifier).from(nil).to(existing_identifier)
+            }.to change(subject, :identifier).from(nil).to(expected_existing_identifier)
           end
 
           it 'should yield the subject' do

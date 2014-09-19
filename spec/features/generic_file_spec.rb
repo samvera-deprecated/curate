@@ -64,6 +64,33 @@ describe 'Uploading Generic File' do
     end
   end
 
+  context 'when a representative file is deleted' do
+    let!(:public_work) { FactoryGirl.create(:public_generic_work, user: user) }
+    let(:file1) {File.join(fixture_path, 'files/image.png')}
+    let(:file2) {File.join(fixture_path, 'files/image_2.png')}
+
+    before { upload_file(public_work, file1, 'visibility_restricted') }
+    it 'should clear the representative attribute of the parent' do
+      login_as user
+      visit curation_concern_generic_work_path(public_work)
+      expect(page).to have_link('image.png')
+      expect(page).to_not have_link('image_2.png')
+      public_work.reload.representative.should_not be_empty
+      representative_image =  public_work.reload.representative
+
+      upload_file(public_work, file2, 'visibility_restricted')
+
+      visit curation_concern_generic_work_path(public_work)
+      expect(page).to have_link('image.png')
+      expect(page).to have_link('image_2.png')
+
+      first('.generic_file.attributes').click_link('Delete')
+      expect(page).to_not have_link('image.png')
+      expect(page).to have_link('image_2.png')
+      public_work.reload.representative.should_not == representative_image
+    end
+  end
+
   context 'file roleback' do
     let(:user) { FactoryGirl.create(:user) }
     let(:curation_concern) { FactoryGirl.create(:generic_work, user: user) }
@@ -117,6 +144,17 @@ describe 'Uploading Generic File' do
     within("form.new_generic_file") do
       fill_in("Title", with: 'image.png')
       attach_file("Upload a file", uploaded_file)
+      choose(visibility)
+      click_on("Attach to Generic Work")
+    end
+  end
+
+  def upload_file(work, file, visibility)
+    login_as user
+    visit new_curation_concern_generic_file_path(work)
+
+    within("form.new_generic_file") do
+      attach_file("Upload a file", file)
       choose(visibility)
       click_on("Attach to Generic Work")
     end

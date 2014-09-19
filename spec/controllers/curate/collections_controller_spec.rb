@@ -25,7 +25,7 @@ describe Curate::CollectionsController do
     let!(:generic_work) { FactoryGirl.create(:generic_work, user: user) }
     it "should show a list of my collections" do
       get :index
-      expect(response).to be_successful
+      expect(response).to redirect_to( catalog_index_path(:'f[generic_type_sim][]' => 'Collection', works: 'mine') )
       expect(assigns[:document_list].map(&:id)).to include collection.pid
       expect(assigns[:document_list].map(&:id)).to_not include another_collection.pid
       expect(assigns[:document_list].map(&:id)).to_not include public_collection.pid
@@ -56,6 +56,7 @@ describe Curate::CollectionsController do
       }.to_not change{Collection.count}
 
       reloaded_profile.members.should == [assigns(:collection)]
+      assigns(:collection).visibility.should == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
 
     it "gracefully recovery if no profile exists" do

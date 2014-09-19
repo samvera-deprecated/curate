@@ -11,13 +11,26 @@ class Curate::PeopleController < ApplicationController
   before_filter :breadcrumb, only: [:show]
   self.solr_search_params_logic += [:only_users]
 
+  def self.search_config
+     # Set parameters to send to SOLR
+     # First inspect contents of the hash from Yaml configuration file
+     # See config/search_config.yml
+     initialized_config = Curate.configuration.search_config['people']
+     # If the hash is empty, set reasonable defaults for this search type
+     if initialized_config.nil?
+        Hash['qf' => 'desc_metadata__name_tesim','fl' => 'desc_metadata__name_tesim id','qt' => 'search','rows' => 10]
+     else
+        initialized_config
+     end
+  end
+
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
-      qf: solr_name("desc_metadata__name", :stored_searchable),
-      fl: solr_name("desc_metadata__name", :stored_searchable) + ' id',
-      qt: "search",
-      rows: 10
+      qf: search_config['qf'],
+      fl: search_config['fl'],
+      qt: search_config['qt'],
+      rows: search_config['rows']
     }
 
     # solr field configuration for search results/index views

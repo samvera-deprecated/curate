@@ -5,6 +5,8 @@ class Curate::PropertiesDatastream < ActiveFedora::OmDatastream
     # This is where we put the user id of the object depositor
     t.depositor index_as: :stored_searchable
     t.owner
+    t.license
+    t.type_of_license
 
     # Although we aren't using these fields, they are required because sufia-models delegates to them.
     t.relative_path 

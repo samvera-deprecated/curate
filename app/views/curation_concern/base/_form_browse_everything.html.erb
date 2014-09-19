@@ -1,0 +1,10 @@
+<% unless curation_concern.persisted? %>
+  <fieldset class="span6">
+    <p>Please click the button below to upload remote files.</p>
+    <p id="status"></p>
+    <%= hidden_field_tag :cloud_resource_urls, nil, class: 'cloud_resource' %>
+    <%= button_tag("Browse!", type: 'button', class: 'btn btn-large btn-success', id: "browse",
+       'data-toggle' => 'browse-everything', 'data-route' => browse_everything_engine.root_path,
+       'data-target' => ".cloud_resource" ) %>
+  </fieldset>
+<% end %>

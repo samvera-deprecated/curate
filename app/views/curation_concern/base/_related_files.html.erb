@@ -1,4 +1,4 @@
-<% if curation_concern.generic_files.present? %>
+<% if curation_concern.respond_to?(:generic_files) && curation_concern.generic_files.present? %>
 <table class="table table-striped <%= dom_class(curation_concern) %> related_files with-headroom">
   <caption class="table-heading">
     <h2>Files</h2>

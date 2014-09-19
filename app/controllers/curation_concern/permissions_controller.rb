@@ -6,7 +6,8 @@ class CurationConcern::PermissionsController < CurationConcern::BaseController
 
   def copy
     Sufia.queue.push(VisibilityCopyWorker.new(curation_concern.id))
-    redirect_to polymorphic_path([:curation_concern, curation_concern]), notice: 'Updating file permissions. This may take a few minutes.'
+    flash_message = 'Updating file permissions. This may take a few minutes. You may want to refresh your browser or return to this record later to see the updated file permissions.'
+    redirect_to polymorphic_path([:curation_concern, curation_concern]), notice: flash_message
   end
 
   self.curation_concern_type = ActiveFedora::Base

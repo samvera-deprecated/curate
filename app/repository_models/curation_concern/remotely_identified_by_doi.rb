@@ -17,16 +17,18 @@ module CurationConcern
         attribute :doi_assignment_strategy,
           multiple: false, editable: true, displayable: false
         attribute :existing_identifier,
-          multiple: false, editable: true, displayable: false
+          multiple: false, editable: true, displayable: false,
+          writer: lambda {|value| normalize_identifier(value) }
 
-        # Given that a publisher could be an array or a single entity
-        # Then we need to account for both
-        # Conveniently [].length == 0 and "".length == 0
-        validates :publisher, length: { minimum: 1, message: 'is required for remote DOI minting', if: :remote_doi_assignment_strategy? }
+        validates :publisher, multi_value_presence: { message: 'is required for remote DOI minting', if: :remote_doi_assignment_strategy? }
 
         attr_writer :doi_remote_service
 
         protected
+
+        def normalize_identifier(value)
+          doi_remote_service.normalize_identifier(value)
+        end
 
         def doi_remote_service
           @doi_remote_service ||= Hydra::RemoteIdentifier.remote_service(:doi)

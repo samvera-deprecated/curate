@@ -61,6 +61,19 @@ shared_examples 'with_access_rights' do
   end
 
   describe 'open_access_with_embargo_release_date' do
+    it 'handles when visibility was set via a default' do
+      prepare_subject_for_access_rights_visibility_test!
+      # I am pretending to set a default.
+      # In the request cycle we instantiate the object, then set the attributes
+      # via parameters. If the object sets defaults on instantiation, then
+      # we need to make sure that the visibility patch works.
+      subject.visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+
+      subject.embargo_release_date = 2.days.from_now
+      subject.visibility = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
+      expect(subject).to be_open_access_with_embargo_release_date
+    end
+
     it 'sets visibility' do
       if subject.respond_to?(:embargo_release_date=)
         prepare_subject_for_access_rights_visibility_test!

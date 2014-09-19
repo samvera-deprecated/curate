@@ -1,0 +1,24 @@
+<tr>
+  <td>
+    <%= link_to group.title, hydramata_group_path(group) %>
+  </td>
+  <td>
+    <% if can? :edit, group.to_model %>
+
+        <%= link_to(
+                    raw('<i class="icon-trash icon-large"></i>'),
+                {
+                    action: :destroy,
+                    controller: "hydramata/groups",
+                    id: group.id
+                },
+                data: {confirm: 'Are you sure you want to delete this group?'},
+                class: 'itemicon itemtrash btn pull-right',
+
+                method: :delete
+            )%>
+
+      <%= link_to raw('<i class="icon-pencil icon-large"></i>'), edit_hydramata_group_path(group), class: 'btn pull-right' %>
+    <% end %>
+  </td>
+</tr>

@@ -20,7 +20,7 @@ def VCR::SpecSupport(options={})
 end
 
 VCR.configure do |config|
-  config.cassette_library_dir = 'spec/fixtures/cassettes'
+  config.cassette_library_dir = File.expand_path('../../../spec/fixtures/cassettes', __FILE__)
   config.hook_into :webmock
   config.configure_rspec_metadata!
   config.ignore_localhost = true

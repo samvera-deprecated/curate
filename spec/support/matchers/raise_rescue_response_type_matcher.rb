@@ -21,6 +21,10 @@ RSpec::Matchers.define :raise_rescue_response_type do |expected_rescue_response|
     end
   end
 
+  def supports_block_expectations?
+    true
+  end
+
   description do
     "expected to raise an exception with rescue_response #{@expected_rescue_response.inspect}"
   end

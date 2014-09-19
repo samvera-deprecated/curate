@@ -1,50 +1,33 @@
 <% content_for :page_title, "#{person_name_or_stub(@person)} // Curate" %>
 
 <% content_for :page_header do %>
-<hgroup>
-  <h1><%= @person.name %></h1>
-  <% unless @person.title.blank? %>
-    <h3><%= @person.title %></h3>
-  <% end %>
-</hgroup>
+  <hgroup>
+    <h1><%= @person.name %></h1>
+    <% unless @person.title.blank? %>
+      <h3><%= @person.title %></h3>
+    <% end %>
+  </hgroup>
 <% end %>
+
 <div class="row">
 
-  <div class="span3">
-    <div class="profile-picture">
-      <%= render partial: 'profile_image', locals: {person: @person} %>
-    </div>
+  <div id="person_profile" class="span7">
 
-    <dl class="<%= dom_class(@person) %>">
-    <%# This is where I tell Jeremy I'm sorry. %>
-    <% @person.terms_for_display.reject{|name| name == :name}.each do |attribute_name| %>
-      <% if @person.send(attribute_name).present? %>
-        <dt><%="#{derived_label_for( @person, attribute_name) }:" %></dt>
-        <% [@person.send(attribute_name)].flatten.compact.each do |value| %>
-        <dd><%= value %></dd>
-        <% end %>
-      <% end %>
-    <% end %>
-    </dl>
-
-    <% if can? :edit, @person %>
-      <div class="form-action">
-        <%= link_to "Update Personal Information", edit_user_registration_path, class: 'btn btn-primary' %>
-      </div>
-    <% end %>
-  </div>
-
-  <div id="person_profile" class="span9">
     <% if profile_has_contents?(@person) %>
+      <section class="profile-title">
       <% if @person.profile.title == @person.name %>
-        <h3><%= "Selected Works of #{@person.name}" %></h3>
+        <h3><%= t('sufia.profile.default_title') %></h3>
       <% else %>
         <h3><%= @person.profile.title %></h3>
       <% end %>
-      <p><%= @person.profile.description %> </p>
+
+      <% if @person.profile.description.present? %>
+        <p><%= @person.profile.description %></p>
+      <% end %>
+    </section>
 
       <div id="documents" class="clear">
-        <%= list_items_in_collection(@person.profile) %>
+        <%= list_items_in_profile_section(@person.profile, terminate=false, options={:display_contributors=>false}) %>
       </div>
     <% elsif current_user.respond_to?(:person) && @person == current_user.person %>
       <p class="center no-documents">
@@ -52,11 +35,41 @@
       </p>
     <% end %>
 
-    <% if can_edit_profile_collection?(@person) %>
+    <% if can_edit_profile_collection?(@person) && @person == current_user.person %>
+        <div class="form-action">
+          <%= link_to 'Add a Section to my Profile', new_collection_path(add_to_profile: true), class: 'btn btn-primary' %>
+        </div>
+    <% end %>
+  </div>
+
+  <div id="profile_details" class="span5 profile-details">
+    <div class="profile-picture">
+      <%= render partial: 'profile_image', locals: {person: @person} %>
+    </div>
+
+    <dl class="person-attribtues <%= dom_class(@person) %>">
+
+      <% @person.terms_for_display.reject{|attribute| (attribute == :name) || (attribute == :title)}.each do |attribute_name| %>
+        <% if @person.send(attribute_name).present? %>
+          <dt class="attribute"><%= derived_label_for( @person, attribute_name) %>:</dt>
+          <% [@person.send(attribute_name)].flatten.compact.each do |value| %>
+            <dd class="value"><%= auto_link_without_protocols(value) %></dd>
+          <% end %>
+        <% end %>
+      <% end %>
+
+    </dl>
+
+    <% if can? :edit, @person %>
       <div class="form-action">
-        <%= link_to 'Add a Section to my Profile', new_collection_path(add_to_profile: true), class: 'btn btn-primary' %>
+        <% if current_user.manager? %>
+          <%= link_to "Update #{@person.name}'s Information", edit_user_path(User.where(repository_id: @person.id).first.id), class: 'btn btn-primary' %>
+        <% else %>
+          <%= link_to "Update Personal Information", edit_user_registration_path, class: 'btn btn-primary' %>
+        <% end %>
       </div>
     <% end %>
   </div>
+
 </div>
 

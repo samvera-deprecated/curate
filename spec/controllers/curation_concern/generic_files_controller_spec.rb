@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe CurationConcern::GenericFilesController do
-  render_views
   let(:user) { FactoryGirl.create(:user) }
   let(:another_user) { FactoryGirl.create(:user) }
   let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
@@ -13,7 +12,6 @@ describe CurationConcern::GenericFilesController do
       gf.visibility = visibility
     }
   }
-  let(:another_user) { FactoryGirl.create(:user) }
 
   describe '#new' do
     it 'renders a form if you can edit the parent' do
@@ -47,7 +45,6 @@ describe CurationConcern::GenericFilesController do
 
     it 'redirects to parent when successful' do
       sign_in(user)
-      parent
       controller.actor = successful_actor
 
       post(
@@ -61,9 +58,32 @@ describe CurationConcern::GenericFilesController do
       )
     end
 
+    it 'should set represetative for parent' do
+
+      CurationConcern::BaseActor.any_instance.stub(:apply_creation_data_to_curation_concern).and_return(true)
+      CurationConcern::BaseActor.any_instance.stub(:apply_save_data_to_curation_concern).and_return(true)
+      CurationConcern::GenericFileActor.any_instance.stub(:update_file).and_return(true)
+
+      sign_in(user)
+      parent.representative.should == nil
+
+      image_file = File.expand_path('../../fixtures/files/image.png', __FILE__)
+      post(
+        :create,
+        parent_id: parent.to_param,
+        generic_file: { title: "Title", file: image_file }
+      )
+
+      expect(response).to(
+        redirect_to(controller.polymorphic_path([:curation_concern, parent]))
+      )
+
+      reloaded_parent = GenericWork.find(parent.pid)
+      reloaded_parent.representative.should_not == nil
+    end
+
     it 'renders form when unsuccessful' do
       sign_in(user)
-      parent
       controller.actor = failing_actor
 
       post(
@@ -80,7 +100,6 @@ describe CurationConcern::GenericFilesController do
 
   describe '#edit' do
     it 'should be successful' do
-      generic_file
       sign_in user
       get :edit, id: generic_file.to_param
       controller.curation_concern.should be_kind_of(GenericFile)
@@ -102,7 +121,6 @@ describe CurationConcern::GenericFilesController do
     }
     let(:actor) { double('actor') }
     it 'renders form when unsuccessful' do
-      generic_file
       controller.actor = failing_actor
       sign_in(user)
       put :update, id: generic_file.to_param, generic_file: {title: updated_title}
@@ -111,14 +129,13 @@ describe CurationConcern::GenericFilesController do
     end
 
     it 'redirects to parent when successful' do
-      generic_file
       controller.actor = successful_actor
       sign_in(user)
       put :update, id: generic_file.to_param, generic_file: {title: updated_title}
       response.status.should == 302
       expect(response).to(
         redirect_to(
-          controller.polymorphic_path([:curation_concern, generic_file])
+          controller.polymorphic_path([:curation_concern, parent])
         )
       )
     end
@@ -127,7 +144,6 @@ describe CurationConcern::GenericFilesController do
 
   describe '#versions' do
     it 'should be successful' do
-      generic_file
       sign_in user
       get :versions, id: generic_file.to_param
       controller.curation_concern.should be_kind_of(GenericFile)
@@ -147,7 +163,6 @@ describe CurationConcern::GenericFilesController do
     }
     let(:actor) { double('actor') }
     it 'renders form when unsuccessful' do
-      generic_file
       controller.actor = failing_actor
       sign_in(user)
       put :rollback, id: generic_file.to_param, generic_file: {version: '1'}
@@ -156,7 +171,6 @@ describe CurationConcern::GenericFilesController do
     end
 
     it 'redirects to generic_file when successful' do
-      generic_file
       sign_in(user)
       controller.actor = successful_actor
       put :rollback, id: generic_file.to_param, generic_file: {version: '1'}
@@ -171,7 +185,6 @@ describe CurationConcern::GenericFilesController do
 
   describe '#show' do
     it 'should be successful if logged in' do
-      generic_file
       sign_in user
       get :show, id: generic_file.to_param
       controller.curation_concern.should be_kind_of(GenericFile)
@@ -179,7 +192,6 @@ describe CurationConcern::GenericFilesController do
     end
 
     it 'does not allow another user to view it' do
-      generic_file
       sign_in another_user
       get :show, id: generic_file.to_param
       expect(response.status).to eq 401
@@ -189,11 +201,10 @@ describe CurationConcern::GenericFilesController do
 
   describe '#destroy' do
     it 'should be successful if file exists' do
-      parent = generic_file.batch
       sign_in(user)
       delete :destroy, id: generic_file.to_param
       expect(response.status).to eq(302)
-      expect(response).to redirect_to(controller.polymorphic_path([:curation_concern, parent]))
+      expect(response).to redirect_to(controller.polymorphic_path([:curation_concern, generic_file.batch]))
     end
   end
 end

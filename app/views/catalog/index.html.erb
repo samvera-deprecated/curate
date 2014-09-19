@@ -23,6 +23,9 @@
     <i class="icon-search icon-large"></i>
     Limited to:
       <%= render_constraints(params) %>
+    <div>
+      <%= link_to( "Clear limits", "/?", :class => 'btn' ) %>
+    </div>
   </div>
 
   <%= render :partial => 'did_you_mean' %>

@@ -15,6 +15,28 @@ describe 'curation_concern/base/_form.html.erb' do
     it 'should have Cancel link which takes to root page' do
       expect(rendered).to have_link('Cancel', href: root_path)
     end
+    it 'should have editor legend' do
+      expect(rendered).to have_text(t('sufia.work.editor.legend'))
+      expect(rendered).to have_text(t('sufia.work.editor.caption'))
+    end
+    it 'should have editor in its own fieldset' do
+      expect(rendered).to have_selector('fieldset#set-editors div#editors')
+    end
+    it 'should have labeled editor field' do
+      expect(rendered).to have_text(t('sufia.work.editor.individual.name'))
+    end
+    it 'should have inline editor help text' do
+      expect(rendered).to have_text(t('sufia.work.editor.individual.help'))
+    end
+    it 'should have groups in their own fieldset' do
+      expect(rendered).to have_selector('fieldset#set-groups div#groups')
+    end
+    it 'should show the editor group name' do
+      expect(rendered).to have_text(t('sufia.work.editor.group.name'))
+    end
+    it 'should have group help text' do
+      expect(rendered).to have_text(t('sufia.work.editor.group.help'))
+    end
   end
 
   context 'Edit Work' do

@@ -15,8 +15,6 @@ describe 'user profile workflow', FeatureSupport.options do
       new_name = 'Frodo Baggins'
       new_pref = 'pref@example.com'
       new_alt = 'alt@example.com'
-      new_dob = '1/2/1980'
-      new_gender = 'female'
       new_title = 'student'
       new_phone = '12345'
       new_alt_phone = '67890'
@@ -28,8 +26,6 @@ describe 'user profile workflow', FeatureSupport.options do
         fill_in("user[name]", with: new_name)
         fill_in("user[email]", with: new_pref)
         fill_in("user[alternate_email]", with: new_alt)
-        fill_in("user[date_of_birth]", with: new_dob)
-        fill_in("user[gender]", with: new_gender)
         fill_in("user[title]", with: new_title)
         fill_in("user[campus_phone_number]", with: new_phone)
         fill_in("user[alternate_phone_number]", with: new_alt_phone)
@@ -38,7 +34,7 @@ describe 'user profile workflow', FeatureSupport.options do
         click_button("Update")
       end
 
-      msg = 'You updated your account successfully'
+      msg = 'Your account has been updated successfully'
       expect(page).to have_content msg
 
       # Reload models
@@ -47,10 +43,8 @@ describe 'user profile workflow', FeatureSupport.options do
 
       # Verify that everything got updated
       user.name.should == new_name
-      user.email.should == new_pref
+      user.user_key.should == new_pref
       user.alternate_email.should == new_alt
-      user.date_of_birth.should == new_dob
-      user.gender.should == new_gender
       user.title.should == new_title
       user.campus_phone_number.should == new_phone
       user.alternate_phone_number.should == new_alt_phone
@@ -85,6 +79,26 @@ describe 'user profile workflow', FeatureSupport.options do
     end
   end
 
+  describe 'when typing an invalid password' do
+    let(:email) { 'badpasswordtest@gmail.com' }
+    #this password is too short
+    let(:password) { 'bad' }
+    it do
+      bad_login_for(email, password)
+    end
+  end
+
+  def bad_login_for(email, password)
+    logout
+    visit('/')
+
+    click_link("Log In")
+    click_link("Sign up")
+    sign_up_new_user(email, password)
+    #Before HYDRASIR-381, the user would still get logged in (partially) when signing up with a bad password.
+    page.assert_no_selector(".alert", "Welcome! You have signed up successfully.")
+  end
+
   def first_time_login_for(email, password)
     logout
     visit('/')
@@ -93,7 +107,7 @@ describe 'user profile workflow', FeatureSupport.options do
     within("form.new_user") do
       fill_in("user[email]", with: email)
       fill_in("user[password]", with: password)
-      click_button("Sign in")
+      click_button("Log in")
     end
 
     page.assert_selector(".alert", "Invalid email or password", count: 1)
@@ -105,7 +119,7 @@ describe 'user profile workflow', FeatureSupport.options do
     within('form.edit_user') do
       fill_in("user[email]", with: new_email)
       fill_in("user[current_password]", with: password)
-      click_button("Update My Account")
+      click_button("Update Account")
     end
     click_link("add-content")
 
@@ -119,7 +133,7 @@ describe 'user profile workflow', FeatureSupport.options do
     within("form.new_user") do
       fill_in("user[email]", with: email)
       fill_in("user[password]", with: password)
-      click_button("Sign in")
+      click_button("Log in")
     end
     click_link("add-content")
     assert_on_page_allowing_upload!
@@ -130,7 +144,8 @@ describe 'user profile workflow', FeatureSupport.options do
   end
 
   def assert_logout_link_is_visible
-    page.should have_selector("#site-actions .log-out")
+    # Because the link is hidden in a drop-down
+    page.assert_selector("#site-actions .log-out", text: "Log Out", count: 1, visible: false)
   end
 
   def assert_user_has_not_updated_their_profile_yet(user_email)

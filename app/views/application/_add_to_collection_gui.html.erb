@@ -1,12 +1,13 @@
 <% button_class ||= "btn"                       %>
 <% modal_id       = "#{collectible.noid}-modal" %>
 <% modal_title_id = "#{modal_id}-title"         %>
+<% use_text ||= false                           %>
 
 <div class="modal fade" id="<%= modal_id %>">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 id="<% modal_title_id %>class="modal-title">Add <%= "#{collectible}" %> to one of your collections:</h4>
+        <h4 id="<%=modal_title_id %>" class="modal-title">Add <%= "#{collectible}" %> to one of your collections:</h4>
       </div>
       <div class="unpadded modal-body">
         <%= render partial: 'curate/collections/form_to_add_member', locals: { collectible: collectible, fieldset_class: 'with-side-padding with-top-padding', select_label_id: modal_title_id } %>
@@ -15,5 +16,7 @@
   </div>
 </div>
 
-<%= link_to 'Add to Collection', add_member_form_collections_path(collectible_id: collectible.pid), data: { toggle: "modal", target: ('#' + modal_id) }, method: :get, class: "add-to-collection #{button_class}", remote: true %>
+<%= link_to add_member_form_collections_path(collectible_id: collectible.pid), data: { toggle: "modal", target: ('#' + modal_id) }, method: :get, class: "add-to-collection #{button_class}", remote: true, title: "Add #{collectible.human_readable_type} to Collection"  do %>
+  <span class="icon icon-folder-open"></span><% if use_text %> Add to Collection<% end %>
+<% end %>
 

@@ -1,8 +1,17 @@
 shared_examples 'remotely_identified' do |remote_service_name|
   context "by #{remote_service_name}" do
     context 'with valid attributes' do
-      subject { FactoryGirl.create(described_class.name.underscore, attributes) }
-      let(:attributes) { { publisher: 'An Interesting Chap!' } }
+      subject { described_class.new(attributes) }
+      let(:attributes) {
+        {
+          publisher: 'An Interesting Chap!',
+          pid: "#{Sufia.config.id_namespace}:3t94g081v",
+          date_uploaded: Date.parse('2013-01-30'),
+          date_modified: Date.parse('2013-01-30'),
+          title: "A Title",
+          creator: 'The Creator'
+        }
+      }
 
       it 'mints!', VCR::SpecSupport(cassette_name: "remotely_identified_#{remote_service_name}_mint_#{described_class.name.underscore}") do
         expect {

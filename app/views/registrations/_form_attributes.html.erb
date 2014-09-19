@@ -4,9 +4,7 @@
     <legend>Personal Information</legend>
 
     <%= f.input :name %>
-    <%= f.input :date_of_birth %>
-    <%= f.input :gender %>
-    <%= f.input :title %>
+    <%= f.input :title, label: 'Job Title' %>
     <%= f.input :personal_webpage %>
     <%= f.input :blog %>
 
@@ -16,7 +14,7 @@
     <legend>Contact Information</legend>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <p><em>Currently waiting confirmation for: <%= resource.unconfirmed_email %></em></p>
+    <p><em>Currently waiting confirmation for: <%= resource.unconfirmed_email %></em></p>
     <% end %>
 
     <%= f.input :email, as: :email, required: true %>
@@ -27,15 +25,22 @@
 
   </fieldset>
 
+  <fieldset class="span12 research-ids">
+    <legend>Researcher Identification Information</legend>
+    <%= f.input :orcid_id, label: "ORCID", input_html: { maxlength: 20 } %>
+    <%= f.input :researcher_id, label: "ResearcherID", input_html: { maxlength: 20 } %>
+    <%= f.input :scopus_id, label: "Scopus ID", input_html: { maxlength: 20 } %>
+  </fieldset>
+
 </div>
 
 <div class="row with-headroom">
   <div class="span12">
     <fieldset class="required">
       <legend>
-        Attach your profile image
+        Attach <%= current_user.manager? ? "#{f.object.name}'s" : 'your' %> profile image
       </legend>
-      <%= f.input :files, as: :file, label: 'Upload your file' %>
+      <%= f.input :files, as: :file, label: 'Upload the file' %>
     </fieldset>
   </div>
 </div>

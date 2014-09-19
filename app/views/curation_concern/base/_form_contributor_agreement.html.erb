@@ -1,4 +1,4 @@
-<% unless curation_concern.persisted? %>
+<% if((can? :edit, ContentLicense) || (!curation_concern.persisted?)) %>
   <fieldset class="row contributor_agreement with-headroom" id="contributor-agreement">
     <div class="span12">
       <legend>
@@ -7,23 +7,37 @@
     </div>
 
     <div class="span12">
-      <article class="lawyer_readable contributor_agreement wide-text">
-        <%= render partial: 'legally_binding_text' %>
+      <% if can? :edit, ContentLicense %>
+        <div>
+          <%= f.select :type_of_license, options_for_select(['Self Deposit', 'Independently Licensed'], selected: curation_concern.type_of_license) %>
+        </div>
+      <% end %>
+      <article class="lawyer_readable contributor_agreement ">
+        <div id="self_deposit" class="wide-text">
+          <%= render partial: 'legally_binding_text' %>
+        </div>
+        <% if can? :edit, ContentLicense %>
+          <div id="independent_license" style="display:none;">
+            <%= f.input :license, label: "Independent License", as: :text, input_html: { class: 'input-xxxlarge', rows: '14' }, type: 'text' %>
+          </div>
+        <% end %>
       </article>
     </div>
 
-    <div class="span12 accept-contributor-agreement">
-      <%= label_tag contributor_agreement.param_key, class: 'checkbox', for:  'accept_contributor_agreement' do %>
-        <%= check_box_tag(
-            contributor_agreement.param_key,
-            contributor_agreement.acceptance_value,
-            contributor_agreement.param_value,
-            required: :required,
-            id: 'accept_contributor_agreement'
-          )
-        %>
-        I have read and accept the contributor license agreement
-      <% end %>
-    </div>
+    <% if !curation_concern.persisted? %>
+      <div class="span12 accept-contributor-agreement">
+        <%= label_tag contributor_agreement.param_key, class: 'checkbox', for:  'accept_contributor_agreement' do %>
+          <%= check_box_tag(
+              contributor_agreement.param_key,
+              contributor_agreement.acceptance_value,
+              contributor_agreement.param_value,
+              required: :required,
+              id: 'accept_contributor_agreement'
+            )
+          %>
+          I have read and accept the contributor license agreement
+        <% end %>
+      </div>
+    <%- end -%>
   </fieldset>
 <%- end -%>

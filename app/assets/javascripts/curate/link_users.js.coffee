@@ -23,17 +23,30 @@
       #
       #  $('.matching-elements, #another-one').foobar()
       #
+      
+      #This code sets up all the "Add" and "Remove" buttons for the autocomplete fields.
+      
+      #For each autocomplete set on the page, add the "Add" and "Remove" buttons
       $this.each (index, el) ->
         $('.autocomplete-users').each (index, el) ->
           _internals.autocompleteUsers(el)
-
-        $('.field-wrapper:not(:last-child) .field-controls', $this).append(_remover)
-        $('.field-controls:last', $this).append(_adder)
+        
+        #Make sure these buttons have unique id's
+        _adder.id = "adder_" + index
+        _remover.id = "remover_" + index
+        
+        #Add the "Remove" button       
+        $('.field-wrapper:not(:last-child) .field-controls', this).append(_remover.clone())
+        
+        #Add the "Add" button
+        $('.field-controls:last', this).append(_adder.clone())
+        
+        #Bind the buttons to onClick events
         $(el).on 'click', 'button.add', (e) ->
           _internals.addToList(this)
         $(el).on 'click', 'button.remove', (e) ->
           _internals.removeFromList(this)
-
+        
       return $this
  
     # This method is often overlooked.
@@ -48,11 +61,11 @@
       $('.add', $activeControls).remove()
       $removeControl = _remover.clone()
       $activeControls.prepend($removeControl)
-      _internals.newRow($listing)
+      _internals.newRow($listing, el)
       false
 
-    newRow: ($listing) ->
-      $listing.append _internals.newListItem($('li', $listing).size())
+    newRow: ($listing, el) ->
+      $listing.append _internals.newListItem($('li', $listing).size(), $listing, el)
       _internals.autocompleteUsers($('.autocomplete-users:last', $listing))
 
 
@@ -64,13 +77,19 @@
       $('input:not([value])', $currentUser).val('true')
       false
 
-    newListItem: (index) ->
-      source   = $("#entry-template").html()
+    newListItem: (index, el) ->
+      ## We have multiple places in a view where we need these autocomplete fields
+      ## (Work edit view for example), so we don't want to use the first #entry-template.
+      ## Using .closest isn't working, but this seems to for now.
+      source   =  $(el).parent().children().html()
       template = Handlebars.compile(source)
       template({index: index})
 
     addExistingUser: ($listItem, value, label) ->
-      source   = $("#existing-user-template").html()
+      ## We have multiple places in a view where we need these autocomplete fields
+      ## (Work edit view for example), so we don't want to use the first #existing-user-template.
+      ## Using .closest isn't working, but this seems to for now.
+      source   = $listItem.parent().prev().html()
       template = Handlebars.compile(source)
       $list = $listItem.closest('ul')
       $('input[required]', $list).removeAttr('required')
@@ -82,7 +101,7 @@
       $targetElement.autocomplete
         source: (request, response) ->
           $targetElement.data('url')
-          $.getJSON $targetElement.data('url'), { q: request.term}, ( data, status, xhr ) ->
+          $.getJSON $targetElement.data('url'), { q: request.term + "*" }, ( data, status, xhr ) ->
             matches = []
             $.each data.response.docs, (idx, val) ->
               matches.push {label: val['desc_metadata__name_tesim'][0], value: val['id']}

@@ -10,22 +10,18 @@ require Blacklight::Engine.root.join('app/helpers/facets_helper')
 
 require Blacklight::Engine.root.join('app/helpers/blacklight/blacklight_helper_behavior')
 
+require Blacklight::Engine.root.join('app/helpers/blacklight/catalog_helper_behavior')
+
 module BlacklightHelper
   include Blacklight::BlacklightHelperBehavior
+  include Blacklight::CatalogHelperBehavior
 
   def application_name
     t('sufia.product_name')
   end
 
-  # Loads the object and returns its name(for creator)/title(for collection)
-  def get_value_from_pid(field, value)
-    attr_value = ""
-    begin
-      attr_value = ActiveFedora::Base.load_instance_from_solr(value.split("/").last).name if field == "desc_metadata__creator_sim"
-      attr_value = ActiveFedora::Base.load_instance_from_solr(value).title if field == "collection_sim"
-    rescue => e
-      logger.warn("WARN: Helper method get_value_from_pid raised an error when loading #{value}.  Error was #{e}")
-    end
-    return attr_value.blank? ? value : attr_value
+  def has_search_parameters?
+    !params[:q].blank? or !params[:f].blank?
   end
+
 end

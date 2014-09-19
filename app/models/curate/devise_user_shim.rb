@@ -46,6 +46,10 @@ module Curate
         wrapped_class.devise
       end
 
+      def password_length
+        wrapped_class.password_length
+      end
+
       def authentication_keys
         wrapped_class.authentication_keys
       end

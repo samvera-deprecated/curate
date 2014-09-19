@@ -42,11 +42,11 @@ class EtdMetadata < ActiveFedora::NtriplesRDFDatastream
     end
     map.date_uploaded(to: "dateSubmitted", in: RDF::DC) do |index|
       index.type :date
-      index.as :stored_searchable, :sortable
+      index.as :stored_sortable
     end
     map.date_modified(to: "modified", in: RDF::DC) do |index|
       index.type :date
-      index.as :stored_searchable, :sortable
+      index.as :stored_sortable
     end
     map.language(in: RDF::DC) do |index|
       index.as :stored_searchable, :facetable

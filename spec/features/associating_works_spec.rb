@@ -11,10 +11,10 @@ describe 'Editing existing works', describe_options do
   let(:dataset1) { FactoryGirl.create(:dataset, user: user, title:"Records from that Kiki") }
   let(:dataset2) { FactoryGirl.create(:dataset, user: user, title:"Records from that other Kiki") }
 
-  it "should allow you to associate them with each other" do
+  it "should allow you to associate them with each other" do |example|
     login_as(user)
     visit curation_concern_generic_work_path(work)
-    if with_javascript?
+    if example.metadata[:js]
       #
       # Associating Works Using Autocomplete
       #

@@ -1,0 +1,16 @@
+<h2>My Groups &nbsp;
+  <% if can? :create, Hydramata::Group %>
+      <%= button_for_create_new_group %>
+  <% end %>
+</h2>
+<br/>
+<%- if has_any_group? %>
+  <%= render_pagination_info @response, :entry_name=>'item' %>
+  <%= render_document_index %>
+<%- else %>
+  <div class="span12 main-header">
+    <p>You have no groups yet.</p>
+  </div>
+<%- end %>
+
+

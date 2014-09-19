@@ -15,3 +15,9 @@ bundler_args: --without headless
 
 before_install:
   - gem install bundler
+
+env:
+  matrix:
+    - SPEC_GROUP=2
+    - SPEC_GROUP=1
+    - SPEC_GROUP=0

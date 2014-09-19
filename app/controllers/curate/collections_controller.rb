@@ -55,8 +55,23 @@ class Curate::CollectionsController < ApplicationController
   before_filter :load_and_authorize_collection, only: [:add_member_form, :add_member]
 
   def new
-    @add_to_profile = params.delete(:add_to_profile)
     super
+    @add_to_profile = params.delete(:add_to_profile)
+  end
+
+  def create
+    super
+    extract_file_parameter
+  end
+
+  def update
+    super
+    extract_file_parameter
+  end
+
+  def index
+    super
+    redirect_to catalog_index_path(:'f[generic_type_sim][]' => 'Collection', works: 'mine')
   end
 
   def add_member_form
@@ -92,6 +107,7 @@ class Curate::CollectionsController < ApplicationController
   def load_and_authorize_collection
     id = id_from_params(:collection_id)
     id ||= id_from_params(:profile_collection_id)
+    id ||= id_from_params(:profile_section_id)
     return nil unless id
     @collection = ActiveFedora::Base.find(id, cast: true)
     authorize! :update, @collection
@@ -101,6 +117,13 @@ class Curate::CollectionsController < ApplicationController
     if params[key] && !params[key].empty?
       params[key]
     end
+  end
+
+  def extract_file_parameter
+    # Because the collection, profile_collection, and profile_section are not
+    # proper citizens
+    container = params[:collection] || params[:profile_collection] || params[:profile_section]
+    @collection.file = container[:file] if container.has_key?(:file)
   end
 
   def add_to_profile
@@ -133,8 +156,8 @@ class Curate::CollectionsController < ApplicationController
 
   def only_collections(solr_parameters, user_parameters)
     solr_parameters[:fq] ||= []
-    solr_parameters[:fq] << "has_model_ssim:\"info:fedora/afmodel:Collection\""
-    return solr_parameters
+    solr_parameters[:fq] << ActiveFedora::SolrService.
+      construct_query_for_rel(has_model: Collection.to_class_uri)
   end
 
   # show only files with edit permissions in lib/hydra/access_controls_enforcement.rb apply_gated_discovery

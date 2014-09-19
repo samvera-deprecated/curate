@@ -1,9 +1,27 @@
 <% content_for :page_title, curation_concern_page_title(@collection) %>
 <% content_for :page_header do %>
+  <%# We need to know if this collection is a user profile section collection.  If it is, then no avatar is displayed. %>
+  <% if !ActiveFedora::ContentModel.known_models_for(@collection).include?(ProfileSection) %>
+    <%= render :partial => 'catalog/_index_partials/thumbnail_display', locals: {document: @collection} %>
+  <% end %>
   <h1> <%= @collection.title %> </h1>
 <% end %>
 <% if can? :edit, @collection %>
   <% content_for :page_actions do %>
+
+  <%= button_to(
+    "Delete",
+    {
+      action: :destroy,
+      controller: :collections,
+      id: @collection.id
+    },
+    data: {confirm: 'Are you sure you want to delete this collection?'},
+    class: 'btn',
+    form_class: 'button-to pull-right',
+    method: :delete
+  )%>
+
     <%= link_to 'Edit', edit_collection_path(@collection), class: 'btn' %>
   <% end %>
 <% end %>

@@ -11,7 +11,8 @@ FactoryGirl.define do
     before(:create) { |work, evaluator|
       work.apply_depositor_metadata(evaluator.user.user_key)
       work.owner = evaluator.user.user_key
-      work.contributors << FactoryGirl.create(:person)
+      work.contributor << "Some Body"
+      work.creator << "The Creator"
     }
 
     factory :private_generic_work do

@@ -29,6 +29,7 @@ require 'rspec/autorun' unless ENV['RUNNING_VIA_ZEUS']
 require File.expand_path('../spec_patch', __FILE__)
 
 require 'curate/spec_support'
+require 'rspec/active_model/mocks'
 require 'database_cleaner'
 
 require 'curate/internal/factories'
@@ -52,10 +53,12 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
+  config.infer_spec_type_from_file_location!
+
   config.include Devise::TestHelpers, type: :controller
   config.include Devise::TestHelpers, type: :view
   config.include InputSupport, type: :input, example_group: {
-    file_path: config.escaped_path(%w[spec inputs])
+    file_path: 'spec/inputs'
   }
 
   config.use_transactional_fixtures = false

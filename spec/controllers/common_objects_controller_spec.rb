@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe CommonObjectsController do
-  render_views
-
   let(:user) { FactoryGirl.create(:user) }
   let(:another_user) { FactoryGirl.create(:user) }
   let(:visibility) { nil }

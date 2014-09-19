@@ -29,10 +29,16 @@
 //= require jquery.tokeninput
 //= require curate/select_works
 //= require curate/link_users
+//= require curate/link_groups
 //= require curate/proxy_rights
 //= require curate/facet_mine
 //= require curate/accept_contributor_agreement
+//= require curate/proxy_submission
+//= require curate/content_submission
 //= require handlebars
+//= require browse_everything
+//= require curate/browse_everything_implement
+//= require curate/validate_doi
 
 
 
@@ -54,6 +60,7 @@ Blacklight.onLoad(function() {
   });
   $('.multi_value.control-group').manage_fields();
   $('.link-users').linkUsers();
+  $('.link-groups').linkGroups();
   $('.proxy-rights').proxyRights();
 
 
@@ -65,4 +72,6 @@ Blacklight.onLoad(function() {
   $('.remove-member').on('ajax:success', function(){window.location.href = window.location.href});
 
   $("[data-toggle='dropdown']").dropdown();
+
 });
+
