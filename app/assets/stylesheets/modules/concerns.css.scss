@@ -1,0 +1,29 @@
+.span3{
+  .canonical-image {
+    margin-top: 15px;
+  }
+}
+
+.span9 {
+  article.abstract.descriptive-text {
+    -moz-column-count:2;
+    -webkit-column-count: 2;
+    column-count: 2;
+  }
+   .table-heading {
+     h2 {
+      padding-top: 0;
+     }
+   }
+  tr.linked_resource.attributes {
+    td {
+      min-width: 130px;
+    }
+    td.attribute.url {
+      min-width: auto;
+      a {
+        word-break: break-all;
+      }
+    }
+  }
+}
