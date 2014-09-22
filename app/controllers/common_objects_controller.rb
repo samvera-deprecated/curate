@@ -19,10 +19,11 @@ class CommonObjectsController < ApplicationController
   end
 
   def show
-    respond_with(curation_concern)
-  end
+     redirect_to polymorphic_path([:curation_concern, curation_concern])
+
+   end
 
   def show_stub_information
-    respond_with(curation_concern)
+     respond_to polymorphic_path([:curation_concern, curation_concern])
   end
 end
