@@ -3,16 +3,20 @@
   <h1><%= richly_formatted_text(curation_concern.to_s) %></h1>
   <span class="human_readable_type"><%= curation_concern.human_readable_type %></span>
 <% end %>
-<%= render partial: 'representative_media', locals: {work: curation_concern} %>
+<div class="row">
+  <div class="span3">
+    <%= render partial: 'representative_media', locals: {work: curation_concern} %>
+  </div>
+  <div class="span9">
+    <%= render 'attributes', curation_concern: curation_concern %>
+    <%= render 'doi', curation_concern: curation_concern %>
 
-<%= render 'attributes', curation_concern: curation_concern %>
-<%= render 'doi', curation_concern: curation_concern %>
-
-<%= render 'related_files', curation_concern: curation_concern, with_actions: true %>
-<%= render 'related_resources', curation_concern: curation_concern, with_actions: true %>
-<%= render 'related_works', curation_concern: curation_concern, with_actions: true %>
-<%= render 'collections', curation_concern: curation_concern %>
-
+    <%= render 'related_files', curation_concern: curation_concern, with_actions: true %>
+    <%= render 'related_resources', curation_concern: curation_concern, with_actions: true %>
+    <%= render 'related_works', curation_concern: curation_concern, with_actions: true %>
+    <%= render 'collections', curation_concern: curation_concern %>
+  </div>
+</div>
 <% collector = can?(:collect, curation_concern) %>
 <% editor    = can?(:edit,    curation_concern) %>
 <% if collector || editor %>
