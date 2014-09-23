@@ -32,11 +32,11 @@ class Image < ActiveFedora::Base
 
     ds.attribute :date_created,
       default: Date.today.to_s("%Y-%m-%d"),
-      multiple: true,
+      multiple: false,
       validates: { presence: { message: "You must have a date." } }
 
     ds.attribute :description,
-      multiple: true
+      multiple: false
 
     ds.attribute :location,
       multiple: true
@@ -60,7 +60,7 @@ class Image < ActiveFedora::Base
        multiple: true
 
     ds.attribute :inscription,
-      multiple: true
+      multiple: false
 
     ds.attribute :date_uploaded,
       multiple: false,

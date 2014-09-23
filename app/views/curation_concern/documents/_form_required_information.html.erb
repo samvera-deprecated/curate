@@ -5,10 +5,11 @@
               input_html: { class: 'input-xlarge' }
   %>
 
-  <%= f.input :creator, as: :multi_value, label: 'Author', required: true, input_html: { value: "@current_user.name" } %>
+  <%= render partial: 'linked_creators', locals: {f: f} %>
 
-  <%= f.input :abstract,
+  <%= f.input :description,
               as: :text,
+              hint: 'Please keep your abstract to 300 words or less.',
               input_html: {
                 class: 'input-xxxlarge',
                 rows: '14'
@@ -20,5 +21,4 @@
     label: "Date Created",
     hint: "Format as YYYY-MM-DD"
   %>
-
 </fieldset>
