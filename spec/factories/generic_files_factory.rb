@@ -14,5 +14,16 @@ FactoryGirl.define do
       visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
   end
+
+  factory :generic_file_without_file do
+    ignore do
+      user {FactoryGirl.create(:user)}
+    end
+    visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+    batch { FactoryGirl.create(:generic_work, user: user) }
+    before(:create) { |file, evaluator|
+      file.apply_depositor_metadata(evaluator.user.user_key)
+    }
+  end
 end
 

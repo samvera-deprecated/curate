@@ -91,7 +91,93 @@ describe 'Uploading Generic File' do
     end
   end
 
-  context 'file roleback' do
+  context 'Viewing generic work that has generic file with empty content' do
+    let!(:generic_work) { FactoryGirl.create(:public_generic_work, user: user) }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+    let(:file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false) }
+    let(:generic_file_without_content) {
+      FactoryGirl.create_generic_file(generic_work, user) {|g|
+        g.visibility = visibility
+      }
+    }
+    let(:generic_file_with_content) {
+      FactoryGirl.create_generic_file(generic_work, user,file)
+    }
+    it 'the file name for the empty file File upload error and show alert message' do
+      generic_file_without_content
+      login_as user
+      visit curation_concern_generic_work_path(generic_work)
+      generic_work.generic_files.count.should == 1
+      
+      expect(page).to have_link('Resolve', edit_curation_concern_generic_file_path(file))
+      expect(page).to have_link('File Upload Error', curation_concern_generic_file_path(file))
+      expect(page).to have_selector('div', text: 'It looks like there is a problem with one of these files.')
+    end
+
+    it 'should not show alert when there is content' do
+      generic_file_with_content
+      login_as user
+      visit curation_concern_generic_work_path(generic_work)
+      generic_work.generic_files.count.should == 1
+      expect(page).to have_link('File', curation_concern_generic_file_path(file))
+      expect(page).to have_text('generic_file_spec.rb')
+      expect(page).to_not have_selector('.alert', text: 'It looks like there is a problem with one of these files.')
+    end
+  end
+
+  context 'editing generic work that has generic file with empty content' do
+    let!(:generic_work) { FactoryGirl.create(:public_generic_work, user: user) }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:file) { Rack::Test::UploadedFile.new(__FILE__, 'text/plain', false) }
+    let(:generic_file_without_content) {
+      FactoryGirl.create_generic_file(generic_work, user)
+    }
+    let(:generic_file_with_content) {
+      FactoryGirl.create_generic_file(generic_work, user,file)
+    }
+    it 'Generic work should alert about files being empty' do
+      generic_file_without_content
+      login_as user
+      visit edit_curation_concern_generic_work_path(generic_work)
+      
+      expect(page).to have_link('Click here to resolve this problem', edit_curation_concern_generic_file_path(file))
+      expect(page).to have_selector('.alert', text: 'It looks like there is a problem with some of your files:')
+    end
+
+    it 'should not show alert when there is content' do
+      generic_file_with_content
+      login_as user
+      visit edit_curation_concern_generic_work_path(generic_work)
+      
+      expect(page).to_not have_selector('.alert', text: 'It looks like there is a problem with some of your files:')
+    end
+    it 'Viewing generic file without content' do
+      login_as user
+      visit curation_concern_generic_file_path(generic_file_without_content)
+      
+      expect(page).to have_selector('.alert', text: 'It looks like there was an issue uploading this file.')
+      expect(page).to have_selector('td', text: 'File Not Found')
+    end
+
+    it 'Viewing generic file with content' do
+      login_as user
+      visit curation_concern_generic_file_path(generic_file_with_content)
+      
+      expect(page).to_not have_selector('.alert', text: 'It looks like there was an issue uploading this file.')
+      expect(page).to have_selector('td', text: 'Filename: generic_file_spec.rb')
+    end
+
+    it 'editing generic file with empty content' do
+      login_as user
+      visit edit_curation_concern_generic_file_path(generic_file_without_content)
+      
+      expect(page).to have_selector('.alert', text: 'it looks like this file didn’t upload correctly.')
+      expect(page).to have_selector('.alert', text: 'help@curate.org')
+    end
+  end
+
+  context 'file rollback' do
     let(:user) { FactoryGirl.create(:user) }
     let(:curation_concern) { FactoryGirl.create(:generic_work, user: user) }
     let(:image_file_1) { File.join(fixture_path, 'files/image.png') }
