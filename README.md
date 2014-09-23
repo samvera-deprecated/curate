@@ -147,3 +147,9 @@ For integration with multiple authentication systems (and for twitter, facebook,
 # Standing up your Curate-based Rails application in Production
 
 We are working on this and have more to come.
+
+# Project Hydra
+This software has been developed by and is brought to you by the Hydra community.  Learn more at the
+[Project Hydra website](http://projecthydra.org)
+
+![Project Hydra Logo](https://github.com/uvalib/libra-oa/blob/a6564a9e5c13b7873dc883367f5e307bf715d6cf/public/images/powered_by_hydra.png?raw=true)
