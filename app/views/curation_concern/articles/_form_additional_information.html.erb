@@ -26,14 +26,23 @@
     placeholder: "18th century"
   %>
 
+  <%= f.input :bibliographic_citation,
+    label: "Citation",
+    hint: "Preferred citation for this article",
+    input_html: { class: 'input-xlarge' }
+  %>
+
   <%= f.input :publisher,
     as: :multi_value,
     input_html: { class: 'input-xlarge' }
   %>
 
-  <%= f.input :bibliographic_citation,
-    label: "Citation",
-    hint: "Preferred citation for this article",
+  <%= f.input :journal_title,
+    input_html: { class: 'input-xlarge' }
+  %>
+
+  <%= f.input :issn,
+    label: "ISSN"
     input_html: { class: 'input-xlarge' }
   %>
 
