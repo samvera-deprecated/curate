@@ -16,14 +16,14 @@
     as: :multi_value,
     input_html: { class: 'input-xlarge' },
     label: "Geographic Subject", 
-    placeholder: "Cincinnati"
+    placeholder: "i.e. Cincinnati"
   %>
 
   <%= f.input :coverage_temporal,
     as: :multi_value, 
     input_html: { class: 'input-xlarge' },
     label: "Time period",
-    placeholder: "18th century"
+    placeholder: "i.e. 18th century"
   %>
 
   <%= f.input :bibliographic_citation,
@@ -34,7 +34,8 @@
 
   <%= f.input :publisher,
     as: :multi_value,
-    input_html: { class: 'input-xlarge' }
+    label: "Publisher (Required for DOI)",
+    input_html: { class: 'input-xlarge', id: 'publisher' }
   %>
 
   <%= f.input :journal_title,
