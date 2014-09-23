@@ -20,12 +20,12 @@
         <%= render partial: 'linked_groups', locals: {f: f, curation_concern: curation_concern, label: "Editor Group"} %>
 
         <%= f.input :date_created,
-          as: :multi_value,
-          label: "Date Created"
+          label: "Date Created",
+          hint: "Format as YYYY-MM-DD"
         %>
 
         <%= f.input :description,
-          as: :multi_value,
+          as: :text,
           input_html: {
             class: 'input-xlarge'
           },
@@ -43,7 +43,8 @@
         <%= f.input :location,
           as: :multi_value,
           input_html: { class: 'input-xlarge' },
-          label: "Geographic Location"
+          label: "Geographic Location",
+          hint: "Name of the geographic location, repository, or site"
         %>
 
         <%= f.input :coverage_spatial,
@@ -55,26 +56,30 @@
         <%= f.input :coverage_temporal,
           as: :multi_value,
           input_html: { class: 'input-xlarge' },
-          label: "Time Period"
+          label: "Time Period",
+          hint: "Period or date associated with the subject of your work"
         %>
 
 
         <%= f.input :measurements,
                     as: :multi_value,
                     input_html: { class: 'input-xlarge' },
-                    label: "Measurements"
+                    label: "Measurements",
+                    hint: "Dimensions of the work"
         %>
 
         <%= f.input :material,
                     as: :multi_value,
                     input_html: { class: 'input-xlarge' },
-                    label: "Material"
+                    label: "Material",
+                    hint: "Substance or materials used in the creation of the work"
         %>
 
         <%= f.input :requires,
                     as: :multi_value,
                     input_html: { class: 'input-xlarge' },
-                    label: "Required Software"
+                    label: "Required Software",
+                    hint: "Special software needed to open the work"
         %>
 
 
@@ -85,12 +90,14 @@
       <%= f.input :source,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' },
-                  label: "Source"
+                  label: "Source",
+                  hint: "Information source assoicated with the work and/or source of image, i.e., vendor or person"
       %>
 
       <%= f.input :date_photographed,
           as: :multi_value,
-          label: "View Date"
+          label: "View Date",
+          hint: "Date photograph taken. Format as YYYY-MM-DD"
       %>
 
 
@@ -108,25 +115,29 @@
 
       <%= f.input :bibliographic_citation,
                   input_html: { class: 'input-xlarge' },
-                  label: "Citation"
+                  label: "Citation",
+                  hint: "Preferred citation for your work"
       %>
 
       <%= f.input :inscription,
-                  as: :multi_value,
+                  as: :text,
                   input_html: { class: 'input-xlarge' },
-                  label: "Inscription"
+                  label: "Inscription",
+                  inscription: "All marks, written words, stamps, signatures"
       %>
 
       <%= f.input :cultural_context,
                   as: :multi_value,
                   input_html: { class: 'input-xlarge' },
-                  label: "Culture"
+                  label: "Culture",
+                  hint: "Name of culture, people, or adjectival form of country"
       %>
 
       <%= f.input :note,
-                  as: :multi_value,
+                  as: :text,
                   input_html: { class: 'input-xlarge' },
-                  label: "Note"
+                  label: "Note",
+                  hint: "Additional information about your work"
       %>
 
     </div>
