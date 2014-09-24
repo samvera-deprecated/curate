@@ -94,6 +94,10 @@ class Article < ActiveFedora::Base
     datastream: :descMetadata, multiple: false,
     validates: { presence: { message: 'Your article must have a title.' } }
 
+  attribute :type,
+    datastream: :descMetadata, multiple: false,
+    default: "Text"
+
   attribute :files,
     multiple: true, form: {as: :file}, label: "Upload Files"
 end

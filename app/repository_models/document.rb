@@ -104,10 +104,15 @@ class Document < ActiveFedora::Base
     datastream: :descMetadata, multiple: false,
     validates: { presence: { message: 'Your article must have a title.' } }
 
-  attribute :type, datastream: :descMetadata,
+  attribute :genre, datastream: :descMetadata,
     multiple: false,
     validates: { inclusion: { in: Document.valid_types,
                               allow_blank: true } }
+
+  attribute :type,
+    datastream: :descMetadata,
+    multiple: false,
+    default: "Text"
 
   attribute :files, multiple: true, form: {as: :file}
 end
