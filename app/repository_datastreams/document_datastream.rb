@@ -41,7 +41,7 @@ class DocumentDatastream < GenericWorkRdfDatastream
       index.as :stored_searchable
     end
 
-    map.genre(in: RDF::DC) do |index|
+    map.genre({to: "type#genre", in: RDF::QualifiedDC}) do |index|
       index.as :stored_searchable, :facetable
     end
 

@@ -22,5 +22,6 @@ module RDF
     property "date#digitized".to_sym
     property "coverage#spatial".to_sym
     property "coverage#temporal".to_sym
+    property "type#genre".to_sym
   end
 end
