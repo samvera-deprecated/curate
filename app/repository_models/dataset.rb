@@ -86,6 +86,10 @@ class Dataset < ActiveFedora::Base
     datastream: :descMetadata, multiple: false,
     validates: { presence: { message: 'Your article must have a title.' } }
 
+  attribute :type,
+    datastream: :descMetadata, multiple: false,
+    default: "Dataset"
+
   attribute :files, multiple: true, form: {as: :file}
 
 end

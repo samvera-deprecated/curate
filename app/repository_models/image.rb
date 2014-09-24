@@ -56,7 +56,7 @@ class Image < ActiveFedora::Base
     ds.attribute :subject,
       multiple: true
 
-    ds.attribute :type,
+    ds.attribute :genre,
        multiple: true
 
     ds.attribute :inscription,
@@ -103,6 +103,10 @@ class Image < ActiveFedora::Base
   
     ds.attribute :requires,
       multiple: false
+
+    ds.attribute :type,
+      multiple: false,
+      default: "Image"
   end
 
   attribute :files,
