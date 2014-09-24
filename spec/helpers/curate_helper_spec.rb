@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe ApplicationHelper do
 
+  context '#support_email_link' do
+    it 'should render a mailto link' do
+      expect(helper.support_email_link).to match(%r{^<a href="mailto})
+    end
+  end
+
   context '#collection_title_from_pid' do
     let(:value) { 'abc' }
     let(:collection) { double(title: 'Title') }

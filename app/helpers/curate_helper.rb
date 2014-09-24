@@ -1,5 +1,9 @@
 module CurateHelper
 
+  def support_email_link(options = {})
+    mail_to(t('sufia.help_email'), t('sufia.help_email'), {subject: t('sufia.help_email_subject')}.merge(options))
+  end
+
   # Loads the object and returns its title
   def collection_title_from_pid  value
     begin

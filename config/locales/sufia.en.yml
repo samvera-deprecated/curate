@@ -2,6 +2,7 @@ en:
   sufia:
     product_name:       "Curate"
     help_email:         "help@curate.org"
+    help_email_subject: "Curate Support Request"
     supported_file_upload_size: '50MB'
     institution_name:   "Your Institution"
     institution_homepage_url:   "#"

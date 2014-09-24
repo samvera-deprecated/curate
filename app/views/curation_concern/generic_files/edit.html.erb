@@ -5,7 +5,7 @@
 <% if curation_concern.with_empty_content? %>
   <div class="alert">
     <strong>Hey!</strong> it looks like this file didn’t upload correctly.<br />
-    Try uploading it again below. Please contact <%= mail_to t('sufia.help_email') %>  if you have any problems.
+    Try uploading it again below. Please contact <%= support_email_link %>  if you have any problems.
   </div>
 <% end %>
 <%= render 'form' %>
