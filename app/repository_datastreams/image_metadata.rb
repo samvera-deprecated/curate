@@ -47,6 +47,10 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable
     end
 
+    map.genre(in: RDF::DC) do |index|
+      index.as :stored_searchable, :facetable
+    end
+
     map.identifier({to: "identifier#doi", in: RDF::QualifiedDC})
 
     map.inscription(in: RDF::Image)
