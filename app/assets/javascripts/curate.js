@@ -37,7 +37,7 @@
 //= require handlebars
 //= require browse_everything
 //= require curate/browse_everything_implement
-
+//= require curate/validate_doi
 
 
 // Initialize plugins and Bootstrap dropdowns on jQuery's ready event as well as

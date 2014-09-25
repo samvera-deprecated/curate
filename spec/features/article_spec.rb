@@ -19,7 +19,7 @@ describe 'Creating a article' do
       within '#new_article' do
         fill_in "Title", with: "craft beer roof party YOLO fashion axe"
         fill_in "Abstract", with: "My abstract"
-        fill_in "article_contributor", with: "Test article contributor"
+        fill_in "article_creator", with: "Test article creator"
         fill_in "External link", with: "http://www.youtube.com/watch?v=oHg5SJYRHA0"
         select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
         check("I have read and accept the contributor license agreement")
@@ -36,7 +36,7 @@ describe 'Creating a article' do
       within('#documents') do
         expect(page).to have_link('craft beer roof party YOLO fashion axe') #title
         expect(page).to have_selector('dd', text: 'My abstract')
-        expect(page).to have_selector('dd', text: 'Test article contributor')
+        expect(page).to have_selector('dd', text: 'Test article creator')
       end
 
     end

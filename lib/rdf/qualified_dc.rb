@@ -6,6 +6,7 @@ module RDF
     property "type".to_sym
     property "contributor#advisor".to_sym
     property "publisher#country".to_sym
+    property "publisher#digital".to_sym
     property "identifier#doi".to_sym
     property "identifier#issn".to_sym
     property "contributor#repository".to_sym
@@ -21,5 +22,6 @@ module RDF
     property "date#digitized".to_sym
     property "coverage#spatial".to_sym
     property "coverage#temporal".to_sym
+    property "type#genre".to_sym
   end
 end

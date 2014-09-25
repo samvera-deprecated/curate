@@ -9,43 +9,87 @@ class Dataset < ActiveFedora::Base
 
   include ActiveFedora::RegisteredAttributes
 
-  has_metadata "descMetadata", type: GenericWorkRdfDatastream
+  has_metadata "descMetadata", type: DatasetDatastream
 
   include CurationConcern::RemotelyIdentifiedByDoi::Attributes
 
   class_attribute :human_readable_short_description
   self.human_readable_short_description = "One or more files related to your research."
 
-  attribute :title, datastream: :descMetadata,
-            multiple: false,
-            validates: {presence: { message: 'Your dataset must have a title.' }}
+  attribute :alternate_title,
+    datastream: :descMetadata, multiple: true
 
-  attribute :rights, datastream: :descMetadata,
-            default: "All rights reserved",
-            multiple: false,
-            validates: {presence: { message: 'You must select a license for your dataset.' }}
-  attribute :contributor, datastream: :descMetadata,
-            multiple: true,
-            validates: {multi_value_presence: { message: "Your dataset must have a contributor."} }
+  attribute :bibliographic_citation,
+    datastream: :descMetadata, multiple: false
 
-  attribute :created,                datastream: :descMetadata, multiple: false
-  attribute :description,            datastream: :descMetadata, multiple: false
-  attribute :date_uploaded,          datastream: :descMetadata, multiple: false
-  attribute :date_modified,          datastream: :descMetadata, multiple: false
-  attribute :available,              datastream: :descMetadata, multiple: false
-  attribute :creator,                datastream: :descMetadata, multiple: false
-  attribute :content_format,         datastream: :descMetadata, multiple: false
-  attribute :identifier,             datastream: :descMetadata, multiple: false
+  attribute :contributor,
+    datastream: :descMetadata, multiple: true
 
-  attribute :publisher,              datastream: :descMetadata, multiple: true
-  attribute :bibliographic_citation, datastream: :descMetadata, multiple: true
-  attribute :source,                 datastream: :descMetadata, multiple: true
-  attribute :language,               datastream: :descMetadata, multiple: true
-  attribute :extent,                 datastream: :descMetadata, multiple: true
-  attribute :requires,               datastream: :descMetadata, multiple: true
-  attribute :subject,                datastream: :descMetadata, multiple: true
+  attribute :coverage_spatial,
+    datastream: :descMetadata, multiple: true
 
-  attribute :files, multiple: true, form: {as: :file},
-            hint: "CTRL-Click (Windows) or CMD-Click (Mac) to select multiple files."
+  attribute :coverage_temporal,
+    datastream: :descMetadata, multiple: true
+
+  attribute :date_created,
+    default: Date.today.to_s("%Y-%m-%d"),
+    datastream: :descMetadata, multiple: false
+
+  attribute :creator,
+    datastream: :descMetadata, multiple: true
+  
+  attribute :date_modified, 
+    datastream: :descMetadata, multiple: false
+
+  attribute :date_uploaded,
+    datastream: :descMetadata, multiple: false
+
+  attribute :description,
+    datastream: :descMetadata, multiple: false
+
+  attribute :identifier,
+    datastream: :descMetadata, multiple: false,
+    editable: false
+
+  attribute :language,
+    default: ['English'],
+    datastream: :descMetadata, multiple: true
+
+  attribute :note,
+    datastream: :descMetadata, multiple: false,
+    editable: true
+
+  attribute :publisher,
+    datastream: :descMetadata, multiple: false,
+    editable: true
+
+  attribute :publisher_digital,
+    datastream: :descMetadata, multiple: false,
+    editable: true
+
+  attribute :requires,
+    datastream: :descMetadata, multiple: false,
+    editable: true
+
+  attribute :rights,
+    datastream: :descMetadata, multiple: false,
+    default: "All rights reserved",
+    validates: { presence: { message: 'You must select a license for your work.' } }
+
+  attribute :source,
+    datastream: :descMetadata, multiple: false
+
+  attribute :subject,
+    datastream: :descMetadata, multiple: true
+
+  attribute :title,
+    datastream: :descMetadata, multiple: false,
+    validates: { presence: { message: 'Your article must have a title.' } }
+
+  attribute :type,
+    datastream: :descMetadata, multiple: false,
+    default: "Dataset"
+
+  attribute :files, multiple: true, form: {as: :file}
 
 end

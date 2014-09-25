@@ -1,7 +1,5 @@
 require File.expand_path('../../../lib/rdf/qualified_dc', __FILE__)
-require File.expand_path('../../../lib/rdf/image', __FILE__)
-
-class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
+class DatasetDatastream < ActiveFedora::NtriplesRDFDatastream
   map_predicates do |map|
     map.alternate_title(to: "title#alternate", in: RDF::QualifiedDC) do |index|
       index.as :stored_searchable
@@ -25,8 +23,6 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_searchable, :facetable
     end
 
-    map.cultural_context(in: RDF::Image)
-
     map.date_created(:to => "date#created", :in => RDF::QualifiedDC) do |index|
       index.as :stored_searchable
     end
@@ -36,34 +32,25 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
       index.as :stored_sortable
     end
 
-    map.date_photographed(in: RDF::Image)
-
     map.date_uploaded(to: "dateSubmitted", in: RDF::DC) do |index|
       index.type :date
       index.as :stored_sortable
     end
 
     map.description(in: RDF::DC) do |index|
+      index.type :text
       index.as :stored_searchable
-    end
-
-    map.genre({to: "type#genre", in: RDF::QualifiedDC}) do |index|
-      index.as :stored_searchable, :facetable
     end
 
     map.identifier({to: "identifier#doi", in: RDF::QualifiedDC})
 
-    map.inscription(in: RDF::Image)
-
-    map.location(in: RDF::Image)
-
-    map.measurements(in: RDF::Image)
-
-    map.material(in: RDF::Image)
+    map.language({in: RDF::DC}) do |index|
+      index.as :searchable, :facetable
+    end
 
     map.note({to: 'description#note', in: RDF::QualifiedDC})
 
-    map.publisher(in: RDF::DC) do |index|
+    map.publisher({in: RDF::DC}) do |index|
       index.as :stored_searchable, :facetable
     end
 
@@ -73,13 +60,14 @@ class ImageMetadata < ActiveFedora::NtriplesRDFDatastream
 
     map.requires({in: RDF::DC})
 
-    map.rights(in: RDF::DC) do |index|
+    map.rights(:in => RDF::DC) do |index|
       index.as :stored_searchable, :facetable
     end
 
-    map.source(in: RDF::Image)
+    map.source({in: RDF::DC})
 
     map.subject(in: RDF::DC) do |index|
+      index.type :text
       index.as :stored_searchable
     end
 
