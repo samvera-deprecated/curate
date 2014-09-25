@@ -1,4 +1,4 @@
-require File.expand_path('../../helpers/common_objects_helper', __FILE__)
+require File.expand_path('../../helpers/common_objects_helper', __FILE__) 
 class CommonObjectsController < ApplicationController
   include Hydra::Controller::ControllerBehavior
   layout 'common_objects'
@@ -20,10 +20,9 @@ class CommonObjectsController < ApplicationController
 
   def show
      redirect_to polymorphic_path([:curation_concern, curation_concern])
-
    end
 
   def show_stub_information
-     respond_to polymorphic_path([:curation_concern, curation_concern])
+     redirect_to polymorphic_path([:curation_concern, curation_concern])
   end
 end

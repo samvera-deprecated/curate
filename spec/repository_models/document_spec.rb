@@ -5,11 +5,12 @@ describe Document do
 
   it { should have_unique_field(:title) }
   it { should have_unique_field(:type) }
+  it { should have_unique_field(:genre) }
+
 
   it_behaves_like 'is_a_curation_concern_model'
   it_behaves_like 'with_related_works'
   it_behaves_like 'is_embargoable'
-  it_behaves_like 'has_dc_metadata'
   it_behaves_like 'has_common_solr_fields'
 
   describe 'valid types: ' do

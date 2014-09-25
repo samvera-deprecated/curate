@@ -13,9 +13,9 @@
 
     <div class="span10">
       <dl class="attribute-list">
-        <% if solr_doc.has?('desc_metadata__contributor_tesim') %>
+        <% if solr_doc.has?('desc_metadata__creator_tesim') %>
           <dt>Author(s):</dt>
-          <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__contributor_tesim') %></dd>
+          <dd><%= render_index_field_value(document: solr_doc, field: 'desc_metadata__creator_tesim') %></dd>
         <% end %>
 
         <% if solr_doc.has?('desc_metadata__description_tesim') %>

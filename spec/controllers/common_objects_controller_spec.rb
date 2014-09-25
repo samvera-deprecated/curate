@@ -15,22 +15,19 @@ describe CommonObjectsController do
       let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
       it 'renders for unauthenticated person' do
         get :show, id: curation_concern.to_param
-        response.status.should == 200
-        expect(response).to render_template(template_for_success)
+        response.status.should == 302
       end
 
       it 'renders for the creator' do
         sign_in(user)
         get :show, id: curation_concern.to_param
-        response.status.should == 200
-        expect(response).to render_template(template_for_success)
+        response.status.should == 302
       end
 
       it 'renders for the another user' do
         sign_in(another_user)
         get :show, id: curation_concern.to_param
-        response.status.should == 200
-        expect(response).to render_template(template_for_success)
+        response.status.should == 302
       end
     end
 
@@ -39,21 +36,18 @@ describe CommonObjectsController do
       it 'redirect for unauthenticated person' do
         get :show, id: curation_concern.to_param
         response.status.should == 302
-        expect(response).to redirect_to(common_object_stub_information_path(curation_concern))
       end
 
       it 'renders for the creator' do
         sign_in(user)
         get :show, id: curation_concern.to_param
-        response.status.should == 200
-        expect(response).to render_template(template_for_success)
+        response.status.should == 302
       end
 
       it 'renders for the creator' do
         sign_in(another_user)
         get :show, id: curation_concern.to_param
         response.status.should == 302
-        expect(response).to redirect_to(common_object_stub_information_path(curation_concern))
       end
     end
     describe '"Institution Only" object' do
@@ -61,21 +55,18 @@ describe CommonObjectsController do
       it 'does not display for unauthenticated person' do
         get :show, id: curation_concern.to_param
         response.status.should == 302
-        expect(response).to redirect_to(common_object_stub_information_path(curation_concern))
       end
 
       it 'renders for the creator' do
         sign_in(user)
         get :show, id: curation_concern.to_param
-        response.status.should == 200
-        expect(response).to render_template(template_for_success)
+        response.status.should == 302
       end
 
       it 'renders for the creator' do
         sign_in(another_user)
         get :show, id: curation_concern.to_param
-        response.status.should == 200
-        expect(response).to render_template(template_for_success)
+        response.status.should == 302
       end
     end
   end
@@ -86,24 +77,21 @@ describe CommonObjectsController do
       let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
       it 'renders rudimentary information' do
         get :show_stub_information, id: curation_concern.to_param
-        response.status.should == 200
-        expect(response).to render_template(template_for_success)
+        response.status.should == 302
       end
     end
     describe '"Restricted" object' do
       let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
       it 'renders rudimentary information' do
         get :show_stub_information, id: curation_concern.to_param
-        response.status.should == 200
-        expect(response).to render_template(template_for_success)
+        response.status.should == 302
       end
     end
     describe '"Institution Only" object' do
       let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
       it 'renders rudimentary information' do
         get :show_stub_information, id: curation_concern.to_param
-        response.status.should == 200
-        expect(response).to render_template(template_for_success)
+        response.status.should == 302
       end
     end
   end

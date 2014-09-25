@@ -17,19 +17,25 @@ describe Image do
   it { should have_unique_field(:publisher_digital) }
   it { should have_unique_field(:publisher) }
   it { should have_unique_field(:note) }
+  it { should have_unique_field(:bibliographic_citation) }
+  it { should have_unique_field(:inscription) }
+  it { should have_unique_field(:description) }
+  it { should have_unique_field(:date_created) }
 
+  it { should have_multivalue_field(:genre) }
+  it { should have_multivalue_field(:alternate_title) }
   it { should have_multivalue_field(:location) }
   it { should have_multivalue_field(:type) }
   it { should have_multivalue_field(:measurements) }
   it { should have_multivalue_field(:material) }
   it { should have_multivalue_field(:source) }
-  it { should have_multivalue_field(:inscription) }
   it { should have_multivalue_field(:cultural_context) }
 
   it { should have_multivalue_field(:creator) }
+  it { should have_multivalue_field(:contributor) }
   it { should have_multivalue_field(:subject) }
-  it { should have_multivalue_field(:description) }
-  it { should have_multivalue_field(:date_created) }
+  it { should have_multivalue_field(:coverage_spatial) }
+  it { should have_multivalue_field(:coverage_temporal) }
 
   describe 'to_solr' do
     it 'derives dates from date_created fields' do

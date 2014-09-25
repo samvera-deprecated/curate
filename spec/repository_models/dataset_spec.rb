@@ -14,19 +14,20 @@ describe Dataset do
   it { should have_unique_field(:bibliographic_citation) }
   it { should have_multivalue_field(:coverage_spatial) }
   it { should have_multivalue_field(:coverage_temporal) }
+  it { should have_multivalue_field(:contributor) }
   it { should have_multivalue_field(:creator) }
   it { should have_unique_field(:date_created) }
   it { should have_unique_field(:date_modified) }
   it { should have_unique_field(:date_uploaded) }
   it { should have_unique_field(:description) }
-  it { should have_unique_field(:doi) }
-  it { should have_multivalue_field(:identifier) }
+  it { should have_unique_field(:identifier) }
   it { should have_multivalue_field(:language) }
   it { should have_unique_field(:note) }
   it { should have_unique_field(:publisher) }
   it { should have_unique_field(:publisher_digital) }
   it { should have_unique_field(:requires) }
   it { should have_unique_field(:rights) }
+  it { should have_unique_field(:source) }
   it { should have_multivalue_field(:subject) }
   it { should have_unique_field(:title) }
 
