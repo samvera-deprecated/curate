@@ -24,10 +24,10 @@ describe Document do
       end
     end
 
-    it 'non-whitelist types are not valid' do
-      doc.type = 'Invalid document type'
+    it 'non-whitelist genre are not valid' do
+      doc.genre = 'Invalid document genre'
       doc.valid?
-      expect(doc.errors[:type]).to be_present
+      expect(doc.errors[:genre]).to be_present
     end
 
     it 'type can be nil' do
