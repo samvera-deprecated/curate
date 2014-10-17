@@ -4,6 +4,12 @@ describe 'Creating a dataset' do
   let(:person) { FactoryGirl.create(:person_with_user) }
   let(:user) { person.user }
 
+  it 'defaults to open visibility' do
+    login_as(user)
+    visit new_curation_concern_dataset_path
+    expect(page).to have_checked_field('visibility_open')
+  end
+
   describe 'with a related link' do
     it "should allow me to attach the link on the create page" do
       login_as(user)
@@ -12,7 +18,7 @@ describe 'Creating a dataset' do
       classify_what_you_are_uploading 'Dataset'
       within '#new_dataset' do
         fill_in "Title", with: "Banksy fingerstache Polaroid artisan gastropub"
-        fill_in "dataset_contributor", with: "Test dataset contributor"
+        fill_in "Creator", with: "Test dataset creator"
         fill_in "Description", with: "This dataset is for testing purposes"
         fill_in "External link", with: "http://www.youtube.com/watch?v=oHg5SJYRHA0"
         select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
@@ -30,7 +36,7 @@ describe 'Creating a dataset' do
       within('#documents') do
         expect(page).to have_link('Banksy fingerstache Polaroid artisan gastropub') #title
         expect(page).to have_selector('dd', text: 'This dataset is for testing purposes')
-        expect(page).to have_selector('dd', text: 'Test dataset contributor')
+        expect(page).to have_selector('dd', text: 'Test dataset creator')
       end
     end
   end

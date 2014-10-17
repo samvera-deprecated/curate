@@ -19,7 +19,7 @@ describe 'Proxy Deposit' do
       expect(page).to have_selector('#article_owner', text: "")
       expect(page).to have_selector('#article_owner', text: "Myself")
       expect(page).to have_selector('#article_owner', text: user.name)
-      expect(page).to have_selector("input[id$=_contributor]", text: "")
+      expect(page).to have_selector("input[id$=_creator]", text: "")
     end
   end
 
@@ -36,9 +36,8 @@ describe 'Proxy Deposit' do
       choose('Visible to the world.')
       check("I have read and accept the contributor license agreement")
       click_button("Create Article")
+      expect(page).to have_selector('#article_owner', text: user.name)
     end
-
-    page.should have_content(user.name)
   end
 
   it 'auto-selects proxy as contributor when Myself is selected as owner' do

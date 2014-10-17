@@ -4,15 +4,21 @@ describe 'Creating an image' do
   let(:person) { FactoryGirl.create(:person_with_user) }
   let(:user) { person.user }
 
+  it 'defaults to open visibility' do
+    login_as(user)
+    visit new_curation_concern_image_path
+    expect(page).to have_checked_field('visibility_open')
+  end
+
   it "should allow me to attach the link on the create page" do
     login_as(user)
     visit root_path
     click_link "add-content"
     classify_what_you_are_uploading 'Image'
     within '#new_image' do
-      fill_in "Title", with: "readymade shabby chic paleo ethical"
+      fill_in "* Title", with: "readymade shabby chic paleo ethical", exact: true
       fill_in "image_creator", with: "Test image creator"
-      fill_in "Date created", with: "2013-10-04"
+      fill_in "* Date Created", with: "2013-10-04"
       fill_in "Description", with: "Test description"
       select(Sufia.config.cc_licenses.keys.first.dup, from: I18n.translate('sufia.field_label.rights'))
       check("I have read and accept the contributor license agreement")

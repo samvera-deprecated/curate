@@ -16,34 +16,25 @@
     as: :multi_value,
     input_html: { class: 'input-xlarge' },
     label: "Geographic Subject", 
-    placeholder: "i.e. Cincinnati"
+    placeholder: "Cincinnati"
   %>
 
   <%= f.input :coverage_temporal,
     as: :multi_value, 
     input_html: { class: 'input-xlarge' },
     label: "Time period",
-    placeholder: "i.e. 18th century"
-  %>
-
-  <%= f.input :bibliographic_citation,
-    label: "Citation",
-    hint: "Preferred citation for this article",
-    input_html: { class: 'input-xlarge' }
+    placeholder: "18th century"
   %>
 
   <%= f.input :publisher,
-    as: :multi_value,
     label: "Publisher (Required for DOI)",
     input_html: { class: 'input-xlarge', id: 'publisher' }
   %>
 
-  <%= f.input :journal_title,
-    input_html: { class: 'input-xlarge' }
-  %>
-
-  <%= f.input :issn,
-    label: "ISSN",
+  <%= f.input :bibliographic_citation,
+    as: :text,
+    label: "Citation",
+    hint: "Preferred citation for this article",
     input_html: { class: 'input-xlarge' }
   %>
 
@@ -56,12 +47,6 @@
     as: :text,
     hint: "Additional information about your work",
     input_html: { class: 'input-xlarge' }
-  %>
-
-  <%= f.input :requires,
-    input_html: { class: 'input-xlarge' },
-    label: "Required software",
-    hint: "Special software needed to open the Article"
   %>
 
 </fieldset>

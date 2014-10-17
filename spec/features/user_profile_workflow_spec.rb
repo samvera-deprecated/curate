@@ -53,40 +53,40 @@ describe 'user profile workflow', FeatureSupport.options do
     end
   end
 
-  describe 'A new user who has not updated their profile yet' do
-    let(:email) { 'hello@world.com' }
-    let(:password) { 'my$3cur3p@$$word' }
-
-    it 'can see the logout link' do
-      logout
-      visit new_user_registration_path
-      sign_up_new_user(email, password)
-
-      agree_to_tos
-      assert_user_has_not_updated_their_profile_yet(email)
-
-      assert_logout_link_is_visible
-    end
-  end
-
-  describe 'when I have not yet logged into Curate' do
-    let(:email) { 'hello@world.com' }
-    let(:new_email) { "awesome-#{email}" }
-    let(:password) { 'my$3cur3p@$$word' }
-    it do
-      first_time_login_for(email, password)
-      second_time_login_for(new_email, password)
-    end
-  end
-
-  describe 'when typing an invalid password' do
-    let(:email) { 'badpasswordtest@gmail.com' }
-    #this password is too short
-    let(:password) { 'bad' }
-    it do
-      bad_login_for(email, password)
-    end
-  end
+#  describe 'A new user who has not updated their profile yet' do
+#    let(:email) { 'hello@world.com' }
+#    let(:password) { 'my$3cur3p@$$word' }
+#
+#    it 'can see the logout link' do
+#      logout
+#      visit new_user_registration_path
+#      sign_up_new_user(email, password)
+#
+#      agree_to_tos
+#      assert_user_has_not_updated_their_profile_yet(email)
+#
+#      assert_logout_link_is_visible
+#    end
+#  end
+#
+#  describe 'when I have not yet logged into Curate' do
+#    let(:email) { 'hello@world.com' }
+#    let(:new_email) { "awesome-#{email}" }
+#    let(:password) { 'my$3cur3p@$$word' }
+#    it do
+#      first_time_login_for(email, password)
+#      second_time_login_for(new_email, password)
+#    end
+#  end
+#
+#  describe 'when typing an invalid password' do
+#    let(:email) { 'badpasswordtest@gmail.com' }
+#    #this password is too short
+#    let(:password) { 'bad' }
+#    it do
+#      bad_login_for(email, password)
+#    end
+#  end
 
   def bad_login_for(email, password)
     logout

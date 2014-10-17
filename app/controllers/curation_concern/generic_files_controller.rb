@@ -11,6 +11,30 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   before_filter :parent
   before_filter :cloud_resources_valid?, only: :create
   before_filter :authorize_edit_parent_rights!, except: [:show]
+  before_filter :scan_viral_files, only: [:create, :update]
+
+  def scan_viral_files
+    good_files = []
+    viral_files = []
+    clam = ClamAV.instance
+    content = attributes_for_actor
+    unless content.nil? or content["file"].nil?
+      temp_path = content["file"].instance_variable_get(:@tempfile).path
+      file_name = content["file"].instance_variable_get(:@original_filename)
+      scan_result = clam.scanfile(temp_path)
+      content.each do |file|
+        if (scan_result.is_a? Fixnum)
+          good_files << file
+        else
+          viral_files << file
+        end
+      end
+      if viral_files.any?
+        flash[:error] = "The following virus #{scan_result} was found in the file (#{file_name}) you attempted to upload.  Please attach another file. "
+        content["file"]=nil
+      end
+    end
+  end
 
   self.excluded_actions_for_curation_concern_authorization = [:new, :create]
   def action_name_for_authorization
@@ -41,9 +65,16 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
 
   def create
     curation_concern.batch = parent
-    if actor.create
-      curation_concern.update_parent_representative_if_empty(parent)
-      respond_with([:curation_concern, parent])
+    if attributes_for_actor["file"] || attributes_for_actor["cloud_resources"] 
+      if actor.create
+        curation_concern.update_parent_representative_if_empty(parent)
+        respond_with([:curation_concern, parent])
+      else
+        flash[:error] = "The file that you attempted to upload had a  virus.  Please select another file."
+        respond_with([:curation_concern, curation_concern]) { |wants|
+          wants.html { render 'new', status: :unprocessable_entity }
+         }
+      end
     else
       respond_with([:curation_concern, curation_concern]) { |wants|
         wants.html { render 'new', status: :unprocessable_entity }
@@ -61,13 +92,13 @@ class CurationConcern::GenericFilesController < CurationConcern::BaseController
   end
 
   def update
-    if actor.update
-      respond_with([:curation_concern, parent])
-    else
-      respond_with([:curation_concern, curation_concern]) { |wants|
-        wants.html { render 'edit', status: :unprocessable_entity }
-      }
-    end
+      if actor.update
+        respond_with([:curation_concern, parent])
+      else
+        respond_with([:curation_concern, curation_concern]) { |wants|
+          wants.html { render 'edit', status: :unprocessable_entity }
+        }
+      end
   end
 
   def versions

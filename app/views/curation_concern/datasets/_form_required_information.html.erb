@@ -2,18 +2,33 @@
   <legend>Required Information</legend>
 
   <%= f.input :title,
-              input_html: { class: 'input-xlarge' }
+    input_html: { class: 'input-xlarge' },
+    required: true
   %>
 
-  <%= render partial: 'linked_contributors', locals: {f: f} %>
+  <%= f.input :creator,
+    as: :multi_value,
+    required: true,
+    input_html: { class: 'input-xlarge' }
+  %>
+
+  <%= f.input :requires,
+    input_html: { class: 'input-xlarge' },
+    required: true,
+    label: "Required software",
+    hint: "Special software needed to open the Dataset"
+  %>
 
   <%= f.input :description,
-              as: :text,
-              hint: 'Please keep your description to 300 words or less.',
-              input_html: {
-                class: 'input-xxxlarge',
-                rows: '14'
-              },
-              label: 'Description'
+    as: :text,
+    required: true,
+    input_html: { class: 'input-xxxlarge', rows: '14' }
   %>
+
+  <%= f.input :date_created,
+    label: "Date Created",
+    hint: "Format as YYYY-MM-DD"
+  %>
+
+
 </fieldset>

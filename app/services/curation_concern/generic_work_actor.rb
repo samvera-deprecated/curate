@@ -117,7 +117,11 @@ module CurationConcern
     def attach_cloud_resource(cloud_resource)
       return true if ! cloud_resource.present?
       file_path=cloud_resource.download_content_from_host
-      if  valid_file?(file_path)
+      clam = ClamAV.instance
+      scan_result = clam.scanfile(file_path)
+#     if (scan_result.is_a? Fixnum) && file_path.present? && File.exists?(file_path) && !File.zero?(file_path)
+
+      if  valid_file?(file_path) && (scan_result.is_a? Fixnum)
         cloud_resource = File.open(file_path)
         generic_file = GenericFile.new
         generic_file.file = cloud_resource

@@ -1,6 +1,32 @@
 class CurationConcern::GenericWorksController < CurationConcern::BaseController
   respond_to(:html)
   with_themed_layout '1_column'
+  before_filter :remove_viral_files, only: [:create]
+
+  def remove_viral_files
+    good_files = []
+    viral_files = []
+    clam = ClamAV.instance
+    content = attributes_for_actor
+    unless content.nil? or content["files"].nil?
+      temp_path = content["files"].instance_variable_get(:@tempfile).path
+      file_name = content["files"].instance_variable_get(:@original_filename)
+      scan_result = clam.scanfile(temp_path)
+      
+      content.each do |file|
+        if (scan_result.is_a? Fixnum)
+          good_files << file
+        else
+          viral_files << file
+        end
+      end
+
+      if viral_files.any?
+        flash[:error] = "The following virus #{scan_result} was found in the file (#{file_name}) you attempted to upload.  The file was not uploaded, but the work was created."
+        content["files"]=nil
+      end    
+    end
+  end
 
   def new
     setup_form
@@ -12,8 +38,9 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
       after_create_response
     else
       setup_form
+      flash[:error] = "A virus/error was found in one of the uploaded files.  The file was not uploaded, but the work was created."
       respond_with([:curation_concern, curation_concern]) do |wants|
-        wants.html { render 'new', status: :unprocessable_entity }
+        wants.html { render 'show', status: :unprocessable_entity }
       end
     end
   end
@@ -25,9 +52,10 @@ class CurationConcern::GenericWorksController < CurationConcern::BaseController
 
   # Override setup_form in concrete controllers to get the form ready for display
   def setup_form
-    if curation_concern.respond_to?(:contributor)
-      curation_concern.contributor << current_user.name if curation_concern.contributor.empty? && !current_user.can_make_deposits_for.any?
+    if curation_concern.respond_to?(:creator)
+      curation_concern.creator << current_user.name if curation_concern.creator.empty? && !current_user.can_make_deposits_for.any?
     end
+
     curation_concern.editors << current_user.person if curation_concern.editors.blank?
     curation_concern.editors.build
     curation_concern.editor_groups.build

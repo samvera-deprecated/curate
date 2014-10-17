@@ -1,6 +1,7 @@
 en:
   sufia:
     product_name:       "Curate"
+    help_email:         "scholar@uc.edu"
     institution_name:   "Your Institution"
     institution_homepage_url:   "#"
     division_name:      "Your Division at Institution"

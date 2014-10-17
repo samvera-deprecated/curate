@@ -75,18 +75,23 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       page.assert_selector('.main-header h2', "Describe Your Work")
     end
 
-    it 'remembers generic_work inputs when data was invalid' do
+    it 'sends generic_work error alert when data was invalid' do
       login_as(user)
 
       visit new_curation_concern_generic_work_path
       create_generic_work(
-        'Visibility' => 'visibility_restricted',
+        'Visibility' => 'visibility_open',
         'I Agree' => true,
+        'Creator' => 'Dante',
         'Title' => ''
       )
 
-      expect(page).to have_checked_field('visibility_restricted')
-      expect(page).to_not have_checked_field('visibility_open')
+      within('.alert.error') do
+        page.should have_content('A virus/error was found in one of the uploaded files.')
+      end
+
+#      expect(page).to have_checked_field('visibility_open')
+#      expect(page).to_not have_checked_field('visibility_restricted')
     end
 
     it "a public item with future embargo is not visible today but is in the future" do
@@ -111,7 +116,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
         "Title" => title,
         'Embargo Release Date' => embargo_release_date_formatted,
         'Visibility' => 'visibility_embargo',
-        'Contributors' => 'Dante',
+        'Creator' => 'Dante',
         'I Agree' => true
       )
 
@@ -232,7 +237,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
   end
 
   describe '+Add javascript behavior', js: true do
-    let(:contributors) { ["D'artagnan", "Porthos", "Athos", 'Aramas'] }
+    let(:creators) { ["D'artagnan", "Porthos", "Athos", 'Aramas'] }
     let(:agreed_to_terms_of_service) { true }
     let(:title) {"Somebody Special's Generic Work" }
     xit 'handles contributor', js: true do
@@ -241,15 +246,15 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       create_generic_work(
         "Title" => title,
         "Upload a file" => initial_file_path,
-        "Contributors" => contributors,
+        "Creator" => creators,
         "I Agree" => true,
         :js => true
       )
       page.should have_content(title)
-      contributors.each do |contributor|
+      creators.each do |creator|
         page.assert_selector(
-          '.generic_work.attributes .contributor.attribute',
-          text: contributor
+          '.generic_work.attributes .creator.attribute',
+          text: creator
         )
       end
     end
@@ -292,7 +297,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     options['Upload a file'] ||= initial_file_path
     options['Visibility'] ||= 'visibility_restricted'
     options["Button to click"] ||= "Create Generic work"
-    options["Contributors"] ||= "Dante"
+    options["Creator"] ||= "Dante"
     options["DOI Strategy"] ||= CurationConcern::RemotelyIdentifiedByDoi::NOT_NOW
     options["Content License"] ||= Sufia.config.cc_licenses.keys.first.dup
 
@@ -307,7 +312,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
 
       select(options['Content License'], from: I18n.translate('sufia.field_label.rights'))
 
-      fill_in("generic_work_contributor", with: options['Contributors'])
+      fill_in("generic_work_creator", with: options['Creator'])
 
       if options['DOI Strategy']
         choose("generic_work_doi_assignment_strategy_#{options['DOI Strategy']}")
@@ -354,7 +359,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
     edit_page_path = page.current_path
     within('.edit_generic_work') do
       fill_in("Title", with: updated_title)
-      fill_in("Abstract", with: "Lorem Ipsum")
+      fill_in("Description", with: "Lorem Ipsum")
       click_on("Update Generic work")
     end
     return edit_page_path

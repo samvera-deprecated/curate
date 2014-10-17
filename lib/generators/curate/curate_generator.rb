@@ -67,7 +67,7 @@ This generator makes the following changes to your application:
     inject_into_file 'config/search_config.yml', search_options, after: /production\:\n/, force: true
   end
 
-  DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles, :etds, :images, :documents]
+  DEFAULT_CURATION_CONCERNS = [:generic_works, :datasets, :articles, :images, :documents]
 
   def create_curate_config
     initializer 'curate_config.rb' do
@@ -110,6 +110,10 @@ This generator makes the following changes to your application:
 
   def create_manager_usernames
     create_file('config/manager_usernames.yml', "development:\n  manager_usernames:\n  - manager@example.com\ntest:\n  manager_usernames:\n  - manager@example.com\nproduction:\n  manager_usernames:\n  - manager@example.com\n")
+  end
+
+  def create_clamav_initializer
+    create_file('config/initializers/clamav.rb', "ClamAV.instance.loaddb()")
   end
 
   def create_recipients_list

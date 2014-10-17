@@ -89,7 +89,7 @@ shared_examples 'is_a_curation_concern_controller' do |curation_concern_class, o
       it 'renders the form' do
         controller.actor = double(:create => false)
         post :create, accept_contributor_agreement: "accept"
-        expect(response).to render_template('new')
+        expect(response).to render_template('show')
       end
     end
   end
