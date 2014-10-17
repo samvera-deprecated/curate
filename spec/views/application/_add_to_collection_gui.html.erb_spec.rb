@@ -12,7 +12,7 @@ describe 'application/add_to_collection_gui' do
       view.stub(:available_collections).and_return([collection])
       view.stub(:available_profiles).and_return([])
 
-      render partial: 'add_to_collection_gui', locals: { collectible: document }
+      render partial: 'add_to_collection_gui', locals: { collectible: document, current_user: true }
     end
 
     it 'displays add link; lists collection as an option' do
@@ -29,7 +29,7 @@ describe 'application/add_to_collection_gui' do
       view.stub(:available_collections).and_return([])
       view.stub(:available_profiles).and_return([profile])
 
-      render partial: 'add_to_collection_gui', locals: { collectible: document }
+      render partial: 'add_to_collection_gui', locals: { collectible: document, current_user: true }
     end
 
     it 'displays add link; lists profile section as an option' do
@@ -47,7 +47,7 @@ describe 'application/add_to_collection_gui' do
       view.stub(:available_collections).and_return([])
       view.stub(:available_profiles).and_return([])
 
-      render partial: 'add_to_collection_gui', locals: { collectible: document }
+      render partial: 'add_to_collection_gui', locals: { collectible: document, current_user: true }
     end
 
     it 'displays add link; includes no profile or collections' do
@@ -56,5 +56,36 @@ describe 'application/add_to_collection_gui' do
       expect(rendered).to have_link("Add #{document.human_readable_type} to Collection", add_member_form_collections_path(collectible_id: document.pid))
     end
   end
+
+  context 'while user logged in' do
+    before do
+
+      view.stub(:current_users_profile_sections).and_return([])
+      view.stub(:available_collections).and_return([])
+      view.stub(:available_profiles).and_return([])
+
+      render partial: 'add_to_collection_gui', locals: { collectible: document, current_user: true }
+    end
+
+    it 'displays add link' do
+      expect(rendered).to have_tag('.add-to-collection')
+    end
+  end
+
+  context 'while user not logged in' do
+    before do
+
+      view.stub(:current_users_profile_sections).and_return([])
+      view.stub(:available_collections).and_return([])
+      view.stub(:available_profiles).and_return([])
+
+      render partial: 'add_to_collection_gui', locals: { collectible: document, current_user: false }
+    end
+
+    it 'does not display add link' do
+      expect(rendered).to_not have_tag('.add-to-collection')
+    end
+  end
+
 end
 
