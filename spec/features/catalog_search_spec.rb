@@ -28,7 +28,7 @@ describe 'Clear limits from search' do
   it 'has a button to clear limits' do
     visit '/'
     click_link 'Collections'
-  
+
     expect( page ).to have_link( 'Clear limits' )
   end
 
@@ -36,8 +36,8 @@ describe 'Clear limits from search' do
     visit '/'
     click_link 'Collections'
     click_link 'Clear limits'
-  
-    expect( current_path ).to eq( root_path )
+
+    expect( current_path ).to eq( '/catalog' )
   end
 end
 
