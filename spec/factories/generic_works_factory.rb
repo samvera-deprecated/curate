@@ -12,7 +12,7 @@ FactoryGirl.define do
       work.apply_depositor_metadata(evaluator.user.user_key)
       work.owner = evaluator.user.user_key
       work.contributor << "Some Body"
-      work.creator = "The Creator"
+      work.creator << "The Creator"
     }
 
     factory :private_generic_work do

@@ -33,9 +33,9 @@ module Curate::CollectionsHelper
   # (i.e. recurse by calling list_items_in_collection on collections within the given collection).
   #
   # 'options' hash may include the following:
-  #   :display_contributors - boolean - Indicates whether to display a list of contributors next to the work/collection title.
-  #     Default is true.  When omitted from options hash or present and set to true, the contributors will be listed.
-  #     When set to false, the contributors are not listed.
+  #   :display_creators - boolean - Indicates whether to display a list of creators next to the work/collection title.
+  #     Default is true.  When omitted from options hash or present and set to true, the creators will be listed.
+  #     When set to false, the creators are not listed.
   def list_items_in_collection(collection, terminate=false, options={})
     content_tag :ul, class: 'collection-listing' do
       collection.members.inject('') do |output, member|
@@ -97,7 +97,7 @@ module Curate::CollectionsHelper
 
   def work_line_item(work, options={})
     link = link_to work.to_s, polymorphic_path_for_asset(work)
-    link = link + ' ' + contributors(work) if options.fetch(:display_contributors, true)
+    link = link + ' ' + creators(work) if options.fetch(:display_creators, true)
     link
   end
 
@@ -119,9 +119,9 @@ module Curate::CollectionsHelper
     list_item
   end
 
-  def contributors(work)
-    if work.respond_to?(:contributor)
-      "(#{work.contributor.to_a.join(', ')})"
+  def creators(work)
+    if work.respond_to?(:creator)
+      "(#{work.creator.to_a.join(', ')})"
     else
       ''
     end

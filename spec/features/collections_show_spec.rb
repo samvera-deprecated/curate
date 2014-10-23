@@ -4,7 +4,7 @@ describe "Collections show view: " do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:bilbo) { 'Bilbo' }
   let!(:frodo) { 'Frodo' }
-  let!(:article) { FactoryGirl.create(:public_generic_work, user: user, contributor: [bilbo, frodo], title: 'An Article') }
+  let!(:article) { FactoryGirl.create(:public_generic_work, user: user, creator: [bilbo, frodo], title: 'An Article') }
   let!(:collection) { FactoryGirl.create(:public_collection, user: user, title: 'Collected Stuff', members: [article]) }
 
   context "For logged in members:" do
@@ -35,7 +35,7 @@ describe "Collections show view: " do
     end
   end
 
-  context "Contributors:" do
+  context "Creators:" do
     it "should be displayed in each line items" do
       visit collection_path(collection.pid)
       page.should have_content('Frodo')
