@@ -1,7 +1,7 @@
 #require Hydra::Collections::Engine.root + '/app/helpers/collections_helper.rb'
 # View Helpers for Hydra Collections functionality
-module Curate::CollectionsHelper 
-  
+module Curate::CollectionsHelper
+
   # Displays the Collections create collection button.
   def button_for_create_new_collection(label = 'Create Collection')
     render partial: 'button_create_collection', locals:{label:label}
@@ -58,12 +58,12 @@ module Curate::CollectionsHelper
       list1.concat(list2).html_safe
     end
   end
-  
+
   def list_collections_in_profile(collection, member, options)
     if can? :read, member
       content_tag :li, class: line_item_class(collection), data: { noid: member.noid }do
         markup = work_line_item(member, options)
-        if can? :edit, member 
+        if can? :edit, member
           markup << collection_member_actions(collection, member)
         end
         markup
@@ -148,10 +148,11 @@ module Curate::CollectionsHelper
   end
 
   def actions_for_member(collection, member)
-    button_to remove_member_collections_path(id: collection.to_param, item_id: member.pid), data: { confirm: 'Are you sure you want to remove this item from the collection?' }, method: :put, id: "remove-#{member.noid}", class: 'btn', form_class: 'remove-member', remote: true do
+    link_to remove_member_collections_path(id: collection.to_param, item_id: member.pid), data: { confirm: 'Are you sure you want to remove this item from the collection?' }, method: :put, id: "remove-#{member.noid}", class: 'btn', form_class: 'remove-member', remote: true do
       raw('<i class="icon-minus"></i> Remove')
     end
   end
 
 end
+
 
