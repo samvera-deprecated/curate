@@ -54,11 +54,20 @@ module CurationConcern
       curation_concern.apply_doi_assignment_strategy do |*|
         curation_concern.save
       end
+      apply_access_permissions
+    end
+
+    def apply_access_permissions
+      Sufia.queue.push(AccessPermissionsCopyWorker.new(pid_for_object_to_copy_permissions_from))
     end
 
     def apply_save_data_to_curation_concern
       curation_concern.attributes = attributes
       curation_concern.date_modified = Date.today
+    end
+
+    def pid_for_object_to_copy_permissions_from
+      curation_concern.pid
     end
 
     def attach_file(generic_file, file_to_attach)

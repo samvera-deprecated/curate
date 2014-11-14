@@ -29,6 +29,7 @@ describe CurationConcern::LinkedResourceActor do
     describe 'failure' do
       it 'returns false' do
         link.stub(:valid?).and_return(false)
+        CurationConcern::BaseActor.any_instance.stub(:apply_access_permissions)
         return_value = 'some value'
         expect {
           return_value = subject.create
