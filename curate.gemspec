@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'hydra-batch-edit', '~> 1.1.1'
   s.add_dependency 'hydra-collections', '~> 1.3.0'
   s.add_dependency 'morphine'
-  s.add_dependency 'mini_magick'
+  s.add_dependency 'mini_magick', '~> 3.8'
   s.add_dependency 'simple_form', '~> 3.0.1'
   s.add_dependency 'active_attr'
   s.add_dependency 'bootstrap-datepicker-rails'
