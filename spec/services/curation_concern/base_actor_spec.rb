@@ -65,11 +65,15 @@ describe CurationConcern::BaseActor do
     describe 'success' do
       it 'returns true' do
         subject.stub(:assign_remote_identifier_if_applicable).and_return(true)
+        subject.stub(:apply_access_permissions).and_return(true)
         subject.create.should be_true
       end
     end
 
     describe 'failure' do
+      before do
+        CurationConcern::BaseActor.any_instance.stub(:apply_access_permissions)
+      end
       it 'returns false' do
         curation_concern.should_receive(:valid?).and_return(false)
         subject.create.should be_false
@@ -80,16 +84,19 @@ describe CurationConcern::BaseActor do
   describe '#update' do
     before do
       subject.stub(:apply_save_data_to_curation_concern)
+      CurationConcern::BaseActor.any_instance.stub(:apply_access_permissions)
     end
 
     describe 'success' do
       it 'returns true' do
+        subject.stub(:apply_access_permissions).and_return(true)
         subject.update.should be_true
       end
     end
 
     describe 'failure' do
       it 'returns false' do
+        AccessPermissionsCopyWorker.any_instance.stub(:run).and_return(double)
         curation_concern.should_receive(:valid?).and_return(false)
         subject.update.should be_false
       end

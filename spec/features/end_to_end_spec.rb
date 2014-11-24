@@ -24,6 +24,7 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
   let(:updated_title) { "#{prefix} Another Not Quite" }
   let(:updated_file_path) { Rails.root.join('app/controllers/application_controller.rb').to_s }
 
+
   def fill_out_form_multi_value_for(method_name, options={})
     field_name = "generic_work[#{method_name}][]"
 
@@ -79,13 +80,16 @@ describe 'end to end behavior', FeatureSupport.options(describe_options) do
       login_as(user)
 
       visit new_curation_concern_generic_work_path
+
+      CurationConcern::BaseActor.any_instance.stub(:apply_access_permissions)
+
       create_generic_work(
         'Visibility' => 'visibility_open',
         'I Agree' => true,
         'Creator' => 'Dante',
         'Title' => ''
       )
-
+      
       within('.alert.error') do
         page.should have_content('A virus/error was found in one of the uploaded files.')
       end

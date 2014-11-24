@@ -65,5 +65,9 @@ module CurationConcern
     rescue ActiveFedora::RecordInvalid
       false
     end
+
+    def pid_for_object_to_copy_permissions_from
+      curation_concern.batch.pid
+    end
   end
 end
