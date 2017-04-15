@@ -14,6 +14,7 @@ module ActionDispatch::Routing
             put :remove_member
           end
         end
+        resources 'organizations'
         resources 'people', only: [:show, :index] do
           resources :depositors, only: [:index, :create, :destroy]
         end
