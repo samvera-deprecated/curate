@@ -5,5 +5,5 @@
 <%- elsif document.persisted? -%>
   <%= image_tag download_path(document, {:datastream_id => 'thumbnail'}), class: "canonical-image" %>
 <%- else -%>
-  <span class="canonical-image"></span>
+    <%= image_tag download_path(document, {:datastream_id => 'thumbnail'}), class: "canonical-image" %>
 <%- end -%>
