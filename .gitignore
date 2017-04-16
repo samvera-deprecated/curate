@@ -11,3 +11,5 @@ tmp/*
 .sass-cache
 .idea/
 coverage
+tags
+*.swp

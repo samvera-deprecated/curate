@@ -4,6 +4,12 @@ describe 'Creating a article' do
   let(:person) { FactoryGirl.create(:person_with_user) }
   let(:user) { person.user }
 
+  it 'defaults to open visibility' do
+    login_as(user)
+    visit new_curation_concern_article_path
+    expect(page).to have_checked_field('visibility_open')
+  end
+ 
   describe 'with a related link' do
     it "should allow me to attach the link on the create page" do
       login_as(user)
